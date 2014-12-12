@@ -65,7 +65,7 @@ npm start
 ## API 
 
 |name|type|default|description|
-|---|---|---|---|
+|----|----|-------|-----------|
 
 |items|Array|[]|nav collection, set the header navigation|
 |activedIndex|Number|0|The current actived index|
