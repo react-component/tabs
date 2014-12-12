@@ -29,7 +29,29 @@ react tabs component
 ## Usage
 
 ```js
-var tabs = require('rc-tabs');
+var Tabs = require('rc-tabs');
+
+
+var items = [
+    {title : 'title 1',id:'1'},
+    {title : 'title 2',id:'2'},
+    {title : 'title 3',id:'3'}
+  ];
+
+  var callback = function(index,item){
+
+  }
+
+  var tabs = React.render(
+    (
+      <Tabs activedIndex={1} onNavChange={callback} items={items}>
+        <p>first</p>
+        <p>second</p>
+        <p>third</p>
+      </Tabs>
+    ),
+    document.getElementById('t2'));
+
 // use tabs
 ```
 
@@ -39,6 +61,15 @@ var tabs = require('rc-tabs');
 npm install
 npm start
 ```
+
+## API 
+
+|name|type|default|description|
+|---|---|---|---|
+
+|items|Array|[]|nav collection, set the header navigation|
+|activedIndex|Number|0|The current actived index|
+|onNavChange|Function(index,item)|null|When changing to the navigation|
 
 ## Test Case
 
