@@ -16,7 +16,17 @@
     "url": "http://github.com/react-component/tabs/issues"
   },
   "licenses": "MIT",
-  "spm": {},
+  "spm": {
+    "main": "index.js",
+    "dependencies": {
+      
+    },
+    "devDependencies": {
+      "expect.js": "0.3.1",
+      "sinon" : "1.12.1",
+      "simulate-dom-event": "^1.0.1"
+    }
+  },
   "config":{
     "port":8000
   },
