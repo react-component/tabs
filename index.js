@@ -1,4 +1,4 @@
 
-var Tabs = require('./lib/tabs');
+var Tabs = require('./lib/Tabs');
 
 module.exports = Tabs;
