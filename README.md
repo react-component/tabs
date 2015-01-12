@@ -47,7 +47,7 @@ react tabs component
 var Tabs = require('rc-tabs');
 var TabPane = Tabs.TabPane;
 
-var callback = function(eventKey){
+var callback = function(key){
 
 }
 
@@ -88,12 +88,12 @@ npm start
       <tr>
           <td>activeKey</td>
           <td>Object</td>
-          <th>first active tabPanel's eventKey</th>
-          <td>same with active tabPanel's eventKey</td>
+          <th>first active tabPanel's key</th>
+          <td>same with active tabPanel's key</td>
       </tr>
       <tr>
           <td>onChange</td>
-          <td>Function(eventKey)</td>
+          <td>Function(key)</td>
           <th></th>
           <td>called when tabPanel is changed</td>
       </tr>
