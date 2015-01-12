@@ -39,7 +39,6 @@ describe('tabs', function () {
 
   it('default active works', function () {
     expect(tabs.state.activeKey).to.be('2');
-    console.log(TestUtils.scryRenderedDOMComponentsWithClass(tabs, 'rc-tabs-tab')[1]);
     expect(TestUtils.scryRenderedDOMComponentsWithClass(tabs,
       'rc-tabs-tab')[1].getDOMNode().className.indexOf('rc-tabs-tab-active ') !== -1).to.be(true);
   });
