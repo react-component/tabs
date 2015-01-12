@@ -1,4 +1,5 @@
 # rc-tabs
+---
 
 react tabs component
 
@@ -8,6 +9,9 @@ react tabs component
 [![gemnasium deps][gemnasium-image]][gemnasium-url]
 [![node version][node-image]][node-url]
 [![npm download][download-image]][download-url]
+[![Sauce Test Status](https://saucelabs.com/buildstatus/rc-tabs)](https://saucelabs.com/u/rc-tabs)
+
+[![Sauce Test Status](https://saucelabs.com/browser-matrix/rc-tabs.svg)](https://saucelabs.com/u/rc-tabs)
 
 [npm-image]: http://img.shields.io/npm/v/rc-tabs.svg?style=flat-square
 [npm-url]: http://npmjs.org/package/rc-tabs
@@ -22,37 +26,40 @@ react tabs component
 [download-image]: https://img.shields.io/npm/dm/rc-tabs.svg?style=flat-square
 [download-url]: https://npmjs.org/package/rc-tabs
 
+## Screenshot
+
+<img src='http://gtms03.alicdn.com/tps/i3/TB1TIJ3HXXXXXcYaXXXR6PQLFXX-816-612.png' width='408'>
+
 ## install
 
 [![rc-tabs](https://nodei.co/npm/rc-tabs.png)](https://npmjs.org/package/rc-tabs)
+
+## Feature
+
+### Keyboard
+
+* left and up: switch to previous tab
+* right and down: switch to next tab
 
 ## Usage
 
 ```js
 var Tabs = require('rc-tabs');
+var TabPane = Tabs.TabPane;
 
+var callback = function(eventKey){
 
-var items = [
-    {title : 'title 1',id:'1'},
-    {title : 'title 2',id:'2'},
-    {title : 'title 3',id:'3'}
-  ];
+}
 
-  var callback = function(index,item){
-
-  }
-
-  var tabs = React.render(
-    (
-      <Tabs activedIndex={1} onNavChange={callback} items={items}>
-        <p>first</p>
-        <p>second</p>
-        <p>third</p>
-      </Tabs>
-    ),
-    document.getElementById('t2'));
-
-// use tabs
+React.render(
+  (
+    <Tabs activeKey="2" onChange={callback}>
+      <TabPane tab='tab 1' key="1">first</TabPane>
+      <TabPane tab='tab 2' key="2">second</TabPane>
+      <TabPane tab='tab 3' key="3">third</TabPane>
+    </Tabs>
+  ),
+  document.getElementById('t2'));
 ```
 
 ## Development
@@ -64,11 +71,63 @@ npm start
 
 ## API 
 
-name|type|default|description|
-----|----|-------|-----------|
-items|Array|[]|nav collection, set the header navigation|
-activedIndex|Number|0|The current actived index|
-onNavChange|Function(index,item)|null|When changing to the navigation|
+### Tabs
+
+#### props:
+
+<table class="table table-bordered table-striped">
+    <thead>
+    <tr>
+        <th style="width: 100px;">name</th>
+        <th style="width: 50px;">type</th>
+        <th>default</th>
+        <th>description</th>
+    </tr>
+    </thead>
+    <tbody>
+      <tr>
+          <td>activeKey</td>
+          <td>Object</td>
+          <th>first active tabPanel's eventKey</th>
+          <td>same with active tabPanel's eventKey</td>
+      </tr>
+      <tr>
+          <td>onChange</td>
+          <td>Function(eventKey)</td>
+          <th></th>
+          <td>called when tabPanel is changed</td>
+      </tr>
+    </tbody>
+</table>
+
+### TabPane
+
+#### props:
+
+<table class="table table-bordered table-striped">
+    <thead>
+      <tr>
+          <th style="width: 100px;">name</th>
+          <th style="width: 50px;">type</th>
+          <th>default</th>
+          <th>description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+          <td>key</td>
+          <td>Object</td>
+          <th></th>
+          <td>corresponding to activeKey</td>
+      </tr>
+      <tr>
+          <td>tab</td>
+          <td>String</td>
+          <th></th>
+          <td>current tab's title corresponding to current tabPane</td>
+      </tr>
+    </tbody>
+</table>
 
 ## Test Case
 

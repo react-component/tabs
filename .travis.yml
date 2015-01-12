@@ -6,9 +6,13 @@ node_js:
 - 0.11
 before_script:
 - npm start &
-- npm install gulp mocha-phantomjs -g
-- phantomjs --version
+- npm install mocha-phantomjs -g
 script:
 - npm test
-- npm run-script browser-test
-- npm run-script browser-test-cover
+- npm run browser-test
+- npm run browser-test-cover
+- npm run saucelabs
+env:
+  global:
+  - secure: SHBw7srPW7gGoUaFClmj20oFKUBd9gQD7sk6/Gbdsh4ZAwG0rBiL9tPqkbRQ92SxriLlk23SJF7CPzS5D/Hszm3HuxRmsTRD+AXs2wGQYdLgDX1baVCGblPBSlqYXxdsWViaZ7SL9t1j0eJBw/ngEe5guTr6WxAtZB8kiisHS4Y=
+  - secure: Y5ZrYeDboe8wYdrDJAmX3hd5Eb712DxzNIsW7oeyEThPE7t0TyvOZVlE8x7E8yg86P0G+U9C+cJtf/was89B8bTI6+sBgkCz+dGcGu8/pQvkuGxdTzXM+AqUbMCDWm2FKII7v80TxcGS6TnzPFgu2DtNpL/UDtHKMI+uFDGMjz4=

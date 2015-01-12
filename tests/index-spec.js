@@ -2,89 +2,58 @@
 
 var expect = require('expect.js');
 var Tabs = require('../index');
-var React = require('react');
-var sinon = require('sinon');
-var $ = require('jquery');
-var simulateDomEvent = require('simulate-dom-event');
+var TabPane = Tabs.TabPane;
+var React = require('react/addons');
+// var sinon = require('sinon');
+var TestUtils = React.addons.TestUtils;
+var Simulate = TestUtils.Simulate;
 
-var node = $('<div id="t1"></div>').appendTo('body');
+var node = document.createElement('div');
+document.body.appendChild(node);
 
-var node1= $('<div id="t2"></div>').appendTo('body');
+describe('tabs', function () {
+  var tabs;
 
-describe('tabs', function (){
-  var items = [
-    {title : 'title 1',id:'1'},
-    {title : 'title 2',id:'2'},
-    {title : 'title 3',id:'3'}
-  ];
-
-  var tabs = React.render(
-    (
-      <Tabs items={items}>
-        <p>第一个</p>
-        <p>第二个</p>
-        <p>第三个</p>
-      </Tabs>
-    ),
-    document.getElementById('t1'));
-  
-  it('creat',function(){
-    expect(node.find('.rc-tabs').length).to.be(1);
-  });
-
-  it('items',function(){
-    expect(node.find('li').length).to.be(items.length);
-  });
-
-  it('default active',function(){
-    expect(tabs.state.activedIndex).to.be(0);
-    expect(node.find('li').first().hasClass('active')).to.be(true);
-  });
-
-  it('change active',function(done){
-    setTimeout(function(){
-      tabs.setState({
-        activedIndex : 1
-      });
+  beforeEach(function (done) {
+    React.render(<Tabs activeKey="2">
+      <TabPane tab='tab 1' key="1">first</TabPane>
+      <TabPane tab='tab 2' key="2">second</TabPane>
+      <TabPane tab='tab 3' key="3">third</TabPane>
+    </Tabs>, node, function () {
+      tabs = this;
       done();
-    },1000);
-    
+    });
   });
 
-});
-
-
-describe('tabs', function (){
-  var items = [
-    {title : 'title 1',id:'1'},
-    {title : 'title 2',id:'2'},
-    {title : 'title 3',id:'3'}
-  ];
-
-  var callback = sinon.spy();
-
-  var tabs = React.render(
-    (
-      <Tabs activedIndex={1} onNavChange={callback} items={items}>
-        <p>第一个</p>
-        <p>第二个</p>
-        <p>第三个</p>
-      </Tabs>
-    ),
-    document.getElementById('t2'));
-
-  it('default active',function(){
-    expect(tabs.state.activedIndex).to.be(1);
-    expect($(node1.find('li')[1]).hasClass('active')).to.be(true);
+  afterEach(function () {
+    React.unmountComponentAtNode(node);
   });
 
-  it('click',function(){
-    var nav = node1.find('li')[0];
-
-    simulateDomEvent(nav,'click');
-
-    expect(tabs.state.activedIndex).to.be(0);
-    expect(callback.called).to.be(true);
+  it('create works', function () {
+    expect(TestUtils.scryRenderedDOMComponentsWithClass(tabs, 'rc-tabs').length).to.be(1);
   });
 
+  it('nav works', function () {
+    expect(TestUtils.scryRenderedDOMComponentsWithClass(tabs, 'rc-tabs-tab').length).to.be(3);
+  });
+
+  it('default active works', function () {
+    expect(tabs.state.activeKey).to.be('2');
+    console.log(TestUtils.scryRenderedDOMComponentsWithClass(tabs, 'rc-tabs-tab')[1]);
+    expect(TestUtils.scryRenderedDOMComponentsWithClass(tabs,
+      'rc-tabs-tab')[1].getDOMNode().className.indexOf('rc-tabs-tab-active ') !== -1).to.be(true);
+  });
+
+  it('onChange works', function (done) {
+    tabs.setProps({
+      onChange: function (d) {
+        expect(d).to.be('1');
+        done();
+      }
+    }, function () {
+      tabs = this;
+      var tab = TestUtils.scryRenderedDOMComponentsWithClass(tabs, 'rc-tabs-tab')[0];
+      Simulate.click(tab);
+    });
+  });
 });
