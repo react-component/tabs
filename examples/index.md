@@ -1,7 +1,7 @@
 # Tabs@2.x demo
 ---
 
-<link rel="stylesheet" href="./index.css">
+<link rel="stylesheet" href="https://a.alipayobjects.com/bootstrap/3.3.1/css/bootstrap.css">
 
 <style>
 .rc-tabs-tabpane-hidden {
