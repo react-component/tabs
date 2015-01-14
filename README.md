@@ -62,13 +62,6 @@ React.render(
   document.getElementById('t2'));
 ```
 
-## Development
-
-```
-npm install
-npm start
-```
-
 ## API 
 
 ### Tabs
@@ -128,6 +121,20 @@ npm start
       </tr>
     </tbody>
 </table>
+
+
+## Development
+
+```
+npm install
+npm start
+```
+
+## Example
+
+http://localhost:8000/examples/index.md
+
+online example: http://spmjs.io/docs/rc-tabs/examples/
 
 ## Test Case
 
