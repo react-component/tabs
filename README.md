@@ -134,7 +134,7 @@ npm start
 
 http://localhost:8000/examples/index.md
 
-online example: http://spmjs.io/docs/rc-tabs/examples/
+online example: http://react-component.github.io/tabs/build/examples/
 
 ## Test Case
 
