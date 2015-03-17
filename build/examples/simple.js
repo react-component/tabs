@@ -78,7 +78,7 @@ webpackJsonp([0,1],[
 /***/ function(module, exports, __webpack_require__) {
 
 	
-	var Tabs = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"./lib/Tabs\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	var Tabs = __webpack_require__(/*! ./lib/Tabs */ 6);
 	
 	module.exports = Tabs;
 
@@ -120,7 +120,222 @@ webpackJsonp([0,1],[
 	exports.push([module.id, ".rc-tabs {\n  outline: none;\n}\n.rc-tabs-nav {\n  box-sizing: border-box;\n  border-bottom: 1px solid #ddd;\n}\n.rc-tabs-tabpane-hidden {\n  display: none;\n}\n.rc-tabs-nav {\n  padding-left: 0;\n  margin-bottom: 0;\n  list-style: none;\n}\n.rc-tabs-nav {\n  margin-top: 0;\n  margin-bottom: 10px;\n}\n.rc-tabs-nav:before,\n.rc-tabs-nav:after {\n  display: table;\n  content: \" \";\n  box-sizing: border-box;\n}\n.rc-tabs-nav:after {\n  clear: both;\n}\n.rc-tabs-nav > li {\n  float: left;\n  margin-bottom: -1px;\n}\n.rc-tabs-nav > li {\n  position: relative;\n  display: block;\n}\n.rc-tabs-nav > li.rc-tabs-tab-active > a,\n.rc-tabs-nav > li.rc-tabs-tab-active > a:hover,\n.rc-tabs-nav > li.rc-tabs-tab-active > a:focus {\n  color: #555;\n  cursor: default;\n  background-color: #fff;\n  border: 1px solid #ddd;\n  border-bottom-color: transparent;\n  text-decoration: none;\n}\n.rc-tabs-nav > li > a {\n  margin-right: 2px;\n  line-height: 1.42857143;\n  border: 1px solid transparent;\n  border-radius: 4px 4px 0 0;\n  text-decoration: none;\n}\n.rc-tabs-nav > li > a {\n  position: relative;\n  display: block;\n  padding: 10px 15px;\n}\n.rc-tabs-nav > li > a:hover {\n  border-color: #eee #eee #ddd;\n  cursor: pointer;\n}\n.rc-tabs-nav > li > a:hover,\n.rc-tabs-nav > li > a:focus {\n  text-decoration: none;\n  background-color: #eee;\n}\n", ""]);
 
 /***/ },
-/* 6 */,
+/* 6 */
+/*!*********************!*\
+  !*** ./lib/Tabs.js ***!
+  \*********************/
+/***/ function(module, exports, __webpack_require__) {
+
+	/** @jsx React.DOM */
+	
+	var React = __webpack_require__(/*! react */ 2);
+	
+	var keyCode = {
+	  /**
+	   * LEFT
+	   */
+	  LEFT: 37, // also NUM_WEST
+	  /**
+	   * UP
+	   */
+	  UP: 38, // also NUM_NORTH
+	  /**
+	   * RIGHT
+	   */
+	  RIGHT: 39, // also NUM_EAST
+	  /**
+	   * DOWN
+	   */
+	  DOWN: 40 // also NUM_SOUTH
+	};
+	
+	var ____Class0=React.Component;for(var ____Class0____Key in ____Class0){if(____Class0.hasOwnProperty(____Class0____Key)){TabPane[____Class0____Key]=____Class0[____Class0____Key];}}var ____SuperProtoOf____Class0=____Class0===null?null:____Class0.prototype;TabPane.prototype=Object.create(____SuperProtoOf____Class0);TabPane.prototype.constructor=TabPane;TabPane.__superConstructor__=____Class0;
+	  function TabPane(props) {"use strict";
+	    ____Class0.call(this,props);
+	    this.prefixClsFn = prefixClsFn.bind(this);
+	    this.state = {
+	      prefixCls: props.rootPrefixCls + '-tabpane'
+	    };
+	  }
+	
+	  TabPane.prototype.render=function() {"use strict";
+	    var props = this.props;
+	    var cls = props.active ? '' : this.prefixClsFn('hidden');
+	    cls += ' ' + this.state.prefixCls;
+	    return (
+	      React.createElement("div", {className: cls}, 
+	        this.props.children
+	      )
+	    );
+	  };
+	
+	
+	function prefixClsFn() {
+	  var prefixCls = this.state.prefixCls;
+	  var args = Array.prototype.slice.call(arguments, 0);
+	  return args.map(function(s) {
+	    return prefixCls + '-' + s;
+	  }).join(' ');
+	}
+	
+	var ____Class1=React.Component;for(var ____Class1____Key in ____Class1){if(____Class1.hasOwnProperty(____Class1____Key)){Tabs[____Class1____Key]=____Class1[____Class1____Key];}}var ____SuperProtoOf____Class1=____Class1===null?null:____Class1.prototype;Tabs.prototype=Object.create(____SuperProtoOf____Class1);Tabs.prototype.constructor=Tabs;Tabs.__superConstructor__=____Class1;
+	  function Tabs(props) {"use strict";
+	    ____Class1.call(this,props);
+	    var activeKey;
+	    if (typeof props.activeKey !== 'undefined') {
+	      activeKey = props.activeKey;
+	    } else {
+	      React.Children.forEach(props.children, function(child)  {
+	        if (!activeKey) {
+	          activeKey = child.key;
+	        }
+	      });
+	    }
+	    this.state = {
+	      prefixCls: props.prefixCls,
+	      activeKey: activeKey
+	    };
+	    this.handleKeyDown = this.handleKeyDown.bind(this);
+	    this.prefixClsFn = prefixClsFn.bind(this);
+	  }
+	
+	  Tabs.prototype.$Tabs_getNextActiveKey=function() {"use strict";
+	    var activeKey = this.state.activeKey;
+	    var children = [];
+	    React.Children.forEach(this.props.children, function(c)  {
+	      children.push(c);
+	    });
+	    var length = children.length;
+	    var ret;
+	    children.forEach(function(child, i)  {
+	      if (child.key === activeKey) {
+	        if (i === length - 1) {
+	          ret = children[0].key;
+	        } else {
+	          ret = children[i + 1].key;
+	        }
+	      }
+	    });
+	    return ret;
+	  };
+	
+	  Tabs.prototype.$Tabs_getPreviousActiveKey=function() {"use strict";
+	    var activeKey = this.state.activeKey;
+	    var children = [];
+	    React.Children.forEach(this.props.children, function(c) {
+	      children.unshift(c);
+	    });
+	    var length = children.length;
+	    var ret;
+	    children.forEach(function(child, i) {
+	      if (child.key === activeKey) {
+	        if (i === length - 1) {
+	          ret = children[0].key;
+	        } else {
+	          ret = children[i + 1].key;
+	        }
+	      }
+	    });
+	    return ret;
+	  };
+	
+	  Tabs.prototype.$Tabs_getTabPanes=function() {"use strict";
+	    var activeKey = this.state.activeKey;
+	    var children = this.props.children;
+	    var newChildren = [];
+	
+	    React.Children.forEach(children, function(child)  {
+	      newChildren.push(React.cloneElement(child, {
+	        active: activeKey === child.key,
+	        rootPrefixCls: this.state.prefixCls
+	      }));
+	    }.bind(this));
+	
+	    return newChildren;
+	  };
+	
+	  Tabs.prototype.$Tabs_getTabs=function() {"use strict";
+	    var children = this.props.children;
+	    var activeKey = this.state.activeKey;
+	    var rst = [];
+	    var prefixClsFn = this.prefixClsFn;
+	    var activeTabClassName = this.props.activeTabClassName;
+	
+	    React.Children.forEach(children, function(child) {
+	      var key = child.key;
+	      var cls = activeKey === key ? prefixClsFn('tab-active') + ' ' + activeTabClassName : '';
+	      cls += ' ' + prefixClsFn('tab');
+	      rst.push(React.createElement("li", {onClick: this.handleTabClick.bind(this, key), className: cls, key: key}, 
+	        React.createElement("a", null, child.props.tab)
+	      ));
+	    }.bind(this));
+	
+	    return rst;
+	  };
+	
+	  Tabs.prototype.handleTabClick=function(key) {"use strict";
+	    if (this.state.activeKey !== key) {
+	      this.setState({
+	        activeKey: key
+	      });
+	      if (this.props.onChange) {
+	        this.props.onChange(key);
+	      }
+	    }
+	  };
+	
+	  Tabs.prototype.handleKeyDown=function(e) {"use strict";
+	    if (e.target !== React.findDOMNode(this)) {
+	      return;
+	    }
+	    var eventKeyCode = e.keyCode;
+	    switch (eventKeyCode) {
+	      case keyCode.RIGHT:
+	      case keyCode.DOWN:
+	        e.preventDefault();
+	        var nextKey = this.$Tabs_getNextActiveKey();
+	        this.handleTabClick(nextKey);
+	        break;
+	      case keyCode.LEFT:
+	      case keyCode.UP:
+	        e.preventDefault();
+	        var previousKey = this.$Tabs_getPreviousActiveKey();
+	        this.handleTabClick(previousKey);
+	        break;
+	    }
+	  };
+	
+	  Tabs.prototype.render=function() {"use strict";
+	    var tabs = this.$Tabs_getTabs();
+	    var tabPanes = this.$Tabs_getTabPanes();
+	    var cls = this.state.prefixCls;
+	    var prefixClsFn = this.prefixClsFn;
+	    return (
+	      React.createElement("div", {className: cls, tabIndex: "0", onKeyDown: this.handleKeyDown}, 
+	        React.createElement("ul", {className: this.props.navClassName + ' ' + prefixClsFn('nav')}, 
+	          tabs
+	        ), 
+	        React.createElement("div", {className: this.props.contentClassName + ' ' + prefixClsFn('content')}, 
+	          tabPanes
+	        )
+	      )
+	    );
+	  };
+	
+	
+	Tabs.defaultProps = {
+	  prefixCls: 'rc-tabs',
+	  activeTabClassName: '',
+	  navClassName: '',
+	  contentClassName: ''
+	};
+	
+	Tabs.TabPane = TabPane;
+	
+	module.exports = Tabs;
+
+
+/***/ },
 /* 7 */
 /*!*************************************!*\
   !*** ./~/style-loader/addStyles.js ***!
