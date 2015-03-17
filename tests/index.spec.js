@@ -13,9 +13,16 @@ document.body.appendChild(node);
 
 describe('tabs', function () {
   var tabs;
+  var changeHook;
+
+  function onChange() {
+    if (changeHook) {
+      changeHook.apply(this, arguments);
+    }
+  }
 
   beforeEach(function (done) {
-    React.render(<Tabs activeKey="2">
+    React.render(<Tabs activeKey="2" onChange={onChange}>
       <TabPane tab='tab 1' key="1">first</TabPane>
       <TabPane tab='tab 2' key="2">second</TabPane>
       <TabPane tab='tab 3' key="3">third</TabPane>
@@ -27,6 +34,7 @@ describe('tabs', function () {
 
   afterEach(function () {
     React.unmountComponentAtNode(node);
+    changeHook = null;
   });
 
   it('create works', function () {
@@ -39,20 +47,16 @@ describe('tabs', function () {
 
   it('default active works', function () {
     expect(tabs.state.activeKey).to.be('2');
-    expect(TestUtils.scryRenderedDOMComponentsWithClass(tabs,
-      'rc-tabs-tab')[1].getDOMNode().className.indexOf('rc-tabs-tab-active ') !== -1).to.be(true);
+    expect(React.findDOMNode(TestUtils.scryRenderedDOMComponentsWithClass(tabs,
+      'rc-tabs-tab')[1]).className.indexOf('rc-tabs-tab-active ') !== -1).to.be(true);
   });
 
   it('onChange works', function (done) {
-    tabs.setProps({
-      onChange: function (d) {
-        expect(d).to.be('1');
-        done();
-      }
-    }, function () {
-      tabs = this;
-      var tab = TestUtils.scryRenderedDOMComponentsWithClass(tabs, 'rc-tabs-tab')[0];
-      Simulate.click(tab);
-    });
+    changeHook = function (d) {
+      expect(d).to.be('1');
+      done();
+    };
+    var tab = TestUtils.scryRenderedDOMComponentsWithClass(tabs, 'rc-tabs-tab')[0];
+    Simulate.click(tab);
   });
 });
