@@ -17,39 +17,38 @@ webpackJsonp([0,1],[
 	var React = __webpack_require__(2);
 	var Tabs = __webpack_require__(3);
 	var TabPane = Tabs.TabPane;
+
+	var ____Class0=React.Component;for(var ____Class0____Key in ____Class0){if(____Class0.hasOwnProperty(____Class0____Key)){PanelContent[____Class0____Key]=____Class0[____Class0____Key];}}var ____SuperProtoOf____Class0=____Class0===null?null:____Class0.prototype;PanelContent.prototype=Object.create(____SuperProtoOf____Class0);PanelContent.prototype.constructor=PanelContent;PanelContent.__superConstructor__=____Class0;
+	  function PanelContent(props) {"use strict";
+	    ____Class0.call(this,props);
+	    console.log(this.props.id, 'constructor');
+	  }
+
+	  Object.defineProperty(PanelContent.prototype,"componentWillReceiveProps",{writable:true,configurable:true,value:function() {"use strict";
+	    console.log(this.props.id, 'componentWillReceiveProps');
+	  }});
+
+	  Object.defineProperty(PanelContent.prototype,"render",{writable:true,configurable:true,value:function() {"use strict";
+	    var count = [1,1,1,1];// new Array(4) skip forEach ....
+	    var els = count.map(function(c,i) {
+	      return React.createElement("p", {key: i}, this.props.id)
+	    }.bind(this));
+	    return React.createElement("div", null, els);
+	  }});
+
+
 	React.render(React.createElement("div", null, 
 	  React.createElement("h1", null, "Simple Tabs"), 
 	  React.createElement(Tabs, {activeKey: "2", 
 	    onChange: onChange}, 
 	    React.createElement(TabPane, {tab: "tab 1", key: "1"}, 
-	      "tabpane 1", 
-	      React.createElement("br", null), 
-	      "tabpane 1", 
-	      React.createElement("br", null), 
-	      "tabpane 1", 
-	      React.createElement("br", null), 
-	      "tabpane 1", 
-	      React.createElement("br", null)
+	      React.createElement(PanelContent, {id: "1"})
 	    ), 
 	    React.createElement(TabPane, {tab: "tab 2", key: "2"}, 
-	      "tabpane 2", 
-	      React.createElement("br", null), 
-	      "tabpane 2", 
-	      React.createElement("br", null), 
-	      "tabpane 2", 
-	      React.createElement("br", null), 
-	      "tabpane 2", 
-	      React.createElement("br", null)
+	      React.createElement(PanelContent, {id: "2"})
 	    ), 
 	    React.createElement(TabPane, {tab: "tab 3", key: "3"}, 
-	      "tabpane 3", 
-	      React.createElement("br", null), 
-	      "tabpane 3", 
-	      React.createElement("br", null), 
-	      "tabpane 3", 
-	      React.createElement("br", null), 
-	      "tabpane 3", 
-	      React.createElement("br", null)
+	      React.createElement(PanelContent, {id: "3"})
 	    )
 	  )
 	), document.getElementById('__react-content'));
@@ -128,9 +127,9 @@ webpackJsonp([0,1],[
 	  DOWN: 40 // also NUM_SOUTH
 	};
 
-	var ____Class0=React.Component;for(var ____Class0____Key in ____Class0){if(____Class0.hasOwnProperty(____Class0____Key)){TabPane[____Class0____Key]=____Class0[____Class0____Key];}}var ____SuperProtoOf____Class0=____Class0===null?null:____Class0.prototype;TabPane.prototype=Object.create(____SuperProtoOf____Class0);TabPane.prototype.constructor=TabPane;TabPane.__superConstructor__=____Class0;
+	var ____Class1=React.Component;for(var ____Class1____Key in ____Class1){if(____Class1.hasOwnProperty(____Class1____Key)){TabPane[____Class1____Key]=____Class1[____Class1____Key];}}var ____SuperProtoOf____Class1=____Class1===null?null:____Class1.prototype;TabPane.prototype=Object.create(____SuperProtoOf____Class1);TabPane.prototype.constructor=TabPane;TabPane.__superConstructor__=____Class1;
 	  function TabPane(props) {"use strict";
-	    ____Class0.call(this,props);
+	    ____Class1.call(this,props);
 	    this.prefixClsFn = prefixClsFn.bind(this);
 	    this.state = {
 	      prefixCls: props.rootPrefixCls + '-tabpane'
@@ -148,6 +147,10 @@ webpackJsonp([0,1],[
 	    );
 	  }});
 
+	  Object.defineProperty(TabPane.prototype,"componentWillUnmount",{writable:true,configurable:true,value:function() {"use strict";
+	    this.props.onDestroy();
+	  }});
+
 
 	function prefixClsFn() {
 	  var prefixCls = this.state.prefixCls;
@@ -157,9 +160,9 @@ webpackJsonp([0,1],[
 	  }).join(' ');
 	}
 
-	var ____Class1=React.Component;for(var ____Class1____Key in ____Class1){if(____Class1.hasOwnProperty(____Class1____Key)){Tabs[____Class1____Key]=____Class1[____Class1____Key];}}var ____SuperProtoOf____Class1=____Class1===null?null:____Class1.prototype;Tabs.prototype=Object.create(____SuperProtoOf____Class1);Tabs.prototype.constructor=Tabs;Tabs.__superConstructor__=____Class1;
+	var ____Class2=React.Component;for(var ____Class2____Key in ____Class2){if(____Class2.hasOwnProperty(____Class2____Key)){Tabs[____Class2____Key]=____Class2[____Class2____Key];}}var ____SuperProtoOf____Class2=____Class2===null?null:____Class2.prototype;Tabs.prototype=Object.create(____SuperProtoOf____Class2);Tabs.prototype.constructor=Tabs;Tabs.__superConstructor__=____Class2;
 	  function Tabs(props) {"use strict";
-	    ____Class1.call(this,props);
+	    ____Class2.call(this,props);
 	    var activeKey;
 	    if (typeof props.activeKey !== 'undefined') {
 	      activeKey = props.activeKey;
@@ -175,8 +178,15 @@ webpackJsonp([0,1],[
 	      activeKey: activeKey
 	    };
 	    this.handleKeyDown = this.handleKeyDown.bind(this);
+	    this.handleTabDestroy = this.handleTabDestroy.bind(this);
 	    this.prefixClsFn = prefixClsFn.bind(this);
+	    // cache panels
+	    this.renderPanels = {};
 	  }
+
+	  Object.defineProperty(Tabs.prototype,"handleTabDestroy",{writable:true,configurable:true,value:function(key) {"use strict";
+	    delete this.renderPanels[key];
+	  }});
 
 	  Object.defineProperty(Tabs.prototype,"$Tabs_getNextActiveKey",{writable:true,configurable:true,value:function() {"use strict";
 	    var activeKey = this.state.activeKey;
@@ -222,12 +232,22 @@ webpackJsonp([0,1],[
 	    var activeKey = this.state.activeKey;
 	    var children = this.props.children;
 	    var newChildren = [];
+	    var renderPanels = this.renderPanels;
 
 	    React.Children.forEach(children, function(child)  {
-	      newChildren.push(React.cloneElement(child, {
-	        active: activeKey === child.key,
-	        rootPrefixCls: this.state.prefixCls
-	      }));
+	      var key = child.key;
+	      var active = activeKey === key;
+	      if (active || renderPanels[key]) {
+	        renderPanels[key] = React.cloneElement(child, {
+	          active: active,
+	          onDestroy: this.handleTabDestroy.bind(this, key),
+	          rootPrefixCls: this.state.prefixCls
+	        });
+	        newChildren.push(renderPanels[key]);
+	      } else {
+	        // lazy load
+	        newChildren.push(null);
+	      }
 	    }.bind(this));
 
 	    return newChildren;

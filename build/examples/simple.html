@@ -182,50 +182,49 @@
 <script src="simple.js?nowrap"></script>
 <div class="highlight">
 <pre>
-/** @jsx React.DOM */
+<span class="hljs-comment">/** @jsx React.DOM */</span>
 function onChange(key) {
   console.log(key + ' changed!');
 }
-require('rc-tabs/assets/bootstrap.css');
-var React = require('react');
-var Tabs = require('rc-tabs');
-var TabPane = Tabs.TabPane;
-React.render(<span class="hljs-tag">&lt;<span class="hljs-title">div</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-title">h1</span>&gt;</span>Simple Tabs<span class="hljs-tag">&lt;/<span class="hljs-title">h1</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-title">Tabs</span> <span class="hljs-attribute">activeKey</span>=<span class="hljs-value">"2"</span>
-    <span class="hljs-attribute">onChange</span>=<span class="hljs-value">{onChange}</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-title">TabPane</span> <span class="hljs-attribute">tab</span>=<span class="hljs-value">'tab 1'</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"1"</span>&gt;</span>
-      tabpane 1
-      <span class="hljs-tag">&lt;<span class="hljs-title">br</span>/&gt;</span>
-      tabpane 1
-      <span class="hljs-tag">&lt;<span class="hljs-title">br</span>/&gt;</span>
-      tabpane 1
-      <span class="hljs-tag">&lt;<span class="hljs-title">br</span>/&gt;</span>
-      tabpane 1
-      <span class="hljs-tag">&lt;<span class="hljs-title">br</span>/&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-title">TabPane</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-title">TabPane</span> <span class="hljs-attribute">tab</span>=<span class="hljs-value">'tab 2'</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"2"</span>&gt;</span>
-      tabpane 2
-      <span class="hljs-tag">&lt;<span class="hljs-title">br</span>/&gt;</span>
-      tabpane 2
-      <span class="hljs-tag">&lt;<span class="hljs-title">br</span>/&gt;</span>
-      tabpane 2
-      <span class="hljs-tag">&lt;<span class="hljs-title">br</span>/&gt;</span>
-      tabpane 2
-      <span class="hljs-tag">&lt;<span class="hljs-title">br</span>/&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-title">TabPane</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-title">TabPane</span> <span class="hljs-attribute">tab</span>=<span class="hljs-value">'tab 3'</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"3"</span>&gt;</span>
-      tabpane 3
-      <span class="hljs-tag">&lt;<span class="hljs-title">br</span>/&gt;</span>
-      tabpane 3
-      <span class="hljs-tag">&lt;<span class="hljs-title">br</span>/&gt;</span>
-      tabpane 3
-      <span class="hljs-tag">&lt;<span class="hljs-title">br</span>/&gt;</span>
-      tabpane 3
-      <span class="hljs-tag">&lt;<span class="hljs-title">br</span>/&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-title">TabPane</span>&gt;</span>
-  <span class="hljs-tag">&lt;/<span class="hljs-title">Tabs</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>, document.getElementById('__react-content'));
+require(<span class="hljs-symbol">'rc</span>-tabs/assets/bootstrap.css');
+<span class="hljs-keyword">var</span> <span class="hljs-type">React</span> = require(<span class="hljs-symbol">'reac</span>t');
+<span class="hljs-keyword">var</span> <span class="hljs-type">Tabs</span> = require(<span class="hljs-symbol">'rc</span>-tabs');
+<span class="hljs-keyword">var</span> <span class="hljs-type">TabPane</span> = <span class="hljs-type">Tabs</span>.<span class="hljs-type">TabPane</span>;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">PanelContent</span> <span class="hljs-keyword"><span class="hljs-keyword">extends</span></span> <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> {</span>
+  constructor(props) {
+    <span class="hljs-keyword">super</span>(props);
+    console.log(<span class="hljs-keyword">this</span>.props.id, <span class="hljs-symbol">'constructo</span>r');
+  }
+
+  componentWillReceiveProps() {
+    console.log(<span class="hljs-keyword">this</span>.props.id, <span class="hljs-symbol">'componentWillReceiveProp</span>s');
+  }
+
+  render() {
+    <span class="hljs-keyword">var</span> count = [<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>];<span class="hljs-comment">// new Array(4) skip forEach ....</span>
+    <span class="hljs-keyword">var</span> els = count.map((c,i)=&gt; {
+      <span class="hljs-keyword">return</span> &lt;p key={i}&gt;{<span class="hljs-keyword">this</span>.props.id}&lt;/p&gt;
+    });
+    <span class="hljs-keyword">return</span> &lt;div&gt;{els}&lt;/div&gt;;
+  }
+}
+
+<span class="hljs-type">React</span>.render(&lt;div&gt;
+  &lt;h1&gt;<span class="hljs-type">Simple</span> <span class="hljs-type">Tabs</span>&lt;/h1&gt;
+  &lt;<span class="hljs-type">Tabs</span> activeKey=<span class="hljs-string">"2"</span>
+    onChange={onChange}&gt;
+    &lt;<span class="hljs-type">TabPane</span> tab=<span class="hljs-symbol">'tab</span> <span class="hljs-number">1</span>' key=<span class="hljs-string">"1"</span>&gt;
+      &lt;<span class="hljs-type">PanelContent</span> id='<span class="hljs-number">1</span>'/&gt;
+    &lt;/<span class="hljs-type">TabPane</span>&gt;
+    &lt;<span class="hljs-type">TabPane</span> tab=<span class="hljs-symbol">'tab</span> <span class="hljs-number">2</span>' key=<span class="hljs-string">"2"</span>&gt;
+      &lt;<span class="hljs-type">PanelContent</span> id='<span class="hljs-number">2</span>'/&gt;
+    &lt;/<span class="hljs-type">TabPane</span>&gt;
+    &lt;<span class="hljs-type">TabPane</span> tab=<span class="hljs-symbol">'tab</span> <span class="hljs-number">3</span>' key=<span class="hljs-string">"3"</span>&gt;
+      &lt;<span class="hljs-type">PanelContent</span> id='<span class="hljs-number">3</span>'/&gt;
+    &lt;/<span class="hljs-type">TabPane</span>&gt;
+  &lt;/<span class="hljs-type">Tabs</span>&gt;
+&lt;/div&gt;, document.getElementById(<span class="hljs-symbol">'__react</span>-content'));
 
 </pre>
 </div>
