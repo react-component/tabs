@@ -18,26 +18,33 @@ class PanelContent extends React.Component {
   }
 
   render() {
-    var count = [1,1,1,1];// new Array(4) skip forEach ....
-    var els = count.map((c,i)=> {
+    var count = [1, 1, 1, 1];// new Array(4) skip forEach ....
+    var els = count.map((c, i)=> {
       return <p key={i}>{this.props.id}</p>
     });
     return <div>{els}</div>;
   }
 }
+var start = 0;
+function render() {
+  start += 10;
+  React.render(<div>
+    <h1>Simple Tabs</h1>
+    <Tabs activeKey="2"
+      onChange={onChange}>
+      <TabPane tab={`tab ${start}`} key="1">
+        <PanelContent id={start}/>
+      </TabPane>
+      <TabPane tab={`tab ${start + 1}`} key="2">
+        <PanelContent id={start + 1}/>
+      </TabPane>
+      <TabPane tab={`tab ${start + 1}`} key="3">
+        <PanelContent id={start + 2}/>
+      </TabPane>
+    </Tabs>
+    <button onClick={render}>rerender</button>
+  </div>, document.getElementById('__react-content'));
+}
 
-React.render(<div>
-  <h1>Simple Tabs</h1>
-  <Tabs activeKey="2"
-    onChange={onChange}>
-    <TabPane tab='tab 1' key="1">
-      <PanelContent id='1'/>
-    </TabPane>
-    <TabPane tab='tab 2' key="2">
-      <PanelContent id='2'/>
-    </TabPane>
-    <TabPane tab='tab 3' key="3">
-      <PanelContent id='3'/>
-    </TabPane>
-  </Tabs>
-</div>, document.getElementById('__react-content'));
+
+render();
