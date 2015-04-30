@@ -1,6 +1,10 @@
 # History
 ----
 
+## 3.3.0 / 2015-04-30
+
+`improved` [#6](https://github.com/react-component/tabs/issues/6) support defaultActiveFirst
+
 
 ## 3.2.0 / 2015-04-20
 
