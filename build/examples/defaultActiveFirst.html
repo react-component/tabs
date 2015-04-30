@@ -179,7 +179,7 @@
 <body>
 <div id="__react-content"></div>
 <script src="common.js?nowrap"></script>
-<script src="simple.js?nowrap"></script>
+<script src="defaultActiveFirst.js?nowrap"></script>
 <div class="highlight">
 <pre>
 <span class="hljs-comment">/** @jsx React.DOM */</span>
@@ -213,8 +213,8 @@
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">render</span><span class="hljs-params">()</span> </span>{
   start += <span class="hljs-number">10</span>;
   React.render(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">div</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-title">h1</span>&gt;</span>Simple Tabs<span class="hljs-tag">&lt;/<span class="hljs-title">h1</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-title">Tabs</span> <span class="hljs-attribute">activeKey</span>=<span class="hljs-value">"2"</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">h1</span>&gt;</span>Tabs using defaultActiveFirst=false<span class="hljs-tag">&lt;/<span class="hljs-title">h1</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">Tabs</span> <span class="hljs-attribute">defaultActiveFirst</span>=<span class="hljs-value">{false}</span>
       <span class="hljs-attribute">onChange</span>=<span class="hljs-value">{onChange}</span>&gt;</span>
       <span class="hljs-tag">&lt;<span class="hljs-title">TabPane</span> <span class="hljs-attribute">tab</span>=<span class="hljs-value">{`tab</span> ${<span class="hljs-attribute">start</span>}`} <span class="hljs-attribute">key</span>=<span class="hljs-value">"1"</span>&gt;</span>
         <span class="hljs-tag">&lt;<span class="hljs-title">PanelContent</span> <span class="hljs-attribute">id</span>=<span class="hljs-value">{start}</span>/&gt;</span>

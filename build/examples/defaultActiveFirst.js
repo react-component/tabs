@@ -1,13 +1,12 @@
-webpackJsonp([0],[
+webpackJsonp([1],[
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(2);
+	module.exports = __webpack_require__(1);
 
 
 /***/ },
-/* 1 */,
-/* 2 */
+/* 1 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/** @jsx React.DOM */
@@ -19,9 +18,9 @@ webpackJsonp([0],[
 	var Tabs = __webpack_require__(4);
 	var TabPane = Tabs.TabPane;
 
-	var ____Class1=React.Component;for(var ____Class1____Key in ____Class1){if(____Class1.hasOwnProperty(____Class1____Key)){PanelContent[____Class1____Key]=____Class1[____Class1____Key];}}var ____SuperProtoOf____Class1=____Class1===null?null:____Class1.prototype;PanelContent.prototype=Object.create(____SuperProtoOf____Class1);PanelContent.prototype.constructor=PanelContent;PanelContent.__superConstructor__=____Class1;
+	var ____Class0=React.Component;for(var ____Class0____Key in ____Class0){if(____Class0.hasOwnProperty(____Class0____Key)){PanelContent[____Class0____Key]=____Class0[____Class0____Key];}}var ____SuperProtoOf____Class0=____Class0===null?null:____Class0.prototype;PanelContent.prototype=Object.create(____SuperProtoOf____Class0);PanelContent.prototype.constructor=PanelContent;PanelContent.__superConstructor__=____Class0;
 	  function PanelContent(props) {"use strict";
-	    ____Class1.call(this,props);
+	    ____Class0.call(this,props);
 	    console.log(this.props.id, 'constructor');
 	  }
 
@@ -41,8 +40,8 @@ webpackJsonp([0],[
 	function render() {
 	  start += 10;
 	  React.render(React.createElement("div", null, 
-	    React.createElement("h1", null, "Simple Tabs"), 
-	    React.createElement(Tabs, {activeKey: "2", 
+	    React.createElement("h1", null, "Tabs using defaultActiveFirst=false"), 
+	    React.createElement(Tabs, {defaultActiveFirst: false, 
 	      onChange: onChange}, 
 	      React.createElement(TabPane, {tab: ("tab " + start), key: "1"}, 
 	        React.createElement(PanelContent, {id: start})
