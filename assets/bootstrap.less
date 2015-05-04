@@ -1,76 +1,66 @@
-.rc-tabs {
+@prefixClass: rc-tabs;
+
+.@{prefixClass} {
   outline: none;
-}
 
-.rc-tabs-nav {
-  box-sizing: border-box;
-  border-bottom: 1px solid #ddd;
-}
+  &-nav {
+    box-sizing: border-box;
+    border-bottom: 1px solid #ddd;
+    padding-left: 0;
+    list-style: none;
+    margin-top: 0;
+    margin-bottom: 10px;
 
-.rc-tabs-tabpane-hidden {
-  display: none;
-}
+    &:before, &:after {
+      display: table;
+      content: " ";
+    }
 
-.rc-tabs-nav {
-  padding-left: 0;
-  margin-bottom: 0;
-  list-style: none;
-}
+    &:after {
+      clear: both;
+    }
 
-.rc-tabs-nav {
-  margin-top: 0;
-  margin-bottom: 10px;
-}
+    li.@{prefixClass}-tab-active {
+      > a, > a:hover, > a:focus {
+        color: #555;
+        cursor: default;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-bottom-color: transparent;
+        text-decoration: none;
+      }
+    }
 
-.rc-tabs-nav:before, .rc-tabs-nav:after {
-  display: table;
-  content: " ";
-  box-sizing: border-box;
-}
+    > li {
+      float: left;
+      margin-bottom: -1px;
+      position: relative;
+      display: block;
 
-.rc-tabs-nav:after {
-  clear: both;
-}
+      > a {
+        margin-right: 2px;
+        line-height: 1.42857143;
+        border: 1px solid transparent;
+        border-radius: 4px 4px 0 0;
+        text-decoration: none;
+        position: relative;
+        display: block;
+        padding: 10px 15px;
+      }
 
-.rc-tabs-nav > li {
-  float: left;
-  margin-bottom: -1px;
-}
+      > a:hover {
+        border-color: #eee #eee #ddd;
+        cursor: pointer;
+      }
 
-.rc-tabs-nav > li {
-  position: relative;
-  display: block;
-}
+      > a:hover, > a:focus {
+        text-decoration: none;
+        background-color: #eee;
+      }
+    }
+  }
 
-.rc-tabs-nav > li.rc-tabs-tab-active > a, .rc-tabs-nav > li.rc-tabs-tab-active > a:hover, .rc-tabs-nav > li.rc-tabs-tab-active > a:focus {
-  color: #555;
-  cursor: default;
-  background-color: #fff;
-  border: 1px solid #ddd;
-  border-bottom-color: transparent;
-  text-decoration: none;
-}
-
-.rc-tabs-nav > li > a {
-  margin-right: 2px;
-  line-height: 1.42857143;
-  border: 1px solid transparent;
-  border-radius: 4px 4px 0 0;
-  text-decoration: none;
-}
-
-.rc-tabs-nav > li > a {
-  position: relative;
-  display: block;
-  padding: 10px 15px;
-}
-
-.rc-tabs-nav > li > a:hover {
-  border-color: #eee #eee #ddd;
-  cursor: pointer;
-}
-
-.rc-tabs-nav > li > a:hover, .rc-tabs-nav > li > a:focus {
-  text-decoration: none;
-  background-color: #eee;
+  &-tabpane-hidden {
+    display: none;
+  }
 }
