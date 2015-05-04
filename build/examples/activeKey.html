@@ -179,60 +179,89 @@
 <body>
 <div id="__react-content"></div>
 <script src="common.js?nowrap"></script>
-<script src="simple.js?nowrap"></script>
+<script src="activeKey.js?nowrap"></script>
 <div class="highlight">
 <pre>
 <span class="hljs-comment">/** @jsx React.DOM */</span>
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">onChange</span><span class="hljs-params">(key)</span> </span>{
-  <span class="hljs-built_in">console</span>.log(key + <span class="hljs-string">' changed!'</span>);
-}
-<span class="hljs-built_in">require</span>(<span class="hljs-string">'rc-tabs/assets/bootstrap.css'</span>);
-<span class="hljs-keyword">var</span> React = <span class="hljs-built_in">require</span>(<span class="hljs-string">'react'</span>);
-<span class="hljs-keyword">var</span> Tabs = <span class="hljs-built_in">require</span>(<span class="hljs-string">'rc-tabs'</span>);
-<span class="hljs-keyword">var</span> TabPane = Tabs.TabPane;
 
-<span class="hljs-keyword">class</span> PanelContent extends React.Component {
-  <span class="hljs-constructor"><span class="hljs-keyword">constructor</span>(props) </span>{
+require(<span class="hljs-symbol">'rc</span>-tabs/assets/bootstrap.css');
+<span class="hljs-keyword">var</span> <span class="hljs-type">React</span> = require(<span class="hljs-symbol">'reac</span>t');
+<span class="hljs-keyword">var</span> <span class="hljs-type">Tabs</span> = require(<span class="hljs-symbol">'rc</span>-tabs');
+<span class="hljs-keyword">var</span> <span class="hljs-type">TabPane</span> = <span class="hljs-type">Tabs</span>.<span class="hljs-type">TabPane</span>;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">PanelContent</span> <span class="hljs-keyword"><span class="hljs-keyword">extends</span></span> <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> {</span>
+  constructor(props) {
     <span class="hljs-keyword">super</span>(props);
-    <span class="hljs-built_in">console</span>.log(<span class="hljs-keyword">this</span>.props.id, <span class="hljs-string">'constructor'</span>);
+    console.log(<span class="hljs-keyword">this</span>.props.id, <span class="hljs-symbol">'constructo</span>r');
   }
 
   componentWillReceiveProps() {
-    <span class="hljs-built_in">console</span>.log(<span class="hljs-keyword">this</span>.props.id, <span class="hljs-string">'componentWillReceiveProps'</span>);
+    console.log(<span class="hljs-keyword">this</span>.props.id, <span class="hljs-symbol">'componentWillReceiveProp</span>s');
   }
 
   render() {
     <span class="hljs-keyword">var</span> count = [<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>];<span class="hljs-comment">// new Array(4) skip forEach ....</span>
     <span class="hljs-keyword">var</span> els = count.map((c, i)=&gt; {
-      <span class="hljs-keyword">return</span> <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">p</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">{i}</span>&gt;</span>{this.props.id}<span class="hljs-tag">&lt;/<span class="hljs-title">p</span>&gt;</span>
+      <span class="hljs-keyword">return</span> &lt;p key={i}&gt;{<span class="hljs-keyword">this</span>.props.id}&lt;/p&gt;
     });
-    return <span class="hljs-tag">&lt;<span class="hljs-title">div</span>&gt;</span>{els}<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>;</span>
+    <span class="hljs-keyword">return</span> &lt;div&gt;{els}&lt;/div&gt;;
   }
 }
-<span class="hljs-keyword">var</span> start = <span class="hljs-number">0</span>;
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">render</span><span class="hljs-params">()</span> </span>{
-  start += <span class="hljs-number">10</span>;
-  React.render(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">div</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-title">h1</span>&gt;</span>Simple Tabs<span class="hljs-tag">&lt;/<span class="hljs-title">h1</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-title">Tabs</span> <span class="hljs-attribute">activeKey</span>=<span class="hljs-value">"2"</span>
-      <span class="hljs-attribute">onChange</span>=<span class="hljs-value">{onChange}</span>&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-title">TabPane</span> <span class="hljs-attribute">tab</span>=<span class="hljs-value">{`tab</span> ${<span class="hljs-attribute">start</span>}`} <span class="hljs-attribute">key</span>=<span class="hljs-value">"1"</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-title">PanelContent</span> <span class="hljs-attribute">id</span>=<span class="hljs-value">{start}</span>/&gt;</span>
-      <span class="hljs-tag">&lt;/<span class="hljs-title">TabPane</span>&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-title">TabPane</span> <span class="hljs-attribute">tab</span>=<span class="hljs-value">{`tab</span> ${<span class="hljs-attribute">start</span> + <span class="hljs-attribute">1</span>}`} <span class="hljs-attribute">key</span>=<span class="hljs-value">"2"</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-title">PanelContent</span> <span class="hljs-attribute">id</span>=<span class="hljs-value">{start</span> + <span class="hljs-attribute">1</span>}/&gt;</span>
-      <span class="hljs-tag">&lt;/<span class="hljs-title">TabPane</span>&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-title">TabPane</span> <span class="hljs-attribute">tab</span>=<span class="hljs-value">{`tab</span> ${<span class="hljs-attribute">start</span> + <span class="hljs-attribute">1</span>}`} <span class="hljs-attribute">key</span>=<span class="hljs-value">"3"</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-title">PanelContent</span> <span class="hljs-attribute">id</span>=<span class="hljs-value">{start</span> + <span class="hljs-attribute">2</span>}/&gt;</span>
-      <span class="hljs-tag">&lt;/<span class="hljs-title">TabPane</span>&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-title">Tabs</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-title">button</span> <span class="hljs-attribute">onClick</span>=<span class="hljs-value">{render}</span>&gt;</span>rerender<span class="hljs-tag">&lt;/<span class="hljs-title">button</span>&gt;</span>
-  <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>, document.getElementById('__react-content'));
-}
 
+<span class="hljs-keyword">var</span> <span class="hljs-type">Component</span>=<span class="hljs-type">React</span>.createClass({
+  getInitialState(){
+    <span class="hljs-keyword">return</span> {
+      activeKey:'',
+      start:<span class="hljs-number">0</span>
+    }
+  },
 
-render();
-</span>
+  onChange(key){
+    console.log(`onChange ${key}`);
+    <span class="hljs-keyword">this</span>.setState({
+      activeKey:key
+    });
+  },
+
+  onTabClick(key){
+    console.log(`onTabClick ${key}`);
+    <span class="hljs-keyword">if</span>(key === <span class="hljs-keyword">this</span>.state.activeKey){
+      <span class="hljs-keyword">this</span>.setState({
+        activeKey:''
+      });
+    }
+  },
+
+  tick(){
+    <span class="hljs-keyword">this</span>.setState({
+      start:<span class="hljs-keyword">this</span>.state.start+<span class="hljs-number">10</span>
+    })
+  },
+
+  render(){
+    <span class="hljs-keyword">var</span> start = <span class="hljs-keyword">this</span>.state.start;
+    <span class="hljs-keyword">return</span> &lt;div&gt;
+      &lt;h1&gt;<span class="hljs-type">Simple</span> <span class="hljs-type">Tabs</span>&lt;/h1&gt;
+      &lt;<span class="hljs-type">Tabs</span> activeKey={<span class="hljs-keyword">this</span>.state.activeKey}
+        onTabClick={<span class="hljs-keyword">this</span>.onTabClick}
+        onChange={<span class="hljs-keyword">this</span>.onChange}&gt;
+        &lt;<span class="hljs-type">TabPane</span> tab={`tab ${start}`} key=<span class="hljs-string">"1"</span>&gt;
+          &lt;<span class="hljs-type">PanelContent</span> id={start}/&gt;
+        &lt;/<span class="hljs-type">TabPane</span>&gt;
+        &lt;<span class="hljs-type">TabPane</span> tab={`tab ${start + <span class="hljs-number">1</span>}`} key=<span class="hljs-string">"2"</span>&gt;
+          &lt;<span class="hljs-type">PanelContent</span> id={start + <span class="hljs-number">1</span>}/&gt;
+        &lt;/<span class="hljs-type">TabPane</span>&gt;
+        &lt;<span class="hljs-type">TabPane</span> tab={`tab ${start + <span class="hljs-number">1</span>}`} key=<span class="hljs-string">"3"</span>&gt;
+          &lt;<span class="hljs-type">PanelContent</span> id={start + <span class="hljs-number">2</span>}/&gt;
+        &lt;/<span class="hljs-type">TabPane</span>&gt;
+      &lt;/<span class="hljs-type">Tabs</span>&gt;
+      &lt;button onClick={<span class="hljs-keyword">this</span>.tick}&gt;rerender&lt;/button&gt;
+    &lt;/div&gt;
+  }
+});
+
+<span class="hljs-type">React</span>.render(&lt;<span class="hljs-type">Component</span> /&gt;,document.getElementById(<span class="hljs-symbol">'__react</span>-content'));
+
 </pre>
 </div>
 </body>

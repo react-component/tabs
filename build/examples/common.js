@@ -75,7 +75,7 @@
 /******/ 			script.type = 'text/javascript';
 /******/ 			script.charset = 'utf-8';
 /******/ 			script.async = true;
-/******/ 			script.src = __webpack_require__.p + "" + chunkId + "." + ({"0":"simple","1":"defaultActiveFirst"}[chunkId]||chunkId) + ".js";
+/******/ 			script.src = __webpack_require__.p + "" + chunkId + "." + ({"0":"defaultActiveKey","1":"activeKey"}[chunkId]||chunkId) + ".js";
 /******/ 			head.appendChild(script);
 /******/ 		}
 /******/ 	};
@@ -165,6 +165,9 @@
 	  DOWN: 40 // also NUM_SOUTH
 	};
 
+	function noop() {
+	}
+
 	var ____Class2=React.Component;for(var ____Class2____Key in ____Class2){if(____Class2.hasOwnProperty(____Class2____Key)){TabPane[____Class2____Key]=____Class2[____Class2____Key];}}var ____SuperProtoOf____Class2=____Class2===null?null:____Class2.prototype;TabPane.prototype=Object.create(____SuperProtoOf____Class2);TabPane.prototype.constructor=TabPane;TabPane.__superConstructor__=____Class2;function TabPane(){"use strict";if(____Class2!==null){____Class2.apply(this,arguments);}}
 	  Object.defineProperty(TabPane.prototype,"render",{writable:true,configurable:true,value:function() {"use strict";
 	    var props = this.props;
@@ -194,9 +197,11 @@
 	  function Tabs(props) {"use strict";
 	    ____Class3.call(this,props);
 	    var activeKey;
-	    if (typeof props.activeKey !== 'undefined') {
+	    if ('activeKey' in props) {
 	      activeKey = props.activeKey;
-	    } else if (props.defaultActiveFirst) {
+	    } else if ('defaultActiveKey' in props) {
+	      activeKey = props.defaultActiveKey;
+	    } else {
 	      React.Children.forEach(props.children, function(child)  {
 	        if (!activeKey) {
 	          activeKey = child.key;
@@ -211,6 +216,14 @@
 	    // cache panels
 	    this.renderPanels = {};
 	  }
+
+	  Object.defineProperty(Tabs.prototype,"componentWillReceiveProps",{writable:true,configurable:true,value:function(nextProps) {"use strict";
+	    if ('activeKey' in nextProps) {
+	      this.setState({
+	        activeKey: nextProps.activeKey
+	      });
+	    }
+	  }});
 
 	  Object.defineProperty(Tabs.prototype,"handleTabDestroy",{writable:true,configurable:true,value:function(key) {"use strict";
 	    delete this.renderPanels[key];
@@ -301,13 +314,12 @@
 	  }});
 
 	  Object.defineProperty(Tabs.prototype,"handleTabClick",{writable:true,configurable:true,value:function(key) {"use strict";
+	    this.props.onTabClick(key);
 	    if (this.state.activeKey !== key) {
 	      this.setState({
 	        activeKey: key
 	      });
-	      if (this.props.onChange) {
-	        this.props.onChange(key);
-	      }
+	      this.props.onChange(key);
 	    }
 	  }});
 
@@ -356,7 +368,8 @@
 
 	Tabs.defaultProps = {
 	  prefixCls: 'rc-tabs',
-	  defaultActiveFirst: true
+	  onChange: noop,
+	  onTabClick: noop
 	};
 
 	Tabs.TabPane = TabPane;

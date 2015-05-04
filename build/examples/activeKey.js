@@ -10,9 +10,7 @@ webpackJsonp([1],[
 /***/ function(module, exports, __webpack_require__) {
 
 	/** @jsx React.DOM */
-	function onChange(key) {
-	  console.log(key + ' changed!');
-	}
+
 	__webpack_require__(5);
 	var React = __webpack_require__(3);
 	var Tabs = __webpack_require__(4);
@@ -36,29 +34,60 @@ webpackJsonp([1],[
 	    return React.createElement("div", null, els);
 	  }});
 
-	var start = 0;
-	function render() {
-	  start += 10;
-	  React.render(React.createElement("div", null, 
-	    React.createElement("h1", null, "Tabs using defaultActiveFirst=false"), 
-	    React.createElement(Tabs, {defaultActiveFirst: false, 
-	      onChange: onChange}, 
-	      React.createElement(TabPane, {tab: ("tab " + start), key: "1"}, 
-	        React.createElement(PanelContent, {id: start})
-	      ), 
-	      React.createElement(TabPane, {tab: ("tab " + (start + 1)), key: "2"}, 
-	        React.createElement(PanelContent, {id: start + 1})
-	      ), 
-	      React.createElement(TabPane, {tab: ("tab " + (start + 1)), key: "3"}, 
-	        React.createElement(PanelContent, {id: start + 2})
-	      )
-	    ), 
-	    React.createElement("button", {onClick: render}, "rerender")
-	  ), document.getElementById('__react-content'));
-	}
 
+	var Component=React.createClass({displayName: "Component",
+	  getInitialState:function(){
+	    return {
+	      activeKey:'',
+	      start:0
+	    }
+	  },
 
-	render();
+	  onChange:function(key){
+	    console.log(("onChange " + key));
+	    this.setState({
+	      activeKey:key
+	    });
+	  },
+
+	  onTabClick:function(key){
+	    console.log(("onTabClick " + key));
+	    if(key === this.state.activeKey){
+	      this.setState({
+	        activeKey:''
+	      });
+	    }
+	  },
+
+	  tick:function(){
+	    this.setState({
+	      start:this.state.start+10
+	    })
+	  },
+
+	  render:function(){
+	    var start = this.state.start;
+	    return React.createElement("div", null, 
+	      React.createElement("h1", null, "Simple Tabs"), 
+	      React.createElement(Tabs, {activeKey: this.state.activeKey, 
+	        onTabClick: this.onTabClick, 
+	        onChange: this.onChange}, 
+	        React.createElement(TabPane, {tab: ("tab " + start), key: "1"}, 
+	          React.createElement(PanelContent, {id: start})
+	        ), 
+	        React.createElement(TabPane, {tab: ("tab " + (start + 1)), key: "2"}, 
+	          React.createElement(PanelContent, {id: start + 1})
+	        ), 
+	        React.createElement(TabPane, {tab: ("tab " + (start + 1)), key: "3"}, 
+	          React.createElement(PanelContent, {id: start + 2})
+	        )
+	      ), 
+	      React.createElement("button", {onClick: this.tick}, "rerender")
+	    )
+	  }
+	});
+
+	React.render(React.createElement(Component, null),document.getElementById('__react-content'));
 
 
 /***/ }
