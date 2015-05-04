@@ -14,6 +14,7 @@ document.body.appendChild(node);
 describe('tabs', function () {
   var tabs;
   var changeHook;
+  var onTabClickHook;
 
   function onChange() {
     if (changeHook) {
@@ -21,8 +22,16 @@ describe('tabs', function () {
     }
   }
 
+  function onTabClick() {
+    if (onTabClickHook) {
+      onTabClickHook.apply(this, arguments);
+    }
+  }
+
   beforeEach(function (done) {
-    React.render(<Tabs activeKey="2" onChange={onChange}>
+    React.render(<Tabs defaultActiveKey="2"
+      onTabClick={onTabClick}
+      onChange={onChange}>
       <TabPane tab='tab 1' key="1">first</TabPane>
       <TabPane tab='tab 2' key="2">second</TabPane>
       <TabPane tab='tab 3' key="3">third</TabPane>
@@ -35,6 +44,7 @@ describe('tabs', function () {
   afterEach(function () {
     React.unmountComponentAtNode(node);
     changeHook = null;
+    onTabClickHook = null;
   });
 
   it('create works', function () {
@@ -59,4 +69,34 @@ describe('tabs', function () {
     var tab = TestUtils.scryRenderedDOMComponentsWithClass(tabs, 'rc-tabs-tab')[0];
     Simulate.click(tab);
   });
+
+
+  it('onTabClick works', function (done) {
+    var called = 0;
+
+    function check() {
+      called++;
+      if (called == 3) {
+        done();
+      }
+    }
+
+    changeHook = function (d) {
+      expect(d).to.be('1');
+      check();
+    };
+
+    onTabClickHook = function (d) {
+      expect(d).to.be('1');
+      check();
+    };
+
+    var tab = TestUtils.scryRenderedDOMComponentsWithClass(tabs, 'rc-tabs-tab')[0];
+    Simulate.click(tab);
+
+    setTimeout(function () {
+     Simulate.click(tab);
+    }, 100);
+  });
+
 });
