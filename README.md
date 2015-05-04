@@ -86,7 +86,7 @@ React.render(
       </tr>
       <tr>
           <td>defaultActiveKey</td>
-          <td>Object</td>
+          <td>String</td>
           <th>first active tabPanel's key</th>
           <td>initial active tabPanel's key if activeKey is absent</td>
       </tr>
