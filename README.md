@@ -53,7 +53,7 @@ var callback = function(key){
 
 React.render(
   (
-    <Tabs activeKey="2" onChange={callback}>
+    <Tabs defaultActiveKey="2" onChange={callback}>
       <TabPane tab='tab 1' key="1">first</TabPane>
       <TabPane tab='tab 2' key="2">second</TabPane>
       <TabPane tab='tab 3' key="3">third</TabPane>
@@ -80,15 +80,27 @@ React.render(
     <tbody>
       <tr>
           <td>activeKey</td>
+          <td>String</td>
+          <th></th>
+          <td>current active tabPanel's key</td>
+      </tr>
+      <tr>
+          <td>defaultActiveKey</td>
           <td>Object</td>
           <th>first active tabPanel's key</th>
-          <td>same with active tabPanel's key</td>
+          <td>initial active tabPanel's key if activeKey is absent</td>
       </tr>
       <tr>
           <td>onChange</td>
           <td>Function(key)</td>
           <th></th>
           <td>called when tabPanel is changed</td>
+      </tr>
+      <tr>
+          <td>onTabClick</td>
+          <td>Function(key)</td>
+          <th></th>
+          <td>called when tab is clicked</td>
       </tr>
     </tbody>
 </table>
@@ -132,7 +144,7 @@ npm start
 
 ## Example
 
-http://localhost:8000/examples/index.md
+http://localhost:8000/examples
 
 online example: http://react-component.github.io/tabs/build/examples/
 
