@@ -1,56 +1,19 @@
 /** @jsx React.DOM */
 
 var React = require('react');
-var KeyCode = {
-  /**
-   * LEFT
-   */
-  LEFT: 37, // also NUM_WEST
-  /**
-   * UP
-   */
-  UP: 38, // also NUM_NORTH
-  /**
-   * RIGHT
-   */
-  RIGHT: 39, // also NUM_EAST
-  /**
-   * DOWN
-   */
-  DOWN: 40 // also NUM_SOUTH
-};
-
+var KeyCode = require('./KeyCode');
+var TabPane = require('./TabPane');
+var CSSTransitionGroup = require('rc-css-transition-group');
 function noop() {
 }
+var utils = require('./utils');
+var prefixClsFn = utils.prefixClsFn;
 
-class TabPane extends React.Component {
-  render() {
+var Tabs = React.createClass({
+  mixins: [require('./InkBarMixin')],
+
+  getInitialState() {
     var props = this.props;
-    var prefixCls = props.rootPrefixCls + '-tabpane';
-    var cls = props.active ? '' : prefixClsFn(prefixCls, 'hidden');
-    cls += ' ' + prefixCls;
-    return (
-      <div className={cls}>
-        {this.props.children}
-      </div>
-    );
-  }
-
-  componentWillUnmount() {
-    this.props.onDestroy();
-  }
-}
-
-function prefixClsFn(prefixCls) {
-  var args = Array.prototype.slice.call(arguments, 1);
-  return args.map((s)=> {
-    return prefixCls + '-' + s;
-  }).join(' ');
-}
-
-class Tabs extends React.Component {
-  constructor(props) {
-    super(props);
     var activeKey;
     if ('activeKey' in props) {
       activeKey = props.activeKey;
@@ -63,32 +26,57 @@ class Tabs extends React.Component {
         }
       });
     }
-    this.state = {
-      activeKey: activeKey
-    };
-    this.handleKeyDown = this.handleKeyDown.bind(this);
-    this.handleTabDestroy = this.handleTabDestroy.bind(this);
+    //this.handleKeyDown = this.handleKeyDown.bind(this);
+    //this.handleTabDestroy = this.handleTabDestroy.bind(this);
     // cache panels
     this.renderPanels = {};
-  }
+    return {activeKey};
+  },
+
+  setActiveKey(activeKey) {
+    var currentActiveKey = this.state.activeKey;
+    if (!currentActiveKey) {
+      this.setState({
+        activeKey: activeKey
+      });
+    } else {
+      var left;
+      React.Children.forEach(this.props.children, (c) => {
+        if (left !== undefined) {
+          return;
+        }
+        var key = c.key;
+        if (currentActiveKey === key) {
+          left = false;
+        } else if (activeKey === key) {
+          left = true;
+        }
+      });
+      var tabMovingDirection = left === true ? 'left' : (left === false ? 'right' : '');
+      this.setState({
+        activeKey: activeKey,
+        tabMovingDirection: tabMovingDirection
+      });
+    }
+  },
 
   componentWillReceiveProps(nextProps) {
     if ('activeKey' in nextProps) {
-      this.setState({
-        activeKey: nextProps.activeKey
-      });
+      this.setActiveKey(nextProps.activeKey);
     }
-  }
+  },
 
   handleTabDestroy(key) {
     delete this.renderPanels[key];
-  }
+  },
 
   _getNextActiveKey() {
     var activeKey = this.state.activeKey;
     var children = [];
     React.Children.forEach(this.props.children, (c) => {
-      children.push(c);
+      if (!c.props.disabled) {
+        children.push(c);
+      }
     });
     var length = children.length;
     var ret = length && children[0].key;
@@ -102,13 +90,15 @@ class Tabs extends React.Component {
       }
     });
     return ret;
-  }
+  },
 
   _getPreviousActiveKey() {
     var activeKey = this.state.activeKey;
     var children = [];
     React.Children.forEach(this.props.children, (c)=> {
-      children.unshift(c);
+      if (!c.props.disabled) {
+        children.unshift(c);
+      }
     });
     var length = children.length;
     var ret = length && children[length - 1].key;
@@ -122,7 +112,7 @@ class Tabs extends React.Component {
       }
     });
     return ret;
-  }
+  },
 
   _getTabPanes() {
     var activeKey = this.state.activeKey;
@@ -143,12 +133,14 @@ class Tabs extends React.Component {
         newChildren.push(renderPanels[key]);
       } else {
         // lazy load
-        newChildren.push(null);
+        newChildren.push(<TabPane active={false}
+          key={key}
+          rootPrefixCls={this.props.prefixCls}></TabPane>);
       }
     });
 
     return newChildren;
-  }
+  },
 
   _getTabs() {
     var children = this.props.children;
@@ -160,23 +152,29 @@ class Tabs extends React.Component {
       var key = child.key;
       var cls = activeKey === key ? prefixClsFn(prefixCls, 'tab-active') : '';
       cls += ' ' + prefixClsFn(prefixCls, 'tab');
-      rst.push(<li onClick={this.handleTabClick.bind(this, key)} className={cls} key={key}>
+      var events = {};
+      if (child.props.disabled) {
+        cls += ' ' + prefixClsFn(prefixCls, 'tab-disabled');
+      } else {
+        events = {
+          onClick: this.handleTabClick.bind(this, key)
+        };
+      }
+      rst.push(<div {...events} className={cls} key={key} ref={`tab${key}`} data-active={activeKey === key}>
         <a>{child.props.tab}</a>
-      </li>);
+      </div>);
     });
 
     return rst;
-  }
+  },
 
   handleTabClick(key) {
     this.props.onTabClick(key);
     if (this.state.activeKey !== key) {
-      this.setState({
-        activeKey: key
-      });
+      this.setActiveKey(key);
       this.props.onChange(key);
     }
-  }
+  },
 
   handleKeyDown(e) {
     if (e.target !== React.findDOMNode(this)) {
@@ -197,29 +195,43 @@ class Tabs extends React.Component {
         this.handleTabClick(previousKey);
         break;
     }
-  }
+  },
 
   render() {
     var props = this.props;
+    var effect = this.props.effect;
+    var prefixCls = props.prefixCls;
     var tabs = this._getTabs();
     var tabPanes = this._getTabPanes();
-    var prefixCls = props.prefixCls;
+    var tabMovingDirection = this.state.tabMovingDirection;
+    if (effect) {
+      tabPanes = <CSSTransitionGroup showProp="active" transitionName= {prefixClsFn(prefixCls, 'effect-' + (tabMovingDirection || 'left'))}>
+      {tabPanes}
+      </CSSTransitionGroup>;
+    }
     var cls = prefixCls;
     if (props.className) {
       cls += ' ' + props.className;
     }
+    var inkBarClass = prefixClsFn(prefixCls, 'ink-bar');
+    if (tabMovingDirection) {
+      inkBarClass += ' ' + prefixClsFn(prefixCls, 'ink-bar-transition-' + tabMovingDirection);
+    }
     return (
       <div className={cls} tabIndex="0" onKeyDown={this.handleKeyDown}>
-        <ul className={prefixClsFn(prefixCls, 'nav')}>
+        <div className={prefixClsFn(prefixCls, 'nav-container')} ref="container">
+          <div className={inkBarClass} ref='inkBar'/>
+          <div className={prefixClsFn(prefixCls, 'nav')}>
           {tabs}
-        </ul>
+          </div>
+        </div>
         <div className={prefixClsFn(prefixCls, 'content')}>
           {tabPanes}
         </div>
       </div>
     );
   }
-}
+});
 
 Tabs.defaultProps = {
   prefixCls: 'rc-tabs',

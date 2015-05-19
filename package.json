@@ -1,6 +1,6 @@
 {
   "name": "rc-tabs",
-  "version": "4.0.0",
+  "version": "5.0.0",
   "description": "tabs ui component for react",
   "keywords": [
     "react",
@@ -32,7 +32,6 @@
     "build": "rc-tools run build",
     "less": "rc-tools run less",
     "gh-pages": "rc-tools run gh-pages",
-    "less": "rc-tools run less",
     "history": "rc-tools run history",
     "start": "node --harmony node_modules/.bin/rc-server",
     "publish": "rc-tools run tag && spm publish",
@@ -52,5 +51,8 @@
   "precommit": [
     "lint",
     "less"
-  ]
+  ],
+  "dependencies": {
+    "rc-css-transition-group": "^2.0.0"
+  }
 }

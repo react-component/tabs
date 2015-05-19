@@ -3,7 +3,14 @@
 .@{prefixClass} {
   outline: none;
 
+  &-nav-container {
+    overflow: hidden;
+    position: relative;
+    white-space: nowrap;
+  }
+
   &-nav {
+    width: 99999px;
     box-sizing: border-box;
     border-bottom: 1px solid #ddd;
     padding-left: 0;
@@ -20,7 +27,7 @@
       clear: both;
     }
 
-    li.@{prefixClass}-tab-active {
+    div.@{prefixClass}-tab-active {
       > a, > a:hover, > a:focus {
         color: #555;
         cursor: default;
@@ -31,7 +38,13 @@
       }
     }
 
-    > li {
+    div.@{prefixClass}-tab-disabled {
+      pointer-events: none;
+      cursor: default;
+      color: #ccc;
+    }
+
+    .@{prefixClass}-tab {
       float: left;
       margin-bottom: -1px;
       position: relative;
@@ -61,6 +74,10 @@
   }
 
   &-tabpane-hidden {
+    display: none;
+  }
+
+  &-ink-bar {
     display: none;
   }
 }

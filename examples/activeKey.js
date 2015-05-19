@@ -67,8 +67,11 @@ var Component=React.createClass({
         <TabPane tab={`tab ${start + 1}`} key="2">
           <PanelContent id={start + 1}/>
         </TabPane>
-        <TabPane tab={`tab ${start + 1}`} key="3">
+        <TabPane tab={`tab ${start + 2}`} key="3" disabled={true}>
           <PanelContent id={start + 2}/>
+        </TabPane>
+        <TabPane tab={`tab ${start + 3}`} key="4">
+          <PanelContent id={start + 3}/>
         </TabPane>
       </Tabs>
       <button onClick={this.tick}>rerender</button>
