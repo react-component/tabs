@@ -3,6 +3,7 @@
 var React = require('react');
 var KeyCode = require('./KeyCode');
 var TabPane = require('./TabPane');
+var Nav = require('./Nav');
 var CSSTransitionGroup = require('rc-css-transition-group');
 function noop() {
 }
@@ -10,8 +11,6 @@ var utils = require('./utils');
 var prefixClsFn = utils.prefixClsFn;
 
 var Tabs = React.createClass({
-  mixins: [require('./InkBarMixin')],
-
   getInitialState() {
     var props = this.props;
     var activeKey;
@@ -142,32 +141,6 @@ var Tabs = React.createClass({
     return newChildren;
   },
 
-  _getTabs() {
-    var children = this.props.children;
-    var activeKey = this.state.activeKey;
-    var rst = [];
-    var prefixCls = this.props.prefixCls;
-
-    React.Children.forEach(children, (child)=> {
-      var key = child.key;
-      var cls = activeKey === key ? prefixClsFn(prefixCls, 'tab-active') : '';
-      cls += ' ' + prefixClsFn(prefixCls, 'tab');
-      var events = {};
-      if (child.props.disabled) {
-        cls += ' ' + prefixClsFn(prefixCls, 'tab-disabled');
-      } else {
-        events = {
-          onClick: this.handleTabClick.bind(this, key)
-        };
-      }
-      rst.push(<div {...events} className={cls} key={key} ref={`tab${key}`} data-active={activeKey === key}>
-        <a>{child.props.tab}</a>
-      </div>);
-    });
-
-    return rst;
-  },
-
   handleTabClick(key) {
     this.props.onTabClick(key);
     if (this.state.activeKey !== key) {
@@ -201,30 +174,26 @@ var Tabs = React.createClass({
     var props = this.props;
     var effect = this.props.effect;
     var prefixCls = props.prefixCls;
-    var tabs = this._getTabs();
-    var tabPanes = this._getTabPanes();
-    var tabMovingDirection = this.state.tabMovingDirection;
-    if (effect) {
-      tabPanes = <CSSTransitionGroup showProp="active" transitionName= {prefixClsFn(prefixCls, 'effect-' + (tabMovingDirection || 'left'))}>
-      {tabPanes}
-      </CSSTransitionGroup>;
-    }
     var cls = prefixCls;
+    var tabMovingDirection = this.state.tabMovingDirection;
     if (props.className) {
       cls += ' ' + props.className;
     }
-    var inkBarClass = prefixClsFn(prefixCls, 'ink-bar');
-    if (tabMovingDirection) {
-      inkBarClass += ' ' + prefixClsFn(prefixCls, 'ink-bar-transition-' + tabMovingDirection);
+    var tabPanes = this._getTabPanes();
+    if (effect) {
+      tabPanes = <CSSTransitionGroup showProp="active"
+        exclusive={true}
+        transitionName= {prefixClsFn(prefixCls, 'effect-' + (tabMovingDirection || 'left'))}>
+      {tabPanes}
+      </CSSTransitionGroup>;
     }
     return (
       <div className={cls} tabIndex="0" onKeyDown={this.handleKeyDown}>
-        <div className={prefixClsFn(prefixCls, 'nav-container')} ref="container">
-          <div className={inkBarClass} ref='inkBar'/>
-          <div className={prefixClsFn(prefixCls, 'nav')}>
-          {tabs}
-          </div>
-        </div>
+        <Nav prefixCls={prefixCls}
+          handleTabClick={this.handleTabClick}
+          tabMovingDirection={tabMovingDirection}
+          panels={this.props.children}
+          activeKey={this.state.activeKey}/>
         <div className={prefixClsFn(prefixCls, 'content')}>
           {tabPanes}
         </div>

@@ -8,17 +8,18 @@ var TabPane = Tabs.TabPane;
 class PanelContent extends React.Component {
   constructor(props) {
     super(props);
-    console.log(this.props.id, 'constructor');
+    //console.log(this.props.id, 'constructor');
   }
 
   componentWillReceiveProps() {
-    console.log(this.props.id, 'componentWillReceiveProps');
+    //console.log(this.props.id, 'componentWillReceiveProps');
   }
 
   render() {
     var count = [1, 1, 1, 1];// new Array(4) skip forEach ....
+    var content = new Array(200).join(' '+this.props.id);
     var els = count.map((c, i)=> {
-      return <p key={i}>{this.props.id}</p>
+      return <p key={i}>{content}</p>
     });
     return <div>{els}</div>;
   }
@@ -33,11 +34,11 @@ var Component = React.createClass({
   },
 
   onChange(key) {
-    console.log(`onChange ${key}`);
+    //console.log(`onChange ${key}`);
   },
 
   onTabClick(key) {
-    console.log(`onTabClick ${key}`);
+    //console.log(`onTabClick ${key}`);
   },
 
   tick() {

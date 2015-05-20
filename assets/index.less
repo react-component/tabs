@@ -1,5 +1,9 @@
 @prefixClass: rc-tabs;
 
+@easing-in-out: cubic-bezier(0.35, 0, 0.25, 1);
+
+@effect-duration: .5s;
+
 .@{prefixClass} {
   outline: none;
   box-sizing: border-box;
@@ -18,12 +22,12 @@
     transform: scaleX(1);
     transform-origin: 0 0;
     &-transition-right {
-      transition: right 0.3s cubic-bezier(0.35, 0, 0.25, 1),
-      left 0.3s cubic-bezier(0.35, 0, 0.25, 1) 0.3s * 0.3;
+      transition: right 0.3s @easing-in-out,
+      left 0.3s @easing-in-out 0.3s * 0.3;
     }
     &-transition-left {
-      transition: right 0.3s cubic-bezier(0.35, 0, 0.25, 1) 0.3s * 0.3,
-      left 0.3s cubic-bezier(0.35, 0, 0.25, 1);
+      transition: right 0.3s @easing-in-out 0.3s * 0.3,
+      left 0.3s @easing-in-out;
     }
   }
 
@@ -45,7 +49,7 @@
     width: 99999px;
     box-sizing: border-box;
     padding-left: 0;
-    transition: left 0.5s cubic-bezier(0.35, 0, 0.25, 1);
+    transition: left 0.5s @easing-in-out;
     left: 0;
     top: 0;
     margin: 0;
@@ -85,7 +89,7 @@
       display: block;
 
       > a {
-        transition: color 0.3s cubic-bezier(0.35, 0, 0.25, 1);
+        transition: color 0.3s @easing-in-out;
         margin-bottom: 4px;
         font-weight: 500;
         display: inline-block;
@@ -114,34 +118,35 @@
 
   &-effect-left-enter {
     transform: translateX(-100%);
-    transition: transform 0.5s cubic-bezier(0.35, 0, 0.25, 1);
+
   }
 
   &-effect-left-enter&-effect-left-enter-active {
     transform: translateX(0);
+    transition: transform @effect-duration @easing-in-out;
   }
 
   &-effect-left-leave {
     position: absolute;
-    transform: translateX(0);
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    transition: transform 0.5s cubic-bezier(0.35, 0, 0.25, 1);
+    transform: translateX(0);
   }
 
   &-effect-left-leave&-effect-left-leave-active {
     transform: translateX(100%);
+    transition: transform @effect-duration @easing-in-out;
   }
 
   &-effect-right-enter {
     transform: translateX(100%);
-    transition: transform 0.5s cubic-bezier(0.35, 0, 0.25, 1);
   }
 
   &-effect-right-enter&-effect-right-enter-active {
     transform: translateX(0);
+    transition: transform @effect-duration @easing-in-out;
   }
 
   &-effect-right-leave {
@@ -151,10 +156,10 @@
     right: 0;
     left: 0;
     bottom: 0;
-    transition: transform 0.5s cubic-bezier(0.35, 0, 0.25, 1);
   }
 
   &-effect-right-leave&-effect-right-leave-active {
     transform: translateX(-100%);
+    transition: transform @effect-duration @easing-in-out;
   }
 }
