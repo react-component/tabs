@@ -4,19 +4,21 @@
   outline: none;
 
   &-nav-container {
-    overflow: hidden;
-    position: relative;
     white-space: nowrap;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 10px;
+  }
+
+  &-tab-prev, &-tab-next {
+    display: none;
   }
 
   &-nav {
-    width: 99999px;
     box-sizing: border-box;
-    border-bottom: 1px solid #ddd;
     padding-left: 0;
     list-style: none;
     margin-top: 0;
-    margin-bottom: 10px;
+    display: inline-block;
 
     &:before, &:after {
       display: table;
@@ -46,7 +48,7 @@
 
     .@{prefixClass}-tab {
       float: left;
-      margin-bottom: -1px;
+      margin-bottom: -4px;
       position: relative;
       display: block;
 

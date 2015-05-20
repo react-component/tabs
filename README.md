@@ -85,6 +85,12 @@ React.render(
           <td>current active tabPanel's key</td>
       </tr>
       <tr>
+          <td>effect</td>
+          <td>Boolean</td>
+          <th></th>
+          <td>whether allow tabpane change effect(need css anim)</td>
+      </tr>
+      <tr>
           <td>defaultActiveKey</td>
           <td>String</td>
           <th>first active tabPanel's key</th>

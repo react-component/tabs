@@ -17,12 +17,26 @@ class PanelContent extends React.Component {
 
   render() {
     var count = [1, 1, 1, 1];// new Array(4) skip forEach ....
-    var content = new Array(200).join(' '+this.props.id);
+    var content = new Array(200).join(' ' + this.props.id);
     var els = count.map((c, i)=> {
       return <p key={i}>{content}</p>
     });
     return <div>{els}</div>;
   }
+}
+
+function construct(start, num) {
+  var ends = [];
+  var index = 1;
+  for (var i = start; i < start + num; i++) {
+    ends.push(<TabPane tab={`tab ${i}`}
+      disabled={!!(i % 2)}
+      key={index + ""}>
+      <PanelContent id={i}/>
+    </TabPane>);
+    index++;
+  }
+  return ends;
 }
 
 
@@ -49,25 +63,25 @@ var Component = React.createClass({
 
   render() {
     var start = this.state.start;
+    var ends = construct(start, 9);
+    var ends2 = construct(start, 3);
     return <div>
-      <h1>Simple Tabs</h1>
+      <h2>Simple Tabs</h2>
       <div style={{width: 500, margin: 20}}>
-        <Tabs defaultActiveKey='2'
+        <Tabs defaultActiveKey='3'
           effect={true}
           onTabClick={this.onTabClick}
           onChange={this.onChange}>
-          <TabPane tab={`tab ${start}`} key="1">
-            <PanelContent id={start}/>
-          </TabPane>
-          <TabPane tab={`tab ${start + 1}`} key="2">
-            <PanelContent id={start + 1}/>
-          </TabPane>
-          <TabPane tab={`tab ${start + 2}`} key="3" disabled={true}>
-            <PanelContent id={start + 2}/>
-          </TabPane>
-          <TabPane tab={`tab ${start + 3}`} key="4">
-            <PanelContent id={start + 3}/>
-          </TabPane>
+        {ends2}
+        </Tabs>
+      </div>
+      <h2>Scroll Tabs</h2>
+      <div style={{width: 500, margin: 20}}>
+        <Tabs defaultActiveKey='3'
+          effect={true}
+          onTabClick={this.onTabClick}
+          onChange={this.onChange}>
+        {ends}
         </Tabs>
       </div>
       <button onClick={this.tick}>rerender</button>
