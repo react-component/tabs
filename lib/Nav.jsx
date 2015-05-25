@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 var React = require('react');
 var prefixClsFn = require('./utils').prefixClsFn;
 

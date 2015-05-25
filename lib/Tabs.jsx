@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 var React = require('react');
 var KeyCode = require('./KeyCode');
 var TabPane = require('./TabPane');
