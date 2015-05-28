@@ -1,3 +1,5 @@
+'use strict';
+
 function prefixClsFn(prefixCls) {
   var args = Array.prototype.slice.call(arguments, 1);
   return args.map((s)=> {

@@ -1,3 +1,5 @@
+'use strict';
+
 var React = require('react');
 var KeyCode = require('./KeyCode');
 var TabPane = require('./TabPane');
@@ -165,6 +167,7 @@ var Tabs = React.createClass({
         var previousKey = this._getPreviousActiveKey();
         this.handleTabClick(previousKey);
         break;
+      default:
     }
   },
 

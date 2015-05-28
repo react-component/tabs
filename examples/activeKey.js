@@ -1,4 +1,4 @@
-/** @jsx React.DOM */
+'use strict';
 
 require('rc-tabs/assets/bootstrap.css');
 var React = require('react');

@@ -1,3 +1,5 @@
+'use strict';
+
 var React = require('react');
 var prefixClsFn = require('./utils').prefixClsFn;
 
@@ -79,12 +81,10 @@ var Nav = React.createClass({
           prev: true
         });
       }
-    } else {
-      if (state.prev) {
-        this.setState({
-          prev: false
-        });
-      }
+    } else if (state.prev) {
+      this.setState({
+        prev: false
+      });
     }
   },
 
@@ -127,8 +127,8 @@ var Nav = React.createClass({
       prevButton = <span
         onClick={this.prev}
         unselectable="unselectable"
-        className={prefixClsFn(prefixCls, "tab-prev")}>
-        <span className={prefixClsFn(prefixCls, "tab-prev-icon")}></span>
+        className={prefixClsFn(prefixCls, 'tab-prev')}>
+        <span className={prefixClsFn(prefixCls, 'tab-prev-icon')}></span>
       </span>;
     }
 
@@ -136,8 +136,8 @@ var Nav = React.createClass({
       nextButton = <span
         onClick={this.next}
         unselectable="unselectable"
-        className={prefixClsFn(prefixCls, "tab-next")}>
-        <span className={prefixClsFn(prefixCls, "tab-next-icon")}></span>
+        className={prefixClsFn(prefixCls, 'tab-next')}>
+        <span className={prefixClsFn(prefixCls, 'tab-next-icon')}></span>
       </span>;
     }
 

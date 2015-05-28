@@ -1,4 +1,4 @@
-/** @jsx React.DOM */
+'use strict';
 
 require('rc-tabs/assets/index.css');
 var React = require('react');

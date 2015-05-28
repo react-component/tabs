@@ -1,4 +1,4 @@
-/** @jsx React.DOM */
+'use strict';
 
 var expect = require('expect.js');
 var Tabs = require('../index');

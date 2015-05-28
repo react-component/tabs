@@ -1,4 +1,3 @@
-config.js
 *.iml
 *.log
 .idea/
@@ -20,10 +19,8 @@ Thumbs.db
 *.pyo
 .build
 node_modules
-_site
-sea-modules
-spm_modules
 .cache
 dist
-build/
 assets/**/*.css
+build
+lib

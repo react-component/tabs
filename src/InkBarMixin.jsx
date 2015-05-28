@@ -1,3 +1,5 @@
+'use strict';
+
 var offset = require('./utils').offset;
 var React = require('react');
 
