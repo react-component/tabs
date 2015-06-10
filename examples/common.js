@@ -93,7 +93,31 @@
 /************************************************************************/
 /******/ ([
 /* 0 */,
-/* 1 */
+/* 1 */,
+/* 2 */,
+/* 3 */,
+/* 4 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = function() {
+		var list = [];
+		list.toString = function toString() {
+			var result = [];
+			for(var i = 0; i < this.length; i++) {
+				var item = this[i];
+				if(item[2]) {
+					result.push("@media " + item[2] + "{" + item[1] + "}");
+				} else {
+					result.push(item[1]);
+				}
+			}
+			return result.join("");
+		};
+		return list;
+	}
+
+/***/ },
+/* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -289,46 +313,38 @@
 
 
 /***/ },
-/* 2 */,
-/* 3 */,
-/* 4 */,
-/* 5 */
+/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = React;
 
 /***/ },
-/* 6 */
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
 	
-	var Tabs = __webpack_require__(11);
-	
-	module.exports = Tabs;
-
+	module.exports = __webpack_require__(8);
 
 /***/ },
-/* 7 */,
-/* 8 */,
-/* 9 */,
-/* 10 */,
-/* 11 */
+/* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/** @jsx React.DOM */
+	'use strict';
 	
-	var React = __webpack_require__(5);
-	var KeyCode = __webpack_require__(14);
-	var TabPane = __webpack_require__(15);
-	var Nav = __webpack_require__(13);
-	var CSSTransitionGroup = __webpack_require__(17);
-	function noop() {
-	}
-	var utils = __webpack_require__(16);
+	var React = __webpack_require__(6);
+	var KeyCode = __webpack_require__(12);
+	var TabPane = __webpack_require__(13);
+	var Nav = __webpack_require__(9);
+	var CSSTransitionGroup = __webpack_require__(14);
+	function noop() {}
+	var utils = __webpack_require__(10);
 	var prefixClsFn = utils.prefixClsFn;
 	
-	var Tabs = React.createClass({displayName: "Tabs",
-	  getInitialState:function() {
+	var Tabs = React.createClass({
+	  displayName: 'Tabs',
+	
+	  getInitialState: function getInitialState() {
 	    var props = this.props;
 	    var activeKey;
 	    if ('activeKey' in props) {
@@ -336,7 +352,7 @@
 	    } else if ('defaultActiveKey' in props) {
 	      activeKey = props.defaultActiveKey;
 	    } else {
-	      React.Children.forEach(props.children, function(child)  {
+	      React.Children.forEach(props.children, function (child) {
 	        if (!activeKey) {
 	          activeKey = child.key;
 	        }
@@ -346,29 +362,29 @@
 	    //this.handleTabDestroy = this.handleTabDestroy.bind(this);
 	    // cache panels
 	    this.renderPanels = {};
-	    return {activeKey:activeKey};
+	    return { activeKey: activeKey };
 	  },
 	
-	  setActiveKey:function(activeKey) {
+	  setActiveKey: function setActiveKey(activeKey) {
 	    var currentActiveKey = this.state.activeKey;
 	    if (!currentActiveKey) {
 	      this.setState({
 	        activeKey: activeKey
 	      });
 	    } else {
-	      var left;
-	      React.Children.forEach(this.props.children, function(c)  {
-	        if (left !== undefined) {
+	      var backward;
+	      React.Children.forEach(this.props.children, function (c) {
+	        if (backward !== undefined) {
 	          return;
 	        }
 	        var key = c.key;
 	        if (currentActiveKey === key) {
-	          left = false;
+	          backward = false;
 	        } else if (activeKey === key) {
-	          left = true;
+	          backward = true;
 	        }
 	      });
-	      var tabMovingDirection = left === true ? 'left' : (left === false ? 'right' : '');
+	      var tabMovingDirection = backward === true ? 'backward' : backward === false ? 'forward' : '';
 	      this.setState({
 	        activeKey: activeKey,
 	        tabMovingDirection: tabMovingDirection
@@ -376,27 +392,27 @@
 	    }
 	  },
 	
-	  componentWillReceiveProps:function(nextProps) {
+	  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
 	    if ('activeKey' in nextProps) {
 	      this.setActiveKey(nextProps.activeKey);
 	    }
 	  },
 	
-	  handleTabDestroy:function(key) {
+	  handleTabDestroy: function handleTabDestroy(key) {
 	    delete this.renderPanels[key];
 	  },
 	
-	  _getNextActiveKey:function() {
+	  _getNextActiveKey: function _getNextActiveKey() {
 	    var activeKey = this.state.activeKey;
 	    var children = [];
-	    React.Children.forEach(this.props.children, function(c)  {
+	    React.Children.forEach(this.props.children, function (c) {
 	      if (!c.props.disabled) {
 	        children.push(c);
 	      }
 	    });
 	    var length = children.length;
 	    var ret = length && children[0].key;
-	    children.forEach(function(child, i)  {
+	    children.forEach(function (child, i) {
 	      if (child.key === activeKey) {
 	        if (i === length - 1) {
 	          ret = children[0].key;
@@ -408,17 +424,17 @@
 	    return ret;
 	  },
 	
-	  _getPreviousActiveKey:function() {
+	  _getPreviousActiveKey: function _getPreviousActiveKey() {
 	    var activeKey = this.state.activeKey;
 	    var children = [];
-	    React.Children.forEach(this.props.children, function(c) {
+	    React.Children.forEach(this.props.children, function (c) {
 	      if (!c.props.disabled) {
 	        children.unshift(c);
 	      }
 	    });
 	    var length = children.length;
 	    var ret = length && children[length - 1].key;
-	    children.forEach(function(child, i) {
+	    children.forEach(function (child, i) {
 	      if (child.key === activeKey) {
 	        if (i === length - 1) {
 	          ret = children[0].key;
@@ -430,35 +446,37 @@
 	    return ret;
 	  },
 	
-	  _getTabPanes:function() {
+	  _getTabPanes: function _getTabPanes() {
+	    var _this = this;
+	
 	    var activeKey = this.state.activeKey;
 	    var children = this.props.children;
 	    var newChildren = [];
 	    var renderPanels = this.renderPanels;
 	
-	    React.Children.forEach(children, function(child)  {
+	    React.Children.forEach(children, function (child) {
 	      var key = child.key;
 	      var active = activeKey === key;
 	      if (active || renderPanels[key]) {
 	        child = active ? child : renderPanels[key];
 	        renderPanels[key] = React.cloneElement(child, {
 	          active: active,
-	          onDestroy: this.handleTabDestroy.bind(this, key),
-	          rootPrefixCls: this.props.prefixCls
+	          onDestroy: _this.handleTabDestroy.bind(_this, key),
+	          rootPrefixCls: _this.props.prefixCls
 	        });
 	        newChildren.push(renderPanels[key]);
 	      } else {
 	        // lazy load
-	        newChildren.push(React.createElement(TabPane, {active: false, 
-	          key: key, 
-	          rootPrefixCls: this.props.prefixCls}));
+	        newChildren.push(React.createElement(TabPane, { active: false,
+	          key: key,
+	          rootPrefixCls: _this.props.prefixCls }));
 	      }
-	    }.bind(this));
+	    });
 	
 	    return newChildren;
 	  },
 	
-	  handleTabClick:function(key) {
+	  handleTabClick: function handleTabClick(key) {
 	    this.props.onTabClick(key);
 	    if (this.state.activeKey !== key) {
 	      this.setActiveKey(key);
@@ -466,7 +484,7 @@
 	    }
 	  },
 	
-	  handleKeyDown:function(e) {
+	  handleKeyDown: function handleKeyDown(e) {
 	    if (e.target !== React.findDOMNode(this)) {
 	      return;
 	    }
@@ -484,12 +502,13 @@
 	        var previousKey = this._getPreviousActiveKey();
 	        this.handleTabClick(previousKey);
 	        break;
+	      default:
 	    }
 	  },
 	
-	  render:function() {
+	  render: function render() {
 	    var props = this.props;
-	    var effect = this.props.effect;
+	    var animation = this.props.animation;
 	    var prefixCls = props.prefixCls;
 	    var cls = prefixCls;
 	    var tabMovingDirection = this.state.tabMovingDirection;
@@ -497,25 +516,16 @@
 	      cls += ' ' + props.className;
 	    }
 	    var tabPanes = this._getTabPanes();
-	    if (effect) {
-	      tabPanes = React.createElement(CSSTransitionGroup, {showProp: "active", 
-	        exclusive: true, 
-	        transitionName: prefixClsFn(prefixCls, 'effect-' + (tabMovingDirection || 'left'))}, 
-	      tabPanes
-	      );
+	    if (animation) {
+	      tabPanes = React.createElement(CSSTransitionGroup, { showProp: 'active',
+	        exclusive: true,
+	        transitionName: prefixClsFn(prefixCls, animation + '-' + (tabMovingDirection || 'backward')) }, tabPanes);
 	    }
-	    return (
-	      React.createElement("div", {className: cls, tabIndex: "0", onKeyDown: this.handleKeyDown}, 
-	        React.createElement(Nav, {prefixCls: prefixCls, 
-	          handleTabClick: this.handleTabClick, 
-	          tabMovingDirection: tabMovingDirection, 
-	          panels: this.props.children, 
-	          activeKey: this.state.activeKey}), 
-	        React.createElement("div", {className: prefixClsFn(prefixCls, 'content')}, 
-	          tabPanes
-	        )
-	      )
-	    );
+	    return React.createElement('div', { className: cls, tabIndex: '0', onKeyDown: this.handleKeyDown }, React.createElement(Nav, { prefixCls: prefixCls,
+	      handleTabClick: this.handleTabClick,
+	      tabMovingDirection: tabMovingDirection,
+	      panels: this.props.children,
+	      activeKey: this.state.activeKey }), React.createElement('div', { className: prefixClsFn(prefixCls, 'content') }, tabPanes));
 	  }
 	});
 	
@@ -529,41 +539,31 @@
 	
 	module.exports = Tabs;
 
-
 /***/ },
-/* 12 */
+/* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = function() {
-		var list = [];
-		list.toString = function toString() {
-			var result = [];
-			for(var i = 0; i < this.length; i++) {
-				var item = this[i];
-				if(item[2]) {
-					result.push("@media " + item[2] + "{" + item[1] + "}");
-				} else {
-					result.push(item[1]);
-				}
-			}
-			return result.join("");
-		};
-		return list;
-	}
-
-/***/ },
-/* 13 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/** @jsx React.DOM */
+	'use strict';
 	
-	var React = __webpack_require__(5);
-	var prefixClsFn = __webpack_require__(16).prefixClsFn;
+	var _extends = Object.assign || function (target) {
+	  for (var i = 1; i < arguments.length; i++) {
+	    var source = arguments[i];for (var key in source) {
+	      if (Object.prototype.hasOwnProperty.call(source, key)) {
+	        target[key] = source[key];
+	      }
+	    }
+	  }return target;
+	};
 	
-	var Nav = React.createClass({displayName: "Nav",
-	  mixins: [__webpack_require__(18)],
+	var React = __webpack_require__(6);
+	var prefixClsFn = __webpack_require__(10).prefixClsFn;
 	
-	  getInitialState:function() {
+	var Nav = React.createClass({
+	  displayName: 'Nav',
+	
+	  mixins: [__webpack_require__(11)],
+	
+	  getInitialState: function getInitialState() {
 	    return {
 	      next: false,
 	      offset: 0,
@@ -571,14 +571,16 @@
 	    };
 	  },
 	
-	  _getTabs:function() {
+	  _getTabs: function _getTabs() {
+	    var _this = this;
+	
 	    var props = this.props;
 	    var children = props.panels;
 	    var activeKey = props.activeKey;
 	    var rst = [];
 	    var prefixCls = props.prefixCls;
 	
-	    React.Children.forEach(children, function(child) {
+	    React.Children.forEach(children, function (child) {
 	      var key = child.key;
 	      var cls = activeKey === key ? prefixClsFn(prefixCls, 'tab-active') : '';
 	      cls += ' ' + prefixClsFn(prefixCls, 'tab');
@@ -587,27 +589,25 @@
 	        cls += ' ' + prefixClsFn(prefixCls, 'tab-disabled');
 	      } else {
 	        events = {
-	          onClick: this.handleTabClick.bind(this, key)
+	          onClick: _this.handleTabClick.bind(_this, key)
 	        };
 	      }
-	      rst.push(React.createElement("div", React.__spread({},  events, {className: cls, key: key, 
-	        ref: ("tab" + key), "data-active": activeKey === key}), 
-	        React.createElement("a", null, child.props.tab)
-	      ));
-	    }.bind(this));
+	      rst.push(React.createElement('div', _extends({}, events, { className: cls, key: key,
+	        ref: 'tab' + key, 'data-active': activeKey === key }), React.createElement('a', null, child.props.tab)));
+	    });
 	
 	    return rst;
 	  },
 	
-	  handleTabClick:function(key) {
+	  handleTabClick: function handleTabClick(key) {
 	    this.props.handleTabClick(key);
 	  },
 	
-	  componentDidMount:function() {
+	  componentDidMount: function componentDidMount() {
 	    this.componentDidUpdate();
 	  },
 	
-	  componentDidUpdate:function() {
+	  componentDidUpdate: function componentDidUpdate() {
 	    var navNode = React.findDOMNode(this.refs.nav);
 	    var navNodeWidth = navNode.offsetWidth;
 	    var navWrapNode = React.findDOMNode(this.refs.navWrap);
@@ -638,23 +638,21 @@
 	          prev: true
 	        });
 	      }
-	    } else {
-	      if (state.prev) {
-	        this.setState({
-	          prev: false
-	        });
-	      }
+	    } else if (state.prev) {
+	      this.setState({
+	        prev: false
+	      });
 	    }
 	  },
 	
-	  setOffset:function(offset) {
+	  setOffset: function setOffset(offset) {
 	    offset = Math.min(0, offset);
 	    this.setState({
 	      offset: offset
 	    });
 	  },
 	
-	  prev:function() {
+	  prev: function prev() {
 	    var navWrapNode = React.findDOMNode(this.refs.navWrap);
 	    var navWrapNodeWidth = navWrapNode.offsetWidth;
 	    var state = this.state;
@@ -662,7 +660,7 @@
 	    this.setOffset(offset + navWrapNodeWidth);
 	  },
 	
-	  next:function() {
+	  next: function next() {
 	    var navWrapNode = React.findDOMNode(this.refs.navWrap);
 	    var navWrapNodeWidth = navWrapNode.offsetWidth;
 	    var state = this.state;
@@ -670,7 +668,7 @@
 	    this.setOffset(offset - navWrapNodeWidth);
 	  },
 	
-	  render:function() {
+	  render: function render() {
 	    var props = this.props;
 	    var state = this.state;
 	    var prefixCls = props.prefixCls;
@@ -683,106 +681,34 @@
 	    var nextButton, prevButton;
 	
 	    if (state.prev) {
-	      prevButton = React.createElement("span", {
-	        onClick: this.prev, 
-	        unselectable: "unselectable", 
-	        className: prefixClsFn(prefixCls, "tab-prev")}, 
-	        React.createElement("span", {className: prefixClsFn(prefixCls, "tab-prev-icon")})
-	      );
+	      prevButton = React.createElement('span', {
+	        onClick: this.prev,
+	        unselectable: 'unselectable',
+	        className: prefixClsFn(prefixCls, 'tab-prev') }, React.createElement('span', { className: prefixClsFn(prefixCls, 'tab-prev-icon') }));
 	    }
 	
 	    if (state.next) {
-	      nextButton = React.createElement("span", {
-	        onClick: this.next, 
-	        unselectable: "unselectable", 
-	        className: prefixClsFn(prefixCls, "tab-next")}, 
-	        React.createElement("span", {className: prefixClsFn(prefixCls, "tab-next-icon")})
-	      );
+	      nextButton = React.createElement('span', {
+	        onClick: this.next,
+	        unselectable: 'unselectable',
+	        className: prefixClsFn(prefixCls, 'tab-next') }, React.createElement('span', { className: prefixClsFn(prefixCls, 'tab-next-icon') }));
 	    }
 	
-	    return React.createElement("div", {className: prefixClsFn(prefixCls, 'nav-container'), ref: "container"}, 
-	    prevButton, 
-	    nextButton, 
-	      React.createElement("div", {className: prefixClsFn(prefixCls, 'nav-wrap'), ref: "navWrap"}, 
-	        React.createElement("div", {className: prefixClsFn(prefixCls, 'nav-scroll')}, 
-	          React.createElement("div", {className: prefixClsFn(prefixCls, 'nav'), ref: "nav", style: {left: state.offset}}, 
-	            React.createElement("div", {className: inkBarClass, ref: "inkBar"}), 
-	          tabs
-	          )
-	        )
-	      )
-	    );
+	    return React.createElement('div', { className: prefixClsFn(prefixCls, 'nav-container'), ref: 'container' }, prevButton, nextButton, React.createElement('div', { className: prefixClsFn(prefixCls, 'nav-wrap'), ref: 'navWrap' }, React.createElement('div', { className: prefixClsFn(prefixCls, 'nav-scroll') }, React.createElement('div', { className: prefixClsFn(prefixCls, 'nav'), ref: 'nav', style: { left: state.offset } }, React.createElement('div', { className: inkBarClass, ref: 'inkBar' }), tabs))));
 	  }
 	});
 	
 	module.exports = Nav;
 
-
 /***/ },
-/* 14 */
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var KeyCode = {
-	  /**
-	   * LEFT
-	   */
-	  LEFT: 37, // also NUM_WEST
-	  /**
-	   * UP
-	   */
-	  UP: 38, // also NUM_NORTH
-	  /**
-	   * RIGHT
-	   */
-	  RIGHT: 39, // also NUM_EAST
-	  /**
-	   * DOWN
-	   */
-	  DOWN: 40 // also NUM_SOUTH
-	};
+	'use strict';
 	
-	module.exports = KeyCode;
-
-
-/***/ },
-/* 15 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/** @jsx React.DOM */
-	
-	var React = __webpack_require__(5);
-	var prefixClsFn = __webpack_require__(16).prefixClsFn;
-	
-	var ____Class3=React.Component;for(var ____Class3____Key in ____Class3){if(____Class3.hasOwnProperty(____Class3____Key)){TabPane[____Class3____Key]=____Class3[____Class3____Key];}}var ____SuperProtoOf____Class3=____Class3===null?null:____Class3.prototype;TabPane.prototype=Object.create(____SuperProtoOf____Class3);TabPane.prototype.constructor=TabPane;TabPane.__superConstructor__=____Class3;function TabPane(){"use strict";if(____Class3!==null){____Class3.apply(this,arguments);}}
-	  Object.defineProperty(TabPane.prototype,"render",{writable:true,configurable:true,value:function() {"use strict";
-	    var props = this.props;
-	    var prefixCls = props.rootPrefixCls + '-tabpane';
-	    var cls = props.active ? '' : prefixClsFn(prefixCls, 'hidden');
-	    cls += ' ' + prefixCls;
-	    return (
-	      React.createElement("div", {className: cls}, 
-	        this.props.children
-	      )
-	    );
-	  }});
-	
-	  Object.defineProperty(TabPane.prototype,"componentWillUnmount",{writable:true,configurable:true,value:function() {"use strict";
-	    if (this.props.onDestroy) {
-	      this.props.onDestroy();
-	    }
-	  }});
-	
-	
-	module.exports = TabPane;
-
-
-/***/ },
-/* 16 */
-/***/ function(module, exports, __webpack_require__) {
-
 	function prefixClsFn(prefixCls) {
 	  var args = Array.prototype.slice.call(arguments, 1);
-	  return args.map(function(s) {
+	  return args.map(function (s) {
 	    return prefixCls + '-' + s;
 	  }).join(' ');
 	}
@@ -826,22 +752,16 @@
 	  offset: offset
 	};
 
-
 /***/ },
-/* 17 */
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(19);
-
-
-/***/ },
-/* 18 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var offset = __webpack_require__(16).offset;
-	var React = __webpack_require__(5);
+	'use strict';
 	
-	function componentDidUpdate(component) {
+	var offset = __webpack_require__(10).offset;
+	var React = __webpack_require__(6);
+	
+	function _componentDidUpdate(component) {
 	  var refs = component.refs;
 	  var containerNode = React.findDOMNode(refs.nav);
 	  var containerOffset = offset(containerNode);
@@ -856,7 +776,7 @@
 	        var tabOffset = offset(tabNode);
 	        var left = tabOffset.left - containerOffset.left;
 	        inkBarNode.style.left = left + 'px';
-	        inkBarNode.style.right = (containerNode.offsetWidth - left - tabNode.offsetWidth) + 'px';
+	        inkBarNode.style.right = containerNode.offsetWidth - left - tabNode.offsetWidth + 'px';
 	      }
 	    }
 	  }
@@ -864,27 +784,128 @@
 	}
 	
 	module.exports = {
-	  componentDidUpdate:function() {
-	    componentDidUpdate(this);
+	  componentDidUpdate: function componentDidUpdate() {
+	    _componentDidUpdate(this);
 	  },
 	
-	  componentDidMount:function() {
-	    componentDidUpdate(this);
+	  componentDidMount: function componentDidMount() {
+	    _componentDidUpdate(this);
 	  }
 	};
 
-
 /***/ },
-/* 19 */
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/** @jsx React.DOM */
+	'use strict';
 	
-	var React = __webpack_require__(5);
-	var ReactTransitionChildMapping = __webpack_require__(20);
-	var CSSTransitionGroupChild = __webpack_require__(21);
+	var KeyCode = {
+	  /**
+	   * LEFT
+	   */
+	  LEFT: 37, // also NUM_WEST
+	  /**
+	   * UP
+	   */
+	  UP: 38, // also NUM_NORTH
+	  /**
+	   * RIGHT
+	   */
+	  RIGHT: 39, // also NUM_EAST
+	  /**
+	   * DOWN
+	   */
+	  DOWN: 40 // also NUM_SOUTH
+	};
 	
-	var CSSTransitionGroup = React.createClass({displayName: "CSSTransitionGroup",
+	module.exports = KeyCode;
+
+/***/ },
+/* 13 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var _createClass = (function () {
+	  function defineProperties(target, props) {
+	    for (var i = 0; i < props.length; i++) {
+	      var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ('value' in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);
+	    }
+	  }return function (Constructor, protoProps, staticProps) {
+	    if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;
+	  };
+	})();
+	
+	function _classCallCheck(instance, Constructor) {
+	  if (!(instance instanceof Constructor)) {
+	    throw new TypeError('Cannot call a class as a function');
+	  }
+	}
+	
+	function _inherits(subClass, superClass) {
+	  if (typeof superClass !== 'function' && superClass !== null) {
+	    throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass);
+	  }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) subClass.__proto__ = superClass;
+	}
+	
+	var React = __webpack_require__(6);
+	var prefixClsFn = __webpack_require__(10).prefixClsFn;
+	
+	var TabPane = (function (_React$Component) {
+	  function TabPane() {
+	    _classCallCheck(this, TabPane);
+	
+	    if (_React$Component != null) {
+	      _React$Component.apply(this, arguments);
+	    }
+	  }
+	
+	  _inherits(TabPane, _React$Component);
+	
+	  _createClass(TabPane, [{
+	    key: 'render',
+	    value: function render() {
+	      var props = this.props;
+	      var prefixCls = props.rootPrefixCls + '-tabpane';
+	      var cls = props.active ? '' : prefixClsFn(prefixCls, 'hidden');
+	      cls += ' ' + prefixCls;
+	      return React.createElement('div', { className: cls }, this.props.children);
+	    }
+	  }, {
+	    key: 'componentWillUnmount',
+	    value: function componentWillUnmount() {
+	      if (this.props.onDestroy) {
+	        this.props.onDestroy();
+	      }
+	    }
+	  }]);
+	
+	  return TabPane;
+	})(React.Component);
+	
+	module.exports = TabPane;
+
+/***/ },
+/* 14 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	module.exports = __webpack_require__(15);
+
+/***/ },
+/* 15 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var React = __webpack_require__(6);
+	var ReactTransitionChildMapping = __webpack_require__(16);
+	var CSSTransitionGroupChild = __webpack_require__(17);
+	
+	var CSSTransitionGroup = React.createClass({
+	  displayName: 'CSSTransitionGroup',
+	
 	  protoTypes: {
 	    component: React.PropTypes.any,
 	    transitionName: React.PropTypes.string.isRequired,
@@ -892,7 +913,7 @@
 	    transitionLeave: React.PropTypes.bool
 	  },
 	
-	  getDefaultProps:function() {
+	  getDefaultProps: function getDefaultProps() {
 	    return {
 	      component: 'span',
 	      transitionEnter: true,
@@ -900,9 +921,9 @@
 	    };
 	  },
 	
-	  getInitialState:function() {
+	  getInitialState: function getInitialState() {
 	    var ret = [];
-	    React.Children.forEach(this.props.children, function(c) {
+	    React.Children.forEach(this.props.children, function (c) {
 	      ret.push(c);
 	    });
 	    return {
@@ -910,31 +931,30 @@
 	    };
 	  },
 	
-	  componentWillMount:function() {
+	  componentWillMount: function componentWillMount() {
 	    this.currentlyTransitioningKeys = {};
 	    this.keysToEnter = [];
 	    this.keysToLeave = [];
 	  },
 	
-	  componentWillReceiveProps:function(nextProps) {
+	  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
+	    var _this = this;
+	
 	    var nextChildMapping = [];
 	    var showProp = this.props.showProp;
 	    var exclusive = this.props.exclusive;
 	
-	    React.Children.forEach(nextProps.children, function(c) {
+	    React.Children.forEach(nextProps.children, function (c) {
 	      nextChildMapping.push(c);
 	    });
 	
 	    // // last props children if exclusive
 	    var prevChildMapping = exclusive ? this.props.children : this.state.children;
 	
-	    var newChildren = ReactTransitionChildMapping.mergeChildMappings(
-	      prevChildMapping,
-	      nextChildMapping
-	    );
+	    var newChildren = ReactTransitionChildMapping.mergeChildMappings(prevChildMapping, nextChildMapping);
 	
 	    if (showProp) {
-	      newChildren = newChildren.map(function(c) {
+	      newChildren = newChildren.map(function (c) {
 	        if (!c.props[showProp] && ReactTransitionChildMapping.isShownInChildren(prevChildMapping, c, showProp)) {
 	          var newProps = {};
 	          newProps[showProp] = true;
@@ -947,79 +967,73 @@
 	    if (exclusive) {
 	      // make middle state children invalid
 	      // restore to last props children
-	      newChildren.forEach(function(c) {
-	        this.stop(c.key);
-	      }.bind(this));
+	      newChildren.forEach(function (c) {
+	        _this.stop(c.key);
+	      });
 	    }
 	
 	    this.setState({
 	      children: newChildren
 	    });
 	
-	    nextChildMapping.forEach(function(c) {
+	    nextChildMapping.forEach(function (c) {
 	      var key = c.key;
 	      var hasPrev = prevChildMapping && ReactTransitionChildMapping.inChildren(prevChildMapping, c);
 	      if (showProp) {
 	        if (hasPrev) {
 	          var showInPrev = ReactTransitionChildMapping.isShownInChildren(prevChildMapping, c, showProp);
 	          var showInNow = c.props[showProp];
-	          if (!showInPrev && showInNow && !this.currentlyTransitioningKeys[key]) {
-	            this.keysToEnter.push(key);
+	          if (!showInPrev && showInNow && !_this.currentlyTransitioningKeys[key]) {
+	            _this.keysToEnter.push(key);
 	          }
 	        }
-	      } else if (!hasPrev && !this.currentlyTransitioningKeys[key]) {
-	        this.keysToEnter.push(key);
+	      } else if (!hasPrev && !_this.currentlyTransitioningKeys[key]) {
+	        _this.keysToEnter.push(key);
 	      }
-	    }.bind(this));
+	    });
 	
-	    prevChildMapping.forEach(function(c) {
+	    prevChildMapping.forEach(function (c) {
 	      var key = c.key;
 	      var hasNext = nextChildMapping && ReactTransitionChildMapping.inChildren(nextChildMapping, c);
 	      if (showProp) {
 	        if (hasNext) {
 	          var showInNext = ReactTransitionChildMapping.isShownInChildren(nextChildMapping, c, showProp);
 	          var showInNow = c.props[showProp];
-	          if (!showInNext && showInNow && !this.currentlyTransitioningKeys[key]) {
-	            this.keysToLeave.push(key);
+	          if (!showInNext && showInNow && !_this.currentlyTransitioningKeys[key]) {
+	            _this.keysToLeave.push(key);
 	          }
 	        }
-	      } else if (!hasNext && !this.currentlyTransitioningKeys[key]) {
-	        this.keysToLeave.push(key);
+	      } else if (!hasNext && !_this.currentlyTransitioningKeys[key]) {
+	        _this.keysToLeave.push(key);
 	      }
-	    }.bind(this));
+	    });
 	  },
 	
-	  performEnter:function(key) {
+	  performEnter: function performEnter(key) {
 	    this.currentlyTransitioningKeys[key] = true;
 	    var component = this.refs[key];
 	    if (component.componentWillEnter) {
-	      component.componentWillEnter(
-	        this._handleDoneEntering.bind(this, key)
-	      );
+	      component.componentWillEnter(this._handleDoneEntering.bind(this, key));
 	    } else {
 	      this._handleDoneEntering(key);
 	    }
 	  },
 	
-	  _handleDoneEntering:function(key) {
+	  _handleDoneEntering: function _handleDoneEntering(key) {
 	    //console.log('_handleDoneEntering, ', key);
 	    delete this.currentlyTransitioningKeys[key];
 	    var currentChildMapping = this.props.children;
 	    var showProp = this.props.showProp;
-	    if (!currentChildMapping || (
-	      !showProp && !ReactTransitionChildMapping.inChildrenByKey(currentChildMapping, key)
-	      ) || (
-	      showProp && !ReactTransitionChildMapping.isShownInChildrenByKey(currentChildMapping, key, showProp)
-	      )) {
+	    if (!currentChildMapping || !showProp && !ReactTransitionChildMapping.inChildrenByKey(currentChildMapping, key) || showProp && !ReactTransitionChildMapping.isShownInChildrenByKey(currentChildMapping, key, showProp)) {
 	      // This was removed before it had fully entered. Remove it.
 	      //console.log('releave ',key);
 	      this.performLeave(key);
 	    } else {
-	      this.setState({children: currentChildMapping});
+	      this.setState({ children: currentChildMapping });
 	    }
 	  },
 	
-	  stop:function(key) {
+	  stop: function stop(key) {
 	    delete this.currentlyTransitioningKeys[key];
 	    var component = this.refs[key];
 	    if (component) {
@@ -1027,7 +1041,7 @@
 	    }
 	  },
 	
-	  performLeave:function(key) {
+	  performLeave: function performLeave(key) {
 	    this.currentlyTransitioningKeys[key] = true;
 	
 	    var component = this.refs[key];
@@ -1041,24 +1055,23 @@
 	    }
 	  },
 	
-	  _handleDoneLeaving:function(key) {
+	  _handleDoneLeaving: function _handleDoneLeaving(key) {
 	    //console.log('_handleDoneLeaving, ', key);
 	    delete this.currentlyTransitioningKeys[key];
 	    var showProp = this.props.showProp;
 	    var currentChildMapping = this.props.children;
-	    if (showProp && currentChildMapping &&
-	      ReactTransitionChildMapping.isShownInChildrenByKey(currentChildMapping, key, showProp)) {
+	    if (showProp && currentChildMapping && ReactTransitionChildMapping.isShownInChildrenByKey(currentChildMapping, key, showProp)) {
 	      this.performEnter(key);
 	    } else if (!showProp && currentChildMapping && ReactTransitionChildMapping.inChildrenByKey(currentChildMapping, key)) {
 	      // This entered again before it fully left. Add it again.
 	      //console.log('reenter ',key);
 	      this.performEnter(key);
 	    } else {
-	      this.setState({children: currentChildMapping});
+	      this.setState({ children: currentChildMapping });
 	    }
 	  },
 	
-	  componentDidUpdate:function() {
+	  componentDidUpdate: function componentDidUpdate() {
 	    var keysToEnter = this.keysToEnter;
 	    this.keysToEnter = [];
 	    keysToEnter.forEach(this.performEnter);
@@ -1067,27 +1080,36 @@
 	    keysToLeave.forEach(this.performLeave);
 	  },
 	
-	  render:function() {
+	  render: function render() {
 	    var props = this.props;
-	    var children = this.state.children.map(function(child)  {
-	      return React.createElement(CSSTransitionGroupChild, {
-	        key: child.key, 
-	        ref: child.key, 
-	        name: props.transitionName, 
-	        enter: props.transitionEnter, 
-	        leave: props.transitionLeave}, child);
+	    var children = this.state.children.map(function (child) {
+	      return React.createElement(
+	        CSSTransitionGroupChild,
+	        {
+	          key: child.key,
+	          ref: child.key,
+	          name: props.transitionName,
+	          enter: props.transitionEnter,
+	          leave: props.transitionLeave },
+	        child
+	      );
 	    });
 	    var Component = this.props.component;
-	    return React.createElement(Component, React.__spread({},  this.props), children);
+	    return React.createElement(
+	      Component,
+	      this.props,
+	      children
+	    );
 	  }
 	});
 	module.exports = CSSTransitionGroup;
 
-
 /***/ },
-/* 20 */
+/* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+	
 	function inChildren(children, child) {
 	  var found = 0;
 	  children.forEach(function (c) {
@@ -1102,18 +1124,18 @@
 	module.exports = {
 	  inChildren: inChildren,
 	
-	  isShownInChildren:function(children, child, showProp) {
+	  isShownInChildren: function isShownInChildren(children, child, showProp) {
 	    var found = 0;
 	    children.forEach(function (c) {
 	      if (found) {
 	        return;
 	      }
-	      found = (c.key === child.key && c.props[showProp]);
+	      found = c.key === child.key && c.props[showProp];
 	    });
 	    return found;
 	  },
 	
-	  inChildrenByKey:function(children, key) {
+	  inChildrenByKey: function inChildrenByKey(children, key) {
 	    var found = 0;
 	    children.forEach(function (c) {
 	      if (found) {
@@ -1124,7 +1146,7 @@
 	    return found;
 	  },
 	
-	  isShownInChildrenByKey:function(children, key, showProp) {
+	  isShownInChildrenByKey: function isShownInChildrenByKey(children, key, showProp) {
 	    var found = 0;
 	    children.forEach(function (c) {
 	      if (found) {
@@ -1135,7 +1157,7 @@
 	    return found;
 	  },
 	
-	  mergeChildMappings:function(prev, next) {
+	  mergeChildMappings: function mergeChildMappings(prev, next) {
 	    var ret = [];
 	
 	    // For each key of `next`, the list of keys to insert before that key in
@@ -1166,9 +1188,8 @@
 	  }
 	};
 
-
 /***/ },
-/* 21 */
+/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -1183,17 +1204,21 @@
 	 * @providesModule ReactCSSTransitionGroupChild
 	 */
 	
-	"use strict";
+	'use strict';
 	
-	var React = __webpack_require__(5);
+	var React = __webpack_require__(6);
 	
-	var CSSCore = __webpack_require__(22);
-	var ReactTransitionEvents = __webpack_require__(23);
+	var CSSCore = __webpack_require__(18);
+	var ReactTransitionEvents = __webpack_require__(19);
 	
 	var TICK = 17;
 	
-	var ReactCSSTransitionGroupChild = React.createClass({displayName: "ReactCSSTransitionGroupChild",
-	  transition:function(animationType, finishCallback) {
+	var ReactCSSTransitionGroupChild = React.createClass({
+	  displayName: 'ReactCSSTransitionGroupChild',
+	
+	  transition: function transition(animationType, finishCallback) {
+	    var _this = this;
+	
 	    var node = this.getDOMNode();
 	    var className = this.props.name + '-' + animationType;
 	    var activeClassName = className + '-active';
@@ -1202,7 +1227,7 @@
 	      this.endListener();
 	    }
 	
-	    this.endListener = function(e)  {
+	    this.endListener = function (e) {
 	      if (e && e.target !== node) {
 	        return;
 	      }
@@ -1210,15 +1235,15 @@
 	      CSSCore.removeClass(node, className);
 	      CSSCore.removeClass(node, activeClassName);
 	
-	      ReactTransitionEvents.removeEndEventListener(node, this.endListener);
-	      this.endListener = null;
+	      ReactTransitionEvents.removeEndEventListener(node, _this.endListener);
+	      _this.endListener = null;
 	
 	      // Usually this optional callback is used for informing an owner of
 	      // a leave animation and telling it to remove the child.
 	      if (finishCallback) {
 	        finishCallback();
 	      }
-	    }.bind(this);
+	    };
 	
 	    ReactTransitionEvents.addEndEventListener(node, this.endListener);
 	
@@ -1228,7 +1253,7 @@
 	    this.queueClass(activeClassName);
 	  },
 	
-	  queueClass:function(className) {
+	  queueClass: function queueClass(className) {
 	    this.classNameQueue.push(className);
 	
 	    if (!this.timeout) {
@@ -1236,7 +1261,7 @@
 	    }
 	  },
 	
-	  stop:function() {
+	  stop: function stop() {
 	    //console.log('force stop')
 	    if (this.timeout) {
 	      clearTimeout(this.timeout);
@@ -1248,27 +1273,25 @@
 	    }
 	  },
 	
-	  flushClassNameQueue:function() {
+	  flushClassNameQueue: function flushClassNameQueue() {
 	    if (this.isMounted()) {
-	      this.classNameQueue.forEach(
-	        CSSCore.addClass.bind(CSSCore, this.getDOMNode())
-	      );
+	      this.classNameQueue.forEach(CSSCore.addClass.bind(CSSCore, this.getDOMNode()));
 	    }
 	    this.classNameQueue.length = 0;
 	    this.timeout = null;
 	  },
 	
-	  componentWillMount:function() {
+	  componentWillMount: function componentWillMount() {
 	    this.classNameQueue = [];
 	  },
 	
-	  componentWillUnmount:function() {
+	  componentWillUnmount: function componentWillUnmount() {
 	    if (this.timeout) {
 	      clearTimeout(this.timeout);
 	    }
 	  },
 	
-	  componentWillEnter:function(done) {
+	  componentWillEnter: function componentWillEnter(done) {
 	    if (this.props.enter) {
 	      this.transition('enter', done);
 	    } else {
@@ -1276,7 +1299,7 @@
 	    }
 	  },
 	
-	  componentWillLeave:function(done) {
+	  componentWillLeave: function componentWillLeave(done) {
 	    if (this.props.leave) {
 	      this.transition('leave', done);
 	    } else {
@@ -1284,31 +1307,32 @@
 	    }
 	  },
 	
-	  render:function() {
+	  render: function render() {
 	    return this.props.children;
 	  }
 	});
 	
 	module.exports = ReactCSSTransitionGroupChild;
 
-
 /***/ },
-/* 22 */
+/* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+	
 	var SPACE = ' ';
 	var RE_CLASS = /[\n\t\r]/g;
 	
-	var norm = function (elemClass) {
+	var norm = function norm(elemClass) {
 	  return (SPACE + elemClass + SPACE).replace(RE_CLASS, SPACE);
 	};
 	
 	module.exports = {
-	  addClass:function(elem, className) {
+	  addClass: function addClass(elem, className) {
 	    elem.className += ' ' + className;
 	  },
 	
-	  removeClass:function(elem, needle) {
+	  removeClass: function removeClass(elem, needle) {
 	    var elemClass = elem.className.trim();
 	    var className = norm(elemClass);
 	    needle = needle.trim();
@@ -1321,9 +1345,8 @@
 	  }
 	};
 
-
 /***/ },
-/* 23 */
+/* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -1337,7 +1360,7 @@
 	 * @providesModule ReactTransitionEvents
 	 */
 	
-	"use strict";
+	'use strict';
 	/**
 	 * EVENT_NAME_MAP is used to determine which event fired when a
 	 * transition/animation ends, based on the style property used to
@@ -1409,7 +1432,7 @@
 	}
 	
 	var ReactTransitionEvents = {
-	  addEndEventListener:function(node, eventListener) {
+	  addEndEventListener: function addEndEventListener(node, eventListener) {
 	    if (endEvents.length === 0) {
 	      // If CSS transitions are not supported, trigger an "end animation"
 	      // event immediately.
@@ -1423,7 +1446,7 @@
 	
 	  endEvents: endEvents,
 	
-	  removeEndEventListener:function(node, eventListener) {
+	  removeEndEventListener: function removeEndEventListener(node, eventListener) {
 	    if (endEvents.length === 0) {
 	      return;
 	    }
@@ -1434,7 +1457,6 @@
 	};
 	
 	module.exports = ReactTransitionEvents;
-
 
 /***/ }
 /******/ ]);
