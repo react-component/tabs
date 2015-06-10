@@ -85,10 +85,10 @@ React.render(
           <td>current active tabPanel's key</td>
       </tr>
       <tr>
-          <td>effect</td>
-          <td>Boolean</td>
+          <td>animation</td>
+          <td>String</td>
           <th></th>
-          <td>whether allow tabpane change effect(need css anim)</td>
+          <td>tabPane's animation. current only support slide-horizontal in assets/index.css</td>
       </tr>
       <tr>
           <td>defaultActiveKey</td>
@@ -152,7 +152,7 @@ npm start
 
 http://localhost:8000/examples
 
-online example: http://react-component.github.io/tabs/build/examples/
+online example: http://react-component.github.io/tabs/examples/
 
 ## Test Case
 

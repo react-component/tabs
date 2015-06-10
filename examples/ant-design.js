@@ -69,7 +69,7 @@ var Component = React.createClass({
       <h2>Simple Tabs</h2>
       <div style={{width: 500, margin: 20}}>
         <Tabs defaultActiveKey='3'
-          effect={true}
+          animation="slide-horizontal"
           onTabClick={this.onTabClick}
           onChange={this.onChange}>
         {ends2}
@@ -78,7 +78,7 @@ var Component = React.createClass({
       <h2>Scroll Tabs</h2>
       <div style={{width: 500, margin: 20}}>
         <Tabs defaultActiveKey='3'
-          effect={true}
+          animation="slide-horizontal"
           onTabClick={this.onTabClick}
           onChange={this.onChange}>
         {ends}

@@ -39,19 +39,19 @@ var Tabs = React.createClass({
         activeKey: activeKey
       });
     } else {
-      var left;
+      var backward;
       React.Children.forEach(this.props.children, (c) => {
-        if (left !== undefined) {
+        if (backward !== undefined) {
           return;
         }
         var key = c.key;
         if (currentActiveKey === key) {
-          left = false;
+          backward = false;
         } else if (activeKey === key) {
-          left = true;
+          backward = true;
         }
       });
-      var tabMovingDirection = left === true ? 'left' : (left === false ? 'right' : '');
+      var tabMovingDirection = backward === true ? 'backward' : (backward === false ? 'forward' : '');
       this.setState({
         activeKey: activeKey,
         tabMovingDirection: tabMovingDirection
@@ -173,7 +173,7 @@ var Tabs = React.createClass({
 
   render() {
     var props = this.props;
-    var effect = this.props.effect;
+    var animation = this.props.animation;
     var prefixCls = props.prefixCls;
     var cls = prefixCls;
     var tabMovingDirection = this.state.tabMovingDirection;
@@ -181,10 +181,10 @@ var Tabs = React.createClass({
       cls += ' ' + props.className;
     }
     var tabPanes = this._getTabPanes();
-    if (effect) {
+    if (animation) {
       tabPanes = <CSSTransitionGroup showProp="active"
         exclusive={true}
-        transitionName= {prefixClsFn(prefixCls, 'effect-' + (tabMovingDirection || 'left'))}>
+        transitionName= {prefixClsFn(prefixCls, animation + '-' + (tabMovingDirection || 'backward'))}>
       {tabPanes}
       </CSSTransitionGroup>;
     }

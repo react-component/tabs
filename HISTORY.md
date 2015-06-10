@@ -1,5 +1,8 @@
 # History
 ----
+## 5.1.0 / 2015-06-10
+
+change effect props to animation
 
 ## 5.0.0 / 2015-04-30
 
