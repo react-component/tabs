@@ -1,9 +1,9 @@
-webpackJsonp([1],{
+webpackJsonp([2],{
 
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(20);
+	module.exports = __webpack_require__(21);
 
 
 /***/ },
@@ -40,7 +40,7 @@ webpackJsonp([1],{
 
 /***/ },
 
-/***/ 20:
+/***/ 21:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -83,7 +83,7 @@ webpackJsonp([1],{
 	        return React.createElement(
 	          'p',
 	          { key: i },
-	          _this.props.id
+	          new Array(60).join(_this.props.id)
 	        );
 	      });
 	      return React.createElement(
@@ -102,6 +102,7 @@ webpackJsonp([1],{
 	
 	  getInitialState: function getInitialState() {
 	    return {
+	      tabPosition: 'top',
 	      start: 0
 	    };
 	  },
@@ -120,19 +121,55 @@ webpackJsonp([1],{
 	    });
 	  },
 	
+	  changeTabPosition: function changeTabPosition(e) {
+	    this.setState({
+	      tabPosition: e.target.value
+	    });
+	  },
+	
 	  render: function render() {
 	    var start = this.state.start;
 	    return React.createElement(
 	      'div',
-	      null,
+	      { style: { margin: 20 } },
 	      React.createElement(
 	        'h1',
 	        null,
-	        'Simple Tabs'
+	        'tabPosition'
+	      ),
+	      React.createElement(
+	        'p',
+	        null,
+	        'tabPosition:',
+	        React.createElement(
+	          'select',
+	          { value: this.state.tabPosition, onChange: this.changeTabPosition },
+	          React.createElement(
+	            'option',
+	            { value: 'top' },
+	            'top'
+	          ),
+	          React.createElement(
+	            'option',
+	            { value: 'bottom' },
+	            'bottom'
+	          ),
+	          React.createElement(
+	            'option',
+	            { value: 'left' },
+	            'left'
+	          ),
+	          React.createElement(
+	            'option',
+	            { value: 'right' },
+	            'right'
+	          )
+	        )
 	      ),
 	      React.createElement(
 	        Tabs,
 	        { defaultActiveKey: '2',
+	          tabPosition: this.state.tabPosition,
 	          onTabClick: this.onTabClick,
 	          onChange: this.onChange },
 	        React.createElement(
@@ -170,4 +207,4 @@ webpackJsonp([1],{
 /***/ }
 
 });
-//# sourceMappingURL=defaultActiveKey.js.map
+//# sourceMappingURL=tabPosition.js.map
