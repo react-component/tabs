@@ -1,5 +1,9 @@
 # History
 ----
+## 5.2.0 / 2015-07-06
+
+support tabPosition
+
 ## 5.1.0 / 2015-06-10
 
 change effect props to animation

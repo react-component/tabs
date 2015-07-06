@@ -1,0 +1,73 @@
+.@{prefixClass} {
+  &-left {
+    border-right: 2px solid #f3f3f3;
+  }
+
+  &-left &-nav-container {
+    float: left;
+    margin-right: 10px;
+    padding-top: 32px;
+    padding-bottom: 32px;
+    border-right: 1px solid #f3f3f3;
+  }
+
+  &-left &-nav-wrap {
+    height: 100%;
+  }
+
+  &-left  &-content {
+    height: 100%;
+  }
+
+  &-left &-nav-scroll {
+    height: 99999px;
+  }
+
+  &-left &-nav {
+    transition: top 0.5s @easing-in-out;
+  }
+
+  &-left &-tab-prev, &-left &-tab-next {
+    margin-top: -2px;
+    height: 32px;
+    width: 100%;
+    display: block;
+    text-align: center;
+  }
+
+  &-left &-tab-next {
+    bottom: 0;
+    transform: rotate(90deg);
+    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
+    &-icon:before {
+      content: "\e651";
+    }
+  }
+
+  &-left &-tab-prev {
+    top: 2px;
+    transform: rotate(270deg);
+    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+    &-icon:before {
+      content: "\e651";
+    }
+  }
+
+  &-left &-ink-bar {
+    width: 2px;
+    right: 0;
+
+    &-transition-forward {
+      transition: bottom 0.3s @easing-in-out,
+      top 0.3s @easing-in-out 0.3s * 0.3;
+    }
+    &-transition-backward {
+      transition: bottom 0.3s @easing-in-out 0.3s * 0.3,
+      top 0.3s @easing-in-out;
+    }
+  }
+
+  &-left &-nav &-tab {
+    padding: 16px 24px;
+  }
+}

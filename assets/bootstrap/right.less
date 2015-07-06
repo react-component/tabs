@@ -1,0 +1,23 @@
+.@{prefixClass} {
+  &-right &-nav-container {
+    border-left: 1px solid #ddd;
+    margin-left: 10px;
+    float: right;
+  }
+
+  &-right &-nav &-tab {
+    margin-left: -3px;
+    float: none;
+  }
+
+  &-right &-nav {
+    display: block;
+  }
+
+  &-right &-nav div&-tab-active > a,
+  &-right &-nav div&-tab-active > a:hover,
+  &-right &-nav div&-tab-active > a:focus {
+    border-left-color: transparent;
+    border-radius: 0 4px 4px 0;
+  }
+}

@@ -1,7 +1,10 @@
 'use strict';
 
 var React = require('react');
-var prefixClsFn = require('./utils').prefixClsFn;
+var cx = require('./utils').cx;
+
+function noop() {
+}
 
 var Nav = React.createClass({
   mixins: [require('./InkBarMixin')],
@@ -23,18 +26,24 @@ var Nav = React.createClass({
 
     React.Children.forEach(children, (child)=> {
       var key = child.key;
-      var cls = activeKey === key ? prefixClsFn(prefixCls, 'tab-active') : '';
-      cls += ' ' + prefixClsFn(prefixCls, 'tab');
+      var cls = activeKey === key ? `${prefixCls}-tab-active` : '';
+      cls += ` ${prefixCls}-tab`;
       var events = {};
       if (child.props.disabled) {
-        cls += ' ' + prefixClsFn(prefixCls, 'tab-disabled');
+        cls += ` ${prefixCls}-tab-disabled`;
       } else {
         events = {
           onClick: this.handleTabClick.bind(this, key)
         };
       }
-      rst.push(<div {...events} className={cls} key={key}
-        ref={`tab${key}`} data-active={activeKey === key}>
+      var ref = {};
+      if (activeKey === key) {
+        ref.ref = 'activeTab';
+      }
+      rst.push(<div {...events}
+        className={cls}
+        key={key}
+      {...ref}>
         <a>{child.props.tab}</a>
       </div>);
     });
@@ -50,21 +59,25 @@ var Nav = React.createClass({
     this.componentDidUpdate();
   },
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
+    if (prevProps && prevProps.tabPosition !== this.props.tabPosition) {
+      this.setOffset(0);
+      return;
+    }
     var navNode = React.findDOMNode(this.refs.nav);
-    var navNodeWidth = navNode.offsetWidth;
+    var navNodeWH = this.getOffsetWH(navNode);
     var navWrapNode = React.findDOMNode(this.refs.navWrap);
-    var navWrapNodeWidth = navWrapNode.offsetWidth;
+    var navWrapNodeWH = this.getOffsetWH(navWrapNode);
     var state = this.state;
     var offset = state.offset;
-    if (navWrapNodeWidth - offset < navNodeWidth) {
+    if (navWrapNodeWH - offset < navNodeWH) {
       if (!state.next) {
         this.setState({
           next: true
         });
       }
     } else {
-      var minOffset = navWrapNodeWidth - navNodeWidth;
+      var minOffset = navWrapNodeWH - navNodeWH;
       if (minOffset < 0 && minOffset > offset) {
         if (state.next) {
           this.setState({
@@ -95,20 +108,29 @@ var Nav = React.createClass({
     });
   },
 
+  getOffsetWH(node) {
+    var tabPosition = this.props.tabPosition;
+    var prop = 'offsetWidth';
+    if (tabPosition === 'left' || tabPosition === 'right') {
+      prop = 'offsetHeight';
+    }
+    return node[prop];
+  },
+
   prev() {
     var navWrapNode = React.findDOMNode(this.refs.navWrap);
-    var navWrapNodeWidth = navWrapNode.offsetWidth;
+    var navWrapNodeWH = this.getOffsetWH(navWrapNode);
     var state = this.state;
     var offset = state.offset;
-    this.setOffset(offset + navWrapNodeWidth);
+    this.setOffset(offset + navWrapNodeWH);
   },
 
   next() {
     var navWrapNode = React.findDOMNode(this.refs.navWrap);
-    var navWrapNodeWidth = navWrapNode.offsetWidth;
+    var navWrapNodeWH = this.getOffsetWH(navWrapNode);
     var state = this.state;
     var offset = state.offset;
-    this.setOffset(offset - navWrapNodeWidth);
+    this.setOffset(offset - navWrapNodeWH);
   },
 
   render() {
@@ -117,36 +139,56 @@ var Nav = React.createClass({
     var prefixCls = props.prefixCls;
     var tabs = this._getTabs();
     var tabMovingDirection = props.tabMovingDirection;
-    var inkBarClass = prefixClsFn(prefixCls, 'ink-bar');
+    var tabPosition = props.tabPosition;
+    var inkBarClass = `${prefixCls}-ink-bar`;
     if (tabMovingDirection) {
-      inkBarClass += ' ' + prefixClsFn(prefixCls, 'ink-bar-transition-' + tabMovingDirection);
+      inkBarClass += ` ${prefixCls}-ink-bar-transition-${tabMovingDirection}`;
     }
     var nextButton, prevButton;
 
-    if (state.prev) {
+    var showNextPrev = state.prev || state.next;
+
+    if (showNextPrev) {
       prevButton = <span
-        onClick={this.prev}
+        onClick={state.prev ? this.prev : noop}
         unselectable="unselectable"
-        className={prefixClsFn(prefixCls, 'tab-prev')}>
-        <span className={prefixClsFn(prefixCls, 'tab-prev-icon')}></span>
+        className={cx({
+          [`${prefixCls}-tab-prev`]: 1,
+          [`${prefixCls}-tab-btn-disabled`]: !state.prev
+        })}>
+        <span className={`${prefixCls}-tab-prev-icon`}></span>
       </span>;
-    }
 
-    if (state.next) {
       nextButton = <span
-        onClick={this.next}
+        onClick={state.next ? this.next : noop}
         unselectable="unselectable"
-        className={prefixClsFn(prefixCls, 'tab-next')}>
-        <span className={prefixClsFn(prefixCls, 'tab-next-icon')}></span>
+        className={cx({
+          [`${prefixCls}-tab-next`]: 1,
+          [`${prefixCls}-tab-btn-disabled`]: !state.next
+        })}>
+        <span className={`${prefixCls}-tab-next-icon`}></span>
       </span>;
     }
 
-    return <div className={prefixClsFn(prefixCls, 'nav-container')} ref="container">
+    var navOffset = {};
+    if (tabPosition === 'left' || tabPosition === 'right') {
+      navOffset = {
+        top: state.offset
+      };
+    } else {
+      navOffset = {
+        left: state.offset
+      };
+    }
+
+    return <div className={`${prefixCls}-nav-container`}
+      style={props.style}
+      ref="container">
     {prevButton}
     {nextButton}
-      <div className={prefixClsFn(prefixCls, 'nav-wrap')} ref="navWrap">
-        <div className={prefixClsFn(prefixCls, 'nav-scroll')}>
-          <div className={prefixClsFn(prefixCls, 'nav')} ref="nav" style={{left: state.offset}}>
+      <div className={`${prefixCls}-nav-wrap`} ref="navWrap">
+        <div className={`${prefixCls}-nav-scroll`}>
+          <div className={`${prefixCls}-nav`} ref="nav" style={navOffset}>
             <div className={inkBarClass} ref='inkBar'/>
           {tabs}
           </div>

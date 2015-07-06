@@ -1,0 +1,99 @@
+.@{prefixClass} {
+
+  &-slide-horizontal-backward-enter {
+    transform: translateX(-100%);
+
+  }
+
+  &-slide-horizontal-backward-enter&-slide-horizontal-backward-enter-active {
+    transform: translateX(0);
+    transition: transform @effect-duration @easing-in-out;
+  }
+
+  &-slide-horizontal-backward-leave {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    transform: translateX(0);
+  }
+
+  &-slide-horizontal-backward-leave&-slide-horizontal-backward-leave-active {
+    transform: translateX(100%);
+    transition: transform @effect-duration @easing-in-out;
+  }
+
+  &-slide-horizontal-forward-enter {
+    transform: translateX(100%);
+  }
+
+  &-slide-horizontal-forward-enter&-slide-horizontal-forward-enter-active {
+    transform: translateX(0);
+    transition: transform @effect-duration @easing-in-out;
+  }
+
+  &-slide-horizontal-forward-leave {
+    position: absolute;
+    transform: translateX(0);
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+  }
+
+  &-slide-horizontal-forward-leave&-slide-horizontal-forward-leave-active {
+    transform: translateX(-100%);
+    transition: transform @effect-duration @easing-in-out;
+  }
+
+  /*slide*/
+
+  &-slide-vertical-backward-enter {
+    transform: translateY(-100%);
+
+  }
+
+  &-slide-vertical-backward-enter&-slide-vertical-backward-enter-active {
+    transform: translateY(0);
+    transition: transform @effect-duration @easing-in-out;
+  }
+
+  &-slide-vertical-backward-leave {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    transform: translateY(0);
+  }
+
+  &-slide-vertical-backward-leave&-slide-vertical-backward-leave-active {
+    transform: translateY(100%);
+    transition: transform @effect-duration @easing-in-out;
+  }
+
+  &-slide-vertical-forward-enter {
+    transform: translateY(100%);
+  }
+
+  &-slide-vertical-forward-enter&-slide-vertical-forward-enter-active {
+    transform: translateY(0);
+    transition: transform @effect-duration @easing-in-out;
+  }
+
+  &-slide-vertical-forward-leave {
+    position: absolute;
+    transform: translateY(0);
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+  }
+
+  &-slide-vertical-forward-leave&-slide-vertical-forward-leave-active {
+    transform: translateY(-100%);
+    transition: transform @effect-duration @easing-in-out;
+  }
+
+}

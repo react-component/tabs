@@ -1,12 +1,5 @@
 'use strict';
 
-function prefixClsFn(prefixCls) {
-  var args = Array.prototype.slice.call(arguments, 1);
-  return args.map((s)=> {
-    return prefixCls + '-' + s;
-  }).join(' ');
-}
-
 function getScroll(w, top) {
   var ret = w['page' + (top ? 'Y' : 'X') + 'Offset'];
   var method = 'scroll' + (top ? 'Top' : 'Left');
@@ -41,7 +34,15 @@ function offset(elem) {
 }
 
 module.exports = {
-  prefixClsFn: prefixClsFn,
   getScroll: getScroll,
-  offset: offset
+  offset: offset,
+  cx: function (v) {
+    var ret = [];
+    for (var k in v) {
+      if (v[k]) {
+        ret.push(k);
+      }
+    }
+    return ret.join(' ');
+  }
 };

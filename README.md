@@ -85,10 +85,29 @@ React.render(
           <td>current active tabPanel's key</td>
       </tr>
       <tr>
+          <td>tabPosition</td>
+          <td>String</td>
+          <th></th>
+          <td>tab nav 's position. one of ['left','right','top','bottom']</td>
+      </tr>
+      <tr>
           <td>animation</td>
           <td>String</td>
           <th></th>
           <td>tabPane's animation. current only support slide-horizontal in assets/index.css</td>
+      </tr>
+      <tr>
+          <td>transitionName</td>
+          <td>Object</td>
+          <th></th>
+          <td>specify backward and forward transitionName. such as
+          ```js
+          {
+            backward:'rc-tabs-slide-horizontal-backward',
+            forward:'rc-tabs-slide-horizontal-forward'
+          }
+          ```
+          </td>
       </tr>
       <tr>
           <td>defaultActiveKey</td>

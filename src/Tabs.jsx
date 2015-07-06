@@ -5,10 +5,9 @@ var KeyCode = require('./KeyCode');
 var TabPane = require('./TabPane');
 var Nav = require('./Nav');
 var CSSTransitionGroup = require('rc-css-transition-group');
+
 function noop() {
 }
-var utils = require('./utils');
-var prefixClsFn = utils.prefixClsFn;
 
 var Tabs = React.createClass({
   getInitialState() {
@@ -20,16 +19,26 @@ var Tabs = React.createClass({
       activeKey = props.defaultActiveKey;
     } else {
       React.Children.forEach(props.children, (child) => {
-        if (!activeKey) {
+        if (!activeKey && !child.props.disabled) {
           activeKey = child.key;
         }
       });
     }
-    //this.handleKeyDown = this.handleKeyDown.bind(this);
-    //this.handleTabDestroy = this.handleTabDestroy.bind(this);
     // cache panels
     this.renderPanels = {};
     return {activeKey};
+  },
+
+  getDefaultProps() {
+    return {
+      prefixCls: 'rc-tabs',
+      onChange: noop,
+      tabPosition: 'top',
+      style: {},
+      contentStyle: {},
+      navStyle: {},
+      onTabClick: noop
+    };
   },
 
   setActiveKey(activeKey) {
@@ -39,19 +48,11 @@ var Tabs = React.createClass({
         activeKey: activeKey
       });
     } else {
-      var backward;
-      React.Children.forEach(this.props.children, (c) => {
-        if (backward !== undefined) {
-          return;
-        }
-        var key = c.key;
-        if (currentActiveKey === key) {
-          backward = false;
-        } else if (activeKey === key) {
-          backward = true;
-        }
+      var keys = [];
+      React.Children.forEach(this.props.children, c=> {
+        keys.push(c.key);
       });
-      var tabMovingDirection = backward === true ? 'backward' : (backward === false ? 'forward' : '');
+      var tabMovingDirection = keys.indexOf(currentActiveKey) > keys.indexOf(activeKey) ? 'backward' : 'forward';
       this.setState({
         activeKey: activeKey,
         tabMovingDirection: tabMovingDirection
@@ -69,12 +70,16 @@ var Tabs = React.createClass({
     delete this.renderPanels[key];
   },
 
-  _getNextActiveKey() {
+  _getNextActiveKey(next) {
     var activeKey = this.state.activeKey;
     var children = [];
     React.Children.forEach(this.props.children, (c) => {
       if (!c.props.disabled) {
-        children.push(c);
+        if (next) {
+          children.push(c);
+        } else {
+          children.unshift(c);
+        }
       }
     });
     var length = children.length;
@@ -91,31 +96,11 @@ var Tabs = React.createClass({
     return ret;
   },
 
-  _getPreviousActiveKey() {
-    var activeKey = this.state.activeKey;
-    var children = [];
-    React.Children.forEach(this.props.children, (c)=> {
-      if (!c.props.disabled) {
-        children.unshift(c);
-      }
-    });
-    var length = children.length;
-    var ret = length && children[length - 1].key;
-    children.forEach((child, i)=> {
-      if (child.key === activeKey) {
-        if (i === length - 1) {
-          ret = children[0].key;
-        } else {
-          ret = children[i + 1].key;
-        }
-      }
-    });
-    return ret;
-  },
-
   _getTabPanes() {
-    var activeKey = this.state.activeKey;
-    var children = this.props.children;
+    var state = this.state;
+    var props = this.props;
+    var activeKey = state.activeKey;
+    var children = props.children;
     var newChildren = [];
     var renderPanels = this.renderPanels;
 
@@ -127,14 +112,24 @@ var Tabs = React.createClass({
         renderPanels[key] = React.cloneElement(child, {
           active: active,
           onDestroy: this.handleTabDestroy.bind(this, key),
-          rootPrefixCls: this.props.prefixCls
+          //eventKey: key,
+          rootPrefixCls: props.prefixCls
         });
         newChildren.push(renderPanels[key]);
       } else {
+        // do not change owner ...
+        // or else will destroy and reinit
+        //newChildren.push(<TabPane active={false}
+        //  key={key}
+        //  eventKey={key}
+        //  rootPrefixCls={this.props.prefixCls}></TabPane>);
+        // return
         // lazy load
-        newChildren.push(<TabPane active={false}
-          key={key}
-          rootPrefixCls={this.props.prefixCls}></TabPane>);
+        newChildren.push(React.cloneElement(child, {
+          active: false,
+          //eventKey: key,
+          rootPrefixCls: props.prefixCls
+        }, []));
       }
     });
 
@@ -158,13 +153,13 @@ var Tabs = React.createClass({
       case KeyCode.RIGHT:
       case KeyCode.DOWN:
         e.preventDefault();
-        var nextKey = this._getNextActiveKey();
+        var nextKey = this._getNextActiveKey(true);
         this.handleTabClick(nextKey);
         break;
       case KeyCode.LEFT:
       case KeyCode.UP:
         e.preventDefault();
-        var previousKey = this._getPreviousActiveKey();
+        var previousKey = this._getNextActiveKey(false);
         this.handleTabClick(previousKey);
         break;
       default:
@@ -173,41 +168,55 @@ var Tabs = React.createClass({
 
   render() {
     var props = this.props;
-    var animation = this.props.animation;
     var prefixCls = props.prefixCls;
-    var cls = prefixCls;
+    var tabPosition = props.tabPosition;
+    var cls = `${prefixCls} ${prefixCls}-${tabPosition}`;
     var tabMovingDirection = this.state.tabMovingDirection;
     if (props.className) {
       cls += ' ' + props.className;
     }
+    var animation = this.props.animation;
     var tabPanes = this._getTabPanes();
-    if (animation) {
+    var transitionName;
+    transitionName = props.transitionName && props.transitionName[tabMovingDirection || 'backward'];
+    if (!transitionName && animation) {
+      transitionName = `${prefixCls}-${animation}-${tabMovingDirection || 'backward'}`;
+    }
+    if (transitionName) {
       tabPanes = <CSSTransitionGroup showProp="active"
         exclusive={true}
-        transitionName= {prefixClsFn(prefixCls, animation + '-' + (tabMovingDirection || 'backward'))}>
+        transitionName= {transitionName}>
       {tabPanes}
       </CSSTransitionGroup>;
     }
-    return (
-      <div className={cls} tabIndex="0" onKeyDown={this.handleKeyDown}>
-        <Nav prefixCls={prefixCls}
-          handleTabClick={this.handleTabClick}
-          tabMovingDirection={tabMovingDirection}
-          panels={this.props.children}
-          activeKey={this.state.activeKey}/>
-        <div className={prefixClsFn(prefixCls, 'content')}>
+    var contents = [
+      <Nav prefixCls={prefixCls}
+        key="nav"
+        tabPosition={tabPosition}
+        style={props.navStyle}
+        handleTabClick={this.handleTabClick}
+        tabMovingDirection={tabMovingDirection}
+        panels={this.props.children}
+        activeKey={this.state.activeKey}/>,
+      <div className={`${prefixCls}-content`}
+        style={props.contentStyle}
+        key="content">
           {tabPanes}
-        </div>
+      </div>
+    ];
+    if (tabPosition === 'bottom') {
+      contents.reverse();
+    }
+    return (
+      <div className={cls}
+        tabIndex="0"
+        style={props.style}
+        onKeyDown={this.handleKeyDown}>
+      {contents}
       </div>
     );
   }
 });
-
-Tabs.defaultProps = {
-  prefixCls: 'rc-tabs',
-  onChange: noop,
-  onTabClick: noop
-};
 
 Tabs.TabPane = TabPane;
 

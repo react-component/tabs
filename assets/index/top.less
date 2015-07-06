@@ -1,0 +1,72 @@
+.@{prefixClass} {
+  &-top {
+    border-bottom: 2px solid #f3f3f3;
+  }
+
+  &-top &-nav-container {
+    width: 100%;
+    padding-left: 32px;
+    padding-right: 32px;
+    border-bottom: 1px solid #f3f3f3;
+  }
+
+  &-top &-nav-scroll {
+    width: 99999px;
+  }
+
+  &-top &-nav-wrap {
+    width: 100%;
+  }
+
+  &-top  &-content {
+    width: 100%;
+  }
+
+  &-top &-nav {
+    transition: left 0.5s @easing-in-out;
+  }
+
+  &-top &-tab-next {
+    right: 2px;
+
+    &-icon:before {
+      content: "\e651";
+    }
+  }
+
+  &-top &-tab-prev {
+    left: 0;
+    transform: rotate(180deg);
+    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=2);
+    &-icon:before {
+      content: "\e651";
+    }
+  }
+
+  &-top &-tab-prev, &-top &-tab-next {
+    margin-right: -2px;
+    width: 32px;
+    height: 100%;
+  }
+
+  &-top &-ink-bar {
+    height: 2px;
+    bottom: 0;
+    left:0;
+
+    &-transition-forward {
+      transition: right 0.3s @easing-in-out,
+      left 0.3s @easing-in-out 0.3s * 0.3;
+    }
+    &-transition-backward {
+      transition: right 0.3s @easing-in-out 0.3s * 0.3,
+      left 0.3s @easing-in-out;
+    }
+  }
+
+  &-top &-nav &-tab {
+    float: left;
+    height: 100%;
+    margin-right: 30px;
+  }
+}

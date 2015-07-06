@@ -1,17 +1,16 @@
 'use strict';
 
 var React = require('react');
-var prefixClsFn = require('./utils').prefixClsFn;
 
 class TabPane extends React.Component {
   render() {
     var props = this.props;
-    var prefixCls = props.rootPrefixCls + '-tabpane';
-    var cls = props.active ? '' : prefixClsFn(prefixCls, 'hidden');
+    var prefixCls = `${props.rootPrefixCls}-tabpane`;
+    var cls = props.active ? '' : `${prefixCls}-hidden`;
     cls += ' ' + prefixCls;
     return (
       <div className={cls}>
-        {this.props.children}
+        {props.children}
       </div>
     );
   }
