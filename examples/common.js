@@ -76,7 +76,7 @@
 /******/ 			script.charset = 'utf-8';
 /******/ 			script.async = true;
 /******/
-/******/ 			script.src = __webpack_require__.p + "" + chunkId + "." + ({"0":"activeKey","1":"defaultActiveKey","2":"tabPosition","3":"ant-design"}[chunkId]||chunkId) + ".js";
+/******/ 			script.src = __webpack_require__.p + "" + chunkId + "." + ({"0":"activeKey","1":"ant-design","2":"defaultActiveKey","3":"tabPosition"}[chunkId]||chunkId) + ".js";
 /******/ 			head.appendChild(script);
 /******/ 		}
 /******/ 	};
@@ -97,7 +97,7 @@
 /* 2 */,
 /* 3 */,
 /* 4 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
 	module.exports = function() {
 		var list = [];
@@ -314,7 +314,7 @@
 
 /***/ },
 /* 6 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
 	module.exports = React;
 
@@ -505,7 +505,7 @@
 	    var props = this.props;
 	    var prefixCls = props.prefixCls;
 	    var tabPosition = props.tabPosition;
-	    var cls = '' + prefixCls + ' ' + prefixCls + '-' + tabPosition;
+	    var cls = prefixCls + ' ' + prefixCls + '-' + tabPosition;
 	    var tabMovingDirection = this.state.tabMovingDirection;
 	    if (props.className) {
 	      cls += ' ' + props.className;
@@ -515,7 +515,7 @@
 	    var transitionName;
 	    transitionName = props.transitionName && props.transitionName[tabMovingDirection || 'backward'];
 	    if (!transitionName && animation) {
-	      transitionName = '' + prefixCls + '-' + animation + '-' + (tabMovingDirection || 'backward');
+	      transitionName = prefixCls + '-' + animation + '-' + (tabMovingDirection || 'backward');
 	    }
 	    if (transitionName) {
 	      tabPanes = React.createElement(CSSTransitionGroup, { showProp: 'active',
@@ -529,7 +529,7 @@
 	      handleTabClick: this.handleTabClick,
 	      tabMovingDirection: tabMovingDirection,
 	      panels: this.props.children,
-	      activeKey: this.state.activeKey }), React.createElement('div', { className: '' + prefixCls + '-content',
+	      activeKey: this.state.activeKey }), React.createElement('div', { className: prefixCls + '-content',
 	      style: props.contentStyle,
 	      key: 'content' }, tabPanes)];
 	    if (tabPosition === 'bottom') {
@@ -548,7 +548,7 @@
 
 /***/ },
 /* 9 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
 	'use strict';
 	
@@ -589,6 +589,26 @@
 	  };
 	})();
 	
+	var _get = function get(_x, _x2, _x3) {
+	  var _again = true;_function: while (_again) {
+	    var object = _x,
+	        property = _x2,
+	        receiver = _x3;desc = parent = getter = undefined;_again = false;if (object === null) object = Function.prototype;var desc = Object.getOwnPropertyDescriptor(object, property);if (desc === undefined) {
+	      var parent = Object.getPrototypeOf(object);if (parent === null) {
+	        return undefined;
+	      } else {
+	        _x = parent;_x2 = property;_x3 = receiver;_again = true;continue _function;
+	      }
+	    } else if ('value' in desc) {
+	      return desc.value;
+	    } else {
+	      var getter = desc.get;if (getter === undefined) {
+	        return undefined;
+	      }return getter.call(receiver);
+	    }
+	  }
+	};
+	
 	function _classCallCheck(instance, Constructor) {
 	  if (!(instance instanceof Constructor)) {
 	    throw new TypeError('Cannot call a class as a function');
@@ -607,9 +627,7 @@
 	  function TabPane() {
 	    _classCallCheck(this, TabPane);
 	
-	    if (_React$Component != null) {
-	      _React$Component.apply(this, arguments);
-	    }
+	    _get(Object.getPrototypeOf(TabPane.prototype), 'constructor', this).apply(this, arguments);
 	  }
 	
 	  _inherits(TabPane, _React$Component);
@@ -618,8 +636,8 @@
 	    key: 'render',
 	    value: function render() {
 	      var props = this.props;
-	      var prefixCls = '' + props.rootPrefixCls + '-tabpane';
-	      var cls = props.active ? '' : '' + prefixCls + '-hidden';
+	      var prefixCls = props.rootPrefixCls + '-tabpane';
+	      var cls = props.active ? '' : prefixCls + '-hidden';
 	      cls += ' ' + prefixCls;
 	      return React.createElement('div', { className: cls }, props.children);
 	    }
@@ -654,7 +672,11 @@
 	};
 	
 	function _defineProperty(obj, key, value) {
-	  return Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });
+	  if (key in obj) {
+	    Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });
+	  } else {
+	    obj[key] = value;
+	  }return obj;
 	}
 	
 	var React = __webpack_require__(6);
@@ -686,7 +708,7 @@
 	
 	    React.Children.forEach(children, function (child) {
 	      var key = child.key;
-	      var cls = activeKey === key ? '' + prefixCls + '-tab-active' : '';
+	      var cls = activeKey === key ? prefixCls + '-tab-active' : '';
 	      cls += ' ' + prefixCls + '-tab';
 	      var events = {};
 	      if (child.props.disabled) {
@@ -798,7 +820,7 @@
 	    var tabs = this._getTabs();
 	    var tabMovingDirection = props.tabMovingDirection;
 	    var tabPosition = props.tabPosition;
-	    var inkBarClass = '' + prefixCls + '-ink-bar';
+	    var inkBarClass = prefixCls + '-ink-bar';
 	    if (tabMovingDirection) {
 	      inkBarClass += ' ' + prefixCls + '-ink-bar-transition-' + tabMovingDirection;
 	    }
@@ -812,12 +834,12 @@
 	      prevButton = React.createElement('span', {
 	        onClick: state.prev ? this.prev : noop,
 	        unselectable: 'unselectable',
-	        className: cx((_cx = {}, _defineProperty(_cx, '' + prefixCls + '-tab-prev', 1), _defineProperty(_cx, '' + prefixCls + '-tab-btn-disabled', !state.prev), _cx)) }, React.createElement('span', { className: '' + prefixCls + '-tab-prev-icon' }));
+	        className: cx((_cx = {}, _defineProperty(_cx, prefixCls + '-tab-prev', 1), _defineProperty(_cx, prefixCls + '-tab-btn-disabled', !state.prev), _cx)) }, React.createElement('span', { className: prefixCls + '-tab-prev-icon' }));
 	
 	      nextButton = React.createElement('span', {
 	        onClick: state.next ? this.next : noop,
 	        unselectable: 'unselectable',
-	        className: cx((_cx2 = {}, _defineProperty(_cx2, '' + prefixCls + '-tab-next', 1), _defineProperty(_cx2, '' + prefixCls + '-tab-btn-disabled', !state.next), _cx2)) }, React.createElement('span', { className: '' + prefixCls + '-tab-next-icon' }));
+	        className: cx((_cx2 = {}, _defineProperty(_cx2, prefixCls + '-tab-next', 1), _defineProperty(_cx2, prefixCls + '-tab-btn-disabled', !state.next), _cx2)) }, React.createElement('span', { className: prefixCls + '-tab-next-icon' }));
 	    }
 	
 	    var navOffset = {};
@@ -831,9 +853,9 @@
 	      };
 	    }
 	
-	    return React.createElement('div', { className: '' + prefixCls + '-nav-container',
+	    return React.createElement('div', { className: prefixCls + '-nav-container',
 	      style: props.style,
-	      ref: 'container' }, prevButton, nextButton, React.createElement('div', { className: '' + prefixCls + '-nav-wrap', ref: 'navWrap' }, React.createElement('div', { className: '' + prefixCls + '-nav-scroll' }, React.createElement('div', { className: '' + prefixCls + '-nav', ref: 'nav', style: navOffset }, React.createElement('div', { className: inkBarClass, ref: 'inkBar' }), tabs))));
+	      ref: 'container' }, prevButton, nextButton, React.createElement('div', { className: prefixCls + '-nav-wrap', ref: 'navWrap' }, React.createElement('div', { className: prefixCls + '-nav-scroll' }, React.createElement('div', { className: prefixCls + '-nav', ref: 'nav', style: navOffset }, React.createElement('div', { className: inkBarClass, ref: 'inkBar' }), tabs))));
 	  }
 	});
 	
@@ -841,7 +863,7 @@
 
 /***/ },
 /* 12 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
 	'use strict';
 	
@@ -1159,7 +1181,7 @@
 
 /***/ },
 /* 16 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
 	'use strict';
 	
@@ -1369,7 +1391,7 @@
 
 /***/ },
 /* 18 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
 	'use strict';
 	
@@ -1400,7 +1422,7 @@
 
 /***/ },
 /* 19 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
 	/**
 	 * Copyright 2013-2014, Facebook, Inc.
