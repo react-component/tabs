@@ -336,7 +336,7 @@
 	var KeyCode = __webpack_require__(9);
 	var TabPane = __webpack_require__(10);
 	var Nav = __webpack_require__(11);
-	var CSSTransitionGroup = __webpack_require__(14);
+	var Animate = __webpack_require__(14);
 	
 	function noop() {}
 	
@@ -518,7 +518,7 @@
 	      transitionName = prefixCls + '-' + animation + '-' + (tabMovingDirection || 'backward');
 	    }
 	    if (transitionName) {
-	      tabPanes = React.createElement(CSSTransitionGroup, { showProp: 'active',
+	      tabPanes = React.createElement(Animate, { showProp: 'active',
 	        exclusive: true,
 	        transitionName: transitionName }, tabPanes);
 	    }
@@ -964,6 +964,7 @@
 /* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
+	// export this package's api
 	'use strict';
 	
 	module.exports = __webpack_require__(15);
@@ -974,71 +975,83 @@
 
 	'use strict';
 	
-	var React = __webpack_require__(6);
-	var ReactTransitionChildMapping = __webpack_require__(16);
-	var CSSTransitionGroupChild = __webpack_require__(17);
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
 	
-	var CSSTransitionGroup = React.createClass({
-	  displayName: 'CSSTransitionGroup',
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	
+	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+	
+	var _react = __webpack_require__(6);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _ChildrenUtils = __webpack_require__(16);
+	
+	var _ChildrenUtils2 = _interopRequireDefault(_ChildrenUtils);
+	
+	var _AnimateChild = __webpack_require__(17);
+	
+	var _AnimateChild2 = _interopRequireDefault(_AnimateChild);
+	
+	var Animate = _react2['default'].createClass({
+	  displayName: 'Animate',
 	
 	  protoTypes: {
-	    component: React.PropTypes.any,
-	    transitionName: React.PropTypes.string.isRequired,
-	    transitionEnter: React.PropTypes.bool,
-	    transitionLeave: React.PropTypes.bool
+	    component: _react2['default'].PropTypes.any,
+	    animation: _react2['default'].PropTypes.object,
+	    transitionName: _react2['default'].PropTypes.string,
+	    transitionEnter: _react2['default'].PropTypes.bool,
+	    transitionLeave: _react2['default'].PropTypes.bool,
+	    onEnd: _react2['default'].PropTypes.func,
+	    showProp: _react2['default'].PropTypes.bool,
+	    animateMount: _react2['default'].PropTypes.bool
 	  },
 	
 	  getDefaultProps: function getDefaultProps() {
 	    return {
+	      animation: {},
 	      component: 'span',
 	      transitionEnter: true,
-	      transitionLeave: true
+	      transitionLeave: true,
+	      enter: true,
+	      animateMount: false,
+	      onEnd: function onEnd() {}
 	    };
 	  },
 	
 	  getInitialState: function getInitialState() {
-	    var ret = [];
-	    React.Children.forEach(this.props.children, function (c) {
-	      ret.push(c);
-	    });
-	    return {
-	      children: ret
-	    };
-	  },
-	
-	  componentWillMount: function componentWillMount() {
-	    this.currentlyTransitioningKeys = {};
+	    this.currentlyAnimatingKeys = {};
 	    this.keysToEnter = [];
 	    this.keysToLeave = [];
+	    return {
+	      children: (0, _ChildrenUtils.toArrayChildren)(this.props.children)
+	    };
 	  },
 	
 	  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
 	    var _this = this;
 	
-	    var nextChildMapping = [];
-	    var showProp = this.props.showProp;
-	    var exclusive = this.props.exclusive;
-	
-	    React.Children.forEach(nextProps.children, function (c) {
-	      nextChildMapping.push(c);
-	    });
-	
-	    // // last props children if exclusive
-	    var prevChildMapping = exclusive ? this.props.children : this.state.children;
-	
-	    var newChildren = ReactTransitionChildMapping.mergeChildMappings(prevChildMapping, nextChildMapping);
+	    var nextChildren = (0, _ChildrenUtils.toArrayChildren)(nextProps.children);
+	    var props = this.props;
+	    var showProp = props.showProp;
+	    var exclusive = props.exclusive;
+	    // last props children if exclusive
+	    // exclusive needs immediate response
+	    var currentChildren = exclusive ? (0, _ChildrenUtils.toArrayChildren)(props.children) : this.state.children;
+	    var newChildren = _ChildrenUtils2['default'].mergeChildren(currentChildren, nextChildren);
 	
 	    if (showProp) {
 	      newChildren = newChildren.map(function (c) {
-	        if (!c.props[showProp] && ReactTransitionChildMapping.isShownInChildren(prevChildMapping, c, showProp)) {
-	          var newProps = {};
-	          newProps[showProp] = true;
-	          c = React.cloneElement(c, newProps);
+	        if (!c.props[showProp] && (0, _ChildrenUtils.isShownInChildren)(currentChildren, c, showProp)) {
+	          c = _react2['default'].cloneElement(c, _defineProperty({}, showProp, true));
 	        }
 	        return c;
 	      });
 	    }
 	
+	    // exclusive needs immediate response
 	    if (exclusive) {
 	      // make middle state children invalid
 	      // restore to last props children
@@ -1051,98 +1064,111 @@
 	      children: newChildren
 	    });
 	
-	    nextChildMapping.forEach(function (c) {
+	    var currentlyAnimatingKeys = this.currentlyAnimatingKeys;
+	
+	    nextChildren.forEach(function (c) {
 	      var key = c.key;
-	      var hasPrev = prevChildMapping && ReactTransitionChildMapping.inChildren(prevChildMapping, c);
+	      if (currentlyAnimatingKeys[key]) {
+	        return;
+	      }
+	      var hasPrev = (0, _ChildrenUtils.inChildren)(currentChildren, c);
 	      if (showProp) {
 	        if (hasPrev) {
-	          var showInPrev = ReactTransitionChildMapping.isShownInChildren(prevChildMapping, c, showProp);
-	          var showInNow = c.props[showProp];
-	          if (!showInPrev && showInNow && !_this.currentlyTransitioningKeys[key]) {
+	          var showInNow = (0, _ChildrenUtils.isShownInChildren)(currentChildren, c, showProp);
+	          var showInNext = c.props[showProp];
+	          if (!showInNow && showInNext) {
 	            _this.keysToEnter.push(key);
 	          }
 	        }
-	      } else if (!hasPrev && !_this.currentlyTransitioningKeys[key]) {
+	      } else if (!hasPrev) {
 	        _this.keysToEnter.push(key);
 	      }
 	    });
 	
-	    prevChildMapping.forEach(function (c) {
+	    currentChildren.forEach(function (c) {
 	      var key = c.key;
-	      var hasNext = nextChildMapping && ReactTransitionChildMapping.inChildren(nextChildMapping, c);
+	      if (currentlyAnimatingKeys[key]) {
+	        return;
+	      }
+	      var hasNext = (0, _ChildrenUtils.inChildren)(nextChildren, c);
 	      if (showProp) {
 	        if (hasNext) {
-	          var showInNext = ReactTransitionChildMapping.isShownInChildren(nextChildMapping, c, showProp);
+	          var showInNext = (0, _ChildrenUtils.isShownInChildren)(nextChildren, c, showProp);
 	          var showInNow = c.props[showProp];
-	          if (!showInNext && showInNow && !_this.currentlyTransitioningKeys[key]) {
+	          if (!showInNext && showInNow) {
 	            _this.keysToLeave.push(key);
 	          }
 	        }
-	      } else if (!hasNext && !_this.currentlyTransitioningKeys[key]) {
+	      } else if (!hasNext) {
 	        _this.keysToLeave.push(key);
 	      }
 	    });
 	  },
 	
 	  performEnter: function performEnter(key) {
-	    this.currentlyTransitioningKeys[key] = true;
-	    var component = this.refs[key];
-	    if (component.componentWillEnter) {
-	      component.componentWillEnter(this._handleDoneEntering.bind(this, key));
-	    } else {
-	      this._handleDoneEntering(key);
-	    }
+	    this.currentlyAnimatingKeys[key] = true;
+	    this.refs[key].componentWillEnter(this._handleDoneEntering.bind(this, key));
 	  },
 	
 	  _handleDoneEntering: function _handleDoneEntering(key) {
-	    //console.log('_handleDoneEntering, ', key);
-	    delete this.currentlyTransitioningKeys[key];
-	    var currentChildMapping = this.props.children;
-	    var showProp = this.props.showProp;
-	    if (!currentChildMapping || !showProp && !ReactTransitionChildMapping.inChildrenByKey(currentChildMapping, key) || showProp && !ReactTransitionChildMapping.isShownInChildrenByKey(currentChildMapping, key, showProp)) {
-	      // This was removed before it had fully entered. Remove it.
-	      //console.log('releave ',key);
+	    delete this.currentlyAnimatingKeys[key];
+	    var currentChildren = (0, _ChildrenUtils.toArrayChildren)(this.props.children);
+	    if (!this.isValidChildByKey(currentChildren, key)) {
+	      // exclusive will not need this
 	      this.performLeave(key);
 	    } else {
-	      this.setState({ children: currentChildMapping });
+	      this.props.onEnd(key, true);
+	      if (this.isMounted()) {
+	        this.setState({
+	          children: currentChildren
+	        });
+	      }
+	    }
+	  },
+	
+	  performLeave: function performLeave(key) {
+	    this.currentlyAnimatingKeys[key] = true;
+	    this.refs[key].componentWillLeave(this._handleDoneLeaving.bind(this, key));
+	  },
+	
+	  isValidChildByKey: function isValidChildByKey(currentChildren, key) {
+	    var showProp = this.props.showProp;
+	    if (showProp) {
+	      return (0, _ChildrenUtils.isShownInChildrenByKey)(currentChildren, key, showProp);
+	    } else {
+	      return (0, _ChildrenUtils.inChildrenByKey)(currentChildren, key);
+	    }
+	  },
+	
+	  _handleDoneLeaving: function _handleDoneLeaving(key) {
+	    delete this.currentlyAnimatingKeys[key];
+	    var currentChildren = (0, _ChildrenUtils.toArrayChildren)(this.props.children);
+	    // in case state change is too fast
+	    if (this.isValidChildByKey(currentChildren, key)) {
+	      this.performEnter(key);
+	    } else {
+	      this.props.onEnd(key, false);
+	      if (this.isMounted()) {
+	        this.setState({
+	          children: currentChildren
+	        });
+	      }
 	    }
 	  },
 	
 	  stop: function stop(key) {
-	    delete this.currentlyTransitioningKeys[key];
+	    delete this.currentlyAnimatingKeys[key];
 	    var component = this.refs[key];
 	    if (component) {
 	      component.stop();
 	    }
 	  },
 	
-	  performLeave: function performLeave(key) {
-	    this.currentlyTransitioningKeys[key] = true;
-	
-	    var component = this.refs[key];
-	    if (component.componentWillLeave) {
-	      component.componentWillLeave(this._handleDoneLeaving.bind(this, key));
-	    } else {
-	      // Note that this is somewhat dangerous b/c it calls setState()
-	      // again, effectively mutating the component before all the work
-	      // is done.
-	      this._handleDoneLeaving(key);
-	    }
-	  },
-	
-	  _handleDoneLeaving: function _handleDoneLeaving(key) {
-	    //console.log('_handleDoneLeaving, ', key);
-	    delete this.currentlyTransitioningKeys[key];
-	    var showProp = this.props.showProp;
-	    var currentChildMapping = this.props.children;
-	    if (showProp && currentChildMapping && ReactTransitionChildMapping.isShownInChildrenByKey(currentChildMapping, key, showProp)) {
-	      this.performEnter(key);
-	    } else if (!showProp && currentChildMapping && ReactTransitionChildMapping.inChildrenByKey(currentChildMapping, key)) {
-	      // This entered again before it fully left. Add it again.
-	      //console.log('reenter ',key);
-	      this.performEnter(key);
-	    } else {
-	      this.setState({ children: currentChildMapping });
+	  componentDidMount: function componentDidMount() {
+	    if (this.props.animateMount) {
+	      this.state.children.map(function (c) {
+	        return c.key;
+	      }).forEach(this.performEnter);
 	    }
 	  },
 	
@@ -1158,32 +1184,49 @@
 	  render: function render() {
 	    var props = this.props;
 	    var children = this.state.children.map(function (child) {
-	      return React.createElement(
-	        CSSTransitionGroupChild,
+	      return _react2['default'].createElement(
+	        _AnimateChild2['default'],
 	        {
 	          key: child.key,
 	          ref: child.key,
-	          name: props.transitionName,
-	          enter: props.transitionEnter,
-	          leave: props.transitionLeave },
+	          animation: props.animation,
+	          transitionName: props.transitionName,
+	          transitionEnter: props.transitionEnter,
+	          transitionLeave: props.transitionLeave },
 	        child
 	      );
 	    });
-	    var Component = this.props.component;
-	    return React.createElement(
-	      Component,
-	      this.props,
-	      children
-	    );
+	    var Component = props.component;
+	    if (Component) {
+	      return _react2['default'].createElement(
+	        Component,
+	        this.props,
+	        children
+	      );
+	    } else {
+	      return children[0] || null;
+	    }
 	  }
 	});
-	module.exports = CSSTransitionGroup;
+	
+	exports['default'] = Animate;
+	module.exports = exports['default'];
 
 /***/ },
 /* 16 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
+	
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	
+	var _react = __webpack_require__(6);
+	
+	var _react2 = _interopRequireDefault(_react);
 	
 	function inChildren(children, child) {
 	  var found = 0;
@@ -1196,8 +1239,16 @@
 	  return found;
 	}
 	
-	module.exports = {
+	exports['default'] = {
 	  inChildren: inChildren,
+	
+	  toArrayChildren: function toArrayChildren(children) {
+	    var ret = [];
+	    _react2['default'].Children.forEach(children, function (c) {
+	      ret.push(c);
+	    });
+	    return ret;
+	  },
 	
 	  isShownInChildren: function isShownInChildren(children, child, showProp) {
 	    var found = 0;
@@ -1212,27 +1263,31 @@
 	
 	  inChildrenByKey: function inChildrenByKey(children, key) {
 	    var found = 0;
-	    children.forEach(function (c) {
-	      if (found) {
-	        return;
-	      }
-	      found = c.key === key;
-	    });
+	    if (children) {
+	      children.forEach(function (c) {
+	        if (found) {
+	          return;
+	        }
+	        found = c.key === key;
+	      });
+	    }
 	    return found;
 	  },
 	
 	  isShownInChildrenByKey: function isShownInChildrenByKey(children, key, showProp) {
 	    var found = 0;
-	    children.forEach(function (c) {
-	      if (found) {
-	        return;
-	      }
-	      found = c.key === key && c.props[showProp];
-	    });
+	    if (children) {
+	      children.forEach(function (c) {
+	        if (found) {
+	          return;
+	        }
+	        found = c.key === key && c.props[showProp];
+	      });
+	    }
 	    return found;
 	  },
 	
-	  mergeChildMappings: function mergeChildMappings(prev, next) {
+	  mergeChildren: function mergeChildren(prev, next) {
 	    var ret = [];
 	
 	    // For each key of `next`, the list of keys to insert before that key in
@@ -1262,112 +1317,63 @@
 	    return ret;
 	  }
 	};
+	module.exports = exports['default'];
 
 /***/ },
 /* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/**
-	 * Copyright 2013-2014, Facebook, Inc.
-	 * All rights reserved.
-	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
-	 *
-	 * @typechecks
-	 * @providesModule ReactCSSTransitionGroupChild
-	 */
-	
 	'use strict';
 	
-	var React = __webpack_require__(6);
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
 	
-	var CSSCore = __webpack_require__(18);
-	var ReactTransitionEvents = __webpack_require__(19);
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 	
-	var TICK = 17;
+	var _react = __webpack_require__(6);
 	
-	var ReactCSSTransitionGroupChild = React.createClass({
-	  displayName: 'ReactCSSTransitionGroupChild',
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _cssAnimation = __webpack_require__(18);
+	
+	var _cssAnimation2 = _interopRequireDefault(_cssAnimation);
+	
+	var AnimateChild = _react2['default'].createClass({
+	  displayName: 'AnimateChild',
 	
 	  transition: function transition(animationType, finishCallback) {
 	    var _this = this;
 	
-	    var node = this.getDOMNode();
-	    var className = this.props.name + '-' + animationType;
-	    var activeClassName = className + '-active';
-	
-	    if (this.endListener) {
-	      this.endListener();
-	    }
-	
-	    this.endListener = function (e) {
-	      if (e && e.target !== node) {
-	        return;
-	      }
-	
-	      CSSCore.removeClass(node, className);
-	      CSSCore.removeClass(node, activeClassName);
-	
-	      ReactTransitionEvents.removeEndEventListener(node, _this.endListener);
-	      _this.endListener = null;
-	
-	      // Usually this optional callback is used for informing an owner of
-	      // a leave animation and telling it to remove the child.
-	      if (finishCallback) {
-	        finishCallback();
-	      }
+	    var node = _react2['default'].findDOMNode(this);
+	    var props = this.props;
+	    var transitionName = props.transitionName;
+	    this.stop();
+	    var end = function end() {
+	      _this.stopper = null;
+	      finishCallback();
 	    };
-	
-	    ReactTransitionEvents.addEndEventListener(node, this.endListener);
-	
-	    CSSCore.addClass(node, className);
-	
-	    // Need to do this to actually trigger a transition.
-	    this.queueClass(activeClassName);
-	  },
-	
-	  queueClass: function queueClass(className) {
-	    this.classNameQueue.push(className);
-	
-	    if (!this.timeout) {
-	      this.timeout = setTimeout(this.flushClassNameQueue, TICK);
+	    if ((_cssAnimation.isCssAnimationSupported || !props.animation[animationType]) && transitionName && props.transitionEnter) {
+	      this.stopper = (0, _cssAnimation2['default'])(node, transitionName + '-' + animationType, end);
+	    } else {
+	      this.stopper = props.animation[animationType](node, end);
 	    }
 	  },
 	
 	  stop: function stop() {
-	    //console.log('force stop')
-	    if (this.timeout) {
-	      clearTimeout(this.timeout);
-	      this.classNameQueue.length = 0;
-	      this.timeout = null;
+	    if (this.stopper) {
+	      this.stopper.stop();
+	      this.stopper = null;
 	    }
-	    if (this.endListener) {
-	      this.endListener();
-	    }
-	  },
-	
-	  flushClassNameQueue: function flushClassNameQueue() {
-	    if (this.isMounted()) {
-	      this.classNameQueue.forEach(CSSCore.addClass.bind(CSSCore, this.getDOMNode()));
-	    }
-	    this.classNameQueue.length = 0;
-	    this.timeout = null;
-	  },
-	
-	  componentWillMount: function componentWillMount() {
-	    this.classNameQueue = [];
 	  },
 	
 	  componentWillUnmount: function componentWillUnmount() {
-	    if (this.timeout) {
-	      clearTimeout(this.timeout);
-	    }
+	    this.stop();
 	  },
 	
 	  componentWillEnter: function componentWillEnter(done) {
-	    if (this.props.enter) {
+	    var props = this.props;
+	    if (props.transitionEnter && props.transitionName || props.animation.enter) {
 	      this.transition('enter', done);
 	    } else {
 	      done();
@@ -1375,7 +1381,8 @@
 	  },
 	
 	  componentWillLeave: function componentWillLeave(done) {
-	    if (this.props.leave) {
+	    var props = this.props;
+	    if (props.transitionLeave && props.transitionName || props.animation.leave) {
 	      this.transition('leave', done);
 	    } else {
 	      done();
@@ -1387,10 +1394,197 @@
 	  }
 	});
 	
-	module.exports = ReactCSSTransitionGroupChild;
+	exports['default'] = AnimateChild;
+	module.exports = exports['default'];
 
 /***/ },
 /* 18 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var Event = __webpack_require__(19);
+	var Css = __webpack_require__(20);
+	
+	var cssAnimation = function cssAnimation(node, transitionName, callback) {
+	  var className = transitionName;
+	  var activeClassName = className + '-active';
+	
+	  if (node.rcEndListener) {
+	    node.rcEndListener();
+	  }
+	
+	  node.rcEndListener = function (e) {
+	    if (e && e.target !== node) {
+	      return;
+	    }
+	
+	    if (node.rcAnimTimeout) {
+	      clearTimeout(node.rcAnimTimeout);
+	      node.rcAnimTimeout = null;
+	    }
+	
+	    Css.removeClass(node, className);
+	    Css.removeClass(node, activeClassName);
+	
+	    Event.removeEndEventListener(node, node.rcEndListener);
+	    node.rcEndListener = null;
+	
+	    // Usually this optional callback is used for informing an owner of
+	    // a leave animation and telling it to remove the child.
+	    if (callback) {
+	      callback();
+	    }
+	  };
+	
+	  Event.addEndEventListener(node, node.rcEndListener);
+	
+	  Css.addClass(node, className);
+	
+	  node.rcAnimTimeout = setTimeout(function () {
+	    Css.addClass(node, activeClassName);
+	    node.rcAnimTimeout = null;
+	  }, 0);
+	};
+	
+	cssAnimation.style = function (node, style, callback) {
+	  if (node.rcEndListener) {
+	    node.rcEndListener();
+	  }
+	
+	  node.rcEndListener = function (e) {
+	    if (e && e.target !== node) {
+	      return;
+	    }
+	
+	    if (node.rcAnimTimeout) {
+	      clearTimeout(node.rcAnimTimeout);
+	      node.rcAnimTimeout = null;
+	    }
+	
+	    Event.removeEndEventListener(node, node.rcEndListener);
+	    node.rcEndListener = null;
+	
+	    // Usually this optional callback is used for informing an owner of
+	    // a leave animation and telling it to remove the child.
+	    if (callback) {
+	      callback();
+	    }
+	  };
+	
+	  Event.addEndEventListener(node, node.rcEndListener);
+	
+	  node.rcAnimTimeout = setTimeout(function () {
+	    for (var s in style) {
+	      node.style[s] = style[s];
+	    }
+	    node.rcAnimTimeout = null;
+	  }, 0);
+	};
+	
+	cssAnimation.setTransition = function (node, property, v) {
+	  property = property || '';
+	  ['Webkit', 'Moz', 'O',
+	  // ms is special .... !
+	  'ms'].forEach(function (prefix) {
+	    node.style[prefix + 'Transition' + property] = v;
+	  });
+	};
+	
+	cssAnimation.addClass = Css.addClass;
+	cssAnimation.removeClass = Css.removeClass;
+	
+	module.exports = cssAnimation;
+
+/***/ },
+/* 19 */
+/***/ function(module, exports) {
+
+	
+	'use strict';
+	
+	var EVENT_NAME_MAP = {
+	  transitionend: {
+	    transition: 'transitionend',
+	    WebkitTransition: 'webkitTransitionEnd',
+	    MozTransition: 'mozTransitionEnd',
+	    OTransition: 'oTransitionEnd',
+	    msTransition: 'MSTransitionEnd'
+	  },
+	
+	  animationend: {
+	    animation: 'animationend',
+	    WebkitAnimation: 'webkitAnimationEnd',
+	    MozAnimation: 'mozAnimationEnd',
+	    OAnimation: 'oAnimationEnd',
+	    msAnimation: 'MSAnimationEnd'
+	  }
+	};
+	
+	var endEvents = [];
+	
+	function detectEvents() {
+	  var testEl = document.createElement('div');
+	  var style = testEl.style;
+	
+	  if (!('AnimationEvent' in window)) {
+	    delete EVENT_NAME_MAP.animationend.animation;
+	  }
+	
+	  if (!('TransitionEvent' in window)) {
+	    delete EVENT_NAME_MAP.transitionend.transition;
+	  }
+	
+	  for (var baseEventName in EVENT_NAME_MAP) {
+	    var baseEvents = EVENT_NAME_MAP[baseEventName];
+	    for (var styleName in baseEvents) {
+	      if (styleName in style) {
+	        endEvents.push(baseEvents[styleName]);
+	        break;
+	      }
+	    }
+	  }
+	}
+	
+	if (typeof window !== 'undefined') {
+	  detectEvents();
+	}
+	
+	function addEventListener(node, eventName, eventListener) {
+	  node.addEventListener(eventName, eventListener, false);
+	}
+	
+	function removeEventListener(node, eventName, eventListener) {
+	  node.removeEventListener(eventName, eventListener, false);
+	}
+	
+	var TransitionEvents = {
+	  addEndEventListener: function addEndEventListener(node, eventListener) {
+	    if (endEvents.length === 0) {
+	      window.setTimeout(eventListener, 0);
+	      return;
+	    }
+	    endEvents.forEach(function (endEvent) {
+	      addEventListener(node, endEvent, eventListener);
+	    });
+	  },
+	
+	  endEvents: endEvents,
+	
+	  removeEndEventListener: function removeEndEventListener(node, eventListener) {
+	    if (endEvents.length === 0) {
+	      return;
+	    }
+	    endEvents.forEach(function (endEvent) {
+	      removeEventListener(node, endEvent, eventListener);
+	    });
+	  }
+	};
+	
+	module.exports = TransitionEvents;
+
+/***/ },
+/* 20 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1419,119 +1613,6 @@
 	    elem.className = className.trim();
 	  }
 	};
-
-/***/ },
-/* 19 */
-/***/ function(module, exports) {
-
-	/**
-	 * Copyright 2013-2014, Facebook, Inc.
-	 * All rights reserved.
-	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
-	 *
-	 * @providesModule ReactTransitionEvents
-	 */
-	
-	'use strict';
-	/**
-	 * EVENT_NAME_MAP is used to determine which event fired when a
-	 * transition/animation ends, based on the style property used to
-	 * define that event.
-	 */
-	var EVENT_NAME_MAP = {
-	  transitionend: {
-	    transition: 'transitionend',
-	    WebkitTransition: 'webkitTransitionEnd',
-	    MozTransition: 'mozTransitionEnd',
-	    OTransition: 'oTransitionEnd',
-	    msTransition: 'MSTransitionEnd'
-	  },
-	
-	  animationend: {
-	    animation: 'animationend',
-	    WebkitAnimation: 'webkitAnimationEnd',
-	    MozAnimation: 'mozAnimationEnd',
-	    OAnimation: 'oAnimationEnd',
-	    msAnimation: 'MSAnimationEnd'
-	  }
-	};
-	
-	var endEvents = [];
-	
-	function detectEvents() {
-	  var testEl = document.createElement('div');
-	  var style = testEl.style;
-	
-	  // On some platforms, in particular some releases of Android 4.x,
-	  // the un-prefixed "animation" and "transition" properties are defined on the
-	  // style object but the events that fire will still be prefixed, so we need
-	  // to check if the un-prefixed events are useable, and if not remove them
-	  // from the map
-	  if (!('AnimationEvent' in window)) {
-	    delete EVENT_NAME_MAP.animationend.animation;
-	  }
-	
-	  if (!('TransitionEvent' in window)) {
-	    delete EVENT_NAME_MAP.transitionend.transition;
-	  }
-	
-	  for (var baseEventName in EVENT_NAME_MAP) {
-	    var baseEvents = EVENT_NAME_MAP[baseEventName];
-	    for (var styleName in baseEvents) {
-	      if (styleName in style) {
-	        endEvents.push(baseEvents[styleName]);
-	        break;
-	      }
-	    }
-	  }
-	}
-	
-	if (typeof window !== 'undefined') {
-	  detectEvents();
-	}
-	
-	// We use the raw {add|remove}EventListener() call because EventListener
-	// does not know how to remove event listeners and we really should
-	// clean up. Also, these events are not triggered in older browsers
-	// so we should be A-OK here.
-	
-	function addEventListener(node, eventName, eventListener) {
-	  node.addEventListener(eventName, eventListener, false);
-	}
-	
-	function removeEventListener(node, eventName, eventListener) {
-	  node.removeEventListener(eventName, eventListener, false);
-	}
-	
-	var ReactTransitionEvents = {
-	  addEndEventListener: function addEndEventListener(node, eventListener) {
-	    if (endEvents.length === 0) {
-	      // If CSS transitions are not supported, trigger an "end animation"
-	      // event immediately.
-	      window.setTimeout(eventListener, 0);
-	      return;
-	    }
-	    endEvents.forEach(function (endEvent) {
-	      addEventListener(node, endEvent, eventListener);
-	    });
-	  },
-	
-	  endEvents: endEvents,
-	
-	  removeEndEventListener: function removeEndEventListener(node, eventListener) {
-	    if (endEvents.length === 0) {
-	      return;
-	    }
-	    endEvents.forEach(function (endEvent) {
-	      removeEventListener(node, endEvent, eventListener);
-	    });
-	  }
-	};
-	
-	module.exports = ReactTransitionEvents;
 
 /***/ }
 /******/ ]);
