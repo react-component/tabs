@@ -1,6 +1,6 @@
 {
   "name": "rc-tabs",
-  "version": "5.2.0",
+  "version": "5.3.0",
   "description": "tabs ui component for react",
   "keywords": [
     "react",
@@ -48,6 +48,6 @@
     "precommit"
   ],
   "dependencies": {
-    "rc-css-transition-group": "^2.0.0"
+    "rc-animate": "~1.0.0"
   }
 }

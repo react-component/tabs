@@ -1,5 +1,10 @@
 # History
 ----
+
+## 5.3.0 / 2015-07-23
+
+use rc-animate
+
 ## 5.2.0 / 2015-07-06
 
 support tabPosition

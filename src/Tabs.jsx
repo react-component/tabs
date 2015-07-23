@@ -4,7 +4,7 @@ var React = require('react');
 var KeyCode = require('./KeyCode');
 var TabPane = require('./TabPane');
 var Nav = require('./Nav');
-var CSSTransitionGroup = require('rc-css-transition-group');
+var Animate = require('rc-animate');
 
 function noop() {
 }
@@ -183,11 +183,11 @@ var Tabs = React.createClass({
       transitionName = `${prefixCls}-${animation}-${tabMovingDirection || 'backward'}`;
     }
     if (transitionName) {
-      tabPanes = <CSSTransitionGroup showProp="active"
+      tabPanes = <Animate showProp="active"
         exclusive={true}
         transitionName= {transitionName}>
       {tabPanes}
-      </CSSTransitionGroup>;
+      </Animate>;
     }
     var contents = [
       <Nav prefixCls={prefixCls}
