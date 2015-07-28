@@ -9,10 +9,7 @@
   ],
   "main": "./lib/index",
   "homepage": "http://github.com/react-component/tabs",
-  "maintainers": [
-    "yiminghe@gmail.com",
-    "dxq613@gmail.com"
-  ],
+  "author": "yiminghe@gmail.com",
   "repository": {
     "type": "git",
     "url": "git@github.com:react-component/tabs.git"
@@ -48,6 +45,6 @@
     "precommit"
   ],
   "dependencies": {
-    "rc-animate": "~1.0.0"
+    "rc-animate": "1.x"
   }
 }

@@ -1,6 +1,6 @@
 'use strict';
 
-var KeyCode = {
+export default {
   /**
    * LEFT
    */
@@ -18,5 +18,3 @@ var KeyCode = {
    */
   DOWN: 40 // also NUM_SOUTH
 };
-
-module.exports = KeyCode;

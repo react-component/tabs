@@ -1,10 +1,10 @@
 'use strict';
 
-var React = require('react');
-var KeyCode = require('./KeyCode');
-var TabPane = require('./TabPane');
-var Nav = require('./Nav');
-var Animate = require('rc-animate');
+import React from 'react';
+import KeyCode from './KeyCode';
+import TabPane from './TabPane';
+import Nav from './Nav';
+import Animate from 'rc-animate';
 
 function noop() {
 }
@@ -220,4 +220,4 @@ var Tabs = React.createClass({
 
 Tabs.TabPane = TabPane;
 
-module.exports = Tabs;
+export default Tabs;

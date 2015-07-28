@@ -1,7 +1,7 @@
 'use strict';
 
-var offset = require('./utils').offset;
-var React = require('react');
+import {offset} from './utils';
+import React from 'react';
 
 function componentDidUpdate(component) {
   var refs = component.refs;
@@ -31,7 +31,7 @@ function componentDidUpdate(component) {
   inkBarNode.style.display = activeTab ? 'block' : 'none';
 }
 
-module.exports = {
+export default {
   componentDidUpdate() {
     componentDidUpdate(this);
   },

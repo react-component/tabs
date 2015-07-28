@@ -1,6 +1,6 @@
 'use strict';
 
-var React = require('react');
+import React from 'react';
 
 class TabPane extends React.Component {
   render() {
@@ -22,4 +22,4 @@ class TabPane extends React.Component {
   }
 }
 
-module.exports = TabPane;
+export default TabPane;

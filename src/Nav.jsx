@@ -1,7 +1,7 @@
 'use strict';
 
-var React = require('react');
-var cx = require('./utils').cx;
+import React from 'react';
+import {cx} from './utils';
 
 function noop() {
 }
@@ -198,4 +198,4 @@ var Nav = React.createClass({
   }
 });
 
-module.exports = Nav;
+export default Nav;

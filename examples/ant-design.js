@@ -1,9 +1,8 @@
 'use strict';
 
-require('rc-tabs/assets/index.css');
-var React = require('react');
-var Tabs = require('rc-tabs');
-var TabPane = Tabs.TabPane;
+import 'rc-tabs/assets/index.css';
+import React from 'react';
+import Tabs, {TabPane} from 'rc-tabs';
 
 class PanelContent extends React.Component {
   constructor(props) {

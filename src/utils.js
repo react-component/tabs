@@ -33,9 +33,11 @@ function offset(elem) {
   };
 }
 
-module.exports = {
+export default {
   getScroll: getScroll,
+
   offset: offset,
+
   cx: function (v) {
     var ret = [];
     for (var k in v) {
