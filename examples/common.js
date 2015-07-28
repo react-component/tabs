@@ -332,15 +332,43 @@
 
 	'use strict';
 	
-	var React = __webpack_require__(6);
-	var KeyCode = __webpack_require__(9);
-	var TabPane = __webpack_require__(10);
-	var Nav = __webpack_require__(11);
-	var Animate = __webpack_require__(14);
+	module.exports = __webpack_require__(9);
+
+/***/ },
+/* 9 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	
+	var _react = __webpack_require__(6);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _KeyCode = __webpack_require__(10);
+	
+	var _KeyCode2 = _interopRequireDefault(_KeyCode);
+	
+	var _TabPane = __webpack_require__(11);
+	
+	var _TabPane2 = _interopRequireDefault(_TabPane);
+	
+	var _Nav = __webpack_require__(12);
+	
+	var _Nav2 = _interopRequireDefault(_Nav);
+	
+	var _rcAnimate = __webpack_require__(15);
+	
+	var _rcAnimate2 = _interopRequireDefault(_rcAnimate);
 	
 	function noop() {}
 	
-	var Tabs = React.createClass({
+	var Tabs = _react2['default'].createClass({
 	  displayName: 'Tabs',
 	
 	  getInitialState: function getInitialState() {
@@ -351,7 +379,7 @@
 	    } else if ('defaultActiveKey' in props) {
 	      activeKey = props.defaultActiveKey;
 	    } else {
-	      React.Children.forEach(props.children, function (child) {
+	      _react2['default'].Children.forEach(props.children, function (child) {
 	        if (!activeKey && !child.props.disabled) {
 	          activeKey = child.key;
 	        }
@@ -382,7 +410,7 @@
 	      });
 	    } else {
 	      var keys = [];
-	      React.Children.forEach(this.props.children, function (c) {
+	      _react2['default'].Children.forEach(this.props.children, function (c) {
 	        keys.push(c.key);
 	      });
 	      var tabMovingDirection = keys.indexOf(currentActiveKey) > keys.indexOf(activeKey) ? 'backward' : 'forward';
@@ -406,7 +434,7 @@
 	  _getNextActiveKey: function _getNextActiveKey(next) {
 	    var activeKey = this.state.activeKey;
 	    var children = [];
-	    React.Children.forEach(this.props.children, function (c) {
+	    _react2['default'].Children.forEach(this.props.children, function (c) {
 	      if (!c.props.disabled) {
 	        if (next) {
 	          children.push(c);
@@ -439,12 +467,12 @@
 	    var newChildren = [];
 	    var renderPanels = this.renderPanels;
 	
-	    React.Children.forEach(children, function (child) {
+	    _react2['default'].Children.forEach(children, function (child) {
 	      var key = child.key;
 	      var active = activeKey === key;
 	      if (active || renderPanels[key]) {
 	        child = active ? child : renderPanels[key];
-	        renderPanels[key] = React.cloneElement(child, {
+	        renderPanels[key] = _react2['default'].cloneElement(child, {
 	          active: active,
 	          onDestroy: _this.handleTabDestroy.bind(_this, key),
 	          //eventKey: key,
@@ -460,7 +488,7 @@
 	        //  rootPrefixCls={this.props.prefixCls}></TabPane>);
 	        // return
 	        // lazy load
-	        newChildren.push(React.cloneElement(child, {
+	        newChildren.push(_react2['default'].cloneElement(child, {
 	          active: false,
 	          //eventKey: key,
 	          rootPrefixCls: props.prefixCls
@@ -480,19 +508,19 @@
 	  },
 	
 	  handleKeyDown: function handleKeyDown(e) {
-	    if (e.target !== React.findDOMNode(this)) {
+	    if (e.target !== _react2['default'].findDOMNode(this)) {
 	      return;
 	    }
 	    var eventKeyCode = e.keyCode;
 	    switch (eventKeyCode) {
-	      case KeyCode.RIGHT:
-	      case KeyCode.DOWN:
+	      case _KeyCode2['default'].RIGHT:
+	      case _KeyCode2['default'].DOWN:
 	        e.preventDefault();
 	        var nextKey = this._getNextActiveKey(true);
 	        this.handleTabClick(nextKey);
 	        break;
-	      case KeyCode.LEFT:
-	      case KeyCode.UP:
+	      case _KeyCode2['default'].LEFT:
+	      case _KeyCode2['default'].UP:
 	        e.preventDefault();
 	        var previousKey = this._getNextActiveKey(false);
 	        this.handleTabClick(previousKey);
@@ -518,41 +546,57 @@
 	      transitionName = prefixCls + '-' + animation + '-' + (tabMovingDirection || 'backward');
 	    }
 	    if (transitionName) {
-	      tabPanes = React.createElement(Animate, { showProp: 'active',
-	        exclusive: true,
-	        transitionName: transitionName }, tabPanes);
+	      tabPanes = _react2['default'].createElement(
+	        _rcAnimate2['default'],
+	        { showProp: "active",
+	          exclusive: true,
+	          transitionName: transitionName },
+	        tabPanes
+	      );
 	    }
-	    var contents = [React.createElement(Nav, { prefixCls: prefixCls,
-	      key: 'nav',
+	    var contents = [_react2['default'].createElement(_Nav2['default'], { prefixCls: prefixCls,
+	      key: "nav",
 	      tabPosition: tabPosition,
 	      style: props.navStyle,
 	      handleTabClick: this.handleTabClick,
 	      tabMovingDirection: tabMovingDirection,
 	      panels: this.props.children,
-	      activeKey: this.state.activeKey }), React.createElement('div', { className: prefixCls + '-content',
-	      style: props.contentStyle,
-	      key: 'content' }, tabPanes)];
+	      activeKey: this.state.activeKey }), _react2['default'].createElement(
+	      'div',
+	      { className: prefixCls + '-content',
+	        style: props.contentStyle,
+	        key: "content" },
+	      tabPanes
+	    )];
 	    if (tabPosition === 'bottom') {
 	      contents.reverse();
 	    }
-	    return React.createElement('div', { className: cls,
-	      tabIndex: '0',
-	      style: props.style,
-	      onKeyDown: this.handleKeyDown }, contents);
+	    return _react2['default'].createElement(
+	      'div',
+	      { className: cls,
+	        tabIndex: "0",
+	        style: props.style,
+	        onKeyDown: this.handleKeyDown },
+	      contents
+	    );
 	  }
 	});
 	
-	Tabs.TabPane = TabPane;
+	Tabs.TabPane = _TabPane2['default'];
 	
-	module.exports = Tabs;
+	exports['default'] = Tabs;
+	module.exports = exports['default'];
 
 /***/ },
-/* 9 */
+/* 10 */
 /***/ function(module, exports) {
 
 	'use strict';
 	
-	var KeyCode = {
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+	exports['default'] = {
 	  /**
 	   * LEFT
 	   */
@@ -570,67 +614,40 @@
 	   */
 	  DOWN: 40 // also NUM_SOUTH
 	};
-	
-	module.exports = KeyCode;
+	module.exports = exports['default'];
 
 /***/ },
-/* 10 */
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var _createClass = (function () {
-	  function defineProperties(target, props) {
-	    for (var i = 0; i < props.length; i++) {
-	      var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ('value' in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);
-	    }
-	  }return function (Constructor, protoProps, staticProps) {
-	    if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;
-	  };
-	})();
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
 	
-	var _get = function get(_x, _x2, _x3) {
-	  var _again = true;_function: while (_again) {
-	    var object = _x,
-	        property = _x2,
-	        receiver = _x3;desc = parent = getter = undefined;_again = false;if (object === null) object = Function.prototype;var desc = Object.getOwnPropertyDescriptor(object, property);if (desc === undefined) {
-	      var parent = Object.getPrototypeOf(object);if (parent === null) {
-	        return undefined;
-	      } else {
-	        _x = parent;_x2 = property;_x3 = receiver;_again = true;continue _function;
-	      }
-	    } else if ('value' in desc) {
-	      return desc.value;
-	    } else {
-	      var getter = desc.get;if (getter === undefined) {
-	        return undefined;
-	      }return getter.call(receiver);
-	    }
-	  }
-	};
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 	
-	function _classCallCheck(instance, Constructor) {
-	  if (!(instance instanceof Constructor)) {
-	    throw new TypeError('Cannot call a class as a function');
-	  }
-	}
+	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
 	
-	function _inherits(subClass, superClass) {
-	  if (typeof superClass !== 'function' && superClass !== null) {
-	    throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass);
-	  }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) subClass.__proto__ = superClass;
-	}
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 	
-	var React = __webpack_require__(6);
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var _react = __webpack_require__(6);
+	
+	var _react2 = _interopRequireDefault(_react);
 	
 	var TabPane = (function (_React$Component) {
+	  _inherits(TabPane, _React$Component);
+	
 	  function TabPane() {
 	    _classCallCheck(this, TabPane);
 	
 	    _get(Object.getPrototypeOf(TabPane.prototype), 'constructor', this).apply(this, arguments);
 	  }
-	
-	  _inherits(TabPane, _React$Component);
 	
 	  _createClass(TabPane, [{
 	    key: 'render',
@@ -639,7 +656,11 @@
 	      var prefixCls = props.rootPrefixCls + '-tabpane';
 	      var cls = props.active ? '' : prefixCls + '-hidden';
 	      cls += ' ' + prefixCls;
-	      return React.createElement('div', { className: cls }, props.children);
+	      return _react2['default'].createElement(
+	        'div',
+	        { className: cls },
+	        props.children
+	      );
 	    }
 	  }, {
 	    key: 'componentWillUnmount',
@@ -651,43 +672,39 @@
 	  }]);
 	
 	  return TabPane;
-	})(React.Component);
+	})(_react2['default'].Component);
 	
-	module.exports = TabPane;
+	exports['default'] = TabPane;
+	module.exports = exports['default'];
 
 /***/ },
-/* 11 */
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var _extends = Object.assign || function (target) {
-	  for (var i = 1; i < arguments.length; i++) {
-	    var source = arguments[i];for (var key in source) {
-	      if (Object.prototype.hasOwnProperty.call(source, key)) {
-	        target[key] = source[key];
-	      }
-	    }
-	  }return target;
-	};
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
 	
-	function _defineProperty(obj, key, value) {
-	  if (key in obj) {
-	    Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });
-	  } else {
-	    obj[key] = value;
-	  }return obj;
-	}
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 	
-	var React = __webpack_require__(6);
-	var cx = __webpack_require__(12).cx;
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	
+	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+	
+	var _react = __webpack_require__(6);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _utils = __webpack_require__(13);
 	
 	function noop() {}
 	
-	var Nav = React.createClass({
+	var Nav = _react2['default'].createClass({
 	  displayName: 'Nav',
 	
-	  mixins: [__webpack_require__(13)],
+	  mixins: [__webpack_require__(14)],
 	
 	  getInitialState: function getInitialState() {
 	    return {
@@ -706,7 +723,7 @@
 	    var rst = [];
 	    var prefixCls = props.prefixCls;
 	
-	    React.Children.forEach(children, function (child) {
+	    _react2['default'].Children.forEach(children, function (child) {
 	      var key = child.key;
 	      var cls = activeKey === key ? prefixCls + '-tab-active' : '';
 	      cls += ' ' + prefixCls + '-tab';
@@ -722,10 +739,18 @@
 	      if (activeKey === key) {
 	        ref.ref = 'activeTab';
 	      }
-	      rst.push(React.createElement('div', _extends({}, events, {
-	        className: cls,
-	        key: key
-	      }, ref), React.createElement('a', null, child.props.tab)));
+	      rst.push(_react2['default'].createElement(
+	        'div',
+	        _extends({}, events, {
+	          className: cls,
+	          key: key
+	        }, ref),
+	        _react2['default'].createElement(
+	          'a',
+	          null,
+	          child.props.tab
+	        )
+	      ));
 	    });
 	
 	    return rst;
@@ -744,9 +769,9 @@
 	      this.setOffset(0);
 	      return;
 	    }
-	    var navNode = React.findDOMNode(this.refs.nav);
+	    var navNode = _react2['default'].findDOMNode(this.refs.nav);
 	    var navNodeWH = this.getOffsetWH(navNode);
-	    var navWrapNode = React.findDOMNode(this.refs.navWrap);
+	    var navWrapNode = _react2['default'].findDOMNode(this.refs.navWrap);
 	    var navWrapNodeWH = this.getOffsetWH(navWrapNode);
 	    var state = this.state;
 	    var offset = state.offset;
@@ -798,7 +823,7 @@
 	  },
 	
 	  prev: function prev() {
-	    var navWrapNode = React.findDOMNode(this.refs.navWrap);
+	    var navWrapNode = _react2['default'].findDOMNode(this.refs.navWrap);
 	    var navWrapNodeWH = this.getOffsetWH(navWrapNode);
 	    var state = this.state;
 	    var offset = state.offset;
@@ -806,7 +831,7 @@
 	  },
 	
 	  next: function next() {
-	    var navWrapNode = React.findDOMNode(this.refs.navWrap);
+	    var navWrapNode = _react2['default'].findDOMNode(this.refs.navWrap);
 	    var navWrapNodeWH = this.getOffsetWH(navWrapNode);
 	    var state = this.state;
 	    var offset = state.offset;
@@ -831,15 +856,23 @@
 	    if (showNextPrev) {
 	      var _cx, _cx2;
 	
-	      prevButton = React.createElement('span', {
-	        onClick: state.prev ? this.prev : noop,
-	        unselectable: 'unselectable',
-	        className: cx((_cx = {}, _defineProperty(_cx, prefixCls + '-tab-prev', 1), _defineProperty(_cx, prefixCls + '-tab-btn-disabled', !state.prev), _cx)) }, React.createElement('span', { className: prefixCls + '-tab-prev-icon' }));
+	      prevButton = _react2['default'].createElement(
+	        'span',
+	        {
+	          onClick: state.prev ? this.prev : noop,
+	          unselectable: "unselectable",
+	          className: (0, _utils.cx)((_cx = {}, _defineProperty(_cx, prefixCls + '-tab-prev', 1), _defineProperty(_cx, prefixCls + '-tab-btn-disabled', !state.prev), _cx)) },
+	        _react2['default'].createElement('span', { className: prefixCls + '-tab-prev-icon' })
+	      );
 	
-	      nextButton = React.createElement('span', {
-	        onClick: state.next ? this.next : noop,
-	        unselectable: 'unselectable',
-	        className: cx((_cx2 = {}, _defineProperty(_cx2, prefixCls + '-tab-next', 1), _defineProperty(_cx2, prefixCls + '-tab-btn-disabled', !state.next), _cx2)) }, React.createElement('span', { className: prefixCls + '-tab-next-icon' }));
+	      nextButton = _react2['default'].createElement(
+	        'span',
+	        {
+	          onClick: state.next ? this.next : noop,
+	          unselectable: "unselectable",
+	          className: (0, _utils.cx)((_cx2 = {}, _defineProperty(_cx2, prefixCls + '-tab-next', 1), _defineProperty(_cx2, prefixCls + '-tab-btn-disabled', !state.next), _cx2)) },
+	        _react2['default'].createElement('span', { className: prefixCls + '-tab-next-icon' })
+	      );
 	    }
 	
 	    var navOffset = {};
@@ -853,20 +886,43 @@
 	      };
 	    }
 	
-	    return React.createElement('div', { className: prefixCls + '-nav-container',
-	      style: props.style,
-	      ref: 'container' }, prevButton, nextButton, React.createElement('div', { className: prefixCls + '-nav-wrap', ref: 'navWrap' }, React.createElement('div', { className: prefixCls + '-nav-scroll' }, React.createElement('div', { className: prefixCls + '-nav', ref: 'nav', style: navOffset }, React.createElement('div', { className: inkBarClass, ref: 'inkBar' }), tabs))));
+	    return _react2['default'].createElement(
+	      'div',
+	      { className: prefixCls + '-nav-container',
+	        style: props.style,
+	        ref: "container" },
+	      prevButton,
+	      nextButton,
+	      _react2['default'].createElement(
+	        'div',
+	        { className: prefixCls + '-nav-wrap', ref: "navWrap" },
+	        _react2['default'].createElement(
+	          'div',
+	          { className: prefixCls + '-nav-scroll' },
+	          _react2['default'].createElement(
+	            'div',
+	            { className: prefixCls + '-nav', ref: "nav", style: navOffset },
+	            _react2['default'].createElement('div', { className: inkBarClass, ref: 'inkBar' }),
+	            tabs
+	          )
+	        )
+	      )
+	    );
 	  }
 	});
 	
-	module.exports = Nav;
+	exports['default'] = Nav;
+	module.exports = exports['default'];
 
 /***/ },
-/* 12 */
+/* 13 */
 /***/ function(module, exports) {
 
 	'use strict';
 	
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
 	function getScroll(w, top) {
 	  var ret = w['page' + (top ? 'Y' : 'X') + 'Offset'];
 	  var method = 'scroll' + (top ? 'Top' : 'Left');
@@ -900,9 +956,11 @@
 	  };
 	}
 	
-	module.exports = {
+	exports['default'] = {
 	  getScroll: getScroll,
+	
 	  offset: offset,
+	
 	  cx: function cx(v) {
 	    var ret = [];
 	    for (var k in v) {
@@ -913,26 +971,36 @@
 	    return ret.join(' ');
 	  }
 	};
+	module.exports = exports['default'];
 
 /***/ },
-/* 13 */
+/* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var offset = __webpack_require__(12).offset;
-	var React = __webpack_require__(6);
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	
+	var _utils = __webpack_require__(13);
+	
+	var _react = __webpack_require__(6);
+	
+	var _react2 = _interopRequireDefault(_react);
 	
 	function _componentDidUpdate(component) {
 	  var refs = component.refs;
-	  var containerNode = React.findDOMNode(refs.nav);
-	  var containerOffset = offset(containerNode);
-	  var inkBarNode = React.findDOMNode(refs.inkBar);
+	  var containerNode = _react2['default'].findDOMNode(refs.nav);
+	  var containerOffset = (0, _utils.offset)(containerNode);
+	  var inkBarNode = _react2['default'].findDOMNode(refs.inkBar);
 	  var activeTab = refs.activeTab;
 	  var tabPosition = component.props.tabPosition;
 	  if (activeTab) {
-	    var tabNode = React.findDOMNode(activeTab);
-	    var tabOffset = offset(tabNode);
+	    var tabNode = _react2['default'].findDOMNode(activeTab);
+	    var tabOffset = (0, _utils.offset)(tabNode);
 	    if (tabPosition === 'top' || tabPosition === 'bottom') {
 	      var left = tabOffset.left - containerOffset.left;
 	      inkBarNode.style.left = left + 'px';
@@ -950,7 +1018,7 @@
 	  inkBarNode.style.display = activeTab ? 'block' : 'none';
 	}
 	
-	module.exports = {
+	exports['default'] = {
 	  componentDidUpdate: function componentDidUpdate() {
 	    _componentDidUpdate(this);
 	  },
@@ -959,18 +1027,19 @@
 	    _componentDidUpdate(this);
 	  }
 	};
+	module.exports = exports['default'];
 
 /***/ },
-/* 14 */
+/* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// export this package's api
 	'use strict';
 	
-	module.exports = __webpack_require__(15);
+	module.exports = __webpack_require__(16);
 
 /***/ },
-/* 15 */
+/* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -987,13 +1056,27 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _ChildrenUtils = __webpack_require__(16);
+	var _ChildrenUtils = __webpack_require__(17);
 	
 	var _ChildrenUtils2 = _interopRequireDefault(_ChildrenUtils);
 	
-	var _AnimateChild = __webpack_require__(17);
+	var _AnimateChild = __webpack_require__(18);
 	
 	var _AnimateChild2 = _interopRequireDefault(_AnimateChild);
+	
+	var defaultKey = 'rc_animate_' + Date.now();
+	
+	function getChildrenFromProps(props) {
+	  var children = props.children;
+	  if (_react2['default'].isValidElement(children)) {
+	    if (!children.key) {
+	      return _react2['default'].cloneElement(children, {
+	        key: defaultKey
+	      });
+	    }
+	  }
+	  return children;
+	}
 	
 	var Animate = _react2['default'].createClass({
 	  displayName: 'Animate',
@@ -1026,20 +1109,20 @@
 	    this.keysToEnter = [];
 	    this.keysToLeave = [];
 	    return {
-	      children: (0, _ChildrenUtils.toArrayChildren)(this.props.children)
+	      children: (0, _ChildrenUtils.toArrayChildren)(getChildrenFromProps(this.props))
 	    };
 	  },
 	
 	  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
 	    var _this = this;
 	
-	    var nextChildren = (0, _ChildrenUtils.toArrayChildren)(nextProps.children);
+	    var nextChildren = (0, _ChildrenUtils.toArrayChildren)(getChildrenFromProps(nextProps));
 	    var props = this.props;
 	    var showProp = props.showProp;
 	    var exclusive = props.exclusive;
 	    // last props children if exclusive
 	    // exclusive needs immediate response
-	    var currentChildren = exclusive ? (0, _ChildrenUtils.toArrayChildren)(props.children) : this.state.children;
+	    var currentChildren = exclusive ? (0, _ChildrenUtils.toArrayChildren)(getChildrenFromProps(props)) : this.state.children;
 	    var newChildren = _ChildrenUtils2['default'].mergeChildren(currentChildren, nextChildren);
 	
 	    if (showProp) {
@@ -1112,13 +1195,13 @@
 	
 	  _handleDoneEntering: function _handleDoneEntering(key) {
 	    delete this.currentlyAnimatingKeys[key];
-	    var currentChildren = (0, _ChildrenUtils.toArrayChildren)(this.props.children);
+	    var currentChildren = (0, _ChildrenUtils.toArrayChildren)(getChildrenFromProps(this.props));
 	    if (!this.isValidChildByKey(currentChildren, key)) {
 	      // exclusive will not need this
 	      this.performLeave(key);
 	    } else {
 	      this.props.onEnd(key, true);
-	      if (this.isMounted()) {
+	      if (this.isMounted() && !(0, _ChildrenUtils.isSameChildren)(this.state.children, currentChildren)) {
 	        this.setState({
 	          children: currentChildren
 	        });
@@ -1142,13 +1225,13 @@
 	
 	  _handleDoneLeaving: function _handleDoneLeaving(key) {
 	    delete this.currentlyAnimatingKeys[key];
-	    var currentChildren = (0, _ChildrenUtils.toArrayChildren)(this.props.children);
+	    var currentChildren = (0, _ChildrenUtils.toArrayChildren)(getChildrenFromProps(this.props));
 	    // in case state change is too fast
 	    if (this.isValidChildByKey(currentChildren, key)) {
 	      this.performEnter(key);
 	    } else {
 	      this.props.onEnd(key, false);
-	      if (this.isMounted()) {
+	      if (this.isMounted() && !(0, _ChildrenUtils.isSameChildren)(this.state.children, currentChildren)) {
 	        this.setState({
 	          children: currentChildren
 	        });
@@ -1184,6 +1267,9 @@
 	  render: function render() {
 	    var props = this.props;
 	    var children = this.state.children.map(function (child) {
+	      if (!child.key) {
+	        throw new Error('must set key for <rc-animate> children');
+	      }
 	      return _react2['default'].createElement(
 	        _AnimateChild2['default'],
 	        {
@@ -1213,7 +1299,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 16 */
+/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1287,6 +1373,18 @@
 	    return found;
 	  },
 	
+	  isSameChildren: function isSameChildren(c1, c2) {
+	    var same = c1.length === c2.length;
+	    if (same) {
+	      c1.forEach(function (c, i) {
+	        if (c !== c2[i]) {
+	          same = false;
+	        }
+	      });
+	    }
+	    return same;
+	  },
+	
 	  mergeChildren: function mergeChildren(prev, next) {
 	    var ret = [];
 	
@@ -1320,7 +1418,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 17 */
+/* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1335,7 +1433,7 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _cssAnimation = __webpack_require__(18);
+	var _cssAnimation = __webpack_require__(19);
 	
 	var _cssAnimation2 = _interopRequireDefault(_cssAnimation);
 	
@@ -1398,13 +1496,13 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 18 */
+/* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var Event = __webpack_require__(19);
-	var Css = __webpack_require__(20);
+	var Event = __webpack_require__(20);
+	var Css = __webpack_require__(21);
 	
 	var cssAnimation = function cssAnimation(node, transitionName, callback) {
 	  var className = transitionName;
@@ -1497,7 +1595,7 @@
 	module.exports = cssAnimation;
 
 /***/ },
-/* 19 */
+/* 20 */
 /***/ function(module, exports) {
 
 	
@@ -1584,7 +1682,7 @@
 	module.exports = TransitionEvents;
 
 /***/ },
-/* 20 */
+/* 21 */
 /***/ function(module, exports) {
 
 	'use strict';
