@@ -1123,9 +1123,9 @@
 	    // last props children if exclusive
 	    // exclusive needs immediate response
 	    var currentChildren = exclusive ? (0, _ChildrenUtils.toArrayChildren)(getChildrenFromProps(props)) : this.state.children;
-	    var newChildren = _ChildrenUtils2['default'].mergeChildren(currentChildren, nextChildren);
+	    var newChildren = exclusive ? nextChildren : _ChildrenUtils2['default'].mergeChildren(currentChildren, nextChildren);
 	
-	    if (showProp) {
+	    if (showProp && !exclusive) {
 	      newChildren = newChildren.map(function (c) {
 	        if (!c.props[showProp] && (0, _ChildrenUtils.isShownInChildren)(currentChildren, c, showProp)) {
 	          c = _react2['default'].cloneElement(c, _defineProperty({}, showProp, true));
@@ -1136,6 +1136,9 @@
 	
 	    // exclusive needs immediate response
 	    if (exclusive) {
+	      currentChildren.forEach(function (c) {
+	        _this.stop(c.key);
+	      });
 	      // make middle state children invalid
 	      // restore to last props children
 	      newChildren.forEach(function (c) {
@@ -1189,8 +1192,11 @@
 	  },
 	
 	  performEnter: function performEnter(key) {
-	    this.currentlyAnimatingKeys[key] = true;
-	    this.refs[key].componentWillEnter(this._handleDoneEntering.bind(this, key));
+	    // may already remove by exclusive
+	    if (this.refs[key]) {
+	      this.currentlyAnimatingKeys[key] = true;
+	      this.refs[key].componentWillEnter(this._handleDoneEntering.bind(this, key));
+	    }
 	  },
 	
 	  _handleDoneEntering: function _handleDoneEntering(key) {
@@ -1210,8 +1216,11 @@
 	  },
 	
 	  performLeave: function performLeave(key) {
-	    this.currentlyAnimatingKeys[key] = true;
-	    this.refs[key].componentWillLeave(this._handleDoneLeaving.bind(this, key));
+	    // may already remove by exclusive
+	    if (this.refs[key]) {
+	      this.currentlyAnimatingKeys[key] = true;
+	      this.refs[key].componentWillLeave(this._handleDoneLeaving.bind(this, key));
+	    }
 	  },
 	
 	  isValidChildByKey: function isValidChildByKey(currentChildren, key) {
@@ -1437,6 +1446,11 @@
 	
 	var _cssAnimation2 = _interopRequireDefault(_cssAnimation);
 	
+	var transitionMap = {
+	  enter: 'transitionEnter',
+	  leave: 'transitionLeave'
+	};
+	
 	var AnimateChild = _react2['default'].createClass({
 	  displayName: 'AnimateChild',
 	
@@ -1451,7 +1465,7 @@
 	      _this.stopper = null;
 	      finishCallback();
 	    };
-	    if ((_cssAnimation.isCssAnimationSupported || !props.animation[animationType]) && transitionName && props.transitionEnter) {
+	    if ((_cssAnimation.isCssAnimationSupported || !props.animation[animationType]) && transitionName && props[transitionMap[animationType]]) {
 	      this.stopper = (0, _cssAnimation2['default'])(node, transitionName + '-' + animationType, end);
 	    } else {
 	      this.stopper = props.animation[animationType](node, end);
@@ -1543,6 +1557,14 @@
 	    Css.addClass(node, activeClassName);
 	    node.rcAnimTimeout = null;
 	  }, 0);
+	
+	  return {
+	    stop: function stop() {
+	      if (node.rcEndListener) {
+	        node.rcEndListener();
+	      }
+	    }
+	  };
 	};
 	
 	cssAnimation.style = function (node, style, callback) {
@@ -1591,6 +1613,7 @@
 	
 	cssAnimation.addClass = Css.addClass;
 	cssAnimation.removeClass = Css.removeClass;
+	cssAnimation.isCssAnimationSupported = Event.endEvents.length !== 0;
 	
 	module.exports = cssAnimation;
 
