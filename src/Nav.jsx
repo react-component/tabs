@@ -181,7 +181,7 @@ var Nav = React.createClass({
       };
     }
 
-    return <div className={`${prefixCls}-nav-container`}
+    return <div className={`${prefixCls}-nav-container ${showNextPrev ? `${prefixCls}-nav-container-scrolling` : ''}`}
       style={props.style}
       ref="container">
     {prevButton}

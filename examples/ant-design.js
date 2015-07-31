@@ -1,6 +1,6 @@
 'use strict';
 
-import 'rc-tabs/assets/index.css';
+import 'rc-tabs/assets/index.less';
 import React from 'react';
 import Tabs, {TabPane} from 'rc-tabs';
 
