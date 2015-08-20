@@ -21,7 +21,7 @@
     width: 100%;
   }
 
-  &-top  &-content {
+  &-top &-content {
     width: 100%;
   }
 
@@ -39,8 +39,10 @@
 
   &-top &-tab-prev {
     left: 0;
-    transform: rotate(180deg);
-    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=2);
+    &-icon {
+      transform: rotate(180deg);
+      filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=2);
+    }
     &-icon:before {
       content: "\e651";
     }
@@ -50,12 +52,14 @@
     margin-right: -2px;
     width: 32px;
     height: 100%;
+    top: 0;
+    text-align: center;
   }
 
   &-top &-ink-bar {
     height: 2px;
     bottom: 0;
-    left:0;
+    left: 0;
 
     &-transition-forward {
       transition: right 0.3s @easing-in-out,
