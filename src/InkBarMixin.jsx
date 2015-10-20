@@ -1,17 +1,14 @@
-
-
 import {offset} from './utils';
-import React from 'react';
 
 function componentDidUpdate(component) {
   const refs = component.refs;
-  const containerNode = React.findDOMNode(refs.nav);
+  const containerNode = refs.nav;
   const containerOffset = offset(containerNode);
-  const inkBarNode = React.findDOMNode(refs.inkBar);
+  const inkBarNode = refs.inkBar;
   const activeTab = refs.activeTab;
   const tabPosition = component.props.tabPosition;
   if (activeTab) {
-    const tabNode = React.findDOMNode(activeTab);
+    const tabNode = activeTab;
     const tabOffset = offset(tabNode);
     if (tabPosition === 'top' || tabPosition === 'bottom') {
       const left = tabOffset.left - containerOffset.left;

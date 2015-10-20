@@ -90,17 +90,23 @@
     }
 
     div.@{prefixClass}-tab-active {
-      > a, > a:hover, > a:focus {
+      > .@{prefixClass}-tab-inner, > .@{prefixClass}-tab-inner:hover {
         color: #3fc7fa;
         cursor: default;
-        text-decoration: none;
       }
     }
 
     div.@{prefixClass}-tab-disabled {
-      pointer-events: none;
       cursor: default;
       color: #ccc;
+
+      > .@{prefixClass}-tab-inner {
+        cursor: default;
+      }
+
+      > .@{prefixClass}-tab-inner:hover {
+        color: #ccc;
+      }
     }
 
     .@{prefixClass}-tab {
@@ -108,20 +114,16 @@
       position: relative;
       display: block;
 
-      > a {
+      > .@{prefixClass}-tab-inner {
         transition: color 0.3s @easing-in-out;
         padding: 8px 20px;
         font-weight: 500;
         display: inline-block;
-      }
-
-      > a:hover {
-        color: #23c0fa;
         cursor: pointer;
       }
 
-      > a:hover, > a:focus {
-        text-decoration: none;
+      > .@{prefixClass}-tab-inner:hover {
+        color: #23c0fa;
       }
     }
   }

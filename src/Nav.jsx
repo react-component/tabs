@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
 import {cx} from './utils';
 
 function noop() {
@@ -6,8 +6,9 @@ function noop() {
 
 const Nav = React.createClass({
   propTypes: {
-    tabPosition: React.PropTypes.string,
-    onTabClick: React.PropTypes.func,
+    tabPosition: PropTypes.string,
+    tabBarExtraContent: PropTypes.any,
+    onTabClick: PropTypes.func,
   },
 
   mixins: [require('./InkBarMixin')],
@@ -29,9 +30,9 @@ const Nav = React.createClass({
       this.setOffset(0);
       return;
     }
-    const navNode = React.findDOMNode(this.refs.nav);
+    const navNode = this.refs.nav;
     const navNodeWH = this.getOffsetWH(navNode);
-    const navWrapNode = React.findDOMNode(this.refs.navWrap);
+    const navWrapNode = this.refs.navWrap;
     const navWrapNodeWH = this.getOffsetWH(navWrapNode);
     const state = this.state;
     let offset = state.offset;
@@ -89,7 +90,7 @@ const Nav = React.createClass({
         className={cls}
         key={key}
         {...ref}>
-        <a>{child.props.tab}</a>
+        <div className={`${prefixCls}-tab-inner`}>{child.props.tab}</div>
       </div>);
     });
 
@@ -154,16 +155,19 @@ const Nav = React.createClass({
       };
     }
 
-    return (<div className={`${prefixCls}-nav-container ${showNextPrev ? `${prefixCls}-nav-container-scrolling` : ''}`}
-                style={props.style}
-                ref="container">
-      {prevButton}
-      {nextButton}
-      <div className={`${prefixCls}-nav-wrap`} ref="navWrap">
-        <div className={`${prefixCls}-nav-scroll`}>
-          <div className={`${prefixCls}-nav`} ref="nav" style={navOffset}>
-            <div className={inkBarClass} ref="inkBar"/>
-            {tabs}
+    return (<div className={`${prefixCls}-tabs-bar`}>
+      {this.props.tabBarExtraContent}
+      <div className={`${prefixCls}-nav-container ${showNextPrev ? `${prefixCls}-nav-container-scrolling` : ''}`}
+           style={props.style}
+           ref="container">
+        {prevButton}
+        {nextButton}
+        <div className={`${prefixCls}-nav-wrap`} ref="navWrap">
+          <div className={`${prefixCls}-nav-scroll`}>
+            <div className={`${prefixCls}-nav`} ref="nav" style={navOffset}>
+              <div className={inkBarClass} ref="inkBar"/>
+              {tabs}
+            </div>
           </div>
         </div>
       </div>
@@ -177,7 +181,7 @@ const Nav = React.createClass({
   },
 
   prev() {
-    const navWrapNode = React.findDOMNode(this.refs.navWrap);
+    const navWrapNode = this.refs.navWrap;
     const navWrapNodeWH = this.getOffsetWH(navWrapNode);
     const state = this.state;
     const offset = state.offset;
@@ -185,7 +189,7 @@ const Nav = React.createClass({
   },
 
   next() {
-    const navWrapNode = React.findDOMNode(this.refs.navWrap);
+    const navWrapNode = this.refs.navWrap;
     const navWrapNodeWH = this.getOffsetWH(navWrapNode);
     const state = this.state;
     const offset = state.offset;

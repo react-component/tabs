@@ -1,7 +1,8 @@
-'use strict';
+
 
 import 'rc-tabs/assets/index.less';
 import React from 'react';
+import ReactDOM from 'react-dom';
 import Tabs, {TabPane} from 'rc-tabs';
 
 class PanelContent extends React.Component {
@@ -15,12 +16,12 @@ class PanelContent extends React.Component {
   }
 
   render() {
-    var length = parseInt(10 * (Math.random())+4);
+    var length = parseInt(10 * (Math.random()) + 4);
     var count = new Array(length);// new Array(4) skip forEach ....
     for (var i = 0; i < length; i++) {
       count[i] = 1;
     }
-    var content = new Array(parseInt(100 * (Math.random()))+4).join(' ' + this.props.id);
+    var content = new Array(parseInt(100 * (Math.random())) + 4).join(' ' + this.props.id);
     var els = count.map((c, i)=> {
       return <p key={i}>{content}</p>
     });
@@ -33,8 +34,8 @@ function construct(start, num) {
   var index = 1;
   for (var i = start; i < start + num; i++) {
     ends.push(<TabPane tab={`tab ${i}`}
-      disabled={!!(i % 2)}
-      key={index + ""}>
+                       disabled={!!(i % 2)}
+                       key={index + ""}>
       <PanelContent id={i}/>
     </TabPane>);
     index++;
@@ -79,25 +80,25 @@ var Component = React.createClass({
     var navStyle = {};
     var animation = "slide-horizontal";
 
-    var tabStyle={
-      width:500
+    var tabStyle = {
+      width: 500
     };
 
     if (tabPosition === 'left' || tabPosition === 'right') {
       navStyle = {
-        height: 400
+        height: 400,
+        overflow: 'hidden',
       };
       animation = "slide-vertical";
-      tabStyle={
-        height:500
+      tabStyle = {
+        height: 500,
+        overflow: 'hidden',
       };
     }
 
-
-
-
     return <div style={{margin: 20}}>
       <h2>Simple Tabs</h2>
+
       <p>
         tabPosition:
         <select value={this.state.tabPosition} onChange={this.changeTabPosition}>
@@ -109,23 +110,24 @@ var Component = React.createClass({
       </p>
       <div style={tabStyle}>
         <Tabs defaultActiveKey='3'
-          navStyle={navStyle}
-          tabPosition={this.state.tabPosition}
-          animation={animation}
-          onTabClick={this.onTabClick}
-          onChange={this.onChange}>
-        {ends2}
+              navStyle={navStyle}
+              tabPosition={this.state.tabPosition}
+              animation={animation}
+              onTabClick={this.onTabClick}
+              onChange={this.onChange}>
+          {ends2}
         </Tabs>
       </div>
       <h2>Scroll Tabs</h2>
+
       <div style={tabStyle}>
         <Tabs defaultActiveKey='3'
-          navStyle={navStyle}
-          tabPosition={this.state.tabPosition}
-          animation={animation}
-          onTabClick={this.onTabClick}
-          onChange={this.onChange}>
-        {ends}
+              navStyle={navStyle}
+              tabPosition={this.state.tabPosition}
+              animation={animation}
+              onTabClick={this.onTabClick}
+              onChange={this.onChange}>
+          {ends}
         </Tabs>
       </div>
       <button onClick={this.tick}>rerender</button>
@@ -133,4 +135,4 @@ var Component = React.createClass({
   }
 });
 
-React.render(<Component />, document.getElementById('__react-content'));
+ReactDOM.render(<Component />, document.getElementById('__react-content'));

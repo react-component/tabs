@@ -1,5 +1,10 @@
 # History
 ----
+## 5.4.0 / 2015-10-20
+
+- support add/tabBarExtraContent
+- only support react 0.14+
+- remove bootstrap css
 
 ## 5.3.0 / 2015-07-23
 

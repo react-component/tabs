@@ -1,7 +1,8 @@
-'use strict';
 
-import 'rc-tabs/assets/bootstrap.less';
+
+import 'rc-tabs/assets/index.less';
 import React from 'react';
+import ReactDOM from 'react-dom';
 import Tabs, {TabPane} from 'rc-tabs';
 
 class PanelContent extends React.Component {
@@ -70,4 +71,4 @@ var Component = React.createClass({
   }
 });
 
-React.render(<Component />, document.getElementById('__react-content'));
+ReactDOM.render(<Component />, document.getElementById('__react-content'));

@@ -3,9 +3,10 @@
 var expect = require('expect.js');
 var Tabs = require('../index');
 var TabPane = Tabs.TabPane;
-var React = require('react/addons');
+var React = require('react');
+var ReactDOM = require('react-dom');
 // var sinon = require('sinon');
-var TestUtils = React.addons.TestUtils;
+var TestUtils = require('react-addons-test-utils');
 var Simulate = TestUtils.Simulate;
 
 var node = document.createElement('div');
@@ -29,7 +30,7 @@ describe('tabs', function () {
   }
 
   beforeEach(function (done) {
-    React.render(<Tabs defaultActiveKey="2"
+    ReactDOM.render(<Tabs defaultActiveKey="2"
       onTabClick={onTabClick}
       onChange={onChange}>
       <TabPane tab='tab 1' key="1">first</TabPane>
@@ -42,7 +43,7 @@ describe('tabs', function () {
   });
 
   afterEach(function () {
-    React.unmountComponentAtNode(node);
+    ReactDOM.unmountComponentAtNode(node);
     changeHook = null;
     onTabClickHook = null;
   });
@@ -57,8 +58,8 @@ describe('tabs', function () {
 
   it('default active works', function () {
     expect(tabs.state.activeKey).to.be('2');
-    expect(React.findDOMNode(TestUtils.scryRenderedDOMComponentsWithClass(tabs,
-      'rc-tabs-tab')[1]).className.indexOf('rc-tabs-tab-active ') !== -1).to.be(true);
+    expect(TestUtils.scryRenderedDOMComponentsWithClass(tabs,
+      'rc-tabs-tab')[1].className.indexOf('rc-tabs-tab-active ') !== -1).to.be(true);
   });
 
   it('onChange works', function (done) {

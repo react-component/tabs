@@ -1,4 +1,5 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
+import ReactDOM from 'react-dom';
 import KeyCode from './KeyCode';
 import TabPane from './TabPane';
 import Nav from './Nav';
@@ -7,12 +8,23 @@ import Animate from 'rc-animate';
 function noop() {
 }
 
+function getDefaultActiveKey(props) {
+  let activeKey;
+  React.Children.forEach(props.children, (child) => {
+    if (!activeKey && !child.props.disabled) {
+      activeKey = child.key;
+    }
+  });
+  return activeKey;
+}
+
 const Tabs = React.createClass({
   propTypes: {
-    onTabClick: React.PropTypes.func,
-    onChange: React.PropTypes.func,
-    children: React.PropTypes.any,
-    animation: React.PropTypes.string,
+    onTabClick: PropTypes.func,
+    onChange: PropTypes.func,
+    children: PropTypes.any,
+    tabBarExtraContent: PropTypes.any,
+    animation: PropTypes.string,
   },
 
   getInitialState() {
@@ -23,11 +35,7 @@ const Tabs = React.createClass({
     } else if ('defaultActiveKey' in props) {
       activeKey = props.defaultActiveKey;
     } else {
-      React.Children.forEach(props.children, (child) => {
-        if (!activeKey && !child.props.disabled) {
-          activeKey = child.key;
-        }
-      });
+      activeKey = getDefaultActiveKey(props);
     }
     // cache panels
     this.renderPanels = {};
@@ -37,6 +45,7 @@ const Tabs = React.createClass({
   getDefaultProps() {
     return {
       prefixCls: 'rc-tabs',
+      tabBarExtraContent: null,
       onChange: noop,
       tabPosition: 'top',
       style: {},
@@ -47,8 +56,20 @@ const Tabs = React.createClass({
   },
 
   componentWillReceiveProps(nextProps) {
+    let newActiveKey = this.state.activeKey;
     if ('activeKey' in nextProps) {
-      this.setActiveKey(nextProps.activeKey);
+      newActiveKey = nextProps.activeKey;
+    }
+    let found;
+    React.Children.forEach(nextProps.children, (child) => {
+      if (child.key === newActiveKey) {
+        found = true;
+      }
+    });
+    if (found) {
+      this.setActiveKey(newActiveKey);
+    } else {
+      this.setActiveKey(getDefaultActiveKey(nextProps));
     }
   },
 
@@ -65,7 +86,7 @@ const Tabs = React.createClass({
   },
 
   onKeyDown(e) {
-    if (e.target !== React.findDOMNode(this)) {
+    if (e.target !== ReactDOM.findDOMNode(this)) {
       return;
     }
     const eventKeyCode = e.keyCode;
@@ -171,14 +192,15 @@ const Tabs = React.createClass({
     }
     if (transitionName) {
       tabPanes = (<Animate showProp="active"
-                          exclusive={true}
-                          transitionName={transitionName}>
+                           exclusive={true}
+                           transitionName={transitionName}>
         {tabPanes}
       </Animate>);
     }
     const contents = [
       (<Nav prefixCls={prefixCls}
             key="nav"
+            tabBarExtraContent={this.props.tabBarExtraContent}
             tabPosition={tabPosition}
             style={props.navStyle}
             onTabClick={this.onTabClick}
