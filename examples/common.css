@@ -89,16 +89,19 @@
 .rc-tabs-nav:after {
   clear: both;
 }
-.rc-tabs-nav div.rc-tabs-tab-active > a,
-.rc-tabs-nav div.rc-tabs-tab-active > a:hover,
-.rc-tabs-nav div.rc-tabs-tab-active > a:focus {
+.rc-tabs-nav div.rc-tabs-tab-active > .rc-tabs-tab-inner,
+.rc-tabs-nav div.rc-tabs-tab-active > .rc-tabs-tab-inner:hover {
   color: #3fc7fa;
   cursor: default;
-  text-decoration: none;
 }
 .rc-tabs-nav div.rc-tabs-tab-disabled {
-  pointer-events: none;
   cursor: default;
+  color: #ccc;
+}
+.rc-tabs-nav div.rc-tabs-tab-disabled > .rc-tabs-tab-inner {
+  cursor: default;
+}
+.rc-tabs-nav div.rc-tabs-tab-disabled > .rc-tabs-tab-inner:hover {
   color: #ccc;
 }
 .rc-tabs-nav .rc-tabs-tab {
@@ -106,20 +109,16 @@
   position: relative;
   display: block;
 }
-.rc-tabs-nav .rc-tabs-tab > a {
+.rc-tabs-nav .rc-tabs-tab > .rc-tabs-tab-inner {
   -webkit-transition: color 0.3s cubic-bezier(0.35, 0, 0.25, 1);
           transition: color 0.3s cubic-bezier(0.35, 0, 0.25, 1);
   padding: 8px 20px;
   font-weight: 500;
   display: inline-block;
-}
-.rc-tabs-nav .rc-tabs-tab > a:hover {
-  color: #23c0fa;
   cursor: pointer;
 }
-.rc-tabs-nav .rc-tabs-tab > a:hover,
-.rc-tabs-nav .rc-tabs-tab > a:focus {
-  text-decoration: none;
+.rc-tabs-nav .rc-tabs-tab > .rc-tabs-tab-inner:hover {
+  color: #23c0fa;
 }
 .rc-tabs-tabpane-hidden {
   display: none;
@@ -258,7 +257,7 @@
 .rc-tabs-left {
   border-right: 2px solid #f3f3f3;
 }
-.rc-tabs-left .rc-tabs-nav-container {
+.rc-tabs-left .rc-tabs-tabs-bar {
   float: left;
   margin-right: 10px;
   border-right: 1px solid #f3f3f3;
@@ -284,12 +283,15 @@
 .rc-tabs-left .rc-tabs-tab-next {
   margin-top: -2px;
   height: 32px;
+  line-height: 32px;
   width: 100%;
   display: block;
   text-align: center;
 }
 .rc-tabs-left .rc-tabs-tab-next {
   bottom: 0;
+}
+.rc-tabs-left .rc-tabs-tab-next-icon {
   -webkit-transform: rotate(90deg);
       -ms-transform: rotate(90deg);
           transform: rotate(90deg);
@@ -300,6 +302,8 @@
 }
 .rc-tabs-left .rc-tabs-tab-prev {
   top: 2px;
+}
+.rc-tabs-left .rc-tabs-tab-prev-icon {
   -webkit-transform: rotate(270deg);
       -ms-transform: rotate(270deg);
           transform: rotate(270deg);
@@ -326,7 +330,7 @@
 .rc-tabs-right {
   border-left: 2px solid #f3f3f3;
 }
-.rc-tabs-right .rc-tabs-nav-container {
+.rc-tabs-right .rc-tabs-tabs-bar {
   float: right;
   margin-left: 10px;
   border-left: 1px solid #f3f3f3;
@@ -352,9 +356,12 @@
   width: 100%;
   display: block;
   text-align: center;
+  line-height: 32px;
 }
 .rc-tabs-right .rc-tabs-tab-next {
   bottom: 0;
+}
+.rc-tabs-right .rc-tabs-tab-next-icon {
   -webkit-transform: rotate(90deg);
       -ms-transform: rotate(90deg);
           transform: rotate(90deg);
@@ -365,6 +372,8 @@
 }
 .rc-tabs-right .rc-tabs-tab-prev {
   top: 2px;
+}
+.rc-tabs-right .rc-tabs-tab-prev-icon {
   -webkit-transform: rotate(270deg);
       -ms-transform: rotate(270deg);
           transform: rotate(270deg);
@@ -394,8 +403,7 @@
 .rc-tabs-bottom {
   border-top: 2px solid #f3f3f3;
 }
-.rc-tabs-bottom .rc-tabs-nav-container {
-  width: 100%;
+.rc-tabs-bottom .rc-tabs-tabs-bar {
   border-top: 1px solid #f3f3f3;
 }
 .rc-tabs-bottom .rc-tabs-nav-container-scrolling {
@@ -423,6 +431,8 @@
 }
 .rc-tabs-bottom .rc-tabs-tab-prev {
   left: 0;
+}
+.rc-tabs-bottom .rc-tabs-tab-prev-icon {
   -webkit-transform: rotate(180deg);
       -ms-transform: rotate(180deg);
           transform: rotate(180deg);
@@ -436,6 +446,8 @@
   margin-right: -2px;
   width: 32px;
   height: 100%;
+  top: 0;
+  text-align: center;
 }
 .rc-tabs-bottom .rc-tabs-ink-bar {
   height: 2px;
@@ -458,8 +470,7 @@
 .rc-tabs-top {
   border-bottom: 2px solid #f3f3f3;
 }
-.rc-tabs-top .rc-tabs-nav-container {
-  width: 100%;
+.rc-tabs-top .rc-tabs-tabs-bar {
   border-bottom: 1px solid #f3f3f3;
 }
 .rc-tabs-top .rc-tabs-nav-container-scrolling {
@@ -487,6 +498,8 @@
 }
 .rc-tabs-top .rc-tabs-tab-prev {
   left: 0;
+}
+.rc-tabs-top .rc-tabs-tab-prev-icon {
   -webkit-transform: rotate(180deg);
       -ms-transform: rotate(180deg);
           transform: rotate(180deg);
@@ -500,6 +513,8 @@
   margin-right: -2px;
   width: 32px;
   height: 100%;
+  top: 0;
+  text-align: center;
 }
 .rc-tabs-top .rc-tabs-ink-bar {
   height: 2px;
@@ -520,4 +535,4 @@
   margin-right: 30px;
 }
 
-/*# sourceMappingURL=ant-design.css.map*/
+/*# sourceMappingURL=common.css.map*/
