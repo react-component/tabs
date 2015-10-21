@@ -30,31 +30,30 @@ const Nav = React.createClass({
       this.setOffset(0);
       return;
     }
+
     const navNode = this.refs.nav;
     const navNodeWH = this.getOffsetWH(navNode);
     const navWrapNode = this.refs.navWrap;
     const navWrapNodeWH = this.getOffsetWH(navWrapNode);
     const state = this.state;
     let offset = state.offset;
-    if (navWrapNodeWH - offset < navNodeWH) {
-      if (!state.next) {
-        this.setNext(true);
-      }
+    const minOffset = navWrapNodeWH - navNodeWH;
+
+    if (minOffset >= 0) {
+      this.setNext(false);
+      this.setOffset(0);
+      offset = 0;
+    } else if (minOffset < offset) {
+      this.setNext(true);
     } else {
-      const minOffset = navWrapNodeWH - navNodeWH;
-      if (minOffset < 0 && minOffset > offset) {
-        if (state.next) {
-          this.setNext(false);
-        }
-        this.setOffset(minOffset);
-        offset = minOffset;
-      }
+      this.setNext(false);
+      this.setOffset(minOffset);
+      offset = minOffset;
     }
+
     if (offset < 0) {
-      if (!state.prev) {
-        this.setPrev(true);
-      }
-    } else if (state.prev) {
+      this.setPrev(true);
+    } else {
       this.setPrev(false);
     }
   },
@@ -175,9 +174,12 @@ const Nav = React.createClass({
   },
 
   setOffset(offset) {
-    this.setState({
-      offset: Math.min(0, offset),
-    });
+    const target = Math.min(0, offset);
+    if (this.state.offset !== target) {
+      this.setState({
+        offset: target,
+      });
+    }
   },
 
   prev() {
@@ -197,15 +199,19 @@ const Nav = React.createClass({
   },
 
   setPrev(v) {
-    this.setState({
-      prev: v,
-    });
+    if (this.state.prev !== v) {
+      this.setState({
+        prev: v,
+      });
+    }
   },
 
   setNext(v) {
-    this.setState({
-      next: v,
-    });
+    if (this.state.next !== v) {
+      this.setState({
+        next: v,
+      });
+    }
   },
 });
 
