@@ -39,7 +39,9 @@ webpackJsonp([1],{
 	      tabs: [{
 	        title: "初始",
 	        content: "初始内容"
-	      }]
+	      }],
+	
+	      activeKey: "初始"
 	    };
 	  },
 	
@@ -61,10 +63,25 @@ webpackJsonp([1],{
 	      alert('只剩一个，不能删');
 	      return;
 	    }
+	    var foundIndex = 0;
+	    var after = this.state.tabs.filter(function (t, index) {
+	      if (t.title !== title) {
+	        return true;
+	      } else {
+	        foundIndex = index;
+	        return false;
+	      }
+	    });
+	    var activeKey = this.state.activeKey;
+	    if (activeKey === title) {
+	      if (foundIndex) {
+	        foundIndex--;
+	      }
+	      activeKey = after[foundIndex].title;
+	    }
 	    this.setState({
-	      tabs: this.state.tabs.filter(function (t) {
-	        return t.title !== title;
-	      })
+	      tabs: after,
+	      activeKey: activeKey
 	    });
 	  },
 	
@@ -107,6 +124,10 @@ webpackJsonp([1],{
 	      key: "__add" })]);
 	  },
 	
+	  onTabChange: function onTabChange(activeKey) {
+	    this.setState({ activeKey: activeKey });
+	  },
+	
 	  render: function render() {
 	    var animation = "slide-horizontal";
 	
@@ -128,6 +149,8 @@ webpackJsonp([1],{
 	        _react2['default'].createElement(
 	          _rcTabs2['default'],
 	          { animation: animation,
+	            activeKey: this.state.activeKey,
+	            onChange: this.onTabChange,
 	            tabBarExtraContent: _react2['default'].createElement(
 	              'div',
 	              { style: { float: 'right', lineHeight: 1.4 } },

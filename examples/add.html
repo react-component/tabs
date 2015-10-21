@@ -239,7 +239,7 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
 <body>
 <div class="container">
   <div class="header">
-    <h1>rc-tabs@5.4.1</h1>
+    <h1>rc-tabs@5.4.2</h1>
 
     <p>tabs ui component for react</p>
   </div>
@@ -260,7 +260,9 @@ var Test = React.createClass({
       tabs: [{
         title: <span class="hljs-string">"初始"</span>,
         content: <span class="hljs-string">"初始内容"</span>
-      }]
+      }],
+
+      activeKey: <span class="hljs-string">"初始"</span>,
     };
   },
 
@@ -282,10 +284,25 @@ var Test = React.createClass({
       alert(<span class="hljs-string">'只剩一个，不能删'</span>);
       <span class="hljs-keyword">return</span>;
     }
+    var foundIndex = <span class="hljs-number">0</span>;
+    var after = <span class="hljs-keyword">this</span>.state.tabs.<span class="hljs-built_in">filter</span>(function (t, index) {
+      <span class="hljs-keyword">if</span> (t.title !== title) {
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;
+      } <span class="hljs-keyword">else</span> {
+        foundIndex = index;
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;
+      }
+    });
+    var activeKey = <span class="hljs-keyword">this</span>.state.activeKey;
+    <span class="hljs-keyword">if</span> (activeKey === title) {
+      <span class="hljs-keyword">if</span> (foundIndex) {
+        foundIndex--;
+      }
+      activeKey = after[foundIndex].title;
+    }
     <span class="hljs-keyword">this</span>.setState({
-      tabs: <span class="hljs-keyword">this</span>.state.tabs.<span class="hljs-built_in">filter</span>(function (t) {
-        <span class="hljs-keyword">return</span> t.title !== title
-      })
+      tabs: after,
+      activeKey: activeKey,
     });
   },
 
@@ -297,19 +314,23 @@ var Test = React.createClass({
         <span class="hljs-built_in">color</span>:<span class="hljs-string">'red'</span>,
         right:<span class="hljs-number">5</span>,
         top:<span class="hljs-number">0</span>
-      }} onClick={<span class="hljs-keyword">this</span>.remove.bind(<span class="hljs-keyword">this</span>,t.title)}&gt;x&lt;/a&gt;&lt;/span&gt;}
+      }} onClick={<span class="hljs-keyword">this</span>.remove.bind(<span class="hljs-keyword">this</span>, t.title)}&gt;x&lt;/a&gt;&lt;/span&gt;}
                       <span class="hljs-variable">key</span>={t.title}&gt;
         &lt;div style={{padding:<span class="hljs-number">100</span>}}&gt;
           {t.content}
         &lt;/div&gt;
       &lt;/TabPane&gt;
     }).<span class="hljs-built_in">concat</span>([
-      &lt;TabPane tab={&lt;a style={{<span class="hljs-built_in">color</span>:<span class="hljs-string">'black'</span>,<span class="hljs-built_in">cursor</span>:<span class="hljs-string">'pointer'</span>}} onClick={<span class="hljs-keyword">this</span>.<span class="hljs-built_in">add</span>}&gt; + 添加&lt;/a&gt;}
+      &lt;TabPane tab={&lt;a style={{<span class="hljs-built_in">color</span>:<span class="hljs-string">'black'</span>, <span class="hljs-built_in">cursor</span>:<span class="hljs-string">'pointer'</span>}} onClick={<span class="hljs-keyword">this</span>.<span class="hljs-built_in">add</span>}&gt; + 添加&lt;/a&gt;}
                disabled={<span class="hljs-keyword">true</span>}
                <span class="hljs-variable">key</span>={<span class="hljs-string">"__add"</span>}&gt;
       &lt;/TabPane&gt;
 
     ]);
+  },
+
+  onTabChange(activeKey){
+    <span class="hljs-keyword">this</span>.setState({activeKey});
   },
 
   render() {
@@ -324,6 +345,8 @@ var Test = React.createClass({
 
       &lt;div style={tabStyle}&gt;
         &lt;Tabs animation={animation}
+              activeKey={<span class="hljs-keyword">this</span>.state.activeKey}
+              onChange={<span class="hljs-keyword">this</span>.onTabChange}
               tabBarExtraContent={
                 &lt;div style={{<span class="hljs-built_in">float</span>:<span class="hljs-string">'right'</span>,lineHeight:<span class="hljs-number">1.4</span>}}&gt;&lt;button onClick={<span class="hljs-keyword">this</span>.<span class="hljs-built_in">add</span>}&gt;+添加&lt;/button&gt;&lt;/div&gt;
               }&gt;
