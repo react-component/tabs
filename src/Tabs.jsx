@@ -27,6 +27,19 @@ const Tabs = React.createClass({
     animation: PropTypes.string,
   },
 
+  getDefaultProps() {
+    return {
+      prefixCls: 'rc-tabs',
+      tabBarExtraContent: null,
+      onChange: noop,
+      tabPosition: 'top',
+      style: {},
+      contentStyle: {},
+      navStyle: {},
+      onTabClick: noop,
+    };
+  },
+
   getInitialState() {
     const props = this.props;
     let activeKey;
@@ -40,19 +53,6 @@ const Tabs = React.createClass({
     // cache panels
     this.renderPanels = {};
     return {activeKey};
-  },
-
-  getDefaultProps() {
-    return {
-      prefixCls: 'rc-tabs',
-      tabBarExtraContent: null,
-      onChange: noop,
-      tabPosition: 'top',
-      style: {},
-      contentStyle: {},
-      navStyle: {},
-      onTabClick: noop,
-    };
   },
 
   componentWillReceiveProps(nextProps) {
@@ -174,6 +174,25 @@ const Tabs = React.createClass({
     return newChildren;
   },
 
+  setActiveKey(activeKey) {
+    const currentActiveKey = this.state.activeKey;
+    if (!currentActiveKey) {
+      this.setState({
+        activeKey: activeKey,
+      });
+    } else {
+      const keys = [];
+      React.Children.forEach(this.props.children, c=> {
+        keys.push(c.key);
+      });
+      const tabMovingDirection = keys.indexOf(currentActiveKey) > keys.indexOf(activeKey) ? 'backward' : 'forward';
+      this.setState({
+        activeKey: activeKey,
+        tabMovingDirection: tabMovingDirection,
+      });
+    }
+  },
+
   render() {
     const props = this.props;
     const prefixCls = props.prefixCls;
@@ -192,7 +211,7 @@ const Tabs = React.createClass({
     }
     if (transitionName) {
       tabPanes = (<Animate showProp="active"
-                           exclusive={true}
+                           exclusive
                            transitionName={transitionName}>
         {tabPanes}
       </Animate>);
@@ -224,25 +243,6 @@ const Tabs = React.createClass({
         {contents}
       </div>
     );
-  },
-
-  setActiveKey(activeKey) {
-    const currentActiveKey = this.state.activeKey;
-    if (!currentActiveKey) {
-      this.setState({
-        activeKey: activeKey,
-      });
-    } else {
-      const keys = [];
-      React.Children.forEach(this.props.children, c=> {
-        keys.push(c.key);
-      });
-      const tabMovingDirection = keys.indexOf(currentActiveKey) > keys.indexOf(activeKey) ? 'backward' : 'forward';
-      this.setState({
-        activeKey: activeKey,
-        tabMovingDirection: tabMovingDirection,
-      });
-    }
   },
 });
 

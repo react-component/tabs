@@ -1,6 +1,10 @@
 import React, {PropTypes} from 'react';
 import {cx} from './utils';
 
+const tabBarExtraContentStyle = {
+  float: 'right',
+};
+
 function noop() {
 }
 
@@ -105,6 +109,47 @@ const Nav = React.createClass({
     return node[prop];
   },
 
+  setOffset(offset) {
+    const target = Math.min(0, offset);
+    if (this.state.offset !== target) {
+      this.setState({
+        offset: target,
+      });
+    }
+  },
+
+  setPrev(v) {
+    if (this.state.prev !== v) {
+      this.setState({
+        prev: v,
+      });
+    }
+  },
+
+  setNext(v) {
+    if (this.state.next !== v) {
+      this.setState({
+        next: v,
+      });
+    }
+  },
+
+  prev() {
+    const navWrapNode = this.refs.navWrap;
+    const navWrapNodeWH = this.getOffsetWH(navWrapNode);
+    const state = this.state;
+    const offset = state.offset;
+    this.setOffset(offset + navWrapNodeWH);
+  },
+
+  next() {
+    const navWrapNode = this.refs.navWrap;
+    const navWrapNodeWH = this.getOffsetWH(navWrapNode);
+    const state = this.state;
+    const offset = state.offset;
+    this.setOffset(offset - navWrapNodeWH);
+  },
+
   render() {
     const props = this.props;
     const state = this.state;
@@ -154,8 +199,10 @@ const Nav = React.createClass({
       };
     }
 
+    const tabBarExtraContent = this.props.tabBarExtraContent;
+
     return (<div className={`${prefixCls}-tabs-bar`}>
-      {this.props.tabBarExtraContent}
+      {tabBarExtraContent ? <div style={tabBarExtraContentStyle}>{tabBarExtraContent}</div> : null}
       <div className={`${prefixCls}-nav-container ${showNextPrev ? `${prefixCls}-nav-container-scrolling` : ''}`}
            style={props.style}
            ref="container">
@@ -171,47 +218,6 @@ const Nav = React.createClass({
         </div>
       </div>
     </div>);
-  },
-
-  setOffset(offset) {
-    const target = Math.min(0, offset);
-    if (this.state.offset !== target) {
-      this.setState({
-        offset: target,
-      });
-    }
-  },
-
-  prev() {
-    const navWrapNode = this.refs.navWrap;
-    const navWrapNodeWH = this.getOffsetWH(navWrapNode);
-    const state = this.state;
-    const offset = state.offset;
-    this.setOffset(offset + navWrapNodeWH);
-  },
-
-  next() {
-    const navWrapNode = this.refs.navWrap;
-    const navWrapNodeWH = this.getOffsetWH(navWrapNode);
-    const state = this.state;
-    const offset = state.offset;
-    this.setOffset(offset - navWrapNodeWH);
-  },
-
-  setPrev(v) {
-    if (this.state.prev !== v) {
-      this.setState({
-        prev: v,
-      });
-    }
-  },
-
-  setNext(v) {
-    if (this.state.next !== v) {
-      this.setState({
-        next: v,
-      });
-    }
   },
 });
 

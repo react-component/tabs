@@ -99,7 +99,7 @@ var Test = React.createClass({
               activeKey={this.state.activeKey}
               onChange={this.onTabChange}
               tabBarExtraContent={
-                <div style={{float:'right',lineHeight:1.4}}><button onClick={this.add}>+添加</button></div>
+                <button onClick={this.add}>+添加</button>
               }>
           {this.construct()}
         </Tabs>

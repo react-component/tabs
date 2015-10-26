@@ -127,6 +127,12 @@ React.render(
           <th></th>
           <td>called when tab is clicked</td>
       </tr>
+      <tr>
+          <td>tabBarExtraContent</td>
+          <td>React Node</td>
+          <th></th>
+          <td>extra content placed one the right of tab bar</td>
+      </tr>
     </tbody>
 </table>
 
