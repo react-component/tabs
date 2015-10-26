@@ -19721,6 +19721,19 @@
 	    animation: _react.PropTypes.string
 	  },
 	
+	  getDefaultProps: function getDefaultProps() {
+	    return {
+	      prefixCls: 'rc-tabs',
+	      tabBarExtraContent: null,
+	      onChange: noop,
+	      tabPosition: 'top',
+	      style: {},
+	      contentStyle: {},
+	      navStyle: {},
+	      onTabClick: noop
+	    };
+	  },
+	
 	  getInitialState: function getInitialState() {
 	    var props = this.props;
 	    var activeKey = undefined;
@@ -19734,19 +19747,6 @@
 	    // cache panels
 	    this.renderPanels = {};
 	    return { activeKey: activeKey };
-	  },
-	
-	  getDefaultProps: function getDefaultProps() {
-	    return {
-	      prefixCls: 'rc-tabs',
-	      tabBarExtraContent: null,
-	      onChange: noop,
-	      tabPosition: 'top',
-	      style: {},
-	      contentStyle: {},
-	      navStyle: {},
-	      onTabClick: noop
-	    };
 	  },
 	
 	  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
@@ -19870,6 +19870,29 @@
 	    return newChildren;
 	  },
 	
+	  setActiveKey: function setActiveKey(activeKey) {
+	    var _this2 = this;
+	
+	    var currentActiveKey = this.state.activeKey;
+	    if (!currentActiveKey) {
+	      this.setState({
+	        activeKey: activeKey
+	      });
+	    } else {
+	      (function () {
+	        var keys = [];
+	        _react2['default'].Children.forEach(_this2.props.children, function (c) {
+	          keys.push(c.key);
+	        });
+	        var tabMovingDirection = keys.indexOf(currentActiveKey) > keys.indexOf(activeKey) ? 'backward' : 'forward';
+	        _this2.setState({
+	          activeKey: activeKey,
+	          tabMovingDirection: tabMovingDirection
+	        });
+	      })();
+	    }
+	  },
+	
 	  render: function render() {
 	    var props = this.props;
 	    var prefixCls = props.prefixCls;
@@ -19921,29 +19944,6 @@
 	        onKeyDown: this.onKeyDown },
 	      contents
 	    );
-	  },
-	
-	  setActiveKey: function setActiveKey(activeKey) {
-	    var _this2 = this;
-	
-	    var currentActiveKey = this.state.activeKey;
-	    if (!currentActiveKey) {
-	      this.setState({
-	        activeKey: activeKey
-	      });
-	    } else {
-	      (function () {
-	        var keys = [];
-	        _react2['default'].Children.forEach(_this2.props.children, function (c) {
-	          keys.push(c.key);
-	        });
-	        var tabMovingDirection = keys.indexOf(currentActiveKey) > keys.indexOf(activeKey) ? 'backward' : 'forward';
-	        _this2.setState({
-	          activeKey: activeKey,
-	          tabMovingDirection: tabMovingDirection
-	        });
-	      })();
-	    }
 	  }
 	});
 	
@@ -20047,6 +20047,10 @@
 	var _react2 = _interopRequireDefault(_react);
 	
 	var _utils = __webpack_require__(166);
+	
+	var tabBarExtraContentStyle = {
+	  float: 'right'
+	};
 	
 	function noop() {}
 	
@@ -20161,6 +20165,47 @@
 	    return node[prop];
 	  },
 	
+	  setOffset: function setOffset(offset) {
+	    var target = Math.min(0, offset);
+	    if (this.state.offset !== target) {
+	      this.setState({
+	        offset: target
+	      });
+	    }
+	  },
+	
+	  setPrev: function setPrev(v) {
+	    if (this.state.prev !== v) {
+	      this.setState({
+	        prev: v
+	      });
+	    }
+	  },
+	
+	  setNext: function setNext(v) {
+	    if (this.state.next !== v) {
+	      this.setState({
+	        next: v
+	      });
+	    }
+	  },
+	
+	  prev: function prev() {
+	    var navWrapNode = this.refs.navWrap;
+	    var navWrapNodeWH = this.getOffsetWH(navWrapNode);
+	    var state = this.state;
+	    var offset = state.offset;
+	    this.setOffset(offset + navWrapNodeWH);
+	  },
+	
+	  next: function next() {
+	    var navWrapNode = this.refs.navWrap;
+	    var navWrapNodeWH = this.getOffsetWH(navWrapNode);
+	    var state = this.state;
+	    var offset = state.offset;
+	    this.setOffset(offset - navWrapNodeWH);
+	  },
+	
 	  render: function render() {
 	    var props = this.props;
 	    var state = this.state;
@@ -20210,10 +20255,16 @@
 	      };
 	    }
 	
+	    var tabBarExtraContent = this.props.tabBarExtraContent;
+	
 	    return _react2['default'].createElement(
 	      'div',
 	      { className: prefixCls + '-tabs-bar' },
-	      this.props.tabBarExtraContent,
+	      tabBarExtraContent ? _react2['default'].createElement(
+	        'div',
+	        { style: tabBarExtraContentStyle },
+	        tabBarExtraContent
+	      ) : null,
 	      _react2['default'].createElement(
 	        'div',
 	        { className: prefixCls + '-nav-container ' + (showNextPrev ? prefixCls + '-nav-container-scrolling' : ''),
@@ -20237,47 +20288,6 @@
 	        )
 	      )
 	    );
-	  },
-	
-	  setOffset: function setOffset(offset) {
-	    var target = Math.min(0, offset);
-	    if (this.state.offset !== target) {
-	      this.setState({
-	        offset: target
-	      });
-	    }
-	  },
-	
-	  prev: function prev() {
-	    var navWrapNode = this.refs.navWrap;
-	    var navWrapNodeWH = this.getOffsetWH(navWrapNode);
-	    var state = this.state;
-	    var offset = state.offset;
-	    this.setOffset(offset + navWrapNodeWH);
-	  },
-	
-	  next: function next() {
-	    var navWrapNode = this.refs.navWrap;
-	    var navWrapNodeWH = this.getOffsetWH(navWrapNode);
-	    var state = this.state;
-	    var offset = state.offset;
-	    this.setOffset(offset - navWrapNodeWH);
-	  },
-	
-	  setPrev: function setPrev(v) {
-	    if (this.state.prev !== v) {
-	      this.setState({
-	        prev: v
-	      });
-	    }
-	  },
-	
-	  setNext: function setNext(v) {
-	    if (this.state.next !== v) {
-	      this.setState({
-	        next: v
-	      });
-	    }
 	  }
 	});
 	
@@ -20497,12 +20507,12 @@
 	    var showProp = this.props.showProp;
 	    var children = this.state.children;
 	    if (showProp) {
-	      children = children.filter(function (c) {
-	        return !!c.props[showProp];
+	      children = children.filter(function (child) {
+	        return !!child.props[showProp];
 	      });
 	    }
-	    children.forEach(function (c) {
-	      _this.performAppear(c.key);
+	    children.forEach(function (child) {
+	      _this.performAppear(child.key);
 	    });
 	  },
 	
@@ -20532,8 +20542,8 @@
 	          newChildren.push(newChild);
 	        }
 	      });
-	      nextChildren.forEach(function(nextChild){
-	        if(!_ChildrenUtils.findChildInChildrenByKey(currentChildren, nextChild.key)){
+	      nextChildren.forEach(function (nextChild) {
+	        if (!(0, _ChildrenUtils.findChildInChildrenByKey)(currentChildren, nextChild.key)) {
 	          newChildren.push(nextChild);
 	        }
 	      });
@@ -20554,14 +20564,14 @@
 	      children: newChildren
 	    });
 	
-	    nextChildren.forEach(function (c) {
-	      var key = c.key;
+	    nextChildren.forEach(function (child) {
+	      var key = child.key;
 	      if (currentlyAnimatingKeys[key]) {
 	        return;
 	      }
 	      var hasPrev = (0, _ChildrenUtils.findChildInChildrenByKey)(currentChildren, key);
 	      if (showProp) {
-	        var showInNext = c.props[showProp];
+	        var showInNext = child.props[showProp];
 	        if (hasPrev) {
 	          var showInNow = (0, _ChildrenUtils.findShownChildInChildrenByKey)(currentChildren, key, showProp);
 	          if (!showInNow && showInNext) {
@@ -20575,14 +20585,14 @@
 	      }
 	    });
 	
-	    currentChildren.forEach(function (c) {
-	      var key = c.key;
+	    currentChildren.forEach(function (child) {
+	      var key = child.key;
 	      if (currentlyAnimatingKeys[key]) {
 	        return;
 	      }
 	      var hasNext = (0, _ChildrenUtils.findChildInChildrenByKey)(nextChildren, key);
 	      if (showProp) {
-	        var showInNow = c.props[showProp];
+	        var showInNow = child.props[showProp];
 	        if (hasNext) {
 	          var showInNext = (0, _ChildrenUtils.findShownChildInChildrenByKey)(nextChildren, key, showProp);
 	          if (!showInNext && showInNow) {
@@ -20604,40 +20614,6 @@
 	    var keysToLeave = this.keysToLeave;
 	    this.keysToLeave = [];
 	    keysToLeave.forEach(this.performLeave);
-	  },
-	
-	  render: function render() {
-	    var props = this.props;
-	    var stateChildren = this.state.children;
-	    var children = null;
-	    if (stateChildren) {
-	      children = stateChildren.map(function (child) {
-	        if (!child.key) {
-	          throw new Error('must set key for <rc-animate> children');
-	        }
-	        return _react2['default'].createElement(
-	          _AnimateChild2['default'],
-	          {
-	            key: child.key,
-	            ref: child.key,
-	            animation: props.animation,
-	            transitionName: props.transitionName,
-	            transitionEnter: props.transitionEnter,
-	            transitionAppear: props.transitionAppear,
-	            transitionLeave: props.transitionLeave },
-	          child
-	        );
-	      });
-	    }
-	    var Component = props.component;
-	    if (Component) {
-	      return _react2['default'].createElement(
-	        Component,
-	        this.props,
-	        children
-	      );
-	    }
-	    return children[0] || null;
 	  },
 	
 	  performEnter: function performEnter(key) {
@@ -20719,12 +20695,45 @@
 	    if (component) {
 	      component.stop();
 	    }
+	  },
+	
+	  render: function render() {
+	    var props = this.props;
+	    var stateChildren = this.state.children;
+	    var children = null;
+	    if (stateChildren) {
+	      children = stateChildren.map(function (child) {
+	        if (!child.key) {
+	          throw new Error('must set key for <rc-animate> children');
+	        }
+	        return _react2['default'].createElement(
+	          _AnimateChild2['default'],
+	          {
+	            key: child.key,
+	            ref: child.key,
+	            animation: props.animation,
+	            transitionName: props.transitionName,
+	            transitionEnter: props.transitionEnter,
+	            transitionAppear: props.transitionAppear,
+	            transitionLeave: props.transitionLeave },
+	          child
+	        );
+	      });
+	    }
+	    var Component = props.component;
+	    if (Component) {
+	      return _react2['default'].createElement(
+	        Component,
+	        this.props,
+	        children
+	      );
+	    }
+	    return children[0] || null;
 	  }
 	});
 	
 	exports['default'] = Animate;
 	module.exports = exports['default'];
-
 
 /***/ },
 /* 170 */
@@ -20745,8 +20754,8 @@
 	var utils = {
 	  toArrayChildren: function toArrayChildren(children) {
 	    var ret = [];
-	    _react2['default'].Children.forEach(children, function (c) {
-	      ret.push(c);
+	    _react2['default'].Children.forEach(children, function (child) {
+	      ret.push(child);
 	    });
 	    return ret;
 	  },
@@ -20754,12 +20763,12 @@
 	  findChildInChildrenByKey: function findChildInChildrenByKey(children, key) {
 	    var ret = null;
 	    if (children) {
-	      children.forEach(function (c) {
+	      children.forEach(function (child) {
 	        if (ret) {
 	          return;
 	        }
-	        if (c.key === key) {
-	          ret = c;
+	        if (child.key === key) {
+	          ret = child;
 	        }
 	      });
 	    }
@@ -20769,12 +20778,12 @@
 	  findShownChildInChildrenByKey: function findShownChildInChildrenByKey(children, key, showProp) {
 	    var ret = null;
 	    if (children) {
-	      children.forEach(function (c) {
-	        if (c.key === key && c.props[showProp]) {
+	      children.forEach(function (child) {
+	        if (child.key === key && child.props[showProp]) {
 	          if (ret) {
 	            throw new Error('two child with same key for <rc-animate> children');
 	          }
-	          ret = c;
+	          ret = child;
 	        }
 	      });
 	    }
@@ -20784,11 +20793,11 @@
 	  findHiddenChildInChildrenByKey: function findHiddenChildInChildrenByKey(children, key, showProp) {
 	    var found = 0;
 	    if (children) {
-	      children.forEach(function (c) {
+	      children.forEach(function (child) {
 	        if (found) {
 	          return;
 	        }
-	        found = c.key === key && !c.props[showProp];
+	        found = child.key === key && !child.props[showProp];
 	      });
 	    }
 	    return found;
@@ -20797,8 +20806,8 @@
 	  isSameChildren: function isSameChildren(c1, c2, showProp) {
 	    var same = c1.length === c2.length;
 	    if (same) {
-	      c1.forEach(function (child, i) {
-	        var child2 = c2[i];
+	      c1.forEach(function (child, index) {
+	        var child2 = c2[index];
 	        if (child.key !== child2.key) {
 	          same = false;
 	        } else if (showProp && child.props[showProp] !== child2.props[showProp]) {
@@ -20816,22 +20825,22 @@
 	    // the combined list
 	    var nextChildrenPending = {};
 	    var pendingChildren = [];
-	    prev.forEach(function (c) {
-	      if (utils.findChildInChildrenByKey(next, c.key)) {
+	    prev.forEach(function (child) {
+	      if (utils.findChildInChildrenByKey(next, child.key)) {
 	        if (pendingChildren.length) {
-	          nextChildrenPending[c.key] = pendingChildren;
+	          nextChildrenPending[child.key] = pendingChildren;
 	          pendingChildren = [];
 	        }
 	      } else {
-	        pendingChildren.push(c);
+	        pendingChildren.push(child);
 	      }
 	    });
 	
-	    next.forEach(function (c) {
-	      if (nextChildrenPending.hasOwnProperty(c.key)) {
-	        ret = ret.concat(nextChildrenPending[c.key]);
+	    next.forEach(function (child) {
+	      if (nextChildrenPending.hasOwnProperty(child.key)) {
+	        ret = ret.concat(nextChildrenPending[child.key]);
 	      }
-	      ret.push(c);
+	      ret.push(child);
 	    });
 	
 	    ret = ret.concat(pendingChildren);
@@ -20859,6 +20868,10 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
+	var _reactDom = __webpack_require__(159);
+	
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+	
 	var _cssAnimation = __webpack_require__(172);
 	
 	var _cssAnimation2 = _interopRequireDefault(_cssAnimation);
@@ -20878,31 +20891,6 @@
 	
 	  propTypes: {
 	    children: _react2['default'].PropTypes.any
-	  },
-	
-	  transition: function transition(animationType, finishCallback) {
-	    var _this = this;
-	
-	    var node = _react2['default'].findDOMNode(this);
-	    var props = this.props;
-	    var transitionName = props.transitionName;
-	    this.stop();
-	    var end = function end() {
-	      _this.stopper = null;
-	      finishCallback();
-	    };
-	    if ((_cssAnimation.isCssAnimationSupported || !props.animation[animationType]) && transitionName && props[transitionMap[animationType]]) {
-	      this.stopper = (0, _cssAnimation2['default'])(node, transitionName + '-' + animationType, end);
-	    } else {
-	      this.stopper = props.animation[animationType](node, end);
-	    }
-	  },
-	
-	  stop: function stop() {
-	    if (this.stopper) {
-	      this.stopper.stop();
-	      this.stopper = null;
-	    }
 	  },
 	
 	  componentWillUnmount: function componentWillUnmount() {
@@ -20930,6 +20918,31 @@
 	      this.transition('leave', done);
 	    } else {
 	      done();
+	    }
+	  },
+	
+	  transition: function transition(animationType, finishCallback) {
+	    var _this = this;
+	
+	    var node = _reactDom2['default'].findDOMNode(this);
+	    var props = this.props;
+	    var transitionName = props.transitionName;
+	    this.stop();
+	    var end = function end() {
+	      _this.stopper = null;
+	      finishCallback();
+	    };
+	    if ((_cssAnimation.isCssAnimationSupported || !props.animation[animationType]) && transitionName && props[transitionMap[animationType]]) {
+	      this.stopper = (0, _cssAnimation2['default'])(node, transitionName + '-' + animationType, end);
+	    } else {
+	      this.stopper = props.animation[animationType](node, end);
+	    }
+	  },
+	
+	  stop: function stop() {
+	    if (this.stopper) {
+	      this.stopper.stop();
+	      this.stopper = null;
 	    }
 	  },
 	

@@ -152,13 +152,9 @@ webpackJsonp([1],{
 	            activeKey: this.state.activeKey,
 	            onChange: this.onTabChange,
 	            tabBarExtraContent: _react2['default'].createElement(
-	              'div',
-	              { style: { float: 'right', lineHeight: 1.4 } },
-	              _react2['default'].createElement(
-	                'button',
-	                { onClick: this.add },
-	                '+添加'
-	              )
+	              'button',
+	              { onClick: this.add },
+	              '+添加'
 	            ) },
 	          this.construct()
 	        )
