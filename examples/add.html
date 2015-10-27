@@ -274,7 +274,8 @@ var Test = React.createClass({
       content: <span class="hljs-string">'内容: '</span> + index
     };
     <span class="hljs-keyword">this</span>.setState({
-      tabs: <span class="hljs-keyword">this</span>.state.tabs.<span class="hljs-built_in">concat</span>(newTab)
+      tabs: <span class="hljs-keyword">this</span>.state.tabs.<span class="hljs-built_in">concat</span>(newTab),
+      activeKey: <span class="hljs-string">'名称: '</span> + index
     });
   },
 

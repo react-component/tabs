@@ -53,7 +53,8 @@ webpackJsonp([1],{
 	      content: '内容: ' + index
 	    };
 	    this.setState({
-	      tabs: this.state.tabs.concat(newTab)
+	      tabs: this.state.tabs.concat(newTab),
+	      activeKey: '名称: ' + index
 	    });
 	  },
 	
