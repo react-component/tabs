@@ -1,19 +1,12 @@
-'use strict';
-
-var expect = require('expect.js');
-var Tabs = require('../index');
-var TabPane = Tabs.TabPane;
-var React = require('react');
-var ReactDOM = require('react-dom');
-// var sinon = require('sinon');
-var TestUtils = require('react-addons-test-utils');
-var Simulate = TestUtils.Simulate;
-
-var node = document.createElement('div');
-document.body.appendChild(node);
+import expect from 'expect.js';
+import Tabs, {TabPane} from '../index';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import TestUtils, {Simulate} from 'react-addons-test-utils';
 
 describe('tabs', function () {
   var tabs;
+  var node;
   var changeHook;
   var onTabClickHook;
 
@@ -30,6 +23,8 @@ describe('tabs', function () {
   }
 
   beforeEach(function (done) {
+    node = document.createElement('div');
+    document.body.appendChild(node);
     ReactDOM.render(<Tabs defaultActiveKey="2"
       onTabClick={onTabClick}
       onChange={onChange}>
@@ -44,6 +39,7 @@ describe('tabs', function () {
 
   afterEach(function () {
     ReactDOM.unmountComponentAtNode(node);
+    document.body.removeChild(node);
     changeHook = null;
     onTabClickHook = null;
   });
