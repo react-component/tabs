@@ -133,6 +133,12 @@ React.render(
           <th></th>
           <td>extra content placed one the right of tab bar</td>
       </tr>
+      <tr>
+          <td>destroyInactiveTabPane</td>
+          <td>Boolean</td>
+          <th>false</th>
+          <td>whether destroy inactive tabpane when change tab</td>
+      </tr>
     </tbody>
 </table>
 

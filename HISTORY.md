@@ -1,5 +1,9 @@
 # History
 ----
+## 5.5.0 / 2015-11-11
+
+- add destroyInactiveTabPane prop to destroy inactive tab pane when change tab
+
 ## 5.4.0 / 2015-10-20
 
 - support add/tabBarExtraContent

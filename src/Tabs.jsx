@@ -20,6 +20,7 @@ function getDefaultActiveKey(props) {
 
 const Tabs = React.createClass({
   propTypes: {
+    destroyInactiveTabPane: PropTypes.bool,
     onTabClick: PropTypes.func,
     onChange: PropTypes.func,
     children: PropTypes.any,
@@ -30,6 +31,7 @@ const Tabs = React.createClass({
   getDefaultProps() {
     return {
       prefixCls: 'rc-tabs',
+      destroyInactiveTabPane: false,
       tabBarExtraContent: null,
       onChange: noop,
       tabPosition: 'top',
@@ -195,8 +197,7 @@ const Tabs = React.createClass({
 
   render() {
     const props = this.props;
-    const prefixCls = props.prefixCls;
-    const tabPosition = props.tabPosition;
+    const {destroyInactiveTabPane, prefixCls, tabPosition} = props;
     let cls = `${prefixCls} ${prefixCls}-${tabPosition}`;
     const tabMovingDirection = this.state.tabMovingDirection;
     if (props.className) {
@@ -209,12 +210,24 @@ const Tabs = React.createClass({
     if (!transitionName && animation) {
       transitionName = `${prefixCls}-${animation}-${tabMovingDirection || 'backward'}`;
     }
+    if (destroyInactiveTabPane) {
+      tabPanes = tabPanes.filter((panel)=> {
+        return panel.props.active;
+      });
+    }
     if (transitionName) {
-      tabPanes = (<Animate showProp="active"
-                           exclusive
-                           transitionName={transitionName}>
-        {tabPanes}
-      </Animate>);
+      if (destroyInactiveTabPane) {
+        tabPanes = (<Animate exclusive
+                             transitionName={transitionName}>
+          {tabPanes}
+        </Animate>);
+      } else {
+        tabPanes = (<Animate showProp="active"
+                             exclusive
+                             transitionName={transitionName}>
+          {tabPanes}
+        </Animate>);
+      }
     }
     const contents = [
       (<Nav prefixCls={prefixCls}
