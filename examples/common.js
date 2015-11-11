@@ -30,7 +30,7 @@
 /******/ 	// "0" means "already loaded"
 /******/ 	// Array means "loading", array contains callbacks
 /******/ 	var installedChunks = {
-/******/ 		4:0
+/******/ 		5:0
 /******/ 	};
 /******/
 /******/ 	// The require function
@@ -76,7 +76,7 @@
 /******/ 			script.charset = 'utf-8';
 /******/ 			script.async = true;
 /******/
-/******/ 			script.src = __webpack_require__.p + "" + chunkId + "." + ({"0":"activeKey","1":"add","2":"antd","3":"defaultActiveKey"}[chunkId]||chunkId) + ".js";
+/******/ 			script.src = __webpack_require__.p + "" + chunkId + "." + ({"0":"activeKey","1":"add","2":"antd","3":"defaultActiveKey","4":"destroyInactiveTabpanel"}[chunkId]||chunkId) + ".js";
 /******/ 			head.appendChild(script);
 /******/ 		}
 /******/ 	};
@@ -19714,6 +19714,7 @@
 	  displayName: 'Tabs',
 	
 	  propTypes: {
+	    destroyInactiveTabPane: _react.PropTypes.bool,
 	    onTabClick: _react.PropTypes.func,
 	    onChange: _react.PropTypes.func,
 	    children: _react.PropTypes.any,
@@ -19724,6 +19725,7 @@
 	  getDefaultProps: function getDefaultProps() {
 	    return {
 	      prefixCls: 'rc-tabs',
+	      destroyInactiveTabPane: false,
 	      tabBarExtraContent: null,
 	      onChange: noop,
 	      tabPosition: 'top',
@@ -19895,8 +19897,10 @@
 	
 	  render: function render() {
 	    var props = this.props;
+	    var destroyInactiveTabPane = props.destroyInactiveTabPane;
 	    var prefixCls = props.prefixCls;
 	    var tabPosition = props.tabPosition;
+	
 	    var cls = prefixCls + ' ' + prefixCls + '-' + tabPosition;
 	    var tabMovingDirection = this.state.tabMovingDirection;
 	    if (props.className) {
@@ -19909,14 +19913,28 @@
 	    if (!transitionName && animation) {
 	      transitionName = prefixCls + '-' + animation + '-' + (tabMovingDirection || 'backward');
 	    }
+	    if (destroyInactiveTabPane) {
+	      tabPanes = tabPanes.filter(function (panel) {
+	        return panel.props.active;
+	      });
+	    }
 	    if (transitionName) {
-	      tabPanes = _react2['default'].createElement(
-	        _rcAnimate2['default'],
-	        { showProp: 'active',
-	          exclusive: true,
-	          transitionName: transitionName },
-	        tabPanes
-	      );
+	      if (destroyInactiveTabPane) {
+	        tabPanes = _react2['default'].createElement(
+	          _rcAnimate2['default'],
+	          { exclusive: true,
+	            transitionName: transitionName },
+	          tabPanes
+	        );
+	      } else {
+	        tabPanes = _react2['default'].createElement(
+	          _rcAnimate2['default'],
+	          { showProp: 'active',
+	            exclusive: true,
+	            transitionName: transitionName },
+	          tabPanes
+	        );
+	      }
 	    }
 	    var contents = [_react2['default'].createElement(_Nav2['default'], { prefixCls: prefixCls,
 	      key: 'nav',
