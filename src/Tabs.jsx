@@ -57,6 +57,10 @@ const Tabs = React.createClass({
     return {activeKey};
   },
 
+  componentDidMount() {
+    this.componentDidUpdate();
+  },
+
   componentWillReceiveProps(nextProps) {
     let newActiveKey = this.state.activeKey;
     if ('activeKey' in nextProps) {
@@ -72,6 +76,21 @@ const Tabs = React.createClass({
       this.setActiveKey(newActiveKey);
     } else {
       this.setActiveKey(getDefaultActiveKey(nextProps));
+    }
+  },
+
+  componentDidUpdate() {
+    if (this.props.animation) {
+      const navDom = ReactDOM.findDOMNode(this.refs.nav);
+      const contentDom = ReactDOM.findDOMNode(this.refs.content);
+      const childDom = ReactDOM.findDOMNode(this.refs[this.state.activeKey]);
+      let childHeight = childDom.offsetHeight;
+      if (!childDom.style.height) {
+        childDom.style.height = 'auto';
+        childHeight = childDom.offsetHeight;
+        childDom.style.height = '';
+      }
+      contentDom.style.height = Math.max(childHeight, navDom.offsetHeight) + 'px';
     }
   },
 
@@ -154,6 +173,7 @@ const Tabs = React.createClass({
           onDestroy: this.onTabDestroy.bind(this, key),
           // eventKey: key,
           rootPrefixCls: props.prefixCls,
+          ref: key,
         });
         newChildren.push(renderPanels[key]);
       } else {
@@ -169,6 +189,7 @@ const Tabs = React.createClass({
           active: false,
           // eventKey: key,
           rootPrefixCls: props.prefixCls,
+          ref: key,
         }, []));
       }
     });
@@ -232,6 +253,7 @@ const Tabs = React.createClass({
     const contents = [
       (<Nav prefixCls={prefixCls}
             key="nav"
+            ref="nav"
             tabBarExtraContent={this.props.tabBarExtraContent}
             tabPosition={tabPosition}
             style={props.navStyle}
@@ -241,7 +263,8 @@ const Tabs = React.createClass({
             activeKey={this.state.activeKey}/>),
       (<div className={`${prefixCls}-content`}
             style={props.contentStyle}
-            key="content">
+            key="content"
+            ref="content">
         {tabPanes}
       </div>),
     ];
