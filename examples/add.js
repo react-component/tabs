@@ -3,31 +3,46 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Tabs, {TabPane} from 'rc-tabs';
 
-var index = 1;
+let index = 1;
 
-var Test = React.createClass({
+const Test = React.createClass({
   getInitialState() {
     return {
       tabs: [{
-        title: "初始",
-        content: "初始内容"
+        title: '初始',
+        content: '初始内容',
       }],
 
-      activeKey: "初始",
+      activeKey: '初始',
     };
   },
 
-  add(e) {
-    e.stopPropagation();
-    index++;
-    var newTab = {
-      title: '名称: ' + index,
-      content: '内容: ' + index
-    };
-    this.setState({
-      tabs: this.state.tabs.concat(newTab),
-      activeKey: '名称: ' + index
-    });
+  onTabChange(activeKey) {
+    this.setState({activeKey});
+  },
+
+  construct() {
+    const disabled = true;
+    return this.state.tabs.map((t) => {
+      return (<TabPane tab={<span>{t.title}
+        <a style={{
+          position: 'absolute',
+          cursor: 'pointer',
+          color: 'red',
+          right: 5,
+          top: 0,
+        }} onClick={this.remove.bind(this, t.title)}>x</a>
+      </span>}
+        key={t.title}>
+        <div style={{padding: 100}}>
+          {t.content}
+        </div>
+      </TabPane>);
+    }).concat([
+      <TabPane tab={<a style={{color: 'black', cursor: 'pointer'}} onClick={this.add}> + 添加</a>}
+        disabled={disabled}
+        key={'__add'} />,
+    ]);
   },
 
   remove(title, e) {
@@ -36,16 +51,15 @@ var Test = React.createClass({
       alert('只剩一个，不能删');
       return;
     }
-    var foundIndex = 0;
-    var after = this.state.tabs.filter(function (t, index) {
+    let foundIndex = 0;
+    const after = this.state.tabs.filter((t, i) => {
       if (t.title !== title) {
         return true;
-      } else {
-        foundIndex = index;
-        return false;
       }
+      foundIndex = i;
+      return false;
     });
-    var activeKey = this.state.activeKey;
+    let activeKey = this.state.activeKey;
     if (activeKey === title) {
       if (foundIndex) {
         foundIndex--;
@@ -58,55 +72,41 @@ var Test = React.createClass({
     });
   },
 
-  construct() {
-    return this.state.tabs.map((t) => {
-      return <TabPane tab={<span>{t.title} <a style={{
-        position:'absolute',
-        cursor:'pointer',
-        color:'red',
-        right:5,
-        top:0
-      }} onClick={this.remove.bind(this, t.title)}>x</a></span>}
-                      key={t.title}>
-        <div style={{padding:100}}>
-          {t.content}
-        </div>
-      </TabPane>
-    }).concat([
-      <TabPane tab={<a style={{color:'black', cursor:'pointer'}} onClick={this.add}> + 添加</a>}
-               disabled={true}
-               key={"__add"}>
-      </TabPane>
-
-    ]);
-  },
-
-  onTabChange(activeKey){
-    this.setState({activeKey});
+  add(e) {
+    e.stopPropagation();
+    index++;
+    const newTab = {
+      title: '名称: ' + index,
+      content: '内容: ' + index,
+    };
+    this.setState({
+      tabs: this.state.tabs.concat(newTab),
+      activeKey: '名称: ' + index,
+    });
   },
 
   render() {
-    var animation = "slide-horizontal";
+    const animation = 'slide-horizontal';
 
-    var tabStyle = {
-      width: 500
+    const tabStyle = {
+      width: 500,
     };
 
-    return <div style={{margin: 20}}>
+    return (<div style={{margin: 20}}>
       <h2>Addable Tabs</h2>
 
       <div style={tabStyle}>
         <Tabs animation={animation}
-              activeKey={this.state.activeKey}
-              onChange={this.onTabChange}
-              tabBarExtraContent={
-                <button onClick={this.add}>+添加</button>
-              }>
+          activeKey={this.state.activeKey}
+          onChange={this.onTabChange}
+          tabBarExtraContent={
+            <button onClick={this.add}>+添加</button>
+            }>
           {this.construct()}
         </Tabs>
       </div>
-    </div>
-  }
+    </div>);
+  },
 });
 
 ReactDOM.render(<Test />, document.getElementById('__react-content'));
