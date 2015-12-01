@@ -25,16 +25,18 @@ describe('tabs', () => {
   beforeEach((done) => {
     node = document.createElement('div');
     document.body.appendChild(node);
+    function tabsRenderCallback() {
+      tabs = this;
+      done();
+    }
+
     ReactDOM.render(<Tabs defaultActiveKey="2"
       onTabClick={onTabClick}
       onChange={onChange}>
       <TabPane tab="tab 1" key="1">first</TabPane>
       <TabPane tab="tab 2" key="2">second</TabPane>
       <TabPane tab="tab 3" key="3">third</TabPane>
-    </Tabs>, node, () => {
-      tabs = this;
-      done();
-    });
+    </Tabs>, node, tabsRenderCallback);
   });
 
   afterEach(() => {
