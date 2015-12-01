@@ -1,6 +1,7 @@
 .@{prefixClass} {
   &-left {
     border-right: 2px solid #f3f3f3;
+    height: 100%;
   }
 
   &-left &-tabs-bar {
@@ -19,7 +20,12 @@
   }
 
   &-left &-content {
-    height: 100%;
+    & > span {
+      height: 100%;
+      & .@{prefixClass}-tabpane{
+        height: 100%;
+      }
+    }
   }
 
   &-left &-nav-scroll {

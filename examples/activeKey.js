@@ -1,5 +1,3 @@
-
-
 import 'rc-tabs/assets/index.less';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -16,47 +14,51 @@ class PanelContent extends React.Component {
   }
 
   render() {
-    var count = [1, 1, 1, 1];// new Array(4) skip forEach ....
-    var els = count.map((c, i)=> {
-      return <p key={i}>{this.props.id}</p>
+    const count = [1, 1, 1, 1];// new Array(4) skip forEach ....
+    const els = count.map((c, i)=> {
+      return <p key={i}>{this.props.id}</p>;
     });
     return <div>{els}</div>;
   }
 }
+PanelContent.propTypes = {
+  id: React.PropTypes.number,
+};
 
-var Component=React.createClass({
-  getInitialState(){
+const Component = React.createClass({
+  getInitialState() {
     return {
-      activeKey:'',
-      start:0
-    }
+      activeKey: '',
+      start: 0,
+    };
   },
 
-  onChange(key){
+  onChange(key) {
     console.log(`onChange ${key}`);
     this.setState({
-      activeKey:key
+      activeKey: key,
     });
   },
 
-  onTabClick(key){
+  onTabClick(key) {
     console.log(`onTabClick ${key}`);
-    if(key === this.state.activeKey){
+    if (key === this.state.activeKey) {
       this.setState({
-        activeKey:''
+        activeKey: '',
       });
     }
   },
 
-  tick(){
+  tick() {
     this.setState({
-      start:this.state.start+10
-    })
+      start: this.state.start + 10,
+    });
   },
 
-  render(){
-    var start = this.state.start;
-    return <div>
+  render() {
+    const start = this.state.start;
+    const disabled = true;
+    return (<div>
       <h1>Simple Tabs</h1>
       <Tabs activeKey={this.state.activeKey}
         onTabClick={this.onTabClick}
@@ -67,7 +69,7 @@ var Component=React.createClass({
         <TabPane tab={`tab ${start + 1}`} key="2">
           <PanelContent id={start + 1}/>
         </TabPane>
-        <TabPane tab={`tab ${start + 2}`} key="3" disabled={true}>
+        <TabPane tab={`tab ${start + 2}`} key="3" disabled={disabled}>
           <PanelContent id={start + 2}/>
         </TabPane>
         <TabPane tab={`tab ${start + 3}`} key="4">
@@ -75,8 +77,8 @@ var Component=React.createClass({
         </TabPane>
       </Tabs>
       <button onClick={this.tick}>rerender</button>
-    </div>
-  }
+    </div>);
+  },
 });
 
-ReactDOM.render(<Component />,document.getElementById('__react-content'));
+ReactDOM.render(<Component />, document.getElementById('__react-content'));
