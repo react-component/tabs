@@ -9,6 +9,8 @@ webpackJsonp([0],[
 /* 1 */
 /***/ function(module, exports, __webpack_require__) {
 
+	/* eslint react/no-multi-comp:0, no-console:0 */
+	
 	'use strict';
 	
 	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
@@ -27,11 +29,11 @@ webpackJsonp([0],[
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _reactDom = __webpack_require__(159);
+	var _reactDom = __webpack_require__(160);
 	
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 	
-	var _rcTabs = __webpack_require__(160);
+	var _rcTabs = __webpack_require__(161);
 	
 	var _rcTabs2 = _interopRequireDefault(_rcTabs);
 	
@@ -74,6 +76,10 @@ webpackJsonp([0],[
 	  return PanelContent;
 	})(_react2['default'].Component);
 	
+	PanelContent.propTypes = {
+	  id: _react2['default'].PropTypes.number
+	};
+	
 	var Component = _react2['default'].createClass({
 	  displayName: 'Component',
 	
@@ -108,6 +114,7 @@ webpackJsonp([0],[
 	
 	  render: function render() {
 	    var start = this.state.start;
+	    var disabled = true;
 	    return _react2['default'].createElement(
 	      'div',
 	      null,
@@ -133,7 +140,7 @@ webpackJsonp([0],[
 	        ),
 	        _react2['default'].createElement(
 	          _rcTabs.TabPane,
-	          { tab: 'tab ' + (start + 2), key: '3', disabled: true },
+	          { tab: 'tab ' + (start + 2), key: '3', disabled: disabled },
 	          _react2['default'].createElement(PanelContent, { id: start + 2 })
 	        ),
 	        _react2['default'].createElement(

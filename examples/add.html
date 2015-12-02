@@ -2,6 +2,7 @@
 <html>
 
 <head>
+  <title>add.js - example - rc-tabs@5.5.1</title>
   <meta name="viewport"
         content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
   <meta charset="utf-8"/>
@@ -42,153 +43,170 @@
       hyphens: none;
       color: #E5E5C2;
     }
+  </style>
+  <style>
+/*
 
-    /*
 Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-license.org/
+
 */
 
-    .hljs {
-      display: block;
-      overflow-x: auto;
-      padding: 0.5em;
-      background: #23241f;
-      -webkit-text-size-adjust: none;
-    }
+.hljs {
+  display: block;
+  overflow-x: auto;
+  padding: 0.5em;
+  background: #23241f;
+  -webkit-text-size-adjust: none;
+}
 
-    .hljs,
-    .hljs-tag,
-    .css .hljs-rules,
-    .css .hljs-value,
-    .css .hljs-function
-    .hljs-preprocessor,
-    .hljs-pragma {
-      color: #f8f8f2;
-    }
+.hljs,
+.hljs-tag,
+.css .hljs-rule,
+.css .hljs-value,
+.aspectj .hljs-function,
+.css .hljs-function
+.hljs-preprocessor,
+.hljs-pragma {
+  color: #f8f8f2;
+}
 
-    .hljs-strongemphasis,
-    .hljs-strong,
-    .hljs-emphasis {
-      color: #a8a8a2;
-    }
+.hljs-strongemphasis,
+.hljs-strong,
+.hljs-emphasis {
+  color: #a8a8a2;
+}
 
-    .hljs-bullet,
-    .hljs-blockquote,
-    .hljs-horizontal_rule,
-    .hljs-number,
-    .hljs-regexp,
-    .alias .hljs-keyword,
-    .hljs-literal,
-    .hljs-hexcolor {
-      color: #ae81ff;
-    }
+.hljs-bullet,
+.hljs-blockquote,
+.hljs-horizontal_rule,
+.hljs-number,
+.hljs-regexp,
+.alias .hljs-keyword,
+.hljs-literal,
+.hljs-hexcolor {
+  color: #ae81ff;
+}
 
-    .hljs-tag .hljs-value,
-    .hljs-code,
-    .hljs-title,
-    .css .hljs-class,
-    .hljs-class .hljs-title:last-child {
-      color: #a6e22e;
-    }
+.hljs-code,
+.hljs-title,
+.css .hljs-class,
+.hljs-class .hljs-title:last-child {
+  color: #a6e22e;
+  /*color: #e6db74;*/
+}
 
-    .hljs-link_url {
-      font-size: 80%;
-    }
+.hljs-link_url {
+  font-size: 80%;
+}
 
-    .hljs-strong,
-    .hljs-strongemphasis {
-      font-weight: bold;
-    }
+.hljs-strong,
+.hljs-strongemphasis {
+  font-weight: bold;
+}
 
-    .hljs-emphasis,
-    .hljs-strongemphasis,
-    .hljs-class .hljs-title:last-child {
-      font-style: italic;
-    }
+.hljs-emphasis,
+.hljs-strongemphasis,
+.hljs-class .hljs-title:last-child,
+.hljs-typename {
+  font-style: italic;
+}
 
-    .hljs-keyword,
-    .hljs-function,
-    .hljs-change,
-    .hljs-winutils,
-    .hljs-flow,
-    .nginx .hljs-title,
-    .tex .hljs-special,
-    .hljs-header,
-    .hljs-attribute,
-    .hljs-symbol,
-    .hljs-symbol .hljs-string,
-    .hljs-tag .hljs-title,
-    .hljs-value,
-    .alias .hljs-keyword:first-child,
-    .css .hljs-tag,
-    .css .unit,
-    .css .hljs-important {
-      color: #f92672;
-    }
+.hljs-keyword,
+.ruby .hljs-class .hljs-keyword:first-child,
+.ruby .hljs-function .hljs-keyword,
+.hljs-function,
+.hljs-change,
+.hljs-winutils,
+.hljs-flow,
+.nginx .hljs-title,
+.tex .hljs-special,
+.hljs-header,
+.hljs-symbol,
+.hljs-symbol .hljs-string,
+.hljs-tag .hljs-title,
+.hljs-value,
+.alias .hljs-keyword:first-child,
+.css .hljs-tag,
+.css .unit,
+.css .hljs-important {
+  color: #f92672;
+}
 
-    .hljs-function .hljs-keyword,
-    .hljs-class .hljs-keyword:first-child,
-    .hljs-constant,
-    .css .hljs-attribute {
-      color: #66d9ef;
-    }
+.hljs-function .hljs-keyword,
+.hljs-class .hljs-keyword:first-child,
+.hljs-aspect .hljs-keyword:first-child,
+.hljs-constant,
+.hljs-typename,
+.hljs-name,
+.css .hljs-attribute {
+  color: #66d9ef;
+}
 
-    .hljs-variable,
-    .hljs-params,
-    .hljs-class .hljs-title {
-      color: #f8f8f2;
-    }
+.hljs-variable,
+.hljs-params,
+.hljs-class .hljs-title,
+.hljs-aspect .hljs-title {
+  color: #f8f8f2;
+}
 
-    .hljs-string,
-    .css .hljs-id,
-    .hljs-subst,
-    .hljs-type,
-    .ruby .hljs-class .hljs-parent,
-    .hljs-built_in,
-    .django .hljs-template_tag,
-    .django .hljs-variable,
-    .smalltalk .hljs-class,
-    .django .hljs-filter .hljs-argument,
-    .smalltalk .hljs-localvars,
-    .smalltalk .hljs-array,
-    .hljs-attr_selector,
-    .hljs-pseudo,
-    .hljs-addition,
-    .hljs-stream,
-    .hljs-envvar,
-    .apache .hljs-tag,
-    .apache .hljs-cbracket,
-    .tex .hljs-command,
-    .hljs-prompt,
-    .hljs-link_label,
-    .hljs-link_url {
-      color: #e6db74;
-    }
+.hljs-tag .hljs-value,
+.hljs-string,
+.css .hljs-id,
+.hljs-subst,
+.hljs-type,
+.ruby .hljs-class .hljs-parent,
+.django .hljs-template_tag,
+.django .hljs-variable,
+.smalltalk .hljs-class,
+.django .hljs-filter .hljs-argument,
+.smalltalk .hljs-localvars,
+.smalltalk .hljs-array,
+.hljs-attr_selector,
+.hljs-pseudo,
+.hljs-addition,
+.hljs-stream,
+.hljs-envvar,
+.apache .hljs-tag,
+.apache .hljs-cbracket,
+.tex .hljs-command,
+.hljs-prompt,
+.hljs-link_label,
+.hljs-link_url {
+  color: #e6db74;
+}
 
-    .hljs-comment,
-    .hljs-javadoc,
-    .hljs-annotation,
-    .hljs-decorator,
-    .hljs-template_comment,
-    .hljs-pi,
-    .hljs-doctype,
-    .hljs-deletion,
-    .hljs-shebang,
-    .apache .hljs-sqbracket,
-    .tex .hljs-formula {
-      color: #75715e;
-    }
+.hljs-comment,
+.hljs-annotation,
+.hljs-decorator,
+.hljs-pi,
+.hljs-doctype,
+.hljs-deletion,
+.hljs-shebang,
+.apache .hljs-sqbracket,
+.tex .hljs-formula {
+  color: #75715e;
+}
 
-    .coffeescript .javascript,
-    .javascript .xml,
-    .tex .hljs-formula,
-    .xml .javascript,
-    .xml .vbscript,
-    .xml .css,
-    .xml .hljs-cdata,
-    .xml .php,
-    .php .xml {
-      opacity: 0.5;
-    }
+.coffeescript .javascript,
+.javascript .xml,
+.tex .hljs-formula,
+.xml .javascript,
+.xml .vbscript,
+.xml .css,
+.xml .hljs-cdata,
+.xml .php,
+.php .xml {
+  opacity: 0.5;
+}
+/***********/
+.hljs-attribute{
+  color: #a6e22e;
+}
+/***** node keyword ******/
+.hljs-built_in{
+  color: #3396dc;
+  font-weight: bold;
+}
   </style>
   <style>
     .container {
@@ -239,133 +257,135 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
 <body>
 <div class="container">
   <div class="header">
-    <h1>rc-tabs@5.5.0</h1>
+    <h1>rc-tabs@5.5.1</h1>
 
     <p>tabs ui component for react</p>
   </div>
   <div class="example" id="__react-content"></div>
   <script src="common.js?nowrap"></script>
   <script src="add.js?nowrap"></script>
-  <div class="highlight">
-    <pre><code><span class="hljs-keyword">import</span> <span class="hljs-string">'rc-tabs/assets/index.css'</span>;
-<span class="hljs-keyword">import</span> React from <span class="hljs-string">'react'</span>;
-<span class="hljs-keyword">import</span> ReactDOM from <span class="hljs-string">'react-dom'</span>;
-<span class="hljs-keyword">import</span> Tabs, {TabPane} from <span class="hljs-string">'rc-tabs'</span>;
+  <div class="highlight"><pre><code language="js"><span class="hljs-comment">/* eslint react/no-multi-comp:0, no-console:0, no-alert:0 */</span>
 
-var index = <span class="hljs-number">1</span>;
+import <span class="hljs-string">'rc-tabs/assets/index.css'</span>;
+import React from <span class="hljs-string">'react'</span>;
+import ReactDOM from <span class="hljs-string">'react-dom'</span>;
+import Tabs, {TabPane} from <span class="hljs-string">'rc-tabs'</span>;
 
-var Test = React.createClass({
+<span class="hljs-keyword">let</span> index = <span class="hljs-number">1</span>;
+
+<span class="hljs-keyword">const</span> Test = React.createClass({
   getInitialState() {
     <span class="hljs-keyword">return</span> {
       tabs: [{
-        title: <span class="hljs-string">"初始"</span>,
-        content: <span class="hljs-string">"初始内容"</span>
+        title: <span class="hljs-string">'初始'</span>,
+        content: <span class="hljs-string">'初始内容'</span>,
       }],
 
-      activeKey: <span class="hljs-string">"初始"</span>,
+      activeKey: <span class="hljs-string">'初始'</span>,
     };
   },
 
-  <span class="hljs-built_in">add</span>(e) {
-    e.stopPropagation();
-    index++;
-    var newTab = {
-      title: <span class="hljs-string">'名称: '</span> + index,
-      content: <span class="hljs-string">'内容: '</span> + index
-    };
-    <span class="hljs-keyword">this</span>.setState({
-      tabs: <span class="hljs-keyword">this</span>.state.tabs.<span class="hljs-built_in">concat</span>(newTab),
-      activeKey: <span class="hljs-string">'名称: '</span> + index
-    });
+  onTabChange(activeKey) {
+    <span class="hljs-keyword">this</span>.setState({activeKey});
+  },
+
+  construct() {
+    <span class="hljs-keyword">const</span> disabled = <span class="hljs-literal">true</span>;
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.state.tabs.map((t) =&gt; {
+      <span class="hljs-keyword">return</span> (<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">TabPane</span> <span class="hljs-attribute">tab</span>=<span class="hljs-value">{&lt;span</span>&gt;</span>{t.title}
+        <span class="hljs-tag">&lt;<span class="hljs-title">a</span> <span class="hljs-attribute">style</span>=<span class="hljs-value">{{</span>
+          <span class="hljs-attribute">position:</span> '<span class="hljs-attribute">absolute</span>',
+          <span class="hljs-attribute">cursor:</span> '<span class="hljs-attribute">pointer</span>',
+          <span class="hljs-attribute">color:</span> '<span class="hljs-attribute">red</span>',
+          <span class="hljs-attribute">right:</span> <span class="hljs-attribute">5</span>,
+          <span class="hljs-attribute">top:</span> <span class="hljs-attribute">0</span>,
+        }} <span class="hljs-attribute">onClick</span>=<span class="hljs-value">{this.remove.bind(this,</span> <span class="hljs-attribute">t.title</span>)}&gt;</span>x<span class="hljs-tag">&lt;/<span class="hljs-title">a</span>&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-title">span</span>&gt;</span>}
+        key={t.title}&gt;
+        <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">style</span>=<span class="hljs-value">{{padding:</span> <span class="hljs-attribute">100</span>}}&gt;</span>
+          {t.content}
+        <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-title">TabPane</span>&gt;</span>);
+    }).concat([
+      <span class="hljs-tag">&lt;<span class="hljs-title">TabPane</span> <span class="hljs-attribute">tab</span>=<span class="hljs-value">{&lt;a</span> <span class="hljs-attribute">style</span>=<span class="hljs-value">{{color:</span> '<span class="hljs-attribute">black</span>', <span class="hljs-attribute">cursor:</span> '<span class="hljs-attribute">pointer</span>'}} <span class="hljs-attribute">onClick</span>=<span class="hljs-value">{this.add}</span>&gt;</span> + 添加<span class="hljs-tag">&lt;/<span class="hljs-title">a</span>&gt;</span>}
+        disabled={disabled}
+        key={'__add'} /&gt;,
+    ]);
   },
 
   remove(title, e) {
     e.stopPropagation();
-    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.state.tabs.length === <span class="hljs-number">1</span>) {
-      alert(<span class="hljs-string">'只剩一个，不能删'</span>);
-      <span class="hljs-keyword">return</span>;
+    if (this.state.tabs.length === 1) {
+      alert('只剩一个，不能删');
+      return;
     }
-    var foundIndex = <span class="hljs-number">0</span>;
-    var after = <span class="hljs-keyword">this</span>.state.tabs.<span class="hljs-built_in">filter</span>(function (t, index) {
-      <span class="hljs-keyword">if</span> (t.title !== title) {
-        <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;
-      } <span class="hljs-keyword">else</span> {
-        foundIndex = index;
-        <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;
+    let foundIndex = 0;
+    const after = this.state.tabs.filter((t, i) =&gt; {
+      if (t.title !== title) {
+        return true;
       }
+      foundIndex = i;
+      return false;
     });
-    var activeKey = <span class="hljs-keyword">this</span>.state.activeKey;
-    <span class="hljs-keyword">if</span> (activeKey === title) {
-      <span class="hljs-keyword">if</span> (foundIndex) {
+    let activeKey = this.state.activeKey;
+    if (activeKey === title) {
+      if (foundIndex) {
         foundIndex--;
       }
       activeKey = after[foundIndex].title;
     }
-    <span class="hljs-keyword">this</span>.setState({
+    this.setState({
       tabs: after,
       activeKey: activeKey,
     });
   },
 
-  construct() {
-    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.state.tabs.<span class="hljs-built_in">map</span>((t) =&gt; {
-      <span class="hljs-keyword">return</span> &lt;TabPane tab={&lt;span&gt;{t.title} &lt;a style={{
-        position:<span class="hljs-string">'absolute'</span>,
-        <span class="hljs-built_in">cursor</span>:<span class="hljs-string">'pointer'</span>,
-        <span class="hljs-built_in">color</span>:<span class="hljs-string">'red'</span>,
-        right:<span class="hljs-number">5</span>,
-        top:<span class="hljs-number">0</span>
-      }} onClick={<span class="hljs-keyword">this</span>.remove.bind(<span class="hljs-keyword">this</span>, t.title)}&gt;x&lt;/a&gt;&lt;/span&gt;}
-                      <span class="hljs-variable">key</span>={t.title}&gt;
-        &lt;div style={{padding:<span class="hljs-number">100</span>}}&gt;
-          {t.content}
-        &lt;/div&gt;
-      &lt;/TabPane&gt;
-    }).<span class="hljs-built_in">concat</span>([
-      &lt;TabPane tab={&lt;a style={{<span class="hljs-built_in">color</span>:<span class="hljs-string">'black'</span>, <span class="hljs-built_in">cursor</span>:<span class="hljs-string">'pointer'</span>}} onClick={<span class="hljs-keyword">this</span>.<span class="hljs-built_in">add</span>}&gt; + 添加&lt;/a&gt;}
-               disabled={<span class="hljs-keyword">true</span>}
-               <span class="hljs-variable">key</span>={<span class="hljs-string">"__add"</span>}&gt;
-      &lt;/TabPane&gt;
-
-    ]);
-  },
-
-  onTabChange(activeKey){
-    <span class="hljs-keyword">this</span>.setState({activeKey});
+  add(e) {
+    e.stopPropagation();
+    index++;
+    const newTab = {
+      title: '名称: ' + index,
+      content: '内容: ' + index,
+    };
+    this.setState({
+      tabs: this.state.tabs.concat(newTab),
+      activeKey: '名称: ' + index,
+    });
   },
 
   render() {
-    var animation = <span class="hljs-string">"slide-horizontal"</span>;
+    const animation = 'slide-horizontal';
 
-    var tabStyle = {
-      <span class="hljs-variable">width</span>: <span class="hljs-number">500</span>
+    const tabStyle = {
+      width: 500,
     };
 
-    <span class="hljs-keyword">return</span> &lt;div style={{margin: <span class="hljs-number">20</span>}}&gt;
-      &lt;h2&gt;Addable Tabs&lt;/h2&gt;
+    return (<span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">style</span>=<span class="hljs-value">{{margin:</span> <span class="hljs-attribute">20</span>}}&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-title">h2</span>&gt;</span>Addable Tabs<span class="hljs-tag">&lt;/<span class="hljs-title">h2</span>&gt;</span>
 
-      &lt;div style={tabStyle}&gt;
-        &lt;Tabs animation={animation}
-              activeKey={<span class="hljs-keyword">this</span>.state.activeKey}
-              onChange={<span class="hljs-keyword">this</span>.onTabChange}
-              tabBarExtraContent={
-                &lt;button onClick={<span class="hljs-keyword">this</span>.<span class="hljs-built_in">add</span>}&gt;+添加&lt;/button&gt;
-              }&gt;
-          {<span class="hljs-keyword">this</span>.construct()}
-        &lt;/Tabs&gt;
-      &lt;/div&gt;
-    &lt;/div&gt;
-  }
+      <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">style</span>=<span class="hljs-value">{tabStyle}</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-title">Tabs</span> <span class="hljs-attribute">animation</span>=<span class="hljs-value">{animation}</span>
+          <span class="hljs-attribute">activeKey</span>=<span class="hljs-value">{this.state.activeKey}</span>
+          <span class="hljs-attribute">onChange</span>=<span class="hljs-value">{this.onTabChange}</span>
+          <span class="hljs-attribute">tabBarExtraContent</span>=<span class="hljs-value">{</span>
+            &lt;<span class="hljs-attribute">button</span> <span class="hljs-attribute">onClick</span>=<span class="hljs-value">{this.add}</span>&gt;</span>+添加<span class="hljs-tag">&lt;/<span class="hljs-title">button</span>&gt;</span>
+            }&gt;
+          {this.construct()}
+        <span class="hljs-tag">&lt;/<span class="hljs-title">Tabs</span>&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>);
+  },
 });
 
-ReactDOM.render(&lt;Test /&gt;, document.getElementById(<span class="hljs-string">'__react-content'</span>));
-</code></pre>
-  </div>
+ReactDOM.render(<span class="hljs-tag">&lt;<span class="hljs-title">Test</span> /&gt;</span>, document.getElementById('__react-content'));
+</span></code></pre></div>
 </div>
-<a href="http://github.com/react-component/tabs"><img style="position: absolute; top: 0; right: 0; border: 0;"
-                            src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67"
-                            alt="Fork me on GitHub"
-                            data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"></a>
+<a href="http://github.com/react-component/tabs">
+  <img style="position: absolute; top: 0; right: 0; border: 0;"
+       src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67"
+       alt="Fork me on GitHub"
+       data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+</a>
 </body>
 
 </html>

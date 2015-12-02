@@ -3,14 +3,16 @@ webpackJsonp([1],{
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(176);
+	module.exports = __webpack_require__(177);
 
 
 /***/ },
 
-/***/ 176:
+/***/ 177:
 /***/ function(module, exports, __webpack_require__) {
 
+	/* eslint react/no-multi-comp:0, no-console:0, no-alert:0 */
+	
 	'use strict';
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
@@ -21,11 +23,11 @@ webpackJsonp([1],{
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _reactDom = __webpack_require__(159);
+	var _reactDom = __webpack_require__(160);
 	
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 	
-	var _rcTabs = __webpack_require__(160);
+	var _rcTabs = __webpack_require__(161);
 	
 	var _rcTabs2 = _interopRequireDefault(_rcTabs);
 	
@@ -37,58 +39,22 @@ webpackJsonp([1],{
 	  getInitialState: function getInitialState() {
 	    return {
 	      tabs: [{
-	        title: "初始",
-	        content: "初始内容"
+	        title: '初始',
+	        content: '初始内容'
 	      }],
 	
-	      activeKey: "初始"
+	      activeKey: '初始'
 	    };
 	  },
 	
-	  add: function add(e) {
-	    e.stopPropagation();
-	    index++;
-	    var newTab = {
-	      title: '名称: ' + index,
-	      content: '内容: ' + index
-	    };
-	    this.setState({
-	      tabs: this.state.tabs.concat(newTab),
-	      activeKey: '名称: ' + index
-	    });
-	  },
-	
-	  remove: function remove(title, e) {
-	    e.stopPropagation();
-	    if (this.state.tabs.length === 1) {
-	      alert('只剩一个，不能删');
-	      return;
-	    }
-	    var foundIndex = 0;
-	    var after = this.state.tabs.filter(function (t, index) {
-	      if (t.title !== title) {
-	        return true;
-	      } else {
-	        foundIndex = index;
-	        return false;
-	      }
-	    });
-	    var activeKey = this.state.activeKey;
-	    if (activeKey === title) {
-	      if (foundIndex) {
-	        foundIndex--;
-	      }
-	      activeKey = after[foundIndex].title;
-	    }
-	    this.setState({
-	      tabs: after,
-	      activeKey: activeKey
-	    });
+	  onTabChange: function onTabChange(activeKey) {
+	    this.setState({ activeKey: activeKey });
 	  },
 	
 	  construct: function construct() {
 	    var _this = this;
 	
+	    var disabled = true;
 	    return this.state.tabs.map(function (t) {
 	      return _react2['default'].createElement(
 	        _rcTabs.TabPane,
@@ -96,7 +62,6 @@ webpackJsonp([1],{
 	            'span',
 	            null,
 	            t.title,
-	            ' ',
 	            _react2['default'].createElement(
 	              'a',
 	              { style: {
@@ -121,16 +86,52 @@ webpackJsonp([1],{
 	        { style: { color: 'black', cursor: 'pointer' }, onClick: this.add },
 	        ' + 添加'
 	      ),
-	      disabled: true,
-	      key: "__add" })]);
+	      disabled: disabled,
+	      key: '__add' })]);
 	  },
 	
-	  onTabChange: function onTabChange(activeKey) {
-	    this.setState({ activeKey: activeKey });
+	  remove: function remove(title, e) {
+	    e.stopPropagation();
+	    if (this.state.tabs.length === 1) {
+	      alert('只剩一个，不能删');
+	      return;
+	    }
+	    var foundIndex = 0;
+	    var after = this.state.tabs.filter(function (t, i) {
+	      if (t.title !== title) {
+	        return true;
+	      }
+	      foundIndex = i;
+	      return false;
+	    });
+	    var activeKey = this.state.activeKey;
+	    if (activeKey === title) {
+	      if (foundIndex) {
+	        foundIndex--;
+	      }
+	      activeKey = after[foundIndex].title;
+	    }
+	    this.setState({
+	      tabs: after,
+	      activeKey: activeKey
+	    });
+	  },
+	
+	  add: function add(e) {
+	    e.stopPropagation();
+	    index++;
+	    var newTab = {
+	      title: '名称: ' + index,
+	      content: '内容: ' + index
+	    };
+	    this.setState({
+	      tabs: this.state.tabs.concat(newTab),
+	      activeKey: '名称: ' + index
+	    });
 	  },
 	
 	  render: function render() {
-	    var animation = "slide-horizontal";
+	    var animation = 'slide-horizontal';
 	
 	    var tabStyle = {
 	      width: 500

@@ -3,14 +3,16 @@ webpackJsonp([2],{
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(177);
+	module.exports = __webpack_require__(178);
 
 
 /***/ },
 
-/***/ 177:
+/***/ 178:
 /***/ function(module, exports, __webpack_require__) {
 
+	/* eslint react/no-multi-comp:0, no-console:0 */
+	
 	'use strict';
 	
 	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
@@ -29,11 +31,11 @@ webpackJsonp([2],{
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _reactDom = __webpack_require__(159);
+	var _reactDom = __webpack_require__(160);
 	
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 	
-	var _rcTabs = __webpack_require__(160);
+	var _rcTabs = __webpack_require__(161);
 	
 	var _rcTabs2 = _interopRequireDefault(_rcTabs);
 	
@@ -44,23 +46,23 @@ webpackJsonp([2],{
 	    _classCallCheck(this, PanelContent);
 	
 	    _get(Object.getPrototypeOf(PanelContent.prototype), 'constructor', this).call(this, props);
-	    //console.log(this.props.id, 'constructor');
+	    console.log(this.props.id, 'constructor');
 	  }
 	
 	  _createClass(PanelContent, [{
 	    key: 'componentWillReceiveProps',
 	    value: function componentWillReceiveProps() {
-	      //console.log(this.props.id, 'componentWillReceiveProps');
+	      console.log(this.props.id, 'componentWillReceiveProps');
 	    }
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var length = parseInt(10 * Math.random() + 4);
+	      var length = Math.round(10 * Math.random() + 4);
 	      var count = new Array(length); // new Array(4) skip forEach ....
 	      for (var i = 0; i < length; i++) {
 	        count[i] = 1;
 	      }
-	      var content = new Array(parseInt(100 * Math.random()) + 4).join(' ' + this.props.id);
+	      var content = new Array(Math.round(100 * Math.random()) + 4).join(' ' + this.props.id);
 	      var els = count.map(function (c, i) {
 	        return _react2['default'].createElement(
 	          'p',
@@ -79,6 +81,10 @@ webpackJsonp([2],{
 	  return PanelContent;
 	})(_react2['default'].Component);
 	
+	PanelContent.propTypes = {
+	  id: _react2['default'].PropTypes.number
+	};
+	
 	function construct(start, num) {
 	  var ends = [];
 	  var index = 1;
@@ -87,7 +93,7 @@ webpackJsonp([2],{
 	      _rcTabs.TabPane,
 	      { tab: 'tab ' + i,
 	        disabled: !!(i % 2),
-	        key: index + "" },
+	        key: index + '' },
 	      _react2['default'].createElement(PanelContent, { id: i })
 	    ));
 	    index++;
@@ -106,11 +112,11 @@ webpackJsonp([2],{
 	  },
 	
 	  onChange: function onChange(key) {
-	    //console.log(`onChange ${key}`);
+	    console.log('onChange ' + key);
 	  },
 	
 	  onTabClick: function onTabClick(key) {
-	    //console.log(`onTabClick ${key}`);
+	    console.log('onTabClick ' + key);
 	  },
 	
 	  tick: function tick() {
@@ -131,7 +137,7 @@ webpackJsonp([2],{
 	    var ends2 = construct(start, 3);
 	    var tabPosition = this.state.tabPosition;
 	    var navStyle = {};
-	    var animation = "slide-horizontal";
+	    var animation = 'slide-horizontal';
 	
 	    var tabStyle = {
 	      width: 500
@@ -142,9 +148,8 @@ webpackJsonp([2],{
 	        height: 400,
 	        overflow: 'hidden'
 	      };
-	      animation = "slide-vertical";
+	      animation = 'slide-vertical';
 	      tabStyle = {
-	        height: 500,
 	        overflow: 'hidden'
 	      };
 	    }
