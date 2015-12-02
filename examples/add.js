@@ -1,3 +1,5 @@
+/* eslint react/no-multi-comp:0, no-console:0, no-alert:0 */
+
 import 'rc-tabs/assets/index.less';
 import React from 'react';
 import ReactDOM from 'react-dom';
