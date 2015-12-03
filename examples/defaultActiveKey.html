@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>defaultActiveKey.js - example - rc-tabs@5.5.1</title>
+  <title>defaultActiveKey.js - example - rc-tabs@5.5.2</title>
   <meta name="viewport"
         content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
   <meta charset="utf-8"/>
@@ -257,7 +257,7 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
 <body>
 <div class="container">
   <div class="header">
-    <h1>rc-tabs@5.5.1</h1>
+    <h1>rc-tabs@5.5.2</h1>
 
     <p>tabs ui component for react</p>
   </div>
@@ -297,6 +297,7 @@ PanelContent.propTypes = {
   getInitialState() {
     <span class="hljs-keyword">return</span> {
       start: <span class="hljs-number">0</span>,
+      tabKey: <span class="hljs-string">'2'</span>,
     };
   },
 
@@ -306,6 +307,9 @@ PanelContent.propTypes = {
 
   onTabClick(key) {
     <span class="hljs-built_in">console</span>.log(`onTabClick ${key}`);
+    <span class="hljs-keyword">this</span>.setState({
+      tabKey: key,
+    });
   },
 
   tick() {
@@ -319,9 +323,10 @@ PanelContent.propTypes = {
     <span class="hljs-keyword">const</span> disabled = <span class="hljs-literal">true</span>;
     <span class="hljs-keyword">return</span> (<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">div</span>&gt;</span>
       <span class="hljs-tag">&lt;<span class="hljs-title">h1</span>&gt;</span>Simple Tabs<span class="hljs-tag">&lt;/<span class="hljs-title">h1</span>&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-title">Tabs</span> <span class="hljs-attribute">defaultActiveKey</span>=<span class="hljs-value">"2"</span>
-        <span class="hljs-attribute">onTabClick</span>=<span class="hljs-value">{this.onTabClick}</span>
-        <span class="hljs-attribute">onChange</span>=<span class="hljs-value">{this.onChange}</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-title">p</span>&gt;</span>current: {this.state.tabKey}<span class="hljs-tag">&lt;/<span class="hljs-title">p</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-title">Tabs</span> <span class="hljs-attribute">defaultActiveKey</span>=<span class="hljs-value">{this.state.tabKey}</span>
+            <span class="hljs-attribute">onTabClick</span>=<span class="hljs-value">{this.onTabClick}</span>
+            <span class="hljs-attribute">onChange</span>=<span class="hljs-value">{this.onChange}</span>&gt;</span>
         <span class="hljs-tag">&lt;<span class="hljs-title">TabPane</span> <span class="hljs-attribute">tab</span>=<span class="hljs-value">{`tab</span> ${<span class="hljs-attribute">start</span>}`} <span class="hljs-attribute">key</span>=<span class="hljs-value">"1"</span>&gt;</span>
           <span class="hljs-tag">&lt;<span class="hljs-title">PanelContent</span> <span class="hljs-attribute">id</span>=<span class="hljs-value">{start}</span>/&gt;</span>
         <span class="hljs-tag">&lt;/<span class="hljs-title">TabPane</span>&gt;</span>

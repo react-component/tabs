@@ -87,7 +87,8 @@ webpackJsonp([3],{
 	
 	  getInitialState: function getInitialState() {
 	    return {
-	      start: 0
+	      start: 0,
+	      tabKey: '2'
 	    };
 	  },
 	
@@ -97,6 +98,9 @@ webpackJsonp([3],{
 	
 	  onTabClick: function onTabClick(key) {
 	    console.log('onTabClick ' + key);
+	    this.setState({
+	      tabKey: key
+	    });
 	  },
 	
 	  tick: function tick() {
@@ -117,8 +121,14 @@ webpackJsonp([3],{
 	        'Simple Tabs'
 	      ),
 	      _react2['default'].createElement(
+	        'p',
+	        null,
+	        'current: ',
+	        this.state.tabKey
+	      ),
+	      _react2['default'].createElement(
 	        _rcTabs2['default'],
-	        { defaultActiveKey: '2',
+	        { defaultActiveKey: this.state.tabKey,
 	          onTabClick: this.onTabClick,
 	          onChange: this.onChange },
 	        _react2['default'].createElement(

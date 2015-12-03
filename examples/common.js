@@ -19803,9 +19803,9 @@
 	      }
 	    });
 	    if (found) {
-	      this.setActiveKey(newActiveKey);
+	      this.setActiveKey(newActiveKey, nextProps);
 	    } else {
-	      this.setActiveKey(getDefaultActiveKey(nextProps));
+	      this.setActiveKey(getDefaultActiveKey(nextProps), nextProps);
 	    }
 	  },
 	
@@ -19815,8 +19815,8 @@
 	
 	  onTabClick: function onTabClick(key) {
 	    this.props.onTabClick(key);
+	    this.setActiveKey(key);
 	    if (this.state.activeKey !== key) {
-	      this.setActiveKey(key);
 	      this.props.onChange(key);
 	    }
 	  },
@@ -19912,26 +19912,42 @@
 	    return newChildren;
 	  },
 	
-	  setActiveKey: function setActiveKey(activeKey) {
-	    var _this2 = this;
+	  getIndexPair: function getIndexPair(props, currentActiveKey, activeKey) {
+	    var keys = [];
+	    _react2['default'].Children.forEach(props.children, function (c) {
+	      keys.push(c.key);
+	    });
+	    var currentIndex = keys.indexOf(currentActiveKey);
+	    var nextIndex = keys.indexOf(activeKey);
+	    return { currentIndex: currentIndex, nextIndex: nextIndex };
+	  },
 	
+	  setActiveKey: function setActiveKey(activeKey, props) {
 	    var currentActiveKey = this.state.activeKey;
+	    if (currentActiveKey === activeKey) {
+	      return;
+	    }
 	    if (!currentActiveKey) {
 	      this.setState({
 	        activeKey: activeKey
 	      });
 	    } else {
-	      (function () {
-	        var keys = [];
-	        _react2['default'].Children.forEach(_this2.props.children, function (c) {
-	          keys.push(c.key);
-	        });
-	        var tabMovingDirection = keys.indexOf(currentActiveKey) > keys.indexOf(activeKey) ? 'backward' : 'forward';
-	        _this2.setState({
-	          activeKey: activeKey,
-	          tabMovingDirection: tabMovingDirection
-	        });
-	      })();
+	      var _getIndexPair = this.getIndexPair(props || this.props, currentActiveKey, activeKey);
+	
+	      var currentIndex = _getIndexPair.currentIndex;
+	      var nextIndex = _getIndexPair.nextIndex;
+	
+	      // removed
+	      if (currentIndex === -1) {
+	        var newPair = this.getIndexPair(this.props, currentActiveKey, activeKey);
+	        currentIndex = newPair.currentIndex;
+	        nextIndex = newPair.nextIndex;
+	      }
+	      var tabMovingDirection = currentIndex > nextIndex ? 'backward' : 'forward';
+	      this.setState({
+	        activeKey: activeKey,
+	        tabMovingDirection: tabMovingDirection
+	      });
 	    }
 	  },
 	
