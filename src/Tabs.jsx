@@ -69,9 +69,9 @@ const Tabs = React.createClass({
       }
     });
     if (found) {
-      this.setActiveKey(newActiveKey);
+      this.setActiveKey(newActiveKey, nextProps);
     } else {
-      this.setActiveKey(getDefaultActiveKey(nextProps));
+      this.setActiveKey(getDefaultActiveKey(nextProps), nextProps);
     }
   },
 
@@ -81,8 +81,8 @@ const Tabs = React.createClass({
 
   onTabClick(key) {
     this.props.onTabClick(key);
+    this.setActiveKey(key);
     if (this.state.activeKey !== key) {
-      this.setActiveKey(key);
       this.props.onChange(key);
     }
   },
@@ -176,18 +176,34 @@ const Tabs = React.createClass({
     return newChildren;
   },
 
-  setActiveKey(activeKey) {
+  getIndexPair(props, currentActiveKey, activeKey) {
+    const keys = [];
+    React.Children.forEach(props.children, c => {
+      keys.push(c.key);
+    });
+    const currentIndex = keys.indexOf(currentActiveKey);
+    const nextIndex = keys.indexOf(activeKey);
+    return {currentIndex, nextIndex};
+  },
+
+  setActiveKey(activeKey, props) {
     const currentActiveKey = this.state.activeKey;
+    if (currentActiveKey === activeKey) {
+      return;
+    }
     if (!currentActiveKey) {
       this.setState({
         activeKey: activeKey,
       });
     } else {
-      const keys = [];
-      React.Children.forEach(this.props.children, c=> {
-        keys.push(c.key);
-      });
-      const tabMovingDirection = keys.indexOf(currentActiveKey) > keys.indexOf(activeKey) ? 'backward' : 'forward';
+      let {currentIndex, nextIndex} = this.getIndexPair(props || this.props, currentActiveKey, activeKey);
+      // removed
+      if (currentIndex === -1) {
+        const newPair = this.getIndexPair(this.props, currentActiveKey, activeKey);
+        currentIndex = newPair.currentIndex;
+        nextIndex = newPair.nextIndex;
+      }
+      const tabMovingDirection = currentIndex > nextIndex ? 'backward' : 'forward';
       this.setState({
         activeKey: activeKey,
         tabMovingDirection: tabMovingDirection,

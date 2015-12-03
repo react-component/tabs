@@ -31,6 +31,7 @@ const Component = React.createClass({
   getInitialState() {
     return {
       start: 0,
+      tabKey: '2',
     };
   },
 
@@ -40,6 +41,9 @@ const Component = React.createClass({
 
   onTabClick(key) {
     console.log(`onTabClick ${key}`);
+    this.setState({
+      tabKey: key,
+    });
   },
 
   tick() {
@@ -53,9 +57,10 @@ const Component = React.createClass({
     const disabled = true;
     return (<div>
       <h1>Simple Tabs</h1>
-      <Tabs defaultActiveKey="2"
-        onTabClick={this.onTabClick}
-        onChange={this.onChange}>
+      <p>current: {this.state.tabKey}</p>
+      <Tabs defaultActiveKey={this.state.tabKey}
+            onTabClick={this.onTabClick}
+            onChange={this.onChange}>
         <TabPane tab={`tab ${start}`} key="1">
           <PanelContent id={start}/>
         </TabPane>

@@ -66,12 +66,12 @@
     right: 0;
 
     &-transition-forward {
-      transition: bottom 0.3s @easing-in-out,
-      top 0.3s @easing-in-out 0.3s * 0.3;
+      transition: bottom @effect-duration @easing-in-out,
+      top @effect-duration @easing-in-out @effect-duration * 0.3;
     }
     &-transition-backward {
-      transition: bottom 0.3s @easing-in-out 0.3s * 0.3,
-      top 0.3s @easing-in-out;
+      transition: bottom @effect-duration @easing-in-out @effect-duration * 0.3,
+      top @effect-duration @easing-in-out;
     }
   }
 
