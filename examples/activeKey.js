@@ -35,10 +35,10 @@ const Component = React.createClass({
     };
   },
 
-  onChange(key) {
-    console.log(`onChange ${key}`);
+  onChange(activeKey) {
+    console.log(`onChange ${activeKey}`);
     this.setState({
-      activeKey: key,
+      activeKey,
     });
   },
 

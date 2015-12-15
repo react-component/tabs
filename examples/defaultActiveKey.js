@@ -27,11 +27,13 @@ PanelContent.propTypes = {
   id: React.PropTypes.number,
 };
 
+const defaultTabKey = '2';
+
 const Component = React.createClass({
   getInitialState() {
     return {
       start: 0,
-      tabKey: '2',
+      tabKey: defaultTabKey,
     };
   },
 
@@ -58,7 +60,7 @@ const Component = React.createClass({
     return (<div>
       <h1>Simple Tabs</h1>
       <p>current: {this.state.tabKey}</p>
-      <Tabs defaultActiveKey={this.state.tabKey}
+      <Tabs defaultActiveKey={defaultTabKey}
             onTabClick={this.onTabClick}
             onChange={this.onChange}>
         <TabPane tab={`tab ${start}`} key="1">

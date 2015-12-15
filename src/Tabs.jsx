@@ -61,6 +61,12 @@ const Tabs = React.createClass({
     let newActiveKey = this.state.activeKey;
     if ('activeKey' in nextProps) {
       newActiveKey = nextProps.activeKey;
+      if (!newActiveKey) {
+        this.setState({
+          activeKey: newActiveKey,
+        });
+        return;
+      }
     }
     let found;
     React.Children.forEach(nextProps.children, (child) => {
@@ -80,8 +86,8 @@ const Tabs = React.createClass({
   },
 
   onTabClick(key) {
-    this.props.onTabClick(key);
     this.setActiveKey(key);
+    this.props.onTabClick(key);
     if (this.state.activeKey !== key) {
       this.props.onChange(key);
     }
@@ -186,9 +192,10 @@ const Tabs = React.createClass({
     return {currentIndex, nextIndex};
   },
 
-  setActiveKey(activeKey, props) {
+  setActiveKey(activeKey, ps) {
+    const props = ps || this.props;
     const currentActiveKey = this.state.activeKey;
-    if (currentActiveKey === activeKey) {
+    if (currentActiveKey === activeKey || (('activeKey' in props) && (props === this.props))) {
       return;
     }
     if (!currentActiveKey) {
@@ -196,7 +203,7 @@ const Tabs = React.createClass({
         activeKey: activeKey,
       });
     } else {
-      let {currentIndex, nextIndex} = this.getIndexPair(props || this.props, currentActiveKey, activeKey);
+      let {currentIndex, nextIndex} = this.getIndexPair(props, currentActiveKey, activeKey);
       // removed
       if (currentIndex === -1) {
         const newPair = this.getIndexPair(this.props, currentActiveKey, activeKey);
