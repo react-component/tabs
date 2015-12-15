@@ -82,13 +82,15 @@ webpackJsonp([3],{
 	  id: _react2['default'].PropTypes.number
 	};
 	
+	var defaultTabKey = '2';
+	
 	var Component = _react2['default'].createClass({
 	  displayName: 'Component',
 	
 	  getInitialState: function getInitialState() {
 	    return {
 	      start: 0,
-	      tabKey: '2'
+	      tabKey: defaultTabKey
 	    };
 	  },
 	
@@ -128,7 +130,7 @@ webpackJsonp([3],{
 	      ),
 	      _react2['default'].createElement(
 	        _rcTabs2['default'],
-	        { defaultActiveKey: this.state.tabKey,
+	        { defaultActiveKey: defaultTabKey,
 	          onTabClick: this.onTabClick,
 	          onChange: this.onChange },
 	        _react2['default'].createElement(

@@ -19795,6 +19795,12 @@
 	    var newActiveKey = this.state.activeKey;
 	    if ('activeKey' in nextProps) {
 	      newActiveKey = nextProps.activeKey;
+	      if (!newActiveKey) {
+	        this.setState({
+	          activeKey: newActiveKey
+	        });
+	        return;
+	      }
 	    }
 	    var found = undefined;
 	    _react2['default'].Children.forEach(nextProps.children, function (child) {
@@ -19814,8 +19820,8 @@
 	  },
 	
 	  onTabClick: function onTabClick(key) {
-	    this.props.onTabClick(key);
 	    this.setActiveKey(key);
+	    this.props.onTabClick(key);
 	    if (this.state.activeKey !== key) {
 	      this.props.onChange(key);
 	    }
@@ -19922,9 +19928,10 @@
 	    return { currentIndex: currentIndex, nextIndex: nextIndex };
 	  },
 	
-	  setActiveKey: function setActiveKey(activeKey, props) {
+	  setActiveKey: function setActiveKey(activeKey, ps) {
+	    var props = ps || this.props;
 	    var currentActiveKey = this.state.activeKey;
-	    if (currentActiveKey === activeKey) {
+	    if (currentActiveKey === activeKey || 'activeKey' in props && props === this.props) {
 	      return;
 	    }
 	    if (!currentActiveKey) {
@@ -19932,7 +19939,7 @@
 	        activeKey: activeKey
 	      });
 	    } else {
-	      var _getIndexPair = this.getIndexPair(props || this.props, currentActiveKey, activeKey);
+	      var _getIndexPair = this.getIndexPair(props, currentActiveKey, activeKey);
 	
 	      var currentIndex = _getIndexPair.currentIndex;
 	      var nextIndex = _getIndexPair.nextIndex;

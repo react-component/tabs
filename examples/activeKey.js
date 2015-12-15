@@ -90,10 +90,10 @@ webpackJsonp([0],[
 	    };
 	  },
 	
-	  onChange: function onChange(key) {
-	    console.log('onChange ' + key);
+	  onChange: function onChange(activeKey) {
+	    console.log('onChange ' + activeKey);
 	    this.setState({
-	      activeKey: key
+	      activeKey: activeKey
 	    });
 	  },
 	
