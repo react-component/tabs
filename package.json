@@ -38,12 +38,14 @@
   },
   "devDependencies": {
     "expect.js": "~0.3.1",
+    "history": "^1.17.0",
     "pre-commit": "1.x",
     "rc-server": "3.x",
     "rc-tools": "4.x",
     "react": "~0.14.0",
     "react-addons-test-utils": "^0.14.0",
-    "react-dom": "^0.14.0"
+    "react-dom": "^0.14.0",
+    "react-router": "^1.0.3"
   },
   "pre-commit": [
     "lint"
