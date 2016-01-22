@@ -30,11 +30,11 @@ const Nav = React.createClass({
   },
 
   componentDidUpdate(prevProps) {
-    if (prevProps && prevProps.tabPosition !== this.props.tabPosition) {
+    const props = this.props;
+    if (prevProps && prevProps.tabPosition !== props.tabPosition) {
       this.setOffset(0);
       return;
     }
-
     const navNode = this.refs.nav;
     const navNodeWH = this.getOffsetWH(navNode);
     const navWrapNode = this.refs.navWrap;
@@ -42,28 +42,47 @@ const Nav = React.createClass({
     const state = this.state;
     let offset = state.offset;
     const minOffset = navWrapNodeWH - navNodeWH;
-
+    let {next, prev} = this.state;
     if (minOffset >= 0) {
-      this.setNext(false);
+      next = false;
       this.setOffset(0);
       offset = 0;
     } else if (minOffset < offset) {
-      this.setNext(true);
+      next = (true);
     } else {
-      this.setNext(false);
+      next = (false);
       this.setOffset(minOffset);
       offset = minOffset;
     }
 
     if (offset < 0) {
-      this.setPrev(true);
+      prev = (true);
     } else {
-      this.setPrev(false);
+      prev = (false);
+    }
+
+    this.setNext(next);
+    this.setPrev(prev);
+
+    const nextPrev = {next, prev};
+    // wait next,prev show hide
+    if (this.isNextPrevShown(state) !== this.isNextPrevShown(nextPrev)) {
+      this.setNextPrev({}, this.scrollToActiveTab);
+    } else {
+      // can not use props.activeKey
+      if (!prevProps || props.activeKey !== prevProps.activeKey) {
+        this.scrollToActiveTab();
+      }
     }
   },
 
   onTabClick(key) {
     this.props.onTabClick(key);
+  },
+
+  // work around eslint warning
+  setNextPrev(nextPrev, callback) {
+    this.setState(nextPrev, callback);
   },
 
   getTabs() {
@@ -109,6 +128,15 @@ const Nav = React.createClass({
     return node[prop];
   },
 
+  getOffsetLT(node) {
+    const tabPosition = this.props.tabPosition;
+    let prop = 'left';
+    if (tabPosition === 'left' || tabPosition === 'right') {
+      prop = 'top';
+    }
+    return node.getBoundingClientRect()[prop];
+  },
+
   setOffset(offset) {
     const target = Math.min(0, offset);
     if (this.state.offset !== target) {
@@ -131,6 +159,28 @@ const Nav = React.createClass({
       this.setState({
         next: v,
       });
+    }
+  },
+
+  isNextPrevShown(state) {
+    return state.next || state.prev;
+  },
+
+  scrollToActiveTab() {
+    const {activeTab, navWrap} = this.refs;
+    if (activeTab) {
+      const activeTabWH = this.getOffsetWH(activeTab);
+      const navWrapNodeWH = this.getOffsetWH(navWrap);
+      let {offset} = this.state;
+      const wrapOffset = this.getOffsetLT(navWrap);
+      const activeTabOffset = this.getOffsetLT(activeTab);
+      if (wrapOffset > activeTabOffset) {
+        offset += (wrapOffset - activeTabOffset);
+        this.setState({offset});
+      } else if ((wrapOffset + navWrapNodeWH) < (activeTabOffset + activeTabWH)) {
+        offset -= (activeTabOffset + activeTabWH) - (wrapOffset + navWrapNodeWH);
+        this.setState({offset});
+      }
     }
   },
 
