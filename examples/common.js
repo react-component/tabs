@@ -20159,11 +20159,11 @@
 	  },
 	
 	  componentDidUpdate: function componentDidUpdate(prevProps) {
-	    if (prevProps && prevProps.tabPosition !== this.props.tabPosition) {
+	    var props = this.props;
+	    if (prevProps && prevProps.tabPosition !== props.tabPosition) {
 	      this.setOffset(0);
 	      return;
 	    }
-	
 	    var navNode = this.refs.nav;
 	    var navNodeWH = this.getOffsetWH(navNode);
 	    var navWrapNode = this.refs.navWrap;
@@ -20171,28 +20171,50 @@
 	    var state = this.state;
 	    var offset = state.offset;
 	    var minOffset = navWrapNodeWH - navNodeWH;
+	    var _state = this.state;
+	    var next = _state.next;
+	    var prev = _state.prev;
 	
 	    if (minOffset >= 0) {
-	      this.setNext(false);
+	      next = false;
 	      this.setOffset(0);
 	      offset = 0;
 	    } else if (minOffset < offset) {
-	      this.setNext(true);
+	      next = true;
 	    } else {
-	      this.setNext(false);
+	      next = false;
 	      this.setOffset(minOffset);
 	      offset = minOffset;
 	    }
 	
 	    if (offset < 0) {
-	      this.setPrev(true);
+	      prev = true;
 	    } else {
-	      this.setPrev(false);
+	      prev = false;
+	    }
+	
+	    this.setNext(next);
+	    this.setPrev(prev);
+	
+	    var nextPrev = { next: next, prev: prev };
+	    // wait next,prev show hide
+	    if (this.isNextPrevShown(state) !== this.isNextPrevShown(nextPrev)) {
+	      this.setNextPrev({}, this.scrollToActiveTab);
+	    } else {
+	      // can not use props.activeKey
+	      if (!prevProps || props.activeKey !== prevProps.activeKey) {
+	        this.scrollToActiveTab();
+	      }
 	    }
 	  },
 	
 	  onTabClick: function onTabClick(key) {
 	    this.props.onTabClick(key);
+	  },
+	
+	  // work around eslint warning
+	  setNextPrev: function setNextPrev(nextPrev, callback) {
+	    this.setState(nextPrev, callback);
 	  },
 	
 	  getTabs: function getTabs() {
@@ -20246,6 +20268,15 @@
 	    return node[prop];
 	  },
 	
+	  getOffsetLT: function getOffsetLT(node) {
+	    var tabPosition = this.props.tabPosition;
+	    var prop = 'left';
+	    if (tabPosition === 'left' || tabPosition === 'right') {
+	      prop = 'top';
+	    }
+	    return node.getBoundingClientRect()[prop];
+	  },
+	
 	  setOffset: function setOffset(offset) {
 	    var target = Math.min(0, offset);
 	    if (this.state.offset !== target) {
@@ -20268,6 +20299,32 @@
 	      this.setState({
 	        next: v
 	      });
+	    }
+	  },
+	
+	  isNextPrevShown: function isNextPrevShown(state) {
+	    return state.next || state.prev;
+	  },
+	
+	  scrollToActiveTab: function scrollToActiveTab() {
+	    var _refs = this.refs;
+	    var activeTab = _refs.activeTab;
+	    var navWrap = _refs.navWrap;
+	
+	    if (activeTab) {
+	      var activeTabWH = this.getOffsetWH(activeTab);
+	      var navWrapNodeWH = this.getOffsetWH(navWrap);
+	      var offset = this.state.offset;
+	
+	      var wrapOffset = this.getOffsetLT(navWrap);
+	      var activeTabOffset = this.getOffsetLT(activeTab);
+	      if (wrapOffset > activeTabOffset) {
+	        offset += wrapOffset - activeTabOffset;
+	        this.setState({ offset: offset });
+	      } else if (wrapOffset + navWrapNodeWH < activeTabOffset + activeTabWH) {
+	        offset -= activeTabOffset + activeTabWH - (wrapOffset + navWrapNodeWH);
+	        this.setState({ offset: offset });
+	      }
 	    }
 	  },
 	
@@ -20599,13 +20656,19 @@
 	  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
 	    var _this2 = this;
 	
+	    this.nextProps = nextProps;
 	    var nextChildren = (0, _ChildrenUtils.toArrayChildren)(getChildrenFromProps(nextProps));
 	    var props = this.props;
+	    // exclusive needs immediate response
+	    if (props.exclusive) {
+	      Object.keys(this.currentlyAnimatingKeys).forEach(function (key) {
+	        _this2.stop(key);
+	      });
+	    }
 	    var showProp = props.showProp;
 	    var currentlyAnimatingKeys = this.currentlyAnimatingKeys;
 	    // last props children if exclusive
-	    // exclusive needs immediate response
-	    var currentChildren = this.state.children;
+	    var currentChildren = props.exclusive ? (0, _ChildrenUtils.toArrayChildren)(getChildrenFromProps(props)) : this.state.children;
 	    // in case destroy in showProp mode
 	    var newChildren = [];
 	    if (showProp) {
@@ -20679,14 +20742,6 @@
 	  },
 	
 	  componentDidUpdate: function componentDidUpdate(prevProps) {
-	    var _this3 = this;
-	
-	    // exclusive needs immediate response
-	    if (this.props.exclusive && this.props !== prevProps) {
-	      Object.keys(this.currentlyAnimatingKeys).forEach(function (key) {
-	        _this3.stop(key);
-	      });
-	    }
 	    if (this.isMounted()) {
 	      var keysToEnter = this.keysToEnter;
 	      this.keysToEnter = [];
@@ -20715,6 +20770,10 @@
 	  handleDoneAdding: function handleDoneAdding(key, type) {
 	    var props = this.props;
 	    delete this.currentlyAnimatingKeys[key];
+	    // if update on exclusive mode, skip check
+	    if (props.exclusive && props !== this.nextProps) {
+	      return;
+	    }
 	    var currentChildren = (0, _ChildrenUtils.toArrayChildren)(getChildrenFromProps(props));
 	    if (!this.isValidChildByKey(currentChildren, key)) {
 	      // exclusive will not need this
@@ -20745,6 +20804,10 @@
 	  handleDoneLeaving: function handleDoneLeaving(key) {
 	    var props = this.props;
 	    delete this.currentlyAnimatingKeys[key];
+	    // if update on exclusive mode, skip check
+	    if (props.exclusive && props !== this.nextProps) {
+	      return;
+	    }
 	    var currentChildren = (0, _ChildrenUtils.toArrayChildren)(getChildrenFromProps(props));
 	    // in case state change is too fast
 	    if (this.isValidChildByKey(currentChildren, key)) {
@@ -20780,10 +20843,14 @@
 	
 	  render: function render() {
 	    var props = this.props;
+	    this.nextProps = props;
 	    var stateChildren = this.state.children;
 	    var children = null;
 	    if (stateChildren) {
 	      children = stateChildren.map(function (child) {
+	        if (child === null) {
+	          return child;
+	        }
 	        if (!child.key) {
 	          throw new Error('must set key for <rc-animate> children');
 	        }
