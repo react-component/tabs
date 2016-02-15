@@ -99,19 +99,19 @@ const Tabs = React.createClass({
     }
     const eventKeyCode = e.keyCode;
     switch (eventKeyCode) {
-    case KeyCode.RIGHT:
-    case KeyCode.DOWN:
-      e.preventDefault();
-      const nextKey = this.getNextActiveKey(true);
-      this.onTabClick(nextKey);
-      break;
-    case KeyCode.LEFT:
-    case KeyCode.UP:
-      e.preventDefault();
-      const previousKey = this.getNextActiveKey(false);
-      this.onTabClick(previousKey);
-      break;
-    default:
+      case KeyCode.RIGHT:
+      case KeyCode.DOWN:
+        e.preventDefault();
+        const nextKey = this.getNextActiveKey(true);
+        this.onTabClick(nextKey);
+        break;
+      case KeyCode.LEFT:
+      case KeyCode.UP:
+        e.preventDefault();
+        const previousKey = this.getNextActiveKey(false);
+        this.onTabClick(previousKey);
+        break;
+      default:
     }
   },
 
