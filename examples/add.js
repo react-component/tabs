@@ -3,7 +3,7 @@
 import 'rc-tabs/assets/index.less';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Tabs, {TabPane} from 'rc-tabs';
+import Tabs, { TabPane } from 'rc-tabs';
 
 let index = 1;
 
@@ -20,30 +20,39 @@ const Test = React.createClass({
   },
 
   onTabChange(activeKey) {
-    this.setState({activeKey});
+    this.setState({
+      activeKey,
+    });
   },
 
   construct() {
     const disabled = true;
     return this.state.tabs.map((t) => {
-      return (<TabPane tab={<span>{t.title}
-        <a style={{
-          position: 'absolute',
-          cursor: 'pointer',
-          color: 'red',
-          right: 5,
-          top: 0,
-        }} onClick={this.remove.bind(this, t.title)}>x</a>
+      return (<TabPane
+        tab={<span>{t.title}
+        <a
+          style={{
+            position: 'absolute',
+            cursor: 'pointer',
+            color: 'red',
+            right: 5,
+            top: 0,
+          }}
+          onClick={this.remove.bind(this, t.title)}
+        >x</a>
       </span>}
-        key={t.title}>
-        <div style={{padding: 100}}>
+        key={t.title}
+      >
+        <div style={{ padding: 100 }}>
           {t.content}
         </div>
       </TabPane>);
     }).concat([
-      <TabPane tab={<a style={{color: 'black', cursor: 'pointer'}} onClick={this.add}> + 添加</a>}
+      <TabPane
+        tab={<a style={{ color: 'black', cursor: 'pointer' }} onClick={this.add}> + 添加</a>}
         disabled={disabled}
-        key={'__add'} />,
+        key={'__add'}
+      />,
     ]);
   },
 
@@ -70,7 +79,7 @@ const Test = React.createClass({
     }
     this.setState({
       tabs: after,
-      activeKey: activeKey,
+      activeKey,
     });
   },
 
@@ -78,12 +87,12 @@ const Test = React.createClass({
     e.stopPropagation();
     index++;
     const newTab = {
-      title: '名称: ' + index,
-      content: '内容: ' + index,
+      title: `名称: ${index}`,
+      content: `内容: ${index}`,
     };
     this.setState({
       tabs: this.state.tabs.concat(newTab),
-      activeKey: '名称: ' + index,
+      activeKey: `名称: ${index}`,
     });
   },
 
@@ -94,16 +103,18 @@ const Test = React.createClass({
       width: 500,
     };
 
-    return (<div style={{margin: 20}}>
+    return (<div style={{ margin: 20 }}>
       <h2>Addable Tabs</h2>
 
       <div style={tabStyle}>
-        <Tabs animation={animation}
+        <Tabs
+          animation={animation}
           activeKey={this.state.activeKey}
           onChange={this.onTabChange}
           tabBarExtraContent={
             <button onClick={this.add}>+添加</button>
-            }>
+            }
+        >
           {this.construct()}
         </Tabs>
       </div>

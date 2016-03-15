@@ -3,7 +3,7 @@
 import 'rc-tabs/assets/index.less';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Tabs, {TabPane} from 'rc-tabs';
+import Tabs, { TabPane } from 'rc-tabs';
 
 class PanelContent extends React.Component {
   constructor(props) {
@@ -17,7 +17,7 @@ class PanelContent extends React.Component {
 
   render() {
     const count = [1, 1, 1, 1];// new Array(4) skip forEach ....
-    const els = count.map((c, i)=> {
+    const els = count.map((c, i) => {
       return <p key={i}>{this.props.id}</p>;
     });
     return <div>{els}</div>;
@@ -62,9 +62,11 @@ const Component = React.createClass({
     const disabled = true;
     return (<div>
       <h1>Simple Tabs</h1>
-      <Tabs activeKey={this.state.activeKey}
+      <Tabs
+        activeKey={this.state.activeKey}
         onTabClick={this.onTabClick}
-        onChange={this.onChange}>
+        onChange={this.onChange}
+      >
         <TabPane tab={`tab ${start}`} key="1">
           <PanelContent id={start}/>
         </TabPane>

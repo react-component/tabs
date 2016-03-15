@@ -1,9 +1,9 @@
 /* eslint react/no-multi-comp:0 */
 
-import {Router, Route, IndexRoute} from 'react-router';
-import React, {PropTypes} from 'react';
+import { Router, Route, IndexRoute } from 'react-router';
+import React, { PropTypes } from 'react';
 import ReactDOM from 'react-dom';
-import Tabs, {TabPane} from 'rc-tabs';
+import Tabs, { TabPane } from 'rc-tabs';
 import 'rc-tabs/assets/index.less';
 
 const Tab1 = React.createClass({
@@ -43,9 +43,9 @@ const App = React.createClass({
 
   render() {
     let activeKey = 'tab1';
-    const {children} = this.props;
+    const { children } = this.props;
     if (children) {
-      this.data.forEach((d)=> {
+      this.data.forEach((d) => {
         if (d.component.type === children.type) {
           // for demo, better immutable
           d.component = children;

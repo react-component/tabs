@@ -1,8 +1,6 @@
-
-
-function getScroll(w, top) {
-  let ret = w['page' + (top ? 'Y' : 'X') + 'Offset'];
-  const method = 'scroll' + (top ? 'Top' : 'Left');
+export function getScroll(w, top) {
+  let ret = w[`page${top ? 'Y' : 'X'}Offset`];
+  const method = `scroll${top ? 'Top' : 'Left'}`;
   if (typeof ret !== 'number') {
     const d = w.document;
     // ie6,7,8 standard mode
@@ -15,7 +13,7 @@ function getScroll(w, top) {
   return ret;
 }
 
-function offset(elem) {
+export function offset(elem) {
   let box;
   let x;
   let y;
@@ -34,19 +32,3 @@ function offset(elem) {
     left: x, top: y,
   };
 }
-
-export default {
-  getScroll: getScroll,
-
-  offset: offset,
-
-  cx(v) {
-    const ret = [];
-    for (const k in v) {
-      if (v[k]) {
-        ret.push(k);
-      }
-    }
-    return ret.join(' ');
-  },
-};

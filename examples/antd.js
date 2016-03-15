@@ -3,7 +3,7 @@
 import 'rc-tabs/assets/index.less';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Tabs, {TabPane} from 'rc-tabs';
+import Tabs, { TabPane } from 'rc-tabs';
 
 class PanelContent extends React.Component {
   constructor(props) {
@@ -21,8 +21,8 @@ class PanelContent extends React.Component {
     for (let i = 0; i < length; i++) {
       count[i] = 1;
     }
-    const content = new Array(Math.round(100 * (Math.random())) + 4).join(' ' + this.props.id);
-    const els = count.map((c, i)=> {
+    const content = new Array(Math.round(100 * (Math.random())) + 4).join(` ${this.props.id}`);
+    const els = count.map((c, i) => {
       return <p key={i}>{content}</p>;
     });
     return <div>{els}</div>;
@@ -36,9 +36,11 @@ function construct(start, num) {
   const ends = [];
   let index = 1;
   for (let i = start; i < start + num; i++) {
-    ends.push(<TabPane tab={`tab ${i}`}
-                       disabled={!!(i % 2)}
-                       key={index + ''}>
+    ends.push(<TabPane
+      tab={`tab ${i}`}
+      disabled={!!(i % 2)}
+      key={index}
+    >
       <PanelContent id={i}/>
     </TabPane>);
     index++;
@@ -98,7 +100,7 @@ const Component = React.createClass({
       };
     }
 
-    return (<div style={{margin: 20}}>
+    return (<div style={{ margin: 20 }}>
       <h2>Simple Tabs</h2>
 
       <p>
@@ -111,24 +113,28 @@ const Component = React.createClass({
         </select>
       </p>
       <div style={tabStyle}>
-        <Tabs defaultActiveKey="3"
-              navStyle={navStyle}
-              tabPosition={this.state.tabPosition}
-              animation={animation}
-              onTabClick={this.onTabClick}
-              onChange={this.onChange}>
+        <Tabs
+          defaultActiveKey="3"
+          navStyle={navStyle}
+          tabPosition={this.state.tabPosition}
+          animation={animation}
+          onTabClick={this.onTabClick}
+          onChange={this.onChange}
+        >
           {ends2}
         </Tabs>
       </div>
       <h2>Scroll Tabs</h2>
 
       <div style={tabStyle}>
-        <Tabs defaultActiveKey="3"
-              navStyle={navStyle}
-              tabPosition={this.state.tabPosition}
-              animation={animation}
-              onTabClick={this.onTabClick}
-              onChange={this.onChange}>
+        <Tabs
+          defaultActiveKey="3"
+          navStyle={navStyle}
+          tabPosition={this.state.tabPosition}
+          animation={animation}
+          onTabClick={this.onTabClick}
+          onChange={this.onChange}
+        >
           {ends}
         </Tabs>
       </div>

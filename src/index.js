@@ -1,3 +1,3 @@
+export default from './Tabs';
 
-
-module.exports = require('./Tabs');
+export TabPane from './TabPane';

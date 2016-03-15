@@ -1,5 +1,6 @@
-import React, {PropTypes} from 'react';
-import {cx} from './utils';
+import React, { PropTypes } from 'react';
+import classnames from 'classnames';
+import InkBarMixin from './InkBarMixin';
 
 const tabBarExtraContentStyle = {
   float: 'right',
@@ -13,9 +14,10 @@ const Nav = React.createClass({
     tabPosition: PropTypes.string,
     tabBarExtraContent: PropTypes.any,
     onTabClick: PropTypes.func,
+    onKeyDown: PropTypes.func,
   },
 
-  mixins: [require('./InkBarMixin')],
+  mixins: [InkBarMixin],
 
   getInitialState() {
     return {
@@ -42,7 +44,7 @@ const Nav = React.createClass({
     const state = this.state;
     let offset = state.offset;
     const minOffset = navWrapNodeWH - navNodeWH;
-    let {next, prev} = this.state;
+    let { next, prev } = this.state;
     if (minOffset >= 0) {
       next = false;
       this.setOffset(0);
@@ -64,7 +66,10 @@ const Nav = React.createClass({
     this.setNext(next);
     this.setPrev(prev);
 
-    const nextPrev = {next, prev};
+    const nextPrev = {
+      next,
+      prev,
+    };
     // wait next,prev show hide
     if (this.isNextPrevShown(state) !== this.isNextPrevShown(nextPrev)) {
       this.setNextPrev({}, this.scrollToActiveTab);
@@ -92,7 +97,7 @@ const Nav = React.createClass({
     const rst = [];
     const prefixCls = props.prefixCls;
 
-    React.Children.forEach(children, (child)=> {
+    React.Children.forEach(children, (child) => {
       const key = child.key;
       let cls = activeKey === key ? `${prefixCls}-tab-active` : '';
       cls += ` ${prefixCls}-tab`;
@@ -108,10 +113,12 @@ const Nav = React.createClass({
       if (activeKey === key) {
         ref.ref = 'activeTab';
       }
-      rst.push(<div {...events}
+      rst.push(<div
+        {...events}
         className={cls}
         key={key}
-        {...ref}>
+        {...ref}
+      >
         <div className={`${prefixCls}-tab-inner`}>{child.props.tab}</div>
       </div>);
     });
@@ -167,19 +174,23 @@ const Nav = React.createClass({
   },
 
   scrollToActiveTab() {
-    const {activeTab, navWrap} = this.refs;
+    const { activeTab, navWrap } = this.refs;
     if (activeTab) {
       const activeTabWH = this.getOffsetWH(activeTab);
       const navWrapNodeWH = this.getOffsetWH(navWrap);
-      let {offset} = this.state;
+      let { offset } = this.state;
       const wrapOffset = this.getOffsetLT(navWrap);
       const activeTabOffset = this.getOffsetLT(activeTab);
       if (wrapOffset > activeTabOffset) {
         offset += (wrapOffset - activeTabOffset);
-        this.setState({offset});
+        this.setState({
+          offset,
+        });
       } else if ((wrapOffset + navWrapNodeWH) < (activeTabOffset + activeTabWH)) {
         offset -= (activeTabOffset + activeTabWH) - (wrapOffset + navWrapNodeWH);
-        this.setState({offset});
+        this.setState({
+          offset,
+        });
       }
     }
   },
@@ -220,20 +231,22 @@ const Nav = React.createClass({
       prevButton = (<span
         onClick={state.prev ? this.prev : noop}
         unselectable="unselectable"
-        className={cx({
+        className={classnames({
           [`${prefixCls}-tab-prev`]: 1,
           [`${prefixCls}-tab-btn-disabled`]: !state.prev,
-        })}>
+        })}
+      >
         <span className={`${prefixCls}-tab-prev-icon`}></span>
       </span>);
 
       nextButton = (<span
         onClick={state.next ? this.next : noop}
         unselectable="unselectable"
-        className={cx({
+        className={classnames({
           [`${prefixCls}-tab-next`]: 1,
           [`${prefixCls}-tab-btn-disabled`]: !state.next,
-        })}>
+        })}
+      >
         <span className={`${prefixCls}-tab-next-icon`}></span>
       </span>);
     }
@@ -251,11 +264,21 @@ const Nav = React.createClass({
 
     const tabBarExtraContent = this.props.tabBarExtraContent;
 
-    return (<div className={`${prefixCls}-tabs-bar`}>
-      {tabBarExtraContent ? <div style={tabBarExtraContentStyle}>{tabBarExtraContent}</div> : null}
-      <div className={`${prefixCls}-nav-container ${showNextPrev ? `${prefixCls}-nav-container-scrolling` : ''}`}
-           style={props.style}
-           ref="container">
+    return (<div
+      className={`${prefixCls}-tabs-bar`}
+      tabIndex="0"
+      onKeyDown={this.props.onKeyDown}
+    >
+      {tabBarExtraContent ?
+        <div style={tabBarExtraContentStyle}>{tabBarExtraContent}</div> :
+        null}
+      <div
+        className={`${prefixCls}-nav-container ${showNextPrev ?
+         `${prefixCls}-nav-container-scrolling` :
+         ''}`}
+        style={props.style}
+        ref="container"
+      >
         {prevButton}
         {nextButton}
         <div className={`${prefixCls}-nav-wrap`} ref="navWrap">

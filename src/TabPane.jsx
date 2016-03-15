@@ -1,4 +1,5 @@
 import React from 'react';
+import classnames from 'classnames';
 
 const TabPane = React.createClass({
   propTypes: {
@@ -14,8 +15,10 @@ const TabPane = React.createClass({
   render() {
     const props = this.props;
     const prefixCls = `${props.rootPrefixCls}-tabpane`;
-    let cls = props.active ? '' : `${prefixCls}-hidden`;
-    cls += ' ' + prefixCls;
+    const cls = classnames({
+      [`${prefixCls}-hidden`]: !props.active,
+      prefixCls: 1,
+    });
     return (
       <div className={cls}>
         {props.children}

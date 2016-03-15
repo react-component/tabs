@@ -1,4 +1,4 @@
-import {offset} from './utils';
+import { offset } from './utils';
 
 function componentDidUpdate(component) {
   const refs = component.refs;
@@ -12,16 +12,16 @@ function componentDidUpdate(component) {
     const tabOffset = offset(tabNode);
     if (tabPosition === 'top' || tabPosition === 'bottom') {
       const left = tabOffset.left - containerOffset.left;
-      inkBarNode.style.left = left + 'px';
+      inkBarNode.style.left = `${left}px`;
       inkBarNode.style.top = '';
       inkBarNode.style.bottom = '';
-      inkBarNode.style.right = (containerNode.offsetWidth - left - tabNode.offsetWidth) + 'px';
+      inkBarNode.style.right = `${containerNode.offsetWidth - left - tabNode.offsetWidth}px`;
     } else {
       const top = tabOffset.top - containerOffset.top;
       inkBarNode.style.left = '';
       inkBarNode.style.right = '';
-      inkBarNode.style.top = top + 'px';
-      inkBarNode.style.bottom = (containerNode.offsetHeight - top - tabNode.offsetHeight) + 'px';
+      inkBarNode.style.top = `${top}px`;
+      inkBarNode.style.bottom = `${containerNode.offsetHeight - top - tabNode.offsetHeight}px`;
     }
   }
   inkBarNode.style.display = activeTab ? 'block' : 'none';

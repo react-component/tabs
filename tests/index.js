@@ -1,8 +1,8 @@
 import expect from 'expect.js';
-import Tabs, {TabPane} from '../index';
+import Tabs, { TabPane } from '../index';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import TestUtils, {Simulate} from 'react-addons-test-utils';
+import TestUtils, { Simulate } from 'react-addons-test-utils';
 
 describe('tabs', () => {
   let tabs;
@@ -30,13 +30,16 @@ describe('tabs', () => {
       done();
     }
 
-    ReactDOM.render(<Tabs defaultActiveKey="2"
-      onTabClick={onTabClick}
-      onChange={onChange}>
-      <TabPane tab="tab 1" key="1">first</TabPane>
-      <TabPane tab="tab 2" key="2">second</TabPane>
-      <TabPane tab="tab 3" key="3">third</TabPane>
-    </Tabs>, node, tabsRenderCallback);
+    ReactDOM.render(
+      <Tabs
+        defaultActiveKey="2"
+        onTabClick={onTabClick}
+        onChange={onChange}
+      >
+        <TabPane tab="tab 1" key="1">first</TabPane>
+        <TabPane tab="tab 2" key="2">second</TabPane>
+        <TabPane tab="tab 3" key="3">third</TabPane>
+      </Tabs>, node, tabsRenderCallback);
   });
 
   afterEach(() => {
@@ -57,7 +60,7 @@ describe('tabs', () => {
   it('default active works', () => {
     expect(tabs.state.activeKey).to.be('2');
     expect(TestUtils.scryRenderedDOMComponentsWithClass(tabs,
-      'rc-tabs-tab')[1].className.indexOf('rc-tabs-tab-active ') !== -1).to.be(true);
+        'rc-tabs-tab')[1].className.indexOf('rc-tabs-tab-active ') !== -1).to.be(true);
   });
 
   it('onChange works', (done) => {
