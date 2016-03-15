@@ -265,7 +265,7 @@ const Nav = React.createClass({
     const tabBarExtraContent = this.props.tabBarExtraContent;
 
     return (<div
-      className={`${prefixCls}-tabs-bar`}
+      className={`${prefixCls}-bar`}
       tabIndex="0"
       onKeyDown={this.props.onKeyDown}
     >
