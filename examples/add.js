@@ -3,19 +3,15 @@ webpackJsonp([1],{
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(177);
+	module.exports = __webpack_require__(178);
 
 
 /***/ },
 
-/***/ 177:
+/***/ 178:
 /***/ function(module, exports, __webpack_require__) {
 
-	/* eslint react/no-multi-comp:0, no-console:0, no-alert:0 */
-	
 	'use strict';
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 	
 	__webpack_require__(2);
 	
@@ -31,11 +27,14 @@ webpackJsonp([1],{
 	
 	var _rcTabs2 = _interopRequireDefault(_rcTabs);
 	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	/* eslint react/no-multi-comp:0, no-console:0, no-alert:0 */
+	
 	var index = 1;
 	
-	var Test = _react2['default'].createClass({
+	var Test = _react2.default.createClass({
 	  displayName: 'Test',
-	
 	  getInitialState: function getInitialState() {
 	    return {
 	      tabs: [{
@@ -46,50 +45,56 @@ webpackJsonp([1],{
 	      activeKey: '初始'
 	    };
 	  },
-	
 	  onTabChange: function onTabChange(activeKey) {
-	    this.setState({ activeKey: activeKey });
+	    this.setState({
+	      activeKey: activeKey
+	    });
 	  },
-	
 	  construct: function construct() {
 	    var _this = this;
 	
 	    var disabled = true;
 	    return this.state.tabs.map(function (t) {
-	      return _react2['default'].createElement(
+	      return _react2.default.createElement(
 	        _rcTabs.TabPane,
-	        { tab: _react2['default'].createElement(
+	        {
+	          tab: _react2.default.createElement(
 	            'span',
 	            null,
 	            t.title,
-	            _react2['default'].createElement(
+	            _react2.default.createElement(
 	              'a',
-	              { style: {
+	              {
+	                style: {
 	                  position: 'absolute',
 	                  cursor: 'pointer',
 	                  color: 'red',
 	                  right: 5,
 	                  top: 0
-	                }, onClick: _this.remove.bind(_this, t.title) },
+	                },
+	                onClick: _this.remove.bind(_this, t.title)
+	              },
 	              'x'
 	            )
 	          ),
-	          key: t.title },
-	        _react2['default'].createElement(
+	          key: t.title
+	        },
+	        _react2.default.createElement(
 	          'div',
 	          { style: { padding: 100 } },
 	          t.content
 	        )
 	      );
-	    }).concat([_react2['default'].createElement(_rcTabs.TabPane, { tab: _react2['default'].createElement(
+	    }).concat([_react2.default.createElement(_rcTabs.TabPane, {
+	      tab: _react2.default.createElement(
 	        'a',
 	        { style: { color: 'black', cursor: 'pointer' }, onClick: this.add },
 	        ' + 添加'
 	      ),
 	      disabled: disabled,
-	      key: '__add' })]);
+	      key: '__add'
+	    })]);
 	  },
-	
 	  remove: function remove(title, e) {
 	    e.stopPropagation();
 	    if (this.state.tabs.length === 1) {
@@ -116,7 +121,6 @@ webpackJsonp([1],{
 	      activeKey: activeKey
 	    });
 	  },
-	
 	  add: function add(e) {
 	    e.stopPropagation();
 	    index++;
@@ -129,7 +133,6 @@ webpackJsonp([1],{
 	      activeKey: '名称: ' + index
 	    });
 	  },
-	
 	  render: function render() {
 	    var animation = 'slide-horizontal';
 	
@@ -137,27 +140,29 @@ webpackJsonp([1],{
 	      width: 500
 	    };
 	
-	    return _react2['default'].createElement(
+	    return _react2.default.createElement(
 	      'div',
 	      { style: { margin: 20 } },
-	      _react2['default'].createElement(
+	      _react2.default.createElement(
 	        'h2',
 	        null,
 	        'Addable Tabs'
 	      ),
-	      _react2['default'].createElement(
+	      _react2.default.createElement(
 	        'div',
 	        { style: tabStyle },
-	        _react2['default'].createElement(
-	          _rcTabs2['default'],
-	          { animation: animation,
+	        _react2.default.createElement(
+	          _rcTabs2.default,
+	          {
+	            animation: animation,
 	            activeKey: this.state.activeKey,
 	            onChange: this.onTabChange,
-	            tabBarExtraContent: _react2['default'].createElement(
+	            tabBarExtraContent: _react2.default.createElement(
 	              'button',
 	              { onClick: this.add },
 	              '+添加'
-	            ) },
+	            )
+	          },
 	          this.construct()
 	        )
 	      )
@@ -165,7 +170,7 @@ webpackJsonp([1],{
 	  }
 	});
 	
-	_reactDom2['default'].render(_react2['default'].createElement(Test, null), document.getElementById('__react-content'));
+	_reactDom2.default.render(_react2.default.createElement(Test, null), document.getElementById('__react-content'));
 
 /***/ }
 

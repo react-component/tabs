@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>router.js - example - rc-tabs@5.7.1</title>
+  <title>router.js - example - rc-tabs@5.8.1</title>
   <meta name="viewport"
         content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
   <meta charset="utf-8"/>
@@ -257,7 +257,7 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
 <body>
 <div class="container">
   <div class="header">
-    <h1>rc-tabs@5.7.1</h1>
+    <h1>rc-tabs@5.8.1</h1>
 
     <p>tabs ui component for react</p>
   </div>
@@ -266,37 +266,37 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
   <script src="router.js?nowrap"></script>
   <div class="highlight"><pre><code language="js"><span class="hljs-comment">/* eslint react/no-multi-comp:0 */</span>
 
-import {Router, Route, IndexRoute} from <span class="hljs-string">'react-router'</span>;
-import React, {PropTypes} from <span class="hljs-string">'react'</span>;
-import ReactDOM from <span class="hljs-string">'react-dom'</span>;
-import Tabs, {TabPane} from <span class="hljs-string">'rc-tabs'</span>;
-import <span class="hljs-string">'rc-tabs/assets/index.css'</span>;
+<span class="hljs-keyword">import</span> { Router, Route, IndexRoute } <span class="hljs-keyword">from</span> <span class="hljs-string">'react-router'</span>;
+<span class="hljs-keyword">import</span> React, { PropTypes } <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
+<span class="hljs-keyword">import</span> ReactDOM <span class="hljs-keyword">from</span> <span class="hljs-string">'react-dom'</span>;
+<span class="hljs-keyword">import</span> Tabs, { TabPane } <span class="hljs-keyword">from</span> <span class="hljs-string">'rc-tabs'</span>;
+<span class="hljs-keyword">import</span> <span class="hljs-string">'rc-tabs/assets/index.css'</span>;
 
 <span class="hljs-keyword">const</span> Tab1 = React.createClass({
   render() {
     <span class="hljs-keyword">return</span> (<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">div</span>&gt;</span>
       tab1
-    <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>);
+    <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>)</span>;
   },
 });
 
-const Tab2 = React.createClass({
+<span class="hljs-keyword">const</span> Tab2 = React.createClass({
   render() {
-    return (<span class="hljs-tag">&lt;<span class="hljs-title">div</span>&gt;</span>
+    <span class="hljs-keyword">return</span> (<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">div</span>&gt;</span>
       tab2
-    <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>);
+    <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>)</span>;
   },
 });
 
-const App = React.createClass({
+<span class="hljs-keyword">const</span> App = React.createClass({
   propTypes: {
     children: PropTypes.any,
   },
 
   componentWillMount() {
-    this.data = [{
-      key: 'tab1',
-      component: <span class="hljs-tag">&lt;<span class="hljs-title">Tab1</span> /&gt;</span>,
+    <span class="hljs-keyword">this</span>.data = [{
+      key: <span class="hljs-string">'tab1'</span>,
+      component: <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">Tab1</span> /&gt;</span>,
     }, {
       key: 'tab2',
       component: <span class="hljs-tag">&lt;<span class="hljs-title">Tab2</span> /&gt;</span>,
@@ -309,9 +309,9 @@ const App = React.createClass({
 
   render() {
     let activeKey = 'tab1';
-    const {children} = this.props;
+    const { children } = this.props;
     if (children) {
-      this.data.forEach((d)=&gt; {
+      this.data.forEach((d) =&gt; {
         if (d.component.type === children.type) {
           // for demo, better immutable
           d.component = children;
@@ -326,11 +326,11 @@ const App = React.createClass({
       <span class="hljs-tag">&lt;<span class="hljs-title">Tabs</span> <span class="hljs-attribute">activeKey</span>=<span class="hljs-value">{activeKey}</span> <span class="hljs-attribute">onChange</span>=<span class="hljs-value">{this.onChange}</span>&gt;</span>
         {tabs}
       <span class="hljs-tag">&lt;/<span class="hljs-title">Tabs</span>&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>);
+    <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>)</span>;
   },
 });
 
-ReactDOM.render(<span class="hljs-tag">&lt;<span class="hljs-title">Router</span>&gt;</span>
+ReactDOM.render(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">Router</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-title">Route</span> <span class="hljs-attribute">path</span>=<span class="hljs-value">"/"</span> <span class="hljs-attribute">component</span>=<span class="hljs-value">{App}</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-title">IndexRoute</span> <span class="hljs-attribute">component</span>=<span class="hljs-value">{Tab1}</span>/&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-title">Route</span> <span class="hljs-attribute">path</span>=<span class="hljs-value">"tab1"</span> <span class="hljs-attribute">component</span>=<span class="hljs-value">{Tab1}</span>/&gt;</span>

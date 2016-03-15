@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>defaultActiveKey.js - example - rc-tabs@5.7.1</title>
+  <title>defaultActiveKey.js - example - rc-tabs@5.8.1</title>
   <meta name="viewport"
         content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
   <meta charset="utf-8"/>
@@ -257,7 +257,7 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
 <body>
 <div class="container">
   <div class="header">
-    <h1>rc-tabs@5.7.1</h1>
+    <h1>rc-tabs@5.8.1</h1>
 
     <p>tabs ui component for react</p>
   </div>
@@ -266,14 +266,14 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
   <script src="defaultActiveKey.js?nowrap"></script>
   <div class="highlight"><pre><code language="js"><span class="hljs-comment">/* eslint react/no-multi-comp:0, no-console:0 */</span>
 
-import <span class="hljs-string">'rc-tabs/assets/index.css'</span>;
-import React from <span class="hljs-string">'react'</span>;
-import ReactDOM from <span class="hljs-string">'react-dom'</span>;
-import Tabs, {TabPane} from <span class="hljs-string">'rc-tabs'</span>;
+<span class="hljs-keyword">import</span> <span class="hljs-string">'rc-tabs/assets/index.css'</span>;
+<span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
+<span class="hljs-keyword">import</span> ReactDOM <span class="hljs-keyword">from</span> <span class="hljs-string">'react-dom'</span>;
+<span class="hljs-keyword">import</span> Tabs, { TabPane } <span class="hljs-keyword">from</span> <span class="hljs-string">'rc-tabs'</span>;
 
-<span class="hljs-keyword">class</span> PanelContent extends React.Component {
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">PanelContent</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> </span>{
   constructor(props) {
-    super(props);
+    <span class="hljs-keyword">super</span>(props);
     <span class="hljs-built_in">console</span>.log(<span class="hljs-keyword">this</span>.props.id, <span class="hljs-string">'constructor'</span>);
   }
 
@@ -282,11 +282,13 @@ import Tabs, {TabPane} from <span class="hljs-string">'rc-tabs'</span>;
   }
 
   render() {
-    <span class="hljs-keyword">const</span> count = [<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>];<span class="hljs-comment">// new Array(4) skip forEach ....</span>
-    <span class="hljs-keyword">const</span> els = count.map((c, i)=&gt; {
-      <span class="hljs-keyword">return</span> <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">p</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">{i}</span>&gt;</span>{this.props.id}<span class="hljs-tag">&lt;/<span class="hljs-title">p</span>&gt;</span>;</span>
+    <span class="hljs-keyword">const</span> count = [<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>];<span class="hljs-comment">// new Array(4) skip forEach ....</span>
+    <span class="hljs-keyword">const</span> els = count.map((c, i) =&gt; {
+      <span class="hljs-keyword">return</span> (<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">p</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">{i}</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-title">button</span>&gt;</span>{this.props.id}<span class="hljs-tag">&lt;/<span class="hljs-title">button</span>&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-title">p</span>&gt;</span>)</span>;
     });
-    <span class="hljs-keyword">return</span> <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">div</span>&gt;</span>{els}<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>;</span>
+    <span class="hljs-keyword">return</span> <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">style</span>=<span class="hljs-value">{{</span> <span class="hljs-attribute">height:</span> <span class="hljs-attribute">200</span>, <span class="hljs-attribute">overflow:</span> '<span class="hljs-attribute">auto</span>' }}&gt;</span>{els}<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>;</span>
   }
 }
 PanelContent.propTypes = {
@@ -304,11 +306,11 @@ PanelContent.propTypes = {
   },
 
   onChange(key) {
-    <span class="hljs-built_in">console</span>.log(`onChange ${key}`);
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`onChange <span class="hljs-subst">${key}</span>`</span>);
   },
 
   onTabClick(key) {
-    <span class="hljs-built_in">console</span>.log(`onTabClick ${key}`);
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`onTabClick <span class="hljs-subst">${key}</span>`</span>);
     <span class="hljs-keyword">this</span>.setState({
       tabKey: key,
     });
@@ -326,9 +328,11 @@ PanelContent.propTypes = {
     <span class="hljs-keyword">return</span> (<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">div</span>&gt;</span>
       <span class="hljs-tag">&lt;<span class="hljs-title">h1</span>&gt;</span>Simple Tabs<span class="hljs-tag">&lt;/<span class="hljs-title">h1</span>&gt;</span>
       <span class="hljs-tag">&lt;<span class="hljs-title">p</span>&gt;</span>current: {this.state.tabKey}<span class="hljs-tag">&lt;/<span class="hljs-title">p</span>&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-title">Tabs</span> <span class="hljs-attribute">defaultActiveKey</span>=<span class="hljs-value">{defaultTabKey}</span>
-            <span class="hljs-attribute">onTabClick</span>=<span class="hljs-value">{this.onTabClick}</span>
-            <span class="hljs-attribute">onChange</span>=<span class="hljs-value">{this.onChange}</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-title">Tabs</span>
+        <span class="hljs-attribute">defaultActiveKey</span>=<span class="hljs-value">{defaultTabKey}</span>
+        <span class="hljs-attribute">onTabClick</span>=<span class="hljs-value">{this.onTabClick}</span>
+        <span class="hljs-attribute">onChange</span>=<span class="hljs-value">{this.onChange}</span>
+      &gt;</span>
         <span class="hljs-tag">&lt;<span class="hljs-title">TabPane</span> <span class="hljs-attribute">tab</span>=<span class="hljs-value">{`tab</span> ${<span class="hljs-attribute">start</span>}`} <span class="hljs-attribute">key</span>=<span class="hljs-value">"1"</span>&gt;</span>
           <span class="hljs-tag">&lt;<span class="hljs-title">PanelContent</span> <span class="hljs-attribute">id</span>=<span class="hljs-value">{start}</span>/&gt;</span>
         <span class="hljs-tag">&lt;/<span class="hljs-title">TabPane</span>&gt;</span>
@@ -343,11 +347,11 @@ PanelContent.propTypes = {
         <span class="hljs-tag">&lt;/<span class="hljs-title">TabPane</span>&gt;</span>
       <span class="hljs-tag">&lt;/<span class="hljs-title">Tabs</span>&gt;</span>
       <span class="hljs-tag">&lt;<span class="hljs-title">button</span> <span class="hljs-attribute">onClick</span>=<span class="hljs-value">{this.tick}</span>&gt;</span>rerender<span class="hljs-tag">&lt;/<span class="hljs-title">button</span>&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>);
+    <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>)</span>;
   },
 });
 
-ReactDOM.render(<span class="hljs-tag">&lt;<span class="hljs-title">Component</span> /&gt;</span>, document.getElementById('__react-content'));
+ReactDOM.render(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">Component</span> /&gt;</span>, document.getElementById('__react-content'));
 </span></code></pre></div>
 </div>
 <a href="http://github.com/react-component/tabs">
