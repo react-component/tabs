@@ -17,7 +17,7 @@ const TabPane = React.createClass({
     const prefixCls = `${props.rootPrefixCls}-tabpane`;
     const cls = classnames({
       [`${prefixCls}-hidden`]: !props.active,
-      prefixCls: 1,
+      [prefixCls]: 1,
     });
     return (
       <div className={cls}>
