@@ -20129,7 +20129,7 @@
 	
 	    var props = this.props;
 	    var prefixCls = props.rootPrefixCls + '-tabpane';
-	    var cls = (0, _classnames3.default)((_classnames = {}, _defineProperty(_classnames, prefixCls + '-hidden', !props.active), _defineProperty(_classnames, 'prefixCls', 1), _classnames));
+	    var cls = (0, _classnames3.default)((_classnames = {}, _defineProperty(_classnames, prefixCls + '-hidden', !props.active), _defineProperty(_classnames, prefixCls, 1), _classnames));
 	    return _react2.default.createElement(
 	      'div',
 	      { className: cls },
