@@ -55,8 +55,6 @@ const Tabs = React.createClass({
     } else {
       activeKey = getDefaultActiveKey(props);
     }
-    // cache panels
-    this.renderPanels = {};
     return {
       activeKey,
     };
@@ -84,10 +82,6 @@ const Tabs = React.createClass({
     } else {
       this.setActiveKey(getDefaultActiveKey(nextProps), nextProps);
     }
-  },
-
-  onTabDestroy(key) {
-    delete this.renderPanels[key];
   },
 
   onTabClick(key) {
@@ -143,36 +137,15 @@ const Tabs = React.createClass({
     const activeKey = state.activeKey;
     const children = props.children;
     const newChildren = [];
-    const renderPanels = this.renderPanels;
 
-    React.Children.forEach(children, (c) => {
-      let child = c;
+    React.Children.forEach(children, (child) => {
       const key = child.key;
       const active = activeKey === key;
-      if (active || renderPanels[key]) {
-        child = active ? child : renderPanels[key];
-        renderPanels[key] = React.cloneElement(child, {
-          active,
-          onDestroy: this.onTabDestroy.bind(this, key),
-          // eventKey: key,
-          rootPrefixCls: props.prefixCls,
-        });
-        newChildren.push(renderPanels[key]);
-      } else {
-        // do not change owner ...
-        // or else will destroy and reinit
-        // newChildren.push(<TabPane active={false}
-        //  key={key}
-        //  eventKey={key}
-        //  rootPrefixCls={this.props.prefixCls}></TabPane>);
-        // return
-        // lazy load
-        newChildren.push(React.cloneElement(child, {
-          active: false,
-          // eventKey: key,
-          rootPrefixCls: props.prefixCls,
-        }, []));
-      }
+      newChildren.push(React.cloneElement(child, {
+        active,
+        // eventKey: key,
+        rootPrefixCls: props.prefixCls,
+      }));
     });
 
     return newChildren;

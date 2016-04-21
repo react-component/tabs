@@ -11,8 +11,8 @@ class PanelContent extends React.Component {
     console.log(this.props.id, 'constructor');
   }
 
-  componentWillReceiveProps() {
-    console.log(this.props.id, 'componentWillReceiveProps');
+  componentWillReceiveProps(nextProps) {
+    console.log(nextProps.id, 'componentWillReceiveProps');
   }
 
   render() {

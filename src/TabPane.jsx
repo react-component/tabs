@@ -1,19 +1,16 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import classnames from 'classnames';
 
 const TabPane = React.createClass({
   propTypes: {
-    onDestroy: React.PropTypes.func,
+    active: PropTypes.bool,
   },
-
-  componentWillUnmount() {
-    if (this.props.onDestroy) {
-      this.props.onDestroy();
-    }
-  },
-
   render() {
     const props = this.props;
+    this._isActived = this._isActived || props.active;
+    if (!this._isActived) {
+      return null;
+    }
     const prefixCls = `${props.rootPrefixCls}-tabpane`;
     const cls = classnames({
       [`${prefixCls}-hidden`]: !props.active,
