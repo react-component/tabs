@@ -3,12 +3,12 @@ webpackJsonp([2],{
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(179);
+	module.exports = __webpack_require__(186);
 
 
 /***/ },
 
-/***/ 179:
+/***/ 186:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -21,11 +21,11 @@ webpackJsonp([2],{
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _reactDom = __webpack_require__(160);
+	var _reactDom = __webpack_require__(34);
 	
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 	
-	var _rcTabs = __webpack_require__(161);
+	var _rcTabs = __webpack_require__(168);
 	
 	var _rcTabs2 = _interopRequireDefault(_rcTabs);
 	
@@ -51,8 +51,8 @@ webpackJsonp([2],{
 	
 	  _createClass(PanelContent, [{
 	    key: 'componentWillReceiveProps',
-	    value: function componentWillReceiveProps() {
-	      console.log(this.props.id, 'componentWillReceiveProps');
+	    value: function componentWillReceiveProps(nextProps) {
+	      console.log(nextProps.id, 'componentWillReceiveProps');
 	    }
 	  }, {
 	    key: 'render',

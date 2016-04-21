@@ -19,11 +19,11 @@ webpackJsonp([0],[
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _reactDom = __webpack_require__(160);
+	var _reactDom = __webpack_require__(34);
 	
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 	
-	var _rcTabs = __webpack_require__(161);
+	var _rcTabs = __webpack_require__(168);
 	
 	var _rcTabs2 = _interopRequireDefault(_rcTabs);
 	
