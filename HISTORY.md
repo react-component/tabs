@@ -1,5 +1,11 @@
 # History
 ----
+
+## 5.9.0 / 2016-04-26
+
+- use transform instead of left/top
+
+
 ## 5.5.0 / 2015-11-11
 
 - add destroyInactiveTabPane prop to destroy inactive tab pane when change tab

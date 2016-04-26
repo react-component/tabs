@@ -1,4 +1,4 @@
-import { offset } from './utils';
+import { offset, getTransformPropertyName } from './utils';
 
 function componentDidUpdate(component) {
   const refs = component.refs;
@@ -10,18 +10,32 @@ function componentDidUpdate(component) {
   if (activeTab) {
     const tabNode = activeTab;
     const tabOffset = offset(tabNode);
+    const transformPropertyName = getTransformPropertyName();
     if (tabPosition === 'top' || tabPosition === 'bottom') {
       const left = tabOffset.left - containerOffset.left;
-      inkBarNode.style.left = `${left}px`;
-      inkBarNode.style.top = '';
-      inkBarNode.style.bottom = '';
-      inkBarNode.style.right = `${containerNode.offsetWidth - left - tabNode.offsetWidth}px`;
+      // use 3d gpu to optimize render
+      if (transformPropertyName) {
+        inkBarNode.style[transformPropertyName] = `translate3d(${left}px,0,0)`;
+        inkBarNode.style.width = `${tabNode.offsetWidth}px`;
+        inkBarNode.style.height = '';
+      } else {
+        inkBarNode.style.left = `${left}px`;
+        inkBarNode.style.top = '';
+        inkBarNode.style.bottom = '';
+        inkBarNode.style.right = `${containerNode.offsetWidth - left - tabNode.offsetWidth}px`;
+      }
     } else {
       const top = tabOffset.top - containerOffset.top;
-      inkBarNode.style.left = '';
-      inkBarNode.style.right = '';
-      inkBarNode.style.top = `${top}px`;
-      inkBarNode.style.bottom = `${containerNode.offsetHeight - top - tabNode.offsetHeight}px`;
+      if (transformPropertyName) {
+        inkBarNode.style[transformPropertyName] = `translate3d(0,${top}px,0)`;
+        inkBarNode.style.height = `${tabNode.offsetHeight}px`;
+        inkBarNode.style.width = '';
+      } else {
+        inkBarNode.style.left = '';
+        inkBarNode.style.right = '';
+        inkBarNode.style.top = `${top}px`;
+        inkBarNode.style.bottom = `${containerNode.offsetHeight - top - tabNode.offsetHeight}px`;
+      }
     }
   }
   inkBarNode.style.display = activeTab ? 'block' : 'none';

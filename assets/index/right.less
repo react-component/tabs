@@ -22,10 +22,6 @@
     height: 99999px;
   }
 
-  &-right &-nav {
-    transition: top 0.5s @easing-in-out;
-  }
-
   &-right &-tab-prev, &-right &-tab-next {
     margin-top: -2px;
     height: 32px;
@@ -64,15 +60,6 @@
   &-right &-ink-bar {
     width: 2px;
     left: 0;
-
-    &-transition-forward {
-      transition: bottom @effect-duration @easing-in-out,
-      top @effect-duration @easing-in-out @effect-duration * 0.3;
-    }
-    &-transition-backward {
-      transition: bottom @effect-duration @easing-in-out @effect-duration * 0.3,
-      top @effect-duration @easing-in-out;
-    }
   }
 
   &-right &-nav &-tab {

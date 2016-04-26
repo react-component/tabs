@@ -213,6 +213,7 @@ const Tabs = React.createClass({
       if (destroyInactiveTabPane) {
         tabPanes = (<Animate
           exclusive
+          component="div"
           transitionName={transitionName}
         >
           {tabPanes}
@@ -221,6 +222,7 @@ const Tabs = React.createClass({
         tabPanes = (<Animate
           showProp="active"
           exclusive
+          component="div"
           transitionName={transitionName}
         >
           {tabPanes}

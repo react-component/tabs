@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import classnames from 'classnames';
 import InkBarMixin from './InkBarMixin';
+import { getTransformPropertyName } from './utils';
 
 const tabBarExtraContentStyle = {
   float: 'right',
@@ -150,6 +151,35 @@ const Nav = React.createClass({
       this.setState({
         offset: target,
       });
+      let navOffset = {};
+      const tabPosition = this.props.tabPosition;
+      const transformProperty = getTransformPropertyName();
+      if (tabPosition === 'left' || tabPosition === 'right') {
+        if (transformProperty) {
+          navOffset = {
+            name: transformProperty,
+            value: `translate3d(0,${target}px,0)`,
+          };
+        } else {
+          navOffset = {
+            name: 'top',
+            value: `${target}px`,
+          };
+        }
+      } else {
+        if (transformProperty) {
+          navOffset = {
+            name: transformProperty,
+            value: `translate3d(${target}px,0,0)`,
+          };
+        } else {
+          navOffset = {
+            name: 'left',
+            value: `${target}px`,
+          };
+        }
+      }
+      this.refs.nav.style[navOffset.name] = navOffset.value;
     }
   },
 
@@ -217,7 +247,6 @@ const Nav = React.createClass({
     const prefixCls = props.prefixCls;
     const tabs = this.getTabs();
     const tabMovingDirection = props.tabMovingDirection;
-    const tabPosition = props.tabPosition;
     let inkBarClass = `${prefixCls}-ink-bar`;
     if (tabMovingDirection) {
       inkBarClass += ` ${prefixCls}-ink-bar-transition-${tabMovingDirection}`;
@@ -251,17 +280,6 @@ const Nav = React.createClass({
       </span>);
     }
 
-    let navOffset = {};
-    if (tabPosition === 'left' || tabPosition === 'right') {
-      navOffset = {
-        top: state.offset,
-      };
-    } else {
-      navOffset = {
-        left: state.offset,
-      };
-    }
-
     const tabBarExtraContent = this.props.tabBarExtraContent;
 
     return (<div
@@ -283,7 +301,7 @@ const Nav = React.createClass({
         {nextButton}
         <div className={`${prefixCls}-nav-wrap`} ref="navWrap">
           <div className={`${prefixCls}-nav-scroll`}>
-            <div className={`${prefixCls}-nav`} ref="nav" style={navOffset}>
+            <div className={`${prefixCls}-nav`} ref="nav">
               <div className={inkBarClass} ref="inkBar"/>
               {tabs}
             </div>

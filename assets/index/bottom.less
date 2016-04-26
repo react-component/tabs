@@ -24,10 +24,6 @@
     width: 100%;
   }
 
-  &-bottom &-nav {
-    transition: left 0.5s @easing-in-out;
-  }
-
   &-bottom &-tab-next {
     right: 2px;
 
@@ -55,15 +51,6 @@
     height: 2px;
     top: 3px;
     left:0;
-
-    &-transition-forward {
-      transition: right @effect-duration @easing-in-out,
-      left @effect-duration @easing-in-out @effect-duration * 0.3;
-    }
-    &-transition-backward {
-      transition: right @effect-duration @easing-in-out @effect-duration * 0.3,
-      left @effect-duration @easing-in-out;
-    }
   }
 
   &-bottom &-nav &-tab {
