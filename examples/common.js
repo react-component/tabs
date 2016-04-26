@@ -20333,6 +20333,7 @@
 	          _rcAnimate2.default,
 	          {
 	            exclusive: true,
+	            component: 'div',
 	            transitionName: transitionName
 	          },
 	          tabPanes
@@ -20343,6 +20344,7 @@
 	          {
 	            showProp: 'active',
 	            exclusive: true,
+	            component: 'div',
 	            transitionName: transitionName
 	          },
 	          tabPanes
@@ -20543,6 +20545,8 @@
 	
 	var _InkBarMixin2 = _interopRequireDefault(_InkBarMixin);
 	
+	var _utils = __webpack_require__(176);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -20699,6 +20703,35 @@
 	      this.setState({
 	        offset: target
 	      });
+	      var navOffset = {};
+	      var tabPosition = this.props.tabPosition;
+	      var transformProperty = (0, _utils.getTransformPropertyName)();
+	      if (tabPosition === 'left' || tabPosition === 'right') {
+	        if (transformProperty) {
+	          navOffset = {
+	            name: transformProperty,
+	            value: 'translate3d(0,' + target + 'px,0)'
+	          };
+	        } else {
+	          navOffset = {
+	            name: 'top',
+	            value: target + 'px'
+	          };
+	        }
+	      } else {
+	        if (transformProperty) {
+	          navOffset = {
+	            name: transformProperty,
+	            value: 'translate3d(' + target + 'px,0,0)'
+	          };
+	        } else {
+	          navOffset = {
+	            name: 'left',
+	            value: target + 'px'
+	          };
+	        }
+	      }
+	      this.refs.nav.style[navOffset.name] = navOffset.value;
 	    }
 	  },
 	  setPrev: function setPrev(v) {
@@ -20763,7 +20796,6 @@
 	    var prefixCls = props.prefixCls;
 	    var tabs = this.getTabs();
 	    var tabMovingDirection = props.tabMovingDirection;
-	    var tabPosition = props.tabPosition;
 	    var inkBarClass = prefixCls + '-ink-bar';
 	    if (tabMovingDirection) {
 	      inkBarClass += ' ' + prefixCls + '-ink-bar-transition-' + tabMovingDirection;
@@ -20797,17 +20829,6 @@
 	      );
 	    }
 	
-	    var navOffset = {};
-	    if (tabPosition === 'left' || tabPosition === 'right') {
-	      navOffset = {
-	        top: state.offset
-	      };
-	    } else {
-	      navOffset = {
-	        left: state.offset
-	      };
-	    }
-	
 	    var tabBarExtraContent = this.props.tabBarExtraContent;
 	
 	    return _react2.default.createElement(
@@ -20839,7 +20860,7 @@
 	            { className: prefixCls + '-nav-scroll' },
 	            _react2.default.createElement(
 	              'div',
-	              { className: prefixCls + '-nav', ref: 'nav', style: navOffset },
+	              { className: prefixCls + '-nav', ref: 'nav' },
 	              _react2.default.createElement('div', { className: inkBarClass, ref: 'inkBar' }),
 	              tabs
 	            )
@@ -20875,18 +20896,32 @@
 	  if (activeTab) {
 	    var tabNode = activeTab;
 	    var tabOffset = (0, _utils.offset)(tabNode);
+	    var transformPropertyName = (0, _utils.getTransformPropertyName)();
 	    if (tabPosition === 'top' || tabPosition === 'bottom') {
 	      var left = tabOffset.left - containerOffset.left;
-	      inkBarNode.style.left = left + 'px';
-	      inkBarNode.style.top = '';
-	      inkBarNode.style.bottom = '';
-	      inkBarNode.style.right = containerNode.offsetWidth - left - tabNode.offsetWidth + 'px';
+	      // use 3d gpu to optimize render
+	      if (transformPropertyName) {
+	        inkBarNode.style[transformPropertyName] = 'translate3d(' + left + 'px,0,0)';
+	        inkBarNode.style.width = tabNode.offsetWidth + 'px';
+	        inkBarNode.style.height = '';
+	      } else {
+	        inkBarNode.style.left = left + 'px';
+	        inkBarNode.style.top = '';
+	        inkBarNode.style.bottom = '';
+	        inkBarNode.style.right = containerNode.offsetWidth - left - tabNode.offsetWidth + 'px';
+	      }
 	    } else {
 	      var top = tabOffset.top - containerOffset.top;
-	      inkBarNode.style.left = '';
-	      inkBarNode.style.right = '';
-	      inkBarNode.style.top = top + 'px';
-	      inkBarNode.style.bottom = containerNode.offsetHeight - top - tabNode.offsetHeight + 'px';
+	      if (transformPropertyName) {
+	        inkBarNode.style[transformPropertyName] = 'translate3d(0,' + top + 'px,0)';
+	        inkBarNode.style.height = tabNode.offsetHeight + 'px';
+	        inkBarNode.style.width = '';
+	      } else {
+	        inkBarNode.style.left = '';
+	        inkBarNode.style.right = '';
+	        inkBarNode.style.top = top + 'px';
+	        inkBarNode.style.bottom = containerNode.offsetHeight - top - tabNode.offsetHeight + 'px';
+	      }
 	    }
 	  }
 	  inkBarNode.style.display = activeTab ? 'block' : 'none';
@@ -20913,6 +20948,7 @@
 	});
 	exports.getScroll = getScroll;
 	exports.offset = offset;
+	exports.getTransformPropertyName = getTransformPropertyName;
 	function getScroll(w, top) {
 	  var ret = w['page' + (top ? 'Y' : 'X') + 'Offset'];
 	  var method = 'scroll' + (top ? 'Top' : 'Left');
@@ -20946,6 +20982,39 @@
 	  return {
 	    left: x, top: y
 	  };
+	}
+	
+	var transformPropertyName = void 0;
+	
+	function getTransformPropertyName() {
+	  if (!window.getComputedStyle) {
+	    return false;
+	  }
+	  if (transformPropertyName !== undefined) {
+	    return transformPropertyName;
+	  }
+	  var el = document.createElement('p');
+	  var has3d = void 0;
+	  var transforms = {
+	    webkitTransform: '-webkit-transform',
+	    OTransform: '-o-transform',
+	    msTransform: '-ms-transform',
+	    MozTransform: '-moz-transform',
+	    transform: 'transform'
+	  };
+	  // Add it to the body to get the computed style.
+	  document.body.insertBefore(el, null);
+	  for (var t in transforms) {
+	    if (el.style[t] !== undefined) {
+	      el.style[t] = 'translate3d(1px,1px,1px)';
+	      has3d = window.getComputedStyle(el).getPropertyValue(transforms[t]);
+	      if (has3d !== undefined && has3d.length > 0 && has3d !== 'none') {
+	        transformPropertyName = t;
+	      }
+	    }
+	  }
+	  document.body.removeChild(el);
+	  return transformPropertyName;
 	}
 
 /***/ },

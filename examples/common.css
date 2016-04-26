@@ -11,10 +11,14 @@
   box-sizing: border-box;
   margin-top: -3px;
   background-color: #3fc7fa;
-  -webkit-transform: scaleX(1);
-          transform: scaleX(1);
   -webkit-transform-origin: 0 0;
           transform-origin: 0 0;
+}
+.rc-tabs-ink-bar-transition-forward {
+  transition: right 0.3s cubic-bezier(0.35, 0, 0.25, 1), left 0.3s cubic-bezier(0.35, 0, 0.25, 1) 0.09s, bottom 0.3s cubic-bezier(0.35, 0, 0.25, 1), transform 0.3s cubic-bezier(0.35, 0, 0.25, 1) 0.09s, -webkit-transform 0.3s cubic-bezier(0.35, 0, 0.25, 1) 0.09s, top 0.3s cubic-bezier(0.35, 0, 0.25, 1) 0.09s;
+}
+.rc-tabs-ink-bar-transition-backward {
+  transition: bottom 0.3s cubic-bezier(0.35, 0, 0.25, 1) 0.09s, right 0.3s cubic-bezier(0.35, 0, 0.25, 1) 0.09s, left 0.3s cubic-bezier(0.35, 0, 0.25, 1), transform 0.3s cubic-bezier(0.35, 0, 0.25, 1) 0.09s, -webkit-transform 0.3s cubic-bezier(0.35, 0, 0.25, 1) 0.09s, top 0.3s cubic-bezier(0.35, 0, 0.25, 1);
 }
 .rc-tabs-nav-container {
   font-size: 14px;
@@ -72,6 +76,9 @@
   float: left;
   list-style: none;
   display: inline-block;
+  -webkit-transform-origin: 0 0;
+          transform-origin: 0 0;
+  transition: transform 0.5s cubic-bezier(0.35, 0, 0.25, 1), left 0.5s cubic-bezier(0.35, 0, 0.25, 1), top 0.5s cubic-bezier(0.35, 0, 0.25, 1), -webkit-transform 0.5s cubic-bezier(0.35, 0, 0.25, 1);
 }
 .rc-tabs-nav:before,
 .rc-tabs-nav:after {
@@ -265,10 +272,6 @@
 .rc-tabs-left .rc-tabs-nav-scroll {
   height: 99999px;
 }
-.rc-tabs-left .rc-tabs-nav {
-  -webkit-transition: top 0.5s cubic-bezier(0.35, 0, 0.25, 1);
-  transition: top 0.5s cubic-bezier(0.35, 0, 0.25, 1);
-}
 .rc-tabs-left .rc-tabs-tab-prev,
 .rc-tabs-left .rc-tabs-tab-next {
   margin-top: -2px;
@@ -304,14 +307,6 @@
   width: 2px;
   right: 0;
 }
-.rc-tabs-left .rc-tabs-ink-bar-transition-forward {
-  -webkit-transition: bottom 0.3s cubic-bezier(0.35, 0, 0.25, 1), top 0.3s cubic-bezier(0.35, 0, 0.25, 1) 0.09s;
-  transition: bottom 0.3s cubic-bezier(0.35, 0, 0.25, 1), top 0.3s cubic-bezier(0.35, 0, 0.25, 1) 0.09s;
-}
-.rc-tabs-left .rc-tabs-ink-bar-transition-backward {
-  -webkit-transition: bottom 0.3s cubic-bezier(0.35, 0, 0.25, 1) 0.09s, top 0.3s cubic-bezier(0.35, 0, 0.25, 1);
-  transition: bottom 0.3s cubic-bezier(0.35, 0, 0.25, 1) 0.09s, top 0.3s cubic-bezier(0.35, 0, 0.25, 1);
-}
 .rc-tabs-left .rc-tabs-nav .rc-tabs-tab {
   padding: 16px 24px;
 }
@@ -332,10 +327,6 @@
 }
 .rc-tabs-right .rc-tabs-nav-scroll {
   height: 99999px;
-}
-.rc-tabs-right .rc-tabs-nav {
-  -webkit-transition: top 0.5s cubic-bezier(0.35, 0, 0.25, 1);
-  transition: top 0.5s cubic-bezier(0.35, 0, 0.25, 1);
 }
 .rc-tabs-right .rc-tabs-tab-prev,
 .rc-tabs-right .rc-tabs-tab-next {
@@ -375,14 +366,6 @@
   width: 2px;
   left: 0;
 }
-.rc-tabs-right .rc-tabs-ink-bar-transition-forward {
-  -webkit-transition: bottom 0.3s cubic-bezier(0.35, 0, 0.25, 1), top 0.3s cubic-bezier(0.35, 0, 0.25, 1) 0.09s;
-  transition: bottom 0.3s cubic-bezier(0.35, 0, 0.25, 1), top 0.3s cubic-bezier(0.35, 0, 0.25, 1) 0.09s;
-}
-.rc-tabs-right .rc-tabs-ink-bar-transition-backward {
-  -webkit-transition: bottom 0.3s cubic-bezier(0.35, 0, 0.25, 1) 0.09s, top 0.3s cubic-bezier(0.35, 0, 0.25, 1);
-  transition: bottom 0.3s cubic-bezier(0.35, 0, 0.25, 1) 0.09s, top 0.3s cubic-bezier(0.35, 0, 0.25, 1);
-}
 .rc-tabs-right .rc-tabs-nav .rc-tabs-tab {
   padding: 16px 24px;
 }
@@ -404,10 +387,6 @@
 }
 .rc-tabs-bottom .rc-tabs-content {
   width: 100%;
-}
-.rc-tabs-bottom .rc-tabs-nav {
-  -webkit-transition: left 0.5s cubic-bezier(0.35, 0, 0.25, 1);
-  transition: left 0.5s cubic-bezier(0.35, 0, 0.25, 1);
 }
 .rc-tabs-bottom .rc-tabs-tab-next {
   right: 2px;
@@ -434,14 +413,6 @@
   top: 3px;
   left: 0;
 }
-.rc-tabs-bottom .rc-tabs-ink-bar-transition-forward {
-  -webkit-transition: right 0.3s cubic-bezier(0.35, 0, 0.25, 1), left 0.3s cubic-bezier(0.35, 0, 0.25, 1) 0.09s;
-  transition: right 0.3s cubic-bezier(0.35, 0, 0.25, 1), left 0.3s cubic-bezier(0.35, 0, 0.25, 1) 0.09s;
-}
-.rc-tabs-bottom .rc-tabs-ink-bar-transition-backward {
-  -webkit-transition: right 0.3s cubic-bezier(0.35, 0, 0.25, 1) 0.09s, left 0.3s cubic-bezier(0.35, 0, 0.25, 1);
-  transition: right 0.3s cubic-bezier(0.35, 0, 0.25, 1) 0.09s, left 0.3s cubic-bezier(0.35, 0, 0.25, 1);
-}
 .rc-tabs-bottom .rc-tabs-nav .rc-tabs-tab {
   float: left;
   height: 100%;
@@ -465,10 +436,6 @@
 }
 .rc-tabs-top .rc-tabs-content {
   width: 100%;
-}
-.rc-tabs-top .rc-tabs-nav {
-  -webkit-transition: left 0.5s cubic-bezier(0.35, 0, 0.25, 1);
-  transition: left 0.5s cubic-bezier(0.35, 0, 0.25, 1);
 }
 .rc-tabs-top .rc-tabs-tab-next {
   right: 2px;
@@ -494,14 +461,6 @@
   height: 2px;
   bottom: 0;
   left: 0;
-}
-.rc-tabs-top .rc-tabs-ink-bar-transition-forward {
-  -webkit-transition: right 0.3s cubic-bezier(0.35, 0, 0.25, 1), left 0.3s cubic-bezier(0.35, 0, 0.25, 1) 0.09s;
-  transition: right 0.3s cubic-bezier(0.35, 0, 0.25, 1), left 0.3s cubic-bezier(0.35, 0, 0.25, 1) 0.09s;
-}
-.rc-tabs-top .rc-tabs-ink-bar-transition-backward {
-  -webkit-transition: right 0.3s cubic-bezier(0.35, 0, 0.25, 1) 0.09s, left 0.3s cubic-bezier(0.35, 0, 0.25, 1);
-  transition: right 0.3s cubic-bezier(0.35, 0, 0.25, 1) 0.09s, left 0.3s cubic-bezier(0.35, 0, 0.25, 1);
 }
 .rc-tabs-top .rc-tabs-nav .rc-tabs-tab {
   float: left;
