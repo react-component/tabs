@@ -115,6 +115,9 @@ const Nav = React.createClass({
         ref.ref = 'activeTab';
       }
       rst.push(<div
+        role="tab"
+        aria-disabled={child.props.disabled ? 'true' : 'false'}
+        aria-selected={activeKey === key ? 'true' : 'false'}
         {...events}
         className={cls}
         key={key}
@@ -283,6 +286,7 @@ const Nav = React.createClass({
     const tabBarExtraContent = this.props.tabBarExtraContent;
 
     return (<div
+      role="tablist"
       className={`${prefixCls}-bar`}
       tabIndex="0"
       onKeyDown={this.props.onKeyDown}

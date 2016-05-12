@@ -17,7 +17,11 @@ const TabPane = React.createClass({
       [prefixCls]: 1,
     });
     return (
-      <div className={cls}>
+      <div
+        role="tabpanel"
+        aria-hidden={props.active ? 'false' : 'true'}
+        className={cls}
+      >
         {props.children}
       </div>
     );
