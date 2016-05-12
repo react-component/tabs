@@ -20458,7 +20458,11 @@
 	    var cls = (0, _classnames3.default)((_classnames = {}, _defineProperty(_classnames, prefixCls + '-hidden', !props.active), _defineProperty(_classnames, prefixCls, 1), _classnames));
 	    return _react2.default.createElement(
 	      'div',
-	      { className: cls },
+	      {
+	        role: 'tabpanel',
+	        'aria-hidden': props.active ? 'false' : 'true',
+	        className: cls
+	      },
 	      props.children
 	    );
 	  }
@@ -20667,7 +20671,11 @@
 	      }
 	      rst.push(_react2.default.createElement(
 	        'div',
-	        _extends({}, events, {
+	        _extends({
+	          role: 'tab',
+	          'aria-disabled': child.props.disabled ? 'true' : 'false',
+	          'aria-selected': activeKey === key ? 'true' : 'false'
+	        }, events, {
 	          className: cls,
 	          key: key
 	        }, ref),
@@ -20834,6 +20842,7 @@
 	    return _react2.default.createElement(
 	      'div',
 	      {
+	        role: 'tablist',
 	        className: prefixCls + '-bar',
 	        tabIndex: '0',
 	        onKeyDown: this.props.onKeyDown
