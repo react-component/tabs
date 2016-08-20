@@ -22073,6 +22073,8 @@
 	
 	  propTypes: {
 	    destroyInactiveTabPane: _react.PropTypes.bool,
+	    allowInkBar: _react.PropTypes.bool,
+	    allowScrollBar: _react.PropTypes.bool,
 	    onTabClick: _react.PropTypes.func,
 	    onChange: _react.PropTypes.func,
 	    children: _react.PropTypes.any,
@@ -22087,6 +22089,8 @@
 	    return {
 	      prefixCls: 'rc-tabs',
 	      destroyInactiveTabPane: false,
+	      allowInkBar: true,
+	      allowScrollBar: true,
 	      tabBarExtraContent: null,
 	      onChange: noop,
 	      tabPosition: 'top',
@@ -22286,13 +22290,15 @@
 	    var contents = [_react2.default.createElement(_Nav2.default, {
 	      prefixCls: prefixCls,
 	      key: 'nav',
+	      allowInkBar: props.allowInkBar,
+	      allowScrollBar: props.allowScrollBar,
 	      onKeyDown: this.onNavKeyDown,
-	      tabBarExtraContent: this.props.tabBarExtraContent,
+	      tabBarExtraContent: props.tabBarExtraContent,
 	      tabPosition: tabPosition,
 	      style: props.navStyle,
 	      onTabClick: this.onTabClick,
 	      tabMovingDirection: tabMovingDirection,
-	      panels: this.props.children,
+	      panels: props.children,
 	      activeKey: this.state.activeKey
 	    }), _react2.default.createElement(
 	      'div',
@@ -22557,6 +22563,9 @@
 	
 	  propTypes: {
 	    tabPosition: _react.PropTypes.string,
+	    prefixCls: _react.PropTypes.string,
+	    allowInkBar: _react.PropTypes.bool,
+	    allowScrollBar: _react.PropTypes.bool,
 	    tabBarExtraContent: _react.PropTypes.any,
 	    onTabClick: _react.PropTypes.func,
 	    onKeyDown: _react.PropTypes.func
@@ -22576,6 +22585,9 @@
 	  },
 	  componentDidUpdate: function componentDidUpdate(prevProps) {
 	    var props = this.props;
+	    if (!props.allowScrollBar) {
+	      return;
+	    }
 	    if (prevProps && prevProps.tabPosition !== props.tabPosition) {
 	      this.setOffset(0);
 	      return;
@@ -22667,11 +22679,7 @@
 	          className: cls,
 	          key: key
 	        }, ref),
-	        _react2.default.createElement(
-	          'div',
-	          { className: prefixCls + '-tab-inner' },
-	          child.props.tab
-	        )
+	        child.props.tab
 	      ));
 	    });
 	
@@ -22789,61 +22797,63 @@
 	    var props = this.props;
 	    var state = this.state;
 	    var prefixCls = props.prefixCls;
+	    var tabBarExtraContent = props.tabBarExtraContent;
+	
 	    var tabs = this.getTabs();
-	    var tabMovingDirection = props.tabMovingDirection;
-	    var inkBarClass = prefixCls + '-ink-bar';
-	    if (tabMovingDirection) {
-	      inkBarClass += ' ' + prefixCls + '-ink-bar-transition-' + tabMovingDirection;
-	    }
-	    var nextButton = void 0;
-	    var prevButton = void 0;
 	
-	    var showNextPrev = state.prev || state.next;
+	    var inkBarNode = void 0;
 	
-	    if (showNextPrev) {
-	      var _classnames, _classnames2;
-	
-	      prevButton = _react2.default.createElement(
-	        'span',
-	        {
-	          onClick: state.prev ? this.prev : noop,
-	          unselectable: 'unselectable',
-	          className: (0, _classnames4.default)((_classnames = {}, (0, _defineProperty3.default)(_classnames, prefixCls + '-tab-prev', 1), (0, _defineProperty3.default)(_classnames, prefixCls + '-tab-btn-disabled', !state.prev), _classnames))
-	        },
-	        _react2.default.createElement('span', { className: prefixCls + '-tab-prev-icon' })
-	      );
-	
-	      nextButton = _react2.default.createElement(
-	        'span',
-	        {
-	          onClick: state.next ? this.next : noop,
-	          unselectable: 'unselectable',
-	          className: (0, _classnames4.default)((_classnames2 = {}, (0, _defineProperty3.default)(_classnames2, prefixCls + '-tab-next', 1), (0, _defineProperty3.default)(_classnames2, prefixCls + '-tab-btn-disabled', !state.next), _classnames2))
-	        },
-	        _react2.default.createElement('span', { className: prefixCls + '-tab-next-icon' })
-	      );
+	    if (props.allowInkBar) {
+	      var inkBarClass = void 0;
+	      var tabMovingDirection = props.tabMovingDirection;
+	      inkBarClass = prefixCls + '-ink-bar';
+	      if (tabMovingDirection) {
+	        inkBarClass += ' ' + prefixCls + '-ink-bar-transition-' + tabMovingDirection;
+	      }
+	      inkBarNode = _react2.default.createElement('div', { className: inkBarClass, key: 'inkBar', ref: 'inkBar' });
 	    }
 	
-	    var tabBarExtraContent = this.props.tabBarExtraContent;
-	
-	    return _react2.default.createElement(
+	    var contents = [tabBarExtraContent ? _react2.default.createElement(
 	      'div',
-	      {
-	        role: 'tablist',
-	        className: prefixCls + '-bar',
-	        tabIndex: '0',
-	        onKeyDown: this.props.onKeyDown
-	      },
-	      tabBarExtraContent ? _react2.default.createElement(
-	        'div',
-	        { style: tabBarExtraContentStyle },
-	        tabBarExtraContent
-	      ) : null,
-	      _react2.default.createElement(
+	      { style: tabBarExtraContentStyle, key: 'extra' },
+	      tabBarExtraContent
+	    ) : null];
+	
+	    if (props.allowScrollBar) {
+	      var nextButton = void 0;
+	      var prevButton = void 0;
+	      var showNextPrev = state.prev || state.next;
+	
+	      if (showNextPrev) {
+	        var _classnames, _classnames2;
+	
+	        prevButton = _react2.default.createElement(
+	          'span',
+	          {
+	            onClick: state.prev ? this.prev : noop,
+	            unselectable: 'unselectable',
+	            className: (0, _classnames4.default)((_classnames = {}, (0, _defineProperty3.default)(_classnames, prefixCls + '-tab-prev', 1), (0, _defineProperty3.default)(_classnames, prefixCls + '-tab-btn-disabled', !state.prev), _classnames))
+	          },
+	          _react2.default.createElement('span', { className: prefixCls + '-tab-prev-icon' })
+	        );
+	
+	        nextButton = _react2.default.createElement(
+	          'span',
+	          {
+	            onClick: state.next ? this.next : noop,
+	            unselectable: 'unselectable',
+	            className: (0, _classnames4.default)((_classnames2 = {}, (0, _defineProperty3.default)(_classnames2, prefixCls + '-tab-next', 1), (0, _defineProperty3.default)(_classnames2, prefixCls + '-tab-btn-disabled', !state.next), _classnames2))
+	          },
+	          _react2.default.createElement('span', { className: prefixCls + '-tab-next-icon' })
+	        );
+	      }
+	
+	      contents.push(_react2.default.createElement(
 	        'div',
 	        {
 	          className: prefixCls + '-nav-container ' + (showNextPrev ? prefixCls + '-nav-container-scrolling' : ''),
 	          style: props.style,
+	          key: 'container',
 	          ref: 'container'
 	        },
 	        prevButton,
@@ -22857,12 +22867,27 @@
 	            _react2.default.createElement(
 	              'div',
 	              { className: prefixCls + '-nav', ref: 'nav' },
-	              _react2.default.createElement('div', { className: inkBarClass, ref: 'inkBar' }),
+	              inkBarNode,
 	              tabs
 	            )
 	          )
 	        )
-	      )
+	      ));
+	    } else {
+	      contents.push(inkBarNode);
+	      contents.push.apply(contents, tabs);
+	    }
+	
+	    return _react2.default.createElement(
+	      'div',
+	      {
+	        role: 'tablist',
+	        className: prefixCls + '-bar',
+	        tabIndex: '0',
+	        ref: 'root',
+	        onKeyDown: props.onKeyDown
+	      },
+	      contents
 	    );
 	  }
 	});
@@ -22971,9 +22996,12 @@
 	var _utils = __webpack_require__(269);
 	
 	function _componentDidUpdate(component) {
+	  if (!component.props.allowInkBar) {
+	    return;
+	  }
 	  var refs = component.refs;
-	  var containerNode = refs.nav;
-	  var containerOffset = (0, _utils.offset)(containerNode);
+	  var wrapNode = refs.nav || refs.root;
+	  var containerOffset = (0, _utils.offset)(wrapNode);
 	  var inkBarNode = refs.inkBar;
 	  var activeTab = refs.activeTab;
 	  var tabPosition = component.props.tabPosition;
@@ -22992,7 +23020,7 @@
 	        inkBarNode.style.left = left + 'px';
 	        inkBarNode.style.top = '';
 	        inkBarNode.style.bottom = '';
-	        inkBarNode.style.right = containerNode.offsetWidth - left - tabNode.offsetWidth + 'px';
+	        inkBarNode.style.right = wrapNode.offsetWidth - left - tabNode.offsetWidth + 'px';
 	      }
 	    } else {
 	      var top = tabOffset.top - containerOffset.top;
@@ -23004,7 +23032,7 @@
 	        inkBarNode.style.left = '';
 	        inkBarNode.style.right = '';
 	        inkBarNode.style.top = top + 'px';
-	        inkBarNode.style.bottom = containerNode.offsetHeight - top - tabNode.offsetHeight + 'px';
+	        inkBarNode.style.bottom = wrapNode.offsetHeight - top - tabNode.offsetHeight + 'px';
 	      }
 	    }
 	  }

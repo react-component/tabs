@@ -123,6 +123,8 @@ webpackJsonp([0],[
 	      _react2.default.createElement(
 	        _rcTabs2.default,
 	        {
+	          allowScrollBar: false,
+	          allowInkBar: true,
 	          activeKey: this.state.activeKey,
 	          onTabClick: this.onTabClick,
 	          onChange: this.onChange

@@ -3,6 +3,12 @@
   position: relative;
 }
 .rc-tabs-bar {
+  font-size: 14px;
+  line-height: 1.5;
+  box-sizing: border-box;
+  overflow: hidden;
+  position: relative;
+  white-space: nowrap;
   outline: none;
 }
 .rc-tabs-ink-bar {
@@ -19,14 +25,6 @@
 }
 .rc-tabs-ink-bar-transition-backward {
   transition: bottom 0.3s cubic-bezier(0.35, 0, 0.25, 1) 0.09s, right 0.3s cubic-bezier(0.35, 0, 0.25, 1) 0.09s, left 0.3s cubic-bezier(0.35, 0, 0.25, 1), transform 0.3s cubic-bezier(0.35, 0, 0.25, 1) 0.09s, -webkit-transform 0.3s cubic-bezier(0.35, 0, 0.25, 1) 0.09s, top 0.3s cubic-bezier(0.35, 0, 0.25, 1);
-}
-.rc-tabs-nav-container {
-  font-size: 14px;
-  line-height: 1.5;
-  box-sizing: border-box;
-  overflow: hidden;
-  position: relative;
-  white-space: nowrap;
 }
 .rc-tabs-tab-prev,
 .rc-tabs-tab-next {
@@ -88,38 +86,32 @@
 .rc-tabs-nav:after {
   clear: both;
 }
-.rc-tabs-nav div.rc-tabs-tab-active > .rc-tabs-tab-inner,
-.rc-tabs-nav div.rc-tabs-tab-active > .rc-tabs-tab-inner:hover {
+.rc-tabs-tab {
+  box-sizing: border-box;
+  position: relative;
+  display: block;
+  -webkit-transition: color 0.3s cubic-bezier(0.35, 0, 0.25, 1);
+  transition: color 0.3s cubic-bezier(0.35, 0, 0.25, 1);
+  padding: 8px 20px;
+  font-weight: 500;
+  cursor: pointer;
+}
+.rc-tabs-tab:hover {
+  color: #23c0fa;
+}
+.rc-tabs-tab-active,
+.rc-tabs-tab-active:hover {
   color: #3fc7fa;
   cursor: default;
   -webkit-transform: translateZ(0);
           transform: translateZ(0);
 }
-.rc-tabs-nav div.rc-tabs-tab-disabled {
+.rc-tabs-tab-disabled {
   cursor: default;
   color: #ccc;
 }
-.rc-tabs-nav div.rc-tabs-tab-disabled > .rc-tabs-tab-inner {
-  cursor: default;
-}
-.rc-tabs-nav div.rc-tabs-tab-disabled > .rc-tabs-tab-inner:hover {
+.rc-tabs-tab-disabled:hover {
   color: #ccc;
-}
-.rc-tabs-nav .rc-tabs-tab {
-  box-sizing: border-box;
-  position: relative;
-  display: block;
-}
-.rc-tabs-nav .rc-tabs-tab > .rc-tabs-tab-inner {
-  -webkit-transition: color 0.3s cubic-bezier(0.35, 0, 0.25, 1);
-  transition: color 0.3s cubic-bezier(0.35, 0, 0.25, 1);
-  padding: 8px 20px;
-  font-weight: 500;
-  display: inline-block;
-  cursor: pointer;
-}
-.rc-tabs-nav .rc-tabs-tab > .rc-tabs-tab-inner:hover {
-  color: #23c0fa;
 }
 .rc-tabs-tabpane-hidden {
   display: none;
@@ -307,7 +299,7 @@
   width: 2px;
   right: 0;
 }
-.rc-tabs-left .rc-tabs-nav .rc-tabs-tab {
+.rc-tabs-left .rc-tabs-tab {
   padding: 16px 24px;
 }
 .rc-tabs-right {
@@ -366,7 +358,7 @@
   width: 2px;
   left: 0;
 }
-.rc-tabs-right .rc-tabs-nav .rc-tabs-tab {
+.rc-tabs-right .rc-tabs-tab {
   padding: 16px 24px;
 }
 .rc-tabs-bottom {
@@ -413,7 +405,7 @@
   top: 3px;
   left: 0;
 }
-.rc-tabs-bottom .rc-tabs-nav .rc-tabs-tab {
+.rc-tabs-bottom .rc-tabs-tab {
   float: left;
   height: 100%;
   margin-right: 30px;
@@ -462,7 +454,7 @@
   bottom: 0;
   left: 0;
 }
-.rc-tabs-top .rc-tabs-nav .rc-tabs-tab {
+.rc-tabs-top .rc-tabs-tab {
   float: left;
   height: 100%;
   margin-right: 30px;
