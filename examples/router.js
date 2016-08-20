@@ -1,6 +1,6 @@
 /* eslint react/no-multi-comp:0 */
 
-import { Router, Route, IndexRoute } from 'react-router';
+import { Router, Route, IndexRoute, hashHistory } from 'react-router';
 import React, { PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import Tabs, { TabPane } from 'rc-tabs';
@@ -64,7 +64,7 @@ const App = React.createClass({
   },
 });
 
-ReactDOM.render(<Router>
+ReactDOM.render(<Router history={hashHistory}>
   <Route path="/" component={App}>
     <IndexRoute component={Tab1}/>
     <Route path="tab1" component={Tab1}/>

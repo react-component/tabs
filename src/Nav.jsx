@@ -21,9 +21,9 @@ const Nav = React.createClass({
   mixins: [InkBarMixin],
 
   getInitialState() {
+    this.offset = 0;
     return {
       next: false,
-      offset: 0,
       prev: false,
     };
   },
@@ -38,42 +38,11 @@ const Nav = React.createClass({
       this.setOffset(0);
       return;
     }
-    const navNode = this.refs.nav;
-    const navNodeWH = this.getOffsetWH(navNode);
-    const navWrapNode = this.refs.navWrap;
-    const navWrapNodeWH = this.getOffsetWH(navWrapNode);
-    const state = this.state;
-    let offset = state.offset;
-    const minOffset = navWrapNodeWH - navNodeWH;
-    let { next, prev } = this.state;
-    if (minOffset >= 0) {
-      next = false;
-      this.setOffset(0);
-      offset = 0;
-    } else if (minOffset < offset) {
-      next = (true);
-    } else {
-      next = (false);
-      this.setOffset(minOffset);
-      offset = minOffset;
-    }
-
-    if (offset < 0) {
-      prev = (true);
-    } else {
-      prev = (false);
-    }
-
-    this.setNext(next);
-    this.setPrev(prev);
-
-    const nextPrev = {
-      next,
-      prev,
-    };
-    // wait next,prev show hide
-    if (this.isNextPrevShown(state) !== this.isNextPrevShown(nextPrev)) {
-      this.setNextPrev({}, this.scrollToActiveTab);
+    const nextPrev = this.setNextPrev();
+    // wait next, prev show hide
+    /* eslint react/no-did-update-set-state:0 */
+    if (this.isNextPrevShown(this.state) !== this.isNextPrevShown(nextPrev)) {
+      this.setState({}, this.scrollToActiveTab);
     } else {
       // can not use props.activeKey
       if (!prevProps || props.activeKey !== prevProps.activeKey) {
@@ -86,9 +55,38 @@ const Nav = React.createClass({
     this.props.onTabClick(key);
   },
 
-  // work around eslint warning
-  setNextPrev(nextPrev, callback) {
-    this.setState(nextPrev, callback);
+  setNextPrev() {
+    const navNode = this.refs.nav;
+    const navNodeWH = this.getOffsetWH(navNode);
+    const navWrapNode = this.refs.navWrap;
+    const navWrapNodeWH = this.getOffsetWH(navWrapNode);
+    let { offset } = this;
+    const minOffset = navWrapNodeWH - navNodeWH;
+    let { next, prev } = this.state;
+    if (minOffset >= 0) {
+      next = false;
+      this.setOffset(0, false);
+      offset = 0;
+    } else if (minOffset < offset) {
+      next = (true);
+    } else {
+      next = (false);
+      this.setOffset(minOffset, false);
+      offset = minOffset;
+    }
+
+    if (offset < 0) {
+      prev = (true);
+    } else {
+      prev = (false);
+    }
+
+    this.setNext(next);
+    this.setPrev(prev);
+    return {
+      next,
+      prev,
+    };
   },
 
   getTabs() {
@@ -148,12 +146,10 @@ const Nav = React.createClass({
     return node.getBoundingClientRect()[prop];
   },
 
-  setOffset(offset) {
+  setOffset(offset, checkNextPrev = true) {
     const target = Math.min(0, offset);
-    if (this.state.offset !== target) {
-      this.setState({
-        offset: target,
-      });
+    if (this.offset !== target) {
+      this.offset = target;
       let navOffset = {};
       const tabPosition = this.props.tabPosition;
       const transformProperty = getTransformPropertyName();
@@ -183,6 +179,9 @@ const Nav = React.createClass({
         }
       }
       this.refs.nav.style[navOffset.name] = navOffset.value;
+      if (checkNextPrev) {
+        this.setNextPrev();
+      }
     }
   },
 
@@ -211,7 +210,7 @@ const Nav = React.createClass({
     if (activeTab) {
       const activeTabWH = this.getOffsetWH(activeTab);
       const navWrapNodeWH = this.getOffsetWH(navWrap);
-      let { offset } = this.state;
+      let { offset } = this;
       const wrapOffset = this.getOffsetLT(navWrap);
       const activeTabOffset = this.getOffsetLT(activeTab);
       if (wrapOffset > activeTabOffset) {
@@ -227,16 +226,14 @@ const Nav = React.createClass({
   prev() {
     const navWrapNode = this.refs.navWrap;
     const navWrapNodeWH = this.getOffsetWH(navWrapNode);
-    const state = this.state;
-    const offset = state.offset;
+    const { offset } = this;
     this.setOffset(offset + navWrapNodeWH);
   },
 
   next() {
     const navWrapNode = this.refs.navWrap;
     const navWrapNodeWH = this.getOffsetWH(navWrapNode);
-    const state = this.state;
-    const offset = state.offset;
+    const { offset } = this;
     this.setOffset(offset - navWrapNodeWH);
   },
 
@@ -256,59 +253,64 @@ const Nav = React.createClass({
     const showNextPrev = state.prev || state.next;
 
     if (showNextPrev) {
-      prevButton = (<span
-        onClick={state.prev ? this.prev : noop}
-        unselectable="unselectable"
-        className={classnames({
-          [`${prefixCls}-tab-prev`]: 1,
-          [`${prefixCls}-tab-btn-disabled`]: !state.prev,
-        })}
-      >
-        <span className={`${prefixCls}-tab-prev-icon`}></span>
-      </span>);
+      prevButton = (
+        <span
+          onClick={state.prev ? this.prev : noop}
+          unselectable="unselectable"
+          className={classnames({
+            [`${prefixCls}-tab-prev`]: 1,
+            [`${prefixCls}-tab-btn-disabled`]: !state.prev,
+          })}
+        >
+        <span className={`${prefixCls}-tab-prev-icon`}/>
+      </span>
+      );
 
-      nextButton = (<span
-        onClick={state.next ? this.next : noop}
-        unselectable="unselectable"
-        className={classnames({
-          [`${prefixCls}-tab-next`]: 1,
-          [`${prefixCls}-tab-btn-disabled`]: !state.next,
-        })}
-      >
-        <span className={`${prefixCls}-tab-next-icon`}></span>
-      </span>);
+      nextButton = (
+        <span
+          onClick={state.next ? this.next : noop}
+          unselectable="unselectable"
+          className={classnames({
+            [`${prefixCls}-tab-next`]: 1,
+            [`${prefixCls}-tab-btn-disabled`]: !state.next,
+          })}
+        >
+        <span className={`${prefixCls}-tab-next-icon`}/>
+      </span>
+      );
     }
 
     const tabBarExtraContent = this.props.tabBarExtraContent;
 
-    return (<div
-      role="tablist"
-      className={`${prefixCls}-bar`}
-      tabIndex="0"
-      onKeyDown={this.props.onKeyDown}
-    >
-      {tabBarExtraContent ?
-        <div style={tabBarExtraContentStyle}>{tabBarExtraContent}</div> :
-        null}
+    return (
       <div
-        className={`${prefixCls}-nav-container ${showNextPrev ?
-         `${prefixCls}-nav-container-scrolling` :
-         ''}`}
-        style={props.style}
-        ref="container"
+        role="tablist"
+        className={`${prefixCls}-bar`}
+        tabIndex="0"
+        onKeyDown={this.props.onKeyDown}
       >
-        {prevButton}
-        {nextButton}
-        <div className={`${prefixCls}-nav-wrap`} ref="navWrap">
-          <div className={`${prefixCls}-nav-scroll`}>
-            <div className={`${prefixCls}-nav`} ref="nav">
-              <div className={inkBarClass} ref="inkBar"/>
-              {tabs}
+        {tabBarExtraContent ?
+          <div style={tabBarExtraContentStyle}>{tabBarExtraContent}</div> :
+          null}
+        <div
+          className={`${prefixCls}-nav-container ${showNextPrev ?
+            `${prefixCls}-nav-container-scrolling` :
+            ''}`}
+          style={props.style}
+          ref="container"
+        >
+          {prevButton}
+          {nextButton}
+          <div className={`${prefixCls}-nav-wrap`} ref="navWrap">
+            <div className={`${prefixCls}-nav-scroll`}>
+              <div className={`${prefixCls}-nav`} ref="nav">
+                <div className={inkBarClass} ref="inkBar"/>
+                {tabs}
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>);
+      </div>);
   },
 });
 
