@@ -216,14 +216,10 @@ const Nav = React.createClass({
       const activeTabOffset = this.getOffsetLT(activeTab);
       if (wrapOffset > activeTabOffset) {
         offset += (wrapOffset - activeTabOffset);
-        this.setState({
-          offset,
-        });
+        this.setOffset(offset);
       } else if ((wrapOffset + navWrapNodeWH) < (activeTabOffset + activeTabWH)) {
         offset -= (activeTabOffset + activeTabWH) - (wrapOffset + navWrapNodeWH);
-        this.setState({
-          offset,
-        });
+        this.setOffset(offset);
       }
     }
   },
