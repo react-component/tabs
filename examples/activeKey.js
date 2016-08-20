@@ -63,6 +63,8 @@ const Component = React.createClass({
     return (<div>
       <h1>Simple Tabs</h1>
       <Tabs
+        allowScrollBar={false}
+        allowInkBar
         activeKey={this.state.activeKey}
         onTabClick={this.onTabClick}
         onChange={this.onChange}

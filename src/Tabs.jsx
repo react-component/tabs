@@ -21,6 +21,8 @@ function getDefaultActiveKey(props) {
 const Tabs = React.createClass({
   propTypes: {
     destroyInactiveTabPane: PropTypes.bool,
+    allowInkBar: PropTypes.bool,
+    allowScrollBar: PropTypes.bool,
     onTabClick: PropTypes.func,
     onChange: PropTypes.func,
     children: PropTypes.any,
@@ -35,6 +37,8 @@ const Tabs = React.createClass({
     return {
       prefixCls: 'rc-tabs',
       destroyInactiveTabPane: false,
+      allowInkBar: true,
+      allowScrollBar: true,
       tabBarExtraContent: null,
       onChange: noop,
       tabPosition: 'top',
@@ -233,13 +237,15 @@ const Tabs = React.createClass({
       (<Nav
         prefixCls={prefixCls}
         key="nav"
+        allowInkBar={props.allowInkBar}
+        allowScrollBar={props.allowScrollBar}
         onKeyDown={this.onNavKeyDown}
-        tabBarExtraContent={this.props.tabBarExtraContent}
+        tabBarExtraContent={props.tabBarExtraContent}
         tabPosition={tabPosition}
         style={props.navStyle}
         onTabClick={this.onTabClick}
         tabMovingDirection={tabMovingDirection}
-        panels={this.props.children}
+        panels={props.children}
         activeKey={this.state.activeKey}
       />),
       (<div

@@ -1,8 +1,14 @@
-.@{prefixClass} {
+.@{tabs-prefix-cls} {
   box-sizing: border-box;
   position: relative;
 
   &-bar {
+    font-size: 14px;
+    line-height: 1.5;
+    box-sizing: border-box;
+    overflow: hidden;
+    position: relative;
+    white-space: nowrap;
     outline: none;
   }
 
@@ -31,15 +37,6 @@
       -webkit-transform @effect-duration @easing-in-out @effect-duration * 0.3,
       top @effect-duration @easing-in-out;
     }
-  }
-
-  &-nav-container {
-    font-size: 14px;
-    line-height: 1.5;
-    box-sizing: border-box;
-    overflow: hidden;
-    position: relative;
-    white-space: nowrap;
   }
 
   &-tab-prev, &-tab-next {
@@ -104,45 +101,36 @@
     &:after {
       clear: both;
     }
+  }
 
-    div.@{prefixClass}-tab-active {
-      > .@{prefixClass}-tab-inner, > .@{prefixClass}-tab-inner:hover {
-        color: #3fc7fa;
-        cursor: default;
-        // fix chrome render
-        transform: translateZ(0);
-      }
+  &-tab {
+    box-sizing: border-box;
+    position: relative;
+    display: block;
+    transition: color @effect-duration @easing-in-out;
+    padding: 8px 20px;
+    font-weight: 500;
+    cursor: pointer;
+
+    &:hover {
+      color: #23c0fa;
     }
+  }
 
-    div.@{prefixClass}-tab-disabled {
+  &-tab-active {
+    &, &:hover {
+      color: #3fc7fa;
       cursor: default;
-      color: #ccc;
-
-      > .@{prefixClass}-tab-inner {
-        cursor: default;
-      }
-
-      > .@{prefixClass}-tab-inner:hover {
-        color: #ccc;
-      }
+      // fix chrome render
+      transform: translateZ(0);
     }
+  }
 
-    .@{prefixClass}-tab {
-      box-sizing: border-box;
-      position: relative;
-      display: block;
-
-      > .@{prefixClass}-tab-inner {
-        transition: color @effect-duration @easing-in-out;
-        padding: 8px 20px;
-        font-weight: 500;
-        display: inline-block;
-        cursor: pointer;
-      }
-
-      > .@{prefixClass}-tab-inner:hover {
-        color: #23c0fa;
-      }
+  &-tab-disabled {
+    cursor: default;
+    color: #ccc;
+    &:hover {
+      color: #ccc;
     }
   }
 

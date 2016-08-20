@@ -86,6 +86,18 @@ React.render(
           <td>tab nav 's position. one of ['left','right','top','bottom']</td>
       </tr>
       <tr>
+          <td>allowInkBar</td>
+          <td>Boolean</td>
+          <th>true</th>
+          <td>allow ink bar</td>
+      </tr>
+      <tr>
+          <td>allowScrollBar</td>
+          <td>Boolean</td>
+          <th>true</th>
+          <td>allow bar scrollable</td>
+      </tr>
+      <tr>
           <td>animation</td>
           <td>String</td>
           <th></th>

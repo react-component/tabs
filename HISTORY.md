@@ -1,6 +1,10 @@
 # History
 ----
 
+## 6.0.0 / 2016-08-20
+
+- support allowInkBar/allowScrollBar prop
+
 ## 5.9.0 / 2016-04-26
 
 - use transform instead of left/top

@@ -13,6 +13,9 @@ function noop() {
 const Nav = React.createClass({
   propTypes: {
     tabPosition: PropTypes.string,
+    prefixCls: PropTypes.string,
+    allowInkBar: PropTypes.bool,
+    allowScrollBar: PropTypes.bool,
     tabBarExtraContent: PropTypes.any,
     onTabClick: PropTypes.func,
     onKeyDown: PropTypes.func,
@@ -34,6 +37,9 @@ const Nav = React.createClass({
 
   componentDidUpdate(prevProps) {
     const props = this.props;
+    if (!props.allowScrollBar) {
+      return;
+    }
     if (prevProps && prevProps.tabPosition !== props.tabPosition) {
       this.setOffset(0);
       return;
@@ -121,7 +127,7 @@ const Nav = React.createClass({
         key={key}
         {...ref}
       >
-        <div className={`${prefixCls}-tab-inner`}>{child.props.tab}</div>
+        {child.props.tab}
       </div>);
     });
 
@@ -240,63 +246,67 @@ const Nav = React.createClass({
   render() {
     const props = this.props;
     const state = this.state;
-    const prefixCls = props.prefixCls;
+    const { prefixCls, tabBarExtraContent } = props;
     const tabs = this.getTabs();
-    const tabMovingDirection = props.tabMovingDirection;
-    let inkBarClass = `${prefixCls}-ink-bar`;
-    if (tabMovingDirection) {
-      inkBarClass += ` ${prefixCls}-ink-bar-transition-${tabMovingDirection}`;
+
+    let inkBarNode;
+
+    if (props.allowInkBar) {
+      let inkBarClass;
+      const tabMovingDirection = props.tabMovingDirection;
+      inkBarClass = `${prefixCls}-ink-bar`;
+      if (tabMovingDirection) {
+        inkBarClass += ` ${prefixCls}-ink-bar-transition-${tabMovingDirection}`;
+      }
+      inkBarNode = <div className={inkBarClass} key="inkBar" ref="inkBar"/>;
     }
-    let nextButton;
-    let prevButton;
 
-    const showNextPrev = state.prev || state.next;
+    const contents = [
+      tabBarExtraContent ?
+        <div style={tabBarExtraContentStyle} key="extra">{tabBarExtraContent}</div> :
+        null,
+    ];
 
-    if (showNextPrev) {
-      prevButton = (
-        <span
-          onClick={state.prev ? this.prev : noop}
-          unselectable="unselectable"
-          className={classnames({
-            [`${prefixCls}-tab-prev`]: 1,
-            [`${prefixCls}-tab-btn-disabled`]: !state.prev,
-          })}
-        >
+    if (props.allowScrollBar) {
+      let nextButton;
+      let prevButton;
+      const showNextPrev = state.prev || state.next;
+
+      if (showNextPrev) {
+        prevButton = (
+          <span
+            onClick={state.prev ? this.prev : noop}
+            unselectable="unselectable"
+            className={classnames({
+              [`${prefixCls}-tab-prev`]: 1,
+              [`${prefixCls}-tab-btn-disabled`]: !state.prev,
+            })}
+          >
         <span className={`${prefixCls}-tab-prev-icon`}/>
       </span>
-      );
+        );
 
-      nextButton = (
-        <span
-          onClick={state.next ? this.next : noop}
-          unselectable="unselectable"
-          className={classnames({
-            [`${prefixCls}-tab-next`]: 1,
-            [`${prefixCls}-tab-btn-disabled`]: !state.next,
-          })}
-        >
+        nextButton = (
+          <span
+            onClick={state.next ? this.next : noop}
+            unselectable="unselectable"
+            className={classnames({
+              [`${prefixCls}-tab-next`]: 1,
+              [`${prefixCls}-tab-btn-disabled`]: !state.next,
+            })}
+          >
         <span className={`${prefixCls}-tab-next-icon`}/>
       </span>
-      );
-    }
+        );
+      }
 
-    const tabBarExtraContent = this.props.tabBarExtraContent;
-
-    return (
-      <div
-        role="tablist"
-        className={`${prefixCls}-bar`}
-        tabIndex="0"
-        onKeyDown={this.props.onKeyDown}
-      >
-        {tabBarExtraContent ?
-          <div style={tabBarExtraContentStyle}>{tabBarExtraContent}</div> :
-          null}
+      contents.push(
         <div
           className={`${prefixCls}-nav-container ${showNextPrev ?
             `${prefixCls}-nav-container-scrolling` :
             ''}`}
           style={props.style}
+          key="container"
           ref="container"
         >
           {prevButton}
@@ -304,12 +314,27 @@ const Nav = React.createClass({
           <div className={`${prefixCls}-nav-wrap`} ref="navWrap">
             <div className={`${prefixCls}-nav-scroll`}>
               <div className={`${prefixCls}-nav`} ref="nav">
-                <div className={inkBarClass} ref="inkBar"/>
+                {inkBarNode}
                 {tabs}
               </div>
             </div>
           </div>
         </div>
+      );
+    } else {
+      contents.push(inkBarNode);
+      contents.push.apply(contents, tabs);
+    }
+
+    return (
+      <div
+        role="tablist"
+        className={`${prefixCls}-bar`}
+        tabIndex="0"
+        ref="root"
+        onKeyDown={props.onKeyDown}
+      >
+        {contents}
       </div>);
   },
 });

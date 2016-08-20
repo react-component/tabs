@@ -1,9 +1,12 @@
 import { offset, getTransformPropertyName } from './utils';
 
 function componentDidUpdate(component) {
+  if (!component.props.allowInkBar) {
+    return;
+  }
   const refs = component.refs;
-  const containerNode = refs.nav;
-  const containerOffset = offset(containerNode);
+  const wrapNode = refs.nav || refs.root;
+  const containerOffset = offset(wrapNode);
   const inkBarNode = refs.inkBar;
   const activeTab = refs.activeTab;
   const tabPosition = component.props.tabPosition;
@@ -22,7 +25,7 @@ function componentDidUpdate(component) {
         inkBarNode.style.left = `${left}px`;
         inkBarNode.style.top = '';
         inkBarNode.style.bottom = '';
-        inkBarNode.style.right = `${containerNode.offsetWidth - left - tabNode.offsetWidth}px`;
+        inkBarNode.style.right = `${wrapNode.offsetWidth - left - tabNode.offsetWidth}px`;
       }
     } else {
       const top = tabOffset.top - containerOffset.top;
@@ -34,7 +37,7 @@ function componentDidUpdate(component) {
         inkBarNode.style.left = '';
         inkBarNode.style.right = '';
         inkBarNode.style.top = `${top}px`;
-        inkBarNode.style.bottom = `${containerNode.offsetHeight - top - tabNode.offsetHeight}px`;
+        inkBarNode.style.bottom = `${wrapNode.offsetHeight - top - tabNode.offsetHeight}px`;
       }
     }
   }
