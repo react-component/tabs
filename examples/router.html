@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>router.js - example - rc-tabs@5.9.2</title>
+  <title>router.js - example - rc-tabs@5.9.3</title>
   <meta name="viewport"
         content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
   <meta charset="utf-8"/>
@@ -258,7 +258,7 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
 <body>
   <div class="container">
     <div class="header">
-      <h1>rc-tabs@5.9.2</h1>
+      <h1>rc-tabs@5.9.3</h1>
 
       <p>tabs ui component for react</p>
     </div>
@@ -266,7 +266,7 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
 
     <div class="highlight"><pre><code language="js"><span class="hljs-comment">/* eslint react/no-multi-comp:0 */</span>
 
-<span class="hljs-keyword">import</span> { Router, Route, IndexRoute } <span class="hljs-keyword">from</span> <span class="hljs-string">'react-router'</span>;
+<span class="hljs-keyword">import</span> { Router, Route, IndexRoute, hashHistory } <span class="hljs-keyword">from</span> <span class="hljs-string">'react-router'</span>;
 <span class="hljs-keyword">import</span> React, { PropTypes } <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
 <span class="hljs-keyword">import</span> ReactDOM <span class="hljs-keyword">from</span> <span class="hljs-string">'react-dom'</span>;
 <span class="hljs-keyword">import</span> Tabs, { TabPane } <span class="hljs-keyword">from</span> <span class="hljs-string">'rc-tabs'</span>;
@@ -330,7 +330,7 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
   },
 });
 
-ReactDOM.render(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">Router</span>&gt;</span>
+ReactDOM.render(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">Router</span> <span class="hljs-attribute">history</span>=<span class="hljs-value">{hashHistory}</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-title">Route</span> <span class="hljs-attribute">path</span>=<span class="hljs-value">"/"</span> <span class="hljs-attribute">component</span>=<span class="hljs-value">{App}</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-title">IndexRoute</span> <span class="hljs-attribute">component</span>=<span class="hljs-value">{Tab1}</span>/&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-title">Route</span> <span class="hljs-attribute">path</span>=<span class="hljs-value">"tab1"</span> <span class="hljs-attribute">component</span>=<span class="hljs-value">{Tab1}</span>/&gt;</span>
