@@ -31,6 +31,8 @@ const Tabs = React.createClass({
     prefixCls: PropTypes.string,
     className: PropTypes.string,
     tabPosition: PropTypes.string,
+    navStyle: PropTypes.object,
+    inkBarStyle: PropTypes.object,
   },
 
   getDefaultProps() {
@@ -45,6 +47,7 @@ const Tabs = React.createClass({
       style: {},
       contentStyle: {},
       navStyle: {},
+      inkBarStyle: {},
       onTabClick: noop,
     };
   },
@@ -243,6 +246,7 @@ const Tabs = React.createClass({
         tabBarExtraContent={props.tabBarExtraContent}
         tabPosition={tabPosition}
         style={props.navStyle}
+        inkBarStyle={props.inkBarStyle}
         onTabClick={this.onTabClick}
         tabMovingDirection={tabMovingDirection}
         panels={props.children}
