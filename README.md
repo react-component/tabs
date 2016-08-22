@@ -98,22 +98,10 @@ React.render(
           <td>allow bar scrollable</td>
       </tr>
       <tr>
-          <td>navStyle</td>
-          <td>object</td>
+          <td>styles</td>
+          <td>{nav, inkBar, bar}</td>
           <th>{}</th>
-          <td>style of nav</td>
-      </tr>
-      <tr>
-          <td>barStyle</td>
-          <td>object</td>
-          <th>{}</th>
-          <td>style of bar</td>
-      </tr>
-      <tr>
-          <td>inkBarStyle</td>
-          <td>object</td>
-          <th>{}</th>
-          <td>style of inkBar</td>
+          <td>inline styles</td>
       </tr>
       <tr>
           <td>animation</td>
