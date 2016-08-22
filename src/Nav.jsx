@@ -21,6 +21,7 @@ const Nav = React.createClass({
     onKeyDown: PropTypes.func,
     style: PropTypes.object,
     inkBarStyle: PropTypes.object,
+    barStyle: PropTypes.object,
   },
 
   mixins: [InkBarMixin],
@@ -248,7 +249,7 @@ const Nav = React.createClass({
   render() {
     const props = this.props;
     const state = this.state;
-    const { prefixCls, tabBarExtraContent, inkBarStyle, style } = props;
+    const { prefixCls, tabBarExtraContent, inkBarStyle, barStyle } = props;
     const tabs = this.getTabs();
 
     let inkBarNode;
@@ -335,7 +336,7 @@ const Nav = React.createClass({
         tabIndex="0"
         ref="root"
         onKeyDown={props.onKeyDown}
-        style={style}
+        style={barStyle}
       >
         {contents}
       </div>);
