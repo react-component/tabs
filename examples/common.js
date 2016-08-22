@@ -22082,7 +22082,8 @@
 	    animation: _react.PropTypes.string,
 	    prefixCls: _react.PropTypes.string,
 	    className: _react.PropTypes.string,
-	    tabPosition: _react.PropTypes.string
+	    tabPosition: _react.PropTypes.string,
+	    styles: _react.PropTypes.object
 	  },
 	
 	  getDefaultProps: function getDefaultProps() {
@@ -22096,7 +22097,7 @@
 	      tabPosition: 'top',
 	      style: {},
 	      contentStyle: {},
-	      navStyle: {},
+	      styles: {},
 	      onTabClick: noop
 	    };
 	  },
@@ -22249,6 +22250,7 @@
 	    var tabPosition = props.tabPosition;
 	    var className = props.className;
 	    var animation = props.animation;
+	    var styles = props.styles;
 	
 	    var cls = (0, _classnames3.default)((_classnames = {}, (0, _defineProperty3.default)(_classnames, prefixCls, 1), (0, _defineProperty3.default)(_classnames, prefixCls + '-' + tabPosition, 1), (0, _defineProperty3.default)(_classnames, className, !!className), _classnames));
 	    var tabMovingDirection = this.state.tabMovingDirection;
@@ -22295,7 +22297,7 @@
 	      onKeyDown: this.onNavKeyDown,
 	      tabBarExtraContent: props.tabBarExtraContent,
 	      tabPosition: tabPosition,
-	      style: props.navStyle,
+	      styles: styles,
 	      onTabClick: this.onTabClick,
 	      tabMovingDirection: tabMovingDirection,
 	      panels: props.children,
@@ -22568,7 +22570,8 @@
 	    allowScrollBar: _react.PropTypes.bool,
 	    tabBarExtraContent: _react.PropTypes.any,
 	    onTabClick: _react.PropTypes.func,
-	    onKeyDown: _react.PropTypes.func
+	    onKeyDown: _react.PropTypes.func,
+	    styles: _react.PropTypes.object
 	  },
 	
 	  mixins: [_InkBarMixin2.default],
@@ -22798,6 +22801,7 @@
 	    var state = this.state;
 	    var prefixCls = props.prefixCls;
 	    var tabBarExtraContent = props.tabBarExtraContent;
+	    var styles = props.styles;
 	
 	    var tabs = this.getTabs();
 	
@@ -22810,7 +22814,7 @@
 	      if (tabMovingDirection) {
 	        inkBarClass += ' ' + prefixCls + '-ink-bar-transition-' + tabMovingDirection;
 	      }
-	      inkBarNode = _react2.default.createElement('div', { className: inkBarClass, key: 'inkBar', ref: 'inkBar' });
+	      inkBarNode = _react2.default.createElement('div', { style: styles.inkBar, className: inkBarClass, key: 'inkBar', ref: 'inkBar' });
 	    }
 	
 	    var contents = [tabBarExtraContent ? _react2.default.createElement(
@@ -22885,7 +22889,8 @@
 	        className: prefixCls + '-bar',
 	        tabIndex: '0',
 	        ref: 'root',
-	        onKeyDown: props.onKeyDown
+	        onKeyDown: props.onKeyDown,
+	        style: styles.bar
 	      },
 	      contents
 	    );
