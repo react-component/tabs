@@ -4,6 +4,8 @@ import 'rc-tabs/assets/index.less';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Tabs, { TabPane } from 'rc-tabs';
+import TabContent from '../src/TabContent';
+import ScrollableInkTabBar from '../src/ScrollableInkTabBar';
 
 class PanelContent extends React.Component {
   constructor(props) {
@@ -63,10 +65,9 @@ const Component = React.createClass({
     return (<div>
       <h1>Simple Tabs</h1>
       <Tabs
-        allowScrollBar={false}
-        allowInkBar
+        renderTabBar={()=><ScrollableInkTabBar onTabClick={this.onTabClick}/>}
+        renderTabContent={()=><TabContent/>}
         activeKey={this.state.activeKey}
-        onTabClick={this.onTabClick}
         onChange={this.onChange}
       >
         <TabPane tab={`tab ${start}`} key="1">

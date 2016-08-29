@@ -4,6 +4,8 @@ import 'rc-tabs/assets/index.less';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Tabs, { TabPane } from 'rc-tabs';
+import TabContent from '../src/TabContent';
+import ScrollableInkTabBar from '../src/ScrollableInkTabBar';
 
 let index = 1;
 
@@ -97,8 +99,6 @@ const Test = React.createClass({
   },
 
   render() {
-    const animation = 'slide-horizontal';
-
     const tabStyle = {
       width: 500,
     };
@@ -108,12 +108,12 @@ const Test = React.createClass({
 
       <div style={tabStyle}>
         <Tabs
-          animation={animation}
+          renderTabBar={()=><ScrollableInkTabBar tabBarExtraContent={
+            <button onClick={this.add}>+添加</button>
+          } />}
+          renderTabContent={()=><TabContent/>}
           activeKey={this.state.activeKey}
           onChange={this.onTabChange}
-          tabBarExtraContent={
-            <button onClick={this.add}>+添加</button>
-            }
         >
           {this.construct()}
         </Tabs>

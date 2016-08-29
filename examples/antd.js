@@ -4,6 +4,9 @@ import 'rc-tabs/assets/index.less';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Tabs, { TabPane } from 'rc-tabs';
+import TabContent from '../src/TabContent';
+import ScrollableInkTabBar from '../src/ScrollableInkTabBar';
+import InkTabBar from '../src/InkTabBar';
 
 class PanelContent extends React.Component {
   constructor(props) {
@@ -52,13 +55,18 @@ function construct(start, num) {
 const Component = React.createClass({
   getInitialState() {
     return {
-      tabPosition: 'top',
+      tabBarPosition: 'top',
+      activeKey: '3',
       start: 0,
     };
   },
 
   onChange(key) {
     console.log(`onChange ${key}`);
+  },
+
+  onChange2(activeKey){
+    this.setState({ activeKey });
   },
 
   onTabClick(key) {
@@ -73,30 +81,41 @@ const Component = React.createClass({
 
   changeTabPosition(e) {
     this.setState({
-      tabPosition: e.target.value,
+      tabBarPosition: e.target.value,
     });
+  },
+
+  scrollToActive() {
+    this.bar.scrollToActiveTab();
+  },
+
+  switchToLast(ends) {
+    if (this.state.activeKey !== ends[ends.length - 1].key) {
+      this.setState({ activeKey: ends[ends.length - 1].key }, this.scrollToActive);
+    } else {
+      this.scrollToActive();
+    }
+  },
+
+  saveBar(bar) {
+    this.bar = bar;
   },
 
   render() {
     const start = this.state.start;
     const ends = construct(start, 9);
     const ends2 = construct(start, 3);
-    const tabPosition = this.state.tabPosition;
-    let navStyle = {};
-    let animation = 'slide-horizontal';
-
-    let tabStyle = {
-      width: 500,
+    const tabBarPosition = this.state.tabBarPosition;
+    let style;
+    let contentStyle;
+    contentStyle = {
+      height: 400
     };
-
-    if (tabPosition === 'left' || tabPosition === 'right') {
-      navStyle = {
-        height: 400,
-        overflow: 'hidden',
-      };
-      animation = 'slide-vertical';
-      tabStyle = {
-        overflow: 'hidden',
+    if (tabBarPosition === 'left' || tabBarPosition === 'right') {
+      style = contentStyle;
+    } else {
+      style = {
+        width: 500,
       };
     }
 
@@ -104,21 +123,21 @@ const Component = React.createClass({
       <h2>Simple Tabs</h2>
 
       <p>
-        tabPosition:
-        <select value={this.state.tabPosition} onChange={this.changeTabPosition}>
+        tabBarPosition:
+        <select value={this.state.tabBarPosition} onChange={this.changeTabPosition}>
           <option value="top">top</option>
           <option value="bottom">bottom</option>
           <option value="left">left</option>
           <option value="right">right</option>
         </select>
       </p>
-      <div style={tabStyle}>
+      <div>
         <Tabs
           defaultActiveKey="3"
-          navStyle={navStyle}
-          tabPosition={this.state.tabPosition}
-          animation={animation}
-          onTabClick={this.onTabClick}
+          style={style}
+          tabBarPosition={this.state.tabBarPosition}
+          renderTabBar={()=><InkTabBar onTabClick={this.onTabClick}/>}
+          renderTabContent={()=><TabContent style={contentStyle}/>}
           onChange={this.onChange}
         >
           {ends2}
@@ -126,21 +145,27 @@ const Component = React.createClass({
       </div>
       <h2>Scroll Tabs</h2>
 
-      <div style={tabStyle}>
+      <div>
+        <button
+          onClick={()=> this.switchToLast(ends)}
+        >
+          switch to last tab
+        </button>
         <Tabs
-          defaultActiveKey="3"
-          navStyle={navStyle}
-          tabPosition={this.state.tabPosition}
-          animation={animation}
-          onTabClick={this.onTabClick}
-          onChange={this.onChange}
+          activeKey={this.state.activeKey}
+          style={style}
+          tabBarPosition={this.state.tabBarPosition}
+          renderTabBar={()=><ScrollableInkTabBar ref={this.saveBar} onTabClick={this.onTabClick}/>}
+          renderTabContent={()=><TabContent style={contentStyle}/>}
+          onChange={this.onChange2}
         >
           {ends}
         </Tabs>
       </div>
       <button onClick={this.tick}>rerender</button>
     </div>);
-  },
+  }
+  ,
 });
 
 ReactDOM.render(<Component />, document.getElementById('__react-content'));

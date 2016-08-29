@@ -1,6 +1,7 @@
 .@{tabs-prefix-cls} {
   &-bottom {
     border-top: 2px solid #f3f3f3;
+    overflow-x: hidden;
   }
 
   &-bottom &-bar {
@@ -19,9 +20,13 @@
   &-bottom &-nav-wrap {
     width: 100%;
   }
-  
-  &-bottom &-content {
-    width: 100%;
+
+  &-bottom &-content-animated {
+    flex-direction: row;
+
+    .@{tabs-prefix-cls}-tabpane {
+      width: 100%;
+    }
   }
 
   &-bottom &-tab-next {
@@ -43,14 +48,14 @@
     margin-right: -2px;
     width: 32px;
     height: 100%;
-    top:0;
+    top: 0;
     text-align: center;
   }
 
   &-bottom &-ink-bar {
     height: 2px;
     top: 3px;
-    left:0;
+    left: 0;
   }
 
   &-bottom &-tab {

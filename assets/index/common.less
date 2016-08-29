@@ -20,24 +20,12 @@
     margin-top: -3px;
     background-color: #3fc7fa;
     transform-origin: 0 0;
-
-    &-transition-forward {
-      transition: right @effect-duration @easing-in-out,
-      left @effect-duration @easing-in-out @effect-duration * 0.3,
-      bottom @effect-duration @easing-in-out,
-      transform @effect-duration @easing-in-out @effect-duration * 0.3,
-      -webkit-transform @effect-duration @easing-in-out @effect-duration * 0.3,
-      top @effect-duration @easing-in-out @effect-duration * 0.3;
-    }
-
-    &-transition-backward {
-      transition: bottom @effect-duration @easing-in-out @effect-duration * 0.3,
-      right @effect-duration @easing-in-out @effect-duration * 0.3,
-      left @effect-duration @easing-in-out,
-      transform @effect-duration @easing-in-out @effect-duration * 0.3,
-      -webkit-transform @effect-duration @easing-in-out @effect-duration * 0.3,
-      top @effect-duration @easing-in-out;
-    }
+    transition: right @effect-duration @easing-in-out,
+    left @effect-duration @easing-in-out,
+    bottom @effect-duration @easing-in-out,
+    transform @effect-duration @easing-in-out,
+    -webkit-transform @effect-duration @easing-in-out,
+    top @effect-duration @easing-in-out;
   }
 
   &-tab-prev, &-tab-next {
@@ -135,12 +123,27 @@
     }
   }
 
-  &-tabpane-hidden {
-    display: none;
+  &-content {
+    zoom: 1;
+
+    .@{tabs-prefix-cls}-tabpane {
+      overflow: auto;
+    }
   }
 
-  &-content {
-    position: relative;
-    overflow: hidden;
+  &-content-no-animated {
+    .@{tabs-prefix-cls}-tabpane-inactive {
+      display: none;
+    }
+  }
+
+  &-content-animated {
+    transition: transform @effect-duration @easing-in-out;
+    display: flex;
+    will-change: transform;
+
+    .@{tabs-prefix-cls}-tabpane {
+      flex-shrink: 0;
+    }
   }
 }

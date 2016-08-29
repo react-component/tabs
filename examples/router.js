@@ -5,6 +5,8 @@ import React, { PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import Tabs, { TabPane } from 'rc-tabs';
 import 'rc-tabs/assets/index.less';
+import TabContent from '../src/TabContent';
+import ScrollableInkTabBar from '../src/ScrollableInkTabBar';
 
 const Tab1 = React.createClass({
   render() {
@@ -57,7 +59,12 @@ const App = React.createClass({
       return <TabPane key={d.key} tab={d.key}>{d.component}</TabPane>;
     });
     return (<div>
-      <Tabs activeKey={activeKey} onChange={this.onChange}>
+      <Tabs
+        activeKey={activeKey}
+        onChange={this.onChange}
+        renderTabBar={()=><ScrollableInkTabBar/>}
+        renderTabContent={()=><TabContent/>}
+      >
         {tabs}
       </Tabs>
     </div>);
