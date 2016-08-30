@@ -1,4 +1,4 @@
-import getTransformPropertyName from './getTransformPropertyName';
+import { getTransformPropertyName } from './utils';
 import React from 'react';
 
 export function getScroll(w, top) {
@@ -88,6 +88,13 @@ export default {
 
   getInkBarNode() {
     const { prefixCls, styles } = this.props;
-    return <div style={styles.inkBar} className={`${prefixCls}-ink-bar`} key="inkBar" ref="inkBar"/>;
+    return (
+      <div
+        style={styles.inkBar}
+        className={`${prefixCls}-ink-bar`}
+        key="inkBar"
+        ref="inkBar"
+      />
+    );
   },
 };

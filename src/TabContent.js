@@ -1,15 +1,26 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import classnames from 'classnames';
-import getTransformPropertyName from './getTransformPropertyName';
+import { getTransformPropertyName, getTranslateByIndex, getActiveIndex } from './utils';
+
+/* eslint react/no-did-mount-set-state:0 */
 
 const TabContent = React.createClass({
+  propTypes: {
+    animated: PropTypes.bool,
+    prefixCls: PropTypes.string,
+    children: PropTypes.any,
+    activeKey: PropTypes.string,
+    style: PropTypes.any,
+    tabBarPosition: PropTypes.string,
+  },
+
   getDefaultProps() {
     return {
       animated: true,
     };
   },
 
-  getInitialState(){
+  getInitialState() {
     return {
       transformName: 'transform',
     };
@@ -43,20 +54,10 @@ const TabContent = React.createClass({
 
     return newChildren;
   },
-  getActiveIndex() {
-    const c = [];
-    React.Children.forEach(this.props.children, child => c.push(child));
-    for (let i = 0; i < c.length; i++) {
-      if (c[i].key === this.props.activeKey) {
-        return i;
-      }
-    }
-    return -1;
-  },
   render() {
     const { props } = this;
-    const { prefixCls } = props;
-    let { style, tabBarPosition } = props;
+    const { prefixCls, children, activeKey, tabBarPosition } = props;
+    let { style } = props;
     const { transformName } = this.state;
     const classes = classnames({
       [`${prefixCls}-content`]: true,
@@ -65,14 +66,12 @@ const TabContent = React.createClass({
         `${prefixCls}-content-no-animated`]: true,
     });
     if (props.animated && transformName) {
-      const activeIndex = this.getActiveIndex();
+      const activeIndex = getActiveIndex(children, activeKey);
       if (activeIndex !== -1) {
-        const translate = (tabBarPosition === 'left' || tabBarPosition === 'right') ?
-          'translateY' : 'translateX';
         style = {
           ...style,
-          [transformName]: `${translate}(-${activeIndex * 100}%) translateZ(0)`,
-        }
+          ...getTranslateByIndex(activeIndex, tabBarPosition, transformName),
+        };
       } else {
         style = {
           ...style,
@@ -88,7 +87,7 @@ const TabContent = React.createClass({
         {this.getTabPanes()}
       </div>
     );
-  }
+  },
 });
 
-export  default  TabContent;
+export default TabContent;

@@ -1,5 +1,5 @@
 import classnames from 'classnames';
-import getTransformPropertyName from './getTransformPropertyName';
+import { getTransformPropertyName } from './utils';
 import React from 'react';
 
 export default {

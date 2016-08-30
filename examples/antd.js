@@ -40,6 +40,7 @@ function construct(start, num) {
   let index = 1;
   for (let i = start; i < start + num; i++) {
     ends.push(<TabPane
+      placeholder={`loading ${i}`}
       tab={`tab ${i}`}
       disabled={!!(i % 2)}
       key={index}
@@ -65,7 +66,7 @@ const Component = React.createClass({
     console.log(`onChange ${key}`);
   },
 
-  onChange2(activeKey){
+  onChange2(activeKey) {
     this.setState({ activeKey });
   },
 
@@ -109,7 +110,7 @@ const Component = React.createClass({
     let style;
     let contentStyle;
     contentStyle = {
-      height: 400
+      height: 400,
     };
     if (tabBarPosition === 'left' || tabBarPosition === 'right') {
       style = contentStyle;
@@ -136,8 +137,8 @@ const Component = React.createClass({
           defaultActiveKey="3"
           style={style}
           tabBarPosition={this.state.tabBarPosition}
-          renderTabBar={()=><InkTabBar onTabClick={this.onTabClick}/>}
-          renderTabContent={()=><TabContent style={contentStyle}/>}
+          renderTabBar={() => <InkTabBar onTabClick={this.onTabClick}/>}
+          renderTabContent={() => <TabContent style={contentStyle}/>}
           onChange={this.onChange}
         >
           {ends2}
@@ -147,7 +148,7 @@ const Component = React.createClass({
 
       <div>
         <button
-          onClick={()=> this.switchToLast(ends)}
+          onClick={() => this.switchToLast(ends)}
         >
           switch to last tab
         </button>
@@ -155,8 +156,11 @@ const Component = React.createClass({
           activeKey={this.state.activeKey}
           style={style}
           tabBarPosition={this.state.tabBarPosition}
-          renderTabBar={()=><ScrollableInkTabBar ref={this.saveBar} onTabClick={this.onTabClick}/>}
-          renderTabContent={()=><TabContent style={contentStyle}/>}
+          renderTabBar={() => <ScrollableInkTabBar
+            ref={this.saveBar}
+            onTabClick={this.onTabClick}
+          />}
+          renderTabContent={() => <TabContent style={contentStyle}/>}
           onChange={this.onChange2}
         >
           {ends}

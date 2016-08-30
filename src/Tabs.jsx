@@ -19,29 +19,23 @@ function getDefaultActiveKey(props) {
 const Tabs = React.createClass({
   propTypes: {
     destroyInactiveTabPane: PropTypes.bool,
-    TabBar: PropTypes.any,
-    onTabClick: PropTypes.func,
+    renderTabBar: PropTypes.func.isRequired,
+    renderTabContent: PropTypes.func.isRequired,
     onChange: PropTypes.func,
     children: PropTypes.any,
-    tabBarExtraContent: PropTypes.any,
-    animation: PropTypes.string,
     prefixCls: PropTypes.string,
     className: PropTypes.string,
     tabBarPosition: PropTypes.string,
-    styles: PropTypes.object,
+    style: PropTypes.object,
   },
 
   getDefaultProps() {
     return {
       prefixCls: 'rc-tabs',
       destroyInactiveTabPane: false,
-      tabBarExtraContent: null,
       onChange: noop,
       tabBarPosition: 'top',
       style: {},
-      contentStyle: {},
-      styles: {},
-      onTabClick: noop,
     };
   },
 
@@ -72,14 +66,7 @@ const Tabs = React.createClass({
     if (this.tabBar.props.onTabClick) {
       this.tabBar.props.onTabClick(activeKey);
     }
-    if (this.state.activeKey !== activeKey) {
-      if (!('activeKey' in this.props)) {
-        this.setState({
-          activeKey,
-        })
-      }
-      this.props.onChange(activeKey);
-    }
+    this.setActiveKey(activeKey);
   },
 
   onNavKeyDown(e) {
@@ -92,6 +79,17 @@ const Tabs = React.createClass({
       e.preventDefault();
       const previousKey = this.getNextActiveKey(false);
       this.onTabClick(previousKey);
+    }
+  },
+
+  setActiveKey(activeKey) {
+    if (this.state.activeKey !== activeKey) {
+      if (!('activeKey' in this.props)) {
+        this.setState({
+          activeKey,
+        });
+      }
+      this.props.onChange(activeKey);
     }
   },
 
@@ -120,7 +118,6 @@ const Tabs = React.createClass({
     });
     return ret;
   },
-
 
   render() {
     const props = this.props;
@@ -153,6 +150,7 @@ const Tabs = React.createClass({
         activeKey: this.state.activeKey,
         destroyInactiveTabPane: props.destroyInactiveTabPane,
         children: props.children,
+        onChange: this.setActiveKey,
         key: 'tabContent',
       }),
     ];

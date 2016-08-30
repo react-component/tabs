@@ -3,15 +3,15 @@ import InkTabBarMixin from './InkTabBarMixin';
 import ScrollableTabBarMixin from './ScrollableTabBarMixin';
 import TabBarMixin from './TabBarMixin';
 
-const DefaultTabBar = React.createClass({
-  mixins:[TabBarMixin, InkTabBarMixin, ScrollableTabBarMixin],
+const ScrollableInkTabBar = React.createClass({
+  mixins: [TabBarMixin, InkTabBarMixin, ScrollableTabBarMixin],
 
-  render(){
+  render() {
     const inkBarNode = this.getInkBarNode();
     const tabs = this.getTabs();
     const scrollbarNode = this.getScrollBarNode([inkBarNode, tabs]);
     return this.getRootNode(scrollbarNode);
-  }
+  },
 });
 
-export default DefaultTabBar;
+export default ScrollableInkTabBar;

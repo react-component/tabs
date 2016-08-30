@@ -32,16 +32,16 @@ const Test = React.createClass({
     return this.state.tabs.map((t) => {
       return (<TabPane
         tab={<span>{t.title}
-        <a
-          style={{
-            position: 'absolute',
-            cursor: 'pointer',
-            color: 'red',
-            right: 5,
-            top: 0,
-          }}
-          onClick={this.remove.bind(this, t.title)}
-        >x</a>
+          <a
+            style={{
+              position: 'absolute',
+              cursor: 'pointer',
+              color: 'red',
+              right: 5,
+              top: 0,
+            }}
+            onClick={this.remove.bind(this, t.title)}
+          >x</a>
       </span>}
         key={t.title}
       >
@@ -108,10 +108,12 @@ const Test = React.createClass({
 
       <div style={tabStyle}>
         <Tabs
-          renderTabBar={()=><ScrollableInkTabBar tabBarExtraContent={
-            <button onClick={this.add}>+添加</button>
-          } />}
-          renderTabContent={()=><TabContent/>}
+          renderTabBar={() => <ScrollableInkTabBar
+            extraContent={
+              <button onClick={this.add}>+添加</button>
+            }
+          />}
+          renderTabContent={() => <TabContent/>}
           activeKey={this.state.activeKey}
           onChange={this.onTabChange}
         >

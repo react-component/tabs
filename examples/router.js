@@ -62,8 +62,8 @@ const App = React.createClass({
       <Tabs
         activeKey={activeKey}
         onChange={this.onChange}
-        renderTabBar={()=><ScrollableInkTabBar/>}
-        renderTabContent={()=><TabContent/>}
+        renderTabBar={() => <ScrollableInkTabBar/>}
+        renderTabContent={() => <TabContent/>}
       >
         {tabs}
       </Tabs>

@@ -4,6 +4,7 @@ import classnames from 'classnames';
 const TabPane = React.createClass({
   propTypes: {
     active: PropTypes.bool,
+    destroyInactiveTabPane: PropTypes.bool,
     placeholder: PropTypes.node,
   },
   getDefaultProps() {

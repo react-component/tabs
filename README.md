@@ -1,7 +1,7 @@
 # rc-tabs
 ---
 
-react tabs component
+React Tabs
 
 [![NPM version][npm-image]][npm-url]
 [![build status][travis-image]][travis-url]
@@ -23,7 +23,7 @@ react tabs component
 
 ## Screenshot
 
-<img src='http://gtms03.alicdn.com/tps/i3/TB1TIJ3HXXXXXcYaXXXR6PQLFXX-816-612.png' width='408'>
+<img src='https://zos.alipayobjects.com/rmsportal/JwLASrsOYJuFRIt.png' width='408'>
 
 ## install
 
@@ -39,8 +39,9 @@ react tabs component
 ## Usage
 
 ```js
-var Tabs = require('rc-tabs');
-var TabPane = Tabs.TabPane;
+import Tabs, { TabPane } from 'rc-tabs';
+import TabContent from 'rc-tabs/lib/TabContent';
+import ScrollableInkTabBar from 'rc-tabs/lib/TabContent';
 
 var callback = function(key){
 
@@ -48,7 +49,12 @@ var callback = function(key){
 
 React.render(
   (
-    <Tabs defaultActiveKey="2" onChange={callback}>
+    <Tabs
+      defaultActiveKey="2"
+      onChange={callback}
+      renderTabBar={()=><ScrollableInkTabBar />}
+      renderTabContent={()=><TabContent />}
+    >
       <TabPane tab='tab 1' key="1">first</TabPane>
       <TabPane tab='tab 2' key="2">second</TabPane>
       <TabPane tab='tab 3' key="3">third</TabPane>
@@ -86,65 +92,28 @@ React.render(
           <td>tab nav 's position. one of ['left','right','top','bottom']</td>
       </tr>
       <tr>
-          <td>allowInkBar</td>
-          <td>Boolean</td>
-          <th>true</th>
-          <td>allow ink bar</td>
-      </tr>
-      <tr>
-          <td>allowScrollBar</td>
-          <td>Boolean</td>
-          <th>true</th>
-          <td>allow bar scrollable</td>
-      </tr>
-      <tr>
-          <td>styles</td>
-          <td>{nav, inkBar, bar}</td>
-          <th>{}</th>
-          <td>inline styles</td>
-      </tr>
-      <tr>
-          <td>animation</td>
-          <td>String</td>
-          <th></th>
-          <td>tabPane's animation. current only support slide-horizontal in assets/index.css</td>
-      </tr>
-      <tr>
-          <td>transitionName</td>
-          <td>Object</td>
-          <th></th>
-          <td>specify backward and forward transitionName. such as
-          ```js
-          {
-            backward:'rc-tabs-slide-horizontal-backward',
-            forward:'rc-tabs-slide-horizontal-forward'
-          }
-          ```
-          </td>
-      </tr>
-      <tr>
           <td>defaultActiveKey</td>
           <td>String</td>
           <th>first active tabPanel's key</th>
           <td>initial active tabPanel's key if activeKey is absent</td>
       </tr>
       <tr>
+         <td>renderTabBar</td>
+         <td>():React.Node</td>
+         <th></th>
+         <td>How to render tab bar</td>
+      </tr>
+      <tr>
+        <td>renderTabContent</td>
+        <td>():React.Node</td>
+        <th></th>
+        <td>How to render tab content</td>
+      </tr>
+      <tr>
           <td>onChange</td>
-          <td>Function(key)</td>
+          <td>(key: string): void</td>
           <th></th>
           <td>called when tabPanel is changed</td>
-      </tr>
-      <tr>
-          <td>onTabClick</td>
-          <td>Function(key)</td>
-          <th></th>
-          <td>called when tab is clicked</td>
-      </tr>
-      <tr>
-          <td>tabBarExtraContent</td>
-          <td>React Node</td>
-          <th></th>
-          <td>extra content placed one the right of tab bar</td>
       </tr>
       <tr>
           <td>destroyInactiveTabPane</td>
@@ -175,15 +144,130 @@ React.render(
           <th></th>
           <td>corresponding to activeKey</td>
       </tr>
+     <tr>
+         <td>placeholder</td>
+         <td>React.Node</td>
+         <th></th>
+         <td>lazyrender children</td>
+     </tr>
       <tr>
           <td>tab</td>
-          <td>String</td>
+          <td>React.Node</td>
           <th></th>
           <td>current tab's title corresponding to current tabPane</td>
       </tr>
     </tbody>
 </table>
 
+### lib/TabBar
+
+<table class="table table-bordered table-striped">
+    <thead>
+      <tr>
+          <th style="width: 100px;">name</th>
+          <th style="width: 50px;">type</th>
+          <th>default</th>
+          <th>description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+          <td>onTabClick</td>
+          <td>(key: string): void</td>
+          <th></th>
+          <td>callback when tab clicked</td>
+      </tr>
+      <tr>
+          <td>style</td>
+          <td></td>
+          <th></th>
+          <td>bar style</td>
+      </tr>
+      <tr>
+        <td>tabBarExtraContent</td>
+        <td>React Node</td>
+        <th></th>
+        <td>extra content placed one the right of tab bar</td>
+      </tr>
+    </tbody>
+</table>
+
+### lib/InkTabBar
+
+tab bar with ink indicator, in addition to tab bar props, extra props:
+
+<table class="table table-bordered table-striped">
+    <thead>
+      <tr>
+          <th style="width: 100px;">name</th>
+          <th style="width: 50px;">type</th>
+          <th>default</th>
+          <th>description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+          <td>styles</td>
+          <td>{ inkBar }</td>
+          <th></th>
+          <td>can set inkBar style</td>
+      </tr>
+    </tbody>
+</table>
+
+### lib/ScrollableInkTabBar
+
+scrollable tab bar with ink indicator, same with tab bar/ink bar props.
+
+### lib/TabContent
+
+<table class="table table-bordered table-striped">
+    <thead>
+      <tr>
+          <th style="width: 100px;">name</th>
+          <th style="width: 50px;">type</th>
+          <th>default</th>
+          <th>description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+          <td>style</td>
+          <td>{}</td>
+          <th></th>
+          <td>tab content style</td>
+      </tr>
+      <tr>
+          <td>animated</td>
+          <td>true</td>
+          <th></th>
+          <td>whether animated tabpane change</td>
+      </tr>      
+    </tbody>
+</table>
+
+### lib/SwipeableTabContent
+
+swipeable tab panes, in addition to lib/TabContent props, extra props: 
+
+<table class="table table-bordered table-striped">
+    <thead>
+      <tr>
+          <th style="width: 100px;">name</th>
+          <th style="width: 50px;">type</th>
+          <th>default</th>
+          <th>description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+          <td>hammerOptions</td>
+          <td>{}</td>
+          <th></th>
+          <td>options for react-hammerjs</td>
+      </tr>
+    </tbody>
+</table>
 
 ## Development
 

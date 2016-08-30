@@ -58,8 +58,8 @@ const Component = React.createClass({
       <Tabs
         defaultActiveKey="2"
         destroyInactiveTabPane
-        renderTabBar={()=><ScrollableInkTabBar onTabClick={this.onTabClick}/>}
-        renderTabContent={()=><TabContent/>}
+        renderTabBar={() => <ScrollableInkTabBar onTabClick={this.onTabClick}/>}
+        renderTabContent={() => <TabContent/>}
         onChange={this.onChange}
       >
         <TabPane tab={`tab ${start}`} key="1" placeholder="loading 1">

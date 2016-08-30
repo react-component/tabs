@@ -53,8 +53,8 @@ export default {
 
     return rst;
   },
-  getRootNode(contents){
-    const { prefixCls, onKeyDown, styles, tabBarExtraContent } = this.props;
+  getRootNode(contents) {
+    const { prefixCls, onKeyDown, extraContent, style } = this.props;
     return (
       <div
         role="tablist"
@@ -62,16 +62,16 @@ export default {
         tabIndex="0"
         ref="root"
         onKeyDown={onKeyDown}
-        style={styles.bar}
+        style={style}
       >
-        {tabBarExtraContent ?
+        {extraContent ?
           (<div
             style={tabBarExtraContentStyle}
             key="extra"
           >
-            {tabBarExtraContent}
+            {extraContent}
           </div>) : null}
         {contents}
       </div>);
-  }
-}
+  },
+};
