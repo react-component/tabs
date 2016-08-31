@@ -1,14 +1,18 @@
 .@{tabs-prefix-cls} {
   &-left {
     border-right: 2px solid #f3f3f3;
+    overflow-y: hidden;
   }
 
   &-left &-bar {
     float: left;
+    height:100%;
     margin-right: 10px;
     border-right: 1px solid #f3f3f3;
   }
-
+  &-left &-nav-container {
+    height:100%;
+  }
   &-left &-nav-container-scrolling {
     padding-top: 32px;
     padding-bottom: 32px;
@@ -18,8 +22,12 @@
     height: 100%;
   }
 
-  &-left &-content {
-    height: 100%;
+  &-left &-content-animated {
+    flex-direction: column;
+
+    .@{tabs-prefix-cls}-tabpane {
+      height: 100%;
+    }
   }
 
   &-left &-nav-scroll {

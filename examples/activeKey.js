@@ -4,6 +4,8 @@ import 'rc-tabs/assets/index.less';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Tabs, { TabPane } from 'rc-tabs';
+import TabContent from '../src/SwipeableTabContent';
+import ScrollableInkTabBar from '../src/ScrollableInkTabBar';
 
 class PanelContent extends React.Component {
   constructor(props) {
@@ -59,14 +61,12 @@ const Component = React.createClass({
 
   render() {
     const start = this.state.start;
-    const disabled = true;
-    return (<div>
+    return (<div style={{ margin: 20 }}>
       <h1>Simple Tabs</h1>
       <Tabs
-        allowScrollBar={false}
-        allowInkBar
+        renderTabBar={() => <ScrollableInkTabBar onTabClick={this.onTabClick}/>}
+        renderTabContent={() => <TabContent/>}
         activeKey={this.state.activeKey}
-        onTabClick={this.onTabClick}
         onChange={this.onChange}
       >
         <TabPane tab={`tab ${start}`} key="1">
@@ -75,10 +75,10 @@ const Component = React.createClass({
         <TabPane tab={`tab ${start + 1}`} key="2">
           <PanelContent id={start + 1}/>
         </TabPane>
-        <TabPane tab={`tab ${start + 2}`} key="3" disabled={disabled}>
+        <TabPane tab={`tab ${start + 2}`} key="3">
           <PanelContent id={start + 2}/>
         </TabPane>
-        <TabPane tab={`tab ${start + 3}`} key="4">
+        <TabPane tab={`tab ${start + 3}`} key="4" disabled>
           <PanelContent id={start + 3}/>
         </TabPane>
       </Tabs>

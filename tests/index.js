@@ -3,6 +3,8 @@ import Tabs, { TabPane } from '../index';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import TestUtils, { Simulate } from 'react-addons-test-utils';
+import TabContent from '../src/TabContent';
+import ScrollableInkTabBar from '../src/ScrollableInkTabBar';
 
 describe('tabs', () => {
   let tabs;
@@ -33,7 +35,8 @@ describe('tabs', () => {
     ReactDOM.render(
       <Tabs
         defaultActiveKey="2"
-        onTabClick={onTabClick}
+        renderTabBar={() => <ScrollableInkTabBar onTabClick={onTabClick}/>}
+        renderTabContent={() => <TabContent/>}
         onChange={onChange}
       >
         <TabPane tab="tab 1" key="1">first</TabPane>

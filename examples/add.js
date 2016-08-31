@@ -4,6 +4,8 @@ import 'rc-tabs/assets/index.less';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Tabs, { TabPane } from 'rc-tabs';
+import TabContent from '../src/TabContent';
+import ScrollableInkTabBar from '../src/ScrollableInkTabBar';
 
 let index = 1;
 
@@ -30,16 +32,16 @@ const Test = React.createClass({
     return this.state.tabs.map((t) => {
       return (<TabPane
         tab={<span>{t.title}
-        <a
-          style={{
-            position: 'absolute',
-            cursor: 'pointer',
-            color: 'red',
-            right: 5,
-            top: 0,
-          }}
-          onClick={this.remove.bind(this, t.title)}
-        >x</a>
+          <a
+            style={{
+              position: 'absolute',
+              cursor: 'pointer',
+              color: 'red',
+              right: 5,
+              top: 0,
+            }}
+            onClick={this.remove.bind(this, t.title)}
+          >x</a>
       </span>}
         key={t.title}
       >
@@ -97,8 +99,6 @@ const Test = React.createClass({
   },
 
   render() {
-    const animation = 'slide-horizontal';
-
     const tabStyle = {
       width: 500,
     };
@@ -108,12 +108,14 @@ const Test = React.createClass({
 
       <div style={tabStyle}>
         <Tabs
-          animation={animation}
+          renderTabBar={() => <ScrollableInkTabBar
+            extraContent={
+              <button onClick={this.add}>+添加</button>
+            }
+          />}
+          renderTabContent={() => <TabContent/>}
           activeKey={this.state.activeKey}
           onChange={this.onTabChange}
-          tabBarExtraContent={
-            <button onClick={this.add}>+添加</button>
-            }
         >
           {this.construct()}
         </Tabs>

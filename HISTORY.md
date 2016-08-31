@@ -1,6 +1,10 @@
 # History
 ----
 
+## 7.0.0 / 2016-08-29
+
+- modularize tabBar and tabContent
+
 ## 6.0.0 / 2016-08-20
 
 - support allowInkBar/allowScrollBar prop

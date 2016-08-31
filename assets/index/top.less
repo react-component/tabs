@@ -1,6 +1,7 @@
 .@{tabs-prefix-cls} {
   &-top {
     border-bottom: 2px solid #f3f3f3;
+    overflow-x: hidden;
   }
 
   &-top &-bar {
@@ -20,8 +21,11 @@
     width: 100%;
   }
 
-  &-top &-content {
-    width: 100%;
+  &-top &-content-animated {
+    flex-direction: row;
+    .@{tabs-prefix-cls}-tabpane {
+      width: 100%;
+    }
   }
 
   &-top &-tab-next {

@@ -1,67 +1,81 @@
-export function getScroll(w, top) {
-  let ret = w[`page${top ? 'Y' : 'X'}Offset`];
-  const method = `scroll${top ? 'Top' : 'Left'}`;
-  if (typeof ret !== 'number') {
-    const d = w.document;
-    // ie6,7,8 standard mode
-    ret = d.documentElement[method];
-    if (typeof ret !== 'number') {
-      // quirks mode
-      ret = d.body[method];
+import React from 'react';
+
+export function toArray(children) {
+  if (Array.isArray(children)) {
+    return children;
+  }
+  const c = [];
+  React.Children.forEach(children, child => c.push(child));
+  return c;
+}
+
+export function getActiveIndex(children, activeKey) {
+  const c = toArray(children);
+  for (let i = 0; i < c.length; i++) {
+    if (c[i].key === activeKey) {
+      return i;
     }
   }
-  return ret;
+  return -1;
 }
 
-export function offset(elem) {
-  let box;
-  let x;
-  let y;
-  const doc = elem.ownerDocument;
-  const body = doc.body;
-  const docElem = doc && doc.documentElement;
-  box = elem.getBoundingClientRect();
-  x = box.left;
-  y = box.top;
-  x -= docElem.clientLeft || body.clientLeft || 0;
-  y -= docElem.clientTop || body.clientTop || 0;
-  const w = doc.defaultView || doc.parentWindow;
-  x += getScroll(w);
-  y += getScroll(w, true);
-  return {
-    left: x, top: y,
-  };
+export function getActiveKey(children, index) {
+  const c = toArray(children);
+  return c[index].key;
 }
 
-let transformPropertyName;
+const names = {};
 
-export function getTransformPropertyName() {
+export function getPropertyName(name) {
   if (!window.getComputedStyle) {
     return false;
   }
-  if (transformPropertyName !== undefined) {
-    return transformPropertyName;
+  if (names[name] !== undefined) {
+    return names[name];
   }
+  const Name = name.charAt(0).toUpperCase() + name.substring(1);
   const el = document.createElement('p');
-  let has3d;
   const transforms = {
-    webkitTransform: '-webkit-transform',
-    OTransform: '-o-transform',
-    msTransform: '-ms-transform',
-    MozTransform: '-moz-transform',
-    transform: 'transform',
+    [`webkit${Name}`]: `-webkit-${name}`,
+    [`ms${Name}`]: `-ms-${name}`,
+    [`Moz${Name}`]: `-moz-${name}`,
+    [`${name}`]: `-webkit-${name}`,
   };
+  let transformPropertyName = '';
   // Add it to the body to get the computed style.
   document.body.insertBefore(el, null);
   for (const t in transforms) {
     if (el.style[t] !== undefined) {
-      el.style[t] = 'translate3d(1px,1px,1px)';
-      has3d = window.getComputedStyle(el).getPropertyValue(transforms[t]);
-      if (has3d !== undefined && has3d.length > 0 && has3d !== 'none') {
-        transformPropertyName = t;
-      }
+      transformPropertyName = t;
     }
   }
   document.body.removeChild(el);
   return transformPropertyName;
+}
+
+export function getTransformPropertyName() {
+  return getPropertyName('transform');
+}
+
+export function getTransitionPropertyName() {
+  return getPropertyName('transition');
+}
+
+export function isVertical(tabBarPosition) {
+  return tabBarPosition === 'left' || tabBarPosition === 'right';
+}
+
+export function getTranslateByIndex(index, tabBarPosition,
+                                    transformName = getTransformPropertyName()) {
+  const translate = isVertical(tabBarPosition) ? 'translateY' : 'translateX';
+  return {
+    [transformName]: `${translate}(${-index * 100}%) translateZ(0)`,
+  };
+}
+export function assign(o1, o2) {
+  for (const i in o2) {
+    if (o2.hasOwnProperty(i)) {
+      o1[i] = o2[i];
+    }
+  }
 }
