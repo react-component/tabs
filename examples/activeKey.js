@@ -1291,6 +1291,11 @@ webpackJsonp([0],{
 	    activeKey: _react.PropTypes.string
 	  },
 	
+	  getDefaultProps: function getDefaultProps() {
+	    return {
+	      animated: true
+	    };
+	  },
 	  componentDidMount: function componentDidMount() {
 	    this.rootNode = _reactDom2.default.findDOMNode(this);
 	  },
@@ -1299,12 +1304,15 @@ webpackJsonp([0],{
 	    var tabBarPosition = _props.tabBarPosition;
 	    var children = _props.children;
 	    var activeKey = _props.activeKey;
+	    var animated = _props.animated;
 	
 	    var startIndex = this.startIndex = (0, _utils.getActiveIndex)(children, activeKey);
 	    if (startIndex === -1) {
 	      return;
 	    }
-	    this.rootNode.style[(0, _utils.getTransitionPropertyName)() + 'Property'] = 'none';
+	    if (animated) {
+	      this.rootNode.style[(0, _utils.getTransitionPropertyName)() + 'Property'] = 'none';
+	    }
 	    this.startDrag = true;
 	    this.children = (0, _utils.toArray)(children);
 	    this.maxIndex = this.children.length - 1;
@@ -1331,8 +1339,14 @@ webpackJsonp([0],{
 	    this.end(e, true);
 	  },
 	  end: function end(e, swipe) {
+	    var _props2 = this.props;
+	    var tabBarPosition = _props2.tabBarPosition;
+	    var animated = _props2.animated;
+	
 	    this.startDrag = false;
-	    this.rootNode.style[(0, _utils.getTransitionPropertyName)() + 'Property'] = '';
+	    if (animated) {
+	      this.rootNode.style[(0, _utils.getTransitionPropertyName)() + 'Property'] = '';
+	    }
 	    var currentIndex = getIndexByDelta.call(this, e);
 	    var finalIndex = this.startIndex;
 	    if (currentIndex !== undefined) {
@@ -1341,7 +1355,7 @@ webpackJsonp([0],{
 	      } else if (currentIndex > this.maxIndex) {
 	        finalIndex = this.maxIndex;
 	      } else if (swipe) {
-	        var delta = (0, _utils.isVertical)(this.props.tabBarPosition) ? e.deltaY : e.deltaX;
+	        var delta = (0, _utils.isVertical)(tabBarPosition) ? e.deltaY : e.deltaX;
 	        finalIndex = delta < 0 ? Math.ceil(currentIndex) : Math.floor(currentIndex);
 	      } else {
 	        var floorIndex = Math.floor(currentIndex);
@@ -1356,16 +1370,18 @@ webpackJsonp([0],{
 	      return;
 	    }
 	    if (this.startIndex === finalIndex) {
-	      (0, _utils.assign)(this.rootNode.style, (0, _utils.getTranslateByIndex)(finalIndex, this.props.tabBarPosition));
+	      if (animated) {
+	        (0, _utils.assign)(this.rootNode.style, (0, _utils.getTranslateByIndex)(finalIndex, this.props.tabBarPosition));
+	      }
 	    } else {
 	      this.props.onChange((0, _utils.getActiveKey)(this.props.children, finalIndex));
 	    }
 	  },
 	  render: function render() {
-	    var _props2 = this.props;
-	    var tabBarPosition = _props2.tabBarPosition;
-	    var hammerOptions = _props2.hammerOptions;
-	    var animated = _props2.animated;
+	    var _props3 = this.props;
+	    var tabBarPosition = _props3.tabBarPosition;
+	    var hammerOptions = _props3.hammerOptions;
+	    var animated = _props3.animated;
 	
 	    var direction = {};
 	    if ((0, _utils.isVertical)(tabBarPosition)) {
