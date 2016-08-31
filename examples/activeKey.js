@@ -1374,11 +1374,11 @@ webpackJsonp([0],{
 	      };
 	    }
 	    var events = {
-	      onSwipe: this.onSwipe
+	      onSwipe: this.onSwipe,
+	      onPanStart: this.onPanStart
 	    };
 	    if (animated !== false) {
 	      events = (0, _extends3.default)({}, events, {
-	        onPanStart: this.onPanStart,
 	        onPan: this.onPan,
 	        onPanEnd: this.onPanEnd
 	      });
