@@ -244,7 +244,7 @@ scrollable tab bar with ink indicator, same with tab bar/ink bar props.
           <td>tab content style</td>
       </tr>
       <tr>
-          <td>animation</td>
+          <td>animated</td>
           <td>true</td>
           <th></th>
           <td>whether tabpane change with animation</td>
