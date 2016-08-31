@@ -135,11 +135,11 @@ const SwipeableTabContent = React.createClass({
     }
     let events = {
       onSwipe: this.onSwipe,
+      onPanStart: this.onPanStart,
     };
     if (animated !== false) {
       events = {
         ...events,
-        onPanStart: this.onPanStart,
         onPan: this.onPan,
         onPanEnd: this.onPanEnd,
       };
