@@ -3,6 +3,12 @@ import { getTransformPropertyName } from './utils';
 import React from 'react';
 
 export default {
+  getDefaultProps() {
+    return {
+      scrollAnimated: true,
+    };
+  },
+
   getInitialState() {
     this.offset = 0;
     return {
@@ -180,7 +186,7 @@ export default {
 
   getScrollBarNode(content) {
     const { next, prev } = this.state;
-    const { prefixCls } = this.props;
+    const { prefixCls, scrollAnimated } = this.props;
     let nextButton;
     let prevButton;
     const showNextPrev = prev || next;
@@ -213,6 +219,16 @@ export default {
       );
     }
 
+    const navClassName = `${prefixCls}-nav`;
+    const navClasses = classnames({
+      [navClassName]: true,
+      [
+        scrollAnimated ?
+          `${navClassName}-animated` :
+          `${navClassName}-no-animated`
+        ]: true,
+    });
+
     return (
       <div
         className={classnames({
@@ -226,7 +242,7 @@ export default {
         {nextButton}
         <div className={`${prefixCls}-nav-wrap`} ref="navWrap">
           <div className={`${prefixCls}-nav-scroll`}>
-            <div className={`${prefixCls}-nav`} ref="nav">
+            <div className={navClasses} ref="nav">
               {content}
             </div>
           </div>

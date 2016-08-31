@@ -1,5 +1,6 @@
 import { getTransformPropertyName } from './utils';
 import React from 'react';
+import classnames from 'classnames';
 
 export function getScroll(w, top) {
   let ret = w[`page${top ? 'Y' : 'X'}Offset`];
@@ -82,6 +83,12 @@ function componentDidUpdate(component, init) {
 }
 
 export default {
+  getDefaultProps() {
+    return {
+      inkBarAnimated: true,
+    };
+  },
+
   componentDidUpdate() {
     componentDidUpdate(this);
   },
@@ -91,11 +98,20 @@ export default {
   },
 
   getInkBarNode() {
-    const { prefixCls, styles } = this.props;
+    const { prefixCls, styles, inkBarAnimated } = this.props;
+    const className = `${prefixCls}-ink-bar`;
+    const classes = classnames({
+      [className]: true,
+      [
+        inkBarAnimated ?
+          `${className}-animated` :
+          `${className}-no-animated`
+        ]: true,
+    });
     return (
       <div
         style={styles.inkBar}
-        className={`${prefixCls}-ink-bar`}
+        className={classes}
         key="inkBar"
         ref="inkBar"
       />
