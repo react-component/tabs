@@ -22775,6 +22775,11 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+	
+	var _defineProperty2 = __webpack_require__(255);
+	
+	var _defineProperty3 = _interopRequireDefault(_defineProperty2);
+	
 	exports.getScroll = getScroll;
 	
 	var _utils = __webpack_require__(269);
@@ -22782,6 +22787,10 @@
 	var _react = __webpack_require__(81);
 	
 	var _react2 = _interopRequireDefault(_react);
+	
+	var _classnames2 = __webpack_require__(261);
+	
+	var _classnames3 = _interopRequireDefault(_classnames2);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -22866,6 +22875,11 @@
 	}
 	
 	exports.default = {
+	  getDefaultProps: function getDefaultProps() {
+	    return {
+	      inkBarAnimated: true
+	    };
+	  },
 	  componentDidUpdate: function componentDidUpdate() {
 	    _componentDidUpdate(this);
 	  },
@@ -22873,13 +22887,18 @@
 	    _componentDidUpdate(this, true);
 	  },
 	  getInkBarNode: function getInkBarNode() {
+	    var _classnames;
+	
 	    var _props = this.props;
 	    var prefixCls = _props.prefixCls;
 	    var styles = _props.styles;
+	    var inkBarAnimated = _props.inkBarAnimated;
 	
+	    var className = prefixCls + '-ink-bar';
+	    var classes = (0, _classnames3.default)((_classnames = {}, (0, _defineProperty3.default)(_classnames, className, true), (0, _defineProperty3.default)(_classnames, inkBarAnimated ? className + '-animated' : className + '-no-animated', true), _classnames));
 	    return _react2.default.createElement('div', {
 	      style: styles.inkBar,
-	      className: prefixCls + '-ink-bar',
+	      className: classes,
 	      key: 'inkBar',
 	      ref: 'inkBar'
 	    });
@@ -22900,9 +22919,9 @@
 	
 	var _defineProperty3 = _interopRequireDefault(_defineProperty2);
 	
-	var _classnames4 = __webpack_require__(261);
+	var _classnames5 = __webpack_require__(261);
 	
-	var _classnames5 = _interopRequireDefault(_classnames4);
+	var _classnames6 = _interopRequireDefault(_classnames5);
 	
 	var _utils = __webpack_require__(269);
 	
@@ -22913,6 +22932,11 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	exports.default = {
+	  getDefaultProps: function getDefaultProps() {
+	    return {
+	      scrollAnimated: true
+	    };
+	  },
 	  getInitialState: function getInitialState() {
 	    this.offset = 0;
 	    return {
@@ -23087,12 +23111,14 @@
 	    this.setOffset(offset - navWrapNodeWH);
 	  },
 	  getScrollBarNode: function getScrollBarNode(content) {
-	    var _classnames3;
+	    var _classnames3, _classnames4;
 	
 	    var _state2 = this.state;
 	    var next = _state2.next;
 	    var prev = _state2.prev;
-	    var prefixCls = this.props.prefixCls;
+	    var _props = this.props;
+	    var prefixCls = _props.prefixCls;
+	    var scrollAnimated = _props.scrollAnimated;
 	
 	    var nextButton = void 0;
 	    var prevButton = void 0;
@@ -23106,7 +23132,7 @@
 	        {
 	          onClick: prev ? this.prev : null,
 	          unselectable: 'unselectable',
-	          className: (0, _classnames5.default)((_classnames = {}, (0, _defineProperty3.default)(_classnames, prefixCls + '-tab-prev', 1), (0, _defineProperty3.default)(_classnames, prefixCls + '-tab-btn-disabled', !prev), _classnames))
+	          className: (0, _classnames6.default)((_classnames = {}, (0, _defineProperty3.default)(_classnames, prefixCls + '-tab-prev', 1), (0, _defineProperty3.default)(_classnames, prefixCls + '-tab-btn-disabled', !prev), _classnames))
 	        },
 	        _react2.default.createElement('span', { className: prefixCls + '-tab-prev-icon' })
 	      );
@@ -23116,16 +23142,19 @@
 	        {
 	          onClick: next ? this.next : null,
 	          unselectable: 'unselectable',
-	          className: (0, _classnames5.default)((_classnames2 = {}, (0, _defineProperty3.default)(_classnames2, prefixCls + '-tab-next', 1), (0, _defineProperty3.default)(_classnames2, prefixCls + '-tab-btn-disabled', !next), _classnames2))
+	          className: (0, _classnames6.default)((_classnames2 = {}, (0, _defineProperty3.default)(_classnames2, prefixCls + '-tab-next', 1), (0, _defineProperty3.default)(_classnames2, prefixCls + '-tab-btn-disabled', !next), _classnames2))
 	        },
 	        _react2.default.createElement('span', { className: prefixCls + '-tab-next-icon' })
 	      );
 	    }
 	
+	    var navClassName = prefixCls + '-nav';
+	    var navClasses = (0, _classnames6.default)((_classnames3 = {}, (0, _defineProperty3.default)(_classnames3, navClassName, true), (0, _defineProperty3.default)(_classnames3, scrollAnimated ? navClassName + '-animated' : navClassName + '-no-animated', true), _classnames3));
+	
 	    return _react2.default.createElement(
 	      'div',
 	      {
-	        className: (0, _classnames5.default)((_classnames3 = {}, (0, _defineProperty3.default)(_classnames3, prefixCls + '-nav-container', 1), (0, _defineProperty3.default)(_classnames3, prefixCls + '-nav-container-scrolling', showNextPrev), _classnames3)),
+	        className: (0, _classnames6.default)((_classnames4 = {}, (0, _defineProperty3.default)(_classnames4, prefixCls + '-nav-container', 1), (0, _defineProperty3.default)(_classnames4, prefixCls + '-nav-container-scrolling', showNextPrev), _classnames4)),
 	        key: 'container',
 	        ref: 'container'
 	      },
@@ -23139,7 +23168,7 @@
 	          { className: prefixCls + '-nav-scroll' },
 	          _react2.default.createElement(
 	            'div',
-	            { className: prefixCls + '-nav', ref: 'nav' },
+	            { className: navClasses, ref: 'nav' },
 	            content
 	          )
 	        )
