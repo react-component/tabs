@@ -10,11 +10,9 @@ export default {
       styles: {},
     };
   },
-
   onTabClick(key) {
     this.props.onTabClick(key);
   },
-
   getTabs() {
     const props = this.props;
     const children = props.panels;

@@ -6,7 +6,7 @@ import { getTransformPropertyName, getTranslateByIndex, getActiveIndex } from '.
 
 const TabContent = React.createClass({
   propTypes: {
-    animation: PropTypes.bool,
+    animated: PropTypes.bool,
     prefixCls: PropTypes.string,
     children: PropTypes.any,
     activeKey: PropTypes.string,
@@ -16,7 +16,7 @@ const TabContent = React.createClass({
 
   getDefaultProps() {
     return {
-      animation: true,
+      animated: true,
     };
   },
 
@@ -26,7 +26,7 @@ const TabContent = React.createClass({
     };
   },
   componentDidMount() {
-    if (this.props.animation) {
+    if (this.props.animated) {
       const transformName = getTransformPropertyName();
       // support server render
       if (transformName !== this.state.transformName) {
@@ -56,16 +56,19 @@ const TabContent = React.createClass({
   },
   render() {
     const { props } = this;
-    const { prefixCls, children, activeKey, tabBarPosition } = props;
+    const {
+      prefixCls, children, activeKey,
+      tabBarPosition, animated,
+    } = props;
     let { style } = props;
     const { transformName } = this.state;
     const classes = classnames({
       [`${prefixCls}-content`]: true,
-      [props.animation && transformName ?
-        `${prefixCls}-content-animation` :
-        `${prefixCls}-content-no-animation`]: true,
+      [animated && transformName ?
+        `${prefixCls}-content-animated` :
+        `${prefixCls}-content-no-animated`]: true,
     });
-    if (props.animation && transformName) {
+    if (animated && transformName) {
       const activeIndex = getActiveIndex(children, activeKey);
       if (activeIndex !== -1) {
         style = {

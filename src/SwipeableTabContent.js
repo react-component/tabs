@@ -52,7 +52,7 @@ const SwipeableTabContent = React.createClass({
     onChange: PropTypes.func,
     children: PropTypes.any,
     hammerOptions: PropTypes.any,
-    animation: PropTypes.bool,
+    animated: PropTypes.bool,
     activeKey: PropTypes.string,
   },
 
@@ -126,7 +126,7 @@ const SwipeableTabContent = React.createClass({
     }
   },
   render() {
-    const { tabBarPosition, hammerOptions, animation } = this.props;
+    const { tabBarPosition, hammerOptions, animated } = this.props;
     let direction = {};
     if (isVertical(tabBarPosition)) {
       direction = {
@@ -136,7 +136,7 @@ const SwipeableTabContent = React.createClass({
     let events = {
       onSwipe: this.onSwipe,
     };
-    if (animation !== false) {
+    if (animated !== false) {
       events = {
         ...events,
         onPanStart: this.onPanStart,

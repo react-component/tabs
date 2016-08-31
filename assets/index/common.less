@@ -20,12 +20,8 @@
     margin-top: -3px;
     background-color: #3fc7fa;
     transform-origin: 0 0;
-    transition: right @effect-duration @easing-in-out,
-    left @effect-duration @easing-in-out,
-    bottom @effect-duration @easing-in-out,
-    transform @effect-duration @easing-in-out,
-    -webkit-transform @effect-duration @easing-in-out,
-    top @effect-duration @easing-in-out;
+    transition: transform @effect-duration @easing-in-out,
+    -webkit-transform @effect-duration @easing-in-out;
   }
 
   &-tab-prev, &-tab-next {
@@ -78,8 +74,6 @@
     display: inline-block;
     transform-origin: 0 0;
     transition: transform 0.5s @easing-in-out,
-    left 0.5s @easing-in-out,
-    top 0.5s @easing-in-out,
     -webkit-transform 0.5s @easing-in-out;
 
     &:before, &:after {
@@ -131,13 +125,13 @@
     }
   }
 
-  &-content-no-animation {
+  &-content-no-animated {
     .@{tabs-prefix-cls}-tabpane-inactive {
       display: none;
     }
   }
 
-  &-content-animation {
+  &-content-animated {
     transition: transform @effect-duration @easing-in-out;
     display: flex;
     will-change: transform;

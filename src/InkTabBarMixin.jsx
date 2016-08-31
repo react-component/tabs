@@ -36,13 +36,17 @@ function offset(elem) {
   };
 }
 
-function componentDidUpdate(component) {
+function componentDidUpdate(component, init) {
   const refs = component.refs;
   const wrapNode = refs.nav || refs.root;
   const containerOffset = offset(wrapNode);
   const inkBarNode = refs.inkBar;
   const activeTab = refs.activeTab;
   const tabBarPosition = component.props.tabBarPosition;
+  if (init) {
+    // prevent mount animation
+    inkBarNode.style.display = 'none';
+  }
   if (activeTab) {
     const tabNode = activeTab;
     const tabOffset = offset(tabNode);
@@ -83,7 +87,7 @@ export default {
   },
 
   componentDidMount() {
-    componentDidUpdate(this);
+    componentDidUpdate(this, true);
   },
 
   getInkBarNode() {
