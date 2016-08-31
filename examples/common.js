@@ -22528,7 +22528,7 @@
 	  displayName: 'TabContent',
 	
 	  propTypes: {
-	    animation: _react.PropTypes.bool,
+	    animated: _react.PropTypes.bool,
 	    prefixCls: _react.PropTypes.string,
 	    children: _react.PropTypes.any,
 	    activeKey: _react.PropTypes.string,
@@ -22538,7 +22538,7 @@
 	
 	  getDefaultProps: function getDefaultProps() {
 	    return {
-	      animation: true
+	      animated: true
 	    };
 	  },
 	  getInitialState: function getInitialState() {
@@ -22547,7 +22547,7 @@
 	    };
 	  },
 	  componentDidMount: function componentDidMount() {
-	    if (this.props.animation) {
+	    if (this.props.animated) {
 	      var transformName = (0, _utils.getTransformPropertyName)();
 	      // support server render
 	      if (transformName !== this.state.transformName) {
@@ -22583,11 +22583,12 @@
 	    var children = props.children;
 	    var activeKey = props.activeKey;
 	    var tabBarPosition = props.tabBarPosition;
+	    var animated = props.animated;
 	    var style = props.style;
 	    var transformName = this.state.transformName;
 	
-	    var classes = (0, _classnames3.default)((_classnames = {}, (0, _defineProperty3.default)(_classnames, prefixCls + '-content', true), (0, _defineProperty3.default)(_classnames, props.animation && transformName ? prefixCls + '-content-animation' : prefixCls + '-content-no-animation', true), _classnames));
-	    if (props.animation && transformName) {
+	    var classes = (0, _classnames3.default)((_classnames = {}, (0, _defineProperty3.default)(_classnames, prefixCls + '-content', true), (0, _defineProperty3.default)(_classnames, animated && transformName ? prefixCls + '-content-animated' : prefixCls + '-content-no-animated', true), _classnames));
+	    if (animated && transformName) {
 	      var activeIndex = (0, _utils.getActiveIndex)(children, activeKey);
 	      if (activeIndex !== -1) {
 	        style = (0, _extends3.default)({}, style, (0, _utils.getTranslateByIndex)(activeIndex, tabBarPosition, transformName));
@@ -22819,13 +22820,17 @@
 	  };
 	}
 	
-	function _componentDidUpdate(component) {
+	function _componentDidUpdate(component, init) {
 	  var refs = component.refs;
 	  var wrapNode = refs.nav || refs.root;
 	  var containerOffset = offset(wrapNode);
 	  var inkBarNode = refs.inkBar;
 	  var activeTab = refs.activeTab;
 	  var tabBarPosition = component.props.tabBarPosition;
+	  if (init) {
+	    // prevent mount animation
+	    inkBarNode.style.display = 'none';
+	  }
 	  if (activeTab) {
 	    var tabNode = activeTab;
 	    var tabOffset = offset(tabNode);
@@ -22865,7 +22870,7 @@
 	    _componentDidUpdate(this);
 	  },
 	  componentDidMount: function componentDidMount() {
-	    _componentDidUpdate(this);
+	    _componentDidUpdate(this, true);
 	  },
 	  getInkBarNode: function getInkBarNode() {
 	    var _props = this.props;

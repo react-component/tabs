@@ -1287,7 +1287,7 @@ webpackJsonp([0],{
 	    onChange: _react.PropTypes.func,
 	    children: _react.PropTypes.any,
 	    hammerOptions: _react.PropTypes.any,
-	    animation: _react.PropTypes.bool,
+	    animated: _react.PropTypes.bool,
 	    activeKey: _react.PropTypes.string
 	  },
 	
@@ -1365,7 +1365,7 @@ webpackJsonp([0],{
 	    var _props2 = this.props;
 	    var tabBarPosition = _props2.tabBarPosition;
 	    var hammerOptions = _props2.hammerOptions;
-	    var animation = _props2.animation;
+	    var animated = _props2.animated;
 	
 	    var direction = {};
 	    if ((0, _utils.isVertical)(tabBarPosition)) {
@@ -1376,7 +1376,7 @@ webpackJsonp([0],{
 	    var events = {
 	      onSwipe: this.onSwipe
 	    };
-	    if (animation !== false) {
+	    if (animated !== false) {
 	      events = (0, _extends3.default)({}, events, {
 	        onPanStart: this.onPanStart,
 	        onPan: this.onPan,
