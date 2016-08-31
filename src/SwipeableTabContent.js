@@ -56,17 +56,25 @@ const SwipeableTabContent = React.createClass({
     activeKey: PropTypes.string,
   },
 
+  getDefaultProps() {
+    return {
+      animated: true,
+    };
+  },
+
   componentDidMount() {
     this.rootNode = ReactDOM.findDOMNode(this);
   },
 
   onPanStart() {
-    const { tabBarPosition, children, activeKey } = this.props;
+    const { tabBarPosition, children, activeKey, animated } = this.props;
     const startIndex = this.startIndex = getActiveIndex(children, activeKey);
     if (startIndex === -1) {
       return;
     }
-    this.rootNode.style[`${getTransitionPropertyName()}Property`] = 'none';
+    if (animated) {
+      this.rootNode.style[`${getTransitionPropertyName()}Property`] = 'none';
+    }
     this.startDrag = true;
     this.children = toArray(children);
     this.maxIndex = this.children.length - 1;
@@ -95,8 +103,11 @@ const SwipeableTabContent = React.createClass({
   },
 
   end(e, swipe) {
+    const { tabBarPosition, animated } = this.props;
     this.startDrag = false;
-    this.rootNode.style[`${getTransitionPropertyName()}Property`] = '';
+    if (animated) {
+      this.rootNode.style[`${getTransitionPropertyName()}Property`] = '';
+    }
     const currentIndex = getIndexByDelta.call(this, e);
     let finalIndex = this.startIndex;
     if (currentIndex !== undefined) {
@@ -105,7 +116,7 @@ const SwipeableTabContent = React.createClass({
       } else if (currentIndex > this.maxIndex) {
         finalIndex = this.maxIndex;
       } else if (swipe) {
-        const delta = isVertical(this.props.tabBarPosition) ? e.deltaY : e.deltaX;
+        const delta = isVertical(tabBarPosition) ? e.deltaY : e.deltaX;
         finalIndex = delta < 0 ? Math.ceil(currentIndex) : Math.floor(currentIndex);
       } else {
         const floorIndex = Math.floor(currentIndex);
@@ -120,7 +131,9 @@ const SwipeableTabContent = React.createClass({
       return;
     }
     if (this.startIndex === finalIndex) {
-      assign(this.rootNode.style, getTranslateByIndex(finalIndex, this.props.tabBarPosition));
+      if (animated) {
+        assign(this.rootNode.style, getTranslateByIndex(finalIndex, this.props.tabBarPosition));
+      }
     } else {
       this.props.onChange(getActiveKey(this.props.children, finalIndex));
     }
