@@ -7,7 +7,7 @@
   <meta charset="utf-8"/>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link href="//cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.css" rel="stylesheet"/>
-  <title>rc-tabs@6.0.2 - tabs ui component for react</title>
+  <title>rc-tabs@7.0.0 - tabs ui component for react</title>
   <style>
     @font-face {
       font-family: octicons-anchor;
@@ -737,7 +737,7 @@
 
 <body>
 <div class="header">
-  <h1>rc-tabs@6.0.2</h1>
+  <h1>rc-tabs@7.0.0</h1>
 </div>
 <div class="examples">
   <h3>EXAMPLES</h3>
@@ -763,20 +763,23 @@
   <h3>README.md</h3>
   <div class="markdown-body">
     <h1>rc-tabs<a id="user-content-rc-tabs" name="rc-tabs" class="anchor" aria-hidden="true" href="#rc-tabs"><span class="octicon octicon-link"></span></a></h1><hr>
-<p>react tabs component</p>
+<p>React Tabs</p>
 <p><a href="http://npmjs.org/package/rc-tabs" title="null"><img src="http://img.shields.io/npm/v/rc-tabs.svg?style=flat-square" alt="NPM version"></a>
 <a href="https://travis-ci.org/react-component/tabs" title="null"><img src="https://img.shields.io/travis/react-component/tabs.svg?style=flat-square" alt="build status"></a>
 <a href="https://coveralls.io/r/react-component/tabs?branch=master" title="null"><img src="https://img.shields.io/coveralls/react-component/tabs.svg?style=flat-square" alt="Test coverage"></a>
 <a href="https://gemnasium.com/react-component/tabs" title="null"><img src="http://img.shields.io/gemnasium/react-component/tabs.svg?style=flat-square" alt="gemnasium deps"></a>
 <a href="https://npmjs.org/package/rc-tabs" title="null"><img src="https://img.shields.io/npm/dm/rc-tabs.svg?style=flat-square" alt="npm download"></a></p>
-<h2>Screenshot<a id="user-content-screenshot" name="screenshot" class="anchor" aria-hidden="true" href="#screenshot"><span class="octicon octicon-link"></span></a></h2><p><img src='http://gtms03.alicdn.com/tps/i3/TB1TIJ3HXXXXXcYaXXXR6PQLFXX-816-612.png' width='408'></p>
+<h2>Screenshot<a id="user-content-screenshot" name="screenshot" class="anchor" aria-hidden="true" href="#screenshot"><span class="octicon octicon-link"></span></a></h2><p><img src='https://zos.alipayobjects.com/rmsportal/JwLASrsOYJuFRIt.png' width='408'></p>
+<h2>Example<a id="user-content-example" name="example" class="anchor" aria-hidden="true" href="#example"><span class="octicon octicon-link"></span></a></h2><p><a href="http://localhost:8000/examples" title="null">http://localhost:8000/examples</a></p>
+<p>online example: <a href="http://react-component.github.io/tabs/" title="null">http://react-component.github.io/tabs/</a></p>
 <h2>install<a id="user-content-install" name="install" class="anchor" aria-hidden="true" href="#install"><span class="octicon octicon-link"></span></a></h2><p><a href="https://npmjs.org/package/rc-tabs" title="null"><img src="https://nodei.co/npm/rc-tabs.png" alt="rc-tabs"></a></p>
 <h2>Feature<a id="user-content-feature" name="feature" class="anchor" aria-hidden="true" href="#feature"><span class="octicon octicon-link"></span></a></h2><h3>Keyboard<a id="user-content-keyboard" name="keyboard" class="anchor" aria-hidden="true" href="#keyboard"><span class="octicon octicon-link"></span></a></h3><ul>
 <li>left and up: switch to previous tab</li>
 <li>right and down: switch to next tab</li>
 </ul>
-<h2>Usage<a id="user-content-usage" name="usage" class="anchor" aria-hidden="true" href="#usage"><span class="octicon octicon-link"></span></a></h2><div class="highlight"><pre><code language="js"><span class="hljs-keyword">var</span> Tabs = <span class="hljs-built_in">require</span>(<span class="hljs-string">'rc-tabs'</span>);
-<span class="hljs-keyword">var</span> TabPane = Tabs.TabPane;
+<h2>Usage<a id="user-content-usage" name="usage" class="anchor" aria-hidden="true" href="#usage"><span class="octicon octicon-link"></span></a></h2><div class="highlight"><pre><code language="js"><span class="hljs-keyword">import</span> Tabs, { TabPane } <span class="hljs-keyword">from</span> <span class="hljs-string">'rc-tabs'</span>;
+<span class="hljs-keyword">import</span> TabContent <span class="hljs-keyword">from</span> <span class="hljs-string">'rc-tabs/lib/TabContent'</span>;
+<span class="hljs-keyword">import</span> ScrollableInkTabBar <span class="hljs-keyword">from</span> <span class="hljs-string">'rc-tabs/lib/TabContent'</span>;
 
 <span class="hljs-keyword">var</span> callback = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">key</span>)</span>{
 
@@ -784,7 +787,12 @@
 
 React.render(
   (
-    <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">Tabs</span> <span class="hljs-attribute">defaultActiveKey</span>=<span class="hljs-value">"2"</span> <span class="hljs-attribute">onChange</span>=<span class="hljs-value">{callback}</span>&gt;</span>
+    <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">Tabs</span>
+      <span class="hljs-attribute">defaultActiveKey</span>=<span class="hljs-value">"2"</span>
+      <span class="hljs-attribute">onChange</span>=<span class="hljs-value">{callback}</span>
+      <span class="hljs-attribute">renderTabBar</span>=<span class="hljs-value">{()=</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-title">ScrollableInkTabBar</span> /&gt;</span>}
+      renderTabContent={()=&gt;<span class="hljs-tag">&lt;<span class="hljs-title">TabContent</span> /&gt;</span>}
+    &gt;
       <span class="hljs-tag">&lt;<span class="hljs-title">TabPane</span> <span class="hljs-attribute">tab</span>=<span class="hljs-value">'tab 1'</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"1"</span>&gt;</span>first<span class="hljs-tag">&lt;/<span class="hljs-title">TabPane</span>&gt;</span>
       <span class="hljs-tag">&lt;<span class="hljs-title">TabPane</span> <span class="hljs-attribute">tab</span>=<span class="hljs-value">'tab 2'</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"2"</span>&gt;</span>second<span class="hljs-tag">&lt;/<span class="hljs-title">TabPane</span>&gt;</span>
       <span class="hljs-tag">&lt;<span class="hljs-title">TabPane</span> <span class="hljs-attribute">tab</span>=<span class="hljs-value">'tab 3'</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"3"</span>&gt;</span>third<span class="hljs-tag">&lt;/<span class="hljs-title">TabPane</span>&gt;</span>
@@ -807,46 +815,10 @@ React.render(
           <td>current active tabPanel&#39;s key</td>
       </tr>
       <tr>
-          <td>tabPosition</td>
+          <td>tabBarPosition</td>
           <td>String</td>
           <th></th>
           <td>tab nav &#39;s position. one of [&#39;left&#39;,&#39;right&#39;,&#39;top&#39;,&#39;bottom&#39;]</td>
-      </tr>
-      <tr>
-          <td>allowInkBar</td>
-          <td>Boolean</td>
-          <th>true</th>
-          <td>allow ink bar</td>
-      </tr>
-      <tr>
-          <td>allowScrollBar</td>
-          <td>Boolean</td>
-          <th>true</th>
-          <td>allow bar scrollable</td>
-      </tr>
-      <tr>
-          <td>styles</td>
-          <td>{nav, inkBar, bar}</td>
-          <th>{}</th>
-          <td>inline styles</td>
-      </tr>
-      <tr>
-          <td>animation</td>
-          <td>String</td>
-          <th></th>
-          <td>tabPane&#39;s animation. current only support slide-horizontal in assets/index.css</td>
-      </tr>
-      <tr>
-          <td>transitionName</td>
-          <td>Object</td>
-          <th></th>
-          <td>specify backward and forward transitionName. such as
-          <code>js
-          {
-            backward:&#39;rc-tabs-slide-horizontal-backward&#39;,
-            forward:&#39;rc-tabs-slide-horizontal-forward&#39;
-          }</code>
-          </td>
       </tr>
       <tr>
           <td>defaultActiveKey</td>
@@ -855,22 +827,22 @@ React.render(
           <td>initial active tabPanel&#39;s key if activeKey is absent</td>
       </tr>
       <tr>
+         <td>renderTabBar</td>
+         <td>():React.Node</td>
+         <th></th>
+         <td>How to render tab bar</td>
+      </tr>
+      <tr>
+        <td>renderTabContent</td>
+        <td>():React.Node</td>
+        <th></th>
+        <td>How to render tab content</td>
+      </tr>
+      <tr>
           <td>onChange</td>
-          <td>Function(key)</td>
+          <td>(key: string): void</td>
           <th></th>
           <td>called when tabPanel is changed</td>
-      </tr>
-      <tr>
-          <td>onTabClick</td>
-          <td>Function(key)</td>
-          <th></th>
-          <td>called when tab is clicked</td>
-      </tr>
-      <tr>
-          <td>tabBarExtraContent</td>
-          <td>React Node</td>
-          <th></th>
-          <td>extra content placed one the right of tab bar</td>
       </tr>
       <tr>
           <td>destroyInactiveTabPane</td>
@@ -897,20 +869,119 @@ React.render(
           <th></th>
           <td>corresponding to activeKey</td>
       </tr>
+     <tr>
+         <td>placeholder</td>
+         <td>React.Node</td>
+         <th></th>
+         <td>lazyrender children</td>
+     </tr>
       <tr>
           <td>tab</td>
-          <td>String</td>
+          <td>React.Node</td>
           <th></th>
           <td>current tab&#39;s title corresponding to current tabPane</td>
       </tr>
     </tbody>
 </table>
 
+<h3>lib/TabBar<a id="user-content-lib/tabbar" name="lib/tabbar" class="anchor" aria-hidden="true" href="#lib/tabbar"><span class="octicon octicon-link"></span></a></h3><table class="table table-bordered table-striped">
+    <thead>
+      <tr>
+          <th style="width: 100px;">name</th>
+          <th style="width: 50px;">type</th>
+          <th>default</th>
+          <th>description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+          <td>onTabClick</td>
+          <td>(key: string): void</td>
+          <th></th>
+          <td>callback when tab clicked</td>
+      </tr>
+      <tr>
+          <td>style</td>
+          <td></td>
+          <th></th>
+          <td>bar style</td>
+      </tr>
+      <tr>
+        <td>extraContent</td>
+        <td>React Node</td>
+        <th></th>
+        <td>extra content placed one the right of tab bar</td>
+      </tr>
+    </tbody>
+</table>
+
+<h3>lib/InkTabBar<a id="user-content-lib/inktabbar" name="lib/inktabbar" class="anchor" aria-hidden="true" href="#lib/inktabbar"><span class="octicon octicon-link"></span></a></h3><p>tab bar with ink indicator, in addition to tab bar props, extra props:</p>
+<table class="table table-bordered table-striped">
+    <thead>
+      <tr>
+          <th style="width: 100px;">name</th>
+          <th style="width: 50px;">type</th>
+          <th>default</th>
+          <th>description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+          <td>styles</td>
+          <td>{ inkBar }</td>
+          <th></th>
+          <td>can set inkBar style</td>
+      </tr>
+    </tbody>
+</table>
+
+<h3>lib/ScrollableInkTabBar<a id="user-content-lib/scrollableinktabbar" name="lib/scrollableinktabbar" class="anchor" aria-hidden="true" href="#lib/scrollableinktabbar"><span class="octicon octicon-link"></span></a></h3><p>scrollable tab bar with ink indicator, same with tab bar/ink bar props.</p>
+<h3>lib/TabContent<a id="user-content-lib/tabcontent" name="lib/tabcontent" class="anchor" aria-hidden="true" href="#lib/tabcontent"><span class="octicon octicon-link"></span></a></h3><table class="table table-bordered table-striped">
+    <thead>
+      <tr>
+          <th style="width: 100px;">name</th>
+          <th style="width: 50px;">type</th>
+          <th>default</th>
+          <th>description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+          <td>style</td>
+          <td>{}</td>
+          <th></th>
+          <td>tab content style</td>
+      </tr>
+      <tr>
+          <td>animation</td>
+          <td>true</td>
+          <th></th>
+          <td>whether tabpane change with animation</td>
+      </tr><br>    </tbody>
+</table>
+
+<h3>lib/SwipeableTabContent<a id="user-content-lib/swipeabletabcontent" name="lib/swipeabletabcontent" class="anchor" aria-hidden="true" href="#lib/swipeabletabcontent"><span class="octicon octicon-link"></span></a></h3><p>swipeable tab panes, in addition to lib/TabContent props, extra props: </p>
+<table class="table table-bordered table-striped">
+    <thead>
+      <tr>
+          <th style="width: 100px;">name</th>
+          <th style="width: 50px;">type</th>
+          <th>default</th>
+          <th>description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+          <td>hammerOptions</td>
+          <td>{}</td>
+          <th></th>
+          <td>options for react-hammerjs</td>
+      </tr>
+    </tbody>
+</table>
 
 <h2>Development<a id="user-content-development" name="development" class="anchor" aria-hidden="true" href="#development"><span class="octicon octicon-link"></span></a></h2><div class="highlight"><pre><code language="undefined">npm install
-npm start</code></pre></div><h2>Example<a id="user-content-example" name="example" class="anchor" aria-hidden="true" href="#example"><span class="octicon octicon-link"></span></a></h2><p><a href="http://localhost:8000/examples" title="null">http://localhost:8000/examples</a></p>
-<p>online example: <a href="http://react-component.github.io/tabs/examples/" title="null">http://react-component.github.io/tabs/examples/</a></p>
-<h2>Test Case<a id="user-content-test-case" name="test-case" class="anchor" aria-hidden="true" href="#test-case"><span class="octicon octicon-link"></span></a></h2><div class="highlight"><pre><code language="undefined">npm test
+npm start</code></pre></div><h2>Test Case<a id="user-content-test-case" name="test-case" class="anchor" aria-hidden="true" href="#test-case"><span class="octicon octicon-link"></span></a></h2><div class="highlight"><pre><code language="undefined">npm test
 npm run chrome-test</code></pre></div><h2>Coverage<a id="user-content-coverage" name="coverage" class="anchor" aria-hidden="true" href="#coverage"><span class="octicon octicon-link"></span></a></h2><div class="highlight"><pre><code language="undefined">npm run coverage</code></pre></div><p>open coverage/ dir</p>
 <h2>License<a id="user-content-license" name="license" class="anchor" aria-hidden="true" href="#license"><span class="octicon octicon-link"></span></a></h2><p>rc-tabs is released under the MIT license.</p>
 

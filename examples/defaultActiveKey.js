@@ -3,7 +3,7 @@ webpackJsonp([3],{
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(281);
+	module.exports = __webpack_require__(279);
 
 
 /***/ },
@@ -1040,7 +1040,7 @@ webpackJsonp([3],{
 
 /***/ },
 
-/***/ 281:
+/***/ 279:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1070,6 +1070,14 @@ webpackJsonp([3],{
 	var _rcTabs = __webpack_require__(252);
 	
 	var _rcTabs2 = _interopRequireDefault(_rcTabs);
+	
+	var _TabContent = __webpack_require__(268);
+	
+	var _TabContent2 = _interopRequireDefault(_TabContent);
+	
+	var _ScrollableInkTabBar = __webpack_require__(272);
+	
+	var _ScrollableInkTabBar2 = _interopRequireDefault(_ScrollableInkTabBar);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -1145,6 +1153,8 @@ webpackJsonp([3],{
 	    });
 	  },
 	  render: function render() {
+	    var _this3 = this;
+	
 	    var start = this.state.start;
 	    var disabled = true;
 	    return _react2.default.createElement(
@@ -1165,7 +1175,12 @@ webpackJsonp([3],{
 	        _rcTabs2.default,
 	        {
 	          defaultActiveKey: defaultTabKey,
-	          onTabClick: this.onTabClick,
+	          renderTabBar: function renderTabBar() {
+	            return _react2.default.createElement(_ScrollableInkTabBar2.default, { onTabClick: _this3.onTabClick });
+	          },
+	          renderTabContent: function renderTabContent() {
+	            return _react2.default.createElement(_TabContent2.default, null);
+	          },
 	          onChange: this.onChange
 	        },
 	        _react2.default.createElement(

@@ -3,7 +3,7 @@ webpackJsonp([4],{
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(282);
+	module.exports = __webpack_require__(280);
 
 
 /***/ },
@@ -1040,7 +1040,7 @@ webpackJsonp([4],{
 
 /***/ },
 
-/***/ 282:
+/***/ 280:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1070,6 +1070,14 @@ webpackJsonp([4],{
 	var _rcTabs = __webpack_require__(252);
 	
 	var _rcTabs2 = _interopRequireDefault(_rcTabs);
+	
+	var _TabContent = __webpack_require__(268);
+	
+	var _TabContent2 = _interopRequireDefault(_TabContent);
+	
+	var _ScrollableInkTabBar = __webpack_require__(272);
+	
+	var _ScrollableInkTabBar2 = _interopRequireDefault(_ScrollableInkTabBar);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -1135,6 +1143,8 @@ webpackJsonp([4],{
 	    });
 	  },
 	  render: function render() {
+	    var _this3 = this;
+	
 	    var start = this.state.start;
 	    var disabled = true;
 	    return _react2.default.createElement(
@@ -1149,19 +1159,23 @@ webpackJsonp([4],{
 	        _rcTabs2.default,
 	        {
 	          defaultActiveKey: '2',
-	          animation: 'slide-horizontal',
 	          destroyInactiveTabPane: true,
-	          onTabClick: this.onTabClick,
+	          renderTabBar: function renderTabBar() {
+	            return _react2.default.createElement(_ScrollableInkTabBar2.default, { onTabClick: _this3.onTabClick });
+	          },
+	          renderTabContent: function renderTabContent() {
+	            return _react2.default.createElement(_TabContent2.default, null);
+	          },
 	          onChange: this.onChange
 	        },
 	        _react2.default.createElement(
 	          _rcTabs.TabPane,
-	          { tab: 'tab ' + start, key: '1' },
+	          { tab: 'tab ' + start, key: '1', placeholder: 'loading 1' },
 	          _react2.default.createElement(PanelContent, { id: start })
 	        ),
 	        _react2.default.createElement(
 	          _rcTabs.TabPane,
-	          { tab: 'tab ' + (start + 1), key: '2' },
+	          { tab: 'tab ' + (start + 1), key: '2', placeholder: 'loading 2' },
 	          _react2.default.createElement(PanelContent, { id: start + 1 })
 	        ),
 	        _react2.default.createElement(
@@ -1171,7 +1185,7 @@ webpackJsonp([4],{
 	        ),
 	        _react2.default.createElement(
 	          _rcTabs.TabPane,
-	          { tab: 'tab ' + (start + 3), key: '4' },
+	          { tab: 'tab ' + (start + 3), key: '4', placeholder: 'loading 4' },
 	          _react2.default.createElement(PanelContent, { id: start + 3 })
 	        )
 	      ),

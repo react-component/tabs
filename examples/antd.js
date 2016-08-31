@@ -3,7 +3,7 @@ webpackJsonp([2],{
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(280);
+	module.exports = __webpack_require__(277);
 
 
 /***/ },
@@ -1040,7 +1040,7 @@ webpackJsonp([2],{
 
 /***/ },
 
-/***/ 280:
+/***/ 277:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1071,9 +1071,19 @@ webpackJsonp([2],{
 	
 	var _rcTabs2 = _interopRequireDefault(_rcTabs);
 	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	var _TabContent = __webpack_require__(268);
 	
-	/* eslint react/no-multi-comp:0, no-console:0 */
+	var _TabContent2 = _interopRequireDefault(_TabContent);
+	
+	var _ScrollableInkTabBar = __webpack_require__(272);
+	
+	var _ScrollableInkTabBar2 = _interopRequireDefault(_ScrollableInkTabBar);
+	
+	var _InkTabBar = __webpack_require__(278);
+	
+	var _InkTabBar2 = _interopRequireDefault(_InkTabBar);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var PanelContent = function (_React$Component) {
 	  (0, _inherits3.default)(PanelContent, _React$Component);
@@ -1113,7 +1123,7 @@ webpackJsonp([2],{
 	  };
 	
 	  return PanelContent;
-	}(_react2.default.Component);
+	}(_react2.default.Component); /* eslint react/no-multi-comp:0, no-console:0 */
 	
 	PanelContent.propTypes = {
 	  id: _react2.default.PropTypes.number
@@ -1126,6 +1136,7 @@ webpackJsonp([2],{
 	    ends.push(_react2.default.createElement(
 	      _rcTabs.TabPane,
 	      {
+	        placeholder: 'loading ' + i,
 	        tab: 'tab ' + i,
 	        disabled: !!(i % 2),
 	        key: index
@@ -1141,12 +1152,16 @@ webpackJsonp([2],{
 	  displayName: 'Component',
 	  getInitialState: function getInitialState() {
 	    return {
-	      tabPosition: 'top',
+	      tabBarPosition: 'top',
+	      activeKey: '3',
 	      start: 0
 	    };
 	  },
 	  onChange: function onChange(key) {
 	    console.log('onChange ' + key);
+	  },
+	  onChange2: function onChange2(activeKey) {
+	    this.setState({ activeKey: activeKey });
 	  },
 	  onTabClick: function onTabClick(key) {
 	    console.log('onTabClick ' + key);
@@ -1158,29 +1173,39 @@ webpackJsonp([2],{
 	  },
 	  changeTabPosition: function changeTabPosition(e) {
 	    this.setState({
-	      tabPosition: e.target.value
+	      tabBarPosition: e.target.value
 	    });
 	  },
+	  scrollToActive: function scrollToActive() {
+	    this.bar.scrollToActiveTab();
+	  },
+	  switchToLast: function switchToLast(ends) {
+	    if (this.state.activeKey !== ends[ends.length - 1].key) {
+	      this.setState({ activeKey: ends[ends.length - 1].key }, this.scrollToActive);
+	    } else {
+	      this.scrollToActive();
+	    }
+	  },
+	  saveBar: function saveBar(bar) {
+	    this.bar = bar;
+	  },
 	  render: function render() {
+	    var _this2 = this;
+	
 	    var start = this.state.start;
 	    var ends = construct(start, 9);
 	    var ends2 = construct(start, 3);
-	    var tabPosition = this.state.tabPosition;
-	    var navStyle = {};
-	    var animation = 'slide-horizontal';
-	
-	    var tabStyle = {
-	      width: 500
+	    var tabBarPosition = this.state.tabBarPosition;
+	    var style = void 0;
+	    var contentStyle = void 0;
+	    contentStyle = {
+	      height: 400
 	    };
-	
-	    if (tabPosition === 'left' || tabPosition === 'right') {
-	      navStyle = {
-	        height: 400,
-	        overflow: 'hidden'
-	      };
-	      animation = 'slide-vertical';
-	      tabStyle = {
-	        overflow: 'hidden'
+	    if (tabBarPosition === 'left' || tabBarPosition === 'right') {
+	      style = contentStyle;
+	    } else {
+	      style = {
+	        width: 500
 	      };
 	    }
 	
@@ -1195,10 +1220,10 @@ webpackJsonp([2],{
 	      _react2.default.createElement(
 	        'p',
 	        null,
-	        'tabPosition:',
+	        'tabBarPosition:',
 	        _react2.default.createElement(
 	          'select',
-	          { value: this.state.tabPosition, onChange: this.changeTabPosition },
+	          { value: this.state.tabBarPosition, onChange: this.changeTabPosition },
 	          _react2.default.createElement(
 	            'option',
 	            { value: 'top' },
@@ -1223,15 +1248,19 @@ webpackJsonp([2],{
 	      ),
 	      _react2.default.createElement(
 	        'div',
-	        { style: tabStyle },
+	        null,
 	        _react2.default.createElement(
 	          _rcTabs2.default,
 	          {
 	            defaultActiveKey: '3',
-	            navStyle: navStyle,
-	            tabPosition: this.state.tabPosition,
-	            animation: animation,
-	            onTabClick: this.onTabClick,
+	            style: style,
+	            tabBarPosition: this.state.tabBarPosition,
+	            renderTabBar: function renderTabBar() {
+	              return _react2.default.createElement(_InkTabBar2.default, { onTabClick: _this2.onTabClick });
+	            },
+	            renderTabContent: function renderTabContent() {
+	              return _react2.default.createElement(_TabContent2.default, { style: contentStyle });
+	            },
 	            onChange: this.onChange
 	          },
 	          ends2
@@ -1244,16 +1273,32 @@ webpackJsonp([2],{
 	      ),
 	      _react2.default.createElement(
 	        'div',
-	        { style: tabStyle },
+	        null,
+	        _react2.default.createElement(
+	          'button',
+	          {
+	            onClick: function onClick() {
+	              return _this2.switchToLast(ends);
+	            }
+	          },
+	          'switch to last tab'
+	        ),
 	        _react2.default.createElement(
 	          _rcTabs2.default,
 	          {
-	            defaultActiveKey: '3',
-	            navStyle: navStyle,
-	            tabPosition: this.state.tabPosition,
-	            animation: animation,
-	            onTabClick: this.onTabClick,
-	            onChange: this.onChange
+	            activeKey: this.state.activeKey,
+	            style: style,
+	            tabBarPosition: this.state.tabBarPosition,
+	            renderTabBar: function renderTabBar() {
+	              return _react2.default.createElement(_ScrollableInkTabBar2.default, {
+	                ref: _this2.saveBar,
+	                onTabClick: _this2.onTabClick
+	              });
+	            },
+	            renderTabContent: function renderTabContent() {
+	              return _react2.default.createElement(_TabContent2.default, { style: contentStyle });
+	            },
+	            onChange: this.onChange2
 	          },
 	          ends
 	        )
@@ -1268,6 +1313,45 @@ webpackJsonp([2],{
 	});
 	
 	_reactDom2.default.render(_react2.default.createElement(Component, null), document.getElementById('__react-content'));
+
+/***/ },
+
+/***/ 278:
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(81);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _InkTabBarMixin = __webpack_require__(273);
+	
+	var _InkTabBarMixin2 = _interopRequireDefault(_InkTabBarMixin);
+	
+	var _TabBarMixin = __webpack_require__(275);
+	
+	var _TabBarMixin2 = _interopRequireDefault(_TabBarMixin);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var InkTabBar = _react2.default.createClass({
+	  displayName: 'InkTabBar',
+	
+	  mixins: [_TabBarMixin2.default, _InkTabBarMixin2.default],
+	  render: function render() {
+	    var inkBarNode = this.getInkBarNode();
+	    var tabs = this.getTabs();
+	    return this.getRootNode([inkBarNode, tabs]);
+	  }
+	});
+	
+	exports.default = InkTabBar;
+	module.exports = exports['default'];
 
 /***/ }
 

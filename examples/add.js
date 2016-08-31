@@ -3,12 +3,12 @@ webpackJsonp([1],{
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(279);
+	module.exports = __webpack_require__(276);
 
 
 /***/ },
 
-/***/ 279:
+/***/ 276:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -26,6 +26,14 @@ webpackJsonp([1],{
 	var _rcTabs = __webpack_require__(252);
 	
 	var _rcTabs2 = _interopRequireDefault(_rcTabs);
+	
+	var _TabContent = __webpack_require__(268);
+	
+	var _TabContent2 = _interopRequireDefault(_TabContent);
+	
+	var _ScrollableInkTabBar = __webpack_require__(272);
+	
+	var _ScrollableInkTabBar2 = _interopRequireDefault(_ScrollableInkTabBar);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -134,7 +142,7 @@ webpackJsonp([1],{
 	    });
 	  },
 	  render: function render() {
-	    var animation = 'slide-horizontal';
+	    var _this2 = this;
 	
 	    var tabStyle = {
 	      width: 500
@@ -154,14 +162,20 @@ webpackJsonp([1],{
 	        _react2.default.createElement(
 	          _rcTabs2.default,
 	          {
-	            animation: animation,
+	            renderTabBar: function renderTabBar() {
+	              return _react2.default.createElement(_ScrollableInkTabBar2.default, {
+	                extraContent: _react2.default.createElement(
+	                  'button',
+	                  { onClick: _this2.add },
+	                  '+添加'
+	                )
+	              });
+	            },
+	            renderTabContent: function renderTabContent() {
+	              return _react2.default.createElement(_TabContent2.default, null);
+	            },
 	            activeKey: this.state.activeKey,
-	            onChange: this.onTabChange,
-	            tabBarExtraContent: _react2.default.createElement(
-	              'button',
-	              { onClick: this.add },
-	              '+添加'
-	            )
+	            onChange: this.onTabChange
 	          },
 	          this.construct()
 	        )
