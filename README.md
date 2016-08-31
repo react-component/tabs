@@ -25,6 +25,12 @@ React Tabs
 
 <img src='https://zos.alipayobjects.com/rmsportal/JwLASrsOYJuFRIt.png' width='408'>
 
+## Example
+
+http://localhost:8000/examples
+
+online example: http://react-component.github.io/tabs/
+
 ## install
 
 [![rc-tabs](https://nodei.co/npm/rc-tabs.png)](https://npmjs.org/package/rc-tabs)
@@ -86,7 +92,7 @@ React.render(
           <td>current active tabPanel's key</td>
       </tr>
       <tr>
-          <td>tabPosition</td>
+          <td>tabBarPosition</td>
           <td>String</td>
           <th></th>
           <td>tab nav 's position. one of ['left','right','top','bottom']</td>
@@ -184,7 +190,7 @@ React.render(
           <td>bar style</td>
       </tr>
       <tr>
-        <td>tabBarExtraContent</td>
+        <td>extraContent</td>
         <td>React Node</td>
         <th></th>
         <td>extra content placed one the right of tab bar</td>
@@ -238,10 +244,10 @@ scrollable tab bar with ink indicator, same with tab bar/ink bar props.
           <td>tab content style</td>
       </tr>
       <tr>
-          <td>animated</td>
+          <td>animation</td>
           <td>true</td>
           <th></th>
-          <td>whether animated tabpane change</td>
+          <td>whether tabpane change with animation</td>
       </tr>      
     </tbody>
 </table>
@@ -275,12 +281,6 @@ swipeable tab panes, in addition to lib/TabContent props, extra props:
 npm install
 npm start
 ```
-
-## Example
-
-http://localhost:8000/examples
-
-online example: http://react-component.github.io/tabs/examples/
 
 ## Test Case
 
