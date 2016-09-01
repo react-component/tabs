@@ -142,6 +142,10 @@
 .rc-tabs-content-no-animated .rc-tabs-tabpane-inactive {
   display: none;
 }
+.no-csstransitions .rc-tabs-tabpane-inactive,
+.rc-tabs-content-no-animated .rc-tabs-tabpane-inactive {
+  display: none;
+}
 .rc-tabs-left {
   border-right: 2px solid #f3f3f3;
   overflow-y: hidden;
