@@ -1,4 +1,4 @@
-import { getTransformPropertyName } from './utils';
+import { setTransform, isTransformSupported } from './utils';
 import React from 'react';
 import classnames from 'classnames';
 
@@ -43,43 +43,44 @@ function componentDidUpdate(component, init) {
   const containerOffset = offset(wrapNode);
   const inkBarNode = refs.inkBar;
   const activeTab = refs.activeTab;
+  const inkBarNodeStyle = inkBarNode.style;
   const tabBarPosition = component.props.tabBarPosition;
   if (init) {
     // prevent mount animation
-    inkBarNode.style.display = 'none';
+    inkBarNodeStyle.display = 'none';
   }
   if (activeTab) {
     const tabNode = activeTab;
     const tabOffset = offset(tabNode);
-    const transformPropertyName = getTransformPropertyName();
+    const transformSupported = isTransformSupported(inkBarNodeStyle);
     if (tabBarPosition === 'top' || tabBarPosition === 'bottom') {
       const left = tabOffset.left - containerOffset.left;
       // use 3d gpu to optimize render
-      if (transformPropertyName) {
-        inkBarNode.style[transformPropertyName] = `translate3d(${left}px,0,0)`;
-        inkBarNode.style.width = `${tabNode.offsetWidth}px`;
-        inkBarNode.style.height = '';
+      if (transformSupported) {
+        setTransform(inkBarNodeStyle, `translate3d(${left}px,0,0)`);
+        inkBarNodeStyle.width = `${tabNode.offsetWidth}px`;
+        inkBarNodeStyle.height = '';
       } else {
-        inkBarNode.style.left = `${left}px`;
-        inkBarNode.style.top = '';
-        inkBarNode.style.bottom = '';
-        inkBarNode.style.right = `${wrapNode.offsetWidth - left - tabNode.offsetWidth}px`;
+        inkBarNodeStyle.left = `${left}px`;
+        inkBarNodeStyle.top = '';
+        inkBarNodeStyle.bottom = '';
+        inkBarNodeStyle.right = `${wrapNode.offsetWidth - left - tabNode.offsetWidth}px`;
       }
     } else {
       const top = tabOffset.top - containerOffset.top;
-      if (transformPropertyName) {
-        inkBarNode.style[transformPropertyName] = `translate3d(0,${top}px,0)`;
-        inkBarNode.style.height = `${tabNode.offsetHeight}px`;
-        inkBarNode.style.width = '';
+      if (transformSupported) {
+        setTransform(inkBarNodeStyle, `translate3d(0,${top}px,0)`);
+        inkBarNodeStyle.height = `${tabNode.offsetHeight}px`;
+        inkBarNodeStyle.width = '';
       } else {
-        inkBarNode.style.left = '';
-        inkBarNode.style.right = '';
-        inkBarNode.style.top = `${top}px`;
-        inkBarNode.style.bottom = `${wrapNode.offsetHeight - top - tabNode.offsetHeight}px`;
+        inkBarNodeStyle.left = '';
+        inkBarNodeStyle.right = '';
+        inkBarNodeStyle.top = `${top}px`;
+        inkBarNodeStyle.bottom = `${wrapNode.offsetHeight - top - tabNode.offsetHeight}px`;
       }
     }
   }
-  inkBarNode.style.display = activeTab ? 'block' : 'none';
+  inkBarNodeStyle.display = activeTab ? 'block' : 'none';
 }
 
 export default {

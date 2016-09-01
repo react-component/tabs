@@ -1,5 +1,5 @@
 import classnames from 'classnames';
-import { getTransformPropertyName } from './utils';
+import { setTransform, isTransformSupported } from './utils';
 import React from 'react';
 
 export default {
@@ -99,11 +99,11 @@ export default {
       this.offset = target;
       let navOffset = {};
       const tabBarPosition = this.props.tabBarPosition;
-      const transformProperty = getTransformPropertyName();
+      const navStyle = this.refs.nav.style;
+      const transformSupported = isTransformSupported(navStyle);
       if (tabBarPosition === 'left' || tabBarPosition === 'right') {
-        if (transformProperty) {
+        if (transformSupported) {
           navOffset = {
-            name: transformProperty,
             value: `translate3d(0,${target}px,0)`,
           };
         } else {
@@ -113,9 +113,8 @@ export default {
           };
         }
       } else {
-        if (transformProperty) {
+        if (transformSupported) {
           navOffset = {
-            name: transformProperty,
             value: `translate3d(${target}px,0,0)`,
           };
         } else {
@@ -125,7 +124,11 @@ export default {
           };
         }
       }
-      this.refs.nav.style[navOffset.name] = navOffset.value;
+      if (transformSupported) {
+        setTransform(navStyle, navOffset.value);
+      } else {
+        navStyle[navOffset.name] = navOffset.value;
+      }
       if (checkNextPrev) {
         this.setNextPrev();
       }

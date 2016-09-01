@@ -3,10 +3,13 @@ import React, { PropTypes } from 'react';
 import Hammer from 'react-hammerjs';
 import ReactDOM from 'react-dom';
 import {
-  isVertical, getActiveIndex,
-  getTranslateByIndex, assign,
-  getActiveKey, toArray,
-  getTransitionPropertyName,
+  isVertical,
+  getActiveIndex,
+  getTransformByIndex,
+  setTransform,
+  getActiveKey,
+  toArray,
+  setTransition,
 } from './utils';
 
 const RESISTANCE_COEF = 0.6;
@@ -73,7 +76,7 @@ const SwipeableTabContent = React.createClass({
       return;
     }
     if (animated) {
-      this.rootNode.style[`${getTransitionPropertyName()}Property`] = 'none';
+      setTransition(this.rootNode.style, 'none');
     }
     this.startDrag = true;
     this.children = toArray(children);
@@ -89,7 +92,7 @@ const SwipeableTabContent = React.createClass({
     const { tabBarPosition } = this.props;
     const currentIndex = getIndexByDelta.call(this, e);
     if (currentIndex !== undefined) {
-      assign(this.rootNode.style, getTranslateByIndex(currentIndex, tabBarPosition));
+      setTransform(this.rootNode.style, getTransformByIndex(currentIndex, tabBarPosition));
     }
   },
   onPanEnd(e) {
@@ -106,7 +109,7 @@ const SwipeableTabContent = React.createClass({
     const { tabBarPosition, animated } = this.props;
     this.startDrag = false;
     if (animated) {
-      this.rootNode.style[`${getTransitionPropertyName()}Property`] = '';
+      setTransition(this.rootNode.style, '');
     }
     const currentIndex = getIndexByDelta.call(this, e);
     let finalIndex = this.startIndex;
@@ -132,7 +135,8 @@ const SwipeableTabContent = React.createClass({
     }
     if (this.startIndex === finalIndex) {
       if (animated) {
-        assign(this.rootNode.style, getTranslateByIndex(finalIndex, this.props.tabBarPosition));
+        setTransform(this.rootNode.style,
+          getTransformByIndex(finalIndex, this.props.tabBarPosition));
       }
     } else {
       this.props.onChange(getActiveKey(this.props.children, finalIndex));

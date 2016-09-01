@@ -24,58 +24,42 @@ export function getActiveKey(children, index) {
   return c[index].key;
 }
 
-const names = {};
+export function setTransform(style, v) {
+  style.transform = v;
+  style.webkitTransform = v;
+  style.mozTransform = v;
+}
 
-export function getPropertyName(name) {
-  if (!window.getComputedStyle) {
-    return false;
-  }
-  if (names[name] !== undefined) {
-    return names[name];
-  }
-  const Name = name.charAt(0).toUpperCase() + name.substring(1);
-  const el = document.createElement('p');
-  const transforms = {
-    [`webkit${Name}`]: `-webkit-${name}`,
-    [`ms${Name}`]: `-ms-${name}`,
-    [`Moz${Name}`]: `-moz-${name}`,
-    [`${name}`]: `-webkit-${name}`,
+export function isTransitionSupported(style) {
+  return 'transition' in style ||
+    'webkitTransition' in style ||
+    'MozTransition' in style;
+}
+
+export function isTransformSupported(style) {
+  return 'transform' in style ||
+    'webkitTransform' in style ||
+    'MozTransform' in style;
+}
+
+export function setTransition(style, v) {
+  style.transition = v;
+  style.webkitTransition = v;
+  style.MozTransition = v;
+}
+export function getTransformPropValue(v) {
+  return {
+    transform: v,
+    WebkitTransform: v,
+    MozTransform: v,
   };
-  let transformPropertyName = '';
-  // Add it to the body to get the computed style.
-  document.body.insertBefore(el, null);
-  for (const t in transforms) {
-    if (el.style[t] !== undefined) {
-      transformPropertyName = t;
-    }
-  }
-  document.body.removeChild(el);
-  return transformPropertyName;
-}
-
-export function getTransformPropertyName() {
-  return getPropertyName('transform');
-}
-
-export function getTransitionPropertyName() {
-  return getPropertyName('transition');
 }
 
 export function isVertical(tabBarPosition) {
   return tabBarPosition === 'left' || tabBarPosition === 'right';
 }
 
-export function getTranslateByIndex(index, tabBarPosition,
-                                    transformName = getTransformPropertyName()) {
+export function getTransformByIndex(index, tabBarPosition) {
   const translate = isVertical(tabBarPosition) ? 'translateY' : 'translateX';
-  return {
-    [transformName]: `${translate}(${-index * 100}%) translateZ(0)`,
-  };
-}
-export function assign(o1, o2) {
-  for (const i in o2) {
-    if (o2.hasOwnProperty(i)) {
-      o1[i] = o2[i];
-    }
-  }
+  return `${translate}(${-index * 100}%) translateZ(0)`;
 }

@@ -1,8 +1,28 @@
 import React, { PropTypes } from 'react';
 import classnames from 'classnames';
-import { getTransformPropertyName, getTranslateByIndex, getActiveIndex } from './utils';
+import {
+  getTransformByIndex,
+  getActiveIndex,
+  isTransitionSupported,
+  getTransformPropValue,
+} from './utils';
 
-/* eslint react/no-did-mount-set-state:0 */
+let added;
+
+// or user modernizr inside <head> for server render
+function detectCssTransition() {
+  if (!added && typeof window !== undefined && window.document && window.document.documentElement) {
+    const { documentElement } = window.document;
+    const NO_CSS_TRANSITION = 'no-csstransitions';
+    if (!isTransitionSupported(documentElement.style) &&
+      documentElement.className.indexOf(NO_CSS_TRANSITION) === -1) {
+      documentElement.className += ` ${NO_CSS_TRANSITION}`;
+    }
+    added = true;
+  }
+}
+
+detectCssTransition();
 
 const TabContent = React.createClass({
   propTypes: {
@@ -13,28 +33,13 @@ const TabContent = React.createClass({
     style: PropTypes.any,
     tabBarPosition: PropTypes.string,
   },
-
   getDefaultProps() {
     return {
       animated: true,
     };
   },
-
-  getInitialState() {
-    return {
-      transformName: 'transform',
-    };
-  },
   componentDidMount() {
-    if (this.props.animated) {
-      const transformName = getTransformPropertyName();
-      // support server render
-      if (transformName !== this.state.transformName) {
-        this.setState({
-          transformName,
-        });
-      }
-    }
+    detectCssTransition();
   },
   getTabPanes() {
     const props = this.props;
@@ -61,19 +66,18 @@ const TabContent = React.createClass({
       tabBarPosition, animated,
     } = props;
     let { style } = props;
-    const { transformName } = this.state;
     const classes = classnames({
       [`${prefixCls}-content`]: true,
-      [animated && transformName ?
+      [animated ?
         `${prefixCls}-content-animated` :
         `${prefixCls}-content-no-animated`]: true,
     });
-    if (animated && transformName) {
+    if (animated) {
       const activeIndex = getActiveIndex(children, activeKey);
       if (activeIndex !== -1) {
         style = {
           ...style,
-          ...getTranslateByIndex(activeIndex, tabBarPosition, transformName),
+          ...getTransformPropValue(getTransformByIndex(activeIndex, tabBarPosition)),
         };
       } else {
         style = {
