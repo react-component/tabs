@@ -47,7 +47,7 @@ online example: http://react-component.github.io/tabs/
 ```js
 import Tabs, { TabPane } from 'rc-tabs';
 import TabContent from 'rc-tabs/lib/TabContent';
-import ScrollableInkTabBar from 'rc-tabs/lib/TabContent';
+import ScrollableInkTabBar from 'rc-tabs/lib/ScrollableInkTabBar';
 
 var callback = function(key){
 
