@@ -30,12 +30,6 @@ export function setTransform(style, v) {
   style.mozTransform = v;
 }
 
-export function isTransitionSupported(style) {
-  return 'transition' in style ||
-    'webkitTransition' in style ||
-    'MozTransition' in style;
-}
-
 export function isTransformSupported(style) {
   return 'transform' in style ||
     'webkitTransform' in style ||

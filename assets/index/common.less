@@ -134,16 +134,17 @@
         flex-shrink: 0;
       }
     }
+  }
 
-    &-no-animated {
-      .@{tabs-prefix-cls}-tabpane-inactive {
-        display: none;
-      }
-    }
+  .no-flexbox &-content {
+    transform: none !important;
+    overflow: auto;
   }
 
   .no-csstransitions &-tabpane-inactive,
+  .no-flexbox &-tabpane-inactive,
   &-content-no-animated &-tabpane-inactive {
     display: none;
   }
 }
+

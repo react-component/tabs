@@ -3,26 +3,8 @@ import classnames from 'classnames';
 import {
   getTransformByIndex,
   getActiveIndex,
-  isTransitionSupported,
   getTransformPropValue,
 } from './utils';
-
-let added;
-
-// or user modernizr inside <head> for server render
-function detectCssTransition() {
-  if (!added && typeof window !== undefined && window.document && window.document.documentElement) {
-    const { documentElement } = window.document;
-    const NO_CSS_TRANSITION = 'no-csstransitions';
-    if (!isTransitionSupported(documentElement.style) &&
-      documentElement.className.indexOf(NO_CSS_TRANSITION) === -1) {
-      documentElement.className += ` ${NO_CSS_TRANSITION}`;
-    }
-    added = true;
-  }
-}
-
-detectCssTransition();
 
 const TabContent = React.createClass({
   propTypes: {
@@ -37,9 +19,6 @@ const TabContent = React.createClass({
     return {
       animated: true,
     };
-  },
-  componentDidMount() {
-    detectCssTransition();
   },
   getTabPanes() {
     const props = this.props;
