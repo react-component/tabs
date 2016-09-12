@@ -87,11 +87,10 @@ const TabContent = React.createClass({
       }
     }
     return (
-      <div
-        className={classes}
-        style={style}
-      >
-        {this.getTabPanes()}
+      <div className={`${prefixCls}-content-wrapper`} style={style}>
+        <div className={classes}>
+          {this.getTabPanes()}
+        </div>
       </div>
     );
   },

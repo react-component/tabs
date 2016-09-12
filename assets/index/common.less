@@ -125,8 +125,11 @@
       overflow: auto;
     }
 
-    &-animated {
+    &-wrapper {
       transition: transform @effect-duration @easing-in-out;
+    }
+
+    &-animated {
       display: flex;
       will-change: transform;
 
