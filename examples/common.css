@@ -139,10 +139,13 @@
   -ms-flex-negative: 0;
       flex-shrink: 0;
 }
-.rc-tabs-content-no-animated .rc-tabs-tabpane-inactive {
-  display: none;
+.no-flexbox .rc-tabs-content {
+  -webkit-transform: none !important;
+          transform: none !important;
+  overflow: auto;
 }
 .no-csstransitions .rc-tabs-tabpane-inactive,
+.no-flexbox .rc-tabs-tabpane-inactive,
 .rc-tabs-content-no-animated .rc-tabs-tabpane-inactive {
   display: none;
 }

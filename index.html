@@ -7,7 +7,7 @@
   <meta charset="utf-8"/>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link href="//cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.css" rel="stylesheet"/>
-  <title>rc-tabs@7.0.5 - tabs ui component for react</title>
+  <title>rc-tabs@7.0.6 - tabs ui component for react</title>
   <style>
     @font-face {
       font-family: octicons-anchor;
@@ -737,7 +737,7 @@
 
 <body>
 <div class="header">
-  <h1>rc-tabs@7.0.5</h1>
+  <h1>rc-tabs@7.0.6</h1>
 </div>
 <div class="examples">
   <h3>EXAMPLES</h3>
@@ -779,7 +779,7 @@
 </ul>
 <h2>Usage<a id="user-content-usage" name="usage" class="anchor" aria-hidden="true" href="#usage"><span class="octicon octicon-link"></span></a></h2><div class="highlight"><pre><code language="js"><span class="hljs-keyword">import</span> Tabs, { TabPane } <span class="hljs-keyword">from</span> <span class="hljs-string">'rc-tabs'</span>;
 <span class="hljs-keyword">import</span> TabContent <span class="hljs-keyword">from</span> <span class="hljs-string">'rc-tabs/lib/TabContent'</span>;
-<span class="hljs-keyword">import</span> ScrollableInkTabBar <span class="hljs-keyword">from</span> <span class="hljs-string">'rc-tabs/lib/TabContent'</span>;
+<span class="hljs-keyword">import</span> ScrollableInkTabBar <span class="hljs-keyword">from</span> <span class="hljs-string">'rc-tabs/lib/ScrollableInkTabBar'</span>;
 
 <span class="hljs-keyword">var</span> callback = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">key</span>)</span>{
 
@@ -980,7 +980,9 @@ React.render(
     </tbody>
 </table>
 
-<h2>Development<a id="user-content-development" name="development" class="anchor" aria-hidden="true" href="#development"><span class="octicon octicon-link"></span></a></h2><div class="highlight"><pre><code language="undefined">npm install
+<h2>Note<a id="user-content-note" name="note" class="anchor" aria-hidden="true" href="#note"><span class="octicon octicon-link"></span></a></h2><p>If you want to support old browsers(which does not support flex/css-transition),
+please load the following script inside head to add no-flexbox/no-csstransition css classes</p>
+<div class="highlight"><pre><code language="js">https:<span class="hljs-comment">//as.alipayobjects.com/g/component/modernizr/2.8.3/modernizr.min.js</span></code></pre></div><h2>Development<a id="user-content-development" name="development" class="anchor" aria-hidden="true" href="#development"><span class="octicon octicon-link"></span></a></h2><div class="highlight"><pre><code language="undefined">npm install
 npm start</code></pre></div><h2>Test Case<a id="user-content-test-case" name="test-case" class="anchor" aria-hidden="true" href="#test-case"><span class="octicon octicon-link"></span></a></h2><div class="highlight"><pre><code language="undefined">npm test
 npm run chrome-test</code></pre></div><h2>Coverage<a id="user-content-coverage" name="coverage" class="anchor" aria-hidden="true" href="#coverage"><span class="octicon octicon-link"></span></a></h2><div class="highlight"><pre><code language="undefined">npm run coverage</code></pre></div><p>open coverage/ dir</p>
 <h2>License<a id="user-content-license" name="license" class="anchor" aria-hidden="true" href="#license"><span class="octicon octicon-link"></span></a></h2><p>rc-tabs is released under the MIT license.</p>
