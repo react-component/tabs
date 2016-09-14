@@ -2873,8 +2873,6 @@ webpackJsonp([5],[
 	
 	var _routerWarning2 = _interopRequireDefault(_routerWarning);
 	
-	var _Actions = __webpack_require__(207);
-	
 	var _computeChangedRoutes2 = __webpack_require__(225);
 	
 	var _computeChangedRoutes3 = _interopRequireDefault(_computeChangedRoutes2);
@@ -2921,10 +2919,6 @@ webpackJsonp([5],[
 	    }
 	
 	    return (0, _isActive3.default)(location, indexOnly, state.location, state.routes, state.params);
-	  }
-	
-	  function createLocationFromRedirectInfo(location) {
-	    return history.createLocation(location, _Actions.REPLACE);
 	  }
 	
 	  var partialNextState = void 0;
@@ -2984,7 +2978,7 @@ webpackJsonp([5],[
 	    }
 	
 	    function handleErrorOrRedirect(error, redirectInfo) {
-	      if (error) callback(error);else callback(null, createLocationFromRedirectInfo(redirectInfo));
+	      if (error) callback(error);else callback(null, redirectInfo);
 	    }
 	  }
 	
@@ -5135,6 +5129,8 @@ webpackJsonp([5],[
 	
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 	
+	var _Actions = __webpack_require__(207);
+	
 	var _invariant = __webpack_require__(203);
 	
 	var _invariant2 = _interopRequireDefault(_invariant);
@@ -5193,7 +5189,7 @@ webpackJsonp([5],[
 	  history = (0, _RouterUtils.createRoutingHistory)(history, transitionManager);
 	
 	  transitionManager.match(location, function (error, redirectLocation, nextState) {
-	    callback(error, redirectLocation, nextState && _extends({}, nextState, {
+	    callback(error, redirectLocation && router.createLocation(redirectLocation, _Actions.REPLACE), nextState && _extends({}, nextState, {
 	      history: history,
 	      router: router,
 	      matchContext: { history: history, transitionManager: transitionManager, router: router }
