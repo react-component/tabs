@@ -3,6 +3,7 @@ import classnames from 'classnames';
 
 const TabPane = React.createClass({
   propTypes: {
+    className: PropTypes.string,
     active: PropTypes.bool,
     destroyInactiveTabPane: PropTypes.bool,
     placeholder: PropTypes.node,
@@ -12,13 +13,14 @@ const TabPane = React.createClass({
   },
   render() {
     const props = this.props;
-    const { destroyInactiveTabPane, active } = props;
+    const { className, destroyInactiveTabPane, active } = props;
     this._isActived = this._isActived || active;
     const prefixCls = `${props.rootPrefixCls}-tabpane`;
     const cls = classnames({
+      [prefixCls]: 1,
       [`${prefixCls}-inactive`]: !active,
       [`${prefixCls}-active`]: active,
-      [prefixCls]: 1,
+      [className]: className,
     });
     const isRender = destroyInactiveTabPane ? active : this._isActived;
     return (
