@@ -1,4 +1,5 @@
 import React from 'react';
+import classnames from 'classnames';
 
 const tabBarExtraContentStyle = {
   float: 'right',
@@ -52,11 +53,15 @@ export default {
     return rst;
   },
   getRootNode(contents) {
-    const { prefixCls, onKeyDown, extraContent, style } = this.props;
+    const { prefixCls, onKeyDown, className, extraContent, style } = this.props;
+    const cls = classnames({
+      [`${prefixCls}-bar`]: 1,
+      [className]: !!className,
+    });
     return (
       <div
         role="tablist"
-        className={`${prefixCls}-bar`}
+        className={cls}
         tabIndex="0"
         ref="root"
         onKeyDown={onKeyDown}
