@@ -7,7 +7,7 @@ const TabPane = React.createClass({
     active: PropTypes.bool,
     destroyInactiveTabPane: PropTypes.bool,
     placeholder: PropTypes.node,
-    forceRender: PropTypes.bool
+    forceRender: PropTypes.bool,
   },
   getDefaultProps() {
     return { placeholder: null };
