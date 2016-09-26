@@ -7,14 +7,15 @@ const TabPane = React.createClass({
     active: PropTypes.bool,
     destroyInactiveTabPane: PropTypes.bool,
     placeholder: PropTypes.node,
+    forceRender: PropTypes.bool,
   },
   getDefaultProps() {
     return { placeholder: null };
   },
   render() {
     const props = this.props;
-    const { className, destroyInactiveTabPane, active } = props;
-    this._isActived = this._isActived || active;
+    const { className, destroyInactiveTabPane, active, forceRender } = props;
+    this._isActived = this._isActived || active || forceRender;
     const prefixCls = `${props.rootPrefixCls}-tabpane`;
     const cls = classnames({
       [prefixCls]: 1,
