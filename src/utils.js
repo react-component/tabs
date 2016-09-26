@@ -2,10 +2,14 @@ import React from 'react';
 
 export function toArray(children) {
   if (Array.isArray(children)) {
-    return children;
+    return children.filter(c => !!c);
   }
   const c = [];
-  React.Children.forEach(children, child => c.push(child));
+  React.Children.forEach(children, child => {
+    if (child) {
+      c.push(child);
+    }
+  });
   return c;
 }
 

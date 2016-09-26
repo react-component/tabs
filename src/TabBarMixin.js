@@ -22,7 +22,9 @@ export default {
     const prefixCls = props.prefixCls;
 
     React.Children.forEach(children, (child) => {
-      if (!child) return;
+      if (!child) {
+        return;
+      }
       const key = child.key;
       let cls = activeKey === key ? `${prefixCls}-tab-active` : '';
       cls += ` ${prefixCls}-tab`;

@@ -9,7 +9,7 @@ function noop() {
 function getDefaultActiveKey(props) {
   let activeKey;
   React.Children.forEach(props.children, (child) => {
-    if (!activeKey && !child.props.disabled) {
+    if (child && !activeKey && !child.props.disabled) {
       activeKey = child.key;
     }
   });
@@ -97,7 +97,7 @@ const Tabs = React.createClass({
     const activeKey = this.state.activeKey;
     const children = [];
     React.Children.forEach(this.props.children, (c) => {
-      if (!c.props.disabled) {
+      if (c && !c.props.disabled) {
         if (next) {
           children.push(c);
         } else {
