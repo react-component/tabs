@@ -22073,7 +22073,7 @@
 	function getDefaultActiveKey(props) {
 	  var activeKey = void 0;
 	  _react2.default.Children.forEach(props.children, function (child) {
-	    if (!activeKey && !child.props.disabled) {
+	    if (child && !activeKey && !child.props.disabled) {
 	      activeKey = child.key;
 	    }
 	  });
@@ -22157,7 +22157,7 @@
 	    var activeKey = this.state.activeKey;
 	    var children = [];
 	    _react2.default.Children.forEach(this.props.children, function (c) {
-	      if (!c.props.disabled) {
+	      if (c && !c.props.disabled) {
 	        if (next) {
 	          children.push(c);
 	        } else {
@@ -22567,6 +22567,9 @@
 	    var newChildren = [];
 	
 	    _react2.default.Children.forEach(children, function (child) {
+	      if (!child) {
+	        return;
+	      }
 	      var key = child.key;
 	      var active = activeKey === key;
 	      newChildren.push(_react2.default.cloneElement(child, {
@@ -22641,11 +22644,15 @@
 	
 	function toArray(children) {
 	  if (Array.isArray(children)) {
-	    return children;
+	    return children.filter(function (c) {
+	      return !!c;
+	    });
 	  }
 	  var c = [];
 	  _react2.default.Children.forEach(children, function (child) {
-	    return c.push(child);
+	    if (child) {
+	      c.push(child);
+	    }
 	  });
 	  return c;
 	}
@@ -23210,6 +23217,9 @@
 	    var prefixCls = props.prefixCls;
 	
 	    _react2.default.Children.forEach(children, function (child) {
+	      if (!child) {
+	        return;
+	      }
 	      var key = child.key;
 	      var cls = activeKey === key ? prefixCls + '-tab-active' : '';
 	      cls += ' ' + prefixCls + '-tab';
