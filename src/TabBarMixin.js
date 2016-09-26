@@ -47,7 +47,7 @@ export default {
         {...ref}
       >
         {child.props.tab}
-        {child.props.icon ? child.props.icon : null}
+        {child.props.extraTabContent ? child.props.extraTabContent : null}
       </div>);
     });
 
