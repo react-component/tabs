@@ -27,6 +27,7 @@ const TabContent = React.createClass({
     const newChildren = [];
 
     React.Children.forEach(children, (child) => {
+      if (!child) return;
       const key = child.key;
       const active = activeKey === key;
       newChildren.push(React.cloneElement(child, {
