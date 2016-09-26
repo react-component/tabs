@@ -1,7 +1,7 @@
 {
-  "name": "rc-tabs",
+  "name": "rc-tabs-temp",
   "version": "7.0.7",
-  "description": "tabs ui component for react",
+  "description": "fork of a tabs ui component for react",
   "keywords": [
     "react",
     "react-component",
@@ -12,14 +12,14 @@
     "assets/*.css"
   ],
   "main": "./lib/index",
-  "homepage": "http://github.com/react-component/tabs",
-  "author": "yiminghe@gmail.com",
+  "homepage": "http://github.com/callodacity/tabs",
+  "author": "callodacity@gmail.com",
   "repository": {
     "type": "git",
-    "url": "git@github.com:react-component/tabs.git"
+    "url": "git@github.com:callodacity/tabs.git"
   },
   "bugs": {
-    "url": "http://github.com/react-component/tabs/issues"
+    "url": "http://github.com/callodacity/tabs/issues"
   },
   "licenses": "MIT",
   "config": {
