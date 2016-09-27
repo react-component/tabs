@@ -22339,6 +22339,7 @@
 	    className: _react.PropTypes.string,
 	    active: _react.PropTypes.bool,
 	    destroyInactiveTabPane: _react.PropTypes.bool,
+	    forceRender: _react.PropTypes.bool,
 	    placeholder: _react.PropTypes.node
 	  },
 	  getDefaultProps: function getDefaultProps() {
@@ -22351,6 +22352,7 @@
 	    var className = props.className;
 	    var destroyInactiveTabPane = props.destroyInactiveTabPane;
 	    var active = props.active;
+	    var forceRender = props.forceRender;
 	
 	    this._isActived = this._isActived || active;
 	    var prefixCls = props.rootPrefixCls + '-tabpane';
@@ -22363,7 +22365,7 @@
 	        'aria-hidden': props.active ? 'false' : 'true',
 	        className: cls
 	      },
-	      isRender ? props.children : props.placeholder
+	      isRender || forceRender ? props.children : props.placeholder
 	    );
 	  }
 	});
