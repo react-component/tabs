@@ -150,12 +150,18 @@ React.render(
           <th></th>
           <td>corresponding to activeKey</td>
       </tr>
-     <tr>
+      <tr>
+          <td>style</td>
+          <td>Object</td>
+          <th></th>
+          <td></td>
+      </tr>
+      <tr>
          <td>placeholder</td>
          <td>React.Node</td>
          <th></th>
          <td>lazyrender children</td>
-     </tr>
+      </tr>
       <tr>
           <td>tab</td>
           <td>React.Node</td>

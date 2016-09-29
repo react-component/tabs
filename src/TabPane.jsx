@@ -5,6 +5,7 @@ const TabPane = React.createClass({
   propTypes: {
     className: PropTypes.string,
     active: PropTypes.bool,
+    style: PropTypes.any,
     destroyInactiveTabPane: PropTypes.bool,
     forceRender: PropTypes.bool,
     placeholder: PropTypes.node,
@@ -26,6 +27,7 @@ const TabPane = React.createClass({
     const isRender = destroyInactiveTabPane ? active : this._isActived;
     return (
       <div
+        style={props.style}
         role="tabpanel"
         aria-hidden={props.active ? 'false' : 'true'}
         className={cls}
