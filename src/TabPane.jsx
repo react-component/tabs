@@ -1,8 +1,9 @@
 import React, { PropTypes } from 'react';
-import classnames from 'classnames';
+import classNames from 'classnames';
 
 const TabPane = React.createClass({
   propTypes: {
+    rootPrefixCls: PropTypes.string,
     className: PropTypes.string,
     active: PropTypes.bool,
     destroyInactiveTabPane: PropTypes.bool,
@@ -14,20 +15,26 @@ const TabPane = React.createClass({
   },
   render() {
     const props = this.props;
-    const { className, destroyInactiveTabPane, active, forceRender } = props;
+    const {
+      rootPrefixCls, className, destroyInactiveTabPane,
+      active, forceRender, ...rest,
+    } = props;
     this._isActived = this._isActived || active;
-    const prefixCls = `${props.rootPrefixCls}-tabpane`;
-    const cls = classnames({
+    const prefixCls = `${rootPrefixCls}-tabpane`;
+    const cls = classNames({
       [prefixCls]: 1,
       [`${prefixCls}-inactive`]: !active,
       [`${prefixCls}-active`]: active,
       [className]: className,
     });
     const isRender = destroyInactiveTabPane ? active : this._isActived;
+
+    delete rest.tab;
     return (
       <div
+        {...rest}
         role="tabpanel"
-        aria-hidden={props.active ? 'false' : 'true'}
+        aria-hidden={active ? 'false' : 'true'}
         className={cls}
       >
         {isRender || forceRender ? props.children : props.placeholder}
