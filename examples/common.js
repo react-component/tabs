@@ -22338,6 +22338,7 @@
 	  propTypes: {
 	    className: _react.PropTypes.string,
 	    active: _react.PropTypes.bool,
+	    style: _react.PropTypes.any,
 	    destroyInactiveTabPane: _react.PropTypes.bool,
 	    forceRender: _react.PropTypes.bool,
 	    placeholder: _react.PropTypes.node
@@ -22361,6 +22362,7 @@
 	    return _react2.default.createElement(
 	      'div',
 	      {
+	        style: props.style,
 	        role: 'tabpanel',
 	        'aria-hidden': props.active ? 'false' : 'true',
 	        className: cls
