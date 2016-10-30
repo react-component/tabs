@@ -78,30 +78,36 @@ React.render(
 <table class="table table-bordered table-striped">
     <thead>
     <tr>
-        <th style="width: 100px;">name</th>
-        <th style="width: 50px;">type</th>
-        <th>default</th>
-        <th>description</th>
+      <th style="width: 100px;">name</th>
+      <th style="width: 50px;">type</th>
+      <th>default</th>
+      <th>description</th>
     </tr>
     </thead>
     <tbody>
       <tr>
-          <td>activeKey</td>
-          <td>String</td>
-          <th></th>
-          <td>current active tabPanel's key</td>
+        <td>activeKey</td>
+        <td>String</td>
+        <th></th>
+        <td>current active tabPanel's key</td>
       </tr>
       <tr>
-          <td>tabBarPosition</td>
-          <td>String</td>
-          <th></th>
-          <td>tab nav 's position. one of ['left','right','top','bottom']</td>
+        <td>drag</td>
+        <td>Boolean</td>
+        <th>false</th>
+        <td>Support drag tab or not</td>
       </tr>
       <tr>
-          <td>defaultActiveKey</td>
-          <td>String</td>
-          <th>first active tabPanel's key</th>
-          <td>initial active tabPanel's key if activeKey is absent</td>
+        <td>tabBarPosition</td>
+        <td>String</td>
+        <th></th>
+        <td>tab nav 's position. one of ['left','right','top','bottom']</td>
+      </tr>
+      <tr>
+        <td>defaultActiveKey</td>
+        <td>String</td>
+        <th>first active tabPanel's key</th>
+        <td>initial active tabPanel's key if activeKey is absent</td>
       </tr>
       <tr>
          <td>renderTabBar</td>
@@ -116,16 +122,34 @@ React.render(
         <td>How to render tab content</td>
       </tr>
       <tr>
-          <td>onChange</td>
-          <td>(key: string): void</td>
-          <th></th>
-          <td>called when tabPanel is changed</td>
+        <td>onChange</td>
+        <td>(key: string): void</td>
+        <th></th>
+        <td>called when tabPanel is changed</td>
       </tr>
       <tr>
-          <td>destroyInactiveTabPane</td>
-          <td>Boolean</td>
-          <th>false</th>
-          <td>whether destroy inactive tabpane when change tab</td>
+        <td>destroyInactiveTabPane</td>
+        <td>Boolean</td>
+        <th>false</th>
+        <td>whether destroy inactive tabpane when change tab</td>
+      </tr>
+      <tr>
+        <td>dragStart</td>
+        <td>Function</td>
+        <th>noop</th>
+        <td>if drag is enabled, this function will be called once the tab start dragging</td>
+      </tr>
+      <tr>
+        <td>onDrag</td>
+        <td>Function</td>
+        <th>noop</th>
+        <td>if drag is enabled, this function will be called once the tab on dragging</td>
+      </tr>
+      <tr>
+        <td>dragStop</td>
+        <td>Function</td>
+        <th>noop</th>
+        <td>if drag is enabled, this function will be called once the tab stop dragging</td>
       </tr>
     </tbody>
 </table>
@@ -137,36 +161,36 @@ React.render(
 <table class="table table-bordered table-striped">
     <thead>
       <tr>
-          <th style="width: 100px;">name</th>
-          <th style="width: 50px;">type</th>
-          <th>default</th>
-          <th>description</th>
+        <th style="width: 100px;">name</th>
+        <th style="width: 50px;">type</th>
+        <th>default</th>
+        <th>description</th>
       </tr>
     </thead>
     <tbody>
       <tr>
-          <td>key</td>
-          <td>Object</td>
-          <th></th>
-          <td>corresponding to activeKey</td>
+        <td>key</td>
+        <td>Object</td>
+        <th></th>
+        <td>corresponding to activeKey</td>
       </tr>
       <tr>
-          <td>style</td>
-          <td>Object</td>
-          <th></th>
-          <td></td>
+        <td>style</td>
+        <td>Object</td>
+        <th></th>
+        <td></td>
       </tr>
       <tr>
-         <td>placeholder</td>
-         <td>React.Node</td>
-         <th></th>
-         <td>lazyrender children</td>
+        <td>placeholder</td>
+        <td>React.Node</td>
+        <th></th>
+        <td>lazyrender children</td>
       </tr>
       <tr>
-          <td>tab</td>
-          <td>React.Node</td>
-          <th></th>
-          <td>current tab's title corresponding to current tabPane</td>
+        <td>tab</td>
+        <td>React.Node</td>
+        <th></th>
+        <td>current tab's title corresponding to current tabPane</td>
       </tr>
     </tbody>
 </table>
@@ -176,24 +200,24 @@ React.render(
 <table class="table table-bordered table-striped">
     <thead>
       <tr>
-          <th style="width: 100px;">name</th>
-          <th style="width: 50px;">type</th>
-          <th>default</th>
-          <th>description</th>
+        <th style="width: 100px;">name</th>
+        <th style="width: 50px;">type</th>
+        <th>default</th>
+        <th>description</th>
       </tr>
     </thead>
     <tbody>
       <tr>
-          <td>onTabClick</td>
-          <td>(key: string): void</td>
-          <th></th>
-          <td>callback when tab clicked</td>
+        <td>onTabClick</td>
+        <td>(key: string): void</td>
+        <th></th>
+        <td>callback when tab clicked</td>
       </tr>
       <tr>
-          <td>style</td>
-          <td></td>
-          <th></th>
-          <td>bar style</td>
+        <td>style</td>
+        <td></td>
+        <th></th>
+        <td>bar style</td>
       </tr>
       <tr>
         <td>extraContent</td>
@@ -211,18 +235,18 @@ tab bar with ink indicator, in addition to tab bar props, extra props:
 <table class="table table-bordered table-striped">
     <thead>
       <tr>
-          <th style="width: 100px;">name</th>
-          <th style="width: 50px;">type</th>
-          <th>default</th>
-          <th>description</th>
+        <th style="width: 100px;">name</th>
+        <th style="width: 50px;">type</th>
+        <th>default</th>
+        <th>description</th>
       </tr>
     </thead>
     <tbody>
       <tr>
-          <td>styles</td>
-          <td>{ inkBar }</td>
-          <th></th>
-          <td>can set inkBar style</td>
+        <td>styles</td>
+        <td>{ inkBar }</td>
+        <th></th>
+        <td>can set inkBar style</td>
       </tr>
     </tbody>
 </table>
@@ -236,24 +260,24 @@ scrollable tab bar with ink indicator, same with tab bar/ink bar props.
 <table class="table table-bordered table-striped">
     <thead>
       <tr>
-          <th style="width: 100px;">name</th>
-          <th style="width: 50px;">type</th>
-          <th>default</th>
-          <th>description</th>
+        <th style="width: 100px;">name</th>
+        <th style="width: 50px;">type</th>
+        <th>default</th>
+        <th>description</th>
       </tr>
     </thead>
     <tbody>
       <tr>
-          <td>style</td>
-          <td>{}</td>
-          <th></th>
-          <td>tab content style</td>
+        <td>style</td>
+        <td>{}</td>
+        <th></th>
+        <td>tab content style</td>
       </tr>
       <tr>
-          <td>animated</td>
-          <td>true</td>
-          <th></th>
-          <td>whether tabpane change with animation</td>
+        <td>animated</td>
+        <td>true</td>
+        <th></th>
+        <td>whether tabpane change with animation</td>
       </tr>      
     </tbody>
 </table>
@@ -265,18 +289,18 @@ swipeable tab panes, in addition to lib/TabContent props, extra props:
 <table class="table table-bordered table-striped">
     <thead>
       <tr>
-          <th style="width: 100px;">name</th>
-          <th style="width: 50px;">type</th>
-          <th>default</th>
-          <th>description</th>
+        <th style="width: 100px;">name</th>
+        <th style="width: 50px;">type</th>
+        <th>default</th>
+        <th>description</th>
       </tr>
     </thead>
     <tbody>
       <tr>
-          <td>hammerOptions</td>
-          <td>{}</td>
-          <th></th>
-          <td>options for react-hammerjs</td>
+        <td>hammerOptions</td>
+        <td>{}</td>
+        <th></th>
+        <td>options for react-hammerjs</td>
       </tr>
     </tbody>
 </table>
