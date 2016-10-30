@@ -21,8 +21,9 @@ export default {
   onTabClick(key) {
     this.props.onTabClick(key);
   },
-  handleStart() {
+  handleStart(e, data) {
     // handle drag start
+    this.props.dragStart(e, data);
   },
   handleDrag(e, data) {
     // handle dragging
@@ -104,11 +105,14 @@ export default {
         swapTab(fromKey, prevKey);
       }
     }
+
+    this.props.onDrag(e, data);
   },
-  handleStop() {
+  handleStop(e, data) {
     // handle stop dragging
     this.setState({ dragging: false });
     this.props.swapTab();
+    this.props.dragStop(e, data);
   },
   getTabs() {
     const props = this.props;
@@ -176,19 +180,26 @@ export default {
               <div style={{ position: 'absolute' }}>
                 { child.props.tab }
               </div> : null}
-            <Draggable
-              axis={tabVertical ? 'y' : 'x'}
-              defaultPosition={{ x: 0, y: 0 }}
-              position={dragging ? null : { x: 0, y: 0 }}
-              zIndex={100}
-              onStart={this.handleStart}
-              onDrag={this.handleDrag}
-              onStop={this.handleStop}
-            >
-              <div>
-                {child.props.tab}
-              </div>
-            </Draggable>
+            {props.drag ? (
+                <Draggable
+                  axis={tabVertical ? 'y' : 'x'}
+                  defaultPosition={{ x: 0, y: 0 }}
+                  position={dragging ? null : { x: 0, y: 0 }}
+                  zIndex={100}
+                  onStart={this.handleStart}
+                  onDrag={this.handleDrag}
+                  onStop={this.handleStop}
+                >
+                  <div>
+                    {child.props.tab}
+                  </div>
+                </Draggable>
+              ) : (
+                <div>
+                  {child.props.tab}
+                </div>
+              )
+            }
           </div>
         );
       }

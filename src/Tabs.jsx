@@ -28,6 +28,10 @@ const Tabs = React.createClass({
     className: PropTypes.string,
     tabBarPosition: PropTypes.string,
     style: PropTypes.object,
+    drag: PropTypes.bool,
+    dragStart: PropTypes.func,
+    onDrag: PropTypes.func,
+    dragStop: PropTypes.func,
   },
 
   getDefaultProps() {
@@ -35,8 +39,12 @@ const Tabs = React.createClass({
       prefixCls: 'rc-tabs',
       destroyInactiveTabPane: false,
       onChange: noop,
+      dragStart: noop,
+      onDrag: noop,
+      dragStop: noop,
       tabBarPosition: 'top',
       style: {},
+      drag: false,
     };
   },
 
@@ -153,6 +161,10 @@ const Tabs = React.createClass({
       tabBarPosition, className,
       renderTabContent,
       renderTabBar,
+      drag,
+      dragStart,
+      onDrag,
+      dragStop,
     } = props;
     const cls = classnames({
       [prefixCls]: 1,
@@ -163,6 +175,10 @@ const Tabs = React.createClass({
     this.tabBar = renderTabBar();
     const contents = [
       React.cloneElement(this.tabBar, {
+        drag,
+        dragStart,
+        onDrag,
+        dragStop,
         prefixCls,
         tabBarPosition,
         key: 'tabBar',
