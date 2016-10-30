@@ -164,10 +164,10 @@ const Tabs = React.createClass({
     const contents = [
       React.cloneElement(this.tabBar, {
         prefixCls,
+        tabBarPosition,
         key: 'tabBar',
         swapTab: this.swapTab,
         onKeyDown: this.onNavKeyDown,
-        tabBarPosition,
         onTabClick: this.onTabClick,
         panels: state.children,
         activeKey: this.state.activeKey,

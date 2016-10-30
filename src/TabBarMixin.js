@@ -1,6 +1,7 @@
 import React from 'react';
 import classnames from 'classnames';
 import Draggable from 'react-draggable';
+import { delay } from './utils';
 
 const tabBarExtraContentStyle = {
   float: 'right',
@@ -26,7 +27,25 @@ export default {
   handleDrag(e, data) {
     // handle dragging
     this.setState({ dragging: true });
+    // console.log(this)
     const { swapTab } = this.props;
+    if (this.refs.navWrap) {
+      const { next, prev } = this.state;
+      const wrapBounding = this.refs.navWrap.getBoundingClientRect();
+      const clientX = e.clientX;
+      const leftSpace = clientX - wrapBounding.left;
+      const rightSpace = (wrapBounding.left + wrapBounding.width) - clientX;
+
+      if (rightSpace < 0) {
+        delay(this, 'next', () => {
+          if (next) this.next();
+        }, 200);
+      } else if (leftSpace < 0) {
+        delay(this, 'prev', () => {
+          if (prev) this.prev();
+        }, 200);
+      }
+    }
 
     const parentNode = data.node.parentNode;
     const nextTab = parentNode.nextSibling;
@@ -80,6 +99,7 @@ export default {
       if (activeKey === key) {
         ref.ref = 'activeTab';
       }
+
       rst.push(
         <div
           role="tab"

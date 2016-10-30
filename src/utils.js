@@ -64,3 +64,12 @@ export function childrenEqual(prevChild, nextChild) {
   return isEqual(React.Children.map(prevChild, child => child.key),
     React.Children.map(nextChild, child => child.key));
 }
+
+export function delay(constructor, type, cb, ms) {
+  const timer = constructor[`${type}Timer`];
+  if (timer) {
+    clearTimeout(timer);
+  }
+
+  constructor[`${type}Timer`] = setTimeout(cb, ms);
+}
