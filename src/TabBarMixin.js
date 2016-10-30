@@ -100,36 +100,54 @@ export default {
         ref.ref = 'activeTab';
       }
 
-      rst.push(
-        <div
-          role="tab"
-          data-tab-key={key}
-          aria-disabled={child.props.disabled ? 'true' : 'false'}
-          aria-selected={activeKey === key ? 'true' : 'false'}
-          {...events}
-          className={cls}
-          key={key}
-          {...ref}
-        >
-          {dragging ?
-            <div style={{ position: 'absolute' }}>
-              { child.props.tab }
-            </div> : null}
-          <Draggable
-            axis="x"
-            defaultPosition={{ x: 0, y: 0 }}
-            position={dragging ? null : { x: 0, y: 0 }}
-            zIndex={100}
-            onStart={this.handleStart}
-            onDrag={this.handleDrag}
-            onStop={this.handleStop}
+      if (child.props.role) {
+        // if have customized role, such as add, ... will not wrapped by draggable.
+        rst.push(
+          <div
+            role={child.props.role}
+            data-tab-key={key}
+            aria-disabled={child.props.disabled ? 'true' : 'false'}
+            aria-selected={activeKey === key ? 'true' : 'false'}
+            {...events}
+            className={cls}
+            key={key}
+            {...ref}
           >
-            <div>
-              {child.props.tab}
-            </div>
-          </Draggable>
-        </div>
-      );
+            {child.props.tab}
+          </div>
+        );
+      } else {
+        rst.push(
+          <div
+            role="tab"
+            data-tab-key={key}
+            aria-disabled={child.props.disabled ? 'true' : 'false'}
+            aria-selected={activeKey === key ? 'true' : 'false'}
+            {...events}
+            className={cls}
+            key={key}
+            {...ref}
+          >
+            {dragging ?
+              <div style={{ position: 'absolute' }}>
+                { child.props.tab }
+              </div> : null}
+            <Draggable
+              axis="x"
+              defaultPosition={{ x: 0, y: 0 }}
+              position={dragging ? null : { x: 0, y: 0 }}
+              zIndex={100}
+              onStart={this.handleStart}
+              onDrag={this.handleDrag}
+              onStop={this.handleStop}
+            >
+              <div>
+                {child.props.tab}
+              </div>
+            </Draggable>
+          </div>
+        );
+      }
     });
 
     return rst;
