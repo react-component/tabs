@@ -2,6 +2,7 @@ import React, { PropTypes, Children } from 'react';
 import KeyCode from './KeyCode';
 import TabPane from './TabPane';
 import classnames from 'classnames';
+import { childrenEqual } from './utils';
 
 function noop() {
 }
@@ -62,9 +63,11 @@ const Tabs = React.createClass({
       });
     }
 
-    this.setState({
-      children: Children.toArray(nextProps.children),
-    });
+    if (!childrenEqual(this.props.children, nextProps.children)) {
+      this.setState({
+        children: Children.toArray(nextProps.children),
+      });
+    }
   },
 
   onTabClick(activeKey) {
