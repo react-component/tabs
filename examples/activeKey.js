@@ -69,16 +69,16 @@ const Component = React.createClass({
         activeKey={this.state.activeKey}
         onChange={this.onChange}
       >
-        <TabPane tab={`tab ${start}`} tabKey="1" key="1">
+        <TabPane tab={`tab ${start}`} key="1">
           <PanelContent id={start}/>
         </TabPane>
-        <TabPane tab={`tab ${start + 1}`} tabKey="2" key="2">
+        <TabPane tab={`tab ${start + 1}`} key="2">
           <PanelContent id={start + 1}/>
         </TabPane>
-        <TabPane tab={`tab ${start + 2}`} tabKey="3" key="3">
+        <TabPane tab={`tab ${start + 2}`} key="3">
           <PanelContent id={start + 2}/>
         </TabPane>
-        <TabPane tab={`tab ${start + 3}`} tabKey="4" key="4" disabled>
+        <TabPane tab={`tab ${start + 3}`} key="4" disabled>
           <PanelContent id={start + 3}/>
         </TabPane>
       </Tabs>
