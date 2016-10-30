@@ -27,9 +27,8 @@ export default {
   handleDrag(e, data) {
     // handle dragging
     this.setState({ dragging: true });
-    // console.log(this)
     const { swapTab } = this.props;
-    if (this.refs.navWrap) {
+    if (this.refs.navWrap && !this.tabVertical) {
       const { next, prev } = this.state;
       const wrapBounding = this.refs.navWrap.getBoundingClientRect();
       const clientX = e.clientX;
@@ -45,26 +44,65 @@ export default {
           if (prev) this.prev();
         }, 200);
       }
+    } else if (this.refs.navWrap && this.tabVertical) {
+      // vertical tab, when tab position is 'left' or 'right'
+      const { next, prev } = this.state;
+      const wrapBounding = this.refs.navWrap.getBoundingClientRect();
+      const clientY = e.clientY;
+      const topSpace = clientY - wrapBounding.top;
+      const bottomSpace = (wrapBounding.top + wrapBounding.height) - clientY;
+
+      if (bottomSpace < 0) {
+        delay(this, 'next', () => {
+          if (next) this.next();
+        }, 200);
+      } else if (topSpace < 0) {
+        delay(this, 'prev', () => {
+          if (prev) this.prev();
+        }, 200);
+      }
     }
 
-    const parentNode = data.node.parentNode;
-    const nextTab = parentNode.nextSibling;
-    const prevTab = parentNode.previousSibling;
+    if (!this.tabVertical) {
+      const parentNode = data.node.parentNode;
+      const nextTab = parentNode.nextSibling;
+      const prevTab = parentNode.previousSibling;
 
-    const nextTabWidth = nextTab && nextTab.getAttribute('role') === 'tab' ?
-      nextTab.clientWidth : null;
-    const prevTabWidth = prevTab && prevTab.getAttribute('role') === 'tab' ?
-      prevTab.clientWidth : null;
-    const fromKey = parentNode.getAttribute('data-tab-key');
+      const nextTabWidth = nextTab && nextTab.getAttribute('role') === 'tab' ?
+        nextTab.clientWidth : null;
+      const prevTabWidth = prevTab && prevTab.getAttribute('role') === 'tab' ?
+        prevTab.clientWidth : null;
+      const fromKey = parentNode.getAttribute('data-tab-key');
 
-    if (nextTab && nextTabWidth && data.x > nextTabWidth) {
-      // swap place with the next tab
-      const nextKey = nextTab.getAttribute('data-tab-key');
-      swapTab(fromKey, nextKey);
-    } else if (prevTab && prevTabWidth && data.x < -prevTabWidth) {
-      // swap place with the previous tab
-      const prevKey = prevTab.getAttribute('data-tab-key');
-      swapTab(fromKey, prevKey);
+      if (nextTab && nextTabWidth && data.x > nextTabWidth) {
+        // swap place with the next tab
+        const nextKey = nextTab.getAttribute('data-tab-key');
+        swapTab(fromKey, nextKey);
+      } else if (prevTab && prevTabWidth && data.x < -prevTabWidth) {
+        // swap place with the previous tab
+        const prevKey = prevTab.getAttribute('data-tab-key');
+        swapTab(fromKey, prevKey);
+      }
+    } else {
+      const parentNode = data.node.parentNode;
+      const nextTab = parentNode.nextSibling;
+      const prevTab = parentNode.previousSibling;
+
+      const nextTabHeight = nextTab && nextTab.getAttribute('role') === 'tab' ?
+        nextTab.clientHeight : null;
+      const prevTabHeight = prevTab && prevTab.getAttribute('role') === 'tab' ?
+        prevTab.clientHeight : null;
+      const fromKey = parentNode.getAttribute('data-tab-key');
+
+      if (nextTab && nextTabHeight && data.y > nextTabHeight) {
+        // swap place with the next tab
+        const nextKey = nextTab.getAttribute('data-tab-key');
+        swapTab(fromKey, nextKey);
+      } else if (prevTab && prevTabHeight && data.y < -prevTabHeight) {
+        // swap place with the previous tab
+        const prevKey = prevTab.getAttribute('data-tab-key');
+        swapTab(fromKey, prevKey);
+      }
     }
   },
   handleStop() {
@@ -79,6 +117,12 @@ export default {
     const activeKey = props.activeKey;
     const rst = [];
     const prefixCls = props.prefixCls;
+    let tabVertical;
+
+    if (props.tabBarPosition === 'left' || props.tabBarPosition === 'right') {
+      tabVertical = true;
+    }
+    this.tabVertical = tabVertical;
 
     children.forEach((child) => {
       if (!child) {
@@ -133,7 +177,7 @@ export default {
                 { child.props.tab }
               </div> : null}
             <Draggable
-              axis="x"
+              axis={tabVertical ? 'y' : 'x'}
               defaultPosition={{ x: 0, y: 0 }}
               position={dragging ? null : { x: 0, y: 0 }}
               zIndex={100}
