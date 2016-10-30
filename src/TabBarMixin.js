@@ -1,11 +1,17 @@
 import React from 'react';
 import classnames from 'classnames';
+import Draggable from 'react-draggable';
 
 const tabBarExtraContentStyle = {
   float: 'right',
 };
 
 export default {
+  getInitialState() {
+    return {
+      dragging: false,
+    };
+  },
   getDefaultProps() {
     return {
       styles: {},
@@ -14,14 +20,48 @@ export default {
   onTabClick(key) {
     this.props.onTabClick(key);
   },
+  handleStart() {
+    // handle drag start
+  },
+  handleDrag(e, data) {
+    // handle dragging
+    this.setState({ dragging: true });
+    const { swapTab } = this.props;
+
+    const parentNode = data.node.parentNode;
+    const nextTab = parentNode.nextSibling;
+    const prevTab = parentNode.previousSibling;
+
+    const nextTabWidth = nextTab && nextTab.getAttribute('role') === 'tab' ?
+      nextTab.clientWidth : null;
+    const prevTabWidth = prevTab && prevTab.getAttribute('role') === 'tab' ?
+      prevTab.clientWidth : null;
+    const fromKey = parentNode.getAttribute('data-tab-key');
+
+    if (nextTab && nextTabWidth && data.x > nextTabWidth) {
+      // swap place with the next tab
+      const nextKey = nextTab.getAttribute('data-tab-key');
+      swapTab(fromKey, nextKey);
+    } else if (prevTab && prevTabWidth && data.x < -prevTabWidth) {
+      // swap place with the previous tab
+      const prevKey = prevTab.getAttribute('data-tab-key');
+      swapTab(fromKey, prevKey);
+    }
+  },
+  handleStop() {
+    // handle stop dragging
+    this.setState({ dragging: false });
+    this.props.swapTab();
+  },
   getTabs() {
     const props = this.props;
+    const { dragging } = this.state;
     const children = props.panels;
     const activeKey = props.activeKey;
     const rst = [];
     const prefixCls = props.prefixCls;
 
-    React.Children.forEach(children, (child) => {
+    children.forEach((child) => {
       if (!child) {
         return;
       }
@@ -40,17 +80,36 @@ export default {
       if (activeKey === key) {
         ref.ref = 'activeTab';
       }
-      rst.push(<div
-        role="tab"
-        aria-disabled={child.props.disabled ? 'true' : 'false'}
-        aria-selected={activeKey === key ? 'true' : 'false'}
-        {...events}
-        className={cls}
-        key={key}
-        {...ref}
-      >
-        {child.props.tab}
-      </div>);
+      rst.push(
+        <div
+          role="tab"
+          data-tab-key={key}
+          aria-disabled={child.props.disabled ? 'true' : 'false'}
+          aria-selected={activeKey === key ? 'true' : 'false'}
+          {...events}
+          className={cls}
+          key={key}
+          {...ref}
+        >
+          {dragging ?
+            <div style={{ position: 'absolute' }}>
+              { child.props.tab }
+            </div> : null}
+          <Draggable
+            axis="x"
+            defaultPosition={{ x: 0, y: 0 }}
+            position={dragging ? null : { x: 0, y: 0 }}
+            zIndex={100}
+            onStart={this.handleStart}
+            onDrag={this.handleDrag}
+            onStop={this.handleStop}
+          >
+            <div>
+              {child.props.tab}
+            </div>
+          </Draggable>
+        </div>
+      );
     });
 
     return rst;

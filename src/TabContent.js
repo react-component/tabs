@@ -26,7 +26,7 @@ const TabContent = React.createClass({
     const children = props.children;
     const newChildren = [];
 
-    React.Children.forEach(children, (child) => {
+    children.forEach((child) => {
       if (!child) {
         return;
       }

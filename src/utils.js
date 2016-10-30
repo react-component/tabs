@@ -14,13 +14,7 @@ export function toArray(children) {
 }
 
 export function getActiveIndex(children, activeKey) {
-  const c = toArray(children);
-  for (let i = 0; i < c.length; i++) {
-    if (c[i].key === activeKey) {
-      return i;
-    }
-  }
-  return -1;
+  children.findIndex((child) => child.key === activeKey);
 }
 
 export function getActiveKey(children, index) {

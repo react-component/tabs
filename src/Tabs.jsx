@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react';
+import React, { PropTypes, Children } from 'react';
 import KeyCode from './KeyCode';
 import TabPane from './TabPane';
 import classnames from 'classnames';
@@ -51,6 +51,7 @@ const Tabs = React.createClass({
     }
     return {
       activeKey,
+      children: Children.toArray(props.children),
     };
   },
 
@@ -60,6 +61,10 @@ const Tabs = React.createClass({
         activeKey: nextProps.activeKey,
       });
     }
+
+    this.setState({
+      children: Children.toArray(nextProps.children),
+    });
   },
 
   onTabClick(activeKey) {
@@ -96,7 +101,7 @@ const Tabs = React.createClass({
   getNextActiveKey(next) {
     const activeKey = this.state.activeKey;
     const children = [];
-    React.Children.forEach(this.props.children, (c) => {
+    this.state.children.forEach((c) => {
       if (c && !c.props.disabled) {
         if (next) {
           children.push(c);
@@ -119,8 +124,26 @@ const Tabs = React.createClass({
     return ret;
   },
 
+  swapTab(fromKey, toKey) {
+    const { children } = this.state;
+    const newChildren = children.slice();
+
+    if (fromKey && toKey) {
+      const fromIndex = children.findIndex((child) => child.key === fromKey);
+      const toIndex = children.findIndex((child) => child.key === toKey);
+      const tmp = newChildren[fromIndex];
+      newChildren[fromIndex] = newChildren[toIndex];
+      newChildren[toIndex] = tmp;
+    }
+
+    this.setState({
+      children: newChildren,
+    });
+  },
+
   render() {
     const props = this.props;
+    const state = this.state;
     const {
       prefixCls,
       tabBarPosition, className,
@@ -138,10 +161,11 @@ const Tabs = React.createClass({
       React.cloneElement(this.tabBar, {
         prefixCls,
         key: 'tabBar',
+        swapTab: this.swapTab,
         onKeyDown: this.onNavKeyDown,
         tabBarPosition,
         onTabClick: this.onTabClick,
-        panels: props.children,
+        panels: state.children,
         activeKey: this.state.activeKey,
       }),
       React.cloneElement(renderTabContent(), {
@@ -149,7 +173,7 @@ const Tabs = React.createClass({
         tabBarPosition,
         activeKey: this.state.activeKey,
         destroyInactiveTabPane: props.destroyInactiveTabPane,
-        children: props.children,
+        children: state.children,
         onChange: this.setActiveKey,
         key: 'tabContent',
       }),
