@@ -15,12 +15,11 @@ export function toArray(children) {
 }
 
 export function getActiveIndex(children, activeKey) {
-  children.findIndex((child) => child.key === activeKey);
+  return children.findIndex((child) => child.key === activeKey);
 }
 
 export function getActiveKey(children, index) {
-  const c = toArray(children);
-  return c[index].key;
+  return children[index].key;
 }
 
 export function setTransform(style, v) {

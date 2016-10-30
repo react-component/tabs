@@ -129,6 +129,7 @@ const Tabs = React.createClass({
 
   swapTab(fromKey, toKey) {
     const { children } = this.state;
+    // create new array for children.
     const newChildren = children.slice();
 
     if (fromKey && toKey) {
