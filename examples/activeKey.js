@@ -1,9 +1,9 @@
 /* eslint react/no-multi-comp:0, no-console:0 */
 
-import '@canner/rc-tabs/assets/index.less';
+import 'rc-tabs/assets/index.less';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Tabs, { TabPane } from '@canner/rc-tabs';
+import Tabs, { TabPane } from 'rc-tabs';
 import TabContent from '../src/SwipeableTabContent';
 import ScrollableInkTabBar from '../src/ScrollableInkTabBar';
 

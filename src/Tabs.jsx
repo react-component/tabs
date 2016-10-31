@@ -11,7 +11,7 @@ function getDefaultActiveKey(props) {
   let activeKey;
   Children.forEach(props.children, (child) => {
     if (child && !activeKey && !child.props.disabled) {
-      activeKey = child.key;
+      activeKey = child.props.children.key;
     }
   });
   return activeKey;
@@ -52,9 +52,9 @@ const Tabs = React.createClass({
     const props = this.props;
     let activeKey;
     if ('activeKey' in props) {
-      activeKey = props.activeKey;
+      activeKey = props.activeKey || getDefaultActiveKey(props);
     } else if ('defaultActiveKey' in props) {
-      activeKey = props.defaultActiveKey;
+      activeKey = props.defaultActiveKey || getDefaultActiveKey(props);
     } else {
       activeKey = getDefaultActiveKey(props);
     }

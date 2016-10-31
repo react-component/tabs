@@ -3,8 +3,8 @@
 import { Router, Route, IndexRoute, hashHistory } from 'react-router';
 import React, { PropTypes } from 'react';
 import ReactDOM from 'react-dom';
-import Tabs, { TabPane } from '@canner/rc-tabs';
-import '@canner/rc-tabs/assets/index.less';
+import Tabs, { TabPane } from 'rc-tabs';
+import 'rc-tabs/assets/index.less';
 import TabContent from '../src/TabContent';
 import ScrollableInkTabBar from '../src/ScrollableInkTabBar';
 
