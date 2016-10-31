@@ -132,7 +132,7 @@ export default {
       if (!child) {
         return;
       }
-      const key = child.key;
+      const key = child.props.tabKey;
       let cls = activeKey === key ? `${prefixCls}-tab-active` : '';
       cls += ` ${prefixCls}-tab`;
       let events = {};

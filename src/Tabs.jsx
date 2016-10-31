@@ -2,14 +2,14 @@ import React, { PropTypes, Children } from 'react';
 import KeyCode from './KeyCode';
 import TabPane from './TabPane';
 import classnames from 'classnames';
-import { childrenEqual } from './utils';
+import { childrenEqual, replaceTabKeyChildrenToArray } from './utils';
 
 function noop() {
 }
 
 function getDefaultActiveKey(props) {
   let activeKey;
-  React.Children.forEach(props.children, (child) => {
+  Children.forEach(props.children, (child) => {
     if (child && !activeKey && !child.props.disabled) {
       activeKey = child.key;
     }
@@ -58,9 +58,10 @@ const Tabs = React.createClass({
     } else {
       activeKey = getDefaultActiveKey(props);
     }
+
     return {
       activeKey,
-      children: Children.toArray(props.children),
+      children: replaceTabKeyChildrenToArray(props.children),
     };
   },
 
@@ -73,7 +74,7 @@ const Tabs = React.createClass({
 
     if (!childrenEqual(this.props.children, nextProps.children)) {
       this.setState({
-        children: Children.toArray(nextProps.children),
+        children: replaceTabKeyChildrenToArray(nextProps.children),
       });
     }
   },
@@ -124,7 +125,7 @@ const Tabs = React.createClass({
     const length = children.length;
     let ret = length && children[0].key;
     children.forEach((child, i) => {
-      if (child.key === activeKey) {
+      if (child.props.tabKey === activeKey) {
         if (i === length - 1) {
           ret = children[0].key;
         } else {
@@ -141,8 +142,8 @@ const Tabs = React.createClass({
     const newChildren = children.slice();
 
     if (fromKey && toKey) {
-      const fromIndex = children.findIndex((child) => child.key === fromKey);
-      const toIndex = children.findIndex((child) => child.key === toKey);
+      const fromIndex = children.findIndex((child) => child.props.tabKey === fromKey);
+      const toIndex = children.findIndex((child) => child.props.tabKey === toKey);
       const tmp = newChildren[fromIndex];
       newChildren[fromIndex] = newChildren[toIndex];
       newChildren[toIndex] = tmp;

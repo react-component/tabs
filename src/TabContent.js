@@ -30,7 +30,7 @@ const TabContent = React.createClass({
       if (!child) {
         return;
       }
-      const key = child.key;
+      const key = child.props.tabKey;
       const active = activeKey === key;
       newChildren.push(React.cloneElement(child, {
         active,

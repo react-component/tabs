@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Children } from 'react';
 import isEqual from 'lodash.isequal';
 
 export function toArray(children) {
@@ -15,7 +15,7 @@ export function toArray(children) {
 }
 
 export function getActiveIndex(children, activeKey) {
-  return children.findIndex((child) => child.key === activeKey);
+  return children.findIndex((child) => child.props.tabKey === activeKey);
 }
 
 export function getActiveKey(children, index) {
@@ -62,7 +62,7 @@ export function getTransformByIndex(index, tabBarPosition) {
  */
 export function childrenEqual(prevChild, nextChild) {
   return isEqual(React.Children.map(prevChild, child => child.key),
-    React.Children.map(nextChild, child => child.key));
+    Children.map(nextChild, child => child.key));
 }
 
 export function delay(constructor, type, cb, ms) {
@@ -72,4 +72,9 @@ export function delay(constructor, type, cb, ms) {
   }
 
   constructor[`${type}Timer`] = setTimeout(cb, ms);
+}
+
+export function replaceTabKeyChildrenToArray(children) {
+  const newChildren = children.map(child => React.cloneElement(child, { tabKey: child.key }));
+  return Children.toArray(newChildren);
 }
