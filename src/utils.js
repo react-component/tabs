@@ -76,6 +76,8 @@ export function delay(constructor, type, cb, ms) {
 
 export function replaceTabKeyChildrenToArray(children) {
   const newChildren = children.map(child =>
-    React.cloneElement(child, { tabKey: child.props.children.key || child.key }));
+    React.cloneElement(child, {
+      tabKey: (child.props.children && child.props.children.key) || child.key,
+    }));
   return Children.toArray(newChildren);
 }

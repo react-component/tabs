@@ -55,7 +55,10 @@ const SwipeableTabContent = React.createClass({
     children: PropTypes.array,
     hammerOptions: PropTypes.any,
     animated: PropTypes.bool,
-    activeKey: PropTypes.string,
+    activeKey: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number,
+    ]),
   },
 
   getDefaultProps() {

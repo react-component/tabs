@@ -20,6 +20,14 @@ function getDefaultActiveKey(props) {
 const Tabs = React.createClass({
   propTypes: {
     destroyInactiveTabPane: PropTypes.bool,
+    defaultActiveKey: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number,
+    ]),
+    activeKey: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number,
+    ]),
     renderTabBar: PropTypes.func.isRequired,
     renderTabContent: PropTypes.func.isRequired,
     onChange: PropTypes.func,

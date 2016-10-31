@@ -11,7 +11,10 @@ const TabContent = React.createClass({
     animated: PropTypes.bool,
     prefixCls: PropTypes.string,
     children: PropTypes.any,
-    activeKey: PropTypes.string,
+    activeKey: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number,
+    ]),
     style: PropTypes.any,
     tabBarPosition: PropTypes.string,
   },
