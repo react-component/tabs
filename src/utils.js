@@ -1,9 +1,7 @@
 import React from 'react';
 
 export function toArray(children) {
-  if (Array.isArray(children)) {
-    return children.filter(c => !!c);
-  }
+  // allow [c,[a,b]]
   const c = [];
   React.Children.forEach(children, child => {
     if (child) {
