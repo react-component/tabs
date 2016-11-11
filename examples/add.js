@@ -97,7 +97,7 @@ webpackJsonp([1],{
 	      tab: _react2.default.createElement(
 	        'a',
 	        { style: { color: 'black', cursor: 'pointer' }, onClick: this.add },
-	        ' + 添加'
+	        ' + \u6DFB\u52A0'
 	      ),
 	      disabled: disabled,
 	      key: '__add'
@@ -133,12 +133,12 @@ webpackJsonp([1],{
 	    e.stopPropagation();
 	    index++;
 	    var newTab = {
-	      title: '名称: ' + index,
-	      content: '内容: ' + index
+	      title: '\u540D\u79F0: ' + index,
+	      content: '\u5185\u5BB9: ' + index
 	    };
 	    this.setState({
 	      tabs: this.state.tabs.concat(newTab),
-	      activeKey: '名称: ' + index
+	      activeKey: '\u540D\u79F0: ' + index
 	    });
 	  },
 	  render: function render() {
@@ -167,7 +167,7 @@ webpackJsonp([1],{
 	                extraContent: _react2.default.createElement(
 	                  'button',
 	                  { onClick: _this2.add },
-	                  '+添加'
+	                  '+\u6DFB\u52A0'
 	                )
 	              });
 	            },

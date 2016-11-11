@@ -230,14 +230,14 @@ webpackJsonp([0],{
 	
 	var _symbol2 = _interopRequireDefault(_symbol);
 	
-	var _typeof = typeof _symbol2.default === "function" && typeof _iterator2.default === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof _symbol2.default === "function" && obj.constructor === _symbol2.default ? "symbol" : typeof obj; };
+	var _typeof = typeof _symbol2.default === "function" && typeof _iterator2.default === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof _symbol2.default === "function" && obj.constructor === _symbol2.default && obj !== _symbol2.default.prototype ? "symbol" : typeof obj; };
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	exports.default = typeof _symbol2.default === "function" && _typeof(_iterator2.default) === "symbol" ? function (obj) {
 	  return typeof obj === "undefined" ? "undefined" : _typeof(obj);
 	} : function (obj) {
-	  return obj && typeof _symbol2.default === "function" && obj.constructor === _symbol2.default ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof(obj);
+	  return obj && typeof _symbol2.default === "function" && obj.constructor === _symbol2.default && obj !== _symbol2.default.prototype ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof(obj);
 	};
 
 /***/ },
@@ -1245,10 +1245,10 @@ webpackJsonp([0],{
 	var RESISTANCE_COEF = 0.6;
 	
 	function computeIndex(_ref) {
-	  var maxIndex = _ref.maxIndex;
-	  var startIndex = _ref.startIndex;
-	  var delta = _ref.delta;
-	  var viewSize = _ref.viewSize;
+	  var maxIndex = _ref.maxIndex,
+	      startIndex = _ref.startIndex,
+	      delta = _ref.delta,
+	      viewSize = _ref.viewSize;
 	
 	  var index = startIndex + -delta / viewSize;
 	  if (index < 0) {
@@ -1300,11 +1300,11 @@ webpackJsonp([0],{
 	    this.rootNode = _reactDom2.default.findDOMNode(this);
 	  },
 	  onPanStart: function onPanStart() {
-	    var _props = this.props;
-	    var tabBarPosition = _props.tabBarPosition;
-	    var children = _props.children;
-	    var activeKey = _props.activeKey;
-	    var animated = _props.animated;
+	    var _props = this.props,
+	        tabBarPosition = _props.tabBarPosition,
+	        children = _props.children,
+	        activeKey = _props.activeKey,
+	        animated = _props.animated;
 	
 	    var startIndex = this.startIndex = (0, _utils.getActiveIndex)(children, activeKey);
 	    if (startIndex === -1) {
@@ -1339,9 +1339,9 @@ webpackJsonp([0],{
 	    this.end(e, true);
 	  },
 	  end: function end(e, swipe) {
-	    var _props2 = this.props;
-	    var tabBarPosition = _props2.tabBarPosition;
-	    var animated = _props2.animated;
+	    var _props2 = this.props,
+	        tabBarPosition = _props2.tabBarPosition,
+	        animated = _props2.animated;
 	
 	    this.startDrag = false;
 	    if (animated) {
@@ -1378,10 +1378,10 @@ webpackJsonp([0],{
 	    }
 	  },
 	  render: function render() {
-	    var _props3 = this.props;
-	    var tabBarPosition = _props3.tabBarPosition;
-	    var hammerOptions = _props3.hammerOptions;
-	    var animated = _props3.animated;
+	    var _props3 = this.props,
+	        tabBarPosition = _props3.tabBarPosition,
+	        hammerOptions = _props3.hammerOptions,
+	        animated = _props3.animated;
 	
 	    var direction = {};
 	    if ((0, _utils.isVertical)(tabBarPosition)) {
