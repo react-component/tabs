@@ -14,13 +14,14 @@ export function toArray(children) {
 }
 
 export function getActiveIndex(children, activeKey) {
-  const c = toArray(children);
-  for (let i = 0; i < c.length; i++) {
-    if (c[i].key === activeKey) {
-      return i;
+  let activeIndex = -1;
+  React.Children.forEach(children, (child, index) => {
+    if (child.key === activeKey) {
+      activeIndex = index;
     }
-  }
-  return -1;
+  });
+
+  return activeIndex;
 }
 
 export function getActiveKey(children, index) {
