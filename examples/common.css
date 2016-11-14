@@ -345,6 +345,10 @@
   height: 100%;
   margin-right: 30px;
 }
+.rc-tabs-bottom .rc-tabs-tabpane-inactive {
+  height: 0;
+  overflow: visible;
+}
 .rc-tabs-top {
   border-bottom: 2px solid #f3f3f3;
   overflow-x: hidden;
@@ -400,6 +404,10 @@
   float: left;
   height: 100%;
   margin-right: 30px;
+}
+.rc-tabs-top .rc-tabs-tabpane-inactive {
+  height: 0;
+  overflow: visible;
 }
 
 /*# sourceMappingURL=common.css.map*/

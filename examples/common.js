@@ -22643,11 +22643,7 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function toArray(children) {
-	  if (Array.isArray(children)) {
-	    return children.filter(function (c) {
-	      return !!c;
-	    });
-	  }
+	  // allow [c,[a,b]]
 	  var c = [];
 	  _react2.default.Children.forEach(children, function (child) {
 	    if (child) {
@@ -22658,14 +22654,13 @@
 	}
 	
 	function getActiveIndex(children, activeKey) {
-	  var activeIndex = -1;
-	  _react2.default.Children.forEach(children, function (child, index) {
-	    if (child.key === activeKey) {
-	      activeIndex = index;
+	  var c = toArray(children);
+	  for (var i = 0; i < c.length; i++) {
+	    if (c[i].key === activeKey) {
+	      return i;
 	    }
-	  });
-	
-	  return activeIndex;
+	  }
+	  return -1;
 	}
 	
 	function getActiveKey(children, index) {
