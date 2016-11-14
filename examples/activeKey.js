@@ -32,7 +32,7 @@ PanelContent.propTypes = {
 const Component = React.createClass({
   getInitialState() {
     return {
-      activeKey: '',
+      activeKey: '1',
       start: 0,
     };
   },

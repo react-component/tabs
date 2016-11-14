@@ -8,7 +8,6 @@ import {
   getTransformByIndex,
   setTransform,
   getActiveKey,
-  toArray,
   setTransition,
 } from './utils';
 
@@ -53,10 +52,13 @@ const SwipeableTabContent = React.createClass({
   propTypes: {
     tabBarPosition: PropTypes.string,
     onChange: PropTypes.func,
-    children: PropTypes.any,
+    children: PropTypes.array,
     hammerOptions: PropTypes.any,
     animated: PropTypes.bool,
-    activeKey: PropTypes.string,
+    activeKey: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number,
+    ]),
   },
 
   getDefaultProps() {
@@ -79,7 +81,7 @@ const SwipeableTabContent = React.createClass({
       setTransition(this.rootNode.style, 'none');
     }
     this.startDrag = true;
-    this.children = toArray(children);
+    this.children = children;
     this.maxIndex = this.children.length - 1;
     this.viewSize = isVertical(tabBarPosition) ?
       this.rootNode.offsetHeight :

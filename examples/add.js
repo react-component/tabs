@@ -51,6 +51,7 @@ const Test = React.createClass({
       </TabPane>);
     }).concat([
       <TabPane
+        role="add"
         tab={<a style={{ color: 'black', cursor: 'pointer' }} onClick={this.add}> + 添加</a>}
         disabled={disabled}
         key={'__add'}

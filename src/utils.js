@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { Children } from 'react';
+import isEqual from 'lodash.isequal';
 
 export function toArray(children) {
   // allow [c,[a,b]]
@@ -12,18 +13,11 @@ export function toArray(children) {
 }
 
 export function getActiveIndex(children, activeKey) {
-  const c = toArray(children);
-  for (let i = 0; i < c.length; i++) {
-    if (c[i].key === activeKey) {
-      return i;
-    }
-  }
-  return -1;
+  return children.findIndex((child) => child.props.tabKey === activeKey);
 }
 
 export function getActiveKey(children, index) {
-  const c = toArray(children);
-  return c[index].key;
+  return children[index].key;
 }
 
 export function setTransform(style, v) {
@@ -58,4 +52,30 @@ export function isVertical(tabBarPosition) {
 export function getTransformByIndex(index, tabBarPosition) {
   const translate = isVertical(tabBarPosition) ? 'translateY' : 'translateX';
   return `${translate}(${-index * 100}%) translateZ(0)`;
+}
+
+/**
+ * Comparing React `children` is a bit difficult. This is a good way to compare them.
+ * This will catch differences in keys, order, and length.
+ */
+export function childrenEqual(prevChild, nextChild) {
+  return isEqual(React.Children.map(prevChild, child => child.key),
+    Children.map(nextChild, child => child.key));
+}
+
+export function delay(constructor, type, cb, ms) {
+  const timer = constructor[`${type}Timer`];
+  if (timer) {
+    clearTimeout(timer);
+  }
+
+  constructor[`${type}Timer`] = setTimeout(cb, ms);
+}
+
+export function replaceTabKeyChildrenToArray(children) {
+  const newChildren = children.map(child =>
+    React.cloneElement(child, {
+      tabKey: (child.props.children && child.props.children.key) || child.key,
+    }));
+  return Children.toArray(newChildren);
 }

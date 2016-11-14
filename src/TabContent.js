@@ -11,7 +11,10 @@ const TabContent = React.createClass({
     animated: PropTypes.bool,
     prefixCls: PropTypes.string,
     children: PropTypes.any,
-    activeKey: PropTypes.string,
+    activeKey: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number,
+    ]),
     style: PropTypes.any,
     tabBarPosition: PropTypes.string,
   },
@@ -26,11 +29,11 @@ const TabContent = React.createClass({
     const children = props.children;
     const newChildren = [];
 
-    React.Children.forEach(children, (child) => {
+    children.forEach((child) => {
       if (!child) {
         return;
       }
-      const key = child.key;
+      const key = child.props.tabKey;
       const active = activeKey === key;
       newChildren.push(React.cloneElement(child, {
         active,

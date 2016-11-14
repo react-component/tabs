@@ -74,6 +74,10 @@ const Component = React.createClass({
     console.log(`onTabClick ${key}`);
   },
 
+  onDrag(e, data) {
+    console.log('onDrag', e, data);
+  },
+
   tick() {
     this.setState({
       start: this.state.start + 10,
@@ -100,6 +104,14 @@ const Component = React.createClass({
 
   saveBar(bar) {
     this.bar = bar;
+  },
+
+  dragStart(e, data) {
+    console.log('dragStart', e, data);
+  },
+
+  dragStop(e, data) {
+    console.log('dragStop', e, data);
   },
 
   render() {
@@ -153,6 +165,7 @@ const Component = React.createClass({
           switch to last tab
         </button>
         <Tabs
+          drag
           activeKey={this.state.activeKey}
           style={style}
           tabBarPosition={this.state.tabBarPosition}
@@ -162,6 +175,9 @@ const Component = React.createClass({
           />}
           renderTabContent={() => <TabContent style={contentStyle}/>}
           onChange={this.onChange2}
+          dragStart={this.dragStart}
+          onDrag={this.onDrag}
+          dragStop={this.dragStop}
         >
           {ends}
         </Tabs>
