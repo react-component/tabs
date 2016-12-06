@@ -31,19 +31,19 @@ webpackJsonp([0],{
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _reactDom = __webpack_require__(114);
+	var _reactDom = __webpack_require__(112);
 	
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 	
-	var _rcTabs = __webpack_require__(252);
+	var _rcTabs = __webpack_require__(258);
 	
 	var _rcTabs2 = _interopRequireDefault(_rcTabs);
 	
-	var _SwipeableTabContent = __webpack_require__(262);
+	var _SwipeableTabContent = __webpack_require__(268);
 	
 	var _SwipeableTabContent2 = _interopRequireDefault(_SwipeableTabContent);
 	
-	var _ScrollableInkTabBar = __webpack_require__(272);
+	var _ScrollableInkTabBar = __webpack_require__(278);
 	
 	var _ScrollableInkTabBar2 = _interopRequireDefault(_ScrollableInkTabBar);
 	
@@ -138,7 +138,7 @@ webpackJsonp([0],{
 	            return _react2.default.createElement(_ScrollableInkTabBar2.default, { onTabClick: _this3.onTabClick });
 	          },
 	          renderTabContent: function renderTabContent() {
-	            return _react2.default.createElement(_SwipeableTabContent2.default, null);
+	            return _react2.default.createElement(_SwipeableTabContent2.default, { animatedWithMargin: true });
 	          },
 	          activeKey: this.state.activeKey,
 	          onChange: this.onChange
@@ -1209,7 +1209,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 262:
+/***/ 268:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1218,11 +1218,11 @@ webpackJsonp([0],{
 	  value: true
 	});
 	
-	var _extends2 = __webpack_require__(263);
+	var _extends2 = __webpack_require__(269);
 	
 	var _extends3 = _interopRequireDefault(_extends2);
 	
-	var _TabContent = __webpack_require__(268);
+	var _TabContent = __webpack_require__(274);
 	
 	var _TabContent2 = _interopRequireDefault(_TabContent);
 	
@@ -1230,15 +1230,15 @@ webpackJsonp([0],{
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _reactHammerjs = __webpack_require__(270);
+	var _reactHammerjs = __webpack_require__(276);
 	
 	var _reactHammerjs2 = _interopRequireDefault(_reactHammerjs);
 	
-	var _reactDom = __webpack_require__(114);
+	var _reactDom = __webpack_require__(112);
 	
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 	
-	var _utils = __webpack_require__(269);
+	var _utils = __webpack_require__(275);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -1414,15 +1414,15 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 270:
+/***/ 276:
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(81);
-	var ReactDOM = __webpack_require__(114);
+	var ReactDOM = __webpack_require__(112);
 	
 	// require('hammerjs') when in a browser. This is safe because Hammer is only
 	// invoked in componentDidMount, which is not executed on the server.
-	var Hammer = (typeof window !== 'undefined') ? __webpack_require__(271) : undefined;
+	var Hammer = (typeof window !== 'undefined') ? __webpack_require__(277) : undefined;
 	
 	var privateProps = {
 		children: true,
@@ -1556,7 +1556,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 271:
+/***/ 277:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*! Hammer.JS - v2.0.7 - 2016-04-22
