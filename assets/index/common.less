@@ -120,13 +120,16 @@
 
   &-content {
     zoom: 1;
+    width: 100%;
 
     .@{tabs-prefix-cls}-tabpane {
       overflow: auto;
     }
 
     &-animated {
-      transition: transform @effect-duration @easing-in-out;
+      transition: transform @effect-duration @easing-in-out,
+                  margin-left @effect-duration @easing-in-out,
+                  margin-top @effect-duration @easing-in-out;
       display: flex;
       will-change: transform;
 
