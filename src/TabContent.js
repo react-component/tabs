@@ -4,11 +4,13 @@ import {
   getTransformByIndex,
   getActiveIndex,
   getTransformPropValue,
+  getMarginStyle,
 } from './utils';
 
 const TabContent = React.createClass({
   propTypes: {
     animated: PropTypes.bool,
+    animatedWithMargin: PropTypes.bool,
     prefixCls: PropTypes.string,
     children: PropTypes.any,
     activeKey: PropTypes.string,
@@ -45,7 +47,7 @@ const TabContent = React.createClass({
     const { props } = this;
     const {
       prefixCls, children, activeKey,
-      tabBarPosition, animated,
+      tabBarPosition, animated, animatedWithMargin,
     } = props;
     let { style } = props;
     const classes = classnames({
@@ -57,9 +59,12 @@ const TabContent = React.createClass({
     if (animated) {
       const activeIndex = getActiveIndex(children, activeKey);
       if (activeIndex !== -1) {
+        const animatedStyle = animatedWithMargin ?
+                getMarginStyle(activeIndex, tabBarPosition) :
+                getTransformPropValue(getTransformByIndex(activeIndex, tabBarPosition));
         style = {
           ...style,
-          ...getTransformPropValue(getTransformByIndex(activeIndex, tabBarPosition)),
+          ...animatedStyle,
         };
       } else {
         style = {

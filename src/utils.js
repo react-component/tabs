@@ -59,3 +59,10 @@ export function getTransformByIndex(index, tabBarPosition) {
   const translate = isVertical(tabBarPosition) ? 'translateY' : 'translateX';
   return `${translate}(${-index * 100}%) translateZ(0)`;
 }
+
+export function getMarginStyle(index, tabBarPosition) {
+  const marginDirection = isVertical(tabBarPosition) ? 'marginTop' : 'marginLeft';
+  return {
+    [marginDirection]: `${-index * 100}%`,
+  };
+}

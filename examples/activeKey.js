@@ -65,7 +65,7 @@ const Component = React.createClass({
       <h1>Simple Tabs</h1>
       <Tabs
         renderTabBar={() => <ScrollableInkTabBar onTabClick={this.onTabClick}/>}
-        renderTabContent={() => <TabContent/>}
+        renderTabContent={() => <TabContent animatedWithMargin />}
         activeKey={this.state.activeKey}
         onChange={this.onChange}
       >
