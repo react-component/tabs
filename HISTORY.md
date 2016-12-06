@@ -1,6 +1,10 @@
 # History
 ----
 
+## 7.1.0 / 2016-12-06
+
+- support animatedWithMargin
+
 ## 7.0.0 / 2016-08-29
 
 - modularize tabBar and tabContent
