@@ -121,7 +121,6 @@
 }
 .rc-tabs-content {
   zoom: 1;
-  width: 100%;
 }
 .rc-tabs-content .rc-tabs-tabpane {
   overflow: auto;
@@ -294,6 +293,9 @@
   border-top: 2px solid #f3f3f3;
   overflow-x: hidden;
 }
+.rc-tabs-bottom .rc-tabs-content {
+  width: 100%;
+}
 .rc-tabs-bottom .rc-tabs-bar {
   border-top: 1px solid #f3f3f3;
 }
@@ -353,6 +355,9 @@
 .rc-tabs-top {
   border-bottom: 2px solid #f3f3f3;
   overflow-x: hidden;
+}
+.rc-tabs-top .rc-tabs-content {
+  width: 100%;
 }
 .rc-tabs-top .rc-tabs-bar {
   border-bottom: 1px solid #f3f3f3;
