@@ -36,6 +36,9 @@ export default {
           onClick: this.onTabClick.bind(this, key),
         };
       }
+      if (child.props.closeable === false) {
+        cls += ` ${prefixCls}-tab-uncloseable`;
+      }
       const ref = {};
       if (activeKey === key) {
         ref.ref = 'activeTab';
