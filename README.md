@@ -127,6 +127,12 @@ React.render(
           <th>false</th>
           <td>whether destroy inactive tabpane when change tab</td>
       </tr>
+      <tr>
+          <td>prefixCls</td>
+          <td>String</td>
+          <th>rc-tabs</th>
+          <td>prefix class name, use to custom style</td>
+      </tr>
     </tbody>
 </table>
 
