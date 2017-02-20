@@ -245,21 +245,27 @@ scrollable tab bar with ink indicator, same with tab bar/ink bar props.
     <tbody>
       <tr>
           <td>style</td>
-          <td>{}</td>
-          <th></th>
+          <td>Object</td>
+          <td></td>
           <td>tab content style</td>
       </tr>
       <tr>
           <td>animated</td>
+          <td>Boolean</td>
           <td>true</td>
-          <th></th>
           <td>whether tabpane change with animation</td>
       </tr>
       <tr>
           <td>animatedWithMargin</td>
+          <td>Boolean</td>
           <td>false</td>
-          <th></th>
           <td>whether animate tabpane with css margin</td>
+      </tr>
+      <tr>
+          <td>forceRender</td>
+          <td>Boolean</td>
+          <td>false</td>
+          <td>forced render of content in tabs,  not lazy render after clicking on tabs</td>
       </tr>
     </tbody>
 </table>
@@ -280,8 +286,8 @@ swipeable tab panes, in addition to lib/TabContent props, extra props:
     <tbody>
       <tr>
           <td>hammerOptions</td>
-          <td>{}</td>
-          <th></th>
+          <td>Object</td>
+          <td></td>
           <td>options for react-hammerjs</td>
       </tr>
     </tbody>
