@@ -23,7 +23,7 @@
   },
   "licenses": "MIT",
   "config": {
-    "port": 8002
+    "port": 8003
   },
   "scripts": {
     "build": "rc-tools run build",
@@ -35,7 +35,8 @@
     "saucelabs": "rc-tools run saucelabs",
     "test": "rc-tools run test",
     "chrome-test": "rc-tools run chrome-test",
-    "coverage": "rc-tools run coverage"
+    "coverage": "rc-tools run coverage",
+    "watch": "rc-tools run watch"
   },
   "devDependencies": {
     "expect.js": "~0.3.1",
