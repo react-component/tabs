@@ -69,7 +69,7 @@ React.render(
   document.getElementById('t2'));
 ```
 
-## API 
+## API
 
 ### Tabs
 
@@ -236,6 +236,41 @@ tab bar with ink indicator, in addition to tab bar props, extra props:
 ### lib/ScrollableInkTabBar
 
 scrollable tab bar with ink indicator, same with tab bar/ink bar props.
+
+### lib/SwipeableInkTabBar (Use for Mobile)
+
+swipeable tab bar with ink indicator, same with tab bar/ink bar props, and below is the additional props.
+
+<table class="table table-bordered table-striped">
+    <thead>
+      <tr>
+          <th style="width: 100px;">name</th>
+          <th style="width: 50px;">type</th>
+          <th>default</th>
+          <th>description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+          <td>pageSize</td>
+          <td>number</td>
+          <th>5</th>
+          <td>show how many tabs at one page</td>
+      </tr>
+      <tr>
+          <td>speed</td>
+          <td>number</td>
+          <th>5</th>
+          <td>swipe speed, 1 to 10, more bigger more faster</td>
+      </tr>
+      <tr>
+          <td>hammerOptions</td>
+          <td>Object</td>
+          <td></td>
+          <td>options for react-hammerjs</td>
+      </tr>
+    </tbody>
+</table>
 
 ### lib/TabContent
 

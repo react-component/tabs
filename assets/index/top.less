@@ -21,6 +21,21 @@
     width: 99999px;
   }
 
+  &-top &-nav-swipe {
+    position: relative;
+    left: 0;
+    .@{tabs-prefix-cls}-nav {
+      display: flex;
+      flex: 1;
+      width: 100%;
+      .@{tabs-prefix-cls}-tab {
+        margin-right: 0;
+        padding: 8px 0;
+        justify-content: center;
+      }
+    }
+  }
+
   &-top &-nav-wrap {
     width: 100%;
   }

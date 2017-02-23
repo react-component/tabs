@@ -31,6 +31,7 @@
     "start": "rc-tools run server",
     "pub": "rc-tools run pub --babel-runtime",
     "lint": "rc-tools run lint",
+    "watch": "rc-tools run watch",
     "karma": "rc-tools run karma",
     "saucelabs": "rc-tools run saucelabs",
     "test": "jest",
