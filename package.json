@@ -33,14 +33,24 @@
     "lint": "rc-tools run lint",
     "karma": "rc-tools run karma",
     "saucelabs": "rc-tools run saucelabs",
-    "test": "rc-tools run test",
+    "test": "jest",
+    "updateSn": "jest --updateSnapshot",
     "chrome-test": "rc-tools run chrome-test",
-    "coverage": "rc-tools run coverage"
+    "coverage": "jest --coverage && cat ./coverage/lcov.info | coveralls"
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/*"
+    ]
   },
   "devDependencies": {
+    "coveralls": "^2.11.16",
+    "enzyme": "^2.7.1",
+    "enzyme-to-json": "^1.5.0",
     "expect.js": "~0.3.1",
     "fastclick": "~1.0.6",
     "history": "^1.17.0",
+    "jest": "^19.0.2",
     "pre-commit": "1.x",
     "rc-tools": "5.x",
     "react": "15.x",
