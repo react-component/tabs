@@ -51,7 +51,7 @@
 /******/ 	// "0" means "already loaded"
 /******/ 	// Array means "loading", array contains callbacks
 /******/ 	var installedChunks = {
-/******/ 		6:0
+/******/ 		7:0
 /******/ 	};
 /******/
 /******/ 	// The require function
@@ -97,7 +97,7 @@
 /******/ 			script.charset = 'utf-8';
 /******/ 			script.async = true;
 /******/
-/******/ 			script.src = __webpack_require__.p + "" + chunkId + "." + ({"0":"activeKey","1":"add","2":"antd","3":"defaultActiveKey","4":"destroyInactiveTabpanel","5":"router"}[chunkId]||chunkId) + ".js";
+/******/ 			script.src = __webpack_require__.p + "" + chunkId + "." + ({"0":"activeKey","1":"add","2":"antd","3":"defaultActiveKey","4":"destroyInactiveTabpanel","5":"router","6":"swipeInkTabBar"}[chunkId]||chunkId) + ".js";
 /******/ 			head.appendChild(script);
 /******/ 		}
 /******/ 	};
@@ -926,8 +926,15 @@
 /* 84 */
 /***/ function(module, exports) {
 
+	/*
+	object-assign
+	(c) Sindre Sorhus
+	@license MIT
+	*/
+	
 	'use strict';
 	/* eslint-disable no-unused-vars */
+	var getOwnPropertySymbols = Object.getOwnPropertySymbols;
 	var hasOwnProperty = Object.prototype.hasOwnProperty;
 	var propIsEnumerable = Object.prototype.propertyIsEnumerable;
 	
@@ -948,7 +955,7 @@
 			// Detect buggy property enumeration order in older V8 versions.
 	
 			// https://bugs.chromium.org/p/v8/issues/detail?id=4118
-			var test1 = new String('abc');  // eslint-disable-line
+			var test1 = new String('abc');  // eslint-disable-line no-new-wrappers
 			test1[5] = 'de';
 			if (Object.getOwnPropertyNames(test1)[0] === '5') {
 				return false;
@@ -977,7 +984,7 @@
 			}
 	
 			return true;
-		} catch (e) {
+		} catch (err) {
 			// We don't expect any of the above to throw, but better to be safe.
 			return false;
 		}
@@ -997,8 +1004,8 @@
 				}
 			}
 	
-			if (Object.getOwnPropertySymbols) {
-				symbols = Object.getOwnPropertySymbols(from);
+			if (getOwnPropertySymbols) {
+				symbols = getOwnPropertySymbols(from);
 				for (var i = 0; i < symbols.length; i++) {
 					if (propIsEnumerable.call(from, symbols[i])) {
 						to[symbols[i]] = from[symbols[i]];
@@ -1208,7 +1215,7 @@
 
 /***/ },
 /* 86 */
-[351, 87],
+[354, 87],
 /* 87 */
 /***/ function(module, exports) {
 
@@ -1278,12 +1285,18 @@
 	 * will remain to ensure logic does not differ in production.
 	 */
 	
-	function invariant(condition, format, a, b, c, d, e, f) {
-	  if (process.env.NODE_ENV !== 'production') {
+	var validateFormat = function validateFormat(format) {};
+	
+	if (process.env.NODE_ENV !== 'production') {
+	  validateFormat = function validateFormat(format) {
 	    if (format === undefined) {
 	      throw new Error('invariant requires an error message argument');
 	    }
-	  }
+	  };
+	}
+	
+	function invariant(condition, format, a, b, c, d, e, f) {
+	  validateFormat(format);
 	
 	  if (!condition) {
 	    var error;
@@ -3536,7 +3549,14 @@
 	    // We warn in this case but don't throw. We expect the element creation to
 	    // succeed and there will likely be errors in render.
 	    if (!validType) {
-	      process.env.NODE_ENV !== 'production' ? warning(false, 'React.createElement: type should not be null, undefined, boolean, or ' + 'number. It should be a string (for DOM elements) or a ReactClass ' + '(for composite components).%s', getDeclarationErrorAddendum()) : void 0;
+	      if (typeof type !== 'function' && typeof type !== 'string') {
+	        var info = '';
+	        if (type === undefined || typeof type === 'object' && type !== null && Object.keys(type).length === 0) {
+	          info += ' You likely forgot to export your component from the file ' + 'it\'s defined in.';
+	        }
+	        info += getDeclarationErrorAddendum();
+	        process.env.NODE_ENV !== 'production' ? warning(false, 'React.createElement: type is invalid -- expected a string (for ' + 'built-in components) or a class/function (for composite ' + 'components) but got: %s.%s', type == null ? type : typeof type, info) : void 0;
+	      }
 	    }
 	
 	    var element = ReactElement.createElement.apply(this, arguments);
@@ -4507,7 +4527,7 @@
 	
 	'use strict';
 	
-	module.exports = '15.4.1';
+	module.exports = '15.4.2';
 
 /***/ },
 /* 111 */
@@ -4706,6 +4726,13 @@
 	var internalInstanceKey = '__reactInternalInstance$' + Math.random().toString(36).slice(2);
 	
 	/**
+	 * Check if a given node should be cached.
+	 */
+	function shouldPrecacheNode(node, nodeID) {
+	  return node.nodeType === 1 && node.getAttribute(ATTR_NAME) === String(nodeID) || node.nodeType === 8 && node.nodeValue === ' react-text: ' + nodeID + ' ' || node.nodeType === 8 && node.nodeValue === ' react-empty: ' + nodeID + ' ';
+	}
+	
+	/**
 	 * Drill down (through composites and empty components) until we get a host or
 	 * host text component.
 	 *
@@ -4770,7 +4797,7 @@
 	    }
 	    // We assume the child nodes are in the same order as the child instances.
 	    for (; childNode !== null; childNode = childNode.nextSibling) {
-	      if (childNode.nodeType === 1 && childNode.getAttribute(ATTR_NAME) === String(childID) || childNode.nodeType === 8 && childNode.nodeValue === ' react-text: ' + childID + ' ' || childNode.nodeType === 8 && childNode.nodeValue === ' react-empty: ' + childID + ' ') {
+	      if (shouldPrecacheNode(childNode, childID)) {
 	        precacheNode(childInst, childNode);
 	        continue outer;
 	      }
@@ -6900,7 +6927,7 @@
 
 /***/ },
 /* 130 */
-[351, 115],
+[354, 115],
 /* 131 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -11712,12 +11739,18 @@
 	    } else {
 	      var contentToUse = CONTENT_TYPES[typeof props.children] ? props.children : null;
 	      var childrenToUse = contentToUse != null ? null : props.children;
+	      // TODO: Validate that text is allowed as a child of this node
 	      if (contentToUse != null) {
-	        // TODO: Validate that text is allowed as a child of this node
-	        if (process.env.NODE_ENV !== 'production') {
-	          setAndValidateContentChildDev.call(this, contentToUse);
+	        // Avoid setting textContent when the text is empty. In IE11 setting
+	        // textContent on a text area will cause the placeholder to not
+	        // show within the textarea until it has been focused and blurred again.
+	        // https://github.com/facebook/react/issues/6731#issuecomment-254874553
+	        if (contentToUse !== '') {
+	          if (process.env.NODE_ENV !== 'production') {
+	            setAndValidateContentChildDev.call(this, contentToUse);
+	          }
+	          DOMLazyTree.queueText(lazyTree, contentToUse);
 	        }
-	        DOMLazyTree.queueText(lazyTree, contentToUse);
 	      } else if (childrenToUse != null) {
 	        var mountImages = this.mountChildren(childrenToUse, transaction, context);
 	        for (var i = 0; i < mountImages.length; i++) {
@@ -13637,7 +13670,17 @@
 	      }
 	    } else {
 	      if (props.value == null && props.defaultValue != null) {
-	        node.defaultValue = '' + props.defaultValue;
+	        // In Chrome, assigning defaultValue to certain input types triggers input validation.
+	        // For number inputs, the display value loses trailing decimal points. For email inputs,
+	        // Chrome raises "The specified value <x> is not a valid email address".
+	        //
+	        // Here we check to see if the defaultValue has actually changed, avoiding these problems
+	        // when the user is inputting text
+	        //
+	        // https://github.com/facebook/react/issues/7253
+	        if (node.defaultValue !== '' + props.defaultValue) {
+	          node.defaultValue = '' + props.defaultValue;
+	        }
 	      }
 	      if (props.checked == null && props.defaultChecked != null) {
 	        node.defaultChecked = !!props.defaultChecked;
@@ -14365,9 +14408,15 @@
 	    // This is in postMount because we need access to the DOM node, which is not
 	    // available until after the component has mounted.
 	    var node = ReactDOMComponentTree.getNodeFromInstance(inst);
+	    var textContent = node.textContent;
 	
-	    // Warning: node.value may be the empty string at this point (IE11) if placeholder is set.
-	    node.value = node.textContent; // Detach value from defaultValue
+	    // Only set node.value if textContent is equal to the expected
+	    // initial value. In IE10/IE11 there is a bug where the placeholder attribute
+	    // will populate textContent as well.
+	    // https://developer.microsoft.com/microsoft-edge/platform/issues/101525/
+	    if (textContent === inst._wrapperState.initialValue) {
+	      node.value = textContent;
+	    }
 	  }
 	};
 	
@@ -15169,7 +15218,17 @@
 	    instance = ReactEmptyComponent.create(instantiateReactComponent);
 	  } else if (typeof node === 'object') {
 	    var element = node;
-	    !(element && (typeof element.type === 'function' || typeof element.type === 'string')) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: %s.%s', element.type == null ? element.type : typeof element.type, getDeclarationErrorAddendum(element._owner)) : _prodInvariant('130', element.type == null ? element.type : typeof element.type, getDeclarationErrorAddendum(element._owner)) : void 0;
+	    var type = element.type;
+	    if (typeof type !== 'function' && typeof type !== 'string') {
+	      var info = '';
+	      if (process.env.NODE_ENV !== 'production') {
+	        if (type === undefined || typeof type === 'object' && type !== null && Object.keys(type).length === 0) {
+	          info += ' You likely forgot to export your component from the file ' + 'it\'s defined in.';
+	        }
+	      }
+	      info += getDeclarationErrorAddendum(element._owner);
+	       true ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: %s.%s', type == null ? type : typeof type, info) : _prodInvariant('130', type == null ? type : typeof type, info) : void 0;
+	    }
 	
 	    // Special case string values
 	    if (typeof element.type === 'string') {
@@ -15459,7 +15518,7 @@
 	      // Since plain JS classes are defined without any special initialization
 	      // logic, we can not catch common errors early. Therefore, we have to
 	      // catch them here, at initialization time, instead.
-	      process.env.NODE_ENV !== 'production' ? warning(!inst.getInitialState || inst.getInitialState.isReactClassApproved, 'getInitialState was defined on %s, a plain JavaScript class. ' + 'This is only supported for classes created using React.createClass. ' + 'Did you mean to define a state property instead?', this.getName() || 'a component') : void 0;
+	      process.env.NODE_ENV !== 'production' ? warning(!inst.getInitialState || inst.getInitialState.isReactClassApproved || inst.state, 'getInitialState was defined on %s, a plain JavaScript class. ' + 'This is only supported for classes created using React.createClass. ' + 'Did you mean to define a state property instead?', this.getName() || 'a component') : void 0;
 	      process.env.NODE_ENV !== 'production' ? warning(!inst.getDefaultProps || inst.getDefaultProps.isReactClassApproved, 'getDefaultProps was defined on %s, a plain JavaScript class. ' + 'This is only supported for classes created using React.createClass. ' + 'Use a static property to define defaultProps instead.', this.getName() || 'a component') : void 0;
 	      process.env.NODE_ENV !== 'production' ? warning(!inst.propTypes, 'propTypes was defined as an instance property on %s. Use a static ' + 'property to define propTypes instead.', this.getName() || 'a component') : void 0;
 	      process.env.NODE_ENV !== 'production' ? warning(!inst.contextTypes, 'contextTypes was defined as an instance property on %s. Use a ' + 'static property to define contextTypes instead.', this.getName() || 'a component') : void 0;
@@ -16435,14 +16494,11 @@
 	
 	'use strict';
 	
-	var _prodInvariant = __webpack_require__(115),
-	    _assign = __webpack_require__(84);
+	var _prodInvariant = __webpack_require__(115);
 	
 	var invariant = __webpack_require__(88);
 	
 	var genericComponentClass = null;
-	// This registry keeps track of wrapper classes around host tags.
-	var tagToComponentClass = {};
 	var textComponentClass = null;
 	
 	var ReactHostComponentInjection = {
@@ -16455,11 +16511,6 @@
 	  // rendered as props.
 	  injectTextComponentClass: function (componentClass) {
 	    textComponentClass = componentClass;
-	  },
-	  // This accepts a keyed object with classes as values. Each key represents a
-	  // tag. That particular tag will use this class instead of the generic one.
-	  injectComponentClasses: function (componentClasses) {
-	    _assign(tagToComponentClass, componentClasses);
 	  }
 	};
 	
@@ -22200,6 +22251,8 @@
 	exports.isVertical = isVertical;
 	exports.getTransformByIndex = getTransformByIndex;
 	exports.getMarginStyle = getMarginStyle;
+	exports.getStyle = getStyle;
+	exports.setPxStyle = setPxStyle;
 	
 	var _react = __webpack_require__(81);
 	
@@ -22269,54 +22322,19 @@
 	  var marginDirection = isVertical(tabBarPosition) ? 'marginTop' : 'marginLeft';
 	  return (0, _defineProperty3.default)({}, marginDirection, -index * 100 + '%');
 	}
+	
+	function getStyle(el, property) {
+	  return +getComputedStyle(el).getPropertyValue(property).replace('px', '');
+	}
+	
+	function setPxStyle(el, property, value) {
+	  el.style[property] = value + 'px';
+	}
 
 /***/ },
 /* 276 */,
 /* 277 */,
-/* 278 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _react = __webpack_require__(81);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _InkTabBarMixin = __webpack_require__(279);
-	
-	var _InkTabBarMixin2 = _interopRequireDefault(_InkTabBarMixin);
-	
-	var _ScrollableTabBarMixin = __webpack_require__(280);
-	
-	var _ScrollableTabBarMixin2 = _interopRequireDefault(_ScrollableTabBarMixin);
-	
-	var _TabBarMixin = __webpack_require__(281);
-	
-	var _TabBarMixin2 = _interopRequireDefault(_TabBarMixin);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var ScrollableInkTabBar = _react2.default.createClass({
-	  displayName: 'ScrollableInkTabBar',
-	
-	  mixins: [_TabBarMixin2.default, _InkTabBarMixin2.default, _ScrollableTabBarMixin2.default],
-	
-	  render: function render() {
-	    var inkBarNode = this.getInkBarNode();
-	    var tabs = this.getTabs();
-	    var scrollbarNode = this.getScrollBarNode([inkBarNode, tabs]);
-	    return this.getRootNode(scrollbarNode);
-	  }
-	});
-	
-	exports.default = ScrollableInkTabBar;
-	module.exports = exports['default'];
-
-/***/ },
+/* 278 */,
 /* 279 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -22457,282 +22475,7 @@
 	};
 
 /***/ },
-/* 280 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _defineProperty2 = __webpack_require__(261);
-	
-	var _defineProperty3 = _interopRequireDefault(_defineProperty2);
-	
-	var _classnames5 = __webpack_require__(267);
-	
-	var _classnames6 = _interopRequireDefault(_classnames5);
-	
-	var _utils = __webpack_require__(275);
-	
-	var _react = __webpack_require__(81);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	exports.default = {
-	  getDefaultProps: function getDefaultProps() {
-	    return {
-	      scrollAnimated: true
-	    };
-	  },
-	  getInitialState: function getInitialState() {
-	    this.offset = 0;
-	    return {
-	      next: false,
-	      prev: false
-	    };
-	  },
-	  componentDidMount: function componentDidMount() {
-	    this.componentDidUpdate();
-	  },
-	  componentDidUpdate: function componentDidUpdate(prevProps) {
-	    var props = this.props;
-	    if (prevProps && prevProps.tabBarPosition !== props.tabBarPosition) {
-	      this.setOffset(0);
-	      return;
-	    }
-	    var nextPrev = this.setNextPrev();
-	    // wait next, prev show hide
-	    /* eslint react/no-did-update-set-state:0 */
-	    if (this.isNextPrevShown(this.state) !== this.isNextPrevShown(nextPrev)) {
-	      this.setState({}, this.scrollToActiveTab);
-	    } else {
-	      // can not use props.activeKey
-	      if (!prevProps || props.activeKey !== prevProps.activeKey) {
-	        this.scrollToActiveTab();
-	      }
-	    }
-	  },
-	  setNextPrev: function setNextPrev() {
-	    var navNode = this.refs.nav;
-	    var navNodeWH = this.getOffsetWH(navNode);
-	    var navWrapNode = this.refs.navWrap;
-	    var navWrapNodeWH = this.getOffsetWH(navWrapNode);
-	    var offset = this.offset;
-	
-	    var minOffset = navWrapNodeWH - navNodeWH;
-	    var _state = this.state,
-	        next = _state.next,
-	        prev = _state.prev;
-	
-	    if (minOffset >= 0) {
-	      next = false;
-	      this.setOffset(0, false);
-	      offset = 0;
-	    } else if (minOffset < offset) {
-	      next = true;
-	    } else {
-	      next = false;
-	      this.setOffset(minOffset, false);
-	      offset = minOffset;
-	    }
-	
-	    if (offset < 0) {
-	      prev = true;
-	    } else {
-	      prev = false;
-	    }
-	
-	    this.setNext(next);
-	    this.setPrev(prev);
-	    return {
-	      next: next,
-	      prev: prev
-	    };
-	  },
-	  getOffsetWH: function getOffsetWH(node) {
-	    var tabBarPosition = this.props.tabBarPosition;
-	    var prop = 'offsetWidth';
-	    if (tabBarPosition === 'left' || tabBarPosition === 'right') {
-	      prop = 'offsetHeight';
-	    }
-	    return node[prop];
-	  },
-	  getOffsetLT: function getOffsetLT(node) {
-	    var tabBarPosition = this.props.tabBarPosition;
-	    var prop = 'left';
-	    if (tabBarPosition === 'left' || tabBarPosition === 'right') {
-	      prop = 'top';
-	    }
-	    return node.getBoundingClientRect()[prop];
-	  },
-	  setOffset: function setOffset(offset) {
-	    var checkNextPrev = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
-	
-	    var target = Math.min(0, offset);
-	    if (this.offset !== target) {
-	      this.offset = target;
-	      var navOffset = {};
-	      var tabBarPosition = this.props.tabBarPosition;
-	      var navStyle = this.refs.nav.style;
-	      var transformSupported = (0, _utils.isTransformSupported)(navStyle);
-	      if (tabBarPosition === 'left' || tabBarPosition === 'right') {
-	        if (transformSupported) {
-	          navOffset = {
-	            value: 'translate3d(0,' + target + 'px,0)'
-	          };
-	        } else {
-	          navOffset = {
-	            name: 'top',
-	            value: target + 'px'
-	          };
-	        }
-	      } else {
-	        if (transformSupported) {
-	          navOffset = {
-	            value: 'translate3d(' + target + 'px,0,0)'
-	          };
-	        } else {
-	          navOffset = {
-	            name: 'left',
-	            value: target + 'px'
-	          };
-	        }
-	      }
-	      if (transformSupported) {
-	        (0, _utils.setTransform)(navStyle, navOffset.value);
-	      } else {
-	        navStyle[navOffset.name] = navOffset.value;
-	      }
-	      if (checkNextPrev) {
-	        this.setNextPrev();
-	      }
-	    }
-	  },
-	  setPrev: function setPrev(v) {
-	    if (this.state.prev !== v) {
-	      this.setState({
-	        prev: v
-	      });
-	    }
-	  },
-	  setNext: function setNext(v) {
-	    if (this.state.next !== v) {
-	      this.setState({
-	        next: v
-	      });
-	    }
-	  },
-	  isNextPrevShown: function isNextPrevShown(state) {
-	    return state.next || state.prev;
-	  },
-	  scrollToActiveTab: function scrollToActiveTab() {
-	    var _refs = this.refs,
-	        activeTab = _refs.activeTab,
-	        navWrap = _refs.navWrap;
-	
-	    if (activeTab) {
-	      var activeTabWH = this.getOffsetWH(activeTab);
-	      var navWrapNodeWH = this.getOffsetWH(navWrap);
-	      var offset = this.offset;
-	
-	      var wrapOffset = this.getOffsetLT(navWrap);
-	      var activeTabOffset = this.getOffsetLT(activeTab);
-	      if (wrapOffset > activeTabOffset) {
-	        offset += wrapOffset - activeTabOffset;
-	        this.setOffset(offset);
-	      } else if (wrapOffset + navWrapNodeWH < activeTabOffset + activeTabWH) {
-	        offset -= activeTabOffset + activeTabWH - (wrapOffset + navWrapNodeWH);
-	        this.setOffset(offset);
-	      }
-	    }
-	  },
-	  prev: function prev() {
-	    var navWrapNode = this.refs.navWrap;
-	    var navWrapNodeWH = this.getOffsetWH(navWrapNode);
-	    var offset = this.offset;
-	
-	    this.setOffset(offset + navWrapNodeWH);
-	  },
-	  next: function next() {
-	    var navWrapNode = this.refs.navWrap;
-	    var navWrapNodeWH = this.getOffsetWH(navWrapNode);
-	    var offset = this.offset;
-	
-	    this.setOffset(offset - navWrapNodeWH);
-	  },
-	  getScrollBarNode: function getScrollBarNode(content) {
-	    var _classnames3, _classnames4;
-	
-	    var _state2 = this.state,
-	        next = _state2.next,
-	        prev = _state2.prev;
-	    var _props = this.props,
-	        prefixCls = _props.prefixCls,
-	        scrollAnimated = _props.scrollAnimated;
-	
-	    var nextButton = void 0;
-	    var prevButton = void 0;
-	    var showNextPrev = prev || next;
-	
-	    if (showNextPrev) {
-	      var _classnames, _classnames2;
-	
-	      prevButton = _react2.default.createElement(
-	        'span',
-	        {
-	          onClick: prev ? this.prev : null,
-	          unselectable: 'unselectable',
-	          className: (0, _classnames6.default)((_classnames = {}, (0, _defineProperty3.default)(_classnames, prefixCls + '-tab-prev', 1), (0, _defineProperty3.default)(_classnames, prefixCls + '-tab-btn-disabled', !prev), _classnames))
-	        },
-	        _react2.default.createElement('span', { className: prefixCls + '-tab-prev-icon' })
-	      );
-	
-	      nextButton = _react2.default.createElement(
-	        'span',
-	        {
-	          onClick: next ? this.next : null,
-	          unselectable: 'unselectable',
-	          className: (0, _classnames6.default)((_classnames2 = {}, (0, _defineProperty3.default)(_classnames2, prefixCls + '-tab-next', 1), (0, _defineProperty3.default)(_classnames2, prefixCls + '-tab-btn-disabled', !next), _classnames2))
-	        },
-	        _react2.default.createElement('span', { className: prefixCls + '-tab-next-icon' })
-	      );
-	    }
-	
-	    var navClassName = prefixCls + '-nav';
-	    var navClasses = (0, _classnames6.default)((_classnames3 = {}, (0, _defineProperty3.default)(_classnames3, navClassName, true), (0, _defineProperty3.default)(_classnames3, scrollAnimated ? navClassName + '-animated' : navClassName + '-no-animated', true), _classnames3));
-	
-	    return _react2.default.createElement(
-	      'div',
-	      {
-	        className: (0, _classnames6.default)((_classnames4 = {}, (0, _defineProperty3.default)(_classnames4, prefixCls + '-nav-container', 1), (0, _defineProperty3.default)(_classnames4, prefixCls + '-nav-container-scrolling', showNextPrev), _classnames4)),
-	        key: 'container',
-	        ref: 'container'
-	      },
-	      prevButton,
-	      nextButton,
-	      _react2.default.createElement(
-	        'div',
-	        { className: prefixCls + '-nav-wrap', ref: 'navWrap' },
-	        _react2.default.createElement(
-	          'div',
-	          { className: prefixCls + '-nav-scroll' },
-	          _react2.default.createElement(
-	            'div',
-	            { className: navClasses, ref: 'nav' },
-	            content
-	          )
-	        )
-	      )
-	    );
-	  }
-	};
-	module.exports = exports['default'];
-
-/***/ },
+/* 280 */,
 /* 281 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -22922,7 +22665,10 @@
 /* 348 */,
 /* 349 */,
 /* 350 */,
-/* 351 */
+/* 351 */,
+/* 352 */,
+/* 353 */,
+/* 354 */
 /***/ function(module, exports, __webpack_require__, __webpack_module_template_argument_0__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -22993,17 +22739,6 @@
 	  }
 	};
 	
-	var fiveArgumentPooler = function (a1, a2, a3, a4, a5) {
-	  var Klass = this;
-	  if (Klass.instancePool.length) {
-	    var instance = Klass.instancePool.pop();
-	    Klass.call(instance, a1, a2, a3, a4, a5);
-	    return instance;
-	  } else {
-	    return new Klass(a1, a2, a3, a4, a5);
-	  }
-	};
-	
 	var standardReleaser = function (instance) {
 	  var Klass = this;
 	  !(instance instanceof Klass) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Trying to release an instance into a pool of a different type.') : _prodInvariant('25') : void 0;
@@ -23043,8 +22778,7 @@
 	  oneArgumentPooler: oneArgumentPooler,
 	  twoArgumentPooler: twoArgumentPooler,
 	  threeArgumentPooler: threeArgumentPooler,
-	  fourArgumentPooler: fourArgumentPooler,
-	  fiveArgumentPooler: fiveArgumentPooler
+	  fourArgumentPooler: fourArgumentPooler
 	};
 	
 	module.exports = PooledClass;
