@@ -66,3 +66,11 @@ export function getMarginStyle(index, tabBarPosition) {
     [marginDirection]: `${-index * 100}%`,
   };
 }
+
+export function getStyle(el, property) {
+  return +getComputedStyle(el).getPropertyValue(property).replace('px', '');
+}
+
+export function setPxStyle(el, property, value) {
+  el.style[property] = `${value}px`;
+}

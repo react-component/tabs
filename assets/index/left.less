@@ -34,6 +34,20 @@
     height: 99999px;
   }
 
+  &-left &-nav-swipe {
+    position: relative;
+    top: 0;
+    .@{tabs-prefix-cls}-nav {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      height: 100%;
+      .@{tabs-prefix-cls}-tab {
+        justify-content: center;
+      }
+    }
+  }
+
   &-left &-tab-prev, &-left &-tab-next {
     margin-top: -2px;
     height: 32px;
