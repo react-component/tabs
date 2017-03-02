@@ -3,12 +3,12 @@ webpackJsonp([1],{
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(282);
+	module.exports = __webpack_require__(195);
 
 
 /***/ },
 
-/***/ 278:
+/***/ 191:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -17,19 +17,19 @@ webpackJsonp([1],{
 	  value: true
 	});
 	
-	var _react = __webpack_require__(81);
+	var _react = __webpack_require__(3);
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _InkTabBarMixin = __webpack_require__(279);
+	var _InkTabBarMixin = __webpack_require__(192);
 	
 	var _InkTabBarMixin2 = _interopRequireDefault(_InkTabBarMixin);
 	
-	var _ScrollableTabBarMixin = __webpack_require__(280);
+	var _ScrollableTabBarMixin = __webpack_require__(193);
 	
 	var _ScrollableTabBarMixin2 = _interopRequireDefault(_ScrollableTabBarMixin);
 	
-	var _TabBarMixin = __webpack_require__(281);
+	var _TabBarMixin = __webpack_require__(194);
 	
 	var _TabBarMixin2 = _interopRequireDefault(_TabBarMixin);
 	
@@ -53,7 +53,7 @@ webpackJsonp([1],{
 
 /***/ },
 
-/***/ 280:
+/***/ 193:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -62,21 +62,19 @@ webpackJsonp([1],{
 	  value: true
 	});
 	
-	var _defineProperty2 = __webpack_require__(261);
-	
-	var _defineProperty3 = _interopRequireDefault(_defineProperty2);
-	
-	var _classnames5 = __webpack_require__(267);
+	var _classnames5 = __webpack_require__(185);
 	
 	var _classnames6 = _interopRequireDefault(_classnames5);
 	
-	var _utils = __webpack_require__(275);
+	var _utils = __webpack_require__(188);
 	
-	var _react = __webpack_require__(81);
+	var _react = __webpack_require__(3);
 	
 	var _react2 = _interopRequireDefault(_react);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 	
 	exports.default = {
 	  getDefaultProps: function getDefaultProps() {
@@ -282,7 +280,7 @@ webpackJsonp([1],{
 	        {
 	          onClick: prev ? this.prev : null,
 	          unselectable: 'unselectable',
-	          className: (0, _classnames6.default)((_classnames = {}, (0, _defineProperty3.default)(_classnames, prefixCls + '-tab-prev', 1), (0, _defineProperty3.default)(_classnames, prefixCls + '-tab-btn-disabled', !prev), _classnames))
+	          className: (0, _classnames6.default)((_classnames = {}, _defineProperty(_classnames, prefixCls + '-tab-prev', 1), _defineProperty(_classnames, prefixCls + '-tab-btn-disabled', !prev), _classnames))
 	        },
 	        _react2.default.createElement('span', { className: prefixCls + '-tab-prev-icon' })
 	      );
@@ -292,19 +290,19 @@ webpackJsonp([1],{
 	        {
 	          onClick: next ? this.next : null,
 	          unselectable: 'unselectable',
-	          className: (0, _classnames6.default)((_classnames2 = {}, (0, _defineProperty3.default)(_classnames2, prefixCls + '-tab-next', 1), (0, _defineProperty3.default)(_classnames2, prefixCls + '-tab-btn-disabled', !next), _classnames2))
+	          className: (0, _classnames6.default)((_classnames2 = {}, _defineProperty(_classnames2, prefixCls + '-tab-next', 1), _defineProperty(_classnames2, prefixCls + '-tab-btn-disabled', !next), _classnames2))
 	        },
 	        _react2.default.createElement('span', { className: prefixCls + '-tab-next-icon' })
 	      );
 	    }
 	
 	    var navClassName = prefixCls + '-nav';
-	    var navClasses = (0, _classnames6.default)((_classnames3 = {}, (0, _defineProperty3.default)(_classnames3, navClassName, true), (0, _defineProperty3.default)(_classnames3, scrollAnimated ? navClassName + '-animated' : navClassName + '-no-animated', true), _classnames3));
+	    var navClasses = (0, _classnames6.default)((_classnames3 = {}, _defineProperty(_classnames3, navClassName, true), _defineProperty(_classnames3, scrollAnimated ? navClassName + '-animated' : navClassName + '-no-animated', true), _classnames3));
 	
 	    return _react2.default.createElement(
 	      'div',
 	      {
-	        className: (0, _classnames6.default)((_classnames4 = {}, (0, _defineProperty3.default)(_classnames4, prefixCls + '-nav-container', 1), (0, _defineProperty3.default)(_classnames4, prefixCls + '-nav-container-scrolling', showNextPrev), _classnames4)),
+	        className: (0, _classnames6.default)((_classnames4 = {}, _defineProperty(_classnames4, prefixCls + '-nav-container', 1), _defineProperty(_classnames4, prefixCls + '-nav-container-scrolling', showNextPrev), _classnames4)),
 	        key: 'container',
 	        ref: 'container'
 	      },
@@ -330,30 +328,30 @@ webpackJsonp([1],{
 
 /***/ },
 
-/***/ 282:
+/***/ 195:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	__webpack_require__(80);
+	__webpack_require__(2);
 	
-	var _react = __webpack_require__(81);
+	var _react = __webpack_require__(3);
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _reactDom = __webpack_require__(112);
+	var _reactDom = __webpack_require__(34);
 	
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 	
-	var _rcTabs = __webpack_require__(258);
+	var _rcTabs = __webpack_require__(180);
 	
 	var _rcTabs2 = _interopRequireDefault(_rcTabs);
 	
-	var _TabContent = __webpack_require__(274);
+	var _TabContent = __webpack_require__(187);
 	
 	var _TabContent2 = _interopRequireDefault(_TabContent);
 	
-	var _ScrollableInkTabBar = __webpack_require__(278);
+	var _ScrollableInkTabBar = __webpack_require__(191);
 	
 	var _ScrollableInkTabBar2 = _interopRequireDefault(_ScrollableInkTabBar);
 	
