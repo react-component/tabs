@@ -233,9 +233,38 @@ tab bar with ink indicator, in addition to tab bar props, extra props:
     </tbody>
 </table>
 
+### lib/ScrollableTabBar
+
+scrollable tab bar, in addition to tab bar props, extra props:
+
+<table class="table table-bordered table-striped">
+    <thead>
+      <tr>
+          <th style="width: 100px;">name</th>
+          <th style="width: 50px;">type</th>
+          <th>default</th>
+          <th>description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+          <td>onPrevClick</td>
+          <td>(e: Event): void</td>
+          <th></th>
+          <td>callback when prev button is clicked</td>
+      </tr>
+      <tr>
+          <td>onNextClick</td>
+          <td>(e: Event): void</td>
+          <th></th>
+          <td>callback when next button is clicked</td>
+      </tr>
+    </tbody>
+</table>
+
 ### lib/ScrollableInkTabBar
 
-scrollable tab bar with ink indicator, same with tab bar/ink bar props.
+scrollable tab bar with ink indicator, same with tab bar and ink bar and scrollable bar props.
 
 ### lib/SwipeableInkTabBar (Use for Mobile)
 
