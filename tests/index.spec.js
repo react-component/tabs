@@ -27,25 +27,25 @@ class NormoalTabs extends Component {
 }
 
 describe('rc-tabs', () => {
-  it('should render Slider with correct DOM structure', () => {
+  it('should render Tabs with correct DOM structure', () => {
     const wrapper = render(<NormoalTabs/>);
     expect(renderToJson(wrapper)).toMatchSnapshot();
   });
 
-  it('create and nav should works', () => {
+  it('create and nav should work', () => {
     const wrapper = render(<NormoalTabs/>);
     expect(wrapper.find('.rc-tabs').length).toBe(1);
     expect(wrapper.find('.rc-tabs-tab').length).toBe(3);
   });
 
-  it('default active should works', () => {
+  it('default active should work', () => {
     const wrapper = mount(<NormoalTabs/>);
     expect(wrapper.find('.rc-tabs-tab').length).toBe(3);
     expect(wrapper.instance().getRoot().state.activeKey).toBe('2');
     expect(wrapper.find('.rc-tabs-tab').at(1).hasClass('rc-tabs-tab-active')).toBe(true);
   });
 
-  it('onChange and onTabClick should works', () => {
+  it('onChange and onTabClick should work', () => {
     const handleChange = jest.fn();
     const handleTabClick = jest.fn();
     const wrapper = mount(
@@ -64,5 +64,38 @@ describe('rc-tabs', () => {
     targetTab.simulate('click');
     expect(handleTabClick).toHaveBeenCalledWith('3');
     expect(handleChange).toHaveBeenCalledWith('3');
+  });
+
+  it('`onPrevClick` and `onNextClick` should work', () => {
+    const onPrevClick = jest.fn();
+    const onNextClick = jest.fn();
+    const wrapper = mount(
+      <Tabs
+        defaultActiveKey="1"
+        renderTabBar={() => (
+          <ScrollableInkTabBar onPrevClick={onPrevClick} onNextClick={onNextClick} />
+        )}
+        renderTabContent={() => <TabContent/>}
+      >
+        <TabPane tab="tab 1" key="1">first</TabPane>
+        <TabPane tab="tab 2" key="2">second</TabPane>
+        <TabPane tab="tab 3" key="3">third</TabPane>
+      </Tabs>
+    );
+
+    // To force Tabs show prev/next button
+    Object.defineProperty(wrapper.find('.rc-tabs-nav').getNode(), 'offsetWidth', {
+      get() { return 1000; },
+    });
+    Object.defineProperty(wrapper.find('.rc-tabs-nav-wrap').getNode(), 'offsetWidth', {
+      get() { return 100; },
+    });
+    wrapper.update();
+
+    wrapper.find('.rc-tabs-tab-next').simulate('click');
+    expect(onNextClick).toHaveBeenCalled();
+
+    wrapper.find('.rc-tabs-tab-prev').simulate('click');
+    expect(onPrevClick).toHaveBeenCalled();
   });
 });
