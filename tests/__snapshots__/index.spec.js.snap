@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`rc-tabs should render Slider with correct DOM structure 1`] = `
+exports[`rc-tabs should render Tabs with correct DOM structure 1`] = `
 <div
   class="rc-tabs rc-tabs-top"
 >

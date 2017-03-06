@@ -6,6 +6,8 @@ export default {
   getDefaultProps() {
     return {
       scrollAnimated: true,
+      onPrevClick() {},
+      onNextClick() {},
     };
   },
 
@@ -173,14 +175,16 @@ export default {
     }
   },
 
-  prev() {
+  prev(e) {
+    this.props.onPrevClick(e);
     const navWrapNode = this.refs.navWrap;
     const navWrapNodeWH = this.getOffsetWH(navWrapNode);
     const { offset } = this;
     this.setOffset(offset + navWrapNodeWH);
   },
 
-  next() {
+  next(e) {
+    this.props.onNextClick(e);
     const navWrapNode = this.refs.navWrap;
     const navWrapNodeWH = this.getOffsetWH(navWrapNode);
     const { offset } = this;
@@ -204,8 +208,8 @@ export default {
             [`${prefixCls}-tab-btn-disabled`]: !prev,
           })}
         >
-        <span className={`${prefixCls}-tab-prev-icon`}/>
-      </span>
+          <span className={`${prefixCls}-tab-prev-icon`} />
+        </span>
       );
 
       nextButton = (
@@ -217,8 +221,8 @@ export default {
             [`${prefixCls}-tab-btn-disabled`]: !next,
           })}
         >
-        <span className={`${prefixCls}-tab-next-icon`}/>
-      </span>
+          <span className={`${prefixCls}-tab-next-icon`} />
+        </span>
       );
     }
 
