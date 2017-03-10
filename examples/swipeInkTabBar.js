@@ -3332,9 +3332,15 @@ webpackJsonp([6],{
 	    return delta;
 	  },
 	  getIndexByKey: function getIndexByKey(activeKey) {
-	    return this.props.panels.findIndex(function (panel) {
-	      return panel.key === activeKey;
-	    });
+	    var panels = this.props.panels;
+	
+	    var length = panels.length;
+	    for (var i = 0; i <= length; i++) {
+	      if (panels[i].key === activeKey) {
+	        return i;
+	      }
+	    }
+	    return -1;
 	  },
 	  checkPaginationByDelta: function checkPaginationByDelta(delta) {
 	    var totalAvaliableDelta = this.cache.totalAvaliableDelta;
