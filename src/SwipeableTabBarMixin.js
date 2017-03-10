@@ -45,7 +45,14 @@ export default {
     return delta;
   },
   getIndexByKey(activeKey) {
-    return this.props.panels.findIndex(panel => panel.key === activeKey);
+    const { panels } = this.props;
+    const length = panels.length;
+    for (let i = 0; i <= length; i++) {
+      if (panels[i].key === activeKey) {
+        return i;
+      }
+    }
+    return -1;
   },
   checkPaginationByDelta(delta) {
     const { totalAvaliableDelta } = this.cache;
