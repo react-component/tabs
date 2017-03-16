@@ -174,6 +174,12 @@ React.render(
           <th></th>
           <td>current tab's title corresponding to current tabPane</td>
       </tr>
+      <tr>
+          <td>forceRender</td>
+          <td>Boolean</td>
+          <td>false</td>
+          <td>forced render of content in tabs,  not lazy render after clicking on tabs</td>
+      </tr>
     </tbody>
 </table>
 
@@ -330,12 +336,6 @@ swipeable tab bar with ink indicator, same with tab bar/ink bar props, and below
           <td>Boolean</td>
           <td>false</td>
           <td>whether animate tabpane with css margin</td>
-      </tr>
-      <tr>
-          <td>forceRender</td>
-          <td>Boolean</td>
-          <td>false</td>
-          <td>forced render of content in tabs,  not lazy render after clicking on tabs</td>
       </tr>
     </tbody>
 </table>
