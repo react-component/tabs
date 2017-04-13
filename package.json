@@ -46,6 +46,7 @@
   },
   "devDependencies": {
     "coveralls": "^2.11.16",
+    "create-react-class" : "15.x",
     "enzyme": "^2.7.1",
     "enzyme-to-json": "^1.5.0",
     "expect.js": "~0.3.1",
@@ -55,6 +56,7 @@
     "pre-commit": "1.x",
     "rc-tools": "5.x",
     "react": "15.x",
+    "prop-types" : "15.x",
     "react-addons-test-utils": "15.x",
     "react-dom": "15.x",
     "react-router": "2.x"
