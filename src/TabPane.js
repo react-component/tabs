@@ -1,7 +1,9 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
+import createReactClass from 'create-react-class';
 import classnames from 'classnames';
 
-const TabPane = React.createClass({
+const TabPane = createReactClass({
   propTypes: {
     className: PropTypes.string,
     active: PropTypes.bool,

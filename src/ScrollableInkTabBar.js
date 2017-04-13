@@ -1,9 +1,10 @@
 import React from 'react';
+import createReactClass from 'create-react-class';
 import InkTabBarMixin from './InkTabBarMixin';
 import ScrollableTabBarMixin from './ScrollableTabBarMixin';
 import TabBarMixin from './TabBarMixin';
 
-const ScrollableInkTabBar = React.createClass({
+const ScrollableInkTabBar = createReactClass({
   mixins: [TabBarMixin, InkTabBarMixin, ScrollableTabBarMixin],
 
   render() {

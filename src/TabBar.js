@@ -1,7 +1,8 @@
 import React from 'react';
+import createReactClass from 'create-react-class';
 import TabBarMixin from './TabBarMixin';
 
-const TabBar = React.createClass({
+const TabBar = createReactClass({
   mixins: [TabBarMixin],
   render() {
     const tabs = this.getTabs();
