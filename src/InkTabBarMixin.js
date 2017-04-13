@@ -85,8 +85,10 @@ function componentDidUpdate(component, init) {
 
 export default {
 
-  defaultProps : {
-    inkBarAnimated: true,
+  getDefaultProps() {
+    return {
+      inkBarAnimated: true,
+    }
   },
 
   componentDidUpdate() {
