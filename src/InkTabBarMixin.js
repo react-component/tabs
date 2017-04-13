@@ -88,7 +88,7 @@ export default {
   getDefaultProps() {
     return {
       inkBarAnimated: true,
-    }
+    };
   },
 
   componentDidUpdate() {
