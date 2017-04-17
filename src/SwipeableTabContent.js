@@ -52,6 +52,8 @@ function getIndexByDelta(e) {
 }
 
 const SwipeableTabContent = createReactClass({
+  displayName: 'SwipeableTabContent',
+
   propTypes: {
     tabBarPosition: PropTypes.string,
     onChange: PropTypes.func,

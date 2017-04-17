@@ -1,9 +1,9 @@
-import React from 'react';
 import createReactClass from 'create-react-class';
 import InkTabBarMixin from './InkTabBarMixin';
 import TabBarMixin from './TabBarMixin';
 
 const InkTabBar = createReactClass({
+  displayName: 'InkTabBar',
   mixins: [TabBarMixin, InkTabBarMixin],
   render() {
     const inkBarNode = this.getInkBarNode();

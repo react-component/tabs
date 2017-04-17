@@ -5,6 +5,8 @@ import SwipeableTabBarMixin from './SwipeableTabBarMixin';
 import TabBarMixin from './TabBarMixin';
 
 const SwipeableInkTabBar = createReactClass({
+  displayName: 'SwipeableInkTabBar',
+
   mixins: [TabBarMixin, InkTabBarMixin, SwipeableTabBarMixin],
 
   getSwipeableTabs() {

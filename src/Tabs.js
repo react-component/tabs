@@ -18,8 +18,7 @@ function getDefaultActiveKey(props) {
 }
 
 export default class Tabs extends React.Component {
-
-  constructor(props){
+  constructor(props) {
     super(props);
     this.render = this.render.bind(this);
     this.componentWillReceiveProps = this.componentWillReceiveProps.bind(this);
@@ -40,9 +39,8 @@ export default class Tabs extends React.Component {
     }
 
     this.state = {
-      'activeKey' : activeKey
+      activeKey,
     };
-
   }
 
   componentWillReceiveProps(nextProps) {
@@ -169,7 +167,9 @@ Tabs.propTypes = {
   className: PropTypes.string,
   tabBarPosition: PropTypes.string,
   style: PropTypes.object,
-}
+  activeKey: PropTypes.string,
+  defaultActiveKey: PropTypes.string,
+};
 
 Tabs.defaultProps = {
   prefixCls: 'rc-tabs',
@@ -177,7 +177,6 @@ Tabs.defaultProps = {
   onChange: noop,
   tabBarPosition: 'top',
   style: {},
-}
+};
 
 Tabs.TabPane = TabPane;
-

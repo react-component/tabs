@@ -10,6 +10,7 @@ import {
 } from './utils';
 
 const TabContent = createReactClass({
+  displayName: 'TabContent',
   propTypes: {
     animated: PropTypes.bool,
     animatedWithMargin: PropTypes.bool,

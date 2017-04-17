@@ -4,6 +4,7 @@ import createReactClass from 'create-react-class';
 import classnames from 'classnames';
 
 const TabPane = createReactClass({
+  displayName: 'TabPane',
   propTypes: {
     className: PropTypes.string,
     active: PropTypes.bool,
