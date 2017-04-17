@@ -50,6 +50,7 @@ export default {
         {...ref}
       >
         {child.props.tab}
+        {child.props.extraTabContent ? child.props.extraTabContent : null}
       </div>);
     });
 
