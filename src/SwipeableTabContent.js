@@ -1,5 +1,7 @@
 import TabContent from './TabContent';
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
+import createReactClass from 'create-react-class';
 import Hammer from 'react-hammerjs';
 import ReactDOM from 'react-dom';
 import {
@@ -49,7 +51,7 @@ function getIndexByDelta(e) {
   return currentIndex;
 }
 
-const SwipeableTabContent = React.createClass({
+const SwipeableTabContent = createReactClass({
   propTypes: {
     tabBarPosition: PropTypes.string,
     onChange: PropTypes.func,

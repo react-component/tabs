@@ -1,3 +1,6 @@
-export default from './Tabs';
+import Tabs from './Tabs';
+import TabPane from './TabPane';
+import TabContent from './TabContent';
 
-export TabPane from './TabPane';
+export default Tabs;
+export { TabPane, TabContent };

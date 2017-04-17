@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import KeyCode from './KeyCode';
 import TabPane from './TabPane';
 import classnames from 'classnames';
@@ -16,31 +17,19 @@ function getDefaultActiveKey(props) {
   return activeKey;
 }
 
-const Tabs = React.createClass({
-  propTypes: {
-    destroyInactiveTabPane: PropTypes.bool,
-    renderTabBar: PropTypes.func.isRequired,
-    renderTabContent: PropTypes.func.isRequired,
-    onChange: PropTypes.func,
-    children: PropTypes.any,
-    prefixCls: PropTypes.string,
-    className: PropTypes.string,
-    tabBarPosition: PropTypes.string,
-    style: PropTypes.object,
-  },
+export default class Tabs extends React.Component {
 
-  getDefaultProps() {
-    return {
-      prefixCls: 'rc-tabs',
-      destroyInactiveTabPane: false,
-      onChange: noop,
-      tabBarPosition: 'top',
-      style: {},
-    };
-  },
+  constructor(props){
+    super(props);
+    this.render = this.render.bind(this);
+    this.componentWillReceiveProps = this.componentWillReceiveProps.bind(this);
+    this.onTabClick = this.onTabClick.bind(this);
+    this.onNavKeyDown = this.onNavKeyDown.bind(this);
+    this.setActiveKey = this.setActiveKey.bind(this);
+    this.getNextActiveKey = this.getNextActiveKey.bind(this);
+    this.onTabClick = this.onTabClick.bind(this);
+    this.onTabClick = this.onTabClick.bind(this);
 
-  getInitialState() {
-    const props = this.props;
     let activeKey;
     if ('activeKey' in props) {
       activeKey = props.activeKey;
@@ -49,10 +38,12 @@ const Tabs = React.createClass({
     } else {
       activeKey = getDefaultActiveKey(props);
     }
-    return {
-      activeKey,
+
+    this.state = {
+      'activeKey' : activeKey
     };
-  },
+
+  }
 
   componentWillReceiveProps(nextProps) {
     if ('activeKey' in nextProps) {
@@ -60,14 +51,14 @@ const Tabs = React.createClass({
         activeKey: nextProps.activeKey,
       });
     }
-  },
+  }
 
   onTabClick(activeKey) {
     if (this.tabBar.props.onTabClick) {
       this.tabBar.props.onTabClick(activeKey);
     }
     this.setActiveKey(activeKey);
-  },
+  }
 
   onNavKeyDown(e) {
     const eventKeyCode = e.keyCode;
@@ -80,7 +71,7 @@ const Tabs = React.createClass({
       const previousKey = this.getNextActiveKey(false);
       this.onTabClick(previousKey);
     }
-  },
+  }
 
   setActiveKey(activeKey) {
     if (this.state.activeKey !== activeKey) {
@@ -91,7 +82,7 @@ const Tabs = React.createClass({
       }
       this.props.onChange(activeKey);
     }
-  },
+  }
 
   getNextActiveKey(next) {
     const activeKey = this.state.activeKey;
@@ -117,7 +108,7 @@ const Tabs = React.createClass({
       }
     });
     return ret;
-  },
+  }
 
   render() {
     const props = this.props;
@@ -165,9 +156,28 @@ const Tabs = React.createClass({
         {contents}
       </div>
     );
-  },
-});
+  }
+}
+
+Tabs.propTypes = {
+  destroyInactiveTabPane: PropTypes.bool,
+  renderTabBar: PropTypes.func.isRequired,
+  renderTabContent: PropTypes.func.isRequired,
+  onChange: PropTypes.func,
+  children: PropTypes.any,
+  prefixCls: PropTypes.string,
+  className: PropTypes.string,
+  tabBarPosition: PropTypes.string,
+  style: PropTypes.object,
+}
+
+Tabs.defaultProps = {
+  prefixCls: 'rc-tabs',
+  destroyInactiveTabPane: false,
+  onChange: noop,
+  tabBarPosition: 'top',
+  style: {},
+}
 
 Tabs.TabPane = TabPane;
 
-export default Tabs;
