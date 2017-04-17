@@ -1,5 +1,4 @@
-/* eslint react/no-multi-comp:0, no-console:0 */
-
+/* eslint react/no-multi-comp:0, no-console:0, react/prop-types:0 */
 import 'rc-tabs/assets/index.less';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -25,59 +24,56 @@ class PanelContent extends React.Component {
     return <div>{els}</div>;
   }
 }
-PanelContent.propTypes = {
-  id: React.PropTypes.number,
-};
 
-const Component = React.createClass({
-  getInitialState() {
-    return {
-      start: 0,
-    };
-  },
+class Demo extends React.Component {
+  state = {
+    start: 0,
+  };
 
-  onChange(key) {
+  onChange = (key) => {
     console.log(`onChange ${key}`);
-  },
+  }
 
-  onTabClick(key) {
+  onTabClick = (key) => {
     console.log(`onTabClick ${key}`);
-  },
+  }
 
-  tick() {
+  tick = () => {
     this.setState({
       start: this.state.start + 10,
     });
-  },
+  }
 
   render() {
     const start = this.state.start;
     const disabled = true;
-    return (<div>
-      <h1>Simple Tabs</h1>
-      <Tabs
-        defaultActiveKey="2"
-        destroyInactiveTabPane
-        renderTabBar={() => <ScrollableInkTabBar onTabClick={this.onTabClick}/>}
-        renderTabContent={() => <TabContent/>}
-        onChange={this.onChange}
-      >
-        <TabPane tab={`tab ${start}`} key="1" placeholder="loading 1">
-          <PanelContent id={start}/>
-        </TabPane>
-        <TabPane tab={`tab ${start + 1}`} key="2" placeholder="loading 2">
-          <PanelContent id={start + 1}/>
-        </TabPane>
-        <TabPane tab={`tab ${start + 2}`} key="3" disabled={disabled}>
-          <PanelContent id={start + 2}/>
-        </TabPane>
-        <TabPane tab={`tab ${start + 3}`} key="4" placeholder="loading 4">
-          <PanelContent id={start + 3}/>
-        </TabPane>
-      </Tabs>
-      <button onClick={this.tick}>rerender</button>
-    </div>);
-  },
-});
+    return (
+      <div>
+        <h1>Simple Tabs</h1>
+        <Tabs
+          defaultActiveKey="2"
+          destroyInactiveTabPane
+          renderTabBar={() => <ScrollableInkTabBar onTabClick={this.onTabClick}/>}
+          renderTabContent={() => <TabContent/>}
+          onChange={this.onChange}
+        >
+          <TabPane tab={`tab ${start}`} key="1" placeholder="loading 1">
+            <PanelContent id={start}/>
+          </TabPane>
+          <TabPane tab={`tab ${start + 1}`} key="2" placeholder="loading 2">
+            <PanelContent id={start + 1}/>
+          </TabPane>
+          <TabPane tab={`tab ${start + 2}`} key="3" disabled={disabled}>
+            <PanelContent id={start + 2}/>
+          </TabPane>
+          <TabPane tab={`tab ${start + 3}`} key="4" placeholder="loading 4">
+            <PanelContent id={start + 3}/>
+          </TabPane>
+        </Tabs>
+        <button onClick={this.tick}>rerender</button>
+      </div>
+    );
+  }
+}
 
-ReactDOM.render(<Component />, document.getElementById('__react-content'));
+ReactDOM.render(<Demo />, document.getElementById('__react-content'));

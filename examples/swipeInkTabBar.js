@@ -1,5 +1,4 @@
 /* eslint react/no-multi-comp:0, no-console:0 */
-
 import 'rc-tabs/assets/index.less';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -14,7 +13,6 @@ const contentStyle = {
   height: '100px',
   backgroundColor: '#fff',
 };
-
 
 const makeTabPane = key => (
   <TabPane tab={`选项${key}`} key={key}>

@@ -1,5 +1,4 @@
-/* eslint react/no-multi-comp:0, no-console:0 */
-
+/* eslint react/no-multi-comp:0, no-console:0, react/prop-types:0 */
 import 'rc-tabs/assets/index.less';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -27,9 +26,6 @@ class PanelContent extends React.Component {
     return <div style={{ height: 200, overflow: 'auto' }}>{els}</div>;
   }
 }
-PanelContent.propTypes = {
-  id: React.PropTypes.number,
-};
 
 const defaultTabKey = '2';
 

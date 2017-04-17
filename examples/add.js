@@ -1,5 +1,4 @@
 /* eslint react/no-multi-comp:0, no-console:0, no-alert:0 */
-
 import 'rc-tabs/assets/index.less';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -9,23 +8,20 @@ import ScrollableInkTabBar from '../src/ScrollableInkTabBar';
 
 let index = 1;
 
-const Test = React.createClass({
-  getInitialState() {
-    return {
-      tabs: [{
-        title: '初始',
-        content: '初始内容',
-      }],
+class Demo extends React.Component {
+  state = {
+    tabs: [{
+      title: '初始',
+      content: '初始内容',
+    }],
+    activeKey: '初始',
+  };
 
-      activeKey: '初始',
-    };
-  },
-
-  onTabChange(activeKey) {
+  onTabChange = (activeKey) => {
     this.setState({
       activeKey,
     });
-  },
+  }
 
   construct() {
     const disabled = true;
@@ -56,9 +52,9 @@ const Test = React.createClass({
         key={'__add'}
       />,
     ]);
-  },
+  }
 
-  remove(title, e) {
+  remove = (title, e) => {
     e.stopPropagation();
     if (this.state.tabs.length === 1) {
       alert('只剩一个，不能删');
@@ -83,9 +79,9 @@ const Test = React.createClass({
       tabs: after,
       activeKey,
     });
-  },
+  }
 
-  add(e) {
+  add = (e) => {
     e.stopPropagation();
     index++;
     const newTab = {
@@ -96,32 +92,35 @@ const Test = React.createClass({
       tabs: this.state.tabs.concat(newTab),
       activeKey: `名称: ${index}`,
     });
-  },
+  }
 
   render() {
     const tabStyle = {
       width: 500,
     };
 
-    return (<div style={{ margin: 20 }}>
-      <h2>Addable Tabs</h2>
-
-      <div style={tabStyle}>
-        <Tabs
-          renderTabBar={() => <ScrollableInkTabBar
-            extraContent={
-              <button onClick={this.add}>+添加</button>
-            }
-          />}
-          renderTabContent={() => <TabContent/>}
-          activeKey={this.state.activeKey}
-          onChange={this.onTabChange}
-        >
-          {this.construct()}
-        </Tabs>
+    return (
+      <div style={{ margin: 20 }}>
+        <h2>Addable Tabs</h2>
+        <div style={tabStyle}>
+          <Tabs
+            renderTabBar={() => (
+              <ScrollableInkTabBar
+                extraContent={
+                  <button onClick={this.add}>+添加</button>
+                }
+              />
+            )}
+            renderTabContent={() => <TabContent/>}
+            activeKey={this.state.activeKey}
+            onChange={this.onTabChange}
+          >
+            {this.construct()}
+          </Tabs>
+        </div>
       </div>
-    </div>);
-  },
-});
+    );
+  }
+}
 
-ReactDOM.render(<Test />, document.getElementById('__react-content'));
+ReactDOM.render(<Demo />, document.getElementById('__react-content'));
