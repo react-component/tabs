@@ -3,12 +3,12 @@ webpackJsonp([4],{
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(199);
+	module.exports = __webpack_require__(324);
 
 
 /***/ },
 
-/***/ 191:
+/***/ 315:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -17,29 +17,27 @@ webpackJsonp([4],{
 	  value: true
 	});
 	
-	var _react = __webpack_require__(3);
+	var _createReactClass = __webpack_require__(302);
 	
-	var _react2 = _interopRequireDefault(_react);
+	var _createReactClass2 = _interopRequireDefault(_createReactClass);
 	
-	var _InkTabBarMixin = __webpack_require__(192);
+	var _InkTabBarMixin = __webpack_require__(316);
 	
 	var _InkTabBarMixin2 = _interopRequireDefault(_InkTabBarMixin);
 	
-	var _ScrollableTabBarMixin = __webpack_require__(193);
+	var _ScrollableTabBarMixin = __webpack_require__(317);
 	
 	var _ScrollableTabBarMixin2 = _interopRequireDefault(_ScrollableTabBarMixin);
 	
-	var _TabBarMixin = __webpack_require__(194);
+	var _TabBarMixin = __webpack_require__(318);
 	
 	var _TabBarMixin2 = _interopRequireDefault(_TabBarMixin);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	var ScrollableInkTabBar = _react2.default.createClass({
+	var ScrollableInkTabBar = (0, _createReactClass2.default)({
 	  displayName: 'ScrollableInkTabBar',
-	
 	  mixins: [_TabBarMixin2.default, _InkTabBarMixin2.default, _ScrollableTabBarMixin2.default],
-	
 	  render: function render() {
 	    var inkBarNode = this.getInkBarNode();
 	    var tabs = this.getTabs();
@@ -53,7 +51,7 @@ webpackJsonp([4],{
 
 /***/ },
 
-/***/ 193:
+/***/ 317:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -62,19 +60,21 @@ webpackJsonp([4],{
 	  value: true
 	});
 	
-	var _classnames5 = __webpack_require__(185);
+	var _defineProperty2 = __webpack_require__(294);
+	
+	var _defineProperty3 = _interopRequireDefault(_defineProperty2);
+	
+	var _classnames5 = __webpack_require__(304);
 	
 	var _classnames6 = _interopRequireDefault(_classnames5);
 	
-	var _utils = __webpack_require__(188);
+	var _utils = __webpack_require__(311);
 	
-	var _react = __webpack_require__(3);
+	var _react = __webpack_require__(81);
 	
 	var _react2 = _interopRequireDefault(_react);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 	
 	exports.default = {
 	  getDefaultProps: function getDefaultProps() {
@@ -284,7 +284,7 @@ webpackJsonp([4],{
 	        {
 	          onClick: prev ? this.prev : null,
 	          unselectable: 'unselectable',
-	          className: (0, _classnames6.default)((_classnames = {}, _defineProperty(_classnames, prefixCls + '-tab-prev', 1), _defineProperty(_classnames, prefixCls + '-tab-btn-disabled', !prev), _classnames))
+	          className: (0, _classnames6.default)((_classnames = {}, (0, _defineProperty3.default)(_classnames, prefixCls + '-tab-prev', 1), (0, _defineProperty3.default)(_classnames, prefixCls + '-tab-btn-disabled', !prev), _classnames))
 	        },
 	        _react2.default.createElement('span', { className: prefixCls + '-tab-prev-icon' })
 	      );
@@ -294,19 +294,19 @@ webpackJsonp([4],{
 	        {
 	          onClick: next ? this.next : null,
 	          unselectable: 'unselectable',
-	          className: (0, _classnames6.default)((_classnames2 = {}, _defineProperty(_classnames2, prefixCls + '-tab-next', 1), _defineProperty(_classnames2, prefixCls + '-tab-btn-disabled', !next), _classnames2))
+	          className: (0, _classnames6.default)((_classnames2 = {}, (0, _defineProperty3.default)(_classnames2, prefixCls + '-tab-next', 1), (0, _defineProperty3.default)(_classnames2, prefixCls + '-tab-btn-disabled', !next), _classnames2))
 	        },
 	        _react2.default.createElement('span', { className: prefixCls + '-tab-next-icon' })
 	      );
 	    }
 	
 	    var navClassName = prefixCls + '-nav';
-	    var navClasses = (0, _classnames6.default)((_classnames3 = {}, _defineProperty(_classnames3, navClassName, true), _defineProperty(_classnames3, scrollAnimated ? navClassName + '-animated' : navClassName + '-no-animated', true), _classnames3));
+	    var navClasses = (0, _classnames6.default)((_classnames3 = {}, (0, _defineProperty3.default)(_classnames3, navClassName, true), (0, _defineProperty3.default)(_classnames3, scrollAnimated ? navClassName + '-animated' : navClassName + '-no-animated', true), _classnames3));
 	
 	    return _react2.default.createElement(
 	      'div',
 	      {
-	        className: (0, _classnames6.default)((_classnames4 = {}, _defineProperty(_classnames4, prefixCls + '-nav-container', 1), _defineProperty(_classnames4, prefixCls + '-nav-container-scrolling', showNextPrev), _classnames4)),
+	        className: (0, _classnames6.default)((_classnames4 = {}, (0, _defineProperty3.default)(_classnames4, prefixCls + '-nav-container', 1), (0, _defineProperty3.default)(_classnames4, prefixCls + '-nav-container-scrolling', showNextPrev), _classnames4)),
 	        key: 'container',
 	        ref: 'container'
 	      },
@@ -332,50 +332,55 @@ webpackJsonp([4],{
 
 /***/ },
 
-/***/ 199:
+/***/ 324:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	__webpack_require__(2);
+	var _classCallCheck2 = __webpack_require__(2);
 	
-	var _react = __webpack_require__(3);
+	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+	
+	var _possibleConstructorReturn2 = __webpack_require__(3);
+	
+	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+	
+	var _inherits2 = __webpack_require__(72);
+	
+	var _inherits3 = _interopRequireDefault(_inherits2);
+	
+	__webpack_require__(80);
+	
+	var _react = __webpack_require__(81);
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _reactDom = __webpack_require__(34);
+	var _reactDom = __webpack_require__(112);
 	
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 	
-	var _rcTabs = __webpack_require__(180);
+	var _rcTabs = __webpack_require__(291);
 	
 	var _rcTabs2 = _interopRequireDefault(_rcTabs);
 	
-	var _TabContent = __webpack_require__(187);
+	var _TabContent = __webpack_require__(305);
 	
 	var _TabContent2 = _interopRequireDefault(_TabContent);
 	
-	var _ScrollableInkTabBar = __webpack_require__(191);
+	var _ScrollableInkTabBar = __webpack_require__(315);
 	
 	var _ScrollableInkTabBar2 = _interopRequireDefault(_ScrollableInkTabBar);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i < keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); if (value && value.configurable && obj[key] === undefined) { Object.defineProperty(obj, key, value); } } return obj; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : _defaults(subClass, superClass); } /* eslint react/no-multi-comp:0, no-console:0 */
-	
+	/* eslint react/no-multi-comp:0, no-console:0, react/prop-types:0 */
 	var PanelContent = function (_React$Component) {
-	  _inherits(PanelContent, _React$Component);
+	  (0, _inherits3.default)(PanelContent, _React$Component);
 	
 	  function PanelContent(props) {
-	    _classCallCheck(this, PanelContent);
+	    (0, _classCallCheck3.default)(this, PanelContent);
 	
-	    var _this = _possibleConstructorReturn(this, _React$Component.call(this, props));
+	    var _this = (0, _possibleConstructorReturn3.default)(this, _React$Component.call(this, props));
 	
 	    console.log(_this.props.id, 'constructor');
 	    return _this;
@@ -406,30 +411,33 @@ webpackJsonp([4],{
 	  return PanelContent;
 	}(_react2.default.Component);
 	
-	PanelContent.propTypes = {
-	  id: _react2.default.PropTypes.number
-	};
+	var Demo = function (_React$Component2) {
+	  (0, _inherits3.default)(Demo, _React$Component2);
 	
-	var Component = _react2.default.createClass({
-	  displayName: 'Component',
-	  getInitialState: function getInitialState() {
-	    return {
+	  function Demo() {
+	    var _temp, _this3, _ret;
+	
+	    (0, _classCallCheck3.default)(this, Demo);
+	
+	    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+	      args[_key] = arguments[_key];
+	    }
+	
+	    return _ret = (_temp = (_this3 = (0, _possibleConstructorReturn3.default)(this, _React$Component2.call.apply(_React$Component2, [this].concat(args))), _this3), _this3.state = {
 	      start: 0
-	    };
-	  },
-	  onChange: function onChange(key) {
-	    console.log('onChange ' + key);
-	  },
-	  onTabClick: function onTabClick(key) {
-	    console.log('onTabClick ' + key);
-	  },
-	  tick: function tick() {
-	    this.setState({
-	      start: this.state.start + 10
-	    });
-	  },
-	  render: function render() {
-	    var _this3 = this;
+	    }, _this3.onChange = function (key) {
+	      console.log('onChange ' + key);
+	    }, _this3.onTabClick = function (key) {
+	      console.log('onTabClick ' + key);
+	    }, _this3.tick = function () {
+	      _this3.setState({
+	        start: _this3.state.start + 10
+	      });
+	    }, _temp), (0, _possibleConstructorReturn3.default)(_this3, _ret);
+	  }
+	
+	  Demo.prototype.render = function render() {
+	    var _this4 = this;
 	
 	    var start = this.state.start;
 	    var disabled = true;
@@ -447,7 +455,7 @@ webpackJsonp([4],{
 	          defaultActiveKey: '2',
 	          destroyInactiveTabPane: true,
 	          renderTabBar: function renderTabBar() {
-	            return _react2.default.createElement(_ScrollableInkTabBar2.default, { onTabClick: _this3.onTabClick });
+	            return _react2.default.createElement(_ScrollableInkTabBar2.default, { onTabClick: _this4.onTabClick });
 	          },
 	          renderTabContent: function renderTabContent() {
 	            return _react2.default.createElement(_TabContent2.default, null);
@@ -481,10 +489,12 @@ webpackJsonp([4],{
 	        'rerender'
 	      )
 	    );
-	  }
-	});
+	  };
 	
-	_reactDom2.default.render(_react2.default.createElement(Component, null), document.getElementById('__react-content'));
+	  return Demo;
+	}(_react2.default.Component);
+	
+	_reactDom2.default.render(_react2.default.createElement(Demo, null), document.getElementById('__react-content'));
 
 /***/ }
 

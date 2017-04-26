@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>antd.js - example - rc-tabs@7.3.1</title>
+  <title>antd.js - example - rc-tabs@7.3.3</title>
   <meta name="viewport"
         content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
   <meta charset="utf-8"/>
@@ -263,14 +263,13 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
 <body>
   <div class="container">
     <div class="header">
-      <h1>rc-tabs@7.3.1</h1>
+      <h1>rc-tabs@7.3.3</h1>
 
       <p>tabs ui component for react</p>
     </div>
     <div class="example" id="__react-content"></div>
 
-    <div class="highlight"><pre><code language="js"><span class="hljs-comment">/* eslint react/no-multi-comp:0, no-console:0 */</span>
-
+    <div class="highlight"><pre><code language="js"><span class="hljs-comment">/* eslint react/no-multi-comp:0, no-console:0, react/prop-types:0 */</span>
 <span class="hljs-keyword">import</span> <span class="hljs-string">'rc-tabs/assets/index.css'</span>;
 <span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
 <span class="hljs-keyword">import</span> ReactDOM <span class="hljs-keyword">from</span> <span class="hljs-string">'react-dom'</span>;
@@ -302,9 +301,6 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
     <span class="hljs-keyword">return</span> <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">div</span>&gt;</span>{els}<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>;</span>
   }
 }
-PanelContent.propTypes = {
-  id: React.PropTypes.number,
-};
 
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">construct</span>(<span class="hljs-params">start, num</span>) </span>{
   <span class="hljs-keyword">const</span> ends = [];
@@ -323,55 +319,52 @@ PanelContent.propTypes = {
   <span class="hljs-keyword">return</span> ends;
 }
 
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Demo</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> </span>{
+  state = {
+    tabBarPosition: <span class="hljs-string">'top'</span>,
+    activeKey: <span class="hljs-string">'3'</span>,
+    start: <span class="hljs-number">0</span>,
+  };
 
-<span class="hljs-keyword">const</span> Component = React.createClass({
-  getInitialState() {
-    <span class="hljs-keyword">return</span> {
-      tabBarPosition: <span class="hljs-string">'top'</span>,
-      activeKey: <span class="hljs-string">'3'</span>,
-      start: <span class="hljs-number">0</span>,
-    };
-  },
-
-  onChange(key) {
+  onChange = (key) =&gt; {
     <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`onChange <span class="hljs-subst">${key}</span>`</span>);
-  },
+  }
 
-  onChange2(activeKey) {
+  onChange2 = (activeKey) =&gt; {
     <span class="hljs-keyword">this</span>.setState({ activeKey });
-  },
+  }
 
-  onTabClick(key) {
+  onTabClick = (key) =&gt; {
     <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`onTabClick <span class="hljs-subst">${key}</span>`</span>);
-  },
+  }
 
-  tick() {
+  tick = () =&gt; {
     <span class="hljs-keyword">this</span>.setState({
       start: <span class="hljs-keyword">this</span>.state.start + <span class="hljs-number">10</span>,
     });
-  },
+  }
 
-  changeTabPosition(e) {
+  changeTabPosition = (e) =&gt; {
     <span class="hljs-keyword">this</span>.setState({
       tabBarPosition: e.target.value,
     });
-  },
+  }
 
-  scrollToActive() {
+  scrollToActive = () =&gt; {
     <span class="hljs-keyword">this</span>.bar.scrollToActiveTab();
-  },
+  }
 
-  switchToLast(ends) {
+  switchToLast = (ends) =&gt; {
     <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.state.activeKey !== ends[ends.length - <span class="hljs-number">1</span>].key) {
       <span class="hljs-keyword">this</span>.setState({ activeKey: ends[ends.length - <span class="hljs-number">1</span>].key }, <span class="hljs-keyword">this</span>.scrollToActive);
     } <span class="hljs-keyword">else</span> {
       <span class="hljs-keyword">this</span>.scrollToActive();
     }
-  },
+  }
 
-  saveBar(bar) {
+  saveBar = (bar) =&gt; {
     <span class="hljs-keyword">this</span>.bar = bar;
-  },
+  }
 
   render() {
     <span class="hljs-keyword">const</span> start = <span class="hljs-keyword">this</span>.state.start;
@@ -391,59 +384,56 @@ PanelContent.propTypes = {
       };
     }
 
-    <span class="hljs-keyword">return</span> (<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">style</span>=<span class="hljs-value">{{</span> <span class="hljs-attribute">margin:</span> <span class="hljs-attribute">20</span> }}&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-title">h2</span>&gt;</span>Simple Tabs<span class="hljs-tag">&lt;/<span class="hljs-title">h2</span>&gt;</span>
-
-      <span class="hljs-tag">&lt;<span class="hljs-title">p</span>&gt;</span>
-        tabBarPosition:
-        <span class="hljs-tag">&lt;<span class="hljs-title">select</span> <span class="hljs-attribute">value</span>=<span class="hljs-value">{this.state.tabBarPosition}</span> <span class="hljs-attribute">onChange</span>=<span class="hljs-value">{this.changeTabPosition}</span>&gt;</span>
-          <span class="hljs-tag">&lt;<span class="hljs-title">option</span> <span class="hljs-attribute">value</span>=<span class="hljs-value">"top"</span>&gt;</span>top<span class="hljs-tag">&lt;/<span class="hljs-title">option</span>&gt;</span>
-          <span class="hljs-tag">&lt;<span class="hljs-title">option</span> <span class="hljs-attribute">value</span>=<span class="hljs-value">"bottom"</span>&gt;</span>bottom<span class="hljs-tag">&lt;/<span class="hljs-title">option</span>&gt;</span>
-          <span class="hljs-tag">&lt;<span class="hljs-title">option</span> <span class="hljs-attribute">value</span>=<span class="hljs-value">"left"</span>&gt;</span>left<span class="hljs-tag">&lt;/<span class="hljs-title">option</span>&gt;</span>
-          <span class="hljs-tag">&lt;<span class="hljs-title">option</span> <span class="hljs-attribute">value</span>=<span class="hljs-value">"right"</span>&gt;</span>right<span class="hljs-tag">&lt;/<span class="hljs-title">option</span>&gt;</span>
-        <span class="hljs-tag">&lt;/<span class="hljs-title">select</span>&gt;</span>
-      <span class="hljs-tag">&lt;/<span class="hljs-title">p</span>&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-title">div</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-title">Tabs</span>
-          <span class="hljs-attribute">defaultActiveKey</span>=<span class="hljs-value">"3"</span>
-          <span class="hljs-attribute">style</span>=<span class="hljs-value">{style}</span>
-          <span class="hljs-attribute">tabBarPosition</span>=<span class="hljs-value">{this.state.tabBarPosition}</span>
-          <span class="hljs-attribute">renderTabBar</span>=<span class="hljs-value">{()</span> =&gt;</span> <span class="hljs-tag">&lt;<span class="hljs-title">InkTabBar</span> <span class="hljs-attribute">onTabClick</span>=<span class="hljs-value">{this.onTabClick}</span>/&gt;</span>}
-          renderTabContent={() =&gt; <span class="hljs-tag">&lt;<span class="hljs-title">TabContent</span> <span class="hljs-attribute">style</span>=<span class="hljs-value">{contentStyle}</span>/&gt;</span>}
-          onChange={this.onChange}
-        &gt;
-          {ends2}
-        <span class="hljs-tag">&lt;/<span class="hljs-title">Tabs</span>&gt;</span>
+    <span class="hljs-keyword">return</span> (
+      <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">style</span>=<span class="hljs-value">{{</span> <span class="hljs-attribute">margin:</span> <span class="hljs-attribute">20</span> }}&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-title">h2</span>&gt;</span>Simple Tabs<span class="hljs-tag">&lt;/<span class="hljs-title">h2</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-title">p</span>&gt;</span>
+          tabBarPosition:
+          <span class="hljs-tag">&lt;<span class="hljs-title">select</span> <span class="hljs-attribute">value</span>=<span class="hljs-value">{this.state.tabBarPosition}</span> <span class="hljs-attribute">onChange</span>=<span class="hljs-value">{this.changeTabPosition}</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-title">option</span> <span class="hljs-attribute">value</span>=<span class="hljs-value">"top"</span>&gt;</span>top<span class="hljs-tag">&lt;/<span class="hljs-title">option</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-title">option</span> <span class="hljs-attribute">value</span>=<span class="hljs-value">"bottom"</span>&gt;</span>bottom<span class="hljs-tag">&lt;/<span class="hljs-title">option</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-title">option</span> <span class="hljs-attribute">value</span>=<span class="hljs-value">"left"</span>&gt;</span>left<span class="hljs-tag">&lt;/<span class="hljs-title">option</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-title">option</span> <span class="hljs-attribute">value</span>=<span class="hljs-value">"right"</span>&gt;</span>right<span class="hljs-tag">&lt;/<span class="hljs-title">option</span>&gt;</span>
+          <span class="hljs-tag">&lt;/<span class="hljs-title">select</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-title">p</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-title">div</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-title">Tabs</span>
+            <span class="hljs-attribute">defaultActiveKey</span>=<span class="hljs-value">"3"</span>
+            <span class="hljs-attribute">style</span>=<span class="hljs-value">{style}</span>
+            <span class="hljs-attribute">tabBarPosition</span>=<span class="hljs-value">{this.state.tabBarPosition}</span>
+            <span class="hljs-attribute">renderTabBar</span>=<span class="hljs-value">{()</span> =&gt;</span> <span class="hljs-tag">&lt;<span class="hljs-title">InkTabBar</span> <span class="hljs-attribute">onTabClick</span>=<span class="hljs-value">{this.onTabClick}</span>/&gt;</span>}
+            renderTabContent={() =&gt; <span class="hljs-tag">&lt;<span class="hljs-title">TabContent</span> <span class="hljs-attribute">style</span>=<span class="hljs-value">{contentStyle}</span>/&gt;</span>}
+            onChange={this.onChange}
+          &gt;
+            {ends2}
+          <span class="hljs-tag">&lt;/<span class="hljs-title">Tabs</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-title">h2</span>&gt;</span>Scroll Tabs<span class="hljs-tag">&lt;/<span class="hljs-title">h2</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-title">div</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-title">button</span> <span class="hljs-attribute">onClick</span>=<span class="hljs-value">{()</span> =&gt;</span> this.switchToLast(ends)}&gt;
+            switch to last tab
+          <span class="hljs-tag">&lt;/<span class="hljs-title">button</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-title">Tabs</span>
+            <span class="hljs-attribute">activeKey</span>=<span class="hljs-value">{this.state.activeKey}</span>
+            <span class="hljs-attribute">style</span>=<span class="hljs-value">{style}</span>
+            <span class="hljs-attribute">tabBarPosition</span>=<span class="hljs-value">{this.state.tabBarPosition}</span>
+            <span class="hljs-attribute">renderTabBar</span>=<span class="hljs-value">{()</span> =&gt;</span> <span class="hljs-tag">&lt;<span class="hljs-title">ScrollableInkTabBar</span>
+              <span class="hljs-attribute">ref</span>=<span class="hljs-value">{this.saveBar}</span>
+              <span class="hljs-attribute">onTabClick</span>=<span class="hljs-value">{this.onTabClick}</span>
+            /&gt;</span>}
+            renderTabContent={() =&gt; <span class="hljs-tag">&lt;<span class="hljs-title">TabContent</span> <span class="hljs-attribute">style</span>=<span class="hljs-value">{contentStyle}</span>/&gt;</span>}
+            onChange={this.onChange2}
+          &gt;
+            {ends}
+          <span class="hljs-tag">&lt;/<span class="hljs-title">Tabs</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-title">button</span> <span class="hljs-attribute">onClick</span>=<span class="hljs-value">{this.tick}</span>&gt;</span>rerender<span class="hljs-tag">&lt;/<span class="hljs-title">button</span>&gt;</span>
       <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-title">h2</span>&gt;</span>Scroll Tabs<span class="hljs-tag">&lt;/<span class="hljs-title">h2</span>&gt;</span>
-
-      <span class="hljs-tag">&lt;<span class="hljs-title">div</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-title">button</span>
-          <span class="hljs-attribute">onClick</span>=<span class="hljs-value">{()</span> =&gt;</span> this.switchToLast(ends)}
-        &gt;
-          switch to last tab
-        <span class="hljs-tag">&lt;/<span class="hljs-title">button</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-title">Tabs</span>
-          <span class="hljs-attribute">activeKey</span>=<span class="hljs-value">{this.state.activeKey}</span>
-          <span class="hljs-attribute">style</span>=<span class="hljs-value">{style}</span>
-          <span class="hljs-attribute">tabBarPosition</span>=<span class="hljs-value">{this.state.tabBarPosition}</span>
-          <span class="hljs-attribute">renderTabBar</span>=<span class="hljs-value">{()</span> =&gt;</span> <span class="hljs-tag">&lt;<span class="hljs-title">ScrollableInkTabBar</span>
-            <span class="hljs-attribute">ref</span>=<span class="hljs-value">{this.saveBar}</span>
-            <span class="hljs-attribute">onTabClick</span>=<span class="hljs-value">{this.onTabClick}</span>
-          /&gt;</span>}
-          renderTabContent={() =&gt; <span class="hljs-tag">&lt;<span class="hljs-title">TabContent</span> <span class="hljs-attribute">style</span>=<span class="hljs-value">{contentStyle}</span>/&gt;</span>}
-          onChange={this.onChange2}
-        &gt;
-          {ends}
-        <span class="hljs-tag">&lt;/<span class="hljs-title">Tabs</span>&gt;</span>
-      <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-title">button</span> <span class="hljs-attribute">onClick</span>=<span class="hljs-value">{this.tick}</span>&gt;</span>rerender<span class="hljs-tag">&lt;/<span class="hljs-title">button</span>&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>)</span>;
+    )</span>;
   }
-  ,
-});
+}
 
-ReactDOM.render(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">Component</span> /&gt;</span>, document.getElementById('__react-content'));
+ReactDOM.render(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">Demo</span> /&gt;</span>, document.getElementById('__react-content'));
 </span></code></pre></div>
   </div>
   <a href="http://github.com/react-component/tabs">

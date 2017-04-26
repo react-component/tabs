@@ -3,12 +3,12 @@ webpackJsonp([6],{
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(264);
+	module.exports = __webpack_require__(388);
 
 
 /***/ },
 
-/***/ 186:
+/***/ 312:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -17,25 +17,35 @@ webpackJsonp([6],{
 	  value: true
 	});
 	
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+	var _extends2 = __webpack_require__(306);
 	
-	var _TabContent = __webpack_require__(187);
+	var _extends3 = _interopRequireDefault(_extends2);
+	
+	var _TabContent = __webpack_require__(305);
 	
 	var _TabContent2 = _interopRequireDefault(_TabContent);
 	
-	var _react = __webpack_require__(3);
+	var _react = __webpack_require__(81);
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _reactHammerjs = __webpack_require__(189);
+	var _propTypes = __webpack_require__(298);
+	
+	var _propTypes2 = _interopRequireDefault(_propTypes);
+	
+	var _createReactClass = __webpack_require__(302);
+	
+	var _createReactClass2 = _interopRequireDefault(_createReactClass);
+	
+	var _reactHammerjs = __webpack_require__(313);
 	
 	var _reactHammerjs2 = _interopRequireDefault(_reactHammerjs);
 	
-	var _reactDom = __webpack_require__(34);
+	var _reactDom = __webpack_require__(112);
 	
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 	
-	var _utils = __webpack_require__(188);
+	var _utils = __webpack_require__(311);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -76,16 +86,16 @@ webpackJsonp([6],{
 	  return currentIndex;
 	}
 	
-	var SwipeableTabContent = _react2.default.createClass({
+	var SwipeableTabContent = (0, _createReactClass2.default)({
 	  displayName: 'SwipeableTabContent',
 	
 	  propTypes: {
-	    tabBarPosition: _react.PropTypes.string,
-	    onChange: _react.PropTypes.func,
-	    children: _react.PropTypes.any,
-	    hammerOptions: _react.PropTypes.any,
-	    animated: _react.PropTypes.bool,
-	    activeKey: _react.PropTypes.string
+	    tabBarPosition: _propTypes2.default.string,
+	    onChange: _propTypes2.default.func,
+	    children: _propTypes2.default.any,
+	    hammerOptions: _propTypes2.default.any,
+	    animated: _propTypes2.default.bool,
+	    activeKey: _propTypes2.default.string
 	  },
 	
 	  getDefaultProps: function getDefaultProps() {
@@ -191,14 +201,14 @@ webpackJsonp([6],{
 	      onPanStart: this.onPanStart
 	    };
 	    if (animated !== false) {
-	      events = _extends({}, events, {
+	      events = (0, _extends3.default)({}, events, {
 	        onPan: this.onPan,
 	        onPanEnd: this.onPanEnd
 	      });
 	    }
 	    return _react2.default.createElement(
 	      _reactHammerjs2.default,
-	      _extends({}, events, direction, {
+	      (0, _extends3.default)({}, events, direction, {
 	        options: hammerOptions
 	      }),
 	      _react2.default.createElement(_TabContent2.default, this.props)
@@ -211,15 +221,15 @@ webpackJsonp([6],{
 
 /***/ },
 
-/***/ 189:
+/***/ 313:
 /***/ function(module, exports, __webpack_require__) {
 
-	var React = __webpack_require__(3);
-	var ReactDOM = __webpack_require__(34);
+	var React = __webpack_require__(81);
+	var ReactDOM = __webpack_require__(112);
 	
 	// require('hammerjs') when in a browser. This is safe because Hammer is only
 	// invoked in componentDidMount, which is not executed on the server.
-	var Hammer = (typeof window !== 'undefined') ? __webpack_require__(190) : undefined;
+	var Hammer = (typeof window !== 'undefined') ? __webpack_require__(314) : undefined;
 	
 	var privateProps = {
 		children: true,
@@ -353,7 +363,7 @@ webpackJsonp([6],{
 
 /***/ },
 
-/***/ 190:
+/***/ 314:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*! Hammer.JS - v2.0.7 - 2016-04-22
@@ -3003,37 +3013,36 @@ webpackJsonp([6],{
 
 /***/ },
 
-/***/ 264:
+/***/ 388:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	__webpack_require__(2);
+	__webpack_require__(80);
 	
-	var _react = __webpack_require__(3);
+	var _react = __webpack_require__(81);
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _reactDom = __webpack_require__(34);
+	var _reactDom = __webpack_require__(112);
 	
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 	
-	var _rcTabs = __webpack_require__(180);
+	var _rcTabs = __webpack_require__(291);
 	
 	var _rcTabs2 = _interopRequireDefault(_rcTabs);
 	
-	var _SwipeableTabContent = __webpack_require__(186);
+	var _SwipeableTabContent = __webpack_require__(312);
 	
 	var _SwipeableTabContent2 = _interopRequireDefault(_SwipeableTabContent);
 	
-	var _SwipeableInkTabBar = __webpack_require__(265);
+	var _SwipeableInkTabBar = __webpack_require__(389);
 	
 	var _SwipeableInkTabBar2 = _interopRequireDefault(_SwipeableInkTabBar);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	/* eslint react/no-multi-comp:0, no-console:0 */
-	
 	var contentStyle = {
 	  display: 'flex',
 	  alignItems: 'center',
@@ -3149,7 +3158,7 @@ webpackJsonp([6],{
 
 /***/ },
 
-/***/ 265:
+/***/ 389:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3158,27 +3167,33 @@ webpackJsonp([6],{
 	  value: true
 	});
 	
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+	var _extends2 = __webpack_require__(306);
 	
-	var _react = __webpack_require__(3);
+	var _extends3 = _interopRequireDefault(_extends2);
+	
+	var _react = __webpack_require__(81);
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _InkTabBarMixin = __webpack_require__(192);
+	var _createReactClass = __webpack_require__(302);
+	
+	var _createReactClass2 = _interopRequireDefault(_createReactClass);
+	
+	var _InkTabBarMixin = __webpack_require__(316);
 	
 	var _InkTabBarMixin2 = _interopRequireDefault(_InkTabBarMixin);
 	
-	var _SwipeableTabBarMixin = __webpack_require__(266);
+	var _SwipeableTabBarMixin = __webpack_require__(390);
 	
 	var _SwipeableTabBarMixin2 = _interopRequireDefault(_SwipeableTabBarMixin);
 	
-	var _TabBarMixin = __webpack_require__(194);
+	var _TabBarMixin = __webpack_require__(318);
 	
 	var _TabBarMixin2 = _interopRequireDefault(_TabBarMixin);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	var SwipeableInkTabBar = _react2.default.createClass({
+	var SwipeableInkTabBar = (0, _createReactClass2.default)({
 	  displayName: 'SwipeableInkTabBar',
 	
 	  mixins: [_TabBarMixin2.default, _InkTabBarMixin2.default, _SwipeableTabBarMixin2.default],
@@ -3218,7 +3233,7 @@ webpackJsonp([6],{
 	      }
 	      rst.push(_react2.default.createElement(
 	        'div',
-	        _extends({
+	        (0, _extends3.default)({
 	          role: 'tab',
 	          style: tabStyle,
 	          'aria-disabled': child.props.disabled ? 'true' : 'false',
@@ -3246,7 +3261,7 @@ webpackJsonp([6],{
 
 /***/ },
 
-/***/ 266:
+/***/ 390:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3255,29 +3270,33 @@ webpackJsonp([6],{
 	  value: true
 	});
 	
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+	var _extends2 = __webpack_require__(306);
 	
-	var _react = __webpack_require__(3);
+	var _extends3 = _interopRequireDefault(_extends2);
+	
+	var _defineProperty2 = __webpack_require__(294);
+	
+	var _defineProperty3 = _interopRequireDefault(_defineProperty2);
+	
+	var _react = __webpack_require__(81);
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _classnames3 = __webpack_require__(185);
+	var _classnames3 = __webpack_require__(304);
 	
 	var _classnames4 = _interopRequireDefault(_classnames3);
 	
-	var _reactHammerjs = __webpack_require__(189);
+	var _reactHammerjs = __webpack_require__(313);
 	
 	var _reactHammerjs2 = _interopRequireDefault(_reactHammerjs);
 	
-	var _reactDom = __webpack_require__(34);
+	var _reactDom = __webpack_require__(112);
 	
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 	
-	var _utils = __webpack_require__(188);
+	var _utils = __webpack_require__(311);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 	
 	exports.default = {
 	  getInitialState: function getInitialState() {
@@ -3434,7 +3453,7 @@ webpackJsonp([6],{
 	        hasNextPage = _state.hasNextPage;
 	
 	    var navClassName = prefixCls + '-nav';
-	    var navClasses = (0, _classnames4.default)(_defineProperty({}, navClassName, true));
+	    var navClasses = (0, _classnames4.default)((0, _defineProperty3.default)({}, navClassName, true));
 	    var direction = {};
 	    if ((0, _utils.isVertical)(tabBarPosition)) {
 	      direction = {
@@ -3447,7 +3466,7 @@ webpackJsonp([6],{
 	    return _react2.default.createElement(
 	      'div',
 	      {
-	        className: (0, _classnames4.default)((_classnames2 = {}, _defineProperty(_classnames2, prefixCls + '-nav-container', 1), _defineProperty(_classnames2, prefixCls + '-nav-swipe-container', 1), _defineProperty(_classnames2, prefixCls + '-prevpage', hasPrevPage), _defineProperty(_classnames2, prefixCls + '-nextpage', hasNextPage), _classnames2)),
+	        className: (0, _classnames4.default)((_classnames2 = {}, (0, _defineProperty3.default)(_classnames2, prefixCls + '-nav-container', 1), (0, _defineProperty3.default)(_classnames2, prefixCls + '-nav-swipe-container', 1), (0, _defineProperty3.default)(_classnames2, prefixCls + '-prevpage', hasPrevPage), (0, _defineProperty3.default)(_classnames2, prefixCls + '-nextpage', hasNextPage), _classnames2)),
 	        key: 'container',
 	        ref: 'container'
 	      },
@@ -3456,7 +3475,7 @@ webpackJsonp([6],{
 	        { className: prefixCls + '-nav-wrap', ref: 'navWrap' },
 	        _react2.default.createElement(
 	          _reactHammerjs2.default,
-	          _extends({}, events, direction, {
+	          (0, _extends3.default)({}, events, direction, {
 	            options: hammerOptions
 	          }),
 	          _react2.default.createElement(
