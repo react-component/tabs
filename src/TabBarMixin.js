@@ -1,5 +1,6 @@
 import React from 'react';
 import classnames from 'classnames';
+import warning from 'warning';
 
 const tabBarExtraContentStyle = {
   float: 'right',
@@ -40,6 +41,7 @@ export default {
       if (activeKey === key) {
         ref.ref = 'activeTab';
       }
+      warning('tab' in child.props, 'There must be `tab` property on children of Tabs.');
       rst.push(<div
         role="tab"
         aria-disabled={child.props.disabled ? 'true' : 'false'}

@@ -67,6 +67,7 @@
     "classnames": "2.x",
     "create-react-class": "15.x",
     "prop-types": "15.x",
-    "react-hammerjs": "~0.5.0"
+    "react-hammerjs": "~0.5.0",
+    "warning": "^3.0.0"
   }
 }
