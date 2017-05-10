@@ -1,6 +1,6 @@
 {
   "name": "rc-tabs",
-  "version": "7.3.5",
+  "version": "7.4.0",
   "description": "tabs ui component for react",
   "keywords": [
     "react",
@@ -9,9 +9,11 @@
   ],
   "files": [
     "lib",
+    "es",
     "assets/*.css"
   ],
   "main": "./lib/index",
+  "module": "./es/index",
   "homepage": "http://github.com/react-component/tabs",
   "author": "yiminghe@gmail.com",
   "repository": {
@@ -54,7 +56,7 @@
     "history": "^1.17.0",
     "jest": "^19.0.2",
     "pre-commit": "1.x",
-    "rc-tools": "5.x",
+    "rc-tools": "6.x",
     "react": "15.x",
     "react-dom": "^15.5.4",
     "react-router": "2.x",
