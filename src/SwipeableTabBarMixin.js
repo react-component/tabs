@@ -1,6 +1,6 @@
 import React from 'react';
 import classnames from 'classnames';
-import Hammer from 'react-hammerjs';
+import Hammer from 'rc-hammerjs';
 import ReactDOM from 'react-dom';
 import {
   isVertical,

@@ -2,7 +2,7 @@ import TabContent from './TabContent';
 import React from 'react';
 import PropTypes from 'prop-types';
 import createReactClass from 'create-react-class';
-import Hammer from 'react-hammerjs';
+import Hammer from 'rc-hammerjs';
 import ReactDOM from 'react-dom';
 import {
   isVertical,
