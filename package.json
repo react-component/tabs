@@ -35,11 +35,11 @@
     "pub": "rc-tools run pub --babel-runtime",
     "lint": "rc-tools run lint",
     "watch": "rc-tools run watch",
-    "karma": "rc-tools run karma",
-    "saucelabs": "rc-tools run saucelabs",
+    "karma": "rc-test run karma",
+    "saucelabs": "rc-test run saucelabs",
     "test": "jest",
     "updateSn": "jest --updateSnapshot",
-    "chrome-test": "rc-tools run chrome-test",
+    "chrome-test": "rc-test run chrome-test",
     "coverage": "jest --coverage && cat ./coverage/lcov.info | coveralls"
   },
   "jest": {
@@ -56,6 +56,7 @@
     "history": "^1.17.0",
     "jest": "^19.0.2",
     "pre-commit": "1.x",
+    "rc-test": "^6.0.1",
     "rc-tools": "6.x",
     "react": "15.x",
     "react-dom": "^15.5.4",
