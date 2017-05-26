@@ -154,7 +154,7 @@ React.render(
           <td>key</td>
           <td>Object</td>
           <th></th>
-          <td>corresponding to activeKey</td>
+          <td>corresponding to activeKey, should be unique</td>
       </tr>
       <tr>
           <td>style</td>
@@ -342,7 +342,7 @@ swipeable tab bar with ink indicator, same with tab bar/ink bar props, and below
 
 ### lib/SwipeableTabContent
 
-swipeable tab panes, in addition to lib/TabContent props, extra props: 
+swipeable tab panes, in addition to lib/TabContent props, extra props:
 
 <table class="table table-bordered table-striped">
     <thead>
