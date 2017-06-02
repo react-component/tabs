@@ -504,7 +504,7 @@ var SwipeableInkTabBar = __WEBPACK_IMPORTED_MODULE_3_create_react_class___defaul
     return {
       hammerOptions: {},
       pageSize: 5, // per page show how many tabs
-      speed: 10 // swipe speed, 1 to 10, more bigger more faster
+      speed: 7 // swipe speed, 1 to 10, more bigger more faster
     };
   },
   checkPaginationByKey: function checkPaginationByKey(activeKey) {
