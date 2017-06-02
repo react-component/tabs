@@ -45,7 +45,11 @@
   "jest": {
     "collectCoverageFrom": [
       "src/*"
-    ]
+    ],
+    "transform": {
+      "\\.tsx?$": "./node_modules/rc-tools/scripts/jestPreprocessor.js",
+      "\\.jsx?$": "./node_modules/rc-tools/scripts/jestPreprocessor.js"
+    }
   },
   "devDependencies": {
     "coveralls": "^2.11.16",

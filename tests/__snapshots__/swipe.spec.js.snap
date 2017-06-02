@@ -30,99 +30,99 @@ exports[`rc-swipeable-tabs should render Slider with correct DOM structure 1`] =
               <div
                 aria-disabled="false"
                 aria-selected="false"
-                class=" rc-tabs-tab"
+                class="rc-tabs-tab"
                 role="tab"
-                style="display:flex;flex:0 0 20%;"
+                style="-webkit-flex-basis:20%;flex-basis:20%;"
               >
                 选项0
               </div>
               <div
                 aria-disabled="false"
                 aria-selected="false"
-                class=" rc-tabs-tab"
+                class="rc-tabs-tab"
                 role="tab"
-                style="display:flex;flex:0 0 20%;"
+                style="-webkit-flex-basis:20%;flex-basis:20%;"
               >
                 选项1
               </div>
               <div
                 aria-disabled="false"
                 aria-selected="false"
-                class=" rc-tabs-tab"
+                class="rc-tabs-tab"
                 role="tab"
-                style="display:flex;flex:0 0 20%;"
+                style="-webkit-flex-basis:20%;flex-basis:20%;"
               >
                 选项2
               </div>
               <div
                 aria-disabled="false"
                 aria-selected="false"
-                class=" rc-tabs-tab"
+                class="rc-tabs-tab"
                 role="tab"
-                style="display:flex;flex:0 0 20%;"
+                style="-webkit-flex-basis:20%;flex-basis:20%;"
               >
                 选项3
               </div>
               <div
                 aria-disabled="false"
                 aria-selected="false"
-                class=" rc-tabs-tab"
+                class="rc-tabs-tab"
                 role="tab"
-                style="display:flex;flex:0 0 20%;"
+                style="-webkit-flex-basis:20%;flex-basis:20%;"
               >
                 选项4
               </div>
               <div
                 aria-disabled="false"
                 aria-selected="false"
-                class=" rc-tabs-tab"
+                class="rc-tabs-tab"
                 role="tab"
-                style="display:flex;flex:0 0 20%;"
+                style="-webkit-flex-basis:20%;flex-basis:20%;"
               >
                 选项5
               </div>
               <div
                 aria-disabled="false"
                 aria-selected="false"
-                class=" rc-tabs-tab"
+                class="rc-tabs-tab"
                 role="tab"
-                style="display:flex;flex:0 0 20%;"
+                style="-webkit-flex-basis:20%;flex-basis:20%;"
               >
                 选项6
               </div>
               <div
                 aria-disabled="false"
                 aria-selected="false"
-                class=" rc-tabs-tab"
+                class="rc-tabs-tab"
                 role="tab"
-                style="display:flex;flex:0 0 20%;"
+                style="-webkit-flex-basis:20%;flex-basis:20%;"
               >
                 选项7
               </div>
               <div
                 aria-disabled="false"
                 aria-selected="true"
-                class="rc-tabs-tab-active rc-tabs-tab"
+                class="rc-tabs-tab rc-tabs-tab-active"
                 role="tab"
-                style="display:flex;flex:0 0 20%;"
+                style="-webkit-flex-basis:20%;flex-basis:20%;"
               >
                 选项8
               </div>
               <div
                 aria-disabled="false"
                 aria-selected="false"
-                class=" rc-tabs-tab"
+                class="rc-tabs-tab"
                 role="tab"
-                style="display:flex;flex:0 0 20%;"
+                style="-webkit-flex-basis:20%;flex-basis:20%;"
               >
                 选项9
               </div>
               <div
                 aria-disabled="false"
                 aria-selected="false"
-                class=" rc-tabs-tab"
+                class="rc-tabs-tab"
                 role="tab"
-                style="display:flex;flex:0 0 20%;"
+                style="-webkit-flex-basis:20%;flex-basis:20%;"
               >
                 选项10
               </div>
