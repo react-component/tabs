@@ -1,5 +1,6 @@
 import React from 'react';
 import createReactClass from 'create-react-class';
+import classnames from 'classnames';
 import InkTabBarMixin from './InkTabBarMixin';
 import SwipeableTabBarMixin from './SwipeableTabBarMixin';
 import TabBarMixin from './TabBarMixin';
@@ -16,9 +17,10 @@ const SwipeableInkTabBar = createReactClass({
     const rst = [];
     const prefixCls = props.prefixCls;
 
+    const _flexWidth = `${1 / props.pageSize * 100}%`;
     const tabStyle = {
-      display: 'flex',
-      flex: `0 0 ${1 / props.pageSize * 100}%`,
+      WebkitFlexBasis: _flexWidth,
+      flexBasis: _flexWidth,
     };
 
     React.Children.forEach(children, (child) => {
@@ -26,19 +28,19 @@ const SwipeableInkTabBar = createReactClass({
         return;
       }
       const key = child.key;
-      let cls = activeKey === key ? `${prefixCls}-tab-active` : '';
-      cls += ` ${prefixCls}-tab`;
+      const cls = classnames(`${prefixCls}-tab`, {
+        [`${prefixCls}-tab-active`]: activeKey === key,
+        [`${prefixCls}-tab-disabled`]: child.props.disabled,
+      });
       let events = {};
-      if (child.props.disabled) {
-        cls += ` ${prefixCls}-tab-disabled`;
-      } else {
+      if (!child.props.disabled) {
         events = {
           onClick: this.onTabClick.bind(this, key),
         };
       }
-      const ref = {};
+      const refProps = {};
       if (activeKey === key) {
-        ref.ref = 'activeTab';
+        refProps.ref = 'activeTab';
       }
       rst.push(<div
         role="tab"
@@ -48,7 +50,7 @@ const SwipeableInkTabBar = createReactClass({
         {...events}
         className={cls}
         key={key}
-        {...ref}
+        {...refProps}
       >
         {child.props.tab}
       </div>);

@@ -129,12 +129,6 @@ export default {
     const navClasses = classnames({
       [navClassName]: true,
     });
-    let direction = {};
-    if (isVertical(tabBarPosition)) {
-      direction = {
-        vertical: true,
-      };
-    }
     const events = {
       onPan: this.onPan,
     };
@@ -153,7 +147,7 @@ export default {
         <div className={`${prefixCls}-nav-wrap`} ref="navWrap">
           <Hammer
             {...events}
-            {...direction}
+            direction={isVertical(tabBarPosition) ? 'DIRECTION_ALL' : 'DIRECTION_HORIZONTAL'}
             options={hammerOptions}
           >
             <div className={`${prefixCls}-nav-swipe`} ref="swipe">

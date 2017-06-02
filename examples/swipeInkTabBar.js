@@ -32,7 +32,7 @@ const makeMultiTabPane = (count) => {
 
 const Component = () => (
   <div>
-    <h1>pageSize = 5, speed = 5</h1>
+    <h4>pageSize = 5, speed = 5</h4>
     <div>
       <Tabs
         renderTabBar={() =>
@@ -47,7 +47,7 @@ const Component = () => (
         {makeMultiTabPane(11)}
       </Tabs>
     </div>
-    <h1>pageSize = 3, speed = 10</h1>
+    <h4>pageSize = 3, speed = 10</h4>
     <div>
       <Tabs
         renderTabBar={() =>
@@ -62,7 +62,7 @@ const Component = () => (
         {makeMultiTabPane(7)}
       </Tabs>
     </div>
-    <h1>pageSize = 3, speed = 10, tabBarPosition='bottom'</h1>
+    <h4>pageSize = 3, speed = 10, tabBarPosition='bottom'</h4>
     <div>
       <Tabs
         tabBarPosition="bottom"
@@ -76,6 +76,34 @@ const Component = () => (
         defaultActiveKey="2"
       >
         {makeMultiTabPane(7)}
+      </Tabs>
+    </div>
+    <h4>tabBarPosition='left'</h4>
+    <div>
+      <Tabs
+        tabBarPosition="left"
+        pageSize={3}
+        renderTabBar={() =>
+          <SwipeableInkTabBar/>
+        }
+        renderTabContent={() => <TabContent/>}
+        defaultActiveKey="2"
+      >
+        {makeMultiTabPane(11)}
+      </Tabs>
+    </div>
+    <h4>tabBarPosition='right'</h4>
+    <div>
+      <Tabs
+        tabBarPosition="right"
+        pageSize={3}
+        renderTabBar={() =>
+          <SwipeableInkTabBar/>
+        }
+        renderTabContent={() => <TabContent/>}
+        defaultActiveKey="2"
+      >
+        {makeMultiTabPane(11)}
       </Tabs>
     </div>
   </div>
