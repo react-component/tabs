@@ -71,6 +71,7 @@ export function getStyle(el, property) {
   return +getComputedStyle(el).getPropertyValue(property).replace('px', '');
 }
 
-export function setPxStyle(el, property, value) {
-  el.style[property] = `${value}px`;
+export function setPxStyle(el, value, vertical) {
+  value = vertical ? `0px, ${value}px, 0px` : `${value}px, 0px, 0px`;
+  setTransform(el.style, `translate3d(${value})`);
 }

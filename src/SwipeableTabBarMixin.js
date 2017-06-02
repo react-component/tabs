@@ -20,7 +20,7 @@ export default {
     return {
       hammerOptions: {},
       pageSize: 5, // per page show how many tabs
-      speed: 5, // swipe speed, 1 to 10, more bigger more faster
+      speed: 10, // swipe speed, 1 to 10, more bigger more faster
     };
   },
   checkPaginationByKey(activeKey) {
@@ -79,11 +79,12 @@ export default {
       // the middle page
       delta = this.getDeltaByKey(activeKey);
     }
-    this.setSwipePositionByDelta(delta);
+    this.cache.totalDelta = delta;
+    this.setSwipePosition();
   },
-  setSwipePositionByDelta(value) {
-    const { relativeDirection } = this.cache;
-    setPxStyle(this.swipeNode, relativeDirection, value);
+  setSwipePosition() {
+    const { totalDelta, vertical } = this.cache;
+    setPxStyle(this.swipeNode, totalDelta, vertical);
   },
   componentDidMount() {
     const { swipe, nav } = this.refs;
@@ -95,7 +96,6 @@ export default {
     const _tabWidth = _viewSize / pageSize;
     this.cache = {
       vertical: _isVertical,
-      relativeDirection: _isVertical ? 'top' : 'left',
       totalAvaliableDelta: _tabWidth * panels.length - _viewSize,
       tabWidth: _tabWidth,
     };
@@ -107,19 +107,30 @@ export default {
     }
   },
   onPan(e) {
-    const { vertical, relativeDirection } = this.cache;
+    const { vertical, totalAvaliableDelta, totalDelta } = this.cache;
     const { speed } = this.props;
+    // calculate touch distance
     let nowDelta = vertical ? e.deltaY : e.deltaX;
     nowDelta = nowDelta * (speed / 10);
-    const preDelta = getStyle(this.swipeNode, relativeDirection);
-    const nextTotalDelta = nowDelta + preDelta;
-    const { hasPrevPage, hasNextPage } = this.checkPaginationByDelta(nextTotalDelta);
-    this.setState({
-      hasPrevPage,
-      hasNextPage,
-    });
-    if (hasPrevPage && hasNextPage) {
-      this.setSwipePositionByDelta(nextTotalDelta);
+
+    // calculate distance dom need transform
+    let _nextDelta = nowDelta + totalDelta;
+    if (_nextDelta >= 0) {
+      _nextDelta = 0;
+    } else if (_nextDelta <= -totalAvaliableDelta) {
+      _nextDelta = -totalAvaliableDelta;
+    }
+
+    this.cache.totalDelta = _nextDelta;
+    this.setSwipePosition();
+
+    // calculate pagination display
+    const { hasPrevPage, hasNextPage } = this.checkPaginationByDelta(this.cache.totalDelta);
+    if (hasPrevPage !== this.state.hasPrevPage || hasNextPage !== this.state.hasNextPage) {
+      this.setState({
+        hasPrevPage,
+        hasNextPage,
+      });
     }
   },
   getSwipeBarNode(tabs) {
