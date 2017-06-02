@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>swipeInkTabBar.js - example - rc-tabs@7.5.0</title>
+  <title>swipeInkTabBar.js - example - rc-tabs@8.0.0-beta.0</title>
   <meta name="viewport"
         content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
   <meta charset="utf-8"/>
@@ -257,13 +257,13 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
     document.writeln('<script src="https://as.alipayobjects.com/g/component/es6-promise/3.2.2/es6-promise.min.js"'+'>'+'<'+'/'+'script>');
   }
   </script>
-  <link rel="stylesheet" href="common.css" />
+  <link rel="stylesheet" href="../common.css" />
 </head>
 
 <body>
   <div class="container">
     <div class="header">
-      <h1>rc-tabs@7.5.0</h1>
+      <h1>rc-tabs@8.0.0-beta.0</h1>
 
       <p>tabs ui component for react</p>
     </div>
@@ -303,7 +303,7 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
 
 <span class="hljs-keyword">const</span> Component = () =&gt; (
   <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">div</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-title">h1</span>&gt;</span>pageSize = 5, speed = 5<span class="hljs-tag">&lt;/<span class="hljs-title">h1</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">h4</span>&gt;</span>pageSize = 5, speed = 5<span class="hljs-tag">&lt;/<span class="hljs-title">h4</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-title">div</span>&gt;</span>
       <span class="hljs-tag">&lt;<span class="hljs-title">Tabs</span>
         <span class="hljs-attribute">renderTabBar</span>=<span class="hljs-value">{()</span> =&gt;</span>
@@ -318,7 +318,7 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
         {makeMultiTabPane(11)}
       <span class="hljs-tag">&lt;/<span class="hljs-title">Tabs</span>&gt;</span>
     <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-title">h1</span>&gt;</span>pageSize = 3, speed = 10<span class="hljs-tag">&lt;/<span class="hljs-title">h1</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">h4</span>&gt;</span>pageSize = 3, speed = 10<span class="hljs-tag">&lt;/<span class="hljs-title">h4</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-title">div</span>&gt;</span>
       <span class="hljs-tag">&lt;<span class="hljs-title">Tabs</span>
         <span class="hljs-attribute">renderTabBar</span>=<span class="hljs-value">{()</span> =&gt;</span>
@@ -333,7 +333,7 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
         {makeMultiTabPane(7)}
       <span class="hljs-tag">&lt;/<span class="hljs-title">Tabs</span>&gt;</span>
     <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-title">h1</span>&gt;</span>pageSize = 3, speed = 10, tabBarPosition='bottom'<span class="hljs-tag">&lt;/<span class="hljs-title">h1</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">h4</span>&gt;</span>pageSize = 3, speed = 10, tabBarPosition='bottom'<span class="hljs-tag">&lt;/<span class="hljs-title">h4</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-title">div</span>&gt;</span>
       <span class="hljs-tag">&lt;<span class="hljs-title">Tabs</span>
         <span class="hljs-attribute">tabBarPosition</span>=<span class="hljs-value">"bottom"</span>
@@ -349,6 +349,34 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
         {makeMultiTabPane(7)}
       <span class="hljs-tag">&lt;/<span class="hljs-title">Tabs</span>&gt;</span>
     <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">h4</span>&gt;</span>tabBarPosition='left'<span class="hljs-tag">&lt;/<span class="hljs-title">h4</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">div</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-title">Tabs</span>
+        <span class="hljs-attribute">tabBarPosition</span>=<span class="hljs-value">"left"</span>
+        <span class="hljs-attribute">pageSize</span>=<span class="hljs-value">{3}</span>
+        <span class="hljs-attribute">renderTabBar</span>=<span class="hljs-value">{()</span> =&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-title">SwipeableInkTabBar</span>/&gt;</span>
+        }
+        renderTabContent={() =&gt; <span class="hljs-tag">&lt;<span class="hljs-title">TabContent</span>/&gt;</span>}
+        defaultActiveKey="2"
+      &gt;
+        {makeMultiTabPane(11)}
+      <span class="hljs-tag">&lt;/<span class="hljs-title">Tabs</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">h4</span>&gt;</span>tabBarPosition='right'<span class="hljs-tag">&lt;/<span class="hljs-title">h4</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">div</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-title">Tabs</span>
+        <span class="hljs-attribute">tabBarPosition</span>=<span class="hljs-value">"right"</span>
+        <span class="hljs-attribute">pageSize</span>=<span class="hljs-value">{3}</span>
+        <span class="hljs-attribute">renderTabBar</span>=<span class="hljs-value">{()</span> =&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-title">SwipeableInkTabBar</span>/&gt;</span>
+        }
+        renderTabContent={() =&gt; <span class="hljs-tag">&lt;<span class="hljs-title">TabContent</span>/&gt;</span>}
+        defaultActiveKey="2"
+      &gt;
+        {makeMultiTabPane(11)}
+      <span class="hljs-tag">&lt;/<span class="hljs-title">Tabs</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
 )</span>;
 
@@ -362,7 +390,7 @@ ReactDOM.render(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-t
          data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
   </a>
   <script>FastClick.attach(document.body);</script>
-  <script src="common.js?nowrap"></script>
+  <script src="../common.js?nowrap"></script>
   <script src="swipeInkTabBar.js?nowrap"></script>
 </body>
 

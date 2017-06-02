@@ -1,5 +1,191 @@
 webpackJsonp([1],{
 
+/***/ 100:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_classCallCheck__ = __webpack_require__(23);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_classCallCheck___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_classCallCheck__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_createClass__ = __webpack_require__(24);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_createClass___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_createClass__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_possibleConstructorReturn__ = __webpack_require__(26);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_possibleConstructorReturn___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_possibleConstructorReturn__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_inherits__ = __webpack_require__(25);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_inherits___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_inherits__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_react__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_prop_types__ = __webpack_require__(42);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_prop_types__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_react_dom__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_react_dom__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_hammerjs__ = __webpack_require__(95);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_hammerjs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_hammerjs__);
+
+
+
+
+
+
+
+
+// https://github.com/hammerjs/hammer.js/issues/930
+// https://github.com/JedWatson/react-hammerjs/issues/14
+// wait to see if we need the condition require hack for ssr
+
+
+var privateProps = {
+	children: true,
+	direction: true,
+	options: true,
+	recognizeWith: true,
+	vertical: true
+};
+
+/**
+ * Hammer Component
+ * ================
+ */
+
+var handlerToEvent = {
+	action: 'tap press',
+	onDoubleTap: 'doubletap',
+	onPan: 'pan',
+	onPanCancel: 'pancancel',
+	onPanEnd: 'panend',
+	onPanStart: 'panstart',
+	onPinch: 'pinch',
+	onPinchCancel: 'pinchcancel',
+	onPinchEnd: 'pinchend',
+	onPinchIn: 'pinchin',
+	onPinchOut: 'pinchout',
+	onPinchStart: 'pinchstart',
+	onPress: 'press',
+	onPressUp: 'pressup',
+	onRotate: 'rotate',
+	onRotateCancel: 'rotatecancel',
+	onRotateEnd: 'rotateend',
+	onRotateMove: 'rotatemove',
+	onRotateStart: 'rotatestart',
+	onSwipe: 'swipe',
+	onSwipeRight: 'swiperight',
+	onSwipeLeft: 'swipeleft',
+	onSwipeUp: 'swipeup',
+	onSwipeDown: 'swipedown',
+	onTap: 'tap'
+};
+
+Object.keys(handlerToEvent).forEach(function (i) {
+	privateProps[i] = true;
+});
+
+function updateHammer(hammer, props) {
+	var _this = this;
+
+	if (props.hasOwnProperty('vertical')) {
+		console.warn('vertical is deprecated, please use `direction` instead');
+	}
+
+	var directionProp = props.direction;
+	if (directionProp || props.hasOwnProperty('vertical')) {
+		var direction = directionProp ? directionProp : props.vertical ? 'DIRECTION_ALL' : 'DIRECTION_HORIZONTAL';
+		hammer.get('pan').set({ direction: __WEBPACK_IMPORTED_MODULE_7_hammerjs___default.a[direction] });
+		hammer.get('swipe').set({ direction: __WEBPACK_IMPORTED_MODULE_7_hammerjs___default.a[direction] });
+	}
+
+	if (props.options) {
+		Object.keys(props.options).forEach(function (option) {
+			if (option === 'recognizers') {
+				Object.keys(props.options.recognizers).forEach(function (gesture) {
+					var recognizer = hammer.get(gesture);
+					recognizer.set(props.options.recognizers[gesture]);
+					if (props.options.recognizers[gesture].requireFailure) {
+						recognizer.requireFailure(props.options.recognizers[gesture].requireFailure);
+					}
+				}, _this);
+			} else {
+				var key = option;
+				var optionObj = {};
+				optionObj[key] = props.options[option];
+				hammer.set(optionObj);
+			}
+		}, this);
+	}
+
+	if (props.recognizeWith) {
+		Object.keys(props.recognizeWith).forEach(function (gesture) {
+			var recognizer = hammer.get(gesture);
+			recognizer.recognizeWith(props.recognizeWith[gesture]);
+		}, this);
+	}
+
+	Object.keys(props).forEach(function (p) {
+		var e = handlerToEvent[p];
+		if (e) {
+			hammer.off(e);
+			hammer.on(e, props[p]);
+		}
+	});
+}
+
+var HammerComponent = function (_React$Component) {
+	__WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_inherits___default()(HammerComponent, _React$Component);
+
+	function HammerComponent() {
+		__WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_classCallCheck___default()(this, HammerComponent);
+
+		return __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_possibleConstructorReturn___default()(this, (HammerComponent.__proto__ || Object.getPrototypeOf(HammerComponent)).apply(this, arguments));
+	}
+
+	__WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_createClass___default()(HammerComponent, [{
+		key: 'componentDidMount',
+		value: function componentDidMount() {
+			this.hammer = new __WEBPACK_IMPORTED_MODULE_7_hammerjs___default.a(__WEBPACK_IMPORTED_MODULE_6_react_dom___default.a.findDOMNode(this));
+			updateHammer(this.hammer, this.props);
+		}
+	}, {
+		key: 'componentDidUpdate',
+		value: function componentDidUpdate() {
+			if (this.hammer) {
+				updateHammer(this.hammer, this.props);
+			}
+		}
+	}, {
+		key: 'componentWillUnmount',
+		value: function componentWillUnmount() {
+			if (this.hammer) {
+				this.hammer.stop();
+				this.hammer.destroy();
+			}
+			this.hammer = null;
+		}
+	}, {
+		key: 'render',
+		value: function render() {
+			var props = {};
+
+			Object.keys(this.props).forEach(function (i) {
+				if (!privateProps[i]) {
+					props[i] = this.props[i];
+				}
+			}, this);
+
+			// Reuse the child provided
+			// This makes it flexible to use whatever element is wanted (div, ul, etc)
+			return __WEBPACK_IMPORTED_MODULE_4_react___default.a.cloneElement(__WEBPACK_IMPORTED_MODULE_4_react___default.a.Children.only(this.props.children), props);
+		}
+	}]);
+
+	return HammerComponent;
+}(__WEBPACK_IMPORTED_MODULE_4_react___default.a.Component);
+
+HammerComponent.displayName = 'Hammer';
+HammerComponent.propTypes = {
+	className: __WEBPACK_IMPORTED_MODULE_5_prop_types___default.a.string
+};
+/* harmony default export */ __webpack_exports__["a"] = (HammerComponent);
+
+/***/ }),
+
 /***/ 184:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -56,7 +242,7 @@ var Component = function Component() {
     'div',
     null,
     __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(
-      'h1',
+      'h4',
       null,
       'pageSize = 5, speed = 5'
     ),
@@ -81,7 +267,7 @@ var Component = function Component() {
       )
     ),
     __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(
-      'h1',
+      'h4',
       null,
       'pageSize = 3, speed = 10'
     ),
@@ -106,7 +292,7 @@ var Component = function Component() {
       )
     ),
     __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(
-      'h1',
+      'h4',
       null,
       'pageSize = 3, speed = 10, tabBarPosition=\'bottom\''
     ),
@@ -130,6 +316,54 @@ var Component = function Component() {
         },
         makeMultiTabPane(7)
       )
+    ),
+    __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(
+      'h4',
+      null,
+      'tabBarPosition=\'left\''
+    ),
+    __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(
+      'div',
+      null,
+      __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(
+        __WEBPACK_IMPORTED_MODULE_3_rc_tabs___default.a,
+        {
+          tabBarPosition: 'left',
+          pageSize: 3,
+          renderTabBar: function renderTabBar() {
+            return __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__src_SwipeableInkTabBar__["a" /* default */], null);
+          },
+          renderTabContent: function renderTabContent() {
+            return __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__src_SwipeableTabContent__["a" /* default */], null);
+          },
+          defaultActiveKey: '2'
+        },
+        makeMultiTabPane(11)
+      )
+    ),
+    __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(
+      'h4',
+      null,
+      'tabBarPosition=\'right\''
+    ),
+    __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(
+      'div',
+      null,
+      __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(
+        __WEBPACK_IMPORTED_MODULE_3_rc_tabs___default.a,
+        {
+          tabBarPosition: 'right',
+          pageSize: 3,
+          renderTabBar: function renderTabBar() {
+            return __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__src_SwipeableInkTabBar__["a" /* default */], null);
+          },
+          renderTabContent: function renderTabContent() {
+            return __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__src_SwipeableTabContent__["a" /* default */], null);
+          },
+          defaultActiveKey: '2'
+        },
+        makeMultiTabPane(11)
+      )
     )
   );
 };
@@ -144,13 +378,17 @@ __WEBPACK_IMPORTED_MODULE_2_react_dom___default.a.render(__WEBPACK_IMPORTED_MODU
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends__ = __webpack_require__(47);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_create_react_class__ = __webpack_require__(13);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_create_react_class___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_create_react_class__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__InkTabBarMixin__ = __webpack_require__(28);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__SwipeableTabBarMixin__ = __webpack_require__(188);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__TabBarMixin__ = __webpack_require__(29);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_defineProperty__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_defineProperty___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_defineProperty__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_create_react_class__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_create_react_class___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_create_react_class__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_classnames__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_classnames___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_classnames__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__InkTabBarMixin__ = __webpack_require__(28);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__SwipeableTabBarMixin__ = __webpack_require__(188);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__TabBarMixin__ = __webpack_require__(29);
 
 
 
@@ -158,10 +396,12 @@ __WEBPACK_IMPORTED_MODULE_2_react_dom___default.a.render(__WEBPACK_IMPORTED_MODU
 
 
 
-var SwipeableInkTabBar = __WEBPACK_IMPORTED_MODULE_2_create_react_class___default()({
+
+
+var SwipeableInkTabBar = __WEBPACK_IMPORTED_MODULE_3_create_react_class___default()({
   displayName: 'SwipeableInkTabBar',
 
-  mixins: [__WEBPACK_IMPORTED_MODULE_5__TabBarMixin__["a" /* default */], __WEBPACK_IMPORTED_MODULE_3__InkTabBarMixin__["a" /* default */], __WEBPACK_IMPORTED_MODULE_4__SwipeableTabBarMixin__["a" /* default */]],
+  mixins: [__WEBPACK_IMPORTED_MODULE_7__TabBarMixin__["a" /* default */], __WEBPACK_IMPORTED_MODULE_5__InkTabBarMixin__["a" /* default */], __WEBPACK_IMPORTED_MODULE_6__SwipeableTabBarMixin__["a" /* default */]],
 
   getSwipeableTabs: function getSwipeableTabs() {
     var _this = this;
@@ -172,31 +412,31 @@ var SwipeableInkTabBar = __WEBPACK_IMPORTED_MODULE_2_create_react_class___defaul
     var rst = [];
     var prefixCls = props.prefixCls;
 
+    var _flexWidth = 1 / props.pageSize * 100 + '%';
     var tabStyle = {
-      display: 'flex',
-      flex: '0 0 ' + 1 / props.pageSize * 100 + '%'
+      WebkitFlexBasis: _flexWidth,
+      flexBasis: _flexWidth
     };
 
-    __WEBPACK_IMPORTED_MODULE_1_react___default.a.Children.forEach(children, function (child) {
+    __WEBPACK_IMPORTED_MODULE_2_react___default.a.Children.forEach(children, function (child) {
+      var _classnames;
+
       if (!child) {
         return;
       }
       var key = child.key;
-      var cls = activeKey === key ? prefixCls + '-tab-active' : '';
-      cls += ' ' + prefixCls + '-tab';
+      var cls = __WEBPACK_IMPORTED_MODULE_4_classnames___default()(prefixCls + '-tab', (_classnames = {}, __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_defineProperty___default()(_classnames, prefixCls + '-tab-active', activeKey === key), __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_defineProperty___default()(_classnames, prefixCls + '-tab-disabled', child.props.disabled), _classnames));
       var events = {};
-      if (child.props.disabled) {
-        cls += ' ' + prefixCls + '-tab-disabled';
-      } else {
+      if (!child.props.disabled) {
         events = {
           onClick: _this.onTabClick.bind(_this, key)
         };
       }
-      var ref = {};
+      var refProps = {};
       if (activeKey === key) {
-        ref.ref = 'activeTab';
+        refProps.ref = 'activeTab';
       }
-      rst.push(__WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(
+      rst.push(__WEBPACK_IMPORTED_MODULE_2_react___default.a.createElement(
         'div',
         __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends___default()({
           role: 'tab',
@@ -206,7 +446,7 @@ var SwipeableInkTabBar = __WEBPACK_IMPORTED_MODULE_2_create_react_class___defaul
         }, events, {
           className: cls,
           key: key
-        }, ref),
+        }, refProps),
         child.props.tab
       ));
     });
@@ -235,10 +475,9 @@ var SwipeableInkTabBar = __WEBPACK_IMPORTED_MODULE_2_create_react_class___defaul
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_defineProperty___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_defineProperty__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_classnames__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_classnames__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_classnames___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_classnames__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rc_hammerjs__ = __webpack_require__(70);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rc_hammerjs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_rc_hammerjs__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_react_dom__ = __webpack_require__(15);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_react_dom__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__utils__ = __webpack_require__(19);
@@ -265,7 +504,8 @@ var SwipeableInkTabBar = __WEBPACK_IMPORTED_MODULE_2_create_react_class___defaul
     return {
       hammerOptions: {},
       pageSize: 5, // per page show how many tabs
-      speed: 5 };
+      speed: 10 // swipe speed, 1 to 10, more bigger more faster
+    };
   },
   checkPaginationByKey: function checkPaginationByKey(activeKey) {
     var _props = this.props,
@@ -335,12 +575,15 @@ var SwipeableInkTabBar = __WEBPACK_IMPORTED_MODULE_2_create_react_class___defaul
       // the middle page
       delta = this.getDeltaByKey(activeKey);
     }
-    this.setSwipePositionByDelta(delta);
+    this.cache.totalDelta = delta;
+    this.setSwipePosition();
   },
-  setSwipePositionByDelta: function setSwipePositionByDelta(value) {
-    var relativeDirection = this.cache.relativeDirection;
+  setSwipePosition: function setSwipePosition() {
+    var _cache = this.cache,
+        totalDelta = _cache.totalDelta,
+        vertical = _cache.vertical;
 
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__utils__["j" /* setPxStyle */])(this.swipeNode, relativeDirection, value);
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__utils__["j" /* setPxStyle */])(this.swipeNode, totalDelta, vertical);
   },
   componentDidMount: function componentDidMount() {
     var _refs = this.refs,
@@ -359,7 +602,6 @@ var SwipeableInkTabBar = __WEBPACK_IMPORTED_MODULE_2_create_react_class___defaul
     var _tabWidth = _viewSize / pageSize;
     this.cache = {
       vertical: _isVertical,
-      relativeDirection: _isVertical ? 'top' : 'left',
       totalAvaliableDelta: _tabWidth * panels.length - _viewSize,
       tabWidth: _tabWidth
     };
@@ -371,26 +613,38 @@ var SwipeableInkTabBar = __WEBPACK_IMPORTED_MODULE_2_create_react_class___defaul
     }
   },
   onPan: function onPan(e) {
-    var _cache = this.cache,
-        vertical = _cache.vertical,
-        relativeDirection = _cache.relativeDirection;
+    var _cache2 = this.cache,
+        vertical = _cache2.vertical,
+        totalAvaliableDelta = _cache2.totalAvaliableDelta,
+        totalDelta = _cache2.totalDelta;
     var speed = this.props.speed;
+    // calculate touch distance
 
     var nowDelta = vertical ? e.deltaY : e.deltaX;
     nowDelta = nowDelta * (speed / 10);
-    var preDelta = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__utils__["k" /* getStyle */])(this.swipeNode, relativeDirection);
-    var nextTotalDelta = nowDelta + preDelta;
 
-    var _checkPaginationByDel = this.checkPaginationByDelta(nextTotalDelta),
+    // calculate distance dom need transform
+    var _nextDelta = nowDelta + totalDelta;
+    if (_nextDelta >= 0) {
+      _nextDelta = 0;
+    } else if (_nextDelta <= -totalAvaliableDelta) {
+      _nextDelta = -totalAvaliableDelta;
+    }
+
+    this.cache.totalDelta = _nextDelta;
+    this.setSwipePosition();
+
+    // calculate pagination display
+
+    var _checkPaginationByDel = this.checkPaginationByDelta(this.cache.totalDelta),
         hasPrevPage = _checkPaginationByDel.hasPrevPage,
         hasNextPage = _checkPaginationByDel.hasNextPage;
 
-    this.setState({
-      hasPrevPage: hasPrevPage,
-      hasNextPage: hasNextPage
-    });
-    if (hasPrevPage && hasNextPage) {
-      this.setSwipePositionByDelta(nextTotalDelta);
+    if (hasPrevPage !== this.state.hasPrevPage || hasNextPage !== this.state.hasNextPage) {
+      this.setState({
+        hasPrevPage: hasPrevPage,
+        hasNextPage: hasNextPage
+      });
     }
   },
   getSwipeBarNode: function getSwipeBarNode(tabs) {
@@ -406,12 +660,6 @@ var SwipeableInkTabBar = __WEBPACK_IMPORTED_MODULE_2_create_react_class___defaul
 
     var navClassName = prefixCls + '-nav';
     var navClasses = __WEBPACK_IMPORTED_MODULE_3_classnames___default()(__WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_defineProperty___default()({}, navClassName, true));
-    var direction = {};
-    if (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__utils__["a" /* isVertical */])(tabBarPosition)) {
-      direction = {
-        vertical: true
-      };
-    }
     var events = {
       onPan: this.onPan
     };
@@ -426,8 +674,9 @@ var SwipeableInkTabBar = __WEBPACK_IMPORTED_MODULE_2_create_react_class___defaul
         'div',
         { className: prefixCls + '-nav-wrap', ref: 'navWrap' },
         __WEBPACK_IMPORTED_MODULE_2_react___default.a.createElement(
-          __WEBPACK_IMPORTED_MODULE_4_rc_hammerjs___default.a,
-          __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends___default()({}, events, direction, {
+          __WEBPACK_IMPORTED_MODULE_4_rc_hammerjs__["a" /* default */],
+          __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends___default()({}, events, {
+            direction: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__utils__["a" /* isVertical */])(tabBarPosition) ? 'DIRECTION_ALL' : 'DIRECTION_HORIZONTAL',
             options: hammerOptions
           }),
           __WEBPACK_IMPORTED_MODULE_2_react___default.a.createElement(
@@ -456,22 +705,13 @@ module.exports = __webpack_require__(184);
 /***/ }),
 
 /***/ 70:
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Hammer__ = __webpack_require__(100);
 
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _Hammer = __webpack_require__(99);
-
-var _Hammer2 = _interopRequireDefault(_Hammer);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-exports['default'] = _Hammer2['default'];
+/* harmony default export */ __webpack_exports__["a"] = (__WEBPACK_IMPORTED_MODULE_0__Hammer__["a" /* default */]);
 
 /***/ }),
 
@@ -489,7 +729,6 @@ exports['default'] = _Hammer2['default'];
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_create_react_class__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_create_react_class___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_create_react_class__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rc_hammerjs__ = __webpack_require__(70);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rc_hammerjs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_rc_hammerjs__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_react_dom__ = __webpack_require__(15);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_react_dom__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__utils__ = __webpack_require__(19);
@@ -643,12 +882,6 @@ var SwipeableTabContent = __WEBPACK_IMPORTED_MODULE_4_create_react_class___defau
         hammerOptions = _props3.hammerOptions,
         animated = _props3.animated;
 
-    var direction = {};
-    if (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7__utils__["a" /* isVertical */])(tabBarPosition)) {
-      direction = {
-        vertical: true
-      };
-    }
     var events = {
       onSwipe: this.onSwipe,
       onPanStart: this.onPanStart
@@ -660,8 +893,9 @@ var SwipeableTabContent = __WEBPACK_IMPORTED_MODULE_4_create_react_class___defau
       });
     }
     return __WEBPACK_IMPORTED_MODULE_2_react___default.a.createElement(
-      __WEBPACK_IMPORTED_MODULE_5_rc_hammerjs___default.a,
-      __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends___default()({}, events, direction, {
+      __WEBPACK_IMPORTED_MODULE_5_rc_hammerjs__["a" /* default */],
+      __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends___default()({}, events, {
+        direction: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7__utils__["a" /* isVertical */])(tabBarPosition) ? 'DIRECTION_ALL' : 'DIRECTION_HORIZONTAL',
         options: hammerOptions
       }),
       __WEBPACK_IMPORTED_MODULE_2_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__TabContent__["a" /* default */], this.props)
@@ -3321,197 +3555,6 @@ if (true) {
 
 })(window, document, 'Hammer');
 
-
-/***/ }),
-
-/***/ 99:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-
-var _classCallCheck2 = __webpack_require__(23);
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _createClass2 = __webpack_require__(24);
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
-var _possibleConstructorReturn2 = __webpack_require__(26);
-
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-var _inherits2 = __webpack_require__(25);
-
-var _inherits3 = _interopRequireDefault(_inherits2);
-
-var _react = __webpack_require__(3);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _propTypes = __webpack_require__(42);
-
-var _propTypes2 = _interopRequireDefault(_propTypes);
-
-var _reactDom = __webpack_require__(15);
-
-var _reactDom2 = _interopRequireDefault(_reactDom);
-
-var _hammerjs = __webpack_require__(95);
-
-var _hammerjs2 = _interopRequireDefault(_hammerjs);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-var privateProps = {
-	children: true,
-	direction: true,
-	options: true,
-	recognizeWith: true,
-	vertical: true
-};
-
-/**
- * Hammer Component
- * ================
- */
-
-// https://github.com/hammerjs/hammer.js/issues/930
-// https://github.com/JedWatson/react-hammerjs/issues/14
-// wait to see if we need the condition require hack for ssr
-var handlerToEvent = {
-	action: 'tap press',
-	onDoubleTap: 'doubletap',
-	onPan: 'pan',
-	onPanCancel: 'pancancel',
-	onPanEnd: 'panend',
-	onPanStart: 'panstart',
-	onPinch: 'pinch',
-	onPinchCancel: 'pinchcancel',
-	onPinchEnd: 'pinchend',
-	onPinchIn: 'pinchin',
-	onPinchOut: 'pinchout',
-	onPinchStart: 'pinchstart',
-	onPress: 'press',
-	onPressUp: 'pressup',
-	onRotate: 'rotate',
-	onRotateCancel: 'rotatecancel',
-	onRotateEnd: 'rotateend',
-	onRotateMove: 'rotatemove',
-	onRotateStart: 'rotatestart',
-	onSwipe: 'swipe',
-	onTap: 'tap'
-};
-
-Object.keys(handlerToEvent).forEach(function (i) {
-	privateProps[i] = true;
-});
-
-function updateHammer(hammer, props) {
-	var _this = this;
-
-	if (props.hasOwnProperty('vertical')) {
-		console.warn('vertical is deprecated, please use `direction` instead');
-	}
-
-	var directionProp = props.direction;
-	if (directionProp || props.hasOwnProperty('vertical')) {
-		direction = directionProp ? directionProp : props.vertical ? 'DIRECTION_ALL' : 'DIRECTION_HORIZONTAL';
-		hammer.get('pan').set({ direction: _hammerjs2['default'][direction] });
-		hammer.get('swipe').set({ direction: _hammerjs2['default'][direction] });
-	}
-
-	if (props.options) {
-		Object.keys(props.options).forEach(function (option) {
-			if (option === 'recognizers') {
-				Object.keys(props.options.recognizers).forEach(function (gesture) {
-					var recognizer = hammer.get(gesture);
-					recognizer.set(props.options.recognizers[gesture]);
-				}, _this);
-			} else {
-				var key = option;
-				var optionObj = {};
-				optionObj[key] = props.options[option];
-				hammer.set(optionObj);
-			}
-		}, this);
-	}
-
-	if (props.recognizeWith) {
-		Object.keys(props.recognizeWith).forEach(function (gesture) {
-			var recognizer = hammer.get(gesture);
-			recognizer.recognizeWith(props.recognizeWith[gesture]);
-		}, this);
-	}
-
-	Object.keys(props).forEach(function (p) {
-		var e = handlerToEvent[p];
-		if (e) {
-			hammer.off(e);
-			hammer.on(e, props[p]);
-		}
-	});
-}
-
-var HammerComponent = function (_React$Component) {
-	(0, _inherits3['default'])(HammerComponent, _React$Component);
-
-	function HammerComponent() {
-		(0, _classCallCheck3['default'])(this, HammerComponent);
-		return (0, _possibleConstructorReturn3['default'])(this, (HammerComponent.__proto__ || Object.getPrototypeOf(HammerComponent)).apply(this, arguments));
-	}
-
-	(0, _createClass3['default'])(HammerComponent, [{
-		key: 'componentDidMount',
-		value: function componentDidMount() {
-			this.hammer = new _hammerjs2['default'](_reactDom2['default'].findDOMNode(this));
-			updateHammer(this.hammer, this.props);
-		}
-	}, {
-		key: 'componentDidUpdate',
-		value: function componentDidUpdate() {
-			if (this.hammer) {
-				updateHammer(this.hammer, this.props);
-			}
-		}
-	}, {
-		key: 'componentWillUnmount',
-		value: function componentWillUnmount() {
-			if (this.hammer) {
-				this.hammer.stop();
-				this.hammer.destroy();
-			}
-			this.hammer = null;
-		}
-	}, {
-		key: 'render',
-		value: function render() {
-			var props = {};
-
-			Object.keys(this.props).forEach(function (i) {
-				if (!privateProps[i]) {
-					props[i] = this.props[i];
-				}
-			}, this);
-
-			// Reuse the child provided
-			// This makes it flexible to use whatever element is wanted (div, ul, etc)
-			return _react2['default'].cloneElement(_react2['default'].Children.only(this.props.children), props);
-		}
-	}]);
-	return HammerComponent;
-}(_react2['default'].Component);
-
-HammerComponent.displayName = 'Hammer';
-HammerComponent.propTypes = {
-	className: _propTypes2['default'].string
-};
-exports['default'] = HammerComponent;
 
 /***/ })
 

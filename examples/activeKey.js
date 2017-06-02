@@ -1,5 +1,191 @@
 webpackJsonp([2],{
 
+/***/ 100:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_classCallCheck__ = __webpack_require__(23);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_classCallCheck___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_classCallCheck__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_createClass__ = __webpack_require__(24);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_createClass___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_createClass__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_possibleConstructorReturn__ = __webpack_require__(26);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_possibleConstructorReturn___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_possibleConstructorReturn__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_inherits__ = __webpack_require__(25);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_inherits___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_inherits__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_react__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_prop_types__ = __webpack_require__(42);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_prop_types__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_react_dom__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_react_dom__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_hammerjs__ = __webpack_require__(95);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_hammerjs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_hammerjs__);
+
+
+
+
+
+
+
+
+// https://github.com/hammerjs/hammer.js/issues/930
+// https://github.com/JedWatson/react-hammerjs/issues/14
+// wait to see if we need the condition require hack for ssr
+
+
+var privateProps = {
+	children: true,
+	direction: true,
+	options: true,
+	recognizeWith: true,
+	vertical: true
+};
+
+/**
+ * Hammer Component
+ * ================
+ */
+
+var handlerToEvent = {
+	action: 'tap press',
+	onDoubleTap: 'doubletap',
+	onPan: 'pan',
+	onPanCancel: 'pancancel',
+	onPanEnd: 'panend',
+	onPanStart: 'panstart',
+	onPinch: 'pinch',
+	onPinchCancel: 'pinchcancel',
+	onPinchEnd: 'pinchend',
+	onPinchIn: 'pinchin',
+	onPinchOut: 'pinchout',
+	onPinchStart: 'pinchstart',
+	onPress: 'press',
+	onPressUp: 'pressup',
+	onRotate: 'rotate',
+	onRotateCancel: 'rotatecancel',
+	onRotateEnd: 'rotateend',
+	onRotateMove: 'rotatemove',
+	onRotateStart: 'rotatestart',
+	onSwipe: 'swipe',
+	onSwipeRight: 'swiperight',
+	onSwipeLeft: 'swipeleft',
+	onSwipeUp: 'swipeup',
+	onSwipeDown: 'swipedown',
+	onTap: 'tap'
+};
+
+Object.keys(handlerToEvent).forEach(function (i) {
+	privateProps[i] = true;
+});
+
+function updateHammer(hammer, props) {
+	var _this = this;
+
+	if (props.hasOwnProperty('vertical')) {
+		console.warn('vertical is deprecated, please use `direction` instead');
+	}
+
+	var directionProp = props.direction;
+	if (directionProp || props.hasOwnProperty('vertical')) {
+		var direction = directionProp ? directionProp : props.vertical ? 'DIRECTION_ALL' : 'DIRECTION_HORIZONTAL';
+		hammer.get('pan').set({ direction: __WEBPACK_IMPORTED_MODULE_7_hammerjs___default.a[direction] });
+		hammer.get('swipe').set({ direction: __WEBPACK_IMPORTED_MODULE_7_hammerjs___default.a[direction] });
+	}
+
+	if (props.options) {
+		Object.keys(props.options).forEach(function (option) {
+			if (option === 'recognizers') {
+				Object.keys(props.options.recognizers).forEach(function (gesture) {
+					var recognizer = hammer.get(gesture);
+					recognizer.set(props.options.recognizers[gesture]);
+					if (props.options.recognizers[gesture].requireFailure) {
+						recognizer.requireFailure(props.options.recognizers[gesture].requireFailure);
+					}
+				}, _this);
+			} else {
+				var key = option;
+				var optionObj = {};
+				optionObj[key] = props.options[option];
+				hammer.set(optionObj);
+			}
+		}, this);
+	}
+
+	if (props.recognizeWith) {
+		Object.keys(props.recognizeWith).forEach(function (gesture) {
+			var recognizer = hammer.get(gesture);
+			recognizer.recognizeWith(props.recognizeWith[gesture]);
+		}, this);
+	}
+
+	Object.keys(props).forEach(function (p) {
+		var e = handlerToEvent[p];
+		if (e) {
+			hammer.off(e);
+			hammer.on(e, props[p]);
+		}
+	});
+}
+
+var HammerComponent = function (_React$Component) {
+	__WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_inherits___default()(HammerComponent, _React$Component);
+
+	function HammerComponent() {
+		__WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_classCallCheck___default()(this, HammerComponent);
+
+		return __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_possibleConstructorReturn___default()(this, (HammerComponent.__proto__ || Object.getPrototypeOf(HammerComponent)).apply(this, arguments));
+	}
+
+	__WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_createClass___default()(HammerComponent, [{
+		key: 'componentDidMount',
+		value: function componentDidMount() {
+			this.hammer = new __WEBPACK_IMPORTED_MODULE_7_hammerjs___default.a(__WEBPACK_IMPORTED_MODULE_6_react_dom___default.a.findDOMNode(this));
+			updateHammer(this.hammer, this.props);
+		}
+	}, {
+		key: 'componentDidUpdate',
+		value: function componentDidUpdate() {
+			if (this.hammer) {
+				updateHammer(this.hammer, this.props);
+			}
+		}
+	}, {
+		key: 'componentWillUnmount',
+		value: function componentWillUnmount() {
+			if (this.hammer) {
+				this.hammer.stop();
+				this.hammer.destroy();
+			}
+			this.hammer = null;
+		}
+	}, {
+		key: 'render',
+		value: function render() {
+			var props = {};
+
+			Object.keys(this.props).forEach(function (i) {
+				if (!privateProps[i]) {
+					props[i] = this.props[i];
+				}
+			}, this);
+
+			// Reuse the child provided
+			// This makes it flexible to use whatever element is wanted (div, ul, etc)
+			return __WEBPACK_IMPORTED_MODULE_4_react___default.a.cloneElement(__WEBPACK_IMPORTED_MODULE_4_react___default.a.Children.only(this.props.children), props);
+		}
+	}]);
+
+	return HammerComponent;
+}(__WEBPACK_IMPORTED_MODULE_4_react___default.a.Component);
+
+HammerComponent.displayName = 'Hammer';
+HammerComponent.propTypes = {
+	className: __WEBPACK_IMPORTED_MODULE_5_prop_types___default.a.string
+};
+/* harmony default export */ __webpack_exports__["a"] = (HammerComponent);
+
+/***/ }),
+
 /***/ 17:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -184,7 +370,7 @@ __WEBPACK_IMPORTED_MODULE_6_react_dom___default.a.render(__WEBPACK_IMPORTED_MODU
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_classnames__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_classnames__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_classnames___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_classnames__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils__ = __webpack_require__(19);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_react__ = __webpack_require__(3);
@@ -458,22 +644,13 @@ module.exports = __webpack_require__(178);
 /***/ }),
 
 /***/ 70:
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Hammer__ = __webpack_require__(100);
 
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _Hammer = __webpack_require__(99);
-
-var _Hammer2 = _interopRequireDefault(_Hammer);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-exports['default'] = _Hammer2['default'];
+/* harmony default export */ __webpack_exports__["a"] = (__WEBPACK_IMPORTED_MODULE_0__Hammer__["a" /* default */]);
 
 /***/ }),
 
@@ -491,7 +668,6 @@ exports['default'] = _Hammer2['default'];
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_create_react_class__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_create_react_class___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_create_react_class__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rc_hammerjs__ = __webpack_require__(70);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rc_hammerjs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_rc_hammerjs__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_react_dom__ = __webpack_require__(15);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_react_dom__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__utils__ = __webpack_require__(19);
@@ -645,12 +821,6 @@ var SwipeableTabContent = __WEBPACK_IMPORTED_MODULE_4_create_react_class___defau
         hammerOptions = _props3.hammerOptions,
         animated = _props3.animated;
 
-    var direction = {};
-    if (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7__utils__["a" /* isVertical */])(tabBarPosition)) {
-      direction = {
-        vertical: true
-      };
-    }
     var events = {
       onSwipe: this.onSwipe,
       onPanStart: this.onPanStart
@@ -662,8 +832,9 @@ var SwipeableTabContent = __WEBPACK_IMPORTED_MODULE_4_create_react_class___defau
       });
     }
     return __WEBPACK_IMPORTED_MODULE_2_react___default.a.createElement(
-      __WEBPACK_IMPORTED_MODULE_5_rc_hammerjs___default.a,
-      __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends___default()({}, events, direction, {
+      __WEBPACK_IMPORTED_MODULE_5_rc_hammerjs__["a" /* default */],
+      __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends___default()({}, events, {
+        direction: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7__utils__["a" /* isVertical */])(tabBarPosition) ? 'DIRECTION_ALL' : 'DIRECTION_HORIZONTAL',
         options: hammerOptions
       }),
       __WEBPACK_IMPORTED_MODULE_2_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__TabContent__["a" /* default */], this.props)
@@ -3323,197 +3494,6 @@ if (true) {
 
 })(window, document, 'Hammer');
 
-
-/***/ }),
-
-/***/ 99:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-
-var _classCallCheck2 = __webpack_require__(23);
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _createClass2 = __webpack_require__(24);
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
-var _possibleConstructorReturn2 = __webpack_require__(26);
-
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-var _inherits2 = __webpack_require__(25);
-
-var _inherits3 = _interopRequireDefault(_inherits2);
-
-var _react = __webpack_require__(3);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _propTypes = __webpack_require__(42);
-
-var _propTypes2 = _interopRequireDefault(_propTypes);
-
-var _reactDom = __webpack_require__(15);
-
-var _reactDom2 = _interopRequireDefault(_reactDom);
-
-var _hammerjs = __webpack_require__(95);
-
-var _hammerjs2 = _interopRequireDefault(_hammerjs);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-var privateProps = {
-	children: true,
-	direction: true,
-	options: true,
-	recognizeWith: true,
-	vertical: true
-};
-
-/**
- * Hammer Component
- * ================
- */
-
-// https://github.com/hammerjs/hammer.js/issues/930
-// https://github.com/JedWatson/react-hammerjs/issues/14
-// wait to see if we need the condition require hack for ssr
-var handlerToEvent = {
-	action: 'tap press',
-	onDoubleTap: 'doubletap',
-	onPan: 'pan',
-	onPanCancel: 'pancancel',
-	onPanEnd: 'panend',
-	onPanStart: 'panstart',
-	onPinch: 'pinch',
-	onPinchCancel: 'pinchcancel',
-	onPinchEnd: 'pinchend',
-	onPinchIn: 'pinchin',
-	onPinchOut: 'pinchout',
-	onPinchStart: 'pinchstart',
-	onPress: 'press',
-	onPressUp: 'pressup',
-	onRotate: 'rotate',
-	onRotateCancel: 'rotatecancel',
-	onRotateEnd: 'rotateend',
-	onRotateMove: 'rotatemove',
-	onRotateStart: 'rotatestart',
-	onSwipe: 'swipe',
-	onTap: 'tap'
-};
-
-Object.keys(handlerToEvent).forEach(function (i) {
-	privateProps[i] = true;
-});
-
-function updateHammer(hammer, props) {
-	var _this = this;
-
-	if (props.hasOwnProperty('vertical')) {
-		console.warn('vertical is deprecated, please use `direction` instead');
-	}
-
-	var directionProp = props.direction;
-	if (directionProp || props.hasOwnProperty('vertical')) {
-		direction = directionProp ? directionProp : props.vertical ? 'DIRECTION_ALL' : 'DIRECTION_HORIZONTAL';
-		hammer.get('pan').set({ direction: _hammerjs2['default'][direction] });
-		hammer.get('swipe').set({ direction: _hammerjs2['default'][direction] });
-	}
-
-	if (props.options) {
-		Object.keys(props.options).forEach(function (option) {
-			if (option === 'recognizers') {
-				Object.keys(props.options.recognizers).forEach(function (gesture) {
-					var recognizer = hammer.get(gesture);
-					recognizer.set(props.options.recognizers[gesture]);
-				}, _this);
-			} else {
-				var key = option;
-				var optionObj = {};
-				optionObj[key] = props.options[option];
-				hammer.set(optionObj);
-			}
-		}, this);
-	}
-
-	if (props.recognizeWith) {
-		Object.keys(props.recognizeWith).forEach(function (gesture) {
-			var recognizer = hammer.get(gesture);
-			recognizer.recognizeWith(props.recognizeWith[gesture]);
-		}, this);
-	}
-
-	Object.keys(props).forEach(function (p) {
-		var e = handlerToEvent[p];
-		if (e) {
-			hammer.off(e);
-			hammer.on(e, props[p]);
-		}
-	});
-}
-
-var HammerComponent = function (_React$Component) {
-	(0, _inherits3['default'])(HammerComponent, _React$Component);
-
-	function HammerComponent() {
-		(0, _classCallCheck3['default'])(this, HammerComponent);
-		return (0, _possibleConstructorReturn3['default'])(this, (HammerComponent.__proto__ || Object.getPrototypeOf(HammerComponent)).apply(this, arguments));
-	}
-
-	(0, _createClass3['default'])(HammerComponent, [{
-		key: 'componentDidMount',
-		value: function componentDidMount() {
-			this.hammer = new _hammerjs2['default'](_reactDom2['default'].findDOMNode(this));
-			updateHammer(this.hammer, this.props);
-		}
-	}, {
-		key: 'componentDidUpdate',
-		value: function componentDidUpdate() {
-			if (this.hammer) {
-				updateHammer(this.hammer, this.props);
-			}
-		}
-	}, {
-		key: 'componentWillUnmount',
-		value: function componentWillUnmount() {
-			if (this.hammer) {
-				this.hammer.stop();
-				this.hammer.destroy();
-			}
-			this.hammer = null;
-		}
-	}, {
-		key: 'render',
-		value: function render() {
-			var props = {};
-
-			Object.keys(this.props).forEach(function (i) {
-				if (!privateProps[i]) {
-					props[i] = this.props[i];
-				}
-			}, this);
-
-			// Reuse the child provided
-			// This makes it flexible to use whatever element is wanted (div, ul, etc)
-			return _react2['default'].cloneElement(_react2['default'].Children.only(this.props.children), props);
-		}
-	}]);
-	return HammerComponent;
-}(_react2['default'].Component);
-
-HammerComponent.displayName = 'Hammer';
-HammerComponent.propTypes = {
-	className: _propTypes2['default'].string
-};
-exports['default'] = HammerComponent;
 
 /***/ })
 
