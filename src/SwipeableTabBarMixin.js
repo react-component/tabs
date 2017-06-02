@@ -20,7 +20,7 @@ export default {
     return {
       hammerOptions: {},
       pageSize: 5, // per page show how many tabs
-      speed: 10, // swipe speed, 1 to 10, more bigger more faster
+      speed: 7, // swipe speed, 1 to 10, more bigger more faster
     };
   },
   checkPaginationByKey(activeKey) {
