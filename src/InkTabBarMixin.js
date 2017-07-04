@@ -39,6 +39,7 @@ function offset(elem) {
 
 function componentDidUpdate(component, init) {
   const refs = component.refs;
+  const { styles } = component.props;
   const wrapNode = refs.nav || refs.root;
   const containerOffset = offset(wrapNode);
   const inkBarNode = refs.inkBar;
@@ -54,29 +55,43 @@ function componentDidUpdate(component, init) {
     const tabOffset = offset(tabNode);
     const transformSupported = isTransformSupported(inkBarNodeStyle);
     if (tabBarPosition === 'top' || tabBarPosition === 'bottom') {
-      const left = tabOffset.left - containerOffset.left;
+      let left = tabOffset.left - containerOffset.left;
+      let width = tabNode.offsetWidth;
+      if (styles.inkBar && styles.inkBar.width !== undefined) {
+        width = parseFloat(styles.inkBar.width, 10);
+        if (width) {
+          left = left + (tabNode.offsetWidth - width) / 2;
+        }
+      }
       // use 3d gpu to optimize render
       if (transformSupported) {
         setTransform(inkBarNodeStyle, `translate3d(${left}px,0,0)`);
-        inkBarNodeStyle.width = `${tabNode.offsetWidth}px`;
+        inkBarNodeStyle.width = `${width}px`;
         inkBarNodeStyle.height = '';
       } else {
         inkBarNodeStyle.left = `${left}px`;
         inkBarNodeStyle.top = '';
         inkBarNodeStyle.bottom = '';
-        inkBarNodeStyle.right = `${wrapNode.offsetWidth - left - tabNode.offsetWidth}px`;
+        inkBarNodeStyle.right = `${wrapNode.offsetWidth - left - width}px`;
       }
     } else {
-      const top = tabOffset.top - containerOffset.top;
+      let top = tabOffset.top - containerOffset.top;
+      let height = tabNode.offsetHeight;
+      if (styles.inkBar && styles.inkBar.height !== undefined) {
+        height = parseFloat(styles.inkBar.height, 10);
+        if (height) {
+          top = top + (tabNode.offsetHeight - height) / 2;
+        }
+      }
       if (transformSupported) {
         setTransform(inkBarNodeStyle, `translate3d(0,${top}px,0)`);
-        inkBarNodeStyle.height = `${tabNode.offsetHeight}px`;
+        inkBarNodeStyle.height = `${height}px`;
         inkBarNodeStyle.width = '';
       } else {
         inkBarNodeStyle.left = '';
         inkBarNodeStyle.right = '';
         inkBarNodeStyle.top = `${top}px`;
-        inkBarNodeStyle.bottom = `${wrapNode.offsetHeight - top - tabNode.offsetHeight}px`;
+        inkBarNodeStyle.bottom = `${wrapNode.offsetHeight - top - height}px`;
       }
     }
   }

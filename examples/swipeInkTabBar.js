@@ -106,6 +106,48 @@ const Component = () => (
         {makeMultiTabPane(11)}
       </Tabs>
     </div>
+    <h4>custom inkBar style</h4>
+    <div>
+      <Tabs
+        renderTabBar={() =>
+          <SwipeableInkTabBar
+            pageSize={5}
+            speed={5}
+            styles={{
+              inkBar: {
+                width: '20px',
+                backgroundColor: 'red',
+              },
+            }}
+          />
+        }
+        renderTabContent={() => <TabContent />}
+        defaultActiveKey="8"
+      >
+        {makeMultiTabPane(11)}
+      </Tabs>
+    </div>
+    <h4>custom inkBar style, tabBarPosition='left'</h4>
+    <div>
+      <Tabs
+        tabBarPosition="left"
+        pageSize={3}
+        renderTabBar={() =>
+          <SwipeableInkTabBar
+            styles={{
+              inkBar: {
+                backgroundColor: 'red',
+                height: '20px',
+              },
+            }}
+          />
+        }
+        renderTabContent={() => <TabContent/>}
+        defaultActiveKey="2"
+      >
+        {makeMultiTabPane(11)}
+      </Tabs>
+    </div>
   </div>
 );
 
