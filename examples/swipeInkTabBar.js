@@ -599,7 +599,7 @@ var SwipeableInkTabBar = __WEBPACK_IMPORTED_MODULE_3_create_react_class___defaul
     var panels = this.props.panels;
 
     var length = panels.length;
-    for (var i = 0; i <= length; i++) {
+    for (var i = 0; i < length; i++) {
       if (panels[i].key === activeKey) {
         return i;
       }
