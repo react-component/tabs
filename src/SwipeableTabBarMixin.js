@@ -47,7 +47,7 @@ export default {
   getIndexByKey(activeKey) {
     const { panels } = this.props;
     const length = panels.length;
-    for (let i = 0; i <= length; i++) {
+    for (let i = 0; i < length; i++) {
       if (panels[i].key === activeKey) {
         return i;
       }
