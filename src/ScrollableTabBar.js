@@ -5,6 +5,7 @@ import TabBarMixin from './TabBarMixin';
 const ScrollableTabBar = createReactClass({
   displayName: 'ScrollableTabBar',
   mixins: [TabBarMixin, ScrollableTabBarMixin],
+  activeTab: '',
   render() {
     const inkBarNode = this.getInkBarNode();
     const tabs = this.getTabs();

@@ -4,6 +4,7 @@ import TabBarMixin from './TabBarMixin';
 
 const InkTabBar = createReactClass({
   displayName: 'InkTabBar',
+  activeTab: '',
   mixins: [TabBarMixin, InkTabBarMixin],
   render() {
     const inkBarNode = this.getInkBarNode();
