@@ -15,7 +15,7 @@ const contentStyle = {
 };
 
 const makeTabPane = key => (
-  <TabPane tab={`选项${key}`} key={key}>
+  <TabPane tab={`选项${key}`} key={`${key}`}>
     <div style={contentStyle}>
       {`选项${key}内容`}
     </div>
