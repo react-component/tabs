@@ -48,8 +48,7 @@ export default {
     const { panels } = this.props;
     const length = panels.length;
     for (let i = 0; i < length; i++) {
-      // sometimes panels[i].key will be a number & activeKey is string.
-      if (panels[i].key == activeKey) { // eslint-disable-line
+      if (panels[i].key === activeKey) {
         return i;
       }
     }
