@@ -9,7 +9,7 @@ const SwipeableInkTabBar = createReactClass({
   displayName: 'SwipeableInkTabBar',
 
   mixins: [TabBarMixin, InkTabBarMixin, SwipeableTabBarMixin],
-  activeTab: '',
+  activeTab: null,
   getSwipeableTabs() {
     const props = this.props;
     const children = props.panels;
