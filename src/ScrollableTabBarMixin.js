@@ -6,10 +6,8 @@ export default {
   getDefaultProps() {
     return {
       scrollAnimated: true,
-      onPrevClick() {
-      },
-      onNextClick() {
-      },
+      onPrevClick() {},
+      onNextClick() {},
     };
   },
 
