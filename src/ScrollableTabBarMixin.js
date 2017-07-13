@@ -6,8 +6,10 @@ export default {
   getDefaultProps() {
     return {
       scrollAnimated: true,
-      onPrevClick() {},
-      onNextClick() {},
+      onPrevClick() {
+      },
+      onNextClick() {
+      },
     };
   },
 
@@ -214,8 +216,8 @@ export default {
         key="prev"
         style={arrowStyle}
       >
-          <span className={`${prefixCls}-tab-prev-icon`} />
-        </span>
+        <span className={`${prefixCls}-tab-prev-icon`} />
+      </span>
     );
 
     const nextButton = (
@@ -229,8 +231,8 @@ export default {
         style={arrowStyle}
         key="next"
       >
-          <span className={`${prefixCls}-tab-next-icon`} />
-        </span>
+        <span className={`${prefixCls}-tab-next-icon`} />
+      </span>
     );
 
     const navClassName = `${prefixCls}-nav`;
