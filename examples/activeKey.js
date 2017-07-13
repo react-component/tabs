@@ -417,7 +417,7 @@ var ScrollableInkTabBar = __WEBPACK_IMPORTED_MODULE_0_create_react_class___defau
     this.setOffset(offset - navWrapNodeWH);
   },
   getScrollBarNode: function getScrollBarNode(content) {
-    var _classnames3, _classnames4;
+    var _classnames, _classnames2, _classnames3, _classnames4;
 
     var _state2 = this.state,
         next = _state2.next,
@@ -426,33 +426,27 @@ var ScrollableInkTabBar = __WEBPACK_IMPORTED_MODULE_0_create_react_class___defau
         prefixCls = _props.prefixCls,
         scrollAnimated = _props.scrollAnimated;
 
-    var nextButton = void 0;
-    var prevButton = void 0;
     var showNextPrev = prev || next;
 
-    if (showNextPrev) {
-      var _classnames, _classnames2;
+    var prevButton = __WEBPACK_IMPORTED_MODULE_3_react___default.a.createElement(
+      'span',
+      {
+        onClick: prev ? this.prev : null,
+        unselectable: 'unselectable',
+        className: __WEBPACK_IMPORTED_MODULE_1_classnames___default()((_classnames = {}, __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()(_classnames, prefixCls + '-tab-prev', 1), __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()(_classnames, prefixCls + '-tab-btn-disabled', !prev), __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()(_classnames, prefixCls + '-tab-arrow-show', showNextPrev), _classnames))
+      },
+      __WEBPACK_IMPORTED_MODULE_3_react___default.a.createElement('span', { className: prefixCls + '-tab-prev-icon' })
+    );
 
-      prevButton = __WEBPACK_IMPORTED_MODULE_3_react___default.a.createElement(
-        'span',
-        {
-          onClick: prev ? this.prev : null,
-          unselectable: 'unselectable',
-          className: __WEBPACK_IMPORTED_MODULE_1_classnames___default()((_classnames = {}, __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()(_classnames, prefixCls + '-tab-prev', 1), __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()(_classnames, prefixCls + '-tab-btn-disabled', !prev), _classnames))
-        },
-        __WEBPACK_IMPORTED_MODULE_3_react___default.a.createElement('span', { className: prefixCls + '-tab-prev-icon' })
-      );
-
-      nextButton = __WEBPACK_IMPORTED_MODULE_3_react___default.a.createElement(
-        'span',
-        {
-          onClick: next ? this.next : null,
-          unselectable: 'unselectable',
-          className: __WEBPACK_IMPORTED_MODULE_1_classnames___default()((_classnames2 = {}, __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()(_classnames2, prefixCls + '-tab-next', 1), __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()(_classnames2, prefixCls + '-tab-btn-disabled', !next), _classnames2))
-        },
-        __WEBPACK_IMPORTED_MODULE_3_react___default.a.createElement('span', { className: prefixCls + '-tab-next-icon' })
-      );
-    }
+    var nextButton = __WEBPACK_IMPORTED_MODULE_3_react___default.a.createElement(
+      'span',
+      {
+        onClick: next ? this.next : null,
+        unselectable: 'unselectable',
+        className: __WEBPACK_IMPORTED_MODULE_1_classnames___default()((_classnames2 = {}, __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()(_classnames2, prefixCls + '-tab-next', 1), __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()(_classnames2, prefixCls + '-tab-btn-disabled', !next), __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()(_classnames2, prefixCls + '-tab-arrow-show', showNextPrev), _classnames2))
+      },
+      __WEBPACK_IMPORTED_MODULE_3_react___default.a.createElement('span', { className: prefixCls + '-tab-next-icon' })
+    );
 
     var navClassName = prefixCls + '-nav';
     var navClasses = __WEBPACK_IMPORTED_MODULE_1_classnames___default()((_classnames3 = {}, __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()(_classnames3, navClassName, true), __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()(_classnames3, scrollAnimated ? navClassName + '-animated' : navClassName + '-no-animated', true), _classnames3));

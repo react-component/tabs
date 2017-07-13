@@ -219,7 +219,7 @@ var contentStyle = {
 var makeTabPane = function makeTabPane(key) {
   return __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(
     __WEBPACK_IMPORTED_MODULE_3_rc_tabs__["TabPane"],
-    { tab: '\u9009\u9879' + key, key: key },
+    { tab: '\u9009\u9879' + key, key: '' + key },
     __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(
       'div',
       { style: contentStyle },

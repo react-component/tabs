@@ -12,6 +12,7 @@
   white-space: nowrap;
   outline: none;
   zoom: 1;
+  transition: padding .45s;
 }
 .rc-tabs-ink-bar {
   z-index: 1;
@@ -207,11 +208,18 @@
 .rc-tabs-left .rc-tabs-tab-prev,
 .rc-tabs-left .rc-tabs-tab-next {
   margin-top: -2px;
-  height: 32px;
+  height: 0;
   line-height: 32px;
-  width: 100%;
+  width: 0;
   display: block;
   text-align: center;
+  opacity: 0;
+  transition: width .3s, height .3s, opacity .3s;
+}
+.rc-tabs-top .rc-tabs-tab-arrow-show {
+  opacity: 1;
+  width: 100%;
+  height: 32px;
 }
 .rc-tabs-left .rc-tabs-tab-next {
   bottom: 0;
@@ -294,11 +302,18 @@
 .rc-tabs-right .rc-tabs-tab-prev,
 .rc-tabs-right .rc-tabs-tab-next {
   margin-top: -2px;
-  height: 32px;
-  width: 100%;
+  height: 0;
+  width: 0;
   display: block;
   text-align: center;
   line-height: 32px;
+  opacity: 0;
+  transition: width .3s, height .3s, opacity .3s;
+}
+.rc-tabs-top .rc-tabs-tab-arrow-show {
+  opacity: 1;
+  width: 100%;
+  height: 32px;
 }
 .rc-tabs-right .rc-tabs-tab-next {
   bottom: 0;
@@ -495,10 +510,17 @@
 .rc-tabs-top .rc-tabs-tab-prev,
 .rc-tabs-top .rc-tabs-tab-next {
   margin-right: -2px;
-  width: 32px;
-  height: 100%;
+  width: 0;
+  height: 0;
   top: 0;
   text-align: center;
+  opacity: 0;
+  transition: width .3s, height .3s, opacity .3s;
+}
+.rc-tabs-top .rc-tabs-tab-arrow-show {
+  opacity: 1;
+  width: 32px;
+  height: 100%;
 }
 .rc-tabs-top .rc-tabs-ink-bar {
   height: 2px;
