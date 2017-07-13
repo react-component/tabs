@@ -1,14 +1,15 @@
 import classnames from 'classnames';
 import { setTransform, isTransformSupported } from './utils';
 import React from 'react';
-import Animate from 'rc-animate';
 
 export default {
   getDefaultProps() {
     return {
       scrollAnimated: true,
-      onPrevClick() {},
-      onNextClick() {},
+      onPrevClick() {
+      },
+      onNextClick() {
+      },
     };
   },
 
@@ -195,39 +196,44 @@ export default {
   getScrollBarNode(content) {
     const { next, prev } = this.state;
     const { prefixCls, scrollAnimated } = this.props;
-    let nextButton;
-    let prevButton;
     const showNextPrev = prev || next;
+    const arrowStyle = {};
+    if (!showNextPrev) {
+      arrowStyle.width = 0;
+      arrowStyle.height = 0;
+    } else {
+      arrowStyle.opacity = 1;
+    }
 
-    if (showNextPrev) {
-      prevButton = (
-        <span
-          onClick={prev ? this.prev : null}
-          unselectable="unselectable"
-          className={classnames({
-            [`${prefixCls}-tab-prev`]: 1,
-            [`${prefixCls}-tab-btn-disabled`]: !prev,
-          })}
-          key="prev"
-        >
+    const prevButton = (
+      <span
+        onClick={prev ? this.prev : null}
+        unselectable="unselectable"
+        className={classnames({
+          [`${prefixCls}-tab-prev`]: 1,
+          [`${prefixCls}-tab-btn-disabled`]: !prev,
+        })}
+        key="prev"
+        style={arrowStyle}
+      >
           <span className={`${prefixCls}-tab-prev-icon`} />
         </span>
-      );
+    );
 
-      nextButton = (
-        <span
-          onClick={next ? this.next : null}
-          unselectable="unselectable"
-          className={classnames({
-            [`${prefixCls}-tab-next`]: 1,
-            [`${prefixCls}-tab-btn-disabled`]: !next,
-          })}
-          key="next"
-        >
+    const nextButton = (
+      <span
+        onClick={next ? this.next : null}
+        unselectable="unselectable"
+        className={classnames({
+          [`${prefixCls}-tab-next`]: 1,
+          [`${prefixCls}-tab-btn-disabled`]: !next,
+        })}
+        style={arrowStyle}
+        key="next"
+      >
           <span className={`${prefixCls}-tab-next-icon`} />
         </span>
-      );
-    }
+    );
 
     const navClassName = `${prefixCls}-nav`;
     const navClasses = classnames({
@@ -248,12 +254,8 @@ export default {
         key="container"
         ref="container"
       >
-        <Animate transitionAppear transitionName="tabs-arrow" component="">
-          {prevButton}
-        </Animate>
-        <Animate transitionAppear transitionName="tabs-arrow" component="">
-          {nextButton}
-        </Animate>
+        {prevButton}
+        {nextButton}
         <div className={`${prefixCls}-nav-wrap`} ref="navWrap">
           <div className={`${prefixCls}-nav-scroll`}>
             <div className={navClasses} ref="nav">
