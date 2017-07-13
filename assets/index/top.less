@@ -66,10 +66,18 @@
 
   &-top &-tab-prev, &-top &-tab-next {
     margin-right: -2px;
-    width: 32px;
-    height: 100%;
+    width: 0;
+    height: 0;
     top: 0;
     text-align: center;
+    opacity: 0;
+    transition: width .3s, height .3s, opacity .3s;
+  }
+
+  &-top &-tab-arrow-show {
+    opacity: 1;
+    width: 32px;
+    height: 100%;
   }
 
   &-top &-ink-bar {

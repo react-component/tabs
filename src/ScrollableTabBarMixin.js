@@ -194,37 +194,35 @@ export default {
   getScrollBarNode(content) {
     const { next, prev } = this.state;
     const { prefixCls, scrollAnimated } = this.props;
-    let nextButton;
-    let prevButton;
     const showNextPrev = prev || next;
 
-    if (showNextPrev) {
-      prevButton = (
-        <span
-          onClick={prev ? this.prev : null}
-          unselectable="unselectable"
-          className={classnames({
-            [`${prefixCls}-tab-prev`]: 1,
-            [`${prefixCls}-tab-btn-disabled`]: !prev,
-          })}
-        >
-          <span className={`${prefixCls}-tab-prev-icon`} />
-        </span>
-      );
+    const prevButton = (
+      <span
+        onClick={prev ? this.prev : null}
+        unselectable="unselectable"
+        className={classnames({
+          [`${prefixCls}-tab-prev`]: 1,
+          [`${prefixCls}-tab-btn-disabled`]: !prev,
+          [`${prefixCls}-tab-arrow-show`]: showNextPrev,
+        })}
+      >
+        <span className={`${prefixCls}-tab-prev-icon`} />
+      </span>
+    );
 
-      nextButton = (
-        <span
-          onClick={next ? this.next : null}
-          unselectable="unselectable"
-          className={classnames({
-            [`${prefixCls}-tab-next`]: 1,
-            [`${prefixCls}-tab-btn-disabled`]: !next,
-          })}
-        >
-          <span className={`${prefixCls}-tab-next-icon`} />
-        </span>
-      );
-    }
+    const nextButton = (
+      <span
+        onClick={next ? this.next : null}
+        unselectable="unselectable"
+        className={classnames({
+          [`${prefixCls}-tab-next`]: 1,
+          [`${prefixCls}-tab-btn-disabled`]: !next,
+          [`${prefixCls}-tab-arrow-show`]: showNextPrev,
+        })}
+      >
+        <span className={`${prefixCls}-tab-next-icon`} />
+      </span>
+    );
 
     const navClassName = `${prefixCls}-nav`;
     const navClasses = classnames({
