@@ -43,13 +43,20 @@
 
   &-right &-tab-prev, &-right &-tab-next {
     margin-top: -2px;
-    height: 32px;
-    width: 100%;
+    height: 0;
+    width: 0;
     display: block;
     text-align: center;
     line-height: 32px;
     opacity: 0;
     transition: width .3s, height .3s, opacity .3s;
+  }
+
+
+  &-top &-tab-arrow-show {
+    opacity: 1;
+    width: 100%;
+    height: 32px;
   }
 
   &-right &-tab-next {

@@ -195,13 +195,6 @@ export default {
     const { next, prev } = this.state;
     const { prefixCls, scrollAnimated } = this.props;
     const showNextPrev = prev || next;
-    const arrowStyle = {};
-    if (showNextPrev) {
-      arrowStyle.opacity = 1;
-    } else {
-      arrowStyle.width = 0;
-      arrowStyle.height = 0;
-    }
 
     const prevButton = (
       <span
@@ -210,9 +203,8 @@ export default {
         className={classnames({
           [`${prefixCls}-tab-prev`]: 1,
           [`${prefixCls}-tab-btn-disabled`]: !prev,
+          [`${prefixCls}-tab-arrow-show`]: showNextPrev,
         })}
-        key="prev"
-        style={arrowStyle}
       >
         <span className={`${prefixCls}-tab-prev-icon`} />
       </span>
@@ -225,9 +217,8 @@ export default {
         className={classnames({
           [`${prefixCls}-tab-next`]: 1,
           [`${prefixCls}-tab-btn-disabled`]: !next,
+          [`${prefixCls}-tab-arrow-show`]: showNextPrev,
         })}
-        style={arrowStyle}
-        key="next"
       >
         <span className={`${prefixCls}-tab-next-icon`} />
       </span>

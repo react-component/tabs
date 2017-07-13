@@ -52,13 +52,19 @@
 
   &-left &-tab-prev, &-left &-tab-next {
     margin-top: -2px;
-    height: 32px;
+    height: 0;
     line-height: 32px;
-    width: 100%;
+    width: 0;
     display: block;
     text-align: center;
     opacity: 0;
     transition: width .3s, height .3s, opacity .3s;
+  }
+
+  &-top &-tab-arrow-show {
+    opacity: 1;
+    width: 100%;
+    height: 32px;
   }
 
   &-left &-tab-next {
