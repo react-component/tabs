@@ -6,10 +6,8 @@ export default {
   getDefaultProps() {
     return {
       scrollAnimated: true,
-      onPrevClick() {
-      },
-      onNextClick() {
-      },
+      onPrevClick() {},
+      onNextClick() {},
     };
   },
 
@@ -198,11 +196,11 @@ export default {
     const { prefixCls, scrollAnimated } = this.props;
     const showNextPrev = prev || next;
     const arrowStyle = {};
-    if (!showNextPrev) {
+    if (showNextPrev) {
+      arrowStyle.opacity = 1;
+    } else {
       arrowStyle.width = 0;
       arrowStyle.height = 0;
-    } else {
-      arrowStyle.opacity = 1;
     }
 
     const prevButton = (
