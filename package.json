@@ -75,6 +75,7 @@
     "classnames": "2.x",
     "create-react-class": "15.x",
     "prop-types": "15.x",
+    "rc-animate": "^2.4.0",
     "rc-hammerjs": "~0.6.0",
     "warning": "^3.0.0"
   }

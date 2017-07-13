@@ -1,6 +1,7 @@
 import classnames from 'classnames';
 import { setTransform, isTransformSupported } from './utils';
 import React from 'react';
+import Animate from 'rc-animate';
 
 export default {
   getDefaultProps() {
@@ -207,6 +208,7 @@ export default {
             [`${prefixCls}-tab-prev`]: 1,
             [`${prefixCls}-tab-btn-disabled`]: !prev,
           })}
+          key="prev"
         >
           <span className={`${prefixCls}-tab-prev-icon`} />
         </span>
@@ -220,6 +222,7 @@ export default {
             [`${prefixCls}-tab-next`]: 1,
             [`${prefixCls}-tab-btn-disabled`]: !next,
           })}
+          key="next"
         >
           <span className={`${prefixCls}-tab-next-icon`} />
         </span>
@@ -245,8 +248,12 @@ export default {
         key="container"
         ref="container"
       >
-        {prevButton}
-        {nextButton}
+        <Animate transitionAppear transitionName="tabs-arrow" component="">
+          {prevButton}
+        </Animate>
+        <Animate transitionAppear transitionName="tabs-arrow" component="">
+          {nextButton}
+        </Animate>
         <div className={`${prefixCls}-nav-wrap`} ref="navWrap">
           <div className={`${prefixCls}-nav-scroll`}>
             <div className={navClasses} ref="nav">

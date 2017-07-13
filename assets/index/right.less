@@ -89,3 +89,43 @@
     padding: 16px 24px;
   }
 }
+
+.tabs-arrow-enter, .tabs-arrow-appear {
+  visibility: hidden;
+  animation-duration: .35s;
+  animation-fill-mode: both;
+  animation-timing-function: cubic-bezier(0.55, 0, 0.55, 0.2);
+  animation-play-state: paused;
+}
+
+.tabs-arrow-leave {
+  animation-duration: .35s;
+  animation-fill-mode: both;
+  animation-timing-function: cubic-bezier(0.55, 0, 0.55, 0.2);
+  animation-play-state: paused;
+}
+
+.tabs-arrow-enter.tabs-arrow-enter-active, .tabs-arrow-appear.tabs-arrow-appear-active {
+  visibility: visible;
+  animation-name: tabsArrowIn;
+  animation-play-state: running;
+}
+
+.tabs-arrow-leave.tabs-arrow-leave-active {
+  animation-name: tabsArrowOut;
+  animation-play-state: running;
+}
+
+@keyframes tabsArrowIn {
+  from {
+    opacity: 0;
+    transform: scale(0);
+  }
+}
+
+@keyframes tabsArrowOut {
+  to {
+    opacity: 0;
+    transform: scale(0);
+  }
+}
