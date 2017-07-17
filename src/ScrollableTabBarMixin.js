@@ -34,11 +34,9 @@ export default {
     /* eslint react/no-did-update-set-state:0 */
     if (this.isNextPrevShown(this.state) !== this.isNextPrevShown(nextPrev)) {
       this.setState({}, this.scrollToActiveTab);
-    } else {
+    } else if (!prevProps || props.activeKey !== prevProps.activeKey) {
       // can not use props.activeKey
-      if (!prevProps || props.activeKey !== prevProps.activeKey) {
-        this.scrollToActiveTab();
-      }
+      this.scrollToActiveTab();
     }
   },
 
@@ -157,7 +155,10 @@ export default {
     return state.next || state.prev;
   },
 
-  scrollToActiveTab() {
+  scrollToActiveTab(e) {
+    if (e && e.target !== e.currentTarget) {
+      return;
+    }
     const { activeTab, navWrap } = this.refs;
     if (activeTab) {
       const activeTabWH = this.getOffsetWH(activeTab);
@@ -242,6 +243,7 @@ export default {
         })}
         key="container"
         ref="container"
+        onTransitionEnd={this.scrollToActiveTab}
       >
         {prevButton}
         {nextButton}
