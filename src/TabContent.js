@@ -51,6 +51,8 @@ const TabContent = createReactClass({
     const {
       prefixCls, children, activeKey,
       tabBarPosition, animated, animatedWithMargin,
+      destroyInactiveTabPane,
+      ...restProps,
     } = props;
     let { style } = props;
     const classes = classnames({
@@ -80,6 +82,7 @@ const TabContent = createReactClass({
       <div
         className={classes}
         style={style}
+        {...restProps}
       >
         {this.getTabPanes()}
       </div>

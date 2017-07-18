@@ -3,7 +3,7 @@ import 'rc-tabs/assets/index.less';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Tabs, { TabPane } from 'rc-tabs';
-import TabContent from '../src/SwipeableTabContent';
+import TabContent from '../src/TabContent';
 import ScrollableInkTabBar from '../src/ScrollableInkTabBar';
 
 const PanelContent = ({ id }) => (
