@@ -20,14 +20,6 @@ function getDefaultActiveKey(props) {
 export default class Tabs extends React.Component {
   constructor(props) {
     super(props);
-    this.render = this.render.bind(this);
-    this.componentWillReceiveProps = this.componentWillReceiveProps.bind(this);
-    this.onTabClick = this.onTabClick.bind(this);
-    this.onNavKeyDown = this.onNavKeyDown.bind(this);
-    this.setActiveKey = this.setActiveKey.bind(this);
-    this.getNextActiveKey = this.getNextActiveKey.bind(this);
-    this.onTabClick = this.onTabClick.bind(this);
-    this.onTabClick = this.onTabClick.bind(this);
 
     let activeKey;
     if ('activeKey' in props) {
@@ -51,14 +43,14 @@ export default class Tabs extends React.Component {
     }
   }
 
-  onTabClick(activeKey) {
+  onTabClick = (activeKey) => {
     if (this.tabBar.props.onTabClick) {
       this.tabBar.props.onTabClick(activeKey);
     }
     this.setActiveKey(activeKey);
   }
 
-  onNavKeyDown(e) {
+  onNavKeyDown = (e) => {
     const eventKeyCode = e.keyCode;
     if (eventKeyCode === KeyCode.RIGHT || eventKeyCode === KeyCode.DOWN) {
       e.preventDefault();
@@ -71,7 +63,7 @@ export default class Tabs extends React.Component {
     }
   }
 
-  setActiveKey(activeKey) {
+  setActiveKey = (activeKey) => {
     if (this.state.activeKey !== activeKey) {
       if (!('activeKey' in this.props)) {
         this.setState({
@@ -82,7 +74,7 @@ export default class Tabs extends React.Component {
     }
   }
 
-  getNextActiveKey(next) {
+  getNextActiveKey = (next) => {
     const activeKey = this.state.activeKey;
     const children = [];
     React.Children.forEach(this.props.children, (c) => {
