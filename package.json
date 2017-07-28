@@ -32,6 +32,7 @@
     "compile": "rc-tools run compile --babel-runtime",
     "gh-pages": "rc-tools run gh-pages",
     "start": "rc-tools run server",
+    "start:preact": "cross-env DEMO_ENV=preact rc-tools run server",
     "pub": "rc-tools run pub --babel-runtime",
     "lint": "rc-tools run lint",
     "watch": "rc-tools run watch",
@@ -53,6 +54,7 @@
   },
   "devDependencies": {
     "coveralls": "^2.11.16",
+    "cross-env": "^5.0.1",
     "enzyme": "^2.7.1",
     "enzyme-to-json": "^1.5.0",
     "expect.js": "~0.3.1",
@@ -65,7 +67,9 @@
     "react": "15.x",
     "react-dom": "^15.5.4",
     "react-router": "2.x",
-    "react-test-renderer": "^15.5.4"
+    "react-test-renderer": "^15.5.4",
+    "preact": "^8.2.1",
+    "preact-compat": "^3.16.0"
   },
   "pre-commit": [
     "lint"
