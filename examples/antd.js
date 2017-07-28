@@ -595,7 +595,7 @@ var InkTabBar = __WEBPACK_IMPORTED_MODULE_0_create_react_class___default()({
 
 /***/ }),
 
-/***/ 366:
+/***/ 368:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(182);
@@ -603,5 +603,5 @@ module.exports = __webpack_require__(182);
 
 /***/ })
 
-},[366]);
+},[368]);
 //# sourceMappingURL=antd.js.map
