@@ -10,7 +10,7 @@
   "files": [
     "lib",
     "es",
-    "assets/*.css"
+    "assets/index.css"
   ],
   "main": "./lib/index",
   "module": "./es/index",
