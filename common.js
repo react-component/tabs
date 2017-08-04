@@ -2398,10 +2398,6 @@ function _componentDidUpdate(component, init) {
 
 
 
-var tabBarExtraContentStyle = {
-  float: 'right'
-};
-
 /* harmony default export */ __webpack_exports__["a"] = ({
   getDefaultProps: function getDefaultProps() {
     return {
@@ -2457,16 +2453,21 @@ var tabBarExtraContentStyle = {
     return rst;
   },
   getRootNode: function getRootNode(contents) {
-    var _classnames;
-
     var _props = this.props,
         prefixCls = _props.prefixCls,
         onKeyDown = _props.onKeyDown,
         className = _props.className,
         extraContent = _props.extraContent,
-        style = _props.style;
+        style = _props.style,
+        tabBarPosition = _props.tabBarPosition;
 
-    var cls = __WEBPACK_IMPORTED_MODULE_3_classnames___default()((_classnames = {}, __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()(_classnames, prefixCls + '-bar', 1), __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()(_classnames, className, !!className), _classnames));
+    var cls = __WEBPACK_IMPORTED_MODULE_3_classnames___default()(prefixCls + '-bar', __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()({}, className, !!className));
+    var topOrBottom = tabBarPosition === 'top' || tabBarPosition === 'bottom';
+    var tabBarExtraContentStyle = topOrBottom ? { float: 'right' } : {};
+    var children = [__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_react__["cloneElement"])(extraContent, {
+      key: 'extra',
+      style: __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_extends___default()({}, tabBarExtraContentStyle, extraContent.props.style)
+    }), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_react__["cloneElement"])(contents, { key: 'content' })];
     return __WEBPACK_IMPORTED_MODULE_2_react___default.a.createElement(
       'div',
       {
@@ -2477,15 +2478,7 @@ var tabBarExtraContentStyle = {
         onKeyDown: onKeyDown,
         style: style
       },
-      extraContent ? __WEBPACK_IMPORTED_MODULE_2_react___default.a.createElement(
-        'div',
-        {
-          style: tabBarExtraContentStyle,
-          key: 'extra'
-        },
-        extraContent
-      ) : null,
-      contents
+      topOrBottom ? children : children.reverse()
     );
   }
 });

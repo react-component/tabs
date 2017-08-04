@@ -19,7 +19,7 @@
   position: absolute;
   box-sizing: border-box;
   margin-top: -3px;
-  background-color: #3fc7fa;
+  background-color: #108ee9;
   -webkit-transform-origin: 0 0;
           transform-origin: 0 0;
 }
@@ -105,7 +105,7 @@
 }
 .rc-tabs-tab-active,
 .rc-tabs-tab-active:hover {
-  color: #3fc7fa;
+  color: #108ee9;
   cursor: default;
   -webkit-transform: translateZ(0);
           transform: translateZ(0);
