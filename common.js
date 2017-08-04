@@ -2464,10 +2464,11 @@ function _componentDidUpdate(component, init) {
     var cls = __WEBPACK_IMPORTED_MODULE_3_classnames___default()(prefixCls + '-bar', __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()({}, className, !!className));
     var topOrBottom = tabBarPosition === 'top' || tabBarPosition === 'bottom';
     var tabBarExtraContentStyle = topOrBottom ? { float: 'right' } : {};
-    var children = [__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_react__["cloneElement"])(extraContent, {
+    var extraContentStyle = extraContent && extraContent.props ? extraContent.props.style : {};
+    var children = extraContent ? [__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_react__["cloneElement"])(extraContent, {
       key: 'extra',
-      style: __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_extends___default()({}, tabBarExtraContentStyle, extraContent.props.style)
-    }), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_react__["cloneElement"])(contents, { key: 'content' })];
+      style: __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_extends___default()({}, tabBarExtraContentStyle, extraContentStyle)
+    }), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_react__["cloneElement"])(contents, { key: 'content' })] : contents;
     return __WEBPACK_IMPORTED_MODULE_2_react___default.a.createElement(
       'div',
       {
