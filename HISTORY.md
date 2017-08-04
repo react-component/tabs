@@ -1,6 +1,10 @@
 # History
 ----
 
+## 9.0.0 / 2017-08-04
+
+* Refactor extraContent dom structure.
+
 ## 7.1.0 / 2016-12-06
 
 - support animatedWithMargin
