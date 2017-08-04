@@ -1,10 +1,6 @@
-import React from 'react';
+import React, { cloneElement } from 'react';
 import classnames from 'classnames';
 import warning from 'warning';
-
-const tabBarExtraContentStyle = {
-  float: 'right',
-};
 
 export default {
   getDefaultProps() {
@@ -60,10 +56,22 @@ export default {
     return rst;
   },
   getRootNode(contents) {
-    const { prefixCls, onKeyDown, className, extraContent, style } = this.props;
+    const { prefixCls, onKeyDown, className, extraContent, style, tabBarPosition } = this.props;
     const cls = classnames(`${prefixCls}-bar`, {
       [className]: !!className,
     });
+    const topOrBottom = (tabBarPosition === 'top' || tabBarPosition === 'bottom');
+    const tabBarExtraContentStyle = topOrBottom ? { float: 'right' } : {};
+    const children = [
+      cloneElement(extraContent, {
+        key: 'extra',
+        style: {
+          ...tabBarExtraContentStyle,
+          ...extraContent.props.style,
+        },
+      }),
+      cloneElement(contents, { key: 'content' }),
+    ];
     return (
       <div
         role="tablist"
@@ -73,15 +81,7 @@ export default {
         onKeyDown={onKeyDown}
         style={style}
       >
-        {extraContent ? (
-          <div
-            style={tabBarExtraContentStyle}
-            key="extra"
-          >
-            {extraContent}
-          </div>
-        ) : null}
-        {contents}
+        {topOrBottom ? children : children.reverse()}
       </div>
     );
   },
