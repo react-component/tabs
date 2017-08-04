@@ -84,10 +84,10 @@ describe('rc-tabs', () => {
     );
 
     // To force Tabs show prev/next button
-    Object.defineProperty(wrapper.find('.rc-tabs-nav').instance(), 'offsetWidth', {
+    Object.defineProperty(wrapper.find('.rc-tabs-nav').instance(), 'scrollWidth', {
       get() { return 1000; },
     });
-    Object.defineProperty(wrapper.find('.rc-tabs-nav-wrap').instance(), 'offsetWidth', {
+    Object.defineProperty(wrapper.find('.rc-tabs-nav-wrap').instance(), 'scrollWidth', {
       get() { return 100; },
     });
     wrapper.update();
