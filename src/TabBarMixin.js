@@ -42,25 +42,26 @@ export default {
         ref.ref = 'activeTab';
       }
       warning('tab' in child.props, 'There must be `tab` property on children of Tabs.');
-      rst.push(<div
-        role="tab"
-        aria-disabled={child.props.disabled ? 'true' : 'false'}
-        aria-selected={activeKey === key ? 'true' : 'false'}
-        {...events}
-        className={cls}
-        key={key}
-        {...ref}
-      >
-        {child.props.tab}
-      </div>);
+      rst.push(
+        <div
+          role="tab"
+          aria-disabled={child.props.disabled ? 'true' : 'false'}
+          aria-selected={activeKey === key ? 'true' : 'false'}
+          {...events}
+          className={cls}
+          key={key}
+          {...ref}
+        >
+          {child.props.tab}
+        </div>
+      );
     });
 
     return rst;
   },
   getRootNode(contents) {
     const { prefixCls, onKeyDown, className, extraContent, style } = this.props;
-    const cls = classnames({
-      [`${prefixCls}-bar`]: 1,
+    const cls = classnames(`${prefixCls}-bar`, {
       [className]: !!className,
     });
     return (
@@ -72,14 +73,16 @@ export default {
         onKeyDown={onKeyDown}
         style={style}
       >
-        {extraContent ?
-          (<div
+        {extraContent ? (
+          <div
             style={tabBarExtraContentStyle}
             key="extra"
           >
             {extraContent}
-          </div>) : null}
+          </div>
+        ) : null}
         {contents}
-      </div>);
+      </div>
+    );
   },
 };
