@@ -62,16 +62,17 @@ export default {
     });
     const topOrBottom = (tabBarPosition === 'top' || tabBarPosition === 'bottom');
     const tabBarExtraContentStyle = topOrBottom ? { float: 'right' } : {};
-    const children = [
+    const extraContentStyle = (extraContent && extraContent.props) ? extraContent.props.style : {};
+    const children = extraContent ? [
       cloneElement(extraContent, {
         key: 'extra',
         style: {
           ...tabBarExtraContentStyle,
-          ...extraContent.props.style,
+          ...extraContentStyle,
         },
       }),
       cloneElement(contents, { key: 'content' }),
-    ];
+    ] : contents;
     return (
       <div
         role="tablist"
