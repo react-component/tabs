@@ -1919,11 +1919,9 @@ module.exports = exports['default'];
     /* eslint react/no-did-update-set-state:0 */
     if (this.isNextPrevShown(this.state) !== this.isNextPrevShown(nextPrev)) {
       this.setState({}, this.scrollToActiveTab);
-    } else {
+    } else if (!prevProps || props.activeKey !== prevProps.activeKey) {
       // can not use props.activeKey
-      if (!prevProps || props.activeKey !== prevProps.activeKey) {
-        this.scrollToActiveTab();
-      }
+      this.scrollToActiveTab();
     }
   },
   setNextPrev: function setNextPrev() {
@@ -2039,7 +2037,10 @@ module.exports = exports['default'];
   isNextPrevShown: function isNextPrevShown(state) {
     return state.next || state.prev;
   },
-  scrollToActiveTab: function scrollToActiveTab() {
+  scrollToActiveTab: function scrollToActiveTab(e) {
+    if (e && e.target !== e.currentTarget) {
+      return;
+    }
     var _refs = this.refs,
         activeTab = _refs.activeTab,
         navWrap = _refs.navWrap;
@@ -2116,7 +2117,8 @@ module.exports = exports['default'];
       {
         className: __WEBPACK_IMPORTED_MODULE_1_classnames___default()((_classnames4 = {}, __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()(_classnames4, prefixCls + '-nav-container', 1), __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()(_classnames4, prefixCls + '-nav-container-scrolling', showNextPrev), _classnames4)),
         key: 'container',
-        ref: 'container'
+        ref: 'container',
+        onTransitionEnd: this.scrollToActiveTab
       },
       prevButton,
       nextButton,
