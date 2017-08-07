@@ -63,16 +63,20 @@ export default {
     const topOrBottom = (tabBarPosition === 'top' || tabBarPosition === 'bottom');
     const tabBarExtraContentStyle = topOrBottom ? { float: 'right' } : {};
     const extraContentStyle = (extraContent && extraContent.props) ? extraContent.props.style : {};
-    const children = extraContent ? [
-      cloneElement(extraContent, {
-        key: 'extra',
-        style: {
-          ...tabBarExtraContentStyle,
-          ...extraContentStyle,
-        },
-      }),
-      cloneElement(contents, { key: 'content' }),
-    ] : contents;
+    let children = contents;
+    if (extraContent) {
+      children = [
+        cloneElement(extraContent, {
+          key: 'extra',
+          style: {
+            ...tabBarExtraContentStyle,
+            ...extraContentStyle,
+          },
+        }),
+        cloneElement(contents, { key: 'content' }),
+      ];
+      children = topOrBottom ? children : children.reverse();
+    }
     return (
       <div
         role="tablist"
@@ -82,7 +86,7 @@ export default {
         onKeyDown={onKeyDown}
         style={style}
       >
-        {topOrBottom ? children : children.reverse()}
+        {children}
       </div>
     );
   },
