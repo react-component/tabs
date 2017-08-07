@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 import React, { Component } from 'react';
-import { mount, render } from 'enzyme';
+import { mount, shallow, render } from 'enzyme';
 import { renderToJson } from 'enzyme-to-json';
 import Tabs, { TabPane } from '../index';
 import TabContent from '../src/TabContent';
@@ -97,5 +97,46 @@ describe('rc-tabs', () => {
 
     wrapper.find('.rc-tabs-tab-prev').simulate('click');
     expect(onPrevClick).toHaveBeenCalled();
+  });
+
+  it('active first tab when children is changed', () => {
+    const children = [1, 2, 3]
+      .map(number => <TabPane tab={number} key={number.toString()}>{number}</TabPane>);
+    const wrapper = shallow(
+      <Tabs
+        renderTabBar={() => <ScrollableInkTabBar />}
+        renderTabContent={() => <TabContent/>}
+      >
+        {children}
+      </Tabs>
+    );
+    expect(wrapper.state().activeKey).toBe('1');
+    const newChildren = [...children];
+    newChildren.shift();
+    wrapper.setProps({
+      children: newChildren,
+    });
+    expect(wrapper.state().activeKey).toBe('2');
+  });
+
+  it('active first tab when children is not changed at controlled mode', () => {
+    const children = [1, 2, 3]
+      .map(number => <TabPane tab={number} key={number.toString()}>{number}</TabPane>);
+    const wrapper = shallow(
+      <Tabs
+        activeKey="1"
+        renderTabBar={() => <ScrollableInkTabBar />}
+        renderTabContent={() => <TabContent/>}
+      >
+        {children}
+      </Tabs>
+    );
+    expect(wrapper.state().activeKey).toBe('1');
+    const newChildren = [...children];
+    newChildren.shift();
+    wrapper.setProps({
+      children: newChildren,
+    });
+    expect(wrapper.state().activeKey).toBe('1');
   });
 });

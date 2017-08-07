@@ -17,6 +17,11 @@ function getDefaultActiveKey(props) {
   return activeKey;
 }
 
+function activeKeyIsValid(props, key) {
+  const keys = React.Children.map(props.children, child => child.key);
+  return keys.indexOf(key) >= 0;
+}
+
 export default class Tabs extends React.Component {
   constructor(props) {
     super(props);
@@ -39,6 +44,11 @@ export default class Tabs extends React.Component {
     if ('activeKey' in nextProps) {
       this.setState({
         activeKey: nextProps.activeKey,
+      });
+    } else if (!activeKeyIsValid(nextProps, this.state.activeKey)) {
+      // https://github.com/ant-design/ant-design/issues/7093
+      this.setState({
+        activeKey: getDefaultActiveKey(nextProps),
       });
     }
   }
