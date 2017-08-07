@@ -2465,10 +2465,14 @@ function _componentDidUpdate(component, init) {
     var topOrBottom = tabBarPosition === 'top' || tabBarPosition === 'bottom';
     var tabBarExtraContentStyle = topOrBottom ? { float: 'right' } : {};
     var extraContentStyle = extraContent && extraContent.props ? extraContent.props.style : {};
-    var children = extraContent ? [__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_react__["cloneElement"])(extraContent, {
-      key: 'extra',
-      style: __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_extends___default()({}, tabBarExtraContentStyle, extraContentStyle)
-    }), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_react__["cloneElement"])(contents, { key: 'content' })] : contents;
+    var children = contents;
+    if (extraContent) {
+      children = [__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_react__["cloneElement"])(extraContent, {
+        key: 'extra',
+        style: __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_extends___default()({}, tabBarExtraContentStyle, extraContentStyle)
+      }), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_react__["cloneElement"])(contents, { key: 'content' })];
+      children = topOrBottom ? children : children.reverse();
+    }
     return __WEBPACK_IMPORTED_MODULE_2_react___default.a.createElement(
       'div',
       {
@@ -2479,7 +2483,7 @@ function _componentDidUpdate(component, init) {
         onKeyDown: onKeyDown,
         style: style
       },
-      topOrBottom ? children : children.reverse()
+      children
     );
   }
 });
@@ -12890,6 +12894,13 @@ function getDefaultActiveKey(props) {
   return activeKey;
 }
 
+function activeKeyIsValid(props, key) {
+  var keys = __WEBPACK_IMPORTED_MODULE_5_react___default.a.Children.map(props.children, function (child) {
+    return child.key;
+  });
+  return keys.indexOf(key) >= 0;
+}
+
 var Tabs = function (_React$Component) {
   __WEBPACK_IMPORTED_MODULE_4_babel_runtime_helpers_inherits___default()(Tabs, _React$Component);
 
@@ -12921,6 +12932,11 @@ var Tabs = function (_React$Component) {
       if ('activeKey' in nextProps) {
         this.setState({
           activeKey: nextProps.activeKey
+        });
+      } else if (!activeKeyIsValid(nextProps, this.state.activeKey)) {
+        // https://github.com/ant-design/ant-design/issues/7093
+        this.setState({
+          activeKey: getDefaultActiveKey(nextProps)
         });
       }
     }
