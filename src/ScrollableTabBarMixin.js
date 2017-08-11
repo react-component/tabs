@@ -155,17 +155,39 @@ export default {
     return state.next || state.prev;
   },
 
+  prevTransitionEnd() {
+    if (this.oneScroll) {
+      if (!this.onlyAnimate) {
+        const { container } = this.refs;
+        this.scrollToActiveTab({
+          target: container,
+          currentTarget: container,
+        });
+        this.onlyAnimate = true; // 只执行一次 transitionEnd
+      }
+    } else {
+      this.onlyAnimate = false;
+    }
+  },
+
   scrollToActiveTab(e) {
     if (e && e.target !== e.currentTarget) {
       return;
     }
-    const { activeTab, navWrap } = this.refs;
+    const { activeTab, navWrap, nav } = this.refs;
     if (activeTab) {
       const activeTabWH = this.getOffsetWH(activeTab);
       const navWrapNodeWH = this.getOffsetWH(navWrap);
+      const navNodeWH = this.getOffsetWH(nav);
       let { offset } = this;
       const wrapOffset = this.getOffsetLT(navWrap);
       const activeTabOffset = this.getOffsetLT(activeTab);
+      if (navNodeWH > navWrapNodeWH && !this.oneScroll) {
+        this.oneScroll = true;
+        return;
+      } else if (navNodeWH <= navWrapNodeWH) {
+        this.oneScroll = false;
+      }
       if (wrapOffset > activeTabOffset) {
         offset += (wrapOffset - activeTabOffset);
         this.setOffset(offset);
@@ -206,6 +228,7 @@ export default {
           [`${prefixCls}-tab-btn-disabled`]: !prev,
           [`${prefixCls}-tab-arrow-show`]: showNextPrev,
         })}
+        onTransitionEnd={this.prevTransitionEnd}
       >
         <span className={`${prefixCls}-tab-prev-icon`} />
       </span>
@@ -243,7 +266,6 @@ export default {
         })}
         key="container"
         ref="container"
-        onTransitionEnd={this.scrollToActiveTab}
       >
         {prevButton}
         {nextButton}
