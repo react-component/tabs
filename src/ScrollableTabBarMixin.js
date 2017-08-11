@@ -1,6 +1,7 @@
 import classnames from 'classnames';
 import { setTransform, isTransformSupported } from './utils';
 import React from 'react';
+import Sortable from 'react-sortablejs';
 
 export default {
   getDefaultProps() {
@@ -250,7 +251,13 @@ export default {
         <div className={`${prefixCls}-nav-wrap`} ref="navWrap">
           <div className={`${prefixCls}-nav-scroll`}>
             <div className={navClasses} ref="nav">
-              {content}
+              <Sortable
+                options={{
+                  animation: 150,
+                }}
+              >
+                {content}
+              </Sortable>
             </div>
           </div>
         </div>
