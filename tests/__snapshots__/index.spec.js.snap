@@ -65,6 +65,7 @@ exports[`rc-tabs should render Tabs with correct DOM structure 1`] = `
             >
               tab 3
             </div>
+            </div>
           </div>
         </div>
       </div>
