@@ -18,8 +18,9 @@ const contentStyle = {
   backgroundColor: '#fff',
 };
 
+const tabTitle = (key) => (<div data-extra="tab-bar-title">{`选项${key}`}</div>);
 const makeTabPane = key => (
-  <TabPane tab={`选项${key}`} key={`${key}`}>
+  <TabPane tab={tabTitle(key)} data-extra="tabpane" key={`${key}`}>
     <div style={contentStyle}>
       {`选项${key}内容`}
     </div>
@@ -39,10 +40,12 @@ const Component = () => (
     <h4>pageSize = 5, speed = 5</h4>
     <div>
       <Tabs
+        data-extra="tabs"
         renderTabBar={() =>
           <SwipeableInkTabBar
             pageSize={5}
             speed={5}
+            data-extra="tabbar"
           />
         }
         renderTabContent={() => <TabContent />}
@@ -86,9 +89,10 @@ const Component = () => (
     <div>
       <Tabs
         tabBarPosition="left"
-        pageSize={3}
         renderTabBar={() =>
-          <SwipeableInkTabBar/>
+          <SwipeableInkTabBar
+            pageSize={3}
+          />
         }
         renderTabContent={() => <TabContent/>}
         defaultActiveKey="2"
@@ -100,9 +104,10 @@ const Component = () => (
     <div>
       <Tabs
         tabBarPosition="right"
-        pageSize={3}
         renderTabBar={() =>
-          <SwipeableInkTabBar/>
+          <SwipeableInkTabBar
+            pageSize={3}
+          />
         }
         renderTabContent={() => <TabContent/>}
         defaultActiveKey="2"
@@ -135,9 +140,9 @@ const Component = () => (
     <div>
       <Tabs
         tabBarPosition="left"
-        pageSize={3}
         renderTabBar={() =>
           <SwipeableInkTabBar
+            pageSize={3}
             styles={{
               inkBar: {
                 backgroundColor: 'red',

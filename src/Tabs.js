@@ -117,6 +117,9 @@ export default class Tabs extends React.Component {
       tabBarPosition, className,
       renderTabContent,
       renderTabBar,
+      defaultActiveKey,
+      destroyInactiveTabPane,
+      ...restProps,
     } = props;
     const cls = classnames({
       [prefixCls]: 1,
@@ -139,7 +142,7 @@ export default class Tabs extends React.Component {
         prefixCls,
         tabBarPosition,
         activeKey: this.state.activeKey,
-        destroyInactiveTabPane: props.destroyInactiveTabPane,
+        destroyInactiveTabPane,
         children: props.children,
         onChange: this.setActiveKey,
         key: 'tabContent',
@@ -152,6 +155,7 @@ export default class Tabs extends React.Component {
       <div
         className={cls}
         style={props.style}
+        {...restProps}
       >
         {contents}
       </div>

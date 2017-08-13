@@ -56,7 +56,11 @@ export default {
     return rst;
   },
   getRootNode(contents) {
-    const { prefixCls, onKeyDown, className, extraContent, style, tabBarPosition } = this.props;
+    const {
+      prefixCls, onKeyDown, className, extraContent, style, tabBarPosition,
+      pageSize, styles, inkBarAnimated, hammerOptions, onTabClick, panels, activeKey,
+      ...restProps,
+    } = this.props;
     const cls = classnames(`${prefixCls}-bar`, {
       [className]: !!className,
     });
@@ -85,6 +89,7 @@ export default {
         ref="root"
         onKeyDown={onKeyDown}
         style={style}
+        {...restProps}
       >
         {children}
       </div>
