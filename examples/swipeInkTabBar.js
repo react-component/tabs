@@ -3,8 +3,8 @@ import 'rc-tabs/assets/index.less';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Tabs, { TabPane } from 'rc-tabs';
-import TabContent from '../src/SwipeableTabContent';
-import SwipeableInkTabBar from '../src/SwipeableInkTabBar';
+import TabContent from 'rc-tabs/lib/SwipeableTabContent';
+import SwipeableInkTabBar from 'rc-tabs/lib/SwipeableInkTabBar';
 
 if (process.env.DEMO_ENV === 'preact') {
   require('preact/devtools');

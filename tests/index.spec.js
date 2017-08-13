@@ -2,9 +2,9 @@
 import React, { Component } from 'react';
 import { mount, shallow, render } from 'enzyme';
 import { renderToJson } from 'enzyme-to-json';
-import Tabs, { TabPane } from '../index';
-import TabContent from '../src/TabContent';
-import ScrollableInkTabBar from '../src/ScrollableInkTabBar';
+import Tabs, { TabPane } from 'rc-tabs';
+import TabContent from 'rc-tabs/lib/TabContent';
+import ScrollableInkTabBar from 'rc-tabs/lib/ScrollableInkTabBar';
 
 class NormoalTabs extends Component {
   getRoot() {

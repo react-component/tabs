@@ -3,8 +3,8 @@ import 'rc-tabs/assets/index.less';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Tabs, { TabPane } from 'rc-tabs';
-import TabContent from '../src/SwipeableTabContent';
-import ScrollableInkTabBar from '../src/ScrollableInkTabBar';
+import TabContent from 'rc-tabs/lib/SwipeableTabContent';
+import ScrollableInkTabBar from 'rc-tabs/lib/ScrollableInkTabBar';
 
 const PanelContent = ({ id }) => (
   <div>{[1, 2, 3, 4].map(item => <p key={item}>{id}</p>)}</div>

@@ -3,9 +3,9 @@ import 'rc-tabs/assets/index.less';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Tabs, { TabPane } from 'rc-tabs';
-import TabContent from '../src/TabContent';
-import ScrollableInkTabBar from '../src/ScrollableInkTabBar';
-import InkTabBar from '../src/InkTabBar';
+import TabContent from 'rc-tabs/lib/TabContent';
+import ScrollableInkTabBar from 'rc-tabs/lib/ScrollableInkTabBar';
+import InkTabBar from 'rc-tabs/lib/InkTabBar';
 
 class PanelContent extends React.Component {
   constructor(props) {
