@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { mount, render } from 'enzyme';
 import { renderToJson } from 'enzyme-to-json';
-import Tabs, { TabPane } from '../index';
+import Tabs, { TabPane } from '../src/';
 import SwipeableTabContent from '../src/SwipeableTabContent';
 import SwipeableInkTabBar from '../src/SwipeableInkTabBar';
 
