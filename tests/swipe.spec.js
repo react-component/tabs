@@ -2,9 +2,9 @@
 import React, { Component } from 'react';
 import { mount, render } from 'enzyme';
 import { renderToJson } from 'enzyme-to-json';
-import Tabs, { TabPane } from 'rc-tabs';
-import SwipeableTabContent from 'rc-tabs/lib/SwipeableTabContent';
-import SwipeableInkTabBar from 'rc-tabs/lib/SwipeableInkTabBar';
+import Tabs, { TabPane } from '../src/';
+import SwipeableTabContent from '../src/lib/SwipeableTabContent';
+import SwipeableInkTabBar from '../src/lib/SwipeableInkTabBar';
 
 const contentStyle = {
   display: 'flex',
