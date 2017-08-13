@@ -1,6 +1,6 @@
 webpackJsonp([1],{
 
-/***/ 100:
+/***/ 101:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -14,7 +14,7 @@ webpackJsonp([1],{
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_inherits___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_inherits__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_react__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_prop_types__ = __webpack_require__(42);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_prop_types__ = __webpack_require__(43);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_react_dom__ = __webpack_require__(15);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_react_dom__);
@@ -30,7 +30,7 @@ webpackJsonp([1],{
 // https://github.com/JedWatson/react-hammerjs/issues/14
 // require('hammerjs') when in a browser. This is safe because Hammer is only
 // invoked in componentDidMount, which is not executed on the server.
-var Hammer = typeof window !== 'undefined' ? __webpack_require__(95) : undefined;
+var Hammer = typeof window !== 'undefined' ? __webpack_require__(96) : undefined;
 
 var privateProps = {
 	children: true,
@@ -185,21 +185,20 @@ HammerComponent.propTypes = {
 
 /***/ }),
 
-/***/ 186:
+/***/ 188:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* WEBPACK VAR INJECTION */(function(process) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_rc_tabs_assets_index_less__ = __webpack_require__(40);
+/* WEBPACK VAR INJECTION */(function(process) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_rc_tabs_assets_index_less__ = __webpack_require__(41);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_rc_tabs_assets_index_less___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_rc_tabs_assets_index_less__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react_dom__ = __webpack_require__(15);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_react_dom__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rc_tabs__ = __webpack_require__(34);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rc_tabs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_rc_tabs__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__src_SwipeableTabContent__ = __webpack_require__(80);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__src_SwipeableInkTabBar__ = __webpack_require__(189);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rc_tabs__ = __webpack_require__(35);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rc_tabs_lib_SwipeableTabContent__ = __webpack_require__(80);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rc_tabs_lib_SwipeableInkTabBar__ = __webpack_require__(191);
 /* eslint react/no-multi-comp:0, no-console:0 */
 
 
@@ -209,7 +208,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 if (process.env.DEMO_ENV === 'preact') {
-  __webpack_require__(255);
+  __webpack_require__(256);
 }
 
 var contentStyle = {
@@ -220,10 +219,17 @@ var contentStyle = {
   backgroundColor: '#fff'
 };
 
+var tabTitle = function tabTitle(key) {
+  return __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(
+    'div',
+    { 'data-extra': 'tab-bar-title' },
+    '\u9009\u9879' + key
+  );
+};
 var makeTabPane = function makeTabPane(key) {
   return __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(
-    __WEBPACK_IMPORTED_MODULE_3_rc_tabs__["TabPane"],
-    { tab: '\u9009\u9879' + key, key: '' + key },
+    __WEBPACK_IMPORTED_MODULE_3_rc_tabs__["a" /* TabPane */],
+    { tab: tabTitle(key), 'data-extra': 'tabpane', key: '' + key },
     __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(
       'div',
       { style: contentStyle },
@@ -253,16 +259,18 @@ var Component = function Component() {
       'div',
       null,
       __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(
-        __WEBPACK_IMPORTED_MODULE_3_rc_tabs___default.a,
+        __WEBPACK_IMPORTED_MODULE_3_rc_tabs__["b" /* default */],
         {
+          'data-extra': 'tabs',
           renderTabBar: function renderTabBar() {
-            return __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__src_SwipeableInkTabBar__["a" /* default */], {
+            return __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5_rc_tabs_lib_SwipeableInkTabBar__["a" /* default */], {
               pageSize: 5,
-              speed: 5
+              speed: 5,
+              'data-extra': 'tabbar'
             });
           },
           renderTabContent: function renderTabContent() {
-            return __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__src_SwipeableTabContent__["a" /* default */], null);
+            return __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4_rc_tabs_lib_SwipeableTabContent__["a" /* default */], null);
           },
           defaultActiveKey: '8'
         },
@@ -278,16 +286,16 @@ var Component = function Component() {
       'div',
       null,
       __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(
-        __WEBPACK_IMPORTED_MODULE_3_rc_tabs___default.a,
+        __WEBPACK_IMPORTED_MODULE_3_rc_tabs__["b" /* default */],
         {
           renderTabBar: function renderTabBar() {
-            return __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__src_SwipeableInkTabBar__["a" /* default */], {
+            return __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5_rc_tabs_lib_SwipeableInkTabBar__["a" /* default */], {
               pageSize: 3,
               speed: 10
             });
           },
           renderTabContent: function renderTabContent() {
-            return __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__src_SwipeableTabContent__["a" /* default */], null);
+            return __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4_rc_tabs_lib_SwipeableTabContent__["a" /* default */], null);
           },
           defaultActiveKey: '2'
         },
@@ -303,17 +311,17 @@ var Component = function Component() {
       'div',
       null,
       __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(
-        __WEBPACK_IMPORTED_MODULE_3_rc_tabs___default.a,
+        __WEBPACK_IMPORTED_MODULE_3_rc_tabs__["b" /* default */],
         {
           tabBarPosition: 'bottom',
           renderTabBar: function renderTabBar() {
-            return __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__src_SwipeableInkTabBar__["a" /* default */], {
+            return __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5_rc_tabs_lib_SwipeableInkTabBar__["a" /* default */], {
               pageSize: 3,
               speed: 10
             });
           },
           renderTabContent: function renderTabContent() {
-            return __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__src_SwipeableTabContent__["a" /* default */], null);
+            return __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4_rc_tabs_lib_SwipeableTabContent__["a" /* default */], null);
           },
           defaultActiveKey: '2'
         },
@@ -329,15 +337,16 @@ var Component = function Component() {
       'div',
       null,
       __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(
-        __WEBPACK_IMPORTED_MODULE_3_rc_tabs___default.a,
+        __WEBPACK_IMPORTED_MODULE_3_rc_tabs__["b" /* default */],
         {
           tabBarPosition: 'left',
-          pageSize: 3,
           renderTabBar: function renderTabBar() {
-            return __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__src_SwipeableInkTabBar__["a" /* default */], null);
+            return __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5_rc_tabs_lib_SwipeableInkTabBar__["a" /* default */], {
+              pageSize: 3
+            });
           },
           renderTabContent: function renderTabContent() {
-            return __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__src_SwipeableTabContent__["a" /* default */], null);
+            return __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4_rc_tabs_lib_SwipeableTabContent__["a" /* default */], null);
           },
           defaultActiveKey: '2'
         },
@@ -353,15 +362,16 @@ var Component = function Component() {
       'div',
       null,
       __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(
-        __WEBPACK_IMPORTED_MODULE_3_rc_tabs___default.a,
+        __WEBPACK_IMPORTED_MODULE_3_rc_tabs__["b" /* default */],
         {
           tabBarPosition: 'right',
-          pageSize: 3,
           renderTabBar: function renderTabBar() {
-            return __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__src_SwipeableInkTabBar__["a" /* default */], null);
+            return __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5_rc_tabs_lib_SwipeableInkTabBar__["a" /* default */], {
+              pageSize: 3
+            });
           },
           renderTabContent: function renderTabContent() {
-            return __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__src_SwipeableTabContent__["a" /* default */], null);
+            return __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4_rc_tabs_lib_SwipeableTabContent__["a" /* default */], null);
           },
           defaultActiveKey: '2'
         },
@@ -377,10 +387,10 @@ var Component = function Component() {
       'div',
       null,
       __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(
-        __WEBPACK_IMPORTED_MODULE_3_rc_tabs___default.a,
+        __WEBPACK_IMPORTED_MODULE_3_rc_tabs__["b" /* default */],
         {
           renderTabBar: function renderTabBar() {
-            return __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__src_SwipeableInkTabBar__["a" /* default */], {
+            return __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5_rc_tabs_lib_SwipeableInkTabBar__["a" /* default */], {
               pageSize: 5,
               speed: 5,
               styles: {
@@ -392,7 +402,7 @@ var Component = function Component() {
             });
           },
           renderTabContent: function renderTabContent() {
-            return __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__src_SwipeableTabContent__["a" /* default */], null);
+            return __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4_rc_tabs_lib_SwipeableTabContent__["a" /* default */], null);
           },
           defaultActiveKey: '8'
         },
@@ -408,12 +418,12 @@ var Component = function Component() {
       'div',
       null,
       __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(
-        __WEBPACK_IMPORTED_MODULE_3_rc_tabs___default.a,
+        __WEBPACK_IMPORTED_MODULE_3_rc_tabs__["b" /* default */],
         {
           tabBarPosition: 'left',
-          pageSize: 3,
           renderTabBar: function renderTabBar() {
-            return __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__src_SwipeableInkTabBar__["a" /* default */], {
+            return __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5_rc_tabs_lib_SwipeableInkTabBar__["a" /* default */], {
+              pageSize: 3,
               styles: {
                 inkBar: {
                   backgroundColor: 'red',
@@ -423,7 +433,7 @@ var Component = function Component() {
             });
           },
           renderTabContent: function renderTabContent() {
-            return __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__src_SwipeableTabContent__["a" /* default */], null);
+            return __WEBPACK_IMPORTED_MODULE_1_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4_rc_tabs_lib_SwipeableTabContent__["a" /* default */], null);
           },
           defaultActiveKey: '2'
         },
@@ -438,11 +448,11 @@ __WEBPACK_IMPORTED_MODULE_2_react_dom___default.a.render(__WEBPACK_IMPORTED_MODU
 
 /***/ }),
 
-/***/ 189:
+/***/ 191:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends__ = __webpack_require__(46);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends__ = __webpack_require__(31);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_defineProperty__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_defineProperty___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_defineProperty__);
@@ -453,7 +463,7 @@ __WEBPACK_IMPORTED_MODULE_2_react_dom___default.a.render(__WEBPACK_IMPORTED_MODU
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_classnames__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_classnames___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_classnames__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__InkTabBarMixin__ = __webpack_require__(28);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__SwipeableTabBarMixin__ = __webpack_require__(190);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__SwipeableTabBarMixin__ = __webpack_require__(192);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__TabBarMixin__ = __webpack_require__(29);
 
 
@@ -531,11 +541,11 @@ var SwipeableInkTabBar = __WEBPACK_IMPORTED_MODULE_3_create_react_class___defaul
 
 /***/ }),
 
-/***/ 190:
+/***/ 192:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends__ = __webpack_require__(46);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends__ = __webpack_require__(31);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_defineProperty__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_defineProperty___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_defineProperty__);
@@ -762,11 +772,11 @@ var SwipeableInkTabBar = __WEBPACK_IMPORTED_MODULE_3_create_react_class___defaul
 
 /***/ }),
 
-/***/ 255:
+/***/ 256:
 /***/ (function(module, exports, __webpack_require__) {
 
 (function (global, factory) {
-	 true ? factory(__webpack_require__(256)) :
+	 true ? factory(__webpack_require__(257)) :
 	typeof define === 'function' && define.amd ? define(['preact'], factory) :
 	(factory(global.preact));
 }(this, (function (preact) { 'use strict';
@@ -1176,7 +1186,7 @@ initDevTools();
 
 /***/ }),
 
-/***/ 256:
+/***/ 257:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2155,10 +2165,10 @@ var preact = {
 
 /***/ }),
 
-/***/ 372:
+/***/ 373:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(186);
+module.exports = __webpack_require__(188);
 
 
 /***/ }),
@@ -2167,7 +2177,7 @@ module.exports = __webpack_require__(186);
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Hammer__ = __webpack_require__(100);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Hammer__ = __webpack_require__(101);
 
 
 /* harmony default export */ __webpack_exports__["a"] = (__WEBPACK_IMPORTED_MODULE_0__Hammer__["a" /* default */]);
@@ -2178,12 +2188,12 @@ module.exports = __webpack_require__(186);
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends__ = __webpack_require__(46);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends__ = __webpack_require__(31);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__TabContent__ = __webpack_require__(30);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_prop_types__ = __webpack_require__(42);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_prop_types__ = __webpack_require__(43);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_create_react_class__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_create_react_class___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_create_react_class__);
@@ -2366,7 +2376,7 @@ var SwipeableTabContent = __WEBPACK_IMPORTED_MODULE_4_create_react_class___defau
 
 /***/ }),
 
-/***/ 95:
+/***/ 96:
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_RESULT__;/*! Hammer.JS - v2.0.7 - 2016-04-22
@@ -5017,5 +5027,5 @@ if (true) {
 
 /***/ })
 
-},[372]);
+},[373]);
 //# sourceMappingURL=swipeInkTabBar.js.map

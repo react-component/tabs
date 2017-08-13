@@ -296,7 +296,7 @@ var ScrollableInkTabBar = __WEBPACK_IMPORTED_MODULE_0_create_react_class___defau
 
 /***/ }),
 
-/***/ 184:
+/***/ 186:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -309,16 +309,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_possibleConstructorReturn___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_possibleConstructorReturn__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_inherits__ = __webpack_require__(25);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_inherits___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_inherits__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rc_tabs_assets_index_less__ = __webpack_require__(40);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rc_tabs_assets_index_less__ = __webpack_require__(41);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rc_tabs_assets_index_less___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_rc_tabs_assets_index_less__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_react__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_react_dom__ = __webpack_require__(15);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_react_dom__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_rc_tabs__ = __webpack_require__(34);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_rc_tabs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_rc_tabs__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__src_TabContent__ = __webpack_require__(30);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__src_ScrollableInkTabBar__ = __webpack_require__(17);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_rc_tabs__ = __webpack_require__(35);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_rc_tabs_lib_TabContent__ = __webpack_require__(30);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_rc_tabs_lib_ScrollableInkTabBar__ = __webpack_require__(17);
 
 
 
@@ -415,35 +414,35 @@ var Demo = function (_React$Component2) {
           'Simple Tabs'
         ),
         __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
-          __WEBPACK_IMPORTED_MODULE_7_rc_tabs___default.a,
+          __WEBPACK_IMPORTED_MODULE_7_rc_tabs__["b" /* default */],
           {
             defaultActiveKey: '2',
             destroyInactiveTabPane: true,
             renderTabBar: function renderTabBar() {
-              return __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_9__src_ScrollableInkTabBar__["a" /* default */], { onTabClick: _this4.onTabClick });
+              return __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_9_rc_tabs_lib_ScrollableInkTabBar__["a" /* default */], { onTabClick: _this4.onTabClick });
             },
             renderTabContent: function renderTabContent() {
-              return __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_8__src_TabContent__["a" /* default */], null);
+              return __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_8_rc_tabs_lib_TabContent__["a" /* default */], null);
             },
             onChange: this.onChange
           },
           __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
-            __WEBPACK_IMPORTED_MODULE_7_rc_tabs__["TabPane"],
+            __WEBPACK_IMPORTED_MODULE_7_rc_tabs__["a" /* TabPane */],
             { tab: 'tab ' + start, key: '1', placeholder: 'loading 1' },
             __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(PanelContent, { id: start })
           ),
           __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
-            __WEBPACK_IMPORTED_MODULE_7_rc_tabs__["TabPane"],
+            __WEBPACK_IMPORTED_MODULE_7_rc_tabs__["a" /* TabPane */],
             { tab: 'tab ' + (start + 1), key: '2', placeholder: 'loading 2' },
             __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(PanelContent, { id: start + 1 })
           ),
           __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
-            __WEBPACK_IMPORTED_MODULE_7_rc_tabs__["TabPane"],
+            __WEBPACK_IMPORTED_MODULE_7_rc_tabs__["a" /* TabPane */],
             { tab: 'tab ' + (start + 2), key: '3', disabled: disabled },
             __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(PanelContent, { id: start + 2 })
           ),
           __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
-            __WEBPACK_IMPORTED_MODULE_7_rc_tabs__["TabPane"],
+            __WEBPACK_IMPORTED_MODULE_7_rc_tabs__["a" /* TabPane */],
             { tab: 'tab ' + (start + 3), key: '4', placeholder: 'loading 4' },
             __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(PanelContent, { id: start + 3 })
           )
@@ -464,13 +463,13 @@ __WEBPACK_IMPORTED_MODULE_6_react_dom___default.a.render(__WEBPACK_IMPORTED_MODU
 
 /***/ }),
 
-/***/ 370:
+/***/ 371:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(184);
+module.exports = __webpack_require__(186);
 
 
 /***/ })
 
-},[370]);
+},[371]);
 //# sourceMappingURL=destroyInactiveTabpanel.js.map

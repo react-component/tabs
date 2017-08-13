@@ -296,7 +296,7 @@ var ScrollableInkTabBar = __WEBPACK_IMPORTED_MODULE_0_create_react_class___defau
 
 /***/ }),
 
-/***/ 181:
+/***/ 183:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -309,16 +309,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_possibleConstructorReturn___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_possibleConstructorReturn__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_inherits__ = __webpack_require__(25);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_inherits___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_inherits__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rc_tabs_assets_index_less__ = __webpack_require__(40);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rc_tabs_assets_index_less__ = __webpack_require__(41);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rc_tabs_assets_index_less___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_rc_tabs_assets_index_less__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_react__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_react_dom__ = __webpack_require__(15);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_react_dom__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_rc_tabs__ = __webpack_require__(34);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_rc_tabs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_rc_tabs__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__src_TabContent__ = __webpack_require__(30);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__src_ScrollableInkTabBar__ = __webpack_require__(17);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_rc_tabs__ = __webpack_require__(35);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_rc_tabs_lib_TabContent__ = __webpack_require__(30);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_rc_tabs_lib_ScrollableInkTabBar__ = __webpack_require__(17);
 
 
 
@@ -404,7 +403,7 @@ var Demo = function (_React$Component) {
       var disabled = true;
       return this.state.tabs.map(function (t) {
         return __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
-          __WEBPACK_IMPORTED_MODULE_7_rc_tabs__["TabPane"],
+          __WEBPACK_IMPORTED_MODULE_7_rc_tabs__["a" /* TabPane */],
           {
             tab: __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
               'span',
@@ -433,7 +432,7 @@ var Demo = function (_React$Component) {
             t.content
           )
         );
-      }).concat([__WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_7_rc_tabs__["TabPane"], {
+      }).concat([__WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_7_rc_tabs__["a" /* TabPane */], {
         tab: __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
           'a',
           { style: { color: 'black', cursor: 'pointer' }, onClick: this.add },
@@ -464,10 +463,10 @@ var Demo = function (_React$Component) {
           'div',
           { style: tabStyle },
           __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
-            __WEBPACK_IMPORTED_MODULE_7_rc_tabs___default.a,
+            __WEBPACK_IMPORTED_MODULE_7_rc_tabs__["b" /* default */],
             {
               renderTabBar: function renderTabBar() {
-                return __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_9__src_ScrollableInkTabBar__["a" /* default */], {
+                return __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_9_rc_tabs_lib_ScrollableInkTabBar__["a" /* default */], {
                   extraContent: __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
                     'button',
                     { onClick: _this3.add },
@@ -476,7 +475,7 @@ var Demo = function (_React$Component) {
                 });
               },
               renderTabContent: function renderTabContent() {
-                return __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_8__src_TabContent__["a" /* default */], null);
+                return __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_8_rc_tabs_lib_TabContent__["a" /* default */], null);
               },
               activeKey: this.state.activeKey,
               onChange: this.onTabChange
@@ -495,13 +494,13 @@ __WEBPACK_IMPORTED_MODULE_6_react_dom___default.a.render(__WEBPACK_IMPORTED_MODU
 
 /***/ }),
 
-/***/ 367:
+/***/ 368:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(181);
+module.exports = __webpack_require__(183);
 
 
 /***/ })
 
-},[367]);
+},[368]);
 //# sourceMappingURL=add.js.map
