@@ -1,6 +1,7 @@
 import React, { cloneElement } from 'react';
 import classnames from 'classnames';
 import warning from 'warning';
+import pickAttrs from 'rc-util/lib/pickAttrs';
 
 export default {
   getDefaultProps() {
@@ -12,11 +13,9 @@ export default {
     this.props.onTabClick(key);
   },
   getTabs() {
-    const props = this.props;
-    const children = props.panels;
-    const activeKey = props.activeKey;
+    const { panels, activeKey, prefixCls } = this.props;
+    const { children } = panels;
     const rst = [];
-    const prefixCls = props.prefixCls;
 
     React.Children.forEach(children, (child) => {
       if (!child) {
@@ -58,7 +57,6 @@ export default {
   getRootNode(contents) {
     const {
       prefixCls, onKeyDown, className, extraContent, style, tabBarPosition,
-      pageSize, styles, inkBarAnimated, hammerOptions, onTabClick, panels, activeKey,
       ...restProps,
     } = this.props;
     const cls = classnames(`${prefixCls}-bar`, {
@@ -89,7 +87,7 @@ export default {
         ref="root"
         onKeyDown={onKeyDown}
         style={style}
-        {...restProps}
+        {...pickAttrs(restProps)}
       >
         {children}
       </div>

@@ -80,6 +80,7 @@
     "create-react-class": "15.x",
     "prop-types": "15.x",
     "rc-hammerjs": "~0.6.0",
+    "rc-util": "^4.0.4",
     "warning": "^3.0.0"
   }
 }

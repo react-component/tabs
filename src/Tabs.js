@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import pickAttrs from 'rc-util/lib/pickAttrs';
 import KeyCode from './KeyCode';
 import TabPane from './TabPane';
 import classnames from 'classnames';
@@ -117,7 +118,6 @@ export default class Tabs extends React.Component {
       tabBarPosition, className,
       renderTabContent,
       renderTabBar,
-      defaultActiveKey,
       destroyInactiveTabPane,
       ...restProps,
     } = props;
@@ -155,7 +155,7 @@ export default class Tabs extends React.Component {
       <div
         className={cls}
         style={props.style}
-        {...restProps}
+        {...pickAttrs(restProps)}
       >
         {contents}
       </div>
