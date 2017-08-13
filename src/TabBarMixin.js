@@ -13,8 +13,7 @@ export default {
     this.props.onTabClick(key);
   },
   getTabs() {
-    const { panels, activeKey, prefixCls } = this.props;
-    const { children } = panels;
+    const { panels: children, activeKey, prefixCls } = this.props;
     const rst = [];
 
     React.Children.forEach(children, (child) => {
