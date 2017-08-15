@@ -1,6 +1,8 @@
 import classnames from 'classnames';
 import { setTransform, isTransformSupported } from './utils';
 import React from 'react';
+import addEventListener from 'rc-util/lib/Dom/addEventListener';
+import debounce from 'lodash.debounce';
 
 export default {
   getDefaultProps() {
@@ -21,6 +23,11 @@ export default {
 
   componentDidMount() {
     this.componentDidUpdate();
+    const debouncedResize = debounce(() => {
+      this.setNextPrev();
+      this.scrollToActiveTab();
+    }, 200);
+    this.resizeEvent = addEventListener(window, 'resize', debouncedResize);
   },
 
   componentDidUpdate(prevProps) {
@@ -37,6 +44,12 @@ export default {
     } else if (!prevProps || props.activeKey !== prevProps.activeKey) {
       // can not use props.activeKey
       this.scrollToActiveTab();
+    }
+  },
+
+  componentWillUnmount() {
+    if (this.resizeEvent) {
+      this.resizeEvent.remove();
     }
   },
 
@@ -73,7 +86,6 @@ export default {
       prev,
     };
   },
-
 
   getOffsetWH(node) {
     const tabBarPosition = this.props.tabBarPosition;
