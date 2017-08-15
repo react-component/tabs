@@ -693,6 +693,10 @@ function computeIndex(_ref) {
 
 function getIndexByDelta(e) {
   var delta = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7__utils__["a" /* isVertical */])(this.props.tabBarPosition) ? e.deltaY : e.deltaX;
+  var otherDelta = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7__utils__["a" /* isVertical */])(this.props.tabBarPosition) ? e.deltaX : e.deltaY;
+  if (Math.abs(delta) < Math.abs(otherDelta)) {
+    return undefined;
+  }
   var currentIndex = computeIndex({
     maxIndex: this.maxIndex,
     viewSize: this.viewSize,
