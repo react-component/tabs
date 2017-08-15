@@ -169,30 +169,29 @@ export default {
   },
 
   scrollToActiveTab(e) {
-    if (e && e.target !== e.currentTarget) {
+    const { activeTab, navWrap } = this.refs;
+    if (e && e.target !== e.currentTarget || !activeTab) {
       return;
     }
-    const { activeTab, navWrap } = this.refs;
-    if (activeTab) {
-      const activeTabWH = this.getOffsetWH(activeTab);
-      const navWrapNodeWH = this.getOffsetWH(navWrap);
-      // when not scrollable or enter scrollable first time, don't emit scrolling
-      if (!this.isNextPrevShown() ||
-          (this.isNextPrevShown() && !this.lastNextPrevShown)) {
-        this.lastNextPrevShown = this.isNextPrevShown();
-        return;
-      }
-      this.lastNextPrevShown = this.isNextPrevShown();
-      let { offset } = this;
-      const wrapOffset = this.getOffsetLT(navWrap);
-      const activeTabOffset = this.getOffsetLT(activeTab);
-      if (wrapOffset > activeTabOffset) {
-        offset += (wrapOffset - activeTabOffset);
-        this.setOffset(offset);
-      } else if ((wrapOffset + navWrapNodeWH) < (activeTabOffset + activeTabWH)) {
-        offset -= (activeTabOffset + activeTabWH) - (wrapOffset + navWrapNodeWH);
-        this.setOffset(offset);
-      }
+
+    // when not scrollable or enter scrollable first time, don't emit scrolling
+    const needToSroll = this.isNextPrevShown() && this.lastNextPrevShown;
+    this.lastNextPrevShown = this.isNextPrevShown();
+    if (!needToSroll) {
+      return;
+    }
+
+    const activeTabWH = this.getOffsetWH(activeTab);
+    const navWrapNodeWH = this.getOffsetWH(navWrap);
+    let { offset } = this;
+    const wrapOffset = this.getOffsetLT(navWrap);
+    const activeTabOffset = this.getOffsetLT(activeTab);
+    if (wrapOffset > activeTabOffset) {
+      offset += (wrapOffset - activeTabOffset);
+      this.setOffset(offset);
+    } else if ((wrapOffset + navWrapNodeWH) < (activeTabOffset + activeTabWH)) {
+      offset -= (activeTabOffset + activeTabWH) - (wrapOffset + navWrapNodeWH);
+      this.setOffset(offset);
     }
   },
 
