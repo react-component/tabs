@@ -33,6 +33,10 @@ function computeIndex({
 
 function getIndexByDelta(e) {
   const delta = isVertical(this.props.tabBarPosition) ? e.deltaY : e.deltaX;
+  const otherDelta = isVertical(this.props.tabBarPosition) ? e.deltaX : e.deltaY;
+  if (Math.abs(delta) < Math.abs(otherDelta)) {
+    return undefined;
+  }
   const currentIndex = computeIndex({
     maxIndex: this.maxIndex,
     viewSize: this.viewSize,
