@@ -176,13 +176,13 @@ export default {
     if (activeTab) {
       const activeTabWH = this.getOffsetWH(activeTab);
       const navWrapNodeWH = this.getOffsetWH(navWrap);
-
-      if (this.isNextPrevShown() && !this.lastNextPrevShown) {
+      // when not scrollable or enter scrollable first time, don't emit scrolling
+      if (!this.isNextPrevShown() ||
+          (this.isNextPrevShown() && !this.lastNextPrevShown)) {
         this.lastNextPrevShown = this.isNextPrevShown();
-        return; // when enter scrollable first time, don't emit scrolling
+        return;
       }
       this.lastNextPrevShown = this.isNextPrevShown();
-
       let { offset } = this;
       const wrapOffset = this.getOffsetLT(navWrap);
       const activeTabOffset = this.getOffsetLT(activeTab);
