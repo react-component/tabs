@@ -74,7 +74,6 @@ export default {
     };
   },
 
-
   getOffsetWH(node) {
     const tabBarPosition = this.props.tabBarPosition;
     let prop = 'offsetWidth';
@@ -152,27 +151,47 @@ export default {
   },
 
   isNextPrevShown(state) {
-    return state.next || state.prev;
+    if (state) {
+      return state.next || state.prev;
+    }
+    return this.state.next || this.state.prev;
+  },
+
+  prevTransitionEnd(e) {
+    if (e.propertyName !== 'width') {
+      return;
+    }
+    const { container } = this.refs;
+    this.scrollToActiveTab({
+      target: container,
+      currentTarget: container,
+    });
   },
 
   scrollToActiveTab(e) {
-    if (e && e.target !== e.currentTarget) {
+    const { activeTab, navWrap } = this.refs;
+    if (e && e.target !== e.currentTarget || !activeTab) {
       return;
     }
-    const { activeTab, navWrap } = this.refs;
-    if (activeTab) {
-      const activeTabWH = this.getOffsetWH(activeTab);
-      const navWrapNodeWH = this.getOffsetWH(navWrap);
-      let { offset } = this;
-      const wrapOffset = this.getOffsetLT(navWrap);
-      const activeTabOffset = this.getOffsetLT(activeTab);
-      if (wrapOffset > activeTabOffset) {
-        offset += (wrapOffset - activeTabOffset);
-        this.setOffset(offset);
-      } else if ((wrapOffset + navWrapNodeWH) < (activeTabOffset + activeTabWH)) {
-        offset -= (activeTabOffset + activeTabWH) - (wrapOffset + navWrapNodeWH);
-        this.setOffset(offset);
-      }
+
+    // when not scrollable or enter scrollable first time, don't emit scrolling
+    const needToSroll = this.isNextPrevShown() && this.lastNextPrevShown;
+    this.lastNextPrevShown = this.isNextPrevShown();
+    if (!needToSroll) {
+      return;
+    }
+
+    const activeTabWH = this.getOffsetWH(activeTab);
+    const navWrapNodeWH = this.getOffsetWH(navWrap);
+    let { offset } = this;
+    const wrapOffset = this.getOffsetLT(navWrap);
+    const activeTabOffset = this.getOffsetLT(activeTab);
+    if (wrapOffset > activeTabOffset) {
+      offset += (wrapOffset - activeTabOffset);
+      this.setOffset(offset);
+    } else if ((wrapOffset + navWrapNodeWH) < (activeTabOffset + activeTabWH)) {
+      offset -= (activeTabOffset + activeTabWH) - (wrapOffset + navWrapNodeWH);
+      this.setOffset(offset);
     }
   },
 
@@ -206,6 +225,7 @@ export default {
           [`${prefixCls}-tab-btn-disabled`]: !prev,
           [`${prefixCls}-tab-arrow-show`]: showNextPrev,
         })}
+        onTransitionEnd={this.prevTransitionEnd}
       >
         <span className={`${prefixCls}-tab-prev-icon`} />
       </span>
@@ -243,7 +263,6 @@ export default {
         })}
         key="container"
         ref="container"
-        onTransitionEnd={this.scrollToActiveTab}
       >
         {prevButton}
         {nextButton}
