@@ -74,7 +74,6 @@ export default {
     };
   },
 
-
   getOffsetWH(node) {
     const tabBarPosition = this.props.tabBarPosition;
     let prop = 'offsetWidth';
@@ -152,42 +151,41 @@ export default {
   },
 
   isNextPrevShown(state) {
-    return state.next || state.prev;
+    if (state) {
+      return state.next || state.prev;
+    }
+    return this.state.next || this.state.prev;
   },
 
-  prevTransitionEnd() {
-    if (this.oneScroll) {
-      if (!this.onlyAnimate) {
-        const { container } = this.refs;
-        this.scrollToActiveTab({
-          target: container,
-          currentTarget: container,
-        });
-        this.onlyAnimate = true; // 只执行一次 transitionEnd
-      }
-    } else {
-      this.onlyAnimate = false;
+  prevTransitionEnd(e) {
+    if (e.propertyName !== 'width') {
+      return;
     }
+    const { container } = this.refs;
+    this.scrollToActiveTab({
+      target: container,
+      currentTarget: container,
+    });
   },
 
   scrollToActiveTab(e) {
     if (e && e.target !== e.currentTarget) {
       return;
     }
-    const { activeTab, navWrap, nav } = this.refs;
+    const { activeTab, navWrap } = this.refs;
     if (activeTab) {
       const activeTabWH = this.getOffsetWH(activeTab);
       const navWrapNodeWH = this.getOffsetWH(navWrap);
-      const navNodeWH = this.getOffsetWH(nav);
+
+      if (this.isNextPrevShown() && !this.lastNextPrevShown) {
+        this.lastNextPrevShown = this.isNextPrevShown();
+        return; // when enter scrollable first time, don't emit scrolling
+      }
+      this.lastNextPrevShown = this.isNextPrevShown();
+
       let { offset } = this;
       const wrapOffset = this.getOffsetLT(navWrap);
       const activeTabOffset = this.getOffsetLT(activeTab);
-      if (navNodeWH > navWrapNodeWH && !this.oneScroll) {
-        this.oneScroll = true;
-        return;
-      } else if (navNodeWH <= navWrapNodeWH) {
-        this.oneScroll = false;
-      }
       if (wrapOffset > activeTabOffset) {
         offset += (wrapOffset - activeTabOffset);
         this.setOffset(offset);
