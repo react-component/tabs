@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>activeKey.js - example - rc-tabs@9.1.2</title>
+  <title>activeKey.js - example - rc-tabs@9.0.4</title>
   <meta name="viewport"
         content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
   <meta charset="utf-8"/>
@@ -263,7 +263,7 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
 <body>
   <div class="container">
     <div class="header">
-      <h1>rc-tabs@9.1.2</h1>
+      <h1>rc-tabs@9.0.4</h1>
 
       <p>tabs ui component for react</p>
     </div>
@@ -274,8 +274,8 @@ import 'rc-tabs/assets/index.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Tabs, { TabPane } from 'rc-tabs';
-import TabContent from 'rc-tabs/lib/SwipeableTabContent';
-import ScrollableInkTabBar from 'rc-tabs/lib/ScrollableInkTabBar';
+import TabContent from '../src/SwipeableTabContent';
+import ScrollableInkTabBar from '../src/ScrollableInkTabBar';
 
 const PanelContent = ({ id }) =&gt; (
   &lt;div&gt;{[1, 2, 3, 4].map(item =&gt; &lt;p key={item}&gt;{id}&lt;/p&gt;)}&lt;/div&gt;
