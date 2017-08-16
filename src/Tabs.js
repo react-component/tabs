@@ -19,7 +19,7 @@ function getDefaultActiveKey(props) {
 }
 
 function activeKeyIsValid(props, key) {
-  const keys = React.Children.map(props.children, child => child.key);
+  const keys = React.Children.map(props.children, child => child && child.key);
   return keys.indexOf(key) >= 0;
 }
 
