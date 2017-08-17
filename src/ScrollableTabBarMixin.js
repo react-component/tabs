@@ -171,7 +171,7 @@ export default {
   },
 
   prevTransitionEnd(e) {
-    if (e.propertyName !== 'width') {
+    if (e.propertyName !== 'opacity') {
       return;
     }
     const { container } = this.refs;
