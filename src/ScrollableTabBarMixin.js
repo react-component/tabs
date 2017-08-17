@@ -194,19 +194,17 @@ export default {
       return;
     }
 
-    if (activeTab) {
-      const activeTabWH = this.getOffsetWH(activeTab);
-      const navWrapNodeWH = this.getOffsetWH(navWrap);
-      let { offset } = this;
-      const wrapOffset = this.getOffsetLT(navWrap);
-      const activeTabOffset = this.getOffsetLT(activeTab);
-      if (wrapOffset > activeTabOffset) {
-        offset += (wrapOffset - activeTabOffset);
-        this.setOffset(offset);
-      } else if ((wrapOffset + navWrapNodeWH) < (activeTabOffset + activeTabWH)) {
-        offset -= (activeTabOffset + activeTabWH) - (wrapOffset + navWrapNodeWH);
-        this.setOffset(offset);
-      }
+    const activeTabWH = this.getOffsetWH(activeTab);
+    const navWrapNodeWH = this.getOffsetWH(navWrap);
+    let { offset } = this;
+    const wrapOffset = this.getOffsetLT(navWrap);
+    const activeTabOffset = this.getOffsetLT(activeTab);
+    if (wrapOffset > activeTabOffset) {
+      offset += (wrapOffset - activeTabOffset);
+      this.setOffset(offset);
+    } else if ((wrapOffset + navWrapNodeWH) < (activeTabOffset + activeTabWH)) {
+      offset -= (activeTabOffset + activeTabWH) - (wrapOffset + navWrapNodeWH);
+      this.setOffset(offset);
     }
   },
 
