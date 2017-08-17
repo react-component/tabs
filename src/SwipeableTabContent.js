@@ -80,6 +80,7 @@ const SwipeableTabContent = createReactClass({
   onPanStart() {
     const { tabBarPosition, children, activeKey, animated } = this.props;
     const startIndex = this.startIndex = getActiveIndex(children, activeKey);
+    console.log('onPanstart', this.props.children, activeKey, startIndex);
     if (startIndex === -1) {
       return;
     }
@@ -94,6 +95,7 @@ const SwipeableTabContent = createReactClass({
       this.rootNode.offsetWidth;
   },
   onPan(e) {
+    console.log('onPan', this);
     if (!this.startDrag) {
       return;
     }
@@ -104,12 +106,14 @@ const SwipeableTabContent = createReactClass({
     }
   },
   onPanEnd(e) {
+    console.log('onPanEnd', this);
     if (!this.startDrag) {
       return;
     }
     this.end(e);
   },
   onSwipe(e) {
+    console.log('onSwipe', this);
     this.end(e, true);
   },
 

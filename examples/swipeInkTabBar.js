@@ -6,10 +6,6 @@ import Tabs, { TabPane } from 'rc-tabs';
 import TabContent from 'rc-tabs/lib/SwipeableTabContent';
 import SwipeableInkTabBar from 'rc-tabs/lib/SwipeableInkTabBar';
 
-if (process.env.DEMO_ENV === 'preact') {
-  require('preact/devtools');
-}
-
 const contentStyle = {
   display: 'flex',
   alignItems: 'center',
