@@ -9,11 +9,10 @@ const SwipeableInkTabBar = createReactClass({
   displayName: 'SwipeableInkTabBar',
 
   mixins: [TabBarMixin, InkTabBarMixin, SwipeableTabBarMixin],
-
+  activeTab: null,
   getSwipeableTabs() {
     const props = this.props;
     const children = props.panels;
-    const activeKey = props.activeKey;
     const rst = [];
     const prefixCls = props.prefixCls;
 
@@ -29,7 +28,7 @@ const SwipeableInkTabBar = createReactClass({
       }
       const key = child.key;
       const cls = classnames(`${prefixCls}-tab`, {
-        [`${prefixCls}-tab-active`]: activeKey === key,
+        [`${prefixCls}-tab-active`]: this.props.activeKey === key,
         [`${prefixCls}-tab-disabled`]: child.props.disabled,
       });
       let events = {};
@@ -38,19 +37,19 @@ const SwipeableInkTabBar = createReactClass({
           onClick: this.onTabClick.bind(this, key),
         };
       }
-      const refProps = {};
-      if (activeKey === key) {
-        refProps.ref = 'activeTab';
-      }
       rst.push(<div
         role="tab"
         style={tabStyle}
         aria-disabled={child.props.disabled ? 'true' : 'false'}
-        aria-selected={activeKey === key ? 'true' : 'false'}
+        aria-selected={this.props.activeKey === key ? 'true' : 'false'}
         {...events}
         className={cls}
         key={key}
-        {...refProps}
+        ref={(tab) => {
+          if (this.props.activeKey === key) {
+            this.activeTab = tab;
+          }
+        }}
       >
         {child.props.tab}
       </div>);

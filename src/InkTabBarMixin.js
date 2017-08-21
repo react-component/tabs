@@ -43,7 +43,7 @@ function componentDidUpdate(component, init) {
   const wrapNode = refs.nav || refs.root;
   const containerOffset = offset(wrapNode);
   const inkBarNode = refs.inkBar;
-  const activeTab = refs.activeTab;
+  const activeTab = component.activeTab;
   const inkBarNodeStyle = inkBarNode.style;
   const tabBarPosition = component.props.tabBarPosition;
   if (init) {

@@ -35,14 +35,16 @@
     }
   },
   "scripts": {
-    "dist": "rc-tools run dist",
-    "build": "rc-tools run build",
-    "compile": "rc-tools run compile --babel-runtime",
-    "gh-pages": "rc-tools run gh-pages",
-    "start": "rc-tools run server",
-    "pub": "rc-tools run pub --babel-runtime",
-    "lint": "rc-tools run lint",
-    "watch": "rc-tools run watch",
+    "dist": "rmc-tools run dist",
+    "build": "rmc-tools run build",
+    "compile": "rmc-tools run compile --babel-runtime",
+    "gh-pages": "rmc-tools run gh-pages",
+    "start": "rmc-tools run server",
+    "start:preact": "cross-env DEMO_ENV=preact rmc-tools run server",
+    "start:debugger": "cross-env DEMO_ENV=debugger rmc-tools run server",
+    "pub": "rmc-tools run pub --babel-runtime",
+    "lint": "rmc-tools run lint",
+    "watch": "rmc-tools run watch",
     "karma": "rc-test run karma",
     "saucelabs": "rc-test run saucelabs",
     "test": "jest",
@@ -55,13 +57,13 @@
       "src/*"
     ],
     "transform": {
-      "\\.tsx?$": "./node_modules/rc-tools/scripts/jestPreprocessor.js",
-      "\\.jsx?$": "./node_modules/rc-tools/scripts/jestPreprocessor.js"
+      "\\.tsx?$": "./node_modules/rmc-tools/scripts/jestPreprocessor.js",
+      "\\.jsx?$": "./node_modules/rmc-tools/scripts/jestPreprocessor.js"
     }
   },
   "devDependencies": {
     "coveralls": "^2.11.16",
-    "cross-env": "^5.0.1",
+    "cross-env": "^5.0.5",
     "enzyme": "^2.7.1",
     "enzyme-to-json": "^1.5.0",
     "expect.js": "~0.3.1",
@@ -70,13 +72,11 @@
     "jest": "^19.0.2",
     "pre-commit": "1.x",
     "rc-test": "^6.0.1",
-    "rc-tools": "6.x",
+    "rmc-tools": "^0.0.2",
     "react": "15.x",
     "react-dom": "^15.5.4",
     "react-router": "2.x",
-    "react-test-renderer": "^15.5.4",
-    "preact": "^8.2.1",
-    "preact-compat": "^3.16.0"
+    "react-test-renderer": "^15.5.4"
   },
   "pre-commit": [
     "lint"
