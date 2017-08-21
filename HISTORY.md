@@ -1,6 +1,15 @@
 # History
 ----
 
+## 9.1.2 / 2017-08-15
+
+* Fix responsive.
+* Improve scroll to active animation.
+
+## 9.1.0 / 2017-08-13
+
+* Support add data-* to Tabs dom.
+
 ## 9.0.0 / 2017-08-04
 
 * Refactor extraContent dom structure.

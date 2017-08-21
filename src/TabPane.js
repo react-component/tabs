@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import createReactClass from 'create-react-class';
 import classnames from 'classnames';
+import pickAttrs from 'rc-util/lib/pickAttrs';
 
 const TabPane = createReactClass({
   displayName: 'TabPane',
@@ -17,10 +18,12 @@ const TabPane = createReactClass({
     return { placeholder: null };
   },
   render() {
-    const props = this.props;
-    const { className, destroyInactiveTabPane, active, forceRender } = props;
+    const {
+      className, destroyInactiveTabPane, active, forceRender,
+      rootPrefixCls, style, children, placeholder, ...restProps,
+    } = this.props;
     this._isActived = this._isActived || active;
-    const prefixCls = `${props.rootPrefixCls}-tabpane`;
+    const prefixCls = `${rootPrefixCls}-tabpane`;
     const cls = classnames({
       [prefixCls]: 1,
       [`${prefixCls}-inactive`]: !active,
@@ -30,12 +33,13 @@ const TabPane = createReactClass({
     const isRender = destroyInactiveTabPane ? active : this._isActived;
     return (
       <div
-        style={props.style}
+        style={style}
         role="tabpanel"
-        aria-hidden={props.active ? 'false' : 'true'}
+        aria-hidden={active ? 'false' : 'true'}
         className={cls}
+        {...pickAttrs(restProps)}
       >
-        {isRender || forceRender ? props.children : props.placeholder}
+        {isRender || forceRender ? children : placeholder}
       </div>
     );
   },

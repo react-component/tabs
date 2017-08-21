@@ -4,8 +4,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Tabs, { TabPane } from 'rc-tabs';
 import 'rc-tabs/assets/index.less';
-import TabContent from '../src/TabContent';
-import ScrollableInkTabBar from '../src/ScrollableInkTabBar';
+import TabContent from 'rc-tabs/lib/TabContent';
+import ScrollableInkTabBar from 'rc-tabs/lib/ScrollableInkTabBar';
 
 const Tab1 = () => <div>tab1</div>;
 const Tab2 = () => <div>tab2</div>;
