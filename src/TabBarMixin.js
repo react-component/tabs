@@ -1,7 +1,7 @@
 import React, { cloneElement } from 'react';
 import classnames from 'classnames';
 import warning from 'warning';
-import pickAttrs from 'rc-util/lib/pickAttrs';
+import { getDataAttr } from './utils';
 
 export default {
   getDefaultProps() {
@@ -86,7 +86,7 @@ export default {
         ref="root"
         onKeyDown={onKeyDown}
         style={style}
-        {...pickAttrs(restProps)}
+        {...getDataAttr(restProps)}
       >
         {children}
       </div>

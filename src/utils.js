@@ -75,3 +75,12 @@ export function setPxStyle(el, value, vertical) {
   value = vertical ? `0px, ${value}px, 0px` : `${value}px, 0px, 0px`;
   setTransform(el.style, `translate3d(${value})`);
 }
+
+export function getDataAttr(props) {
+  return Object.keys(props).reduce((prev, key) => {
+    if (key.substr(0, 5) === 'aria-' || key.substr(0, 5) === 'data-' || key === 'role') {
+      prev[key] = props[key];
+    }
+    return prev;
+  }, {});
+}
