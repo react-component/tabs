@@ -29,30 +29,28 @@ class PanelContent extends React.Component {
 
 const defaultTabKey = '2';
 
-const Component = React.createClass({
-  getInitialState() {
-    return {
-      start: 0,
-      tabKey: defaultTabKey,
-    };
-  },
+class Component extends React.Component {
+  state = {
+    start: 0,
+    tabKey: defaultTabKey,
+  };
 
   onChange(key) {
     console.log(`onChange ${key}`);
-  },
+  }
 
-  onTabClick(key) {
+  onTabClick = (key) => {
     console.log(`onTabClick ${key}`);
     this.setState({
       tabKey: key,
     });
-  },
+  }
 
-  tick() {
+  tick = () => {
     this.setState({
       start: this.state.start + 10,
     });
-  },
+  }
 
   render() {
     const start = this.state.start;
@@ -97,7 +95,7 @@ const Component = React.createClass({
         <button onClick={this.tick}>rerender</button>
       </div>
     );
-  },
-});
+  }
+}
 
 ReactDOM.render(<Component />, document.getElementById('__react-content'));

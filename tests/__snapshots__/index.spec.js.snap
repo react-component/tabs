@@ -18,7 +18,9 @@ exports[`rc-tabs should render Tabs with correct DOM structure 1`] = `
       >
         <span
           class="rc-tabs-tab-prev-icon"
-        />
+        >
+          
+        </span>
       </span>
       <span
         class="rc-tabs-tab-next rc-tabs-tab-btn-disabled"
@@ -26,7 +28,9 @@ exports[`rc-tabs should render Tabs with correct DOM structure 1`] = `
       >
         <span
           class="rc-tabs-tab-next-icon"
-        />
+        >
+          
+        </span>
       </span>
       <div
         class="rc-tabs-nav-wrap"
@@ -39,7 +43,9 @@ exports[`rc-tabs should render Tabs with correct DOM structure 1`] = `
           >
             <div
               class="rc-tabs-ink-bar rc-tabs-ink-bar-animated"
-            />
+            >
+              
+            </div>
             <div
               aria-disabled="false"
               aria-selected="false"
@@ -71,13 +77,15 @@ exports[`rc-tabs should render Tabs with correct DOM structure 1`] = `
   </div>
   <div
     class="rc-tabs-content rc-tabs-content-animated"
-    style="transform:translateX(-100%) translateZ(0);-webkit-transform:translateX(-100%) translateZ(0);-moz-transform:translateX(-100%) translateZ(0);"
+    style="transform:translateX(-100%) translateZ(0);-webkit-transform:translateX(-100%) translateZ(0);-moz-transform:translateX(-100%) translateZ(0)"
   >
     <div
       aria-hidden="true"
       class="rc-tabs-tabpane rc-tabs-tabpane-inactive"
       role="tabpanel"
-    />
+    >
+      
+    </div>
     <div
       aria-hidden="false"
       class="rc-tabs-tabpane rc-tabs-tabpane-active"
@@ -89,7 +97,9 @@ exports[`rc-tabs should render Tabs with correct DOM structure 1`] = `
       aria-hidden="true"
       class="rc-tabs-tabpane rc-tabs-tabpane-inactive"
       role="tabpanel"
-    />
+    >
+      
+    </div>
   </div>
 </div>
 `;
