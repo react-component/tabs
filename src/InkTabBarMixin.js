@@ -38,12 +38,11 @@ function offset(elem) {
 }
 
 function componentDidUpdate(component, init) {
-  const refs = component.refs;
   const { styles } = component.props;
-  const wrapNode = refs.nav || refs.root;
+  const wrapNode = component.nav || component.root;
   const containerOffset = offset(wrapNode);
-  const inkBarNode = refs.inkBar;
-  const activeTab = refs.activeTab;
+  const inkBarNode = component.inkBar;
+  const activeTab = component.activeTab;
   const inkBarNodeStyle = inkBarNode.style;
   const tabBarPosition = component.props.tabBarPosition;
   if (init) {
@@ -130,7 +129,7 @@ export default {
         style={styles.inkBar}
         className={classes}
         key="inkBar"
-        ref="inkBar"
+        ref={this.saveRef('inkBar')}
       />
     );
   },
