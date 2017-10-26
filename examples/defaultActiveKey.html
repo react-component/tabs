@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>defaultActiveKey.js - example - rc-tabs@9.1.4</title>
+  <title>defaultActiveKey.js - example - rc-tabs@9.1.5</title>
   <meta name="viewport"
         content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
   <meta charset="utf-8"/>
@@ -263,7 +263,7 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
 <body>
   <div class="container">
     <div class="header">
-      <h1>rc-tabs@9.1.4</h1>
+      <h1>rc-tabs@9.1.5</h1>
 
       <p>tabs ui component for react</p>
     </div>
@@ -300,30 +300,28 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
 
 <span class="hljs-keyword">const</span> defaultTabKey = <span class="hljs-string">'2'</span>;
 
-<span class="hljs-keyword">const</span> Component = React.createClass({
-  getInitialState() {
-    <span class="hljs-keyword">return</span> {
-      start: <span class="hljs-number">0</span>,
-      tabKey: defaultTabKey,
-    };
-  },
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Component</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> </span>{
+  state = {
+    start: <span class="hljs-number">0</span>,
+    tabKey: defaultTabKey,
+  };
 
   onChange(key) {
     <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`onChange <span class="hljs-subst">${key}</span>`</span>);
-  },
+  }
 
-  onTabClick(key) {
+  onTabClick = (key) =&gt; {
     <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`onTabClick <span class="hljs-subst">${key}</span>`</span>);
     <span class="hljs-keyword">this</span>.setState({
       tabKey: key,
     });
-  },
+  }
 
-  tick() {
+  tick = () =&gt; {
     <span class="hljs-keyword">this</span>.setState({
       start: <span class="hljs-keyword">this</span>.state.start + <span class="hljs-number">10</span>,
     });
-  },
+  }
 
   render() {
     <span class="hljs-keyword">const</span> start = <span class="hljs-keyword">this</span>.state.start;
@@ -368,8 +366,8 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
         <span class="hljs-tag">&lt;<span class="hljs-title">button</span> <span class="hljs-attribute">onClick</span>=<span class="hljs-value">{this.tick}</span>&gt;</span>rerender<span class="hljs-tag">&lt;/<span class="hljs-title">button</span>&gt;</span>
       <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
     )</span>;
-  },
-});
+  }
+}
 
 ReactDOM.render(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">Component</span> /&gt;</span>, document.getElementById('__react-content'));
 </span></code></pre></div>

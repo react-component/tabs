@@ -67,280 +67,6 @@ module.exports = exports['default'];
 
 /***/ }),
 
-/***/ 189:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_classCallCheck__ = __webpack_require__(29);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_classCallCheck___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_classCallCheck__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_createClass__ = __webpack_require__(30);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_createClass___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_createClass__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_possibleConstructorReturn__ = __webpack_require__(32);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_possibleConstructorReturn___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_possibleConstructorReturn__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_inherits__ = __webpack_require__(31);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_inherits___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_inherits__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rc_tabs_assets_index_less__ = __webpack_require__(47);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rc_tabs_assets_index_less___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_rc_tabs_assets_index_less__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_react__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_react_dom__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_react_dom__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_rc_tabs__ = __webpack_require__(41);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_rc_tabs_lib_TabContent__ = __webpack_require__(36);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_rc_tabs_lib_ScrollableInkTabBar__ = __webpack_require__(21);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_rc_tabs_lib_InkTabBar__ = __webpack_require__(194);
-
-
-
-
-/* eslint react/no-multi-comp:0, no-console:0, react/prop-types:0 */
-
-
-
-
-
-
-
-
-var PanelContent = function (_React$Component) {
-  __WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_inherits___default()(PanelContent, _React$Component);
-
-  function PanelContent(props) {
-    __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_classCallCheck___default()(this, PanelContent);
-
-    var _this = __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_possibleConstructorReturn___default()(this, (PanelContent.__proto__ || Object.getPrototypeOf(PanelContent)).call(this, props));
-
-    console.log(_this.props.id, 'constructor');
-    return _this;
-  }
-
-  __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_createClass___default()(PanelContent, [{
-    key: 'componentWillReceiveProps',
-    value: function componentWillReceiveProps(nextProps) {
-      console.log(nextProps.id, 'componentWillReceiveProps');
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var length = Math.round(10 * Math.random() + 4);
-      var count = new Array(length); // new Array(4) skip forEach ....
-      for (var i = 0; i < length; i++) {
-        count[i] = 1;
-      }
-      var content = new Array(Math.round(100 * Math.random()) + 4).join(' ' + this.props.id);
-      var els = count.map(function (c, i) {
-        return __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
-          'p',
-          { key: i },
-          content
-        );
-      });
-      return __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
-        'div',
-        null,
-        els
-      );
-    }
-  }]);
-
-  return PanelContent;
-}(__WEBPACK_IMPORTED_MODULE_5_react___default.a.Component);
-
-function construct(start, num) {
-  var ends = [];
-  var index = 1;
-  for (var i = start; i < start + num; i++) {
-    ends.push(__WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
-      __WEBPACK_IMPORTED_MODULE_7_rc_tabs__["a" /* TabPane */],
-      {
-        placeholder: 'loading ' + i,
-        tab: 'tab ' + i,
-        disabled: !!(i % 2),
-        key: index
-      },
-      __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(PanelContent, { id: i })
-    ));
-    index++;
-  }
-  return ends;
-}
-
-var Demo = function (_React$Component2) {
-  __WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_inherits___default()(Demo, _React$Component2);
-
-  function Demo() {
-    var _ref;
-
-    var _temp, _this2, _ret;
-
-    __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_classCallCheck___default()(this, Demo);
-
-    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
-
-    return _ret = (_temp = (_this2 = __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_possibleConstructorReturn___default()(this, (_ref = Demo.__proto__ || Object.getPrototypeOf(Demo)).call.apply(_ref, [this].concat(args))), _this2), _this2.state = {
-      tabBarPosition: 'top',
-      activeKey: '3',
-      start: 0
-    }, _this2.onChange = function (key) {
-      console.log('onChange ' + key);
-    }, _this2.onChange2 = function (activeKey) {
-      _this2.setState({ activeKey: activeKey });
-    }, _this2.onTabClick = function (key) {
-      console.log('onTabClick ' + key);
-    }, _this2.tick = function () {
-      _this2.setState({
-        start: _this2.state.start + 10
-      });
-    }, _this2.changeTabPosition = function (e) {
-      _this2.setState({
-        tabBarPosition: e.target.value
-      });
-    }, _this2.scrollToActive = function () {
-      _this2.bar.scrollToActiveTab();
-    }, _this2.switchToLast = function (ends) {
-      if (_this2.state.activeKey !== ends[ends.length - 1].key) {
-        _this2.setState({ activeKey: ends[ends.length - 1].key }, _this2.scrollToActive);
-      } else {
-        _this2.scrollToActive();
-      }
-    }, _this2.saveBar = function (bar) {
-      _this2.bar = bar;
-    }, _temp), __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_possibleConstructorReturn___default()(_this2, _ret);
-  }
-
-  __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_createClass___default()(Demo, [{
-    key: 'render',
-    value: function render() {
-      var _this3 = this;
-
-      var start = this.state.start;
-      var ends = construct(start, 9);
-      var ends2 = construct(start, 3);
-      var tabBarPosition = this.state.tabBarPosition;
-      var style = void 0;
-      var contentStyle = void 0;
-      contentStyle = {
-        height: 400
-      };
-      if (tabBarPosition === 'left' || tabBarPosition === 'right') {
-        style = contentStyle;
-      } else {
-        style = {
-          width: 500
-        };
-      }
-
-      return __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
-        'div',
-        { style: { margin: 20 } },
-        __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
-          'h2',
-          null,
-          'Simple Tabs'
-        ),
-        __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
-          'p',
-          null,
-          'tabBarPosition:',
-          __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
-            'select',
-            { value: this.state.tabBarPosition, onChange: this.changeTabPosition },
-            __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
-              'option',
-              { value: 'top' },
-              'top'
-            ),
-            __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
-              'option',
-              { value: 'bottom' },
-              'bottom'
-            ),
-            __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
-              'option',
-              { value: 'left' },
-              'left'
-            ),
-            __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
-              'option',
-              { value: 'right' },
-              'right'
-            )
-          )
-        ),
-        __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
-          'div',
-          null,
-          __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
-            __WEBPACK_IMPORTED_MODULE_7_rc_tabs__["b" /* default */],
-            {
-              defaultActiveKey: '3',
-              style: style,
-              tabBarPosition: this.state.tabBarPosition,
-              renderTabBar: function renderTabBar() {
-                return __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_10_rc_tabs_lib_InkTabBar__["a" /* default */], { onTabClick: _this3.onTabClick });
-              },
-              renderTabContent: function renderTabContent() {
-                return __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_8_rc_tabs_lib_TabContent__["a" /* default */], { style: contentStyle });
-              },
-              onChange: this.onChange
-            },
-            ends2
-          )
-        ),
-        __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
-          'h2',
-          null,
-          'Scroll Tabs'
-        ),
-        __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
-          'div',
-          null,
-          __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
-            'button',
-            { onClick: function onClick() {
-                return _this3.switchToLast(ends);
-              } },
-            'switch to last tab'
-          ),
-          __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
-            __WEBPACK_IMPORTED_MODULE_7_rc_tabs__["b" /* default */],
-            {
-              activeKey: this.state.activeKey,
-              style: style,
-              tabBarPosition: this.state.tabBarPosition,
-              renderTabBar: function renderTabBar() {
-                return __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_9_rc_tabs_lib_ScrollableInkTabBar__["a" /* default */], {
-                  ref: _this3.saveBar,
-                  onTabClick: _this3.onTabClick
-                });
-              },
-              renderTabContent: function renderTabContent() {
-                return __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_8_rc_tabs_lib_TabContent__["a" /* default */], { style: contentStyle });
-              },
-              onChange: this.onChange2
-            },
-            ends
-          )
-        ),
-        __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
-          'button',
-          { onClick: this.tick },
-          'rerender'
-        )
-      );
-    }
-  }]);
-
-  return Demo;
-}(__WEBPACK_IMPORTED_MODULE_5_react___default.a.Component);
-
-__WEBPACK_IMPORTED_MODULE_6_react_dom___default.a.render(__WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(Demo, null), document.getElementById('__react-content'));
-
-/***/ }),
-
 /***/ 19:
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -625,21 +351,297 @@ module.exports = exports['default'];
 
 /***/ }),
 
-/***/ 194:
+/***/ 190:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_classCallCheck__ = __webpack_require__(29);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_classCallCheck___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_classCallCheck__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_createClass__ = __webpack_require__(30);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_createClass___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_createClass__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_possibleConstructorReturn__ = __webpack_require__(32);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_possibleConstructorReturn___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_possibleConstructorReturn__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_inherits__ = __webpack_require__(31);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_inherits___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_inherits__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rc_tabs_assets_index_less__ = __webpack_require__(48);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rc_tabs_assets_index_less___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_rc_tabs_assets_index_less__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_react__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_react_dom__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_react_dom__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_rc_tabs__ = __webpack_require__(42);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_rc_tabs_lib_TabContent__ = __webpack_require__(37);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_rc_tabs_lib_ScrollableInkTabBar__ = __webpack_require__(21);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_rc_tabs_lib_InkTabBar__ = __webpack_require__(195);
+
+
+
+
+/* eslint react/no-multi-comp:0, no-console:0, react/prop-types:0 */
+
+
+
+
+
+
+
+
+var PanelContent = function (_React$Component) {
+  __WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_inherits___default()(PanelContent, _React$Component);
+
+  function PanelContent(props) {
+    __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_classCallCheck___default()(this, PanelContent);
+
+    var _this = __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_possibleConstructorReturn___default()(this, (PanelContent.__proto__ || Object.getPrototypeOf(PanelContent)).call(this, props));
+
+    console.log(_this.props.id, 'constructor');
+    return _this;
+  }
+
+  __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_createClass___default()(PanelContent, [{
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(nextProps) {
+      console.log(nextProps.id, 'componentWillReceiveProps');
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var length = Math.round(10 * Math.random() + 4);
+      var count = new Array(length); // new Array(4) skip forEach ....
+      for (var i = 0; i < length; i++) {
+        count[i] = 1;
+      }
+      var content = new Array(Math.round(100 * Math.random()) + 4).join(' ' + this.props.id);
+      var els = count.map(function (c, i) {
+        return __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
+          'p',
+          { key: i },
+          content
+        );
+      });
+      return __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
+        'div',
+        null,
+        els
+      );
+    }
+  }]);
+
+  return PanelContent;
+}(__WEBPACK_IMPORTED_MODULE_5_react___default.a.Component);
+
+function construct(start, num) {
+  var ends = [];
+  var index = 1;
+  for (var i = start; i < start + num; i++) {
+    ends.push(__WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
+      __WEBPACK_IMPORTED_MODULE_7_rc_tabs__["a" /* TabPane */],
+      {
+        placeholder: 'loading ' + i,
+        tab: 'tab ' + i,
+        disabled: !!(i % 2),
+        key: index
+      },
+      __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(PanelContent, { id: i })
+    ));
+    index++;
+  }
+  return ends;
+}
+
+var Demo = function (_React$Component2) {
+  __WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_inherits___default()(Demo, _React$Component2);
+
+  function Demo() {
+    var _ref;
+
+    var _temp, _this2, _ret;
+
+    __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_classCallCheck___default()(this, Demo);
+
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return _ret = (_temp = (_this2 = __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_possibleConstructorReturn___default()(this, (_ref = Demo.__proto__ || Object.getPrototypeOf(Demo)).call.apply(_ref, [this].concat(args))), _this2), _this2.state = {
+      tabBarPosition: 'top',
+      activeKey: '3',
+      start: 0
+    }, _this2.onChange = function (key) {
+      console.log('onChange ' + key);
+    }, _this2.onChange2 = function (activeKey) {
+      _this2.setState({ activeKey: activeKey });
+    }, _this2.onTabClick = function (key) {
+      console.log('onTabClick ' + key);
+    }, _this2.tick = function () {
+      _this2.setState({
+        start: _this2.state.start + 10
+      });
+    }, _this2.changeTabPosition = function (e) {
+      _this2.setState({
+        tabBarPosition: e.target.value
+      });
+    }, _this2.scrollToActive = function () {
+      _this2.bar.scrollToActiveTab();
+    }, _this2.switchToLast = function (ends) {
+      if (_this2.state.activeKey !== ends[ends.length - 1].key) {
+        _this2.setState({ activeKey: ends[ends.length - 1].key }, _this2.scrollToActive);
+      } else {
+        _this2.scrollToActive();
+      }
+    }, _this2.saveBar = function (bar) {
+      _this2.bar = bar;
+    }, _temp), __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_possibleConstructorReturn___default()(_this2, _ret);
+  }
+
+  __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_createClass___default()(Demo, [{
+    key: 'render',
+    value: function render() {
+      var _this3 = this;
+
+      var start = this.state.start;
+      var ends = construct(start, 9);
+      var ends2 = construct(start, 3);
+      var tabBarPosition = this.state.tabBarPosition;
+      var style = void 0;
+      var contentStyle = void 0;
+      contentStyle = {
+        height: 400
+      };
+      if (tabBarPosition === 'left' || tabBarPosition === 'right') {
+        style = contentStyle;
+      } else {
+        style = {
+          width: 500
+        };
+      }
+
+      return __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
+        'div',
+        { style: { margin: 20 } },
+        __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
+          'h2',
+          null,
+          'Simple Tabs'
+        ),
+        __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
+          'p',
+          null,
+          'tabBarPosition:',
+          __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
+            'select',
+            { value: this.state.tabBarPosition, onChange: this.changeTabPosition },
+            __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
+              'option',
+              { value: 'top' },
+              'top'
+            ),
+            __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
+              'option',
+              { value: 'bottom' },
+              'bottom'
+            ),
+            __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
+              'option',
+              { value: 'left' },
+              'left'
+            ),
+            __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
+              'option',
+              { value: 'right' },
+              'right'
+            )
+          )
+        ),
+        __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
+          'div',
+          null,
+          __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
+            __WEBPACK_IMPORTED_MODULE_7_rc_tabs__["b" /* default */],
+            {
+              defaultActiveKey: '3',
+              style: style,
+              tabBarPosition: this.state.tabBarPosition,
+              renderTabBar: function renderTabBar() {
+                return __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_10_rc_tabs_lib_InkTabBar__["a" /* default */], { onTabClick: _this3.onTabClick });
+              },
+              renderTabContent: function renderTabContent() {
+                return __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_8_rc_tabs_lib_TabContent__["a" /* default */], { style: contentStyle });
+              },
+              onChange: this.onChange
+            },
+            ends2
+          )
+        ),
+        __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
+          'h2',
+          null,
+          'Scroll Tabs'
+        ),
+        __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
+          'div',
+          null,
+          __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
+            'button',
+            { onClick: function onClick() {
+                return _this3.switchToLast(ends);
+              } },
+            'switch to last tab'
+          ),
+          __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
+            __WEBPACK_IMPORTED_MODULE_7_rc_tabs__["b" /* default */],
+            {
+              activeKey: this.state.activeKey,
+              style: style,
+              tabBarPosition: this.state.tabBarPosition,
+              renderTabBar: function renderTabBar() {
+                return __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_9_rc_tabs_lib_ScrollableInkTabBar__["a" /* default */], {
+                  ref: _this3.saveBar,
+                  onTabClick: _this3.onTabClick
+                });
+              },
+              renderTabContent: function renderTabContent() {
+                return __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_8_rc_tabs_lib_TabContent__["a" /* default */], { style: contentStyle });
+              },
+              onChange: this.onChange2
+            },
+            ends
+          )
+        ),
+        __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
+          'button',
+          { onClick: this.tick },
+          'rerender'
+        )
+      );
+    }
+  }]);
+
+  return Demo;
+}(__WEBPACK_IMPORTED_MODULE_5_react___default.a.Component);
+
+__WEBPACK_IMPORTED_MODULE_6_react_dom___default.a.render(__WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(Demo, null), document.getElementById('__react-content'));
+
+/***/ }),
+
+/***/ 195:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_create_react_class__ = __webpack_require__(15);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_create_react_class___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_create_react_class__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__InkTabBarMixin__ = __webpack_require__(34);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__TabBarMixin__ = __webpack_require__(35);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__TabBarMixin__ = __webpack_require__(36);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__RefMixin__ = __webpack_require__(35);
+
 
 
 
 
 var InkTabBar = __WEBPACK_IMPORTED_MODULE_0_create_react_class___default()({
   displayName: 'InkTabBar',
-  mixins: [__WEBPACK_IMPORTED_MODULE_2__TabBarMixin__["a" /* default */], __WEBPACK_IMPORTED_MODULE_1__InkTabBarMixin__["a" /* default */]],
+  mixins: [__WEBPACK_IMPORTED_MODULE_3__RefMixin__["a" /* default */], __WEBPACK_IMPORTED_MODULE_2__TabBarMixin__["a" /* default */], __WEBPACK_IMPORTED_MODULE_1__InkTabBarMixin__["a" /* default */]],
   render: function render() {
     var inkBarNode = this.getInkBarNode();
     var tabs = this.getTabs();
@@ -702,7 +704,9 @@ module.exports = exports['default'];
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_create_react_class___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_create_react_class__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__InkTabBarMixin__ = __webpack_require__(34);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ScrollableTabBarMixin__ = __webpack_require__(22);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__TabBarMixin__ = __webpack_require__(35);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__TabBarMixin__ = __webpack_require__(36);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__RefMixin__ = __webpack_require__(35);
+
 
 
 
@@ -710,7 +714,7 @@ module.exports = exports['default'];
 
 var ScrollableInkTabBar = __WEBPACK_IMPORTED_MODULE_0_create_react_class___default()({
   displayName: 'ScrollableInkTabBar',
-  mixins: [__WEBPACK_IMPORTED_MODULE_3__TabBarMixin__["a" /* default */], __WEBPACK_IMPORTED_MODULE_1__InkTabBarMixin__["a" /* default */], __WEBPACK_IMPORTED_MODULE_2__ScrollableTabBarMixin__["a" /* default */]],
+  mixins: [__WEBPACK_IMPORTED_MODULE_4__RefMixin__["a" /* default */], __WEBPACK_IMPORTED_MODULE_3__TabBarMixin__["a" /* default */], __WEBPACK_IMPORTED_MODULE_1__InkTabBarMixin__["a" /* default */], __WEBPACK_IMPORTED_MODULE_2__ScrollableTabBarMixin__["a" /* default */]],
   render: function render() {
     var inkBarNode = this.getInkBarNode();
     var tabs = this.getTabs();
@@ -792,9 +796,9 @@ var ScrollableInkTabBar = __WEBPACK_IMPORTED_MODULE_0_create_react_class___defau
     }
   },
   setNextPrev: function setNextPrev() {
-    var navNode = this.refs.nav;
+    var navNode = this.nav;
     var navNodeWH = this.getOffsetWH(navNode);
-    var navWrapNode = this.refs.navWrap;
+    var navWrapNode = this.navWrap;
     var navWrapNodeWH = this.getOffsetWH(navWrapNode);
     var offset = this.offset;
 
@@ -852,7 +856,7 @@ var ScrollableInkTabBar = __WEBPACK_IMPORTED_MODULE_0_create_react_class___defau
       this.offset = target;
       var navOffset = {};
       var tabBarPosition = this.props.tabBarPosition;
-      var navStyle = this.refs.nav.style;
+      var navStyle = this.nav.style;
       var transformSupported = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__utils__["l" /* isTransformSupported */])(navStyle);
       if (tabBarPosition === 'left' || tabBarPosition === 'right') {
         if (transformSupported) {
@@ -911,7 +915,7 @@ var ScrollableInkTabBar = __WEBPACK_IMPORTED_MODULE_0_create_react_class___defau
     if (e.propertyName !== 'opacity') {
       return;
     }
-    var container = this.refs.container;
+    var container = this.container;
 
     this.scrollToActiveTab({
       target: container,
@@ -919,9 +923,8 @@ var ScrollableInkTabBar = __WEBPACK_IMPORTED_MODULE_0_create_react_class___defau
     });
   },
   scrollToActiveTab: function scrollToActiveTab(e) {
-    var _refs = this.refs,
-        activeTab = _refs.activeTab,
-        navWrap = _refs.navWrap;
+    var activeTab = this.activeTab,
+        navWrap = this.navWrap;
 
     if (e && e.target !== e.currentTarget || !activeTab) {
       return;
@@ -950,7 +953,7 @@ var ScrollableInkTabBar = __WEBPACK_IMPORTED_MODULE_0_create_react_class___defau
   },
   prev: function prev(e) {
     this.props.onPrevClick(e);
-    var navWrapNode = this.refs.navWrap;
+    var navWrapNode = this.navWrap;
     var navWrapNodeWH = this.getOffsetWH(navWrapNode);
     var offset = this.offset;
 
@@ -958,7 +961,7 @@ var ScrollableInkTabBar = __WEBPACK_IMPORTED_MODULE_0_create_react_class___defau
   },
   next: function next(e) {
     this.props.onNextClick(e);
-    var navWrapNode = this.refs.navWrap;
+    var navWrapNode = this.navWrap;
     var navWrapNodeWH = this.getOffsetWH(navWrapNode);
     var offset = this.offset;
 
@@ -1005,19 +1008,19 @@ var ScrollableInkTabBar = __WEBPACK_IMPORTED_MODULE_0_create_react_class___defau
       {
         className: __WEBPACK_IMPORTED_MODULE_1_classnames___default()((_classnames4 = {}, __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()(_classnames4, prefixCls + '-nav-container', 1), __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()(_classnames4, prefixCls + '-nav-container-scrolling', showNextPrev), _classnames4)),
         key: 'container',
-        ref: 'container'
+        ref: this.saveRef('container')
       },
       prevButton,
       nextButton,
       __WEBPACK_IMPORTED_MODULE_3_react___default.a.createElement(
         'div',
-        { className: prefixCls + '-nav-wrap', ref: 'navWrap' },
+        { className: prefixCls + '-nav-wrap', ref: this.saveRef('navWrap') },
         __WEBPACK_IMPORTED_MODULE_3_react___default.a.createElement(
           'div',
           { className: prefixCls + '-nav-scroll' },
           __WEBPACK_IMPORTED_MODULE_3_react___default.a.createElement(
             'div',
-            { className: navClasses, ref: 'nav' },
+            { className: navClasses, ref: this.saveRef('nav') },
             content
           )
         )
@@ -1473,13 +1476,13 @@ module.exports = g;
 
 /***/ }),
 
-/***/ 374:
+/***/ 375:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(189);
+module.exports = __webpack_require__(190);
 
 
 /***/ })
 
-},[374]);
+},[375]);
 //# sourceMappingURL=antd.js.map
