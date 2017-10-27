@@ -41,7 +41,7 @@ const SwipeableInkTabBar = createReactClass({
       }
       const refProps = {};
       if (activeKey === key) {
-        refProps.ref = 'activeTab';
+        refProps.ref = this.saveRef('activeTab');
       }
       rst.push(<div
         role="tab"
