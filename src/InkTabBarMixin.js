@@ -41,7 +41,7 @@ function componentDidUpdate(component, init) {
   // If there is no css rendered, don't generate the ink bar
   // fix https://github.com/ant-design/ant-design/issues/8001
   if (document.styleSheets.length === 0 ||
-      Array.slice(document.styleSheets).every(s => s.rules.length === 0)) {
+      [].slice(document.styleSheets).every(s => s.rules.length === 0)) {
     return;
   }
   const { styles } = component.props;
