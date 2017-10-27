@@ -33,7 +33,7 @@ export default {
       }
       const ref = {};
       if (activeKey === key) {
-        ref.ref = 'activeTab';
+        ref.ref = this.saveRef('activeTab');
       }
       warning('tab' in child.props, 'There must be `tab` property on children of Tabs.');
       rst.push(
@@ -83,7 +83,7 @@ export default {
         role="tablist"
         className={cls}
         tabIndex="0"
-        ref="root"
+        ref={this.saveRef('root')}
         onKeyDown={onKeyDown}
         style={style}
         {...getDataAttr(restProps)}
