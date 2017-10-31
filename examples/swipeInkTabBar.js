@@ -327,7 +327,7 @@ var SwipeableInkTabBar = __WEBPACK_IMPORTED_MODULE_3_create_react_class___defaul
       }
       var refProps = {};
       if (activeKey === key) {
-        refProps.ref = 'activeTab';
+        refProps.ref = _this.saveRef('activeTab');
       }
       rst.push(__WEBPACK_IMPORTED_MODULE_2_react___default.a.createElement(
         'div',

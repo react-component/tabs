@@ -1000,13 +1000,6 @@ function offset(elem) {
 }
 
 function _componentDidUpdate(component, init) {
-  // If there is no css rendered, don't generate the ink bar
-  // fix https://github.com/ant-design/ant-design/issues/8001
-  if (document.styleSheets.length === 0 || [].slice(document.styleSheets).every(function (s) {
-    return s.rules && s.rules.length === 0;
-  })) {
-    return;
-  }
   var styles = component.props.styles;
 
   var wrapNode = component.nav || component.root;
@@ -1026,7 +1019,13 @@ function _componentDidUpdate(component, init) {
     if (tabBarPosition === 'top' || tabBarPosition === 'bottom') {
       var left = tabOffset.left - containerOffset.left;
       var width = tabNode.offsetWidth;
-      if (styles.inkBar && styles.inkBar.width !== undefined) {
+
+      // If tabNode'width width equal to wrapNode'width when tabBarPosition is top or bottom
+      // It means no css working, then ink bar should not have width until css is loaded
+      // Fix https://github.com/ant-design/ant-design/issues/7564
+      if (width === wrapNode.offsetWidth) {
+        width = 0;
+      } else if (styles.inkBar && styles.inkBar.width !== undefined) {
         width = parseFloat(styles.inkBar.width, 10);
         if (width) {
           left = left + (tabNode.offsetWidth - width) / 2;
@@ -1175,7 +1174,7 @@ function _componentDidUpdate(component, init) {
       }
       var ref = {};
       if (activeKey === key) {
-        ref.ref = 'activeTab';
+        ref.ref = _this.saveRef('activeTab');
       }
       __WEBPACK_IMPORTED_MODULE_5_warning___default()('tab' in child.props, 'There must be `tab` property on children of Tabs.');
       rst.push(__WEBPACK_IMPORTED_MODULE_3_react___default.a.createElement(
@@ -1222,7 +1221,7 @@ function _componentDidUpdate(component, init) {
         role: 'tablist',
         className: cls,
         tabIndex: '0',
-        ref: 'root',
+        ref: this.saveRef('root'),
         onKeyDown: onKeyDown,
         style: style
       }, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__utils__["m" /* getDataAttr */])(restProps)),
