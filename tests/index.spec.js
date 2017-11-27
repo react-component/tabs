@@ -33,7 +33,7 @@ describe('rc-tabs', () => {
   });
 
   it('create and nav should work', () => {
-    const wrapper = render(<NormoalTabs/>);
+    const wrapper = mount(<NormoalTabs/>);
     expect(wrapper.find('.rc-tabs').length).toBe(1);
     expect(wrapper.find('.rc-tabs-tab').length).toBe(3);
   });
@@ -84,19 +84,21 @@ describe('rc-tabs', () => {
     );
 
     // To force Tabs show prev/next button
-    Object.defineProperty(wrapper.find('.rc-tabs-nav').getNode(), 'offsetWidth', {
+    Object.defineProperty(wrapper.find('.rc-tabs-nav').instance(), 'offsetWidth', {
       get() { return 1000; },
     });
-    Object.defineProperty(wrapper.find('.rc-tabs-nav-wrap').getNode(), 'offsetWidth', {
+    Object.defineProperty(wrapper.find('.rc-tabs-nav-wrap').instance(), 'offsetWidth', {
       get() { return 100; },
     });
     wrapper.update();
 
-    wrapper.find('.rc-tabs-tab-next').simulate('click');
-    expect(onNextClick).toHaveBeenCalled();
+    setTimeout(() => {
+      wrapper.find('.rc-tabs-tab-next').simulate('click');
+      expect(onNextClick).toHaveBeenCalled();
 
-    wrapper.find('.rc-tabs-tab-prev').simulate('click');
-    expect(onPrevClick).toHaveBeenCalled();
+      wrapper.find('.rc-tabs-tab-prev').simulate('click');
+      expect(onPrevClick).toHaveBeenCalled();
+    }, 10);
   });
 
   it('active first tab when children is changed', () => {

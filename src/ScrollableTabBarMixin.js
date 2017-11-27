@@ -55,9 +55,9 @@ export default {
   },
 
   setNextPrev() {
-    const navNode = this.refs.nav;
+    const navNode = this.nav;
     const navNodeWH = this.getOffsetWH(navNode);
-    const navWrapNode = this.refs.navWrap;
+    const navWrapNode = this.navWrap;
     const navWrapNodeWH = this.getOffsetWH(navWrapNode);
     let { offset } = this;
     const minOffset = navWrapNodeWH - navNodeWH;
@@ -112,7 +112,7 @@ export default {
       this.offset = target;
       let navOffset = {};
       const tabBarPosition = this.props.tabBarPosition;
-      const navStyle = this.refs.nav.style;
+      const navStyle = this.nav.style;
       const transformSupported = isTransformSupported(navStyle);
       if (tabBarPosition === 'left' || tabBarPosition === 'right') {
         if (transformSupported) {
@@ -175,7 +175,7 @@ export default {
     if (e.propertyName !== 'opacity') {
       return;
     }
-    const { container } = this.refs;
+    const { container } = this;
     this.scrollToActiveTab({
       target: container,
       currentTarget: container,
@@ -183,7 +183,7 @@ export default {
   },
 
   scrollToActiveTab(e) {
-    const { activeTab, navWrap } = this.refs;
+    const { activeTab, navWrap } = this;
     if (e && e.target !== e.currentTarget || !activeTab) {
       return;
     }
@@ -211,7 +211,7 @@ export default {
 
   prev(e) {
     this.props.onPrevClick(e);
-    const navWrapNode = this.refs.navWrap;
+    const navWrapNode = this.navWrap;
     const navWrapNodeWH = this.getOffsetWH(navWrapNode);
     const { offset } = this;
     this.setOffset(offset + navWrapNodeWH);
@@ -219,7 +219,7 @@ export default {
 
   next(e) {
     this.props.onNextClick(e);
-    const navWrapNode = this.refs.navWrap;
+    const navWrapNode = this.navWrap;
     const navWrapNodeWH = this.getOffsetWH(navWrapNode);
     const { offset } = this;
     this.setOffset(offset - navWrapNodeWH);
@@ -276,13 +276,13 @@ export default {
           [`${prefixCls}-nav-container-scrolling`]: showNextPrev,
         })}
         key="container"
-        ref="container"
+        ref={this.saveRef('container')}
       >
         {prevButton}
         {nextButton}
-        <div className={`${prefixCls}-nav-wrap`} ref="navWrap">
+        <div className={`${prefixCls}-nav-wrap`} ref={this.saveRef('navWrap')}>
           <div className={`${prefixCls}-nav-scroll`}>
-            <div className={navClasses} ref="nav">
+            <div className={navClasses} ref={this.saveRef('nav')}>
               <Sortable
                 options={{
                   animation: 150,

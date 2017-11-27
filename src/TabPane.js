@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import createReactClass from 'create-react-class';
 import classnames from 'classnames';
-import pickAttrs from 'rc-util/lib/pickAttrs';
+import { getDataAttr } from './utils';
 
 const TabPane = createReactClass({
   displayName: 'TabPane',
@@ -37,7 +37,7 @@ const TabPane = createReactClass({
         role="tabpanel"
         aria-hidden={active ? 'false' : 'true'}
         className={cls}
-        {...pickAttrs(restProps)}
+        {...getDataAttr(restProps)}
       >
         {isRender || forceRender ? children : placeholder}
       </div>

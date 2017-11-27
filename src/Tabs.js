@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import pickAttrs from 'rc-util/lib/pickAttrs';
 import KeyCode from './KeyCode';
 import TabPane from './TabPane';
 import classnames from 'classnames';
+import { getDataAttr } from './utils';
 
 function noop() {
 }
@@ -155,7 +155,7 @@ export default class Tabs extends React.Component {
       <div
         className={cls}
         style={props.style}
-        {...pickAttrs(restProps)}
+        {...getDataAttr(restProps)}
       >
         {contents}
       </div>

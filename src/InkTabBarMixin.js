@@ -38,12 +38,11 @@ function offset(elem) {
 }
 
 function componentDidUpdate(component, init) {
-  const refs = component.refs;
   const { styles } = component.props;
-  const wrapNode = refs.nav || refs.root;
+  const wrapNode = component.nav || component.root;
   const containerOffset = offset(wrapNode);
-  const inkBarNode = refs.inkBar;
-  const activeTab = refs.activeTab;
+  const inkBarNode = component.inkBar;
+  const activeTab = component.activeTab;
   const inkBarNodeStyle = inkBarNode.style;
   const tabBarPosition = component.props.tabBarPosition;
   if (init) {
@@ -57,7 +56,13 @@ function componentDidUpdate(component, init) {
     if (tabBarPosition === 'top' || tabBarPosition === 'bottom') {
       let left = tabOffset.left - containerOffset.left;
       let width = tabNode.offsetWidth;
-      if (styles.inkBar && styles.inkBar.width !== undefined) {
+
+      // If tabNode'width width equal to wrapNode'width when tabBarPosition is top or bottom
+      // It means no css working, then ink bar should not have width until css is loaded
+      // Fix https://github.com/ant-design/ant-design/issues/7564
+      if (width === wrapNode.offsetWidth) {
+        width = 0;
+      } else if (styles.inkBar && styles.inkBar.width !== undefined) {
         width = parseFloat(styles.inkBar.width, 10);
         if (width) {
           left = left + (tabNode.offsetWidth - width) / 2;
@@ -99,7 +104,6 @@ function componentDidUpdate(component, init) {
 }
 
 export default {
-
   getDefaultProps() {
     return {
       inkBarAnimated: true,
@@ -130,7 +134,7 @@ export default {
         style={styles.inkBar}
         className={classes}
         key="inkBar"
-        ref="inkBar"
+        ref={this.saveRef('inkBar')}
       />
     );
   },

@@ -87,7 +87,7 @@ export default {
     setPxStyle(this.swipeNode, totalDelta, vertical);
   },
   componentDidMount() {
-    const { swipe, nav } = this.refs;
+    const { swipe, nav } = this;
     const { tabBarPosition, pageSize, panels, activeKey } = this.props;
     this.swipeNode = ReactDOM.findDOMNode(swipe); // dom which scroll (9999px)
     this.realNode = ReactDOM.findDOMNode(nav); // dom which visiable in screen (viewport)
@@ -153,16 +153,16 @@ export default {
           [`${prefixCls}-nextpage`]: hasNextPage,
         })}
         key="container"
-        ref="container"
+        ref={this.saveRef('container')}
       >
-        <div className={`${prefixCls}-nav-wrap`} ref="navWrap">
+        <div className={`${prefixCls}-nav-wrap`} ref={this.saveRef('navWrap')}>
           <Hammer
             {...events}
             direction={isVertical(tabBarPosition) ? 'DIRECTION_ALL' : 'DIRECTION_HORIZONTAL'}
             options={hammerOptions}
           >
-            <div className={`${prefixCls}-nav-swipe`} ref="swipe">
-              <div className={navClasses} ref="nav">
+            <div className={`${prefixCls}-nav-swipe`} ref={this.saveRef('swipe')}>
+              <div className={navClasses} ref={this.saveRef('nav')}>
                 {tabs}
               </div>
             </div>
