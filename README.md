@@ -213,6 +213,12 @@ React.render(
         <th></th>
         <td>extra content placed one the right of tab bar</td>
       </tr>
+      <tr>
+        <td>tabBarGutter</td>
+        <td>number</td>
+        <th></th>
+        <td>the gap between tabs</td>
+      </tr>
     </tbody>
 </table>
 
