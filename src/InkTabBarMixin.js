@@ -2,6 +2,8 @@ import { setTransform, isTransformSupported } from './utils';
 import React from 'react';
 import classnames from 'classnames';
 
+const isDev = process.env.NODE_ENV !== 'production';
+
 export function getScroll(w, top) {
   let ret = w[`page${top ? 'Y' : 'X'}Offset`];
   const method = `scroll${top ? 'Top' : 'Left'}`;
@@ -115,7 +117,18 @@ export default {
   },
 
   componentDidMount() {
-    componentDidUpdate(this, true);
+    if (isDev) {
+      // https://github.com/ant-design/ant-design/issues/8678
+      this.timeout = setTimeout(() => {
+        componentDidUpdate(this, true);
+      }, 0);
+    } else {
+      componentDidUpdate(this, true);
+    }
+  },
+
+  componentWillUnmount() {
+    clearTimeout(this.timeout);
   },
 
   getInkBarNode() {
