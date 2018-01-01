@@ -13,10 +13,10 @@ export default {
     this.props.onTabClick(key);
   },
   getTabs() {
-    const { panels: children, activeKey, prefixCls } = this.props;
+    const { panels: children, activeKey, prefixCls, tabBarGutter } = this.props;
     const rst = [];
 
-    React.Children.forEach(children, (child) => {
+    React.Children.forEach(children, (child, index) => {
       if (!child) {
         return;
       }
@@ -44,6 +44,7 @@ export default {
           {...events}
           className={cls}
           key={key}
+          style={{ marginRight: tabBarGutter && index === children.length - 1 ? 0 : tabBarGutter }}
           {...ref}
         >
           {child.props.tab}
