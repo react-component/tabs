@@ -1,6 +1,11 @@
 # History
 ----
 
+## 9.2.0 / 2018-01-01
+
+* Add `tabBarGutter`.
+* Fix #84
+
 ## 9.1.2 / 2017-08-15
 
 * Fix responsive.
