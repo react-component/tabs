@@ -1168,11 +1168,12 @@ function _componentDidUpdate(component, init) {
     var _props = this.props,
         children = _props.panels,
         activeKey = _props.activeKey,
-        prefixCls = _props.prefixCls;
+        prefixCls = _props.prefixCls,
+        tabBarGutter = _props.tabBarGutter;
 
     var rst = [];
 
-    __WEBPACK_IMPORTED_MODULE_3_react___default.a.Children.forEach(children, function (child) {
+    __WEBPACK_IMPORTED_MODULE_3_react___default.a.Children.forEach(children, function (child, index) {
       if (!child) {
         return;
       }
@@ -1200,7 +1201,8 @@ function _componentDidUpdate(component, init) {
           'aria-selected': activeKey === key ? 'true' : 'false'
         }, events, {
           className: cls,
-          key: key
+          key: key,
+          style: { marginRight: tabBarGutter && index === children.length - 1 ? 0 : tabBarGutter }
         }, ref),
         child.props.tab
       ));

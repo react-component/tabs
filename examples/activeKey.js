@@ -643,9 +643,9 @@ var ScrollableInkTabBar = __WEBPACK_IMPORTED_MODULE_0_create_react_class___defau
   },
   setNextPrev: function setNextPrev() {
     var navNode = this.nav;
-    var navNodeWH = this.getOffsetWH(navNode);
+    var navNodeWH = this.getScrollWH(navNode);
     var navWrapNode = this.navWrap;
-    var navWrapNodeWH = this.getOffsetWH(navWrapNode);
+    var navWrapNodeWH = this.getScrollWH(navWrapNode);
     var offset = this.offset;
 
     var minOffset = navWrapNodeWH - navNodeWH;
@@ -678,11 +678,11 @@ var ScrollableInkTabBar = __WEBPACK_IMPORTED_MODULE_0_create_react_class___defau
       prev: prev
     };
   },
-  getOffsetWH: function getOffsetWH(node) {
+  getScrollWH: function getScrollWH(node) {
     var tabBarPosition = this.props.tabBarPosition;
-    var prop = 'offsetWidth';
+    var prop = 'scrollWidth';
     if (tabBarPosition === 'left' || tabBarPosition === 'right') {
-      prop = 'offsetHeight';
+      prop = 'scrollHeight';
     }
     return node[prop];
   },
@@ -783,8 +783,8 @@ var ScrollableInkTabBar = __WEBPACK_IMPORTED_MODULE_0_create_react_class___defau
       return;
     }
 
-    var activeTabWH = this.getOffsetWH(activeTab);
-    var navWrapNodeWH = this.getOffsetWH(navWrap);
+    var activeTabWH = this.getScrollWH(activeTab);
+    var navWrapNodeWH = this.getScrollWH(navWrap);
     var offset = this.offset;
 
     var wrapOffset = this.getOffsetLT(navWrap);
@@ -800,7 +800,7 @@ var ScrollableInkTabBar = __WEBPACK_IMPORTED_MODULE_0_create_react_class___defau
   prev: function prev(e) {
     this.props.onPrevClick(e);
     var navWrapNode = this.navWrap;
-    var navWrapNodeWH = this.getOffsetWH(navWrapNode);
+    var navWrapNodeWH = this.getScrollWH(navWrapNode);
     var offset = this.offset;
 
     this.setOffset(offset + navWrapNodeWH);
@@ -808,7 +808,7 @@ var ScrollableInkTabBar = __WEBPACK_IMPORTED_MODULE_0_create_react_class___defau
   next: function next(e) {
     this.props.onNextClick(e);
     var navWrapNode = this.navWrap;
-    var navWrapNodeWH = this.getOffsetWH(navWrapNode);
+    var navWrapNodeWH = this.getScrollWH(navWrapNode);
     var offset = this.offset;
 
     this.setOffset(offset - navWrapNodeWH);
