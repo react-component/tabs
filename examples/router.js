@@ -626,11 +626,10 @@ var ScrollableInkTabBar = __WEBPACK_IMPORTED_MODULE_0_create_react_class___defau
   setNextPrev: function setNextPrev() {
     var navNode = this.nav;
     var navNodeWH = this.getScrollWH(navNode);
-    var navWrapNode = this.navWrap;
-    var navWrapNodeWH = this.getOffsetWH(navWrapNode);
+    var containerWH = this.getOffsetWH(this.container);
     var offset = this.offset;
 
-    var minOffset = navWrapNodeWH - navNodeWH;
+    var minOffset = containerWH - navNodeWH;
     var _state = this.state,
         next = _state.next,
         prev = _state.prev;
