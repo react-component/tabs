@@ -60,7 +60,7 @@ export default {
     const navNode = this.nav;
     const navNodeWH = this.getScrollWH(navNode);
     const navWrapNode = this.navWrap;
-    const navWrapNodeWH = this.getScrollWH(navWrapNode);
+    const navWrapNodeWH = this.getOffsetWH(navWrapNode);
     let { offset } = this;
     const minOffset = navWrapNodeWH - navNodeWH;
     let { next, prev } = this.state;
@@ -90,6 +90,15 @@ export default {
     };
   },
 
+  getOffsetWH(node) {
+    const tabBarPosition = this.props.tabBarPosition;
+    let prop = 'offsetWidth';
+    if (tabBarPosition === 'left' || tabBarPosition === 'right') {
+      prop = 'offsetHeight';
+    }
+    return node[prop];
+  },
+
   getScrollWH(node) {
     const tabBarPosition = this.props.tabBarPosition;
     let prop = 'scrollWidth';
@@ -98,6 +107,7 @@ export default {
     }
     return node[prop];
   },
+
 
   getOffsetLT(node) {
     const tabBarPosition = this.props.tabBarPosition;
