@@ -648,7 +648,7 @@ var ScrollableInkTabBar = __WEBPACK_IMPORTED_MODULE_0_create_react_class___defau
     var navNode = this.nav;
     var navNodeWH = this.getScrollWH(navNode);
     var navWrapNode = this.navWrap;
-    var navWrapNodeWH = this.getScrollWH(navWrapNode);
+    var navWrapNodeWH = this.getOffsetWH(navWrapNode);
     var offset = this.offset;
 
     var minOffset = navWrapNodeWH - navNodeWH;
@@ -680,6 +680,14 @@ var ScrollableInkTabBar = __WEBPACK_IMPORTED_MODULE_0_create_react_class___defau
       next: next,
       prev: prev
     };
+  },
+  getOffsetWH: function getOffsetWH(node) {
+    var tabBarPosition = this.props.tabBarPosition;
+    var prop = 'offsetWidth';
+    if (tabBarPosition === 'left' || tabBarPosition === 'right') {
+      prop = 'offsetHeight';
+    }
+    return node[prop];
   },
   getScrollWH: function getScrollWH(node) {
     var tabBarPosition = this.props.tabBarPosition;

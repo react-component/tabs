@@ -197,7 +197,10 @@
   opacity: 0;
   transition: width .3s, height .3s, opacity .3s;
 }
-.rc-tabs-top .rc-tabs-tab-arrow-show {
+.rc-tabs-top .rc-tabs-tab-arrow-show,
+.rc-tabs-left .rc-tabs-tab-arrow-show,
+.rc-tabs-bottom .rc-tabs-tab-arrow-show,
+.rc-tabs-right .rc-tabs-tab-arrow-show {
   opacity: 1;
   width: 100%;
   height: 32px;
