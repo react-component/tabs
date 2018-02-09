@@ -59,10 +59,9 @@ export default {
   setNextPrev() {
     const navNode = this.nav;
     const navNodeWH = this.getScrollWH(navNode);
-    const navWrapNode = this.navWrap;
-    const navWrapNodeWH = this.getOffsetWH(navWrapNode);
+    const containerWH = this.getOffsetWH(this.container);
     let { offset } = this;
-    const minOffset = navWrapNodeWH - navNodeWH;
+    const minOffset = containerWH - navNodeWH;
     let { next, prev } = this.state;
     if (minOffset >= 0) {
       next = false;
