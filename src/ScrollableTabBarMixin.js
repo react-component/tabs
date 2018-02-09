@@ -2,7 +2,7 @@ import classnames from 'classnames';
 import { setTransform, isTransformSupported } from './utils';
 import React from 'react';
 import addEventListener from 'rc-util/lib/Dom/addEventListener';
-import debounce from 'lodash.debounce';
+import debounce from 'lodash/debounce';
 
 export default {
   getDefaultProps() {
@@ -23,11 +23,11 @@ export default {
 
   componentDidMount() {
     this.componentDidUpdate();
-    const debouncedResize = debounce(() => {
+    this.debouncedResize = debounce(() => {
       this.setNextPrev();
       this.scrollToActiveTab();
     }, 200);
-    this.resizeEvent = addEventListener(window, 'resize', debouncedResize);
+    this.resizeEvent = addEventListener(window, 'resize', this.debouncedResize);
   },
 
   componentDidUpdate(prevProps) {
@@ -50,6 +50,9 @@ export default {
   componentWillUnmount() {
     if (this.resizeEvent) {
       this.resizeEvent.remove();
+    }
+    if (this.debouncedResize && this.debouncedResize.cancel) {
+      this.debouncedResize.cancel();
     }
   },
 
