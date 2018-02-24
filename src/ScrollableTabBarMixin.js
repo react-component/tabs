@@ -69,9 +69,9 @@ export default {
       this.setOffset(0, false);
       offset = 0;
     } else if (minOffset < offset) {
-      next = (true);
+      next = true;
     } else {
-      next = (false);
+      next = false;
       // Fix https://github.com/ant-design/ant-design/issues/8861
       // Test with container offset which is stable
       // and set the offset of the nav wrap node
@@ -81,9 +81,9 @@ export default {
     }
 
     if (offset < 0) {
-      prev = (true);
+      prev = true;
     } else {
-      prev = (false);
+      prev = false;
     }
 
     this.setNext(next);
