@@ -60,6 +60,7 @@ export default {
     const navNode = this.nav;
     const navNodeWH = this.getScrollWH(navNode);
     const containerWH = this.getOffsetWH(this.container);
+    const navWrapNodeWH = this.getOffsetWH(this.navWrap);
     let { offset } = this;
     const minOffset = containerWH - navNodeWH;
     let { next, prev } = this.state;
@@ -71,8 +72,12 @@ export default {
       next = (true);
     } else {
       next = (false);
-      this.setOffset(minOffset, false);
-      offset = minOffset;
+      // Fix https://github.com/ant-design/ant-design/issues/8861
+      // Test with container offset which is stable
+      // and set the offset of the nav wrap node
+      const realOffset = navWrapNodeWH - navNodeWH;
+      this.setOffset(realOffset, false);
+      offset = realOffset;
     }
 
     if (offset < 0) {
@@ -207,7 +212,7 @@ export default {
     }
 
     const activeTabWH = this.getScrollWH(activeTab);
-    const navWrapNodeWH = this.getScrollWH(navWrap);
+    const navWrapNodeWH = this.getOffsetWH(navWrap);
     let { offset } = this;
     const wrapOffset = this.getOffsetLT(navWrap);
     const activeTabOffset = this.getOffsetLT(activeTab);
@@ -223,7 +228,7 @@ export default {
   prev(e) {
     this.props.onPrevClick(e);
     const navWrapNode = this.navWrap;
-    const navWrapNodeWH = this.getScrollWH(navWrapNode);
+    const navWrapNodeWH = this.getOffsetWH(navWrapNode);
     const { offset } = this;
     this.setOffset(offset + navWrapNodeWH);
   },
@@ -231,7 +236,7 @@ export default {
   next(e) {
     this.props.onNextClick(e);
     const navWrapNode = this.navWrap;
-    const navWrapNodeWH = this.getScrollWH(navWrapNode);
+    const navWrapNodeWH = this.getOffsetWH(navWrapNode);
     const { offset } = this;
     this.setOffset(offset - navWrapNodeWH);
   },
