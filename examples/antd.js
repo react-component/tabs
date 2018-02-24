@@ -802,6 +802,7 @@ var ScrollableInkTabBar = __WEBPACK_IMPORTED_MODULE_0_create_react_class___defau
     var navNode = this.nav;
     var navNodeWH = this.getScrollWH(navNode);
     var containerWH = this.getOffsetWH(this.container);
+    var navWrapNodeWH = this.getOffsetWH(this.navWrap);
     var offset = this.offset;
 
     var minOffset = containerWH - navNodeWH;
@@ -817,8 +818,12 @@ var ScrollableInkTabBar = __WEBPACK_IMPORTED_MODULE_0_create_react_class___defau
       next = true;
     } else {
       next = false;
-      this.setOffset(minOffset, false);
-      offset = minOffset;
+      // Fix https://github.com/ant-design/ant-design/issues/8861
+      // Test with container offset which is stable
+      // and set the offset of the nav wrap node
+      var realOffset = navWrapNodeWH - navNodeWH;
+      this.setOffset(realOffset, false);
+      offset = realOffset;
     }
 
     if (offset < 0) {
@@ -948,7 +953,7 @@ var ScrollableInkTabBar = __WEBPACK_IMPORTED_MODULE_0_create_react_class___defau
     }
 
     var activeTabWH = this.getScrollWH(activeTab);
-    var navWrapNodeWH = this.getScrollWH(navWrap);
+    var navWrapNodeWH = this.getOffsetWH(navWrap);
     var offset = this.offset;
 
     var wrapOffset = this.getOffsetLT(navWrap);
@@ -964,7 +969,7 @@ var ScrollableInkTabBar = __WEBPACK_IMPORTED_MODULE_0_create_react_class___defau
   prev: function prev(e) {
     this.props.onPrevClick(e);
     var navWrapNode = this.navWrap;
-    var navWrapNodeWH = this.getScrollWH(navWrapNode);
+    var navWrapNodeWH = this.getOffsetWH(navWrapNode);
     var offset = this.offset;
 
     this.setOffset(offset + navWrapNodeWH);
@@ -972,7 +977,7 @@ var ScrollableInkTabBar = __WEBPACK_IMPORTED_MODULE_0_create_react_class___defau
   next: function next(e) {
     this.props.onNextClick(e);
     var navWrapNode = this.navWrap;
-    var navWrapNodeWH = this.getScrollWH(navWrapNode);
+    var navWrapNodeWH = this.getOffsetWH(navWrapNode);
     var offset = this.offset;
 
     this.setOffset(offset - navWrapNodeWH);

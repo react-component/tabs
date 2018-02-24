@@ -1,6 +1,7 @@
 .rc-tabs {
   box-sizing: border-box;
   position: relative;
+  overflow: hidden;
 }
 .rc-tabs-bar,
 .rc-tabs-nav-container {
@@ -137,7 +138,6 @@
 }
 .rc-tabs-left {
   border-right: 2px solid #f3f3f3;
-  overflow-y: hidden;
 }
 .rc-tabs-left .rc-tabs-bar {
   float: left;
@@ -234,7 +234,6 @@
 }
 .rc-tabs-right {
   border-left: 2px solid #f3f3f3;
-  overflow-y: hidden;
 }
 .rc-tabs-right .rc-tabs-bar {
   float: right;
@@ -327,7 +326,6 @@
 }
 .rc-tabs-bottom {
   border-top: 2px solid #f3f3f3;
-  overflow-x: hidden;
 }
 .rc-tabs-bottom .rc-tabs-content {
   width: 100%;
@@ -409,7 +407,6 @@
 }
 .rc-tabs-top {
   border-bottom: 2px solid #f3f3f3;
-  overflow-x: hidden;
 }
 .rc-tabs-top .rc-tabs-content {
   width: 100%;
