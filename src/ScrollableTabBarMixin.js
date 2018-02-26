@@ -243,7 +243,7 @@ export default {
 
   getScrollBarNode(content) {
     const { next, prev } = this.state;
-    const { prefixCls, scrollAnimated } = this.props;
+    const { prefixCls, scrollAnimated, navWrapper } = this.props;
     const showNextPrev = prev || next;
 
     const prevButton = (
@@ -299,7 +299,7 @@ export default {
         <div className={`${prefixCls}-nav-wrap`} ref={this.saveRef('navWrap')}>
           <div className={`${prefixCls}-nav-scroll`}>
             <div className={navClasses} ref={this.saveRef('nav')}>
-              {content}
+              {navWrapper(content)}
             </div>
           </div>
         </div>
