@@ -54,9 +54,9 @@ export default class Tabs extends React.Component {
     }
   }
 
-  onTabClick = (activeKey) => {
+  onTabClick = (activeKey, e) => {
     if (this.tabBar.props.onTabClick) {
-      this.tabBar.props.onTabClick(activeKey);
+      this.tabBar.props.onTabClick(activeKey, e);
     }
     this.setActiveKey(activeKey);
   }
