@@ -46,8 +46,9 @@ describe('rc-tabs', () => {
   });
 
   it('onChange and onTabClick should work', () => {
+    let activeKey;
     const handleChange = jest.fn();
-    const handleTabClick = jest.fn();
+    const handleTabClick = (key) => activeKey = key/* jest.fn() */;
     const wrapper = mount(
       <Tabs
         defaultActiveKey="1"
@@ -62,7 +63,7 @@ describe('rc-tabs', () => {
     );
     const targetTab = wrapper.find('.rc-tabs-tab').at(2);
     targetTab.simulate('click');
-    expect(handleTabClick).toHaveBeenCalledWith('3');
+    expect(activeKey).toEqual('3');
     expect(handleChange).toHaveBeenCalledWith('3');
   });
 

@@ -68,8 +68,9 @@ describe('rc-swipeable-tabs', () => {
   });
 
   it('onChange and onTabClick should works', () => {
+    let activeKey;
     const handleChange = jest.fn();
-    const handleTabClick = jest.fn();
+    const handleTabClick = (key) => activeKey = key/* jest.fn() */;
     const wrapper = mount(
       <Tabs
         defaultActiveKey="8"
@@ -82,7 +83,7 @@ describe('rc-swipeable-tabs', () => {
     );
     const targetTab = wrapper.find('.rc-tabs-tab').at(6);
     targetTab.simulate('click');
-    expect(handleTabClick).toHaveBeenCalledWith('6');
+    expect(activeKey).toEqual('6');
     expect(handleChange).toHaveBeenCalledWith('6');
   });
 });
