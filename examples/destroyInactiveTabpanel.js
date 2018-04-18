@@ -2,6 +2,7 @@
 import 'rc-tabs/assets/index.less';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { polyfill } from 'react-lifecycles-compat';
 import Tabs, { TabPane } from 'rc-tabs';
 import TabContent from 'rc-tabs/lib/TabContent';
 import ScrollableInkTabBar from 'rc-tabs/lib/ScrollableInkTabBar';
@@ -9,11 +10,13 @@ import ScrollableInkTabBar from 'rc-tabs/lib/ScrollableInkTabBar';
 class PanelContent extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {};
     console.log(this.props.id, 'constructor');
   }
 
-  componentWillReceiveProps() {
-    console.log(this.props.id, 'componentWillReceiveProps');
+  static getDerivedStateFromProps(nextProps) {
+    console.log(nextProps.id, 'getDerivedStateFromProps');
+    return null;
   }
 
   render() {
@@ -24,6 +27,8 @@ class PanelContent extends React.Component {
     return <div>{els}</div>;
   }
 }
+
+polyfill(PanelContent);
 
 class Demo extends React.Component {
   state = {

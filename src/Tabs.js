@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
+import { polyfill } from 'react-lifecycles-compat';
 import KeyCode from './KeyCode';
 import TabPane from './TabPane';
-import classnames from 'classnames';
 import { getDataAttr } from './utils';
 
 function noop() {
@@ -41,19 +42,6 @@ export default class Tabs extends React.Component {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
-    if ('activeKey' in nextProps) {
-      this.setState({
-        activeKey: nextProps.activeKey,
-      });
-    } else if (!activeKeyIsValid(nextProps, this.state.activeKey)) {
-      // https://github.com/ant-design/ant-design/issues/7093
-      this.setState({
-        activeKey: getDefaultActiveKey(nextProps),
-      });
-    }
-  }
-
   onTabClick = (activeKey) => {
     if (this.tabBar.props.onTabClick) {
       this.tabBar.props.onTabClick(activeKey);
@@ -72,6 +60,16 @@ export default class Tabs extends React.Component {
       const previousKey = this.getNextActiveKey(false);
       this.onTabClick(previousKey);
     }
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if ('activeKey' in nextProps) {
+      return { activeKey: nextProps.activeKey };
+    } else if (!activeKeyIsValid(nextProps, prevState.activeKey)) {
+      // https://github.com/ant-design/ant-design/issues/7093
+      return { activeKey: getDefaultActiveKey(nextProps) };
+    }
+    return null;
   }
 
   setActiveKey = (activeKey) => {
@@ -162,6 +160,8 @@ export default class Tabs extends React.Component {
     );
   }
 }
+
+polyfill(Tabs);
 
 Tabs.propTypes = {
   destroyInactiveTabPane: PropTypes.bool,

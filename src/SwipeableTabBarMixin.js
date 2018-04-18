@@ -1,7 +1,7 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import classnames from 'classnames';
 import Hammer from 'rc-hammerjs';
-import ReactDOM from 'react-dom';
 import {
   isVertical,
   getStyle,
@@ -9,13 +9,6 @@ import {
 } from './utils';
 
 export default {
-  getInitialState() {
-    const { hasPrevPage, hasNextPage } = this.checkPaginationByKey(this.props.activeKey);
-    return {
-      hasPrevPage,
-      hasNextPage,
-    };
-  },
   getDefaultProps() {
     return {
       hammerOptions: {},
@@ -64,10 +57,6 @@ export default {
   setSwipePositionByKey(activeKey) {
     const { hasPrevPage, hasNextPage } = this.checkPaginationByKey(activeKey);
     const { totalAvaliableDelta } = this.cache;
-    this.setState({
-      hasPrevPage,
-      hasNextPage,
-    });
     let delta;
     if (!hasPrevPage) {
       // the first page
@@ -101,10 +90,9 @@ export default {
     };
     this.setSwipePositionByKey(activeKey);
   },
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.activeKey && nextProps.activeKey !== this.props.activeKey) {
-      this.setSwipePositionByKey(nextProps.activeKey);
-    }
+  componentDidUpdate() {
+    const { activeKey } = this.props;
+    this.setSwipePositionByKey(activeKey);
   },
   onPan(e) {
     const { vertical, totalAvaliableDelta, totalDelta } = this.cache;
@@ -123,19 +111,10 @@ export default {
 
     this.cache.totalDelta = _nextDelta;
     this.setSwipePosition();
-
-    // calculate pagination display
-    const { hasPrevPage, hasNextPage } = this.checkPaginationByDelta(this.cache.totalDelta);
-    if (hasPrevPage !== this.state.hasPrevPage || hasNextPage !== this.state.hasNextPage) {
-      this.setState({
-        hasPrevPage,
-        hasNextPage,
-      });
-    }
   },
   getSwipeBarNode(tabs) {
     const { prefixCls, hammerOptions, tabBarPosition } = this.props;
-    const { hasPrevPage, hasNextPage } = this.state;
+    const { hasPrevPage, hasNextPage } = this.checkPaginationByKey(this.props.activeKey);
     const navClassName = `${prefixCls}-nav`;
     const navClasses = classnames({
       [navClassName]: true,

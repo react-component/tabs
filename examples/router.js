@@ -11,7 +11,8 @@ const Tab1 = () => <div>tab1</div>;
 const Tab2 = () => <div>tab2</div>;
 
 class App extends React.Component {
-  componentWillMount() {
+  constructor() {
+    super();
     this.data = [{
       key: 'tab1',
       component: <Tab1 />,

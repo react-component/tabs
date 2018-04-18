@@ -93,6 +93,7 @@
     "prop-types": "15.x",
     "rc-hammerjs": "~0.6.0",
     "rc-util": "^4.0.4",
+    "react-lifecycles-compat": "^3.0.2",
     "warning": "^3.0.0"
   }
 }
