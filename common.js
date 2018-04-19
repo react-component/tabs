@@ -1015,7 +1015,8 @@ function offset(elem) {
 function _componentDidUpdate(component, init) {
   var styles = component.props.styles;
 
-  var wrapNode = component.nav || component.root;
+  var rootNode = component.root;
+  var wrapNode = component.nav || rootNode;
   var containerOffset = offset(wrapNode);
   var inkBarNode = component.inkBar;
   var activeTab = component.activeTab;
@@ -1036,7 +1037,7 @@ function _componentDidUpdate(component, init) {
       // If tabNode'width width equal to wrapNode'width when tabBarPosition is top or bottom
       // It means no css working, then ink bar should not have width until css is loaded
       // Fix https://github.com/ant-design/ant-design/issues/7564
-      if (width === wrapNode.offsetWidth) {
+      if (width === rootNode.offsetWidth) {
         width = 0;
       } else if (styles.inkBar && styles.inkBar.width !== undefined) {
         width = parseFloat(styles.inkBar.width, 10);
