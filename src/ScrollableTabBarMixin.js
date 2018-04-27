@@ -1,6 +1,7 @@
 import classnames from 'classnames';
 import { setTransform, isTransformSupported } from './utils';
 import React from 'react';
+import Sortable from 'react-sortablejs';
 import addEventListener from 'rc-util/lib/Dom/addEventListener';
 import debounce from 'lodash/debounce';
 
@@ -299,7 +300,13 @@ export default {
         <div className={`${prefixCls}-nav-wrap`} ref={this.saveRef('navWrap')}>
           <div className={`${prefixCls}-nav-scroll`}>
             <div className={navClasses} ref={this.saveRef('nav')}>
-              {content}
+              <Sortable
+                options={{
+                  animation: 150,
+                }}
+              >
+                {content}
+              </Sortable>
             </div>
           </div>
         </div>
