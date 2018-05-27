@@ -171,7 +171,7 @@ Tabs.propTypes = {
   renderTabContent: PropTypes.func.isRequired,
   navWrapper: PropTypes.func,
   onChange: PropTypes.func,
-  children: PropTypes.any,
+  children: PropTypes.node,
   prefixCls: PropTypes.string,
   className: PropTypes.string,
   tabBarPosition: PropTypes.string,
@@ -186,6 +186,7 @@ Tabs.defaultProps = {
   onChange: noop,
   navWrapper: arg => arg,
   tabBarPosition: 'top',
+  children: null,
   style: {},
 };
 

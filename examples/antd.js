@@ -5,7 +5,9 @@ import ReactDOM from 'react-dom';
 import Tabs, { TabPane } from 'rc-tabs';
 import TabContent from 'rc-tabs/lib/TabContent';
 import ScrollableInkTabBar from 'rc-tabs/lib/ScrollableInkTabBar';
+import ScrollableTabBar from 'rc-tabs/lib/ScrollableTabBar';
 import InkTabBar from 'rc-tabs/lib/InkTabBar';
+import TabBar from 'rc-tabs/lib/TabBar';
 
 class PanelContent extends React.Component {
   constructor(props) {
@@ -115,7 +117,29 @@ class Demo extends React.Component {
 
     return (
       <div style={{ margin: 20 }}>
-        <h2>Simple Tabs</h2>
+        <h2>Basic Tabs</h2>
+        <p>
+          tabBarPosition:
+          <select value={this.state.tabBarPosition} onChange={this.changeTabPosition}>
+            <option value="top">top</option>
+            <option value="bottom">bottom</option>
+            <option value="left">left</option>
+            <option value="right">right</option>
+          </select>
+        </p>
+        <div>
+          <Tabs
+            defaultActiveKey="3"
+            style={style}
+            tabBarPosition={this.state.tabBarPosition}
+            renderTabBar={() => <TabBar onTabClick={this.onTabClick}/>}
+            renderTabContent={() => <TabContent style={contentStyle}/>}
+            onChange={this.onChange}
+          >
+            {ends2}
+          </Tabs>
+        </div>
+        <h2>Basic Tabs With Ink Bar</h2>
         <p>
           tabBarPosition:
           <select value={this.state.tabBarPosition} onChange={this.changeTabPosition}>
@@ -138,6 +162,26 @@ class Demo extends React.Component {
           </Tabs>
         </div>
         <h2>Scroll Tabs</h2>
+        <div>
+          <button onClick={() => this.switchToLast(ends)}>
+            switch to last tab
+          </button>
+          <Tabs
+            activeKey={this.state.activeKey}
+            style={style}
+            tabBarPosition={this.state.tabBarPosition}
+            renderTabBar={() => <ScrollableTabBar
+              ref={this.saveBar}
+              onTabClick={this.onTabClick}
+            />}
+            renderTabContent={() => <TabContent style={contentStyle}/>}
+            onChange={this.onChange2}
+          >
+            {ends}
+          </Tabs>
+        </div>
+        <button onClick={this.tick}>rerender</button>
+        <h2>Scroll Tabs with inkBar</h2>
         <div>
           <button onClick={() => this.switchToLast(ends)}>
             switch to last tab

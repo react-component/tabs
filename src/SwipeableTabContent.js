@@ -1,7 +1,6 @@
 import TabContent from './TabContent';
 import React from 'react';
 import PropTypes from 'prop-types';
-import createReactClass from 'create-react-class';
 import Hammer from 'rc-hammerjs';
 import ReactDOM from 'react-dom';
 import {
@@ -55,27 +54,10 @@ function getIndexByDelta(e) {
   return currentIndex;
 }
 
-const SwipeableTabContent = createReactClass({
-  displayName: 'SwipeableTabContent',
-
-  propTypes: {
-    tabBarPosition: PropTypes.string,
-    onChange: PropTypes.func,
-    children: PropTypes.any,
-    hammerOptions: PropTypes.any,
-    animated: PropTypes.bool,
-    activeKey: PropTypes.string,
-  },
-
-  getDefaultProps() {
-    return {
-      animated: true,
-    };
-  },
-
+export default class SwipeableTabContent extends React.Component {
   componentDidMount() {
     this.rootNode = ReactDOM.findDOMNode(this);
-  },
+  }
 
   onPanStart() {
     const { tabBarPosition, children, activeKey, animated } = this.props;
@@ -92,8 +74,9 @@ const SwipeableTabContent = createReactClass({
     this.viewSize = isVertical(tabBarPosition) ?
       this.rootNode.offsetHeight :
       this.rootNode.offsetWidth;
-  },
-  onPan(e) {
+  }
+
+  onPan = (e) => {
     if (!this.startDrag) {
       return;
     }
@@ -102,18 +85,20 @@ const SwipeableTabContent = createReactClass({
     if (currentIndex !== undefined) {
       setTransform(this.rootNode.style, getTransformByIndex(currentIndex, tabBarPosition));
     }
-  },
-  onPanEnd(e) {
+  }
+
+  onPanEnd = (e) => {
     if (!this.startDrag) {
       return;
     }
     this.end(e);
-  },
-  onSwipe(e) {
-    this.end(e, true);
-  },
+  }
 
-  end(e, swipe) {
+  onSwipe = (e) => {
+    this.end(e, true);
+  }
+
+  end = (e, swipe) => {
     const { tabBarPosition, animated } = this.props;
     this.startDrag = false;
     if (animated) {
@@ -149,7 +134,8 @@ const SwipeableTabContent = createReactClass({
     } else {
       this.props.onChange(getActiveKey(this.props.children, finalIndex));
     }
-  },
+  }
+
   render() {
     const { tabBarPosition, hammerOptions, animated } = this.props;
     let events = {
@@ -172,7 +158,18 @@ const SwipeableTabContent = createReactClass({
         <TabContent {...this.props}/>
       </Hammer>
     );
-  },
-});
+  }
+}
 
-export default SwipeableTabContent;
+SwipeableTabContent.propTypes = {
+  tabBarPosition: PropTypes.string,
+  onChange: PropTypes.func,
+  children: PropTypes.node,
+  hammerOptions: PropTypes.any,
+  animated: PropTypes.bool,
+  activeKey: PropTypes.string,
+};
+
+SwipeableTabContent.defaultProps = {
+  animated: true,
+};

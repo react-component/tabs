@@ -1,5 +1,4 @@
 import React from 'react';
-import createReactClass from 'create-react-class';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import {
@@ -9,22 +8,7 @@ import {
   getMarginStyle,
 } from './utils';
 
-const TabContent = createReactClass({
-  displayName: 'TabContent',
-  propTypes: {
-    animated: PropTypes.bool,
-    animatedWithMargin: PropTypes.bool,
-    prefixCls: PropTypes.string,
-    children: PropTypes.any,
-    activeKey: PropTypes.string,
-    style: PropTypes.any,
-    tabBarPosition: PropTypes.string,
-  },
-  getDefaultProps() {
-    return {
-      animated: true,
-    };
-  },
+export default class TabContent extends React.Component {
   getTabPanes() {
     const props = this.props;
     const activeKey = props.activeKey;
@@ -45,7 +29,8 @@ const TabContent = createReactClass({
     });
 
     return newChildren;
-  },
+  }
+
   render() {
     const { props } = this;
     const {
@@ -84,7 +69,19 @@ const TabContent = createReactClass({
         {this.getTabPanes()}
       </div>
     );
-  },
-});
+  }
+};
 
-export default TabContent;
+TabContent.propTypes = {
+  animated: PropTypes.bool,
+  animatedWithMargin: PropTypes.bool,
+  prefixCls: PropTypes.string,
+  children: PropTypes.any,
+  activeKey: PropTypes.string,
+  style: PropTypes.any,
+  tabBarPosition: PropTypes.string,
+};
+
+TabContent.defaultProps = {
+  animated: true,
+};

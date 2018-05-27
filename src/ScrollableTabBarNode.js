@@ -1,25 +1,20 @@
+import React from 'react';
+import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { setTransform, isTransformSupported } from './utils';
-import React from 'react';
 import addEventListener from 'rc-util/lib/Dom/addEventListener';
 import debounce from 'lodash/debounce';
 
-export default {
-  getDefaultProps() {
-    return {
-      scrollAnimated: true,
-      onPrevClick() {},
-      onNextClick() {},
-    };
-  },
-
-  getInitialState() {
+export default class ScrollableTabBarNode extends React.Component {
+  constructor(props) {
+    super(props);
     this.offset = 0;
-    return {
+
+    this.state = {
       next: false,
       prev: false,
     };
-  },
+  }
 
   componentDidMount() {
     this.componentDidUpdate();
@@ -28,7 +23,7 @@ export default {
       this.scrollToActiveTab();
     }, 200);
     this.resizeEvent = addEventListener(window, 'resize', this.debouncedResize);
-  },
+  }
 
   componentDidUpdate(prevProps) {
     const props = this.props;
@@ -45,7 +40,7 @@ export default {
       // can not use props.activeKey
       this.scrollToActiveTab();
     }
-  },
+  }
 
   componentWillUnmount() {
     if (this.resizeEvent) {
@@ -54,13 +49,13 @@ export default {
     if (this.debouncedResize && this.debouncedResize.cancel) {
       this.debouncedResize.cancel();
     }
-  },
+  }
 
   setNextPrev() {
-    const navNode = this.nav;
+    const navNode = this.props.getRef('nav');
     const navNodeWH = this.getScrollWH(navNode);
-    const containerWH = this.getOffsetWH(this.container);
-    const navWrapNodeWH = this.getOffsetWH(this.navWrap);
+    const containerWH = this.getOffsetWH(this.props.getRef('container'));
+    const navWrapNodeWH = this.getOffsetWH(this.props.getRef('navWrap'));
     let { offset } = this;
     const minOffset = containerWH - navNodeWH;
     let { next, prev } = this.state;
@@ -92,7 +87,7 @@ export default {
       next,
       prev,
     };
-  },
+  }
 
   getOffsetWH(node) {
     const tabBarPosition = this.props.tabBarPosition;
@@ -101,7 +96,7 @@ export default {
       prop = 'offsetHeight';
     }
     return node[prop];
-  },
+  }
 
   getScrollWH(node) {
     const tabBarPosition = this.props.tabBarPosition;
@@ -110,7 +105,7 @@ export default {
       prop = 'scrollHeight';
     }
     return node[prop];
-  },
+  }
 
 
   getOffsetLT(node) {
@@ -120,7 +115,7 @@ export default {
       prop = 'top';
     }
     return node.getBoundingClientRect()[prop];
-  },
+  }
 
   setOffset(offset, checkNextPrev = true) {
     const target = Math.min(0, offset);
@@ -128,7 +123,7 @@ export default {
       this.offset = target;
       let navOffset = {};
       const tabBarPosition = this.props.tabBarPosition;
-      const navStyle = this.nav.style;
+      const navStyle = this.props.getRef('nav').style;
       const transformSupported = isTransformSupported(navStyle);
       if (tabBarPosition === 'left' || tabBarPosition === 'right') {
         if (transformSupported) {
@@ -162,7 +157,7 @@ export default {
         this.setNextPrev();
       }
     }
-  },
+  }
 
   setPrev(v) {
     if (this.state.prev !== v) {
@@ -170,7 +165,7 @@ export default {
         prev: v,
       });
     }
-  },
+  }
 
   setNext(v) {
     if (this.state.next !== v) {
@@ -178,28 +173,29 @@ export default {
         next: v,
       });
     }
-  },
+  }
 
   isNextPrevShown(state) {
     if (state) {
       return state.next || state.prev;
     }
     return this.state.next || this.state.prev;
-  },
+  }
 
-  prevTransitionEnd(e) {
+  prevTransitionEnd = (e) => {
     if (e.propertyName !== 'opacity') {
       return;
     }
-    const { container } = this;
+    const container = this.props.getRef('container');
     this.scrollToActiveTab({
       target: container,
       currentTarget: container,
     });
-  },
+  }
 
-  scrollToActiveTab(e) {
-    const { activeTab, navWrap } = this;
+  scrollToActiveTab = (e) => {
+    const activeTab = this.props.getRef('activeTab');
+    const navWrap = this.props.getRef('navWrap');
     if (e && e.target !== e.currentTarget || !activeTab) {
       return;
     }
@@ -223,25 +219,25 @@ export default {
       offset -= (activeTabOffset + activeTabWH) - (wrapOffset + navWrapNodeWH);
       this.setOffset(offset);
     }
-  },
+  }
 
-  prev(e) {
+  prev = (e) => {
     this.props.onPrevClick(e);
-    const navWrapNode = this.navWrap;
+    const navWrapNode = this.props.getRef('navWrap');
     const navWrapNodeWH = this.getOffsetWH(navWrapNode);
     const { offset } = this;
     this.setOffset(offset + navWrapNodeWH);
-  },
+  }
 
-  next(e) {
+  next = (e) => {
     this.props.onNextClick(e);
-    const navWrapNode = this.navWrap;
+    const navWrapNode = this.props.getRef('navWrap');
     const navWrapNodeWH = this.getOffsetWH(navWrapNode);
     const { offset } = this;
     this.setOffset(offset - navWrapNodeWH);
-  },
+  }
 
-  getScrollBarNode(content) {
+  render() {
     const { next, prev } = this.state;
     const { prefixCls, scrollAnimated, navWrapper } = this.props;
     const showNextPrev = prev || next;
@@ -292,18 +288,37 @@ export default {
           [`${prefixCls}-nav-container-scrolling`]: showNextPrev,
         })}
         key="container"
-        ref={this.saveRef('container')}
+        ref={this.props.saveRef('container')}
       >
         {prevButton}
         {nextButton}
-        <div className={`${prefixCls}-nav-wrap`} ref={this.saveRef('navWrap')}>
+        <div className={`${prefixCls}-nav-wrap`} ref={this.props.saveRef('navWrap')}>
           <div className={`${prefixCls}-nav-scroll`}>
-            <div className={navClasses} ref={this.saveRef('nav')}>
-              {navWrapper(content)}
+            <div className={navClasses} ref={this.props.saveRef('nav')}>
+              {/*navWrapper(content)*/this.props.children}
             </div>
           </div>
         </div>
       </div>
     );
-  },
+  }
+}
+
+ScrollableTabBarNode.propTypes = {
+  getRef: PropTypes.func.isRequired,
+  saveRef: PropTypes.func.isRequired,
+  tabBarPosition: PropTypes.oneOf(['left', 'right', 'top', 'bottom']),
+  prefixCls: PropTypes.string,
+  scrollAnimated: PropTypes.bool,
+  onPrevClick: PropTypes.func,
+  onNextClick: PropTypes.func,
+  children: PropTypes.node,
+};
+
+ScrollableTabBarNode.defaultProps = {
+  tabBarPosition: 'left',
+  prefixCls: '',
+  scrollAnimated: true,
+  onPrevClick: () => {},
+  onNextClick: () => {},
 };

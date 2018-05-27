@@ -1,16 +1,36 @@
-import createReactClass from 'create-react-class';
-import InkTabBarMixin from './InkTabBarMixin';
-import TabBarMixin from './TabBarMixin';
-import RefMixin from './RefMixin';
+import React from 'react';
+import PropTypes from 'prop-types';
+import InkTabBarNode from './InkTabBarNode';
+import TabBarTabsNode from './TabBarTabsNode';
+import TabBarRootNode from './TabBarRootNode';
 
-const InkTabBar = createReactClass({
-  displayName: 'InkTabBar',
-  mixins: [RefMixin, TabBarMixin, InkTabBarMixin],
+export default class InkTabBar extends React.Component {
+  getRef = (name) => {
+    return this[name];
+  }
+
+  saveRef = (name) => {
+    return (node) => {
+      if (node) {
+        this[name] = node;
+      }
+    };
+  }
+
   render() {
-    const inkBarNode = this.getInkBarNode();
-    const tabs = this.getTabs();
-    return this.getRootNode([inkBarNode, tabs]);
-  },
-});
+    return (
+      <TabBarRootNode saveRef={this.saveRef} {...this.props}>
+        <InkTabBarNode saveRef={this.saveRef} getRef={this.getRef} {...this.props} />
+        <TabBarTabsNode onTabClick={this.props.onTabClick} saveRef={this.saveRef} {...this.props} />
+      </TabBarRootNode>
+    );
+  }
+}
 
-export default InkTabBar;
+InkTabBar.propTypes = {
+  onTabClick: PropTypes.func,
+};
+
+InkTabBar.defaultProps = {
+  onTabClick: () => {},
+};

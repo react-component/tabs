@@ -1,22 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import createReactClass from 'create-react-class';
 import classnames from 'classnames';
 import { getDataAttr } from './utils';
 
-const TabPane = createReactClass({
-  displayName: 'TabPane',
-  propTypes: {
-    className: PropTypes.string,
-    active: PropTypes.bool,
-    style: PropTypes.any,
-    destroyInactiveTabPane: PropTypes.bool,
-    forceRender: PropTypes.bool,
-    placeholder: PropTypes.node,
-  },
-  getDefaultProps() {
-    return { placeholder: null };
-  },
+export default class TabPane extends React.Component {
   render() {
     const {
       className, destroyInactiveTabPane, active, forceRender,
@@ -42,7 +29,18 @@ const TabPane = createReactClass({
         {isRender || forceRender ? children : placeholder}
       </div>
     );
-  },
-});
+  }
+};
 
-export default TabPane;
+TabPane.propTypes = {
+  className: PropTypes.string,
+  active: PropTypes.bool,
+  style: PropTypes.any,
+  destroyInactiveTabPane: PropTypes.bool,
+  forceRender: PropTypes.bool,
+  placeholder: PropTypes.node,
+};
+
+TabPane.defaultProps = {
+  placeholder: null,
+};
