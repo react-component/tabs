@@ -82,7 +82,7 @@ describe('rc-swipeable-tabs', () => {
     );
     const targetTab = wrapper.find('.rc-tabs-tab').at(6);
     targetTab.simulate('click');
-    expect(handleTabClick).toHaveBeenCalledWith('6');
+    expect(handleTabClick).toHaveBeenCalledWith('6', expect.anything());
     expect(handleChange).toHaveBeenCalledWith('6');
   });
 });

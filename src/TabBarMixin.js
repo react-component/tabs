@@ -9,8 +9,8 @@ export default {
       styles: {},
     };
   },
-  onTabClick(key) {
-    this.props.onTabClick(key);
+  onTabClick(key, e) {
+    this.props.onTabClick(key, e);
   },
   getTabs() {
     const { panels: children, activeKey, prefixCls, tabBarGutter } = this.props;
@@ -28,7 +28,7 @@ export default {
         cls += ` ${prefixCls}-tab-disabled`;
       } else {
         events = {
-          onClick: this.onTabClick.bind(this, key),
+          onClick: (e) => this.onTabClick.call(this, key, e),
         };
       }
       const ref = {};

@@ -62,7 +62,7 @@ describe('rc-tabs', () => {
     );
     const targetTab = wrapper.find('.rc-tabs-tab').at(2);
     targetTab.simulate('click');
-    expect(handleTabClick).toHaveBeenCalledWith('3');
+    expect(handleTabClick).toHaveBeenCalledWith('3', expect.anything());
     expect(handleChange).toHaveBeenCalledWith('3');
   });
 
