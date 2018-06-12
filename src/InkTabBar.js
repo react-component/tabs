@@ -3,26 +3,19 @@ import PropTypes from 'prop-types';
 import InkTabBarNode from './InkTabBarNode';
 import TabBarTabsNode from './TabBarTabsNode';
 import TabBarRootNode from './TabBarRootNode';
+import SaveRef from './SaveRef';
 
 export default class InkTabBar extends React.Component {
-  getRef = (name) => {
-    return this[name];
-  }
-
-  saveRef = (name) => {
-    return (node) => {
-      if (node) {
-        this[name] = node;
-      }
-    };
-  }
-
   render() {
     return (
-      <TabBarRootNode saveRef={this.saveRef} {...this.props}>
-        <InkTabBarNode saveRef={this.saveRef} getRef={this.getRef} {...this.props} />
-        <TabBarTabsNode onTabClick={this.props.onTabClick} saveRef={this.saveRef} {...this.props} />
-      </TabBarRootNode>
+      <SaveRef>
+        {(saveRef, getRef) => (
+          <TabBarRootNode saveRef={saveRef} {...this.props}>
+            <InkTabBarNode saveRef={saveRef} getRef={getRef} {...this.props} />
+            <TabBarTabsNode onTabClick={this.props.onTabClick} saveRef={saveRef} {...this.props} />
+          </TabBarRootNode>
+        )}
+      </SaveRef>
     );
   }
 }
