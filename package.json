@@ -24,7 +24,7 @@
   "bugs": {
     "url": "http://github.com/react-component/tabs/issues"
   },
-  "licenses": "MIT",
+  "license": "MIT",
   "config": {
     "port": 8002,
     "entry": {
