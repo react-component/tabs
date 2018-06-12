@@ -30,7 +30,7 @@ export default class TabPane extends React.Component {
       </div>
     );
   }
-};
+}
 
 TabPane.propTypes = {
   className: PropTypes.string,
@@ -39,6 +39,8 @@ TabPane.propTypes = {
   destroyInactiveTabPane: PropTypes.bool,
   forceRender: PropTypes.bool,
   placeholder: PropTypes.node,
+  rootPrefixCls: PropTypes.string,
+  children: React.ReactNode,
 };
 
 TabPane.defaultProps = {

@@ -70,7 +70,7 @@ export default class TabContent extends React.Component {
       </div>
     );
   }
-};
+}
 
 TabContent.propTypes = {
   animated: PropTypes.bool,

@@ -3,7 +3,7 @@ import SwipeableTabBarNode from './SwipeableTabBarNode';
 import TabBarSwipeableTabs from './TabBarSwipeableTabs';
 import TabBarRootNode from './TabBarRootNode';
 import InkTabBarNode from './InkTabBarNode';
-import SaveRef from './SaveRef'
+import SaveRef from './SaveRef';
 
 export default class SwipeableInkTabBar extends React.Component {
   render() {

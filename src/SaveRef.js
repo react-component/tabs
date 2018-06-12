@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export default class SaveRef extends React.Component {
   getRef = (name) => {
@@ -17,3 +18,11 @@ export default class SaveRef extends React.Component {
     return this.props.children(this.saveRef, this.getRef);
   }
 }
+
+SaveRef.propTypes = {
+  children: PropTypes.function,
+};
+
+SaveRef.defaultProps = {
+  children: () => null,
+};
