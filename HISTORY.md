@@ -1,6 +1,10 @@
 # History
 ----
 
+## 9.3.0 / 2018-06-12
+
+* Add MouseEvent as second parameter to `onTabClick`.
+
 ## 9.2.0 / 2018-01-01
 
 * Add `tabBarGutter`.

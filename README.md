@@ -197,7 +197,7 @@ React.render(
     <tbody>
       <tr>
           <td>onTabClick</td>
-          <td>(key: string): void</td>
+          <td>(key: string, event: MouseEvent): void</td>
           <th></th>
           <td>callback when tab clicked</td>
       </tr>
