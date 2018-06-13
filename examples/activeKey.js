@@ -1,6 +1,7 @@
 /* eslint react/no-multi-comp:0, no-console:0, react/prop-types:0 */
 import 'rc-tabs/assets/index.less';
 import React from 'react';
+import Sortable from 'react-sortablejs';
 import ReactDOM from 'react-dom';
 import Tabs, { TabPane } from 'rc-tabs';
 import TabContent from 'rc-tabs/lib/SwipeableTabContent';
@@ -46,6 +47,7 @@ class Demo extends React.Component {
         <Tabs
           renderTabBar={() => <ScrollableInkTabBar onTabClick={this.onTabClick}/>}
           renderTabContent={() => <TabContent animatedWithMargin />}
+          navWrapper={(content) => <Sortable>{content}</Sortable>}
           activeKey={this.state.activeKey}
           onChange={this.onChange}
         >

@@ -115,6 +115,7 @@ export default class Tabs extends React.Component {
     const props = this.props;
     const {
       prefixCls,
+      navWrapper,
       tabBarPosition, className,
       renderTabContent,
       renderTabBar,
@@ -131,6 +132,7 @@ export default class Tabs extends React.Component {
     const contents = [
       React.cloneElement(this.tabBar, {
         prefixCls,
+        navWrapper,
         key: 'tabBar',
         onKeyDown: this.onNavKeyDown,
         tabBarPosition,
@@ -167,6 +169,7 @@ Tabs.propTypes = {
   destroyInactiveTabPane: PropTypes.bool,
   renderTabBar: PropTypes.func.isRequired,
   renderTabContent: PropTypes.func.isRequired,
+  navWrapper: PropTypes.func,
   onChange: PropTypes.func,
   children: PropTypes.any,
   prefixCls: PropTypes.string,
@@ -181,6 +184,7 @@ Tabs.defaultProps = {
   prefixCls: 'rc-tabs',
   destroyInactiveTabPane: false,
   onChange: noop,
+  navWrapper: arg => arg,
   tabBarPosition: 'top',
   style: {},
 };

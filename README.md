@@ -116,6 +116,12 @@ React.render(
         <td>How to render tab content</td>
       </tr>
       <tr>
+         <td>navWrapper</td>
+         <td>(tabContent: React.Node):React.Node</td>
+         <th></th>
+         <td>Wrapper function that will wrap around tab panes, whould be useful for features such as drag and drop</td>
+      </tr>
+      <tr>
           <td>onChange</td>
           <td>(key: string): void</td>
           <th></th>
