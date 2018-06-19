@@ -40,7 +40,7 @@ TabPane.propTypes = {
   forceRender: PropTypes.bool,
   placeholder: PropTypes.node,
   rootPrefixCls: PropTypes.string,
-  children: React.ReactNode,
+  children: PropTypes.node,
 };
 
 TabPane.defaultProps = {

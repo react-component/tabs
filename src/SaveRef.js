@@ -20,7 +20,7 @@ export default class SaveRef extends React.Component {
 }
 
 SaveRef.propTypes = {
-  children: PropTypes.function,
+  children: PropTypes.func,
 };
 
 SaveRef.defaultProps = {

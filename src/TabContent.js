@@ -76,7 +76,7 @@ TabContent.propTypes = {
   animated: PropTypes.bool,
   animatedWithMargin: PropTypes.bool,
   prefixCls: PropTypes.string,
-  children: PropTypes.any,
+  children: PropTypes.node,
   activeKey: PropTypes.string,
   style: PropTypes.any,
   tabBarPosition: PropTypes.string,

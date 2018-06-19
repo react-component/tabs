@@ -295,7 +295,7 @@ export default class ScrollableTabBarNode extends React.Component {
         <div className={`${prefixCls}-nav-wrap`} ref={this.props.saveRef('navWrap')}>
           <div className={`${prefixCls}-nav-scroll`}>
             <div className={navClasses} ref={this.props.saveRef('nav')}>
-              {/*navWrapper(content)*/this.props.children}
+              {navWrapper(this.props.children)}
             </div>
           </div>
         </div>
