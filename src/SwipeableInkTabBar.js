@@ -12,8 +12,8 @@ export default class SwipeableInkTabBar extends React.Component {
         {(saveRef, getRef) => (
           <TabBarRootNode saveRef={saveRef} {...this.props}>
             <SwipeableTabBarNode saveRef={saveRef} getRef={getRef} {...this.props}>
-              <InkTabBarNode saveRef={saveRef} getRef={getRef} {...this.props} />
               <TabBarSwipeableTabs saveRef={saveRef} {...this.props} />
+              <InkTabBarNode saveRef={saveRef} getRef={getRef} {...this.props} />
             </SwipeableTabBarNode>
           </TabBarRootNode>
         )}

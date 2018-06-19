@@ -5,6 +5,7 @@ import { renderToJson } from 'enzyme-to-json';
 import Tabs, { TabPane } from '../src';
 import TabContent from '../src/TabContent';
 import ScrollableInkTabBar from '../src/ScrollableInkTabBar';
+import InkTabBar from '../src/InkTabBar';
 
 class NormoalTabs extends Component {
   getRoot() {
@@ -140,5 +141,21 @@ describe('rc-tabs', () => {
       children: newChildren,
     });
     expect(wrapper.state().activeKey).toBe('1');
+  });
+
+  it('activate tab on click should show inkbar', () => {
+    const children = [1, 2]
+      .map(number => <TabPane tab={number} key={number.toString()}>{number}</TabPane>);
+    const wrapper = mount(
+      <Tabs
+        renderTabBar={() => <InkTabBar />}
+        renderTabContent={() => <TabContent/>}
+      >
+        {children}
+      </Tabs>
+    );
+
+    wrapper.find('TabBarTabsNode').find('div').at(1).simulate('click', {});
+    expect(wrapper.find('InkTabBarNode').html().indexOf('display: block;') !== -1).toBe(true);
   });
 });
