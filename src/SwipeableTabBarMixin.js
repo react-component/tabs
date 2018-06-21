@@ -86,25 +86,35 @@ export default {
     const { totalDelta, vertical } = this.cache;
     setPxStyle(this.swipeNode, totalDelta, vertical);
   },
-  componentDidMount() {
-    const { swipe, nav } = this;
+  updatePropsSwipeComponent() {
+    const { swipe, nav } = this.refs;
     const { tabBarPosition, pageSize, panels, activeKey } = this.props;
     this.swipeNode = ReactDOM.findDOMNode(swipe); // dom which scroll (9999px)
     this.realNode = ReactDOM.findDOMNode(nav); // dom which visiable in screen (viewport)
     const _isVertical = isVertical(tabBarPosition);
     const _viewSize = getStyle(this.realNode, _isVertical ? 'height' : 'width');
     const _tabWidth = _viewSize / pageSize;
-    this.cache = {
+    
+    return {
       vertical: _isVertical,
       totalAvaliableDelta: _tabWidth * panels.length - _viewSize,
       tabWidth: _tabWidth,
-    };
+    }
+  },
+  componentDidMount() {
+    const { activeKey } = this.props;
+    
+    this.cache = this.updatePropsSwipeComponent();
     this.setSwipePositionByKey(activeKey);
   },
   componentWillReceiveProps(nextProps) {
     if (nextProps.activeKey && nextProps.activeKey !== this.props.activeKey) {
       this.setSwipePositionByKey(nextProps.activeKey);
     }
+    
+    const updateCache = this.updatePropsSwipeComponent();
+    this.cache.totalAvaliableDelta = updateCache.totalAvaliableDelta;
+    this.cache.tabWidth = updateCache.totalAvaliableDelta;
   },
   onPan(e) {
     const { vertical, totalAvaliableDelta, totalDelta } = this.cache;
