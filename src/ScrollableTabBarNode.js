@@ -312,6 +312,7 @@ ScrollableTabBarNode.propTypes = {
   scrollAnimated: PropTypes.bool,
   onPrevClick: PropTypes.func,
   onNextClick: PropTypes.func,
+  navWrapper: PropTypes.func,
   children: PropTypes.node,
 };
 
@@ -321,4 +322,5 @@ ScrollableTabBarNode.defaultProps = {
   scrollAnimated: true,
   onPrevClick: () => {},
   onNextClick: () => {},
+  navWrapper: (ele) => ele,
 };
