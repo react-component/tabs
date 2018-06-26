@@ -25,11 +25,6 @@ exports[`rc-swipeable-tabs should render Slider with correct DOM structure 1`] =
               class="rc-tabs-nav"
             >
               <div
-                class="rc-tabs-ink-bar rc-tabs-ink-bar-animated"
-              >
-                
-              </div>
-              <div
                 aria-disabled="false"
                 aria-selected="false"
                 class="rc-tabs-tab"
@@ -127,6 +122,11 @@ exports[`rc-swipeable-tabs should render Slider with correct DOM structure 1`] =
                 style="-webkit-flex-basis:20%;flex-basis:20%"
               >
                 选项10
+              </div>
+              <div
+                class="rc-tabs-ink-bar rc-tabs-ink-bar-animated"
+              >
+                
               </div>
             </div>
           </div>
