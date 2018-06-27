@@ -86,11 +86,8 @@ export default {
     const { totalDelta, vertical } = this.cache;
     setPxStyle(this.swipeNode, totalDelta, vertical);
   },
-  componentDidMount() {
-    const { swipe, nav } = this;
-    const { tabBarPosition, pageSize, panels, activeKey } = this.props;
-    this.swipeNode = ReactDOM.findDOMNode(swipe); // dom which scroll (9999px)
-    this.realNode = ReactDOM.findDOMNode(nav); // dom which visiable in screen (viewport)
+  setCache() {
+    const { tabBarPosition, pageSize, panels } = this.props;
     const _isVertical = isVertical(tabBarPosition);
     const _viewSize = getStyle(this.realNode, _isVertical ? 'height' : 'width');
     const _tabWidth = _viewSize / pageSize;
@@ -99,11 +96,19 @@ export default {
       totalAvaliableDelta: _tabWidth * panels.length - _viewSize,
       tabWidth: _tabWidth,
     };
+  },
+  componentDidMount() {
+    const { swipe, nav } = this;
+    const { activeKey } = this.props;
+    this.swipeNode = ReactDOM.findDOMNode(swipe); // dom which scroll (9999px)
+    this.realNode = ReactDOM.findDOMNode(nav); // dom which visiable in screen (viewport)
+    this.setCache();
     this.setSwipePositionByKey(activeKey);
   },
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.activeKey && nextProps.activeKey !== this.props.activeKey) {
-      this.setSwipePositionByKey(nextProps.activeKey);
+  componentDidUpdate(prevProps) {
+    this.setCache();
+    if (this.props.activeKey && this.props.activeKey !== prevProps.activeKey) {
+      this.setSwipePositionByKey(this.props.activeKey);
     }
   },
   onPan(e) {
