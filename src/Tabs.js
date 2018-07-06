@@ -62,6 +62,12 @@ export default class Tabs extends React.Component {
   }
 
   onNavKeyDown = (e) => {
+    const { canDownNavKey } = this.props;
+
+    if (canDownNavKey && !canDownNavKey()) {
+      return;
+    }
+
     const eventKeyCode = e.keyCode;
     if (eventKeyCode === KeyCode.RIGHT || eventKeyCode === KeyCode.DOWN) {
       e.preventDefault();
@@ -178,6 +184,7 @@ Tabs.propTypes = {
   style: PropTypes.object,
   activeKey: PropTypes.string,
   defaultActiveKey: PropTypes.string,
+  canDownNavKey: PropTypes.func,
 };
 
 Tabs.defaultProps = {
