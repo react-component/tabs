@@ -1,14 +1,19 @@
-import createReactClass from 'create-react-class';
-import TabBarMixin from './TabBarMixin';
-import RefMixin from './RefMixin';
+import React from 'react';
+import TabBarRootNode from './TabBarRootNode';
+import TabBarTabsNode from './TabBarTabsNode';
+import SaveRef from './SaveRef';
 
-const TabBar = createReactClass({
-  displayName: 'TabBar',
-  mixins: [RefMixin, TabBarMixin],
+export default class TabBar1 extends React.Component {
   render() {
-    const tabs = this.getTabs();
-    return this.getRootNode(tabs);
-  },
-});
+    return (
+      <SaveRef>
+        {(saveRef) => (
+          <TabBarRootNode saveRef={saveRef} {...this.props}>
+            <TabBarTabsNode saveRef={saveRef} {...this.props} />
+          </TabBarRootNode>
+        )}
 
-export default TabBar;
+      </SaveRef>
+    );
+  }
+}

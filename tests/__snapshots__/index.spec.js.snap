@@ -42,11 +42,6 @@ exports[`rc-tabs should render Tabs with correct DOM structure 1`] = `
             class="rc-tabs-nav rc-tabs-nav-animated"
           >
             <div
-              class="rc-tabs-ink-bar rc-tabs-ink-bar-animated"
-            >
-              
-            </div>
-            <div
               aria-disabled="false"
               aria-selected="false"
               class=" rc-tabs-tab"
@@ -69,6 +64,11 @@ exports[`rc-tabs should render Tabs with correct DOM structure 1`] = `
               role="tab"
             >
               tab 3
+            </div>
+            <div
+              class="rc-tabs-ink-bar rc-tabs-ink-bar-animated"
+            >
+              
             </div>
           </div>
         </div>

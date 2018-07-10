@@ -1,6 +1,7 @@
-import { setTransform, isTransformSupported } from './utils';
 import React from 'react';
+import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import { setTransform, isTransformSupported } from './utils';
 
 const isDev = process.env.NODE_ENV !== 'production';
 
@@ -41,11 +42,11 @@ function offset(elem) {
 
 function componentDidUpdate(component, init) {
   const { styles } = component.props;
-  const rootNode = component.root;
-  const wrapNode = component.nav || rootNode;
+  const rootNode = component.props.getRef('root');
+  const wrapNode = component.props.getRef('nav') || rootNode;
   const containerOffset = offset(wrapNode);
-  const inkBarNode = component.inkBar;
-  const activeTab = component.activeTab;
+  const inkBarNode = component.props.getRef('inkBar');
+  const activeTab = component.props.getRef('activeTab');
   const inkBarNodeStyle = inkBarNode.style;
   const tabBarPosition = component.props.tabBarPosition;
   if (init) {
@@ -106,17 +107,7 @@ function componentDidUpdate(component, init) {
   inkBarNodeStyle.display = activeTab ? 'block' : 'none';
 }
 
-export default {
-  getDefaultProps() {
-    return {
-      inkBarAnimated: true,
-    };
-  },
-
-  componentDidUpdate() {
-    componentDidUpdate(this);
-  },
-
+export default class InkTabBarNode extends React.Component {
   componentDidMount() {
     if (isDev) {
       // https://github.com/ant-design/ant-design/issues/8678
@@ -126,13 +117,17 @@ export default {
     } else {
       componentDidUpdate(this, true);
     }
-  },
+  }
+
+  componentDidUpdate() {
+    componentDidUpdate(this);
+  }
 
   componentWillUnmount() {
     clearTimeout(this.timeout);
-  },
+  }
 
-  getInkBarNode() {
+  render() {
     const { prefixCls, styles, inkBarAnimated } = this.props;
     const className = `${prefixCls}-ink-bar`;
     const classes = classnames({
@@ -148,8 +143,22 @@ export default {
         style={styles.inkBar}
         className={classes}
         key="inkBar"
-        ref={this.saveRef('inkBar')}
+        ref={this.props.saveRef('inkBar')}
       />
     );
-  },
+  }
+}
+
+InkTabBarNode.propTypes = {
+  prefixCls: PropTypes.string,
+  styles: PropTypes.object,
+  inkBarAnimated: PropTypes.bool,
+  saveRef: PropTypes.func,
+};
+
+InkTabBarNode.defaultProps = {
+  prefixCls: '',
+  inkBarAnimated: true,
+  styles: {},
+  saveRef: () => {},
 };

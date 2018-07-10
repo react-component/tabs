@@ -1,18 +1,23 @@
-import createReactClass from 'create-react-class';
-import InkTabBarMixin from './InkTabBarMixin';
-import ScrollableTabBarMixin from './ScrollableTabBarMixin';
-import TabBarMixin from './TabBarMixin';
-import RefMixin from './RefMixin';
+import React from 'react';
+import InkTabBarNode from './InkTabBarNode';
+import TabBarTabsNode from './TabBarTabsNode';
+import TabBarRootNode from './TabBarRootNode';
+import ScrollableTabBarNode from './ScrollableTabBarNode';
+import SaveRef from './SaveRef';
 
-const ScrollableInkTabBar = createReactClass({
-  displayName: 'ScrollableInkTabBar',
-  mixins: [RefMixin, TabBarMixin, InkTabBarMixin, ScrollableTabBarMixin],
+export default class ScrollableInkTabBar extends React.Component {
   render() {
-    const inkBarNode = this.getInkBarNode();
-    const tabs = this.getTabs();
-    const scrollbarNode = this.getScrollBarNode([inkBarNode, tabs]);
-    return this.getRootNode(scrollbarNode);
-  },
-});
-
-export default ScrollableInkTabBar;
+    return (
+      <SaveRef>
+        {(saveRef, getRef) => (
+          <TabBarRootNode saveRef={saveRef} {...this.props}>
+            <ScrollableTabBarNode saveRef={saveRef} getRef={getRef} {...this.props}>
+              <TabBarTabsNode saveRef={saveRef} {...this.props} />
+              <InkTabBarNode saveRef={saveRef} getRef={getRef} {...this.props} />
+            </ScrollableTabBarNode>
+          </TabBarRootNode>
+        )}
+      </SaveRef>
+    );
+  }
+}
