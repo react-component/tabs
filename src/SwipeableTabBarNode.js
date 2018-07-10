@@ -20,18 +20,6 @@ export default class SwipeableTabBarNode extends React.Component {
     };
   }
 
-  setCache() {
-    const { tabBarPosition, pageSize, panels } = this.props;
-    const _isVertical = isVertical(tabBarPosition);
-    const _viewSize = getStyle(this.realNode, _isVertical ? 'height' : 'width');
-    const _tabWidth = _viewSize / pageSize;
-    this.cache = {
-      vertical: _isVertical,
-      totalAvaliableDelta: _tabWidth * panels.length - _viewSize,
-      tabWidth: _tabWidth,
-    };
-  }
-
   componentDidMount() {
     const swipe = this.props.getRef('swipe');
     const nav = this.props.getRef('nav');
@@ -77,6 +65,17 @@ export default class SwipeableTabBarNode extends React.Component {
     }
   }
 
+  setCache() {
+    const { tabBarPosition, pageSize, panels } = this.props;
+    const _isVertical = isVertical(tabBarPosition);
+    const _viewSize = getStyle(this.realNode, _isVertical ? 'height' : 'width');
+    const _tabWidth = _viewSize / pageSize;
+    this.cache = {
+      vertical: _isVertical,
+      totalAvaliableDelta: _tabWidth * panels.length - _viewSize,
+      tabWidth: _tabWidth,
+    };
+  }
 
   /**
    * used for props.activeKey setting, not for swipe callback
