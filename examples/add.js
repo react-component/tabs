@@ -1,6 +1,6 @@
 webpackJsonp([5],{
 
-/***/ 129:
+/***/ 127:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -13,7 +13,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_possibleConstructorReturn___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_possibleConstructorReturn__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_inherits__ = __webpack_require__(31);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_inherits___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_inherits__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rc_tabs_assets_index_less__ = __webpack_require__(48);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rc_tabs_assets_index_less__ = __webpack_require__(47);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rc_tabs_assets_index_less___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_rc_tabs_assets_index_less__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_react__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_react__);
@@ -886,7 +886,8 @@ var ScrollableInkTabBar = __WEBPACK_IMPORTED_MODULE_0_create_react_class___defau
         prev = _state2.prev;
     var _props = this.props,
         prefixCls = _props.prefixCls,
-        scrollAnimated = _props.scrollAnimated;
+        scrollAnimated = _props.scrollAnimated,
+        navWrapper = _props.navWrapper;
 
     var showNextPrev = prev || next;
 
@@ -932,7 +933,7 @@ var ScrollableInkTabBar = __WEBPACK_IMPORTED_MODULE_0_create_react_class___defau
           __WEBPACK_IMPORTED_MODULE_3_react___default.a.createElement(
             'div',
             { className: navClasses, ref: this.saveRef('nav') },
-            content
+            navWrapper(content)
           )
         )
       )
@@ -945,7 +946,7 @@ var ScrollableInkTabBar = __WEBPACK_IMPORTED_MODULE_0_create_react_class___defau
 /***/ 18:
 /***/ (function(module, exports, __webpack_require__) {
 
-var Symbol = __webpack_require__(4),
+var Symbol = __webpack_require__(5),
     getRawTag = __webpack_require__(20),
     objectToString = __webpack_require__(21);
 
@@ -992,7 +993,7 @@ module.exports = freeGlobal;
 /***/ 20:
 /***/ (function(module, exports, __webpack_require__) {
 
-var Symbol = __webpack_require__(4);
+var Symbol = __webpack_require__(5);
 
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
@@ -1074,7 +1075,7 @@ module.exports = objectToString;
 /***/ 22:
 /***/ (function(module, exports, __webpack_require__) {
 
-var isObject = __webpack_require__(6),
+var isObject = __webpack_require__(7),
     now = __webpack_require__(25),
     toNumber = __webpack_require__(26);
 
@@ -1268,10 +1269,10 @@ module.exports = debounce;
 
 /***/ }),
 
-/***/ 221:
+/***/ 222:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(129);
+module.exports = __webpack_require__(127);
 
 
 /***/ }),
@@ -1351,7 +1352,7 @@ module.exports = isSymbol;
 /***/ 25:
 /***/ (function(module, exports, __webpack_require__) {
 
-var root = __webpack_require__(5);
+var root = __webpack_require__(6);
 
 /**
  * Gets the timestamp of the number of milliseconds that have elapsed since
@@ -1381,7 +1382,7 @@ module.exports = now;
 /***/ 26:
 /***/ (function(module, exports, __webpack_require__) {
 
-var isObject = __webpack_require__(6),
+var isObject = __webpack_require__(7),
     isSymbol = __webpack_require__(24);
 
 /** Used as references for various `Number` constants. */
@@ -1511,10 +1512,10 @@ module.exports = g;
 
 /***/ }),
 
-/***/ 4:
+/***/ 5:
 /***/ (function(module, exports, __webpack_require__) {
 
-var root = __webpack_require__(5);
+var root = __webpack_require__(6);
 
 /** Built-in value references. */
 var Symbol = root.Symbol;
@@ -1524,7 +1525,7 @@ module.exports = Symbol;
 
 /***/ }),
 
-/***/ 5:
+/***/ 6:
 /***/ (function(module, exports, __webpack_require__) {
 
 var freeGlobal = __webpack_require__(19);
@@ -1540,7 +1541,7 @@ module.exports = root;
 
 /***/ }),
 
-/***/ 6:
+/***/ 7:
 /***/ (function(module, exports) {
 
 /**
@@ -1578,5 +1579,5 @@ module.exports = isObject;
 
 /***/ })
 
-},[221]);
+},[222]);
 //# sourceMappingURL=add.js.map
