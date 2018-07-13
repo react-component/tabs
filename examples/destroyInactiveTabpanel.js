@@ -1,94 +1,209 @@
 webpackJsonp([3],{
 
-/***/ 13:
+/***/ 10:
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+var root = __webpack_require__(11);
 
+/** Built-in value references. */
+var Symbol = root.Symbol;
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-/**
- * @ignore
- * base event object for custom and dom event.
- * @author yiminghe@gmail.com
- */
+module.exports = Symbol;
 
-function returnFalse() {
-  return false;
-}
-
-function returnTrue() {
-  return true;
-}
-
-function EventBaseObject() {
-  this.timeStamp = Date.now();
-  this.target = undefined;
-  this.currentTarget = undefined;
-}
-
-EventBaseObject.prototype = {
-  isEventObject: 1,
-
-  constructor: EventBaseObject,
-
-  isDefaultPrevented: returnFalse,
-
-  isPropagationStopped: returnFalse,
-
-  isImmediatePropagationStopped: returnFalse,
-
-  preventDefault: function preventDefault() {
-    this.isDefaultPrevented = returnTrue;
-  },
-  stopPropagation: function stopPropagation() {
-    this.isPropagationStopped = returnTrue;
-  },
-  stopImmediatePropagation: function stopImmediatePropagation() {
-    this.isImmediatePropagationStopped = returnTrue;
-    // fixed 1.2
-    // call stopPropagation implicitly
-    this.stopPropagation();
-  },
-  halt: function halt(immediate) {
-    if (immediate) {
-      this.stopImmediatePropagation();
-    } else {
-      this.stopPropagation();
-    }
-    this.preventDefault();
-  }
-};
-
-exports["default"] = EventBaseObject;
-module.exports = exports['default'];
 
 /***/ }),
 
-/***/ 130:
+/***/ 11:
+/***/ (function(module, exports, __webpack_require__) {
+
+var freeGlobal = __webpack_require__(25);
+
+/** Detect free variable `self`. */
+var freeSelf = typeof self == 'object' && self && self.Object === Object && self;
+
+/** Used as a reference to the global object. */
+var root = freeGlobal || freeSelf || Function('return this')();
+
+module.exports = root;
+
+
+/***/ }),
+
+/***/ 12:
+/***/ (function(module, exports) {
+
+/**
+ * Checks if `value` is the
+ * [language type](http://www.ecma-international.org/ecma-262/7.0/#sec-ecmascript-language-types)
+ * of `Object`. (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an object, else `false`.
+ * @example
+ *
+ * _.isObject({});
+ * // => true
+ *
+ * _.isObject([1, 2, 3]);
+ * // => true
+ *
+ * _.isObject(_.noop);
+ * // => true
+ *
+ * _.isObject(null);
+ * // => false
+ */
+function isObject(value) {
+  var type = typeof value;
+  return value != null && (type == 'object' || type == 'function');
+}
+
+module.exports = isObject;
+
+
+/***/ }),
+
+/***/ 14:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_classCallCheck__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_classCallCheck___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_classCallCheck__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_createClass__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_createClass___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_createClass__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_possibleConstructorReturn__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_possibleConstructorReturn___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_possibleConstructorReturn__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_babel_runtime_helpers_inherits__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_babel_runtime_helpers_inherits___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_babel_runtime_helpers_inherits__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_react__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_warning__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_warning___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_warning__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_prop_types__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_prop_types__);
+
+
+
+
+
+
+
+
+
+var TabBarTabsNode = function (_React$Component) {
+  __WEBPACK_IMPORTED_MODULE_4_babel_runtime_helpers_inherits___default()(TabBarTabsNode, _React$Component);
+
+  function TabBarTabsNode() {
+    __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_classCallCheck___default()(this, TabBarTabsNode);
+
+    return __WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_possibleConstructorReturn___default()(this, (TabBarTabsNode.__proto__ || Object.getPrototypeOf(TabBarTabsNode)).apply(this, arguments));
+  }
+
+  __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_createClass___default()(TabBarTabsNode, [{
+    key: 'render',
+    value: function render() {
+      var _this2 = this;
+
+      var _props = this.props,
+          children = _props.panels,
+          activeKey = _props.activeKey,
+          prefixCls = _props.prefixCls,
+          tabBarGutter = _props.tabBarGutter;
+
+      var rst = [];
+
+      __WEBPACK_IMPORTED_MODULE_5_react___default.a.Children.forEach(children, function (child, index) {
+        if (!child) {
+          return;
+        }
+        var key = child.key;
+        var cls = activeKey === key ? prefixCls + '-tab-active' : '';
+        cls += ' ' + prefixCls + '-tab';
+        var events = {};
+        if (child.props.disabled) {
+          cls += ' ' + prefixCls + '-tab-disabled';
+        } else {
+          events = {
+            onClick: _this2.props.onTabClick.bind(_this2, key)
+          };
+        }
+        var ref = {};
+        if (activeKey === key) {
+          ref.ref = _this2.props.saveRef('activeTab');
+        }
+        __WEBPACK_IMPORTED_MODULE_6_warning___default()('tab' in child.props, 'There must be `tab` property on children of Tabs.');
+        rst.push(__WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
+          'div',
+          __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends___default()({
+            role: 'tab',
+            'aria-disabled': child.props.disabled ? 'true' : 'false',
+            'aria-selected': activeKey === key ? 'true' : 'false'
+          }, events, {
+            className: cls,
+            key: key,
+            style: { marginRight: tabBarGutter && index === children.length - 1 ? 0 : tabBarGutter }
+          }, ref),
+          child.props.tab
+        ));
+      });
+
+      return rst;
+    }
+  }]);
+
+  return TabBarTabsNode;
+}(__WEBPACK_IMPORTED_MODULE_5_react___default.a.Component);
+
+/* harmony default export */ __webpack_exports__["a"] = (TabBarTabsNode);
+
+
+TabBarTabsNode.propTypes = {
+  activeKey: __WEBPACK_IMPORTED_MODULE_7_prop_types___default.a.string.isRequired,
+  panels: __WEBPACK_IMPORTED_MODULE_7_prop_types___default.a.arrayOf(__WEBPACK_IMPORTED_MODULE_7_prop_types___default.a.node),
+  prefixCls: __WEBPACK_IMPORTED_MODULE_7_prop_types___default.a.string,
+  tabBarGutter: __WEBPACK_IMPORTED_MODULE_7_prop_types___default.a.number,
+  onTabClick: __WEBPACK_IMPORTED_MODULE_7_prop_types___default.a.func,
+  saveRef: __WEBPACK_IMPORTED_MODULE_7_prop_types___default.a.func
+};
+
+TabBarTabsNode.defaultProps = {
+  panels: [],
+  prefixCls: [],
+  tabBarGutter: null,
+  onTabClick: function onTabClick() {},
+  saveRef: function saveRef() {}
+};
+
+/***/ }),
+
+/***/ 140:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_classCallCheck__ = __webpack_require__(29);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_classCallCheck__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_classCallCheck___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_classCallCheck__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_createClass__ = __webpack_require__(30);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_createClass__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_createClass___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_createClass__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_possibleConstructorReturn__ = __webpack_require__(32);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_possibleConstructorReturn__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_possibleConstructorReturn___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_possibleConstructorReturn__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_inherits__ = __webpack_require__(31);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_inherits__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_inherits___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_inherits__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rc_tabs_assets_index_less__ = __webpack_require__(47);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rc_tabs_assets_index_less__ = __webpack_require__(49);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rc_tabs_assets_index_less___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_rc_tabs_assets_index_less__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_react__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_react_dom__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_react_dom__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_react_dom__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_rc_tabs__ = __webpack_require__(43);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_rc_tabs_lib_TabContent__ = __webpack_require__(37);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_rc_tabs_lib_ScrollableInkTabBar__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_rc_tabs__ = __webpack_require__(44);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_rc_tabs_lib_TabContent__ = __webpack_require__(39);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_rc_tabs_lib_ScrollableInkTabBar__ = __webpack_require__(23);
 
 
 
@@ -234,7 +349,466 @@ __WEBPACK_IMPORTED_MODULE_6_react_dom___default.a.render(__WEBPACK_IMPORTED_MODU
 
 /***/ }),
 
-/***/ 14:
+/***/ 19:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_classCallCheck__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_classCallCheck___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_classCallCheck__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_createClass__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_createClass___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_createClass__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_possibleConstructorReturn__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_possibleConstructorReturn___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_possibleConstructorReturn__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_babel_runtime_helpers_inherits__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_babel_runtime_helpers_inherits___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_babel_runtime_helpers_inherits__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_react__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_prop_types__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_prop_types__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_classnames__ = __webpack_require__(18);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_classnames___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_classnames__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__utils__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_rc_util_lib_Dom_addEventListener__ = __webpack_require__(33);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_rc_util_lib_Dom_addEventListener___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9_rc_util_lib_Dom_addEventListener__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_lodash_debounce__ = __webpack_require__(28);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_lodash_debounce___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_10_lodash_debounce__);
+
+
+
+
+
+
+
+
+
+
+
+
+var ScrollableTabBarNode = function (_React$Component) {
+  __WEBPACK_IMPORTED_MODULE_4_babel_runtime_helpers_inherits___default()(ScrollableTabBarNode, _React$Component);
+
+  function ScrollableTabBarNode(props) {
+    __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_classCallCheck___default()(this, ScrollableTabBarNode);
+
+    var _this = __WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_possibleConstructorReturn___default()(this, (ScrollableTabBarNode.__proto__ || Object.getPrototypeOf(ScrollableTabBarNode)).call(this, props));
+
+    _this.prevTransitionEnd = function (e) {
+      if (e.propertyName !== 'opacity') {
+        return;
+      }
+      var container = _this.props.getRef('container');
+      _this.scrollToActiveTab({
+        target: container,
+        currentTarget: container
+      });
+    };
+
+    _this.scrollToActiveTab = function (e) {
+      var activeTab = _this.props.getRef('activeTab');
+      var navWrap = _this.props.getRef('navWrap');
+      if (e && e.target !== e.currentTarget || !activeTab) {
+        return;
+      }
+
+      // when not scrollable or enter scrollable first time, don't emit scrolling
+      var needToSroll = _this.isNextPrevShown() && _this.lastNextPrevShown;
+      _this.lastNextPrevShown = _this.isNextPrevShown();
+      if (!needToSroll) {
+        return;
+      }
+
+      var activeTabWH = _this.getScrollWH(activeTab);
+      var navWrapNodeWH = _this.getOffsetWH(navWrap);
+      var offset = _this.offset;
+
+      var wrapOffset = _this.getOffsetLT(navWrap);
+      var activeTabOffset = _this.getOffsetLT(activeTab);
+      if (wrapOffset > activeTabOffset) {
+        offset += wrapOffset - activeTabOffset;
+        _this.setOffset(offset);
+      } else if (wrapOffset + navWrapNodeWH < activeTabOffset + activeTabWH) {
+        offset -= activeTabOffset + activeTabWH - (wrapOffset + navWrapNodeWH);
+        _this.setOffset(offset);
+      }
+    };
+
+    _this.prev = function (e) {
+      _this.props.onPrevClick(e);
+      var navWrapNode = _this.props.getRef('navWrap');
+      var navWrapNodeWH = _this.getOffsetWH(navWrapNode);
+      var offset = _this.offset;
+
+      _this.setOffset(offset + navWrapNodeWH);
+    };
+
+    _this.next = function (e) {
+      _this.props.onNextClick(e);
+      var navWrapNode = _this.props.getRef('navWrap');
+      var navWrapNodeWH = _this.getOffsetWH(navWrapNode);
+      var offset = _this.offset;
+
+      _this.setOffset(offset - navWrapNodeWH);
+    };
+
+    _this.offset = 0;
+
+    _this.state = {
+      next: false,
+      prev: false
+    };
+    return _this;
+  }
+
+  __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_createClass___default()(ScrollableTabBarNode, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      var _this2 = this;
+
+      this.componentDidUpdate();
+      this.debouncedResize = __WEBPACK_IMPORTED_MODULE_10_lodash_debounce___default()(function () {
+        _this2.setNextPrev();
+        _this2.scrollToActiveTab();
+      }, 200);
+      this.resizeEvent = __WEBPACK_IMPORTED_MODULE_9_rc_util_lib_Dom_addEventListener___default()(window, 'resize', this.debouncedResize);
+    }
+  }, {
+    key: 'componentDidUpdate',
+    value: function componentDidUpdate(prevProps) {
+      var props = this.props;
+      if (prevProps && prevProps.tabBarPosition !== props.tabBarPosition) {
+        this.setOffset(0);
+        return;
+      }
+      var nextPrev = this.setNextPrev();
+      // wait next, prev show hide
+      /* eslint react/no-did-update-set-state:0 */
+      if (this.isNextPrevShown(this.state) !== this.isNextPrevShown(nextPrev)) {
+        this.setState({}, this.scrollToActiveTab);
+      } else if (!prevProps || props.activeKey !== prevProps.activeKey) {
+        // can not use props.activeKey
+        this.scrollToActiveTab();
+      }
+    }
+  }, {
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      if (this.resizeEvent) {
+        this.resizeEvent.remove();
+      }
+      if (this.debouncedResize && this.debouncedResize.cancel) {
+        this.debouncedResize.cancel();
+      }
+    }
+  }, {
+    key: 'setNextPrev',
+    value: function setNextPrev() {
+      var navNode = this.props.getRef('nav');
+      var navNodeWH = this.getScrollWH(navNode);
+      var containerWH = this.getOffsetWH(this.props.getRef('container'));
+      var navWrapNodeWH = this.getOffsetWH(this.props.getRef('navWrap'));
+      var offset = this.offset;
+
+      var minOffset = containerWH - navNodeWH;
+      var _state = this.state,
+          next = _state.next,
+          prev = _state.prev;
+
+      if (minOffset >= 0) {
+        next = false;
+        this.setOffset(0, false);
+        offset = 0;
+      } else if (minOffset < offset) {
+        next = true;
+      } else {
+        next = false;
+        // Fix https://github.com/ant-design/ant-design/issues/8861
+        // Test with container offset which is stable
+        // and set the offset of the nav wrap node
+        var realOffset = navWrapNodeWH - navNodeWH;
+        this.setOffset(realOffset, false);
+        offset = realOffset;
+      }
+
+      if (offset < 0) {
+        prev = true;
+      } else {
+        prev = false;
+      }
+
+      this.setNext(next);
+      this.setPrev(prev);
+      return {
+        next: next,
+        prev: prev
+      };
+    }
+  }, {
+    key: 'getOffsetWH',
+    value: function getOffsetWH(node) {
+      var tabBarPosition = this.props.tabBarPosition;
+      var prop = 'offsetWidth';
+      if (tabBarPosition === 'left' || tabBarPosition === 'right') {
+        prop = 'offsetHeight';
+      }
+      return node[prop];
+    }
+  }, {
+    key: 'getScrollWH',
+    value: function getScrollWH(node) {
+      var tabBarPosition = this.props.tabBarPosition;
+      var prop = 'scrollWidth';
+      if (tabBarPosition === 'left' || tabBarPosition === 'right') {
+        prop = 'scrollHeight';
+      }
+      return node[prop];
+    }
+  }, {
+    key: 'getOffsetLT',
+    value: function getOffsetLT(node) {
+      var tabBarPosition = this.props.tabBarPosition;
+      var prop = 'left';
+      if (tabBarPosition === 'left' || tabBarPosition === 'right') {
+        prop = 'top';
+      }
+      return node.getBoundingClientRect()[prop];
+    }
+  }, {
+    key: 'setOffset',
+    value: function setOffset(offset) {
+      var checkNextPrev = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+
+      var target = Math.min(0, offset);
+      if (this.offset !== target) {
+        this.offset = target;
+        var navOffset = {};
+        var tabBarPosition = this.props.tabBarPosition;
+        var navStyle = this.props.getRef('nav').style;
+        var transformSupported = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_8__utils__["j" /* isTransformSupported */])(navStyle);
+        if (tabBarPosition === 'left' || tabBarPosition === 'right') {
+          if (transformSupported) {
+            navOffset = {
+              value: 'translate3d(0,' + target + 'px,0)'
+            };
+          } else {
+            navOffset = {
+              name: 'top',
+              value: target + 'px'
+            };
+          }
+        } else {
+          if (transformSupported) {
+            navOffset = {
+              value: 'translate3d(' + target + 'px,0,0)'
+            };
+          } else {
+            navOffset = {
+              name: 'left',
+              value: target + 'px'
+            };
+          }
+        }
+        if (transformSupported) {
+          __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_8__utils__["b" /* setTransform */])(navStyle, navOffset.value);
+        } else {
+          navStyle[navOffset.name] = navOffset.value;
+        }
+        if (checkNextPrev) {
+          this.setNextPrev();
+        }
+      }
+    }
+  }, {
+    key: 'setPrev',
+    value: function setPrev(v) {
+      if (this.state.prev !== v) {
+        this.setState({
+          prev: v
+        });
+      }
+    }
+  }, {
+    key: 'setNext',
+    value: function setNext(v) {
+      if (this.state.next !== v) {
+        this.setState({
+          next: v
+        });
+      }
+    }
+  }, {
+    key: 'isNextPrevShown',
+    value: function isNextPrevShown(state) {
+      if (state) {
+        return state.next || state.prev;
+      }
+      return this.state.next || this.state.prev;
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _classnames, _classnames2, _classnames3, _classnames4;
+
+      var _state2 = this.state,
+          next = _state2.next,
+          prev = _state2.prev;
+      var _props = this.props,
+          prefixCls = _props.prefixCls,
+          scrollAnimated = _props.scrollAnimated,
+          navWrapper = _props.navWrapper;
+
+      var showNextPrev = prev || next;
+
+      var prevButton = __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
+        'span',
+        {
+          onClick: prev ? this.prev : null,
+          unselectable: 'unselectable',
+          className: __WEBPACK_IMPORTED_MODULE_7_classnames___default()((_classnames = {}, __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()(_classnames, prefixCls + '-tab-prev', 1), __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()(_classnames, prefixCls + '-tab-btn-disabled', !prev), __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()(_classnames, prefixCls + '-tab-arrow-show', showNextPrev), _classnames)),
+          onTransitionEnd: this.prevTransitionEnd
+        },
+        __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement('span', { className: prefixCls + '-tab-prev-icon' })
+      );
+
+      var nextButton = __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
+        'span',
+        {
+          onClick: next ? this.next : null,
+          unselectable: 'unselectable',
+          className: __WEBPACK_IMPORTED_MODULE_7_classnames___default()((_classnames2 = {}, __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()(_classnames2, prefixCls + '-tab-next', 1), __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()(_classnames2, prefixCls + '-tab-btn-disabled', !next), __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()(_classnames2, prefixCls + '-tab-arrow-show', showNextPrev), _classnames2))
+        },
+        __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement('span', { className: prefixCls + '-tab-next-icon' })
+      );
+
+      var navClassName = prefixCls + '-nav';
+      var navClasses = __WEBPACK_IMPORTED_MODULE_7_classnames___default()((_classnames3 = {}, __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()(_classnames3, navClassName, true), __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()(_classnames3, scrollAnimated ? navClassName + '-animated' : navClassName + '-no-animated', true), _classnames3));
+
+      return __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
+        'div',
+        {
+          className: __WEBPACK_IMPORTED_MODULE_7_classnames___default()((_classnames4 = {}, __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()(_classnames4, prefixCls + '-nav-container', 1), __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()(_classnames4, prefixCls + '-nav-container-scrolling', showNextPrev), _classnames4)),
+          key: 'container',
+          ref: this.props.saveRef('container')
+        },
+        prevButton,
+        nextButton,
+        __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
+          'div',
+          { className: prefixCls + '-nav-wrap', ref: this.props.saveRef('navWrap') },
+          __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
+            'div',
+            { className: prefixCls + '-nav-scroll' },
+            __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
+              'div',
+              { className: navClasses, ref: this.props.saveRef('nav') },
+              navWrapper(this.props.children)
+            )
+          )
+        )
+      );
+    }
+  }]);
+
+  return ScrollableTabBarNode;
+}(__WEBPACK_IMPORTED_MODULE_5_react___default.a.Component);
+
+/* harmony default export */ __webpack_exports__["a"] = (ScrollableTabBarNode);
+
+
+ScrollableTabBarNode.propTypes = {
+  getRef: __WEBPACK_IMPORTED_MODULE_6_prop_types___default.a.func.isRequired,
+  saveRef: __WEBPACK_IMPORTED_MODULE_6_prop_types___default.a.func.isRequired,
+  tabBarPosition: __WEBPACK_IMPORTED_MODULE_6_prop_types___default.a.oneOf(['left', 'right', 'top', 'bottom']),
+  prefixCls: __WEBPACK_IMPORTED_MODULE_6_prop_types___default.a.string,
+  scrollAnimated: __WEBPACK_IMPORTED_MODULE_6_prop_types___default.a.bool,
+  onPrevClick: __WEBPACK_IMPORTED_MODULE_6_prop_types___default.a.func,
+  onNextClick: __WEBPACK_IMPORTED_MODULE_6_prop_types___default.a.func,
+  navWrapper: __WEBPACK_IMPORTED_MODULE_6_prop_types___default.a.func,
+  children: __WEBPACK_IMPORTED_MODULE_6_prop_types___default.a.node
+};
+
+ScrollableTabBarNode.defaultProps = {
+  tabBarPosition: 'left',
+  prefixCls: '',
+  scrollAnimated: true,
+  onPrevClick: function onPrevClick() {},
+  onNextClick: function onNextClick() {},
+  navWrapper: function navWrapper(ele) {
+    return ele;
+  }
+};
+
+/***/ }),
+
+/***/ 20:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+/**
+ * @ignore
+ * base event object for custom and dom event.
+ * @author yiminghe@gmail.com
+ */
+
+function returnFalse() {
+  return false;
+}
+
+function returnTrue() {
+  return true;
+}
+
+function EventBaseObject() {
+  this.timeStamp = Date.now();
+  this.target = undefined;
+  this.currentTarget = undefined;
+}
+
+EventBaseObject.prototype = {
+  isEventObject: 1,
+
+  constructor: EventBaseObject,
+
+  isDefaultPrevented: returnFalse,
+
+  isPropagationStopped: returnFalse,
+
+  isImmediatePropagationStopped: returnFalse,
+
+  preventDefault: function preventDefault() {
+    this.isDefaultPrevented = returnTrue;
+  },
+  stopPropagation: function stopPropagation() {
+    this.isPropagationStopped = returnTrue;
+  },
+  stopImmediatePropagation: function stopImmediatePropagation() {
+    this.isImmediatePropagationStopped = returnTrue;
+    // fixed 1.2
+    // call stopPropagation implicitly
+    this.stopPropagation();
+  },
+  halt: function halt(immediate) {
+    if (immediate) {
+      this.stopImmediatePropagation();
+    } else {
+      this.stopPropagation();
+    }
+    this.preventDefault();
+  }
+};
+
+exports["default"] = EventBaseObject;
+module.exports = exports['default'];
+
+/***/ }),
+
+/***/ 21:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -244,11 +818,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _EventBaseObject = __webpack_require__(13);
+var _EventBaseObject = __webpack_require__(20);
 
 var _EventBaseObject2 = _interopRequireDefault(_EventBaseObject);
 
-var _objectAssign = __webpack_require__(12);
+var _objectAssign = __webpack_require__(13);
 
 var _objectAssign2 = _interopRequireDefault(_objectAssign);
 
@@ -518,7 +1092,7 @@ module.exports = exports['default'];
 
 /***/ }),
 
-/***/ 15:
+/***/ 22:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -529,7 +1103,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = addEventListener;
 
-var _EventObject = __webpack_require__(14);
+var _EventObject = __webpack_require__(21);
 
 var _EventObject2 = _interopRequireDefault(_EventObject);
 
@@ -561,363 +1135,85 @@ module.exports = exports['default'];
 
 /***/ }),
 
-/***/ 16:
+/***/ 23:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_create_react_class__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_create_react_class___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_create_react_class__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__InkTabBarMixin__ = __webpack_require__(34);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ScrollableTabBarMixin__ = __webpack_require__(17);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__TabBarMixin__ = __webpack_require__(36);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__RefMixin__ = __webpack_require__(35);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_classCallCheck__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_classCallCheck___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_classCallCheck__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_createClass__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_createClass___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_createClass__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_possibleConstructorReturn__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_possibleConstructorReturn___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_possibleConstructorReturn__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_babel_runtime_helpers_inherits__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_babel_runtime_helpers_inherits___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_babel_runtime_helpers_inherits__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_react__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__InkTabBarNode__ = __webpack_require__(38);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__TabBarTabsNode__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__TabBarRootNode__ = __webpack_require__(36);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__ScrollableTabBarNode__ = __webpack_require__(19);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__SaveRef__ = __webpack_require__(35);
 
 
 
 
 
 
-var ScrollableInkTabBar = __WEBPACK_IMPORTED_MODULE_0_create_react_class___default()({
-  displayName: 'ScrollableInkTabBar',
-  mixins: [__WEBPACK_IMPORTED_MODULE_4__RefMixin__["a" /* default */], __WEBPACK_IMPORTED_MODULE_3__TabBarMixin__["a" /* default */], __WEBPACK_IMPORTED_MODULE_1__InkTabBarMixin__["a" /* default */], __WEBPACK_IMPORTED_MODULE_2__ScrollableTabBarMixin__["a" /* default */]],
-  render: function render() {
-    var inkBarNode = this.getInkBarNode();
-    var tabs = this.getTabs();
-    var scrollbarNode = this.getScrollBarNode([inkBarNode, tabs]);
-    return this.getRootNode(scrollbarNode);
+
+
+
+
+
+
+var ScrollableInkTabBar = function (_React$Component) {
+  __WEBPACK_IMPORTED_MODULE_4_babel_runtime_helpers_inherits___default()(ScrollableInkTabBar, _React$Component);
+
+  function ScrollableInkTabBar() {
+    __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_classCallCheck___default()(this, ScrollableInkTabBar);
+
+    return __WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_possibleConstructorReturn___default()(this, (ScrollableInkTabBar.__proto__ || Object.getPrototypeOf(ScrollableInkTabBar)).apply(this, arguments));
   }
-});
+
+  __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_createClass___default()(ScrollableInkTabBar, [{
+    key: 'render',
+    value: function render() {
+      var _this2 = this;
+
+      return __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
+        __WEBPACK_IMPORTED_MODULE_10__SaveRef__["a" /* default */],
+        null,
+        function (saveRef, getRef) {
+          return __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
+            __WEBPACK_IMPORTED_MODULE_8__TabBarRootNode__["a" /* default */],
+            __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends___default()({ saveRef: saveRef }, _this2.props),
+            __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
+              __WEBPACK_IMPORTED_MODULE_9__ScrollableTabBarNode__["a" /* default */],
+              __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends___default()({ saveRef: saveRef, getRef: getRef }, _this2.props),
+              __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_7__TabBarTabsNode__["a" /* default */], __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends___default()({ saveRef: saveRef }, _this2.props)),
+              __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_6__InkTabBarNode__["a" /* default */], __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends___default()({ saveRef: saveRef, getRef: getRef }, _this2.props))
+            )
+          );
+        }
+      );
+    }
+  }]);
+
+  return ScrollableInkTabBar;
+}(__WEBPACK_IMPORTED_MODULE_5_react___default.a.Component);
 
 /* harmony default export */ __webpack_exports__["a"] = (ScrollableInkTabBar);
 
 /***/ }),
 
-/***/ 17:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty__ = __webpack_require__(9);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_classnames__ = __webpack_require__(11);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_classnames___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_classnames__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_react__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rc_util_lib_Dom_addEventListener__ = __webpack_require__(27);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rc_util_lib_Dom_addEventListener___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_rc_util_lib_Dom_addEventListener__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_lodash_debounce__ = __webpack_require__(22);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_lodash_debounce___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_lodash_debounce__);
-
-
-
-
-
-
-
-/* harmony default export */ __webpack_exports__["a"] = ({
-  getDefaultProps: function getDefaultProps() {
-    return {
-      scrollAnimated: true,
-      onPrevClick: function onPrevClick() {},
-      onNextClick: function onNextClick() {}
-    };
-  },
-  getInitialState: function getInitialState() {
-    this.offset = 0;
-    return {
-      next: false,
-      prev: false
-    };
-  },
-  componentDidMount: function componentDidMount() {
-    var _this = this;
-
-    this.componentDidUpdate();
-    this.debouncedResize = __WEBPACK_IMPORTED_MODULE_5_lodash_debounce___default()(function () {
-      _this.setNextPrev();
-      _this.scrollToActiveTab();
-    }, 200);
-    this.resizeEvent = __WEBPACK_IMPORTED_MODULE_4_rc_util_lib_Dom_addEventListener___default()(window, 'resize', this.debouncedResize);
-  },
-  componentDidUpdate: function componentDidUpdate(prevProps) {
-    var props = this.props;
-    if (prevProps && prevProps.tabBarPosition !== props.tabBarPosition) {
-      this.setOffset(0);
-      return;
-    }
-    var nextPrev = this.setNextPrev();
-    // wait next, prev show hide
-    /* eslint react/no-did-update-set-state:0 */
-    if (this.isNextPrevShown(this.state) !== this.isNextPrevShown(nextPrev)) {
-      this.setState({}, this.scrollToActiveTab);
-    } else if (!prevProps || props.activeKey !== prevProps.activeKey) {
-      // can not use props.activeKey
-      this.scrollToActiveTab();
-    }
-  },
-  componentWillUnmount: function componentWillUnmount() {
-    if (this.resizeEvent) {
-      this.resizeEvent.remove();
-    }
-    if (this.debouncedResize && this.debouncedResize.cancel) {
-      this.debouncedResize.cancel();
-    }
-  },
-  setNextPrev: function setNextPrev() {
-    var navNode = this.nav;
-    var navNodeWH = this.getScrollWH(navNode);
-    var containerWH = this.getOffsetWH(this.container);
-    var navWrapNodeWH = this.getOffsetWH(this.navWrap);
-    var offset = this.offset;
-
-    var minOffset = containerWH - navNodeWH;
-    var _state = this.state,
-        next = _state.next,
-        prev = _state.prev;
-
-    if (minOffset >= 0) {
-      next = false;
-      this.setOffset(0, false);
-      offset = 0;
-    } else if (minOffset < offset) {
-      next = true;
-    } else {
-      next = false;
-      // Fix https://github.com/ant-design/ant-design/issues/8861
-      // Test with container offset which is stable
-      // and set the offset of the nav wrap node
-      var realOffset = navWrapNodeWH - navNodeWH;
-      this.setOffset(realOffset, false);
-      offset = realOffset;
-    }
-
-    if (offset < 0) {
-      prev = true;
-    } else {
-      prev = false;
-    }
-
-    this.setNext(next);
-    this.setPrev(prev);
-    return {
-      next: next,
-      prev: prev
-    };
-  },
-  getOffsetWH: function getOffsetWH(node) {
-    var tabBarPosition = this.props.tabBarPosition;
-    var prop = 'offsetWidth';
-    if (tabBarPosition === 'left' || tabBarPosition === 'right') {
-      prop = 'offsetHeight';
-    }
-    return node[prop];
-  },
-  getScrollWH: function getScrollWH(node) {
-    var tabBarPosition = this.props.tabBarPosition;
-    var prop = 'scrollWidth';
-    if (tabBarPosition === 'left' || tabBarPosition === 'right') {
-      prop = 'scrollHeight';
-    }
-    return node[prop];
-  },
-  getOffsetLT: function getOffsetLT(node) {
-    var tabBarPosition = this.props.tabBarPosition;
-    var prop = 'left';
-    if (tabBarPosition === 'left' || tabBarPosition === 'right') {
-      prop = 'top';
-    }
-    return node.getBoundingClientRect()[prop];
-  },
-  setOffset: function setOffset(offset) {
-    var checkNextPrev = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
-
-    var target = Math.min(0, offset);
-    if (this.offset !== target) {
-      this.offset = target;
-      var navOffset = {};
-      var tabBarPosition = this.props.tabBarPosition;
-      var navStyle = this.nav.style;
-      var transformSupported = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__utils__["l" /* isTransformSupported */])(navStyle);
-      if (tabBarPosition === 'left' || tabBarPosition === 'right') {
-        if (transformSupported) {
-          navOffset = {
-            value: 'translate3d(0,' + target + 'px,0)'
-          };
-        } else {
-          navOffset = {
-            name: 'top',
-            value: target + 'px'
-          };
-        }
-      } else {
-        if (transformSupported) {
-          navOffset = {
-            value: 'translate3d(' + target + 'px,0,0)'
-          };
-        } else {
-          navOffset = {
-            name: 'left',
-            value: target + 'px'
-          };
-        }
-      }
-      if (transformSupported) {
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__utils__["e" /* setTransform */])(navStyle, navOffset.value);
-      } else {
-        navStyle[navOffset.name] = navOffset.value;
-      }
-      if (checkNextPrev) {
-        this.setNextPrev();
-      }
-    }
-  },
-  setPrev: function setPrev(v) {
-    if (this.state.prev !== v) {
-      this.setState({
-        prev: v
-      });
-    }
-  },
-  setNext: function setNext(v) {
-    if (this.state.next !== v) {
-      this.setState({
-        next: v
-      });
-    }
-  },
-  isNextPrevShown: function isNextPrevShown(state) {
-    if (state) {
-      return state.next || state.prev;
-    }
-    return this.state.next || this.state.prev;
-  },
-  prevTransitionEnd: function prevTransitionEnd(e) {
-    if (e.propertyName !== 'opacity') {
-      return;
-    }
-    var container = this.container;
-
-    this.scrollToActiveTab({
-      target: container,
-      currentTarget: container
-    });
-  },
-  scrollToActiveTab: function scrollToActiveTab(e) {
-    var activeTab = this.activeTab,
-        navWrap = this.navWrap;
-
-    if (e && e.target !== e.currentTarget || !activeTab) {
-      return;
-    }
-
-    // when not scrollable or enter scrollable first time, don't emit scrolling
-    var needToSroll = this.isNextPrevShown() && this.lastNextPrevShown;
-    this.lastNextPrevShown = this.isNextPrevShown();
-    if (!needToSroll) {
-      return;
-    }
-
-    var activeTabWH = this.getScrollWH(activeTab);
-    var navWrapNodeWH = this.getOffsetWH(navWrap);
-    var offset = this.offset;
-
-    var wrapOffset = this.getOffsetLT(navWrap);
-    var activeTabOffset = this.getOffsetLT(activeTab);
-    if (wrapOffset > activeTabOffset) {
-      offset += wrapOffset - activeTabOffset;
-      this.setOffset(offset);
-    } else if (wrapOffset + navWrapNodeWH < activeTabOffset + activeTabWH) {
-      offset -= activeTabOffset + activeTabWH - (wrapOffset + navWrapNodeWH);
-      this.setOffset(offset);
-    }
-  },
-  prev: function prev(e) {
-    this.props.onPrevClick(e);
-    var navWrapNode = this.navWrap;
-    var navWrapNodeWH = this.getOffsetWH(navWrapNode);
-    var offset = this.offset;
-
-    this.setOffset(offset + navWrapNodeWH);
-  },
-  next: function next(e) {
-    this.props.onNextClick(e);
-    var navWrapNode = this.navWrap;
-    var navWrapNodeWH = this.getOffsetWH(navWrapNode);
-    var offset = this.offset;
-
-    this.setOffset(offset - navWrapNodeWH);
-  },
-  getScrollBarNode: function getScrollBarNode(content) {
-    var _classnames, _classnames2, _classnames3, _classnames4;
-
-    var _state2 = this.state,
-        next = _state2.next,
-        prev = _state2.prev;
-    var _props = this.props,
-        prefixCls = _props.prefixCls,
-        scrollAnimated = _props.scrollAnimated,
-        navWrapper = _props.navWrapper;
-
-    var showNextPrev = prev || next;
-
-    var prevButton = __WEBPACK_IMPORTED_MODULE_3_react___default.a.createElement(
-      'span',
-      {
-        onClick: prev ? this.prev : null,
-        unselectable: 'unselectable',
-        className: __WEBPACK_IMPORTED_MODULE_1_classnames___default()((_classnames = {}, __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()(_classnames, prefixCls + '-tab-prev', 1), __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()(_classnames, prefixCls + '-tab-btn-disabled', !prev), __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()(_classnames, prefixCls + '-tab-arrow-show', showNextPrev), _classnames)),
-        onTransitionEnd: this.prevTransitionEnd
-      },
-      __WEBPACK_IMPORTED_MODULE_3_react___default.a.createElement('span', { className: prefixCls + '-tab-prev-icon' })
-    );
-
-    var nextButton = __WEBPACK_IMPORTED_MODULE_3_react___default.a.createElement(
-      'span',
-      {
-        onClick: next ? this.next : null,
-        unselectable: 'unselectable',
-        className: __WEBPACK_IMPORTED_MODULE_1_classnames___default()((_classnames2 = {}, __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()(_classnames2, prefixCls + '-tab-next', 1), __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()(_classnames2, prefixCls + '-tab-btn-disabled', !next), __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()(_classnames2, prefixCls + '-tab-arrow-show', showNextPrev), _classnames2))
-      },
-      __WEBPACK_IMPORTED_MODULE_3_react___default.a.createElement('span', { className: prefixCls + '-tab-next-icon' })
-    );
-
-    var navClassName = prefixCls + '-nav';
-    var navClasses = __WEBPACK_IMPORTED_MODULE_1_classnames___default()((_classnames3 = {}, __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()(_classnames3, navClassName, true), __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()(_classnames3, scrollAnimated ? navClassName + '-animated' : navClassName + '-no-animated', true), _classnames3));
-
-    return __WEBPACK_IMPORTED_MODULE_3_react___default.a.createElement(
-      'div',
-      {
-        className: __WEBPACK_IMPORTED_MODULE_1_classnames___default()((_classnames4 = {}, __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()(_classnames4, prefixCls + '-nav-container', 1), __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()(_classnames4, prefixCls + '-nav-container-scrolling', showNextPrev), _classnames4)),
-        key: 'container',
-        ref: this.saveRef('container')
-      },
-      prevButton,
-      nextButton,
-      __WEBPACK_IMPORTED_MODULE_3_react___default.a.createElement(
-        'div',
-        { className: prefixCls + '-nav-wrap', ref: this.saveRef('navWrap') },
-        __WEBPACK_IMPORTED_MODULE_3_react___default.a.createElement(
-          'div',
-          { className: prefixCls + '-nav-scroll' },
-          __WEBPACK_IMPORTED_MODULE_3_react___default.a.createElement(
-            'div',
-            { className: navClasses, ref: this.saveRef('nav') },
-            navWrapper(content)
-          )
-        )
-      )
-    );
-  }
-});
-
-/***/ }),
-
-/***/ 18:
+/***/ 24:
 /***/ (function(module, exports, __webpack_require__) {
 
-var Symbol = __webpack_require__(5),
-    getRawTag = __webpack_require__(20),
-    objectToString = __webpack_require__(21);
+var Symbol = __webpack_require__(10),
+    getRawTag = __webpack_require__(26),
+    objectToString = __webpack_require__(27);
 
 /** `Object#toString` result references. */
 var nullTag = '[object Null]',
@@ -947,7 +1243,15 @@ module.exports = baseGetTag;
 
 /***/ }),
 
-/***/ 19:
+/***/ 249:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(140);
+
+
+/***/ }),
+
+/***/ 25:
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/** Detect free variable `global` from Node.js. */
@@ -955,14 +1259,14 @@ var freeGlobal = typeof global == 'object' && global && global.Object === Object
 
 module.exports = freeGlobal;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(28)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(34)))
 
 /***/ }),
 
-/***/ 20:
+/***/ 26:
 /***/ (function(module, exports, __webpack_require__) {
 
-var Symbol = __webpack_require__(5);
+var Symbol = __webpack_require__(10);
 
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
@@ -1012,7 +1316,7 @@ module.exports = getRawTag;
 
 /***/ }),
 
-/***/ 21:
+/***/ 27:
 /***/ (function(module, exports) {
 
 /** Used for built-in method references. */
@@ -1041,12 +1345,12 @@ module.exports = objectToString;
 
 /***/ }),
 
-/***/ 22:
+/***/ 28:
 /***/ (function(module, exports, __webpack_require__) {
 
-var isObject = __webpack_require__(7),
-    now = __webpack_require__(25),
-    toNumber = __webpack_require__(26);
+var isObject = __webpack_require__(12),
+    now = __webpack_require__(31),
+    toNumber = __webpack_require__(32);
 
 /** Error message constants. */
 var FUNC_ERROR_TEXT = 'Expected a function';
@@ -1238,15 +1542,7 @@ module.exports = debounce;
 
 /***/ }),
 
-/***/ 225:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(130);
-
-
-/***/ }),
-
-/***/ 23:
+/***/ 29:
 /***/ (function(module, exports) {
 
 /**
@@ -1282,11 +1578,11 @@ module.exports = isObjectLike;
 
 /***/ }),
 
-/***/ 24:
+/***/ 30:
 /***/ (function(module, exports, __webpack_require__) {
 
-var baseGetTag = __webpack_require__(18),
-    isObjectLike = __webpack_require__(23);
+var baseGetTag = __webpack_require__(24),
+    isObjectLike = __webpack_require__(29);
 
 /** `Object#toString` result references. */
 var symbolTag = '[object Symbol]';
@@ -1318,10 +1614,10 @@ module.exports = isSymbol;
 
 /***/ }),
 
-/***/ 25:
+/***/ 31:
 /***/ (function(module, exports, __webpack_require__) {
 
-var root = __webpack_require__(6);
+var root = __webpack_require__(11);
 
 /**
  * Gets the timestamp of the number of milliseconds that have elapsed since
@@ -1348,11 +1644,11 @@ module.exports = now;
 
 /***/ }),
 
-/***/ 26:
+/***/ 32:
 /***/ (function(module, exports, __webpack_require__) {
 
-var isObject = __webpack_require__(7),
-    isSymbol = __webpack_require__(24);
+var isObject = __webpack_require__(12),
+    isSymbol = __webpack_require__(30);
 
 /** Used as references for various `Number` constants. */
 var NAN = 0 / 0;
@@ -1421,7 +1717,7 @@ module.exports = toNumber;
 
 /***/ }),
 
-/***/ 27:
+/***/ 33:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1432,11 +1728,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports['default'] = addEventListenerWrap;
 
-var _addDomEventListener = __webpack_require__(15);
+var _addDomEventListener = __webpack_require__(22);
 
 var _addDomEventListener2 = _interopRequireDefault(_addDomEventListener);
 
-var _reactDom = __webpack_require__(3);
+var _reactDom = __webpack_require__(9);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
@@ -1453,7 +1749,7 @@ module.exports = exports['default'];
 
 /***/ }),
 
-/***/ 28:
+/***/ 34:
 /***/ (function(module, exports) {
 
 var g;
@@ -1481,72 +1777,74 @@ module.exports = g;
 
 /***/ }),
 
-/***/ 5:
+/***/ 8:
 /***/ (function(module, exports, __webpack_require__) {
 
-var root = __webpack_require__(6);
-
-/** Built-in value references. */
-var Symbol = root.Symbol;
-
-module.exports = Symbol;
-
-
-/***/ }),
-
-/***/ 6:
-/***/ (function(module, exports, __webpack_require__) {
-
-var freeGlobal = __webpack_require__(19);
-
-/** Detect free variable `self`. */
-var freeSelf = typeof self == 'object' && self && self.Object === Object && self;
-
-/** Used as a reference to the global object. */
-var root = freeGlobal || freeSelf || Function('return this')();
-
-module.exports = root;
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {/**
+ * Copyright 2014-2015, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ */
 
 
-/***/ }),
-
-/***/ 7:
-/***/ (function(module, exports) {
 
 /**
- * Checks if `value` is the
- * [language type](http://www.ecma-international.org/ecma-262/7.0/#sec-ecmascript-language-types)
- * of `Object`. (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is an object, else `false`.
- * @example
- *
- * _.isObject({});
- * // => true
- *
- * _.isObject([1, 2, 3]);
- * // => true
- *
- * _.isObject(_.noop);
- * // => true
- *
- * _.isObject(null);
- * // => false
+ * Similar to invariant but only logs a warning if the condition is not met.
+ * This can be used to log issues in development environments in critical
+ * paths. Removing the logging code for production environments will keep the
+ * same logic and follow the same code paths.
  */
-function isObject(value) {
-  var type = typeof value;
-  return value != null && (type == 'object' || type == 'function');
+
+var warning = function() {};
+
+if (process.env.NODE_ENV !== 'production') {
+  warning = function(condition, format, args) {
+    var len = arguments.length;
+    args = new Array(len > 2 ? len - 2 : 0);
+    for (var key = 2; key < len; key++) {
+      args[key - 2] = arguments[key];
+    }
+    if (format === undefined) {
+      throw new Error(
+        '`warning(condition, format, ...args)` requires a warning ' +
+        'message argument'
+      );
+    }
+
+    if (format.length < 10 || (/^[s\W]*$/).test(format)) {
+      throw new Error(
+        'The warning format should be able to uniquely identify this ' +
+        'warning. Please, use a more descriptive format than: ' + format
+      );
+    }
+
+    if (!condition) {
+      var argIndex = 0;
+      var message = 'Warning: ' +
+        format.replace(/%s/g, function() {
+          return args[argIndex++];
+        });
+      if (typeof console !== 'undefined') {
+        console.error(message);
+      }
+      try {
+        // This error was thrown as a convenience so that you can use this stack
+        // to find the callsite that caused this warning to fire.
+        throw new Error(message);
+      } catch(x) {}
+    }
+  };
 }
 
-module.exports = isObject;
+module.exports = warning;
 
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ })
 
-},[225]);
+},[249]);
 //# sourceMappingURL=destroyInactiveTabpanel.js.map
