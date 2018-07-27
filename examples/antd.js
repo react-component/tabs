@@ -1,5 +1,6 @@
 /* eslint react/no-multi-comp:0, no-console:0, react/prop-types:0 */
 import 'rc-tabs/assets/index.less';
+import 'rc-tabs/assets/custom-icon.less';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Tabs, { TabPane } from 'rc-tabs';
@@ -8,6 +9,27 @@ import ScrollableInkTabBar from 'rc-tabs/lib/ScrollableInkTabBar';
 import ScrollableTabBar from 'rc-tabs/lib/ScrollableTabBar';
 import InkTabBar from 'rc-tabs/lib/InkTabBar';
 import TabBar from 'rc-tabs/lib/TabBar';
+
+const arrowPath = 'M869 487.8L491.2 159.9c-2.9-2.5-6.6-3.9-10.5-3.9h' +
+'-88.5c-7.4 0-10.8 9.2-5.2 14l350.2 304H152c-4.4 0-8 3.6-8 8v' +
+'60c0 4.4 3.6 8 8 8h585.1L386.9 854c-5.6 4.9-2.2 14 5.2 14h91' +
+'.5c1.9 0 3.8-0.7 5.2-2L869 536.2c14.7-12.8 14.7-35.6 0-48.4z';
+
+const getSvg = (path, props = {}, align = true) => {
+  return (
+    <i {...props}>
+      <svg
+        viewBox="0 0 1024 1024"
+        width="1em"
+        height="1em"
+        fill="currentColor"
+        style={align ? { verticalAlign: '-.125em ' } : {}}
+      >
+        <path d={path} p-id="5827"></path>
+      </svg>
+    </i>
+  );
+};
 
 class PanelContent extends React.Component {
   constructor(props) {
@@ -55,6 +77,7 @@ class Demo extends React.Component {
     tabBarPosition: 'top',
     activeKey: '3',
     start: 0,
+    useIcon: false,
   };
 
   onChange = (key) => {
@@ -72,6 +95,12 @@ class Demo extends React.Component {
   tick = () => {
     this.setState({
       start: this.state.start + 10,
+    });
+  }
+
+  toggleCustomIcon = () => {
+    this.setState({
+      useIcon: !this.state.useIcon,
     });
   }
 
@@ -114,6 +143,12 @@ class Demo extends React.Component {
         width: 500,
       };
     }
+
+    const cls = this.state.useIcon && 'rc-tabs-custom-icon' || undefined;
+
+    const nextIcon = this.state.useIcon && getSvg(arrowPath, {
+      className: 'rc-tabs-tab-next-icon',
+    }, true) || undefined;
 
     return (
       <div style={{ margin: 20 }}>
@@ -166,13 +201,20 @@ class Demo extends React.Component {
           <button onClick={() => this.switchToLast(ends)}>
             switch to last tab
           </button>
+          <br/>
+          <button onClick={this.toggleCustomIcon}>
+            toggle custom icon
+          </button>
+          <span>is using icon: {this.state.useIcon && 'true' || 'false'}</span>
           <Tabs
             activeKey={this.state.activeKey}
+            className={cls}
             style={style}
             tabBarPosition={this.state.tabBarPosition}
             renderTabBar={() => <ScrollableTabBar
               ref={this.saveBar}
               onTabClick={this.onTabClick}
+              nextIcon={nextIcon}
             />}
             renderTabContent={() => <TabContent style={contentStyle}/>}
             onChange={this.onChange2}
@@ -188,11 +230,13 @@ class Demo extends React.Component {
           </button>
           <Tabs
             activeKey={this.state.activeKey}
+            className={cls}
             style={style}
             tabBarPosition={this.state.tabBarPosition}
             renderTabBar={() => <ScrollableInkTabBar
               ref={this.saveBar}
               onTabClick={this.onTabClick}
+              nextIcon={nextIcon}
             />}
             renderTabContent={() => <TabContent style={contentStyle}/>}
             onChange={this.onChange2}
