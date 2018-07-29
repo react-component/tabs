@@ -620,7 +620,7 @@ var _initialiseProps = function _initialiseProps() {
 
 
 SwipeableTabBarNode.propTypes = {
-  activeKey: __WEBPACK_IMPORTED_MODULE_7_prop_types___default.a.string.isRequired,
+  activeKey: __WEBPACK_IMPORTED_MODULE_7_prop_types___default.a.string,
   panels: __WEBPACK_IMPORTED_MODULE_7_prop_types___default.a.node,
   pageSize: __WEBPACK_IMPORTED_MODULE_7_prop_types___default.a.number,
   tabBarPosition: __WEBPACK_IMPORTED_MODULE_7_prop_types___default.a.oneOf(['left', 'right', 'top', 'bottom']),

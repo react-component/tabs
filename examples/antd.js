@@ -536,8 +536,8 @@ var TabBarTabsNode = function (_React$Component) {
 
 
 TabBarTabsNode.propTypes = {
-  activeKey: __WEBPACK_IMPORTED_MODULE_7_prop_types___default.a.string.isRequired,
-  panels: __WEBPACK_IMPORTED_MODULE_7_prop_types___default.a.arrayOf(__WEBPACK_IMPORTED_MODULE_7_prop_types___default.a.node),
+  activeKey: __WEBPACK_IMPORTED_MODULE_7_prop_types___default.a.string,
+  panels: __WEBPACK_IMPORTED_MODULE_7_prop_types___default.a.node,
   prefixCls: __WEBPACK_IMPORTED_MODULE_7_prop_types___default.a.string,
   tabBarGutter: __WEBPACK_IMPORTED_MODULE_7_prop_types___default.a.number,
   onTabClick: __WEBPACK_IMPORTED_MODULE_7_prop_types___default.a.func,
