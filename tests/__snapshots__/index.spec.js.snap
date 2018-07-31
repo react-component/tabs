@@ -41,29 +41,31 @@ exports[`rc-tabs should render Tabs with correct DOM structure 1`] = `
           <div
             class="rc-tabs-nav rc-tabs-nav-animated"
           >
-            <div
-              aria-disabled="false"
-              aria-selected="false"
-              class=" rc-tabs-tab"
-              role="tab"
-            >
-              tab 1
-            </div>
-            <div
-              aria-disabled="false"
-              aria-selected="true"
-              class="rc-tabs-tab-active rc-tabs-tab"
-              role="tab"
-            >
-              tab 2
-            </div>
-            <div
-              aria-disabled="false"
-              aria-selected="false"
-              class=" rc-tabs-tab"
-              role="tab"
-            >
-              tab 3
+            <div>
+              <div
+                aria-disabled="false"
+                aria-selected="false"
+                class=" rc-tabs-tab"
+                role="tab"
+              >
+                tab 1
+              </div>
+              <div
+                aria-disabled="false"
+                aria-selected="true"
+                class="rc-tabs-tab-active rc-tabs-tab"
+                role="tab"
+              >
+                tab 2
+              </div>
+              <div
+                aria-disabled="false"
+                aria-selected="false"
+                class=" rc-tabs-tab"
+                role="tab"
+              >
+                tab 3
+              </div>
             </div>
             <div
               class="rc-tabs-ink-bar rc-tabs-ink-bar-animated"

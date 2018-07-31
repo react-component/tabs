@@ -43,7 +43,7 @@ export default class TabBarTabsNode extends React.Component {
       );
     });
 
-    return rst;
+    return <div>{rst}</div>;
   }
 }
 
