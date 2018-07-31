@@ -525,7 +525,11 @@ var TabBarTabsNode = function (_React$Component) {
         ));
       });
 
-      return rst;
+      return __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
+        'div',
+        null,
+        rst
+      );
     }
   }]);
 
