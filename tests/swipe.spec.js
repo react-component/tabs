@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 import React, { Component } from 'react';
-import { mount, render } from 'enzyme';
-import { renderToJson } from 'enzyme-to-json';
+import { mount } from 'enzyme';
+import { mountToJson } from 'enzyme-to-json';
 import Tabs, { TabPane } from '../src/';
 import SwipeableTabContent from '../src/SwipeableTabContent';
 import SwipeableInkTabBar from '../src/SwipeableInkTabBar';
@@ -50,12 +50,12 @@ class NormoalTabs extends Component {
 
 describe('rc-swipeable-tabs', () => {
   it('should render Slider with correct DOM structure', () => {
-    const wrapper = render(<NormoalTabs/>);
-    expect(renderToJson(wrapper)).toMatchSnapshot();
+    const wrapper = mount(<NormoalTabs/>);
+    expect(mountToJson(wrapper, { mode: 'deep' })).toMatchSnapshot();
   });
 
   it('create and nav should works', () => {
-    const wrapper = render(<NormoalTabs/>);
+    const wrapper = mount(<NormoalTabs/>);
     expect(wrapper.find('.rc-tabs').length).toBe(1);
     expect(wrapper.find('.rc-tabs-tab').length).toBe(11);
   });
