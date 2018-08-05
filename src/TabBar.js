@@ -12,7 +12,6 @@ export default class TabBar1 extends React.Component {
             <TabBarTabsNode saveRef={saveRef} {...this.props} />
           </TabBarRootNode>
         )}
-
       </SaveRef>
     );
   }
