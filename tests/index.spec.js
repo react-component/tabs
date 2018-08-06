@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 import React, { Component } from 'react';
-import { mount, shallow } from 'enzyme';
-import { mountToJson } from 'enzyme-to-json';
+import { mount, shallow, render } from 'enzyme';
+import { renderToJson } from 'enzyme-to-json';
 import Tabs, { TabPane } from '../src';
 import TabContent from '../src/TabContent';
 import ScrollableInkTabBar from '../src/ScrollableInkTabBar';
@@ -29,8 +29,8 @@ class NormoalTabs extends Component {
 
 describe('rc-tabs', () => {
   it('should render Tabs with correct DOM structure', () => {
-    const wrapper = mount(<NormoalTabs/>);
-    expect(mountToJson(wrapper, { mode: 'deep' })).toMatchSnapshot();
+    const wrapper = render(<NormoalTabs/>);
+    expect(renderToJson(wrapper)).toMatchSnapshot();
   });
 
   it('create and nav should work', () => {

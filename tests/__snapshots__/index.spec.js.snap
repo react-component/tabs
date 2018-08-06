@@ -2,132 +2,106 @@
 
 exports[`rc-tabs should render Tabs with correct DOM structure 1`] = `
 <div
-  className="rc-tabs rc-tabs-top"
-  onScroll={[Function]}
-  style={Object {}}
+  class="rc-tabs rc-tabs-top"
 >
   <div
-    className="rc-tabs-bar"
-    onKeyDown={[Function]}
+    class="rc-tabs-bar"
     role="tablist"
-    style={Object {}}
-    tabIndex="0"
+    tabindex="0"
   >
     <div
-      className="rc-tabs-nav-container"
-      key="container"
+      class="rc-tabs-nav-container"
     >
       <span
-        className="rc-tabs-tab-prev rc-tabs-tab-btn-disabled"
-        onClick={null}
-        onTransitionEnd={[Function]}
+        class="rc-tabs-tab-prev rc-tabs-tab-btn-disabled"
         unselectable="unselectable"
       >
         <span
-          className="rc-tabs-tab-prev-icon"
-        />
+          class="rc-tabs-tab-prev-icon"
+        >
+          
+        </span>
       </span>
       <span
-        className="rc-tabs-tab-next rc-tabs-tab-btn-disabled"
-        onClick={null}
+        class="rc-tabs-tab-next rc-tabs-tab-btn-disabled"
         unselectable="unselectable"
       >
         <span
-          className="rc-tabs-tab-next-icon"
-        />
+          class="rc-tabs-tab-next-icon"
+        >
+          
+        </span>
       </span>
       <div
-        className="rc-tabs-nav-wrap"
+        class="rc-tabs-nav-wrap"
       >
         <div
-          className="rc-tabs-nav-scroll"
+          class="rc-tabs-nav-scroll"
         >
           <div
-            className="rc-tabs-nav rc-tabs-nav-animated"
+            class="rc-tabs-nav rc-tabs-nav-animated"
           >
             <div>
               <div
                 aria-disabled="false"
                 aria-selected="false"
-                className=" rc-tabs-tab"
-                key="1"
-                onClick={[Function]}
+                class=" rc-tabs-tab"
                 role="tab"
-                style={
-                  Object {
-                    "marginRight": null,
-                  }
-                }
               >
                 tab 1
               </div>
               <div
                 aria-disabled="false"
                 aria-selected="true"
-                className="rc-tabs-tab-active rc-tabs-tab"
-                key="2"
-                onClick={[Function]}
+                class="rc-tabs-tab-active rc-tabs-tab"
                 role="tab"
-                style={
-                  Object {
-                    "marginRight": null,
-                  }
-                }
               >
                 tab 2
               </div>
               <div
                 aria-disabled="false"
                 aria-selected="false"
-                className=" rc-tabs-tab"
-                key="3"
-                onClick={[Function]}
+                class=" rc-tabs-tab"
                 role="tab"
-                style={
-                  Object {
-                    "marginRight": null,
-                  }
-                }
               >
                 tab 3
               </div>
             </div>
             <div
-              className="rc-tabs-ink-bar rc-tabs-ink-bar-animated"
-              key="inkBar"
-            />
+              class="rc-tabs-ink-bar rc-tabs-ink-bar-animated"
+            >
+              
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
   <div
-    className="rc-tabs-content rc-tabs-content-animated"
-    style={
-      Object {
-        "MozTransform": "translateX(-100%) translateZ(0)",
-        "WebkitTransform": "translateX(-100%) translateZ(0)",
-        "transform": "translateX(-100%) translateZ(0)",
-      }
-    }
+    class="rc-tabs-content rc-tabs-content-animated"
+    style="transform:translateX(-100%) translateZ(0);-webkit-transform:translateX(-100%) translateZ(0);-moz-transform:translateX(-100%) translateZ(0)"
   >
     <div
       aria-hidden="true"
-      className="rc-tabs-tabpane rc-tabs-tabpane-inactive"
+      class="rc-tabs-tabpane rc-tabs-tabpane-inactive"
       role="tabpanel"
-    />
+    >
+      
+    </div>
     <div
       aria-hidden="false"
-      className="rc-tabs-tabpane rc-tabs-tabpane-active"
+      class="rc-tabs-tabpane rc-tabs-tabpane-active"
       role="tabpanel"
     >
       second
     </div>
     <div
       aria-hidden="true"
-      className="rc-tabs-tabpane rc-tabs-tabpane-inactive"
+      class="rc-tabs-tabpane rc-tabs-tabpane-inactive"
       role="tabpanel"
-    />
+    >
+      
+    </div>
   </div>
 </div>
 `;
