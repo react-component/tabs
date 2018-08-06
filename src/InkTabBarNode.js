@@ -108,7 +108,7 @@ function componentDidUpdate(component, init) {
 export default class InkTabBarNode extends React.Component {
   componentDidMount() {
     // ref https://github.com/ant-design/ant-design/issues/8678
-    // ref https://github.com/ant-design/ant-design/issues/11612
+    // ref https://github.com/react-component/tabs/issues/135
     // InkTabBarNode need parent/root ref for calculating position
     // since parent componentDidMount triggered after child componentDidMount
     // we're doing a quick fix here to use setTimeout to calculate position
