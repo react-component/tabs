@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { setTransform, isTransformSupported } from './utils';
 
-const isDev = process.env.NODE_ENV !== 'production';
-
 export function getScroll(w, top) {
   let ret = w[`page${top ? 'Y' : 'X'}Offset`];
   const method = `scroll${top ? 'Top' : 'Left'}`;
@@ -109,14 +107,15 @@ function componentDidUpdate(component, init) {
 
 export default class InkTabBarNode extends React.Component {
   componentDidMount() {
-    if (isDev) {
-      // https://github.com/ant-design/ant-design/issues/8678
-      this.timeout = setTimeout(() => {
-        componentDidUpdate(this, true);
-      }, 0);
-    } else {
+    // ref https://github.com/ant-design/ant-design/issues/8678
+    // ref https://github.com/ant-design/ant-design/issues/11612
+    // InkTabBarNode need parent/root ref for calculating position
+    // since parent componentDidMount triggered after child componentDidMount
+    // we're doing a quick fix here to use setTimeout to calculate position
+    // after parent/root component mounted
+    this.timeout = setTimeout(() => {
       componentDidUpdate(this, true);
-    }
+    }, 0);
   }
 
   componentDidUpdate() {
