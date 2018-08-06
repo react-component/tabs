@@ -645,7 +645,7 @@ var ScrollableTabBarNode = function (_React$Component) {
           }
         }
         if (transformSupported) {
-          __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_8__utils__["b" /* setTransform */])(navStyle, navOffset.value);
+          __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_8__utils__["e" /* setTransform */])(navStyle, navOffset.value);
         } else {
           navStyle[navOffset.name] = navOffset.value;
         }

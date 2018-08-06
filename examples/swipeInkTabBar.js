@@ -2302,7 +2302,25 @@ var SwipeableTabContent = function (_React$Component) {
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this = __WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_possibleConstructorReturn___default()(this, (_ref2 = SwipeableTabContent.__proto__ || Object.getPrototypeOf(SwipeableTabContent)).call.apply(_ref2, [this].concat(args))), _this), _this.onPan = function (e) {
+    return _ret = (_temp = (_this = __WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_possibleConstructorReturn___default()(this, (_ref2 = SwipeableTabContent.__proto__ || Object.getPrototypeOf(SwipeableTabContent)).call.apply(_ref2, [this].concat(args))), _this), _this.onPanStart = function () {
+      var _this$props = _this.props,
+          tabBarPosition = _this$props.tabBarPosition,
+          children = _this$props.children,
+          activeKey = _this$props.activeKey,
+          animated = _this$props.animated;
+
+      var startIndex = _this.startIndex = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_10__utils__["b" /* getActiveIndex */])(children, activeKey);
+      if (startIndex === -1) {
+        return;
+      }
+      if (animated) {
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_10__utils__["c" /* setTransition */])(_this.rootNode.style, 'none');
+      }
+      _this.startDrag = true;
+      _this.children = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_10__utils__["d" /* toArray */])(children);
+      _this.maxIndex = _this.children.length - 1;
+      _this.viewSize = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_10__utils__["a" /* isVertical */])(tabBarPosition) ? _this.rootNode.offsetHeight : _this.rootNode.offsetWidth;
+    }, _this.onPan = function (e) {
       if (!_this.startDrag) {
         return;
       }
@@ -2310,7 +2328,7 @@ var SwipeableTabContent = function (_React$Component) {
 
       var currentIndex = getIndexByDelta.call(_this, e);
       if (currentIndex !== undefined) {
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_10__utils__["b" /* setTransform */])(_this.rootNode.style, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_10__utils__["c" /* getTransformByIndex */])(currentIndex, tabBarPosition));
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_10__utils__["e" /* setTransform */])(_this.rootNode.style, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_10__utils__["f" /* getTransformByIndex */])(currentIndex, tabBarPosition));
       }
     }, _this.onPanEnd = function (e) {
       if (!_this.startDrag) {
@@ -2320,13 +2338,13 @@ var SwipeableTabContent = function (_React$Component) {
     }, _this.onSwipe = function (e) {
       _this.end(e, true);
     }, _this.end = function (e, swipe) {
-      var _this$props = _this.props,
-          tabBarPosition = _this$props.tabBarPosition,
-          animated = _this$props.animated;
+      var _this$props2 = _this.props,
+          tabBarPosition = _this$props2.tabBarPosition,
+          animated = _this$props2.animated;
 
       _this.startDrag = false;
       if (animated) {
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_10__utils__["d" /* setTransition */])(_this.rootNode.style, '');
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_10__utils__["c" /* setTransition */])(_this.rootNode.style, '');
       }
       var currentIndex = getIndexByDelta.call(_this, e);
       var finalIndex = _this.startIndex;
@@ -2352,10 +2370,10 @@ var SwipeableTabContent = function (_React$Component) {
       }
       if (_this.startIndex === finalIndex) {
         if (animated) {
-          __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_10__utils__["b" /* setTransform */])(_this.rootNode.style, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_10__utils__["c" /* getTransformByIndex */])(finalIndex, _this.props.tabBarPosition));
+          __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_10__utils__["e" /* setTransform */])(_this.rootNode.style, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_10__utils__["f" /* getTransformByIndex */])(finalIndex, _this.props.tabBarPosition));
         }
       } else {
-        _this.props.onChange(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_10__utils__["e" /* getActiveKey */])(_this.props.children, finalIndex));
+        _this.props.onChange(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_10__utils__["g" /* getActiveKey */])(_this.props.children, finalIndex));
       }
     }, _temp), __WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_possibleConstructorReturn___default()(_this, _ret);
   }
@@ -2366,33 +2384,12 @@ var SwipeableTabContent = function (_React$Component) {
       this.rootNode = __WEBPACK_IMPORTED_MODULE_9_react_dom___default.a.findDOMNode(this);
     }
   }, {
-    key: 'onPanStart',
-    value: function onPanStart() {
-      var _props = this.props,
-          tabBarPosition = _props.tabBarPosition,
-          children = _props.children,
-          activeKey = _props.activeKey,
-          animated = _props.animated;
-
-      var startIndex = this.startIndex = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_10__utils__["f" /* getActiveIndex */])(children, activeKey);
-      if (startIndex === -1) {
-        return;
-      }
-      if (animated) {
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_10__utils__["d" /* setTransition */])(this.rootNode.style, 'none');
-      }
-      this.startDrag = true;
-      this.children = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_10__utils__["g" /* toArray */])(children);
-      this.maxIndex = this.children.length - 1;
-      this.viewSize = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_10__utils__["a" /* isVertical */])(tabBarPosition) ? this.rootNode.offsetHeight : this.rootNode.offsetWidth;
-    }
-  }, {
     key: 'render',
     value: function render() {
-      var _props2 = this.props,
-          tabBarPosition = _props2.tabBarPosition,
-          hammerOptions = _props2.hammerOptions,
-          animated = _props2.animated;
+      var _props = this.props,
+          tabBarPosition = _props.tabBarPosition,
+          hammerOptions = _props.hammerOptions,
+          animated = _props.animated;
 
       var events = {
         onSwipe: this.onSwipe,

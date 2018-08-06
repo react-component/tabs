@@ -682,15 +682,15 @@ module.exports = shouldUseNative() ? Object.assign : function (target, source) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (immutable) */ __webpack_exports__["g"] = toArray;
-/* harmony export (immutable) */ __webpack_exports__["f"] = getActiveIndex;
-/* harmony export (immutable) */ __webpack_exports__["e"] = getActiveKey;
-/* harmony export (immutable) */ __webpack_exports__["b"] = setTransform;
+/* harmony export (immutable) */ __webpack_exports__["d"] = toArray;
+/* harmony export (immutable) */ __webpack_exports__["b"] = getActiveIndex;
+/* harmony export (immutable) */ __webpack_exports__["g"] = getActiveKey;
+/* harmony export (immutable) */ __webpack_exports__["e"] = setTransform;
 /* harmony export (immutable) */ __webpack_exports__["j"] = isTransformSupported;
-/* harmony export (immutable) */ __webpack_exports__["d"] = setTransition;
+/* harmony export (immutable) */ __webpack_exports__["c"] = setTransition;
 /* harmony export (immutable) */ __webpack_exports__["i"] = getTransformPropValue;
 /* harmony export (immutable) */ __webpack_exports__["a"] = isVertical;
-/* harmony export (immutable) */ __webpack_exports__["c"] = getTransformByIndex;
+/* harmony export (immutable) */ __webpack_exports__["f"] = getTransformByIndex;
 /* harmony export (immutable) */ __webpack_exports__["h"] = getMarginStyle;
 /* harmony export (immutable) */ __webpack_exports__["k"] = getStyle;
 /* harmony export (immutable) */ __webpack_exports__["l"] = setPxStyle;
@@ -1176,7 +1176,7 @@ function _componentDidUpdate(component, init) {
       }
       // use 3d gpu to optimize render
       if (transformSupported) {
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_8__utils__["b" /* setTransform */])(inkBarNodeStyle, 'translate3d(' + left + 'px,0,0)');
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_8__utils__["e" /* setTransform */])(inkBarNodeStyle, 'translate3d(' + left + 'px,0,0)');
         inkBarNodeStyle.width = width + 'px';
         inkBarNodeStyle.height = '';
       } else {
@@ -1195,7 +1195,7 @@ function _componentDidUpdate(component, init) {
         }
       }
       if (transformSupported) {
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_8__utils__["b" /* setTransform */])(inkBarNodeStyle, 'translate3d(0,' + top + 'px,0)');
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_8__utils__["e" /* setTransform */])(inkBarNodeStyle, 'translate3d(0,' + top + 'px,0)');
         inkBarNodeStyle.height = height + 'px';
         inkBarNodeStyle.width = '';
       } else {
@@ -1224,7 +1224,7 @@ var InkTabBarNode = function (_React$Component) {
       var _this2 = this;
 
       // ref https://github.com/ant-design/ant-design/issues/8678
-      // ref https://github.com/ant-design/ant-design/issues/11612
+      // ref https://github.com/react-component/tabs/issues/135
       // InkTabBarNode need parent/root ref for calculating position
       // since parent componentDidMount triggered after child componentDidMount
       // we're doing a quick fix here to use setTimeout to calculate position
@@ -1367,9 +1367,9 @@ var TabContent = function (_React$Component) {
 
       var classes = __WEBPACK_IMPORTED_MODULE_8_classnames___default()((_classnames = {}, __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_defineProperty___default()(_classnames, prefixCls + '-content', true), __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_defineProperty___default()(_classnames, animated ? prefixCls + '-content-animated' : prefixCls + '-content-no-animated', true), _classnames));
       if (animated) {
-        var activeIndex = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_9__utils__["f" /* getActiveIndex */])(children, activeKey);
+        var activeIndex = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_9__utils__["b" /* getActiveIndex */])(children, activeKey);
         if (activeIndex !== -1) {
-          var animatedStyle = animatedWithMargin ? __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_9__utils__["h" /* getMarginStyle */])(activeIndex, tabBarPosition) : __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_9__utils__["i" /* getTransformPropValue */])(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_9__utils__["c" /* getTransformByIndex */])(activeIndex, tabBarPosition));
+          var animatedStyle = animatedWithMargin ? __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_9__utils__["h" /* getMarginStyle */])(activeIndex, tabBarPosition) : __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_9__utils__["i" /* getTransformPropValue */])(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_9__utils__["f" /* getTransformByIndex */])(activeIndex, tabBarPosition));
           style = __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends___default()({}, style, animatedStyle);
         } else {
           style = __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends___default()({}, style, {
