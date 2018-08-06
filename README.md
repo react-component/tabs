@@ -68,6 +68,16 @@ React.render(
   ),
   document.getElementById('t2'));
 ```
+### Usage of navWrapper() function
+
+navWrapper() prop allows to wrap tabs bar in a component to provide additional features.  
+Eg with react-sortablejs to make tabs sortable by DnD : 
+
+```js
+import Sortable from 'react-sortablejs';
+
+navWrapper={(content) => <Sortable>{content}</Sortable>}
+```
 
 ## API
 
