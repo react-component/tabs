@@ -239,7 +239,12 @@ export default class ScrollableTabBarNode extends React.Component {
 
   render() {
     const { next, prev } = this.state;
-    const { prefixCls, scrollAnimated, navWrapper, nextIcon } = this.props;
+    const { prefixCls,
+      scrollAnimated,
+      navWrapper,
+      prevIcon,
+      nextIcon,
+    } = this.props;
     const showNextPrev = prev || next;
 
     const prevButton = (
@@ -253,7 +258,7 @@ export default class ScrollableTabBarNode extends React.Component {
         })}
         onTransitionEnd={this.prevTransitionEnd}
       >
-        {nextIcon || <span className={`${prefixCls}-tab-prev-icon`} />}
+        {prevIcon || <span className={`${prefixCls}-tab-prev-icon`} />}
       </span>
     );
 
@@ -278,7 +283,7 @@ export default class ScrollableTabBarNode extends React.Component {
         scrollAnimated ?
           `${navClassName}-animated` :
           `${navClassName}-no-animated`
-        ]: true,
+      ]: true,
     });
 
     return (
@@ -314,6 +319,7 @@ ScrollableTabBarNode.propTypes = {
   onNextClick: PropTypes.func,
   navWrapper: PropTypes.func,
   children: PropTypes.node,
+  prevIcon: PropTypes.node,
   nextIcon: PropTypes.node,
 };
 
@@ -321,7 +327,7 @@ ScrollableTabBarNode.defaultProps = {
   tabBarPosition: 'left',
   prefixCls: '',
   scrollAnimated: true,
-  onPrevClick: () => {},
-  onNextClick: () => {},
+  onPrevClick: () => { },
+  onNextClick: () => { },
   navWrapper: (ele) => ele,
 };

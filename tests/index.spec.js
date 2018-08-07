@@ -73,7 +73,8 @@ describe('rc-tabs', () => {
     const renderTabBar = () => (
       <ScrollableInkTabBar
         onTabClick={handleTabClick}
-        nextIcon={<span className="next-icon">icon</span>}
+        nextIcon={<span className="next-icon">next-icon</span>}
+        prevIcon={<span className="prev-icon">prev-icon</span>}
       />
     );
     const wrapper = mount(
@@ -88,9 +89,12 @@ describe('rc-tabs', () => {
         <TabPane tab="tab 3" key="3">third</TabPane>
       </Tabs>
     );
-    const icon = wrapper.find('.next-icon');
-    expect(icon.length).toBe(2);
-    expect(icon.at(0).text()).toBe('icon');
+    const nextIcon = wrapper.find('.next-icon');
+    const prevIcon = wrapper.find('.prev-icon');
+    expect(nextIcon.length).toBe(1);
+    expect(prevIcon.length).toBe(1);
+    expect(nextIcon.at(0).text()).toBe('next-icon');
+    expect(prevIcon.at(0).text()).toBe('prev-icon');
   });
 
   it('`onPrevClick` and `onNextClick` should work', () => {
