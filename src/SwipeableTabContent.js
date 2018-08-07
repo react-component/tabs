@@ -59,7 +59,7 @@ export default class SwipeableTabContent extends React.Component {
     this.rootNode = ReactDOM.findDOMNode(this);
   }
 
-  onPanStart() {
+  onPanStart = () => {
     const { tabBarPosition, children, activeKey, animated } = this.props;
     const startIndex = this.startIndex = getActiveIndex(children, activeKey);
     if (startIndex === -1) {

@@ -181,7 +181,7 @@ describe('rc-tabs', () => {
       </Tabs>
     );
 
-    wrapper.find('TabBarTabsNode').find('div').at(1).simulate('click', {});
+    wrapper.find('TabBarTabsNode').find('.rc-tabs-tab').at(1).simulate('click', {});
     expect(wrapper.find('InkTabBarNode').html().indexOf('display: block;') !== -1).toBe(true);
   });
 });

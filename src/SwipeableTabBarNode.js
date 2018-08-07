@@ -187,7 +187,7 @@ export default class SwipeableTabBarNode extends React.Component {
 }
 
 SwipeableTabBarNode.propTypes = {
-  activeKey: PropTypes.string.isRequired,
+  activeKey: PropTypes.string,
   panels: PropTypes.node,
   pageSize: PropTypes.number,
   tabBarPosition: PropTypes.oneOf(['left', 'right', 'top', 'bottom']),

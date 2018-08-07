@@ -43,13 +43,13 @@ export default class TabBarTabsNode extends React.Component {
       );
     });
 
-    return rst;
+    return <div>{rst}</div>;
   }
 }
 
 TabBarTabsNode.propTypes = {
-  activeKey: PropTypes.string.isRequired,
-  panels: PropTypes.arrayOf(PropTypes.node),
+  activeKey: PropTypes.string,
+  panels: PropTypes.node,
   prefixCls: PropTypes.string,
   tabBarGutter: PropTypes.number,
   onTabClick: PropTypes.func,
