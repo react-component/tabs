@@ -1,6 +1,10 @@
 # History
 ----
 
+## 9.4.0 / 2018-08-13
+
+* Add `prevIcon` and `nextIcon`.
+
 ## 9.3.0 / 2018-06-12
 
 * Add MouseEvent as second parameter to `onTabClick`.
