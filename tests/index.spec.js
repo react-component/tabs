@@ -67,6 +67,36 @@ describe('rc-tabs', () => {
     expect(handleChange).toHaveBeenCalledWith('3');
   });
 
+  it('should support custom next icon', () => {
+    const handleChange = jest.fn();
+    const handleTabClick = jest.fn();
+    const renderTabBar = () => (
+      <ScrollableInkTabBar
+        onTabClick={handleTabClick}
+        nextIcon={<span className="next-icon">next-icon</span>}
+        prevIcon={<span className="prev-icon">prev-icon</span>}
+      />
+    );
+    const wrapper = mount(
+      <Tabs
+        defaultActiveKey="1"
+        renderTabBar={renderTabBar}
+        renderTabContent={() => <TabContent/>}
+        onChange={handleChange}
+      >
+        <TabPane tab="tab 1" key="1">first</TabPane>
+        <TabPane tab="tab 2" key="2">second</TabPane>
+        <TabPane tab="tab 3" key="3">third</TabPane>
+      </Tabs>
+    );
+    const nextIcon = wrapper.find('.next-icon');
+    const prevIcon = wrapper.find('.prev-icon');
+    expect(nextIcon.length).toBe(1);
+    expect(prevIcon.length).toBe(1);
+    expect(nextIcon.at(0).text()).toBe('next-icon');
+    expect(prevIcon.at(0).text()).toBe('prev-icon');
+  });
+
   it('`onPrevClick` and `onNextClick` should work', () => {
     const onPrevClick = jest.fn();
     const onNextClick = jest.fn();

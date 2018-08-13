@@ -287,6 +287,18 @@ scrollable tab bar, in addition to tab bar props, extra props:
           <th></th>
           <td>callback when next button is clicked</td>
       </tr>
+      <tr>
+          <td>prevIcon</td>
+          <td>ReactNode</td>
+          <th></th>
+          <td>specific the prev icon</td>
+      </tr>
+      <tr>
+          <td>nextIcon</td>
+          <td>ReactNode</td>
+          <th></th>
+          <td>specific the next icon</td>
+      </tr>
     </tbody>
 </table>
 
