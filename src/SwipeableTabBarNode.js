@@ -32,7 +32,10 @@ export default class SwipeableTabBarNode extends React.Component {
 
   componentDidUpdate(prevProps) {
     this.setCache();
-    if (this.props.activeKey && this.props.activeKey !== prevProps.activeKey) {
+    if ((this.props.activeKey && this.props.activeKey !== prevProps.activeKey)
+      || this.props.panels.length !== prevProps.panels.length
+      || this.props.pageSize !== prevProps.pageSize
+    ) {
       this.setSwipePositionByKey(this.props.activeKey);
     }
   }
