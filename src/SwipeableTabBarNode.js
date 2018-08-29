@@ -71,6 +71,7 @@ export default class SwipeableTabBarNode extends React.Component {
     const _viewSize = getStyle(this.realNode, _isVertical ? 'height' : 'width');
     const _tabWidth = _viewSize / pageSize;
     this.cache = {
+      ...this.cache,
       vertical: _isVertical,
       totalAvaliableDelta: _tabWidth * panels.length - _viewSize,
       tabWidth: _tabWidth,
