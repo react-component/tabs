@@ -32,7 +32,10 @@ export default class SwipeableTabBarNode extends React.Component {
 
   componentDidUpdate(prevProps) {
     this.setCache();
-    if (this.props.activeKey && this.props.activeKey !== prevProps.activeKey) {
+    if ((this.props.activeKey && this.props.activeKey !== prevProps.activeKey)
+      || this.props.panels.length !== prevProps.panels.length
+      || this.props.pageSize !== prevProps.pageSize
+    ) {
       this.setSwipePositionByKey(this.props.activeKey);
     }
   }
@@ -71,6 +74,7 @@ export default class SwipeableTabBarNode extends React.Component {
     const _viewSize = getStyle(this.realNode, _isVertical ? 'height' : 'width');
     const _tabWidth = _viewSize / pageSize;
     this.cache = {
+      ...this.cache,
       vertical: _isVertical,
       totalAvaliableDelta: _tabWidth * panels.length - _viewSize,
       tabWidth: _tabWidth,
