@@ -1,9 +1,40 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import KeyCode from 'rc-util/lib/KeyCode';
 import { getDataAttr } from './utils';
 
 export default class TabPane extends React.Component {
+  onTopSentienelKeyDown = ({ target, which, shiftKey }) => {
+    if (
+      this.sentinelEnd &&
+      which === KeyCode.TAB &&
+      document.activeElement === target &&
+      shiftKey
+    ) {
+      this.sentinelEnd.focus();
+    }
+  };
+
+  onBottomSentienelKeyDown = ({ target, which, shiftKey }) => {
+    if (
+      this.sentinelStart &&
+      which === KeyCode.TAB &&
+      document.activeElement === target &&
+      !shiftKey
+    ) {
+      this.sentinelStart.focus();
+    }
+  };
+
+  setSentinelStart = (node) => {
+    this.sentinelStart = node;
+  };
+
+  setSentinelEnd = (node) => {
+    this.sentinelEnd = node;
+  };
+
   render() {
     const {
       className, destroyInactiveTabPane, active, forceRender,
@@ -18,6 +49,30 @@ export default class TabPane extends React.Component {
       [className]: className,
     });
     const isRender = destroyInactiveTabPane ? active : this._isActived;
+    const shouldRender = isRender || forceRender;
+
+    let sentinelStart;
+    let sentinelEnd;
+    if (shouldRender) {
+      const sentinelStyle = { width: 0, height: 0, overflow: 'hidden' };
+      sentinelStart = (
+        <div
+          tabIndex={0}
+          ref={this.setSentinelStart}
+          style={sentinelStyle}
+          onKeyDown={this.onTopSentienelKeyDown}
+        />
+      );
+      sentinelEnd = (
+        <div
+          tabIndex={0}
+          ref={this.setSentinelEnd}
+          style={sentinelStyle}
+          onKeyDown={this.onBottomSentienelKeyDown}
+        />
+      );
+    }
+
     return (
       <div
         style={style}
@@ -26,7 +81,9 @@ export default class TabPane extends React.Component {
         className={cls}
         {...getDataAttr(restProps)}
       >
-        {isRender || forceRender ? children : placeholder}
+        {sentinelStart}
+        {shouldRender ? children : placeholder}
+        {sentinelEnd}
       </div>
     );
   }

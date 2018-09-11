@@ -74,6 +74,12 @@ export default class Tabs extends React.Component {
     }
   }
 
+  onScroll = ({ target, currentTarget }) => {
+    if (target === currentTarget && target.scrollLeft > 0) {
+      target.scrollLeft = 0;
+    }
+  };
+
   setActiveKey = (activeKey) => {
     if (this.state.activeKey !== activeKey) {
       if (!('activeKey' in this.props)) {
@@ -158,6 +164,7 @@ export default class Tabs extends React.Component {
         className={cls}
         style={props.style}
         {...getDataAttr(restProps)}
+        onScroll={this.onScroll}
       >
         {contents}
       </div>
