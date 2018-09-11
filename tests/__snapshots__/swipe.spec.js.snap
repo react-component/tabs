@@ -199,9 +199,21 @@ exports[`rc-swipeable-tabs should render Slider with correct DOM structure 1`] =
         role="tabpanel"
       >
         <div
+          style="width:0;height:0;overflow:hidden"
+          tabindex="0"
+        >
+          
+        </div>
+        <div
           style="display:flex;align-items:center;justify-content:center;height:5rem;background-color:#fff"
         >
           选项8内容
+        </div>
+        <div
+          style="width:0;height:0;overflow:hidden"
+          tabindex="0"
+        >
+          
         </div>
       </div>
       <div
