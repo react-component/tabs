@@ -116,5 +116,7 @@ export function getLeft(tabNode, wrapperNode) {
 }
 
 export function getTop(tabNode, wrapperNode) {
-  return getTypeValue('top', 'height', 'bottom', tabNode, wrapperNode);
+  const top = getTypeValue('top', 'height', 'bottom', tabNode, wrapperNode);
+  const height = getStyle(tabNode.parentNode, 'height');
+  return top - height;
 }
