@@ -84,3 +84,39 @@ export function getDataAttr(props) {
     return prev;
   }, {});
 }
+
+function toNum(style, property) {
+  return +style.getPropertyValue(property).replace('px', '');
+}
+
+function getTypeValue(start, current, end, tabNode, wrapperNode) {
+  let total = getStyle(wrapperNode, `padding-${start}`);
+  const { childNodes } = tabNode.parentNode;
+  Array.prototype.some.call(childNodes, (node) => {
+    if (node !== tabNode) {
+      const style = getComputedStyle(node);
+      total += toNum(style, `margin-${start}`);
+      total += toNum(style, `margin-${end}`);
+      total += toNum(style, current);
+
+      if (style.boxSizing === 'content-box') {
+        total += toNum(style, `border-${start}-width`) + toNum(style, `padding-${start}`) +
+          toNum(style, `border-${end}-width`) + toNum(style, `padding-${end}`);
+      }
+      return false;
+    }
+    return true;
+  });
+
+  return total;
+}
+
+export function getLeft(tabNode, wrapperNode) {
+  return getTypeValue('left', 'width', 'right', tabNode, wrapperNode);
+}
+
+export function getTop(tabNode, wrapperNode) {
+  const top = getTypeValue('top', 'height', 'bottom', tabNode, wrapperNode);
+  const height = getStyle(tabNode.parentNode, 'height');
+  return top - height;
+}
