@@ -391,7 +391,7 @@ var Component = function (_React$Component2) {
           },
           __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
             __WEBPACK_IMPORTED_MODULE_7_rc_tabs__["b" /* TabPane */],
-            { tab: 'tab ' + start, key: '1' },
+            { tab: 'tab ' + start, key: '1', id: 'test1' },
             __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(PanelContent, { id: start })
           ),
           __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(

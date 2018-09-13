@@ -2283,6 +2283,7 @@ var TabPane = function (_React$Component) {
       var _classnames;
 
       var _props = this.props,
+          id = _props.id,
           className = _props.className,
           destroyInactiveTabPane = _props.destroyInactiveTabPane,
           active = _props.active,
@@ -2291,7 +2292,7 @@ var TabPane = function (_React$Component) {
           style = _props.style,
           children = _props.children,
           placeholder = _props.placeholder,
-          restProps = __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_objectWithoutProperties___default()(_props, ['className', 'destroyInactiveTabPane', 'active', 'forceRender', 'rootPrefixCls', 'style', 'children', 'placeholder']);
+          restProps = __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_objectWithoutProperties___default()(_props, ['id', 'className', 'destroyInactiveTabPane', 'active', 'forceRender', 'rootPrefixCls', 'style', 'children', 'placeholder']);
 
       this._isActived = this._isActived || active;
       var prefixCls = rootPrefixCls + '-tabpane';
@@ -2303,7 +2304,8 @@ var TabPane = function (_React$Component) {
           style: style,
           role: 'tabpanel',
           'aria-hidden': active ? 'false' : 'true',
-          className: cls
+          className: cls,
+          id: id
         }, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_10__utils__["a" /* getDataAttr */])(restProps)),
         isRender || forceRender ? children : placeholder
       );
@@ -2324,7 +2326,8 @@ TabPane.propTypes = {
   forceRender: __WEBPACK_IMPORTED_MODULE_8_prop_types___default.a.bool,
   placeholder: __WEBPACK_IMPORTED_MODULE_8_prop_types___default.a.node,
   rootPrefixCls: __WEBPACK_IMPORTED_MODULE_8_prop_types___default.a.string,
-  children: __WEBPACK_IMPORTED_MODULE_8_prop_types___default.a.node
+  children: __WEBPACK_IMPORTED_MODULE_8_prop_types___default.a.node,
+  id: __WEBPACK_IMPORTED_MODULE_8_prop_types___default.a.string
 };
 
 TabPane.defaultProps = {
