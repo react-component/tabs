@@ -6,7 +6,7 @@ import { getDataAttr } from './utils';
 export default class TabPane extends React.Component {
   render() {
     const {
-      className, destroyInactiveTabPane, active, forceRender,
+      id, className, destroyInactiveTabPane, active, forceRender,
       rootPrefixCls, style, children, placeholder, ...restProps,
     } = this.props;
     this._isActived = this._isActived || active;
@@ -24,6 +24,7 @@ export default class TabPane extends React.Component {
         role="tabpanel"
         aria-hidden={active ? 'false' : 'true'}
         className={cls}
+        id={id}
         {...getDataAttr(restProps)}
       >
         {isRender || forceRender ? children : placeholder}
@@ -41,6 +42,7 @@ TabPane.propTypes = {
   placeholder: PropTypes.node,
   rootPrefixCls: PropTypes.string,
   children: PropTypes.node,
+  id: PropTypes.string,
 };
 
 TabPane.defaultProps = {
