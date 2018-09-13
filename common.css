@@ -24,7 +24,7 @@
   transform-origin: 0 0;
 }
 .rc-tabs-ink-bar-animated {
-  transition: transform 0.3s cubic-bezier(0.35, 0, 0.25, 1);
+  transition: transform 0.3s cubic-bezier(0.35, 0, 0.25, 1), left 0.3s cubic-bezier(0.35, 0, 0.25, 1);
 }
 .rc-tabs-tab-prev,
 .rc-tabs-tab-next {
