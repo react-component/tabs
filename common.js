@@ -695,6 +695,10 @@ function toNum(style, property) {
 
 function getTypeValue(start, current, end, tabNode, wrapperNode) {
   var total = getStyle(wrapperNode, 'padding-' + start);
+  if (!tabNode || !tabNode.parentNode) {
+    return total;
+  }
+
   var childNodes = tabNode.parentNode.childNodes;
 
   Array.prototype.some.call(childNodes, function (node) {
