@@ -97,11 +97,10 @@ function getTypeValue(start, current, end, tabNode, wrapperNode) {
       const style = getComputedStyle(node);
       total += toNum(style, `margin-${start}`);
       total += toNum(style, `margin-${end}`);
-      total += toNum(style, current);
+      total += tabNode[current];
 
       if (style.boxSizing === 'content-box') {
-        total += toNum(style, `border-${start}-width`) + toNum(style, `padding-${start}`) +
-          toNum(style, `border-${end}-width`) + toNum(style, `padding-${end}`);
+        total += toNum(style, `border-${start}-width`) + toNum(style, `border-${end}-width`);
       }
       return false;
     }
@@ -112,11 +111,11 @@ function getTypeValue(start, current, end, tabNode, wrapperNode) {
 }
 
 export function getLeft(tabNode, wrapperNode) {
-  return getTypeValue('left', 'width', 'right', tabNode, wrapperNode);
+  return getTypeValue('left', 'offsetWidth', 'right', tabNode, wrapperNode);
 }
 
 export function getTop(tabNode, wrapperNode) {
-  const top = getTypeValue('top', 'height', 'bottom', tabNode, wrapperNode);
+  const top = getTypeValue('top', 'offsetHeight', 'bottom', tabNode, wrapperNode);
   const height = getStyle(tabNode.parentNode, 'height');
   return top - height;
 }
