@@ -383,7 +383,7 @@ var Demo = function (_React$Component) {
             },
             __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
               __WEBPACK_IMPORTED_MODULE_8_rc_tabs__["b" /* TabPane */],
-              { tab: 'tab ' + start, key: '1' },
+              { tab: 'tab ' + start + '11111111111111111', key: '1' },
               __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(PanelContent, { id: start })
             ),
             __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
