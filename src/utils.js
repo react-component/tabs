@@ -101,7 +101,7 @@ function getTypeValue(start, current, end, tabNode, wrapperNode) {
       const style = getComputedStyle(node);
       total += toNum(style, `margin-${start}`);
       total += toNum(style, `margin-${end}`);
-      total += tabNode[current];
+      total += node[current];
 
       if (style.boxSizing === 'content-box') {
         total += toNum(style, `border-${start}-width`) + toNum(style, `border-${end}-width`);
