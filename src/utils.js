@@ -56,6 +56,7 @@ export function isVertical(tabBarPosition) {
 }
 
 export function getTransformByIndex(index, tabBarPosition) {
+  index = parseInt(index);
   const translate = isVertical(tabBarPosition) ? 'translateY' : 'translateX';
   return `${translate}(${-index * 100}%) translateZ(0)`;
 }
