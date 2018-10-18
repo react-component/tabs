@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>~debug2.js - example - rc-tabs@9.4.6</title>
+  <title>~debug2.js - example - rc-tabs@9.4.7</title>
   <meta name="viewport"
         content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
   <meta charset="utf-8"/>
@@ -263,7 +263,7 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
 <body>
   <div class="container">
     <div class="header">
-      <h1>rc-tabs@9.4.6</h1>
+      <h1>rc-tabs@9.4.7</h1>
 
       <p>tabs ui component for react</p>
     </div>
@@ -286,7 +286,8 @@ class Demo extends React.Component {
   state = {
     activeKey: '2',
     start: 0,
-    init: true,
+    init: false,
+    // direction: 'rtl',
   };
 
   componentDidMount() {
@@ -323,11 +324,11 @@ class Demo extends React.Component {
 
     const myStyle = {};
     if (init) {
-      myStyle.transform = 'scale(0.4)';
+      myStyle.transform = 'scale(0.6)';
     }
 
     return (
-      &lt;div style={{ margin: 20 }}&gt;
+      &lt;div style={{ margin: 20, direction: this.state.direction }}&gt;
         &lt;h1&gt;Simple Tabs&lt;/h1&gt;
         &lt;div style={myStyle}&gt;
           &lt;Tabs
@@ -336,6 +337,7 @@ class Demo extends React.Component {
             navWrapper={(content) =&gt; &lt;Sortable&gt;{content}&lt;/Sortable&gt;}
             activeKey={this.state.activeKey}
             onChange={this.onChange}
+            // tabBarPosition="left"
           &gt;
             &lt;TabPane tab={`tab ${start}11111111111111111`} key="1"&gt;
               &lt;PanelContent id={start} /&gt;

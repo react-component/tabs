@@ -311,7 +311,8 @@ var Demo = function (_React$Component) {
     return _ret = (_temp = (_this = __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_possibleConstructorReturn___default()(this, (_ref2 = Demo.__proto__ || Object.getPrototypeOf(Demo)).call.apply(_ref2, [this].concat(args))), _this), _this.state = {
       activeKey: '2',
       start: 0,
-      init: true
+      init: false
+      // direction: 'rtl',
     }, _this.onChange = function (activeKey) {
       console.log('onChange ' + activeKey);
       _this.setState({
@@ -348,12 +349,12 @@ var Demo = function (_React$Component) {
 
       var myStyle = {};
       if (init) {
-        myStyle.transform = 'scale(0.4)';
+        myStyle.transform = 'scale(0.6)';
       }
 
       return __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
         'div',
-        { style: { margin: 20 } },
+        { style: { margin: 20, direction: this.state.direction } },
         __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
           'h1',
           null,
@@ -380,6 +381,7 @@ var Demo = function (_React$Component) {
               },
               activeKey: this.state.activeKey,
               onChange: this.onChange
+              // tabBarPosition="left"
             },
             __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
               __WEBPACK_IMPORTED_MODULE_8_rc_tabs__["b" /* TabPane */],

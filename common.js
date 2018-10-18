@@ -702,8 +702,8 @@ function getTypeValue(start, current, end, tabNode, wrapperNode) {
   var childNodes = tabNode.parentNode.childNodes;
 
   Array.prototype.some.call(childNodes, function (node) {
+    var style = getComputedStyle(node);
     if (node !== tabNode) {
-      var style = getComputedStyle(node);
       total += toNum(style, 'margin-' + start);
       total += toNum(style, 'margin-' + end);
       total += node[current];
@@ -713,6 +713,11 @@ function getTypeValue(start, current, end, tabNode, wrapperNode) {
       }
       return false;
     }
+
+    // We need count current node margin
+    // ref: https://github.com/react-component/tabs/pull/139#issuecomment-431005262
+    total += toNum(style, 'margin-' + start);
+
     return true;
   });
 
