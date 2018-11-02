@@ -368,7 +368,8 @@ var TabBarTabsNode = function (_React$Component) {
           children = _props.panels,
           activeKey = _props.activeKey,
           prefixCls = _props.prefixCls,
-          tabBarGutter = _props.tabBarGutter;
+          tabBarGutter = _props.tabBarGutter,
+          saveRef = _props.saveRef;
 
       var rst = [];
 
@@ -389,7 +390,7 @@ var TabBarTabsNode = function (_React$Component) {
         }
         var ref = {};
         if (activeKey === key) {
-          ref.ref = _this2.props.saveRef('activeTab');
+          ref.ref = saveRef('activeTab');
         }
         __WEBPACK_IMPORTED_MODULE_6_warning___default()('tab' in child.props, 'There must be `tab` property on children of Tabs.');
         rst.push(__WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
@@ -409,7 +410,7 @@ var TabBarTabsNode = function (_React$Component) {
 
       return __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
         'div',
-        null,
+        { ref: saveRef('navTabsContainer') },
         rst
       );
     }
@@ -596,7 +597,8 @@ var ScrollableTabBarNode = function (_React$Component) {
     key: 'setNextPrev',
     value: function setNextPrev() {
       var navNode = this.props.getRef('nav');
-      var navNodeWH = this.getScrollWH(navNode);
+      var navTabsContainer = this.props.getRef('navTabsContainer');
+      var navNodeWH = this.getScrollWH(navTabsContainer || navNode);
       var containerWH = this.getOffsetWH(this.props.getRef('container'));
       var navWrapNodeWH = this.getOffsetWH(this.props.getRef('navWrap'));
       var offset = this.offset;
