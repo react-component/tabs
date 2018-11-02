@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 export default class TabBarTabsNode extends React.Component {
   render() {
-    const { panels: children, activeKey, prefixCls, tabBarGutter } = this.props;
+    const { panels: children, activeKey, prefixCls, tabBarGutter, saveRef } = this.props;
     const rst = [];
 
     React.Children.forEach(children, (child, index) => {
@@ -24,7 +24,7 @@ export default class TabBarTabsNode extends React.Component {
       }
       const ref = {};
       if (activeKey === key) {
-        ref.ref = this.props.saveRef('activeTab');
+        ref.ref = saveRef('activeTab');
       }
       warning('tab' in child.props, 'There must be `tab` property on children of Tabs.');
       rst.push(
@@ -43,7 +43,11 @@ export default class TabBarTabsNode extends React.Component {
       );
     });
 
-    return <div>{rst}</div>;
+    return (
+      <div ref={saveRef('navTabsContainer')}>
+        {rst}
+      </div>
+    );
   }
 }
 
