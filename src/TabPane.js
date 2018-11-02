@@ -5,7 +5,7 @@ import KeyCode from 'rc-util/lib/KeyCode';
 import { getDataAttr } from './utils';
 
 export default class TabPane extends React.Component {
-  onTopSentienelKeyDown = ({ target, which, shiftKey }) => {
+  onTopSentinelKeyDown = ({ target, which, shiftKey }) => {
     if (
       this.sentinelEnd &&
       which === KeyCode.TAB &&
@@ -16,7 +16,7 @@ export default class TabPane extends React.Component {
     }
   };
 
-  onBottomSentienelKeyDown = ({ target, which, shiftKey }) => {
+  onBottomSentinelKeyDown = ({ target, which, shiftKey }) => {
     if (
       this.sentinelStart &&
       which === KeyCode.TAB &&
@@ -60,7 +60,7 @@ export default class TabPane extends React.Component {
           tabIndex={0}
           ref={this.setSentinelStart}
           style={sentinelStyle}
-          onKeyDown={this.onTopSentienelKeyDown}
+          onKeyDown={this.onTopSentinelKeyDown}
         />
       );
       sentinelEnd = (
@@ -68,7 +68,7 @@ export default class TabPane extends React.Component {
           tabIndex={0}
           ref={this.setSentinelEnd}
           style={sentinelStyle}
-          onKeyDown={this.onBottomSentienelKeyDown}
+          onKeyDown={this.onBottomSentinelKeyDown}
         />
       );
     }
