@@ -188,4 +188,20 @@ describe('rc-tabs', () => {
     wrapper.find('TabBarTabsNode').find('.rc-tabs-tab').at(1).simulate('click', {});
     expect(wrapper.find('InkTabBarNode').html().indexOf('display: block;') !== -1).toBe(true);
   });
+
+  it('un-activate tab should not show inkbar', () => {
+    const children = [1, 2]
+      .map(number => <TabPane tab={number} key={number.toString()}>{number}</TabPane>);
+    const wrapper = mount(
+      <Tabs
+        renderTabBar={() => <InkTabBar />}
+        renderTabContent={() => <TabContent/>}
+        activeKey="-1"
+      >
+        {children}
+      </Tabs>
+    );
+
+    expect(wrapper.find('InkTabBarNode').instance().props.getRef('inkBar').style.display).toBe('');
+  });
 });
