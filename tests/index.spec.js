@@ -189,7 +189,7 @@ describe('rc-tabs', () => {
     expect(wrapper.find('InkTabBarNode').html().indexOf('display: block;') !== -1).toBe(true);
   });
 
-  it('un-activate tab should not show inkbar', () => {
+  it('un-activate tab should not show inkbar', (done) => {
     const children = [1, 2]
       .map(number => <TabPane tab={number} key={number.toString()}>{number}</TabPane>);
     const wrapper = mount(
@@ -202,6 +202,9 @@ describe('rc-tabs', () => {
       </Tabs>
     );
 
-    expect(wrapper.find('InkTabBarNode').instance().props.getRef('inkBar').style.display).toBe('');
+    setTimeout(() => {
+      expect(wrapper.find('InkTabBarNode').html().indexOf('display: none;') !== -1).toBe(true);
+      done();
+    }, 0);
   });
 });
