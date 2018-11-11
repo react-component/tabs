@@ -47,7 +47,7 @@ function componentDidUpdate(component, init) {
         inkBarNodeStyle.right = `${wrapNode.offsetWidth - left - width}px`;
       }
     } else {
-      let top = getTop(tabNode, wrapNode);
+      let top = getTop(tabNode, wrapNode, true);
       let height = tabNode.offsetHeight;
       if (styles.inkBar && styles.inkBar.height !== undefined) {
         height = parseFloat(styles.inkBar.height, 10);

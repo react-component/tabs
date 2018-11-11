@@ -89,7 +89,7 @@ function toNum(style, property) {
   return +style.getPropertyValue(property).replace('px', '');
 }
 
-function getTypeValue(start, current, end, tabNode, wrapperNode) {
+function getTypeValue(start, current, end, tabNode, wrapperNode, isVerticalFlag) {
   let total = getStyle(wrapperNode, `padding-${start}`);
   if (!tabNode || !tabNode.parentNode) {
     return total;
@@ -111,7 +111,9 @@ function getTypeValue(start, current, end, tabNode, wrapperNode) {
 
     // We need count current node margin
     // ref: https://github.com/react-component/tabs/pull/139#issuecomment-431005262
-    total += toNum(style, `margin-${start}`);
+    if (!isVerticalFlag) {
+      total += toNum(style, `margin-${start}`);
+    }
 
     return true;
   });
@@ -123,8 +125,8 @@ export function getLeft(tabNode, wrapperNode) {
   return getTypeValue('left', 'offsetWidth', 'right', tabNode, wrapperNode);
 }
 
-export function getTop(tabNode, wrapperNode) {
-  const top = getTypeValue('top', 'offsetHeight', 'bottom', tabNode, wrapperNode);
+export function getTop(tabNode, wrapperNode, isVerticalFlag) {
+  const top = getTypeValue('top', 'offsetHeight', 'bottom', tabNode, wrapperNode, isVerticalFlag);
   const height = getStyle(tabNode.parentNode, 'height');
   return top - height;
 }

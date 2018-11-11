@@ -179,7 +179,7 @@ class Demo extends React.Component {
             {ends2}
           </Tabs>
         </div>
-        <h2>Basic Tabs With Ink Bar</h2>
+        <h2>Basic Tabs With Ink Bar and tabBarGutter</h2>
         <p>
           tabBarPosition:
           <select value={this.state.tabBarPosition} onChange={this.changeTabPosition}>
@@ -194,7 +194,12 @@ class Demo extends React.Component {
             defaultActiveKey="3"
             style={style}
             tabBarPosition={this.state.tabBarPosition}
-            renderTabBar={() => <InkTabBar onTabClick={this.onTabClick} />}
+            renderTabBar={() => (
+              <InkTabBar
+                onTabClick={this.onTabClick}
+                tabBarGutter={40}
+              />
+            )}
             renderTabContent={() => <TabContent style={contentStyle} />}
             onChange={this.onChange}
           >

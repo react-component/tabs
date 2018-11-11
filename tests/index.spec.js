@@ -207,4 +207,42 @@ describe('rc-tabs', () => {
       done();
     }, 0);
   });
+
+  it('tabBarGutter should work', () => {
+    let wrapper = mount(
+      <Tabs
+        defaultActiveKey="3"
+        tabBarPosition="top"
+        renderTabBar={() => (
+          <InkTabBar
+            tabBarGutter={40}
+          />
+        )}
+        renderTabContent={() => <TabContent />}
+      >
+        <TabPane tab="tab 1" key="1">first</TabPane>
+        <TabPane tab="tab 2" key="2">second</TabPane>
+      </Tabs>
+    );
+
+    expect(wrapper.find('.rc-tabs-tab').at(0).instance().style.marginRight).toBe('40px');
+
+    wrapper = mount(
+      <Tabs
+        defaultActiveKey="3"
+        tabBarPosition="left"
+        renderTabBar={() => (
+          <InkTabBar
+            tabBarGutter={40}
+          />
+        )}
+        renderTabContent={() => <TabContent />}
+      >
+        <TabPane tab="tab 1" key="1">first</TabPane>
+        <TabPane tab="tab 2" key="2">second</TabPane>
+      </Tabs>
+    );
+
+    expect(wrapper.find('.rc-tabs-tab').at(0).instance().style.marginTop).toBe('40px');
+  });
 });
