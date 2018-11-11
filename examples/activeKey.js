@@ -208,6 +208,10 @@ var Demo = function (_React$Component) {
       _this.setState({
         start: _this.state.start + 10
       });
+    }, _this.handleNotExistKey = function () {
+      _this.setState({
+        activeKey: '-1'
+      });
     }, _temp), __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_possibleConstructorReturn___default()(_this, _ret);
   }
 
@@ -269,6 +273,13 @@ var Demo = function (_React$Component) {
           'button',
           { onClick: this.tick },
           'rerender'
+        ),
+        __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
+          'button',
+          { onClick: this.handleNotExistKey,
+            style: { marginLeft: 10 }
+          },
+          'change to a non-existent activeKey'
         )
       );
     }

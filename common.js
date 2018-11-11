@@ -1156,7 +1156,10 @@ module.exports = shouldUseNative() ? Object.assign : function (target, source) {
 
 
 function _componentDidUpdate(component, init) {
-  var styles = component.props.styles;
+  var _component$props = component.props,
+      styles = _component$props.styles,
+      panels = _component$props.panels,
+      activeKey = _component$props.activeKey;
 
   var rootNode = component.props.getRef('root');
   var wrapNode = component.props.getRef('nav') || rootNode;
@@ -1164,6 +1167,7 @@ function _componentDidUpdate(component, init) {
   var activeTab = component.props.getRef('activeTab');
   var inkBarNodeStyle = inkBarNode.style;
   var tabBarPosition = component.props.tabBarPosition;
+  var activeIndex = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_8__utils__["b" /* getActiveIndex */])(panels, activeKey);
   if (init) {
     // prevent mount animation
     inkBarNodeStyle.display = 'none';
@@ -1219,7 +1223,7 @@ function _componentDidUpdate(component, init) {
       }
     }
   }
-  inkBarNodeStyle.display = activeTab ? 'block' : 'none';
+  inkBarNodeStyle.display = activeIndex !== -1 ? 'block' : 'none';
 }
 
 var InkTabBarNode = function (_React$Component) {
