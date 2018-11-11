@@ -1,16 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import { setTransform, isTransformSupported, getLeft, getTop } from './utils';
+import { setTransform, isTransformSupported, getLeft, getTop, getActiveIndex } from './utils';
 
 function componentDidUpdate(component, init) {
-  const { styles } = component.props;
+  const { styles, panels, activeKey } = component.props;
   const rootNode = component.props.getRef('root');
   const wrapNode = component.props.getRef('nav') || rootNode;
   const inkBarNode = component.props.getRef('inkBar');
   const activeTab = component.props.getRef('activeTab');
   const inkBarNodeStyle = inkBarNode.style;
   const tabBarPosition = component.props.tabBarPosition;
+  const activeIndex = getActiveIndex(panels, activeKey);
   if (init) {
     // prevent mount animation
     inkBarNodeStyle.display = 'none';
@@ -66,7 +67,7 @@ function componentDidUpdate(component, init) {
       }
     }
   }
-  inkBarNodeStyle.display = activeTab ? 'block' : 'none';
+  inkBarNodeStyle.display = activeIndex !== -1 ? 'block' : 'none';
 }
 
 export default class InkTabBarNode extends React.Component {
