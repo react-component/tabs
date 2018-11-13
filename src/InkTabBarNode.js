@@ -19,6 +19,16 @@ function componentDidUpdate(component, init) {
   if (activeTab) {
     const tabNode = activeTab;
     const transformSupported = isTransformSupported(inkBarNodeStyle);
+
+    // Reset current style
+    setTransform(inkBarNodeStyle, '');
+    inkBarNodeStyle.width = '';
+    inkBarNodeStyle.height = '';
+    inkBarNodeStyle.left = '';
+    inkBarNodeStyle.top = '';
+    inkBarNodeStyle.bottom = '';
+    inkBarNodeStyle.right = '';
+
     if (tabBarPosition === 'top' || tabBarPosition === 'bottom') {
       let left = getLeft(tabNode, wrapNode);
       let width = tabNode.offsetWidth;
@@ -38,14 +48,10 @@ function componentDidUpdate(component, init) {
       // use 3d gpu to optimize render
       if (transformSupported) {
         setTransform(inkBarNodeStyle, `translate3d(${left}px,0,0)`);
-        inkBarNodeStyle.width = `${width}px`;
-        inkBarNodeStyle.height = '';
       } else {
         inkBarNodeStyle.left = `${left}px`;
-        inkBarNodeStyle.top = '';
-        inkBarNodeStyle.bottom = '';
-        inkBarNodeStyle.right = `${wrapNode.offsetWidth - left - width}px`;
       }
+      inkBarNodeStyle.width = `${width}px`;
     } else {
       let top = getTop(tabNode, wrapNode, true);
       let height = tabNode.offsetHeight;
@@ -57,14 +63,11 @@ function componentDidUpdate(component, init) {
       }
       if (transformSupported) {
         setTransform(inkBarNodeStyle, `translate3d(0,${top}px,0)`);
-        inkBarNodeStyle.height = `${height}px`;
-        inkBarNodeStyle.width = '';
+        inkBarNodeStyle.top = '0';
       } else {
-        inkBarNodeStyle.left = '';
-        inkBarNodeStyle.right = '';
         inkBarNodeStyle.top = `${top}px`;
-        inkBarNodeStyle.bottom = `${wrapNode.offsetHeight - top - height}px`;
       }
+      inkBarNodeStyle.height = `${height}px`;
     }
   }
   inkBarNodeStyle.display = activeIndex !== -1 ? 'block' : 'none';
