@@ -1379,12 +1379,13 @@ var TabContent = function (_React$Component) {
       var prefixCls = props.prefixCls,
           children = props.children,
           activeKey = props.activeKey,
+          className = props.className,
           tabBarPosition = props.tabBarPosition,
           animated = props.animated,
           animatedWithMargin = props.animatedWithMargin;
       var style = props.style;
 
-      var classes = __WEBPACK_IMPORTED_MODULE_8_classnames___default()((_classnames = {}, __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_defineProperty___default()(_classnames, prefixCls + '-content', true), __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_defineProperty___default()(_classnames, animated ? prefixCls + '-content-animated' : prefixCls + '-content-no-animated', true), _classnames));
+      var classes = __WEBPACK_IMPORTED_MODULE_8_classnames___default()((_classnames = {}, __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_defineProperty___default()(_classnames, prefixCls + '-content', true), __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_defineProperty___default()(_classnames, animated ? prefixCls + '-content-animated' : prefixCls + '-content-no-animated', true), _classnames), className);
       if (animated) {
         var activeIndex = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_9__utils__["b" /* getActiveIndex */])(children, activeKey);
         if (activeIndex !== -1) {
@@ -1420,7 +1421,8 @@ TabContent.propTypes = {
   children: __WEBPACK_IMPORTED_MODULE_7_prop_types___default.a.node,
   activeKey: __WEBPACK_IMPORTED_MODULE_7_prop_types___default.a.string,
   style: __WEBPACK_IMPORTED_MODULE_7_prop_types___default.a.any,
-  tabBarPosition: __WEBPACK_IMPORTED_MODULE_7_prop_types___default.a.string
+  tabBarPosition: __WEBPACK_IMPORTED_MODULE_7_prop_types___default.a.string,
+  className: __WEBPACK_IMPORTED_MODULE_7_prop_types___default.a.string
 };
 
 TabContent.defaultProps = {
