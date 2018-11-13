@@ -8,10 +8,11 @@ webpackJsonp([0],[
 /* 6 */,
 /* 7 */,
 /* 8 */,
-/* 9 */
+/* 9 */,
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var root = __webpack_require__(10);
+var root = __webpack_require__(11);
 
 /** Built-in value references. */
 var Symbol = root.Symbol;
@@ -20,7 +21,7 @@ module.exports = Symbol;
 
 
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var freeGlobal = __webpack_require__(25);
@@ -35,7 +36,7 @@ module.exports = root;
 
 
 /***/ }),
-/* 11 */
+/* 12 */
 /***/ (function(module, exports) {
 
 /**
@@ -72,7 +73,7 @@ module.exports = isObject;
 
 
 /***/ }),
-/* 12 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -140,7 +141,7 @@ module.exports = warning;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
 
 /***/ }),
-/* 13 */
+/* 14 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -156,10 +157,12 @@ module.exports = warning;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_babel_runtime_helpers_inherits___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_babel_runtime_helpers_inherits__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_warning__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_warning__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_warning___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_warning__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_prop_types__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_prop_types__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__utils__ = __webpack_require__(9);
+
 
 
 
@@ -188,7 +191,8 @@ var TabBarTabsNode = function (_React$Component) {
           activeKey = _props.activeKey,
           prefixCls = _props.prefixCls,
           tabBarGutter = _props.tabBarGutter,
-          saveRef = _props.saveRef;
+          saveRef = _props.saveRef,
+          tabBarPosition = _props.tabBarPosition;
 
       var rst = [];
 
@@ -211,6 +215,7 @@ var TabBarTabsNode = function (_React$Component) {
         if (activeKey === key) {
           ref.ref = saveRef('activeTab');
         }
+        var style = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_8__utils__["f" /* isVertical */])(tabBarPosition) ? { marginBottom: tabBarGutter || 0 } : { marginRight: tabBarGutter && index === children.length - 1 ? 0 : tabBarGutter };
         __WEBPACK_IMPORTED_MODULE_6_warning___default()('tab' in child.props, 'There must be `tab` property on children of Tabs.');
         rst.push(__WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
           'div',
@@ -221,7 +226,7 @@ var TabBarTabsNode = function (_React$Component) {
           }, events, {
             className: cls,
             key: key,
-            style: { marginRight: tabBarGutter && index === children.length - 1 ? 0 : tabBarGutter }
+            style: style
           }, ref),
           child.props.tab
         ));
@@ -247,7 +252,8 @@ TabBarTabsNode.propTypes = {
   prefixCls: __WEBPACK_IMPORTED_MODULE_7_prop_types___default.a.string,
   tabBarGutter: __WEBPACK_IMPORTED_MODULE_7_prop_types___default.a.number,
   onTabClick: __WEBPACK_IMPORTED_MODULE_7_prop_types___default.a.func,
-  saveRef: __WEBPACK_IMPORTED_MODULE_7_prop_types___default.a.func
+  saveRef: __WEBPACK_IMPORTED_MODULE_7_prop_types___default.a.func,
+  tabBarPosition: __WEBPACK_IMPORTED_MODULE_7_prop_types___default.a.string
 };
 
 TabBarTabsNode.defaultProps = {
@@ -259,7 +265,7 @@ TabBarTabsNode.defaultProps = {
 };
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -279,7 +285,7 @@ TabBarTabsNode.defaultProps = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_classnames__ = __webpack_require__(23);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_classnames___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_classnames__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__utils__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__utils__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_rc_util_lib_Dom_addEventListener__ = __webpack_require__(34);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_rc_util_lib_Dom_addEventListener___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9_rc_util_lib_Dom_addEventListener__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_lodash_debounce__ = __webpack_require__(28);
@@ -655,7 +661,6 @@ ScrollableTabBarNode.defaultProps = {
 };
 
 /***/ }),
-/* 15 */,
 /* 16 */,
 /* 17 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -1066,9 +1071,9 @@ module.exports = exports['default'];
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__InkTabBarNode__ = __webpack_require__(37);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__TabBarTabsNode__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__TabBarTabsNode__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__TabBarRootNode__ = __webpack_require__(22);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__ScrollableTabBarNode__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__ScrollableTabBarNode__ = __webpack_require__(15);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__SaveRef__ = __webpack_require__(20);
 
 
@@ -1126,7 +1131,7 @@ var ScrollableInkTabBar = function (_React$Component) {
 /* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Symbol = __webpack_require__(9),
+var Symbol = __webpack_require__(10),
     getRawTag = __webpack_require__(26),
     objectToString = __webpack_require__(27);
 
@@ -1171,7 +1176,7 @@ module.exports = freeGlobal;
 /* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Symbol = __webpack_require__(9);
+var Symbol = __webpack_require__(10);
 
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
@@ -1251,7 +1256,7 @@ module.exports = objectToString;
 /* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isObject = __webpack_require__(11),
+var isObject = __webpack_require__(12),
     now = __webpack_require__(31),
     toNumber = __webpack_require__(32);
 
@@ -1517,7 +1522,7 @@ module.exports = isSymbol;
 /* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var root = __webpack_require__(10);
+var root = __webpack_require__(11);
 
 /**
  * Gets the timestamp of the number of milliseconds that have elapsed since
@@ -1546,7 +1551,7 @@ module.exports = now;
 /* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isObject = __webpack_require__(11),
+var isObject = __webpack_require__(12),
     isSymbol = __webpack_require__(30);
 
 /** Used as references for various `Number` constants. */
@@ -1781,7 +1786,7 @@ module.exports = factory(
 exports.__esModule = true;
 exports.createPath = exports.parsePath = exports.getQueryStringValueFromPath = exports.stripQueryStringValueFromPath = exports.addQueryStringValueToPath = undefined;
 
-var _warning = __webpack_require__(12);
+var _warning = __webpack_require__(13);
 
 var _warning2 = _interopRequireDefault(_warning);
 
@@ -1992,7 +1997,7 @@ var _invariant = __webpack_require__(36);
 
 var _invariant2 = _interopRequireDefault(_invariant);
 
-var _warning = __webpack_require__(12);
+var _warning = __webpack_require__(13);
 
 var _warning2 = _interopRequireDefault(_warning);
 
@@ -2326,7 +2331,7 @@ function formatPattern(pattern, params) {
 "use strict";
 /* harmony export (immutable) */ __webpack_exports__["a"] = routerWarning;
 /* unused harmony export _resetWarned */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_warning__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_warning__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_warning___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_warning__);
 
 
@@ -2803,7 +2808,7 @@ exports.default = createHistory;
 
 exports.__esModule = true;
 
-var _warning = __webpack_require__(12);
+var _warning = __webpack_require__(13);
 
 var _warning2 = _interopRequireDefault(_warning);
 
@@ -3228,7 +3233,7 @@ var RouterContext = __WEBPACK_IMPORTED_MODULE_2_create_react_class___default()({
 exports.__esModule = true;
 exports.readState = exports.saveState = undefined;
 
-var _warning = __webpack_require__(12);
+var _warning = __webpack_require__(13);
 
 var _warning2 = _interopRequireDefault(_warning);
 
@@ -5580,7 +5585,7 @@ Object.defineProperty(exports, 'go', {
   }
 });
 
-var _warning = __webpack_require__(12);
+var _warning = __webpack_require__(13);
 
 var _warning2 = _interopRequireDefault(_warning);
 
@@ -5852,7 +5857,7 @@ exports.__esModule = true;
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-var _warning = __webpack_require__(12);
+var _warning = __webpack_require__(13);
 
 var _warning2 = _interopRequireDefault(_warning);
 
@@ -6006,7 +6011,7 @@ exports.__esModule = true;
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-var _warning = __webpack_require__(12);
+var _warning = __webpack_require__(13);
 
 var _warning2 = _interopRequireDefault(_warning);
 

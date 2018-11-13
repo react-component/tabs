@@ -576,13 +576,7 @@ if (process.env.NODE_ENV === 'production') {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
 
 /***/ }),
-/* 9 */,
-/* 10 */,
-/* 11 */,
-/* 12 */,
-/* 13 */,
-/* 14 */,
-/* 15 */
+/* 9 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -703,10 +697,11 @@ function getTypeValue(start, current, end, tabNode, wrapperNode) {
 
   Array.prototype.some.call(childNodes, function (node) {
     var style = getComputedStyle(node);
+
     if (node !== tabNode) {
       total += toNum(style, 'margin-' + start);
-      total += toNum(style, 'margin-' + end);
       total += node[current];
+      total += toNum(style, 'margin-' + end);
 
       if (style.boxSizing === 'content-box') {
         total += toNum(style, 'border-' + start + '-width') + toNum(style, 'border-' + end + '-width');
@@ -729,12 +724,16 @@ function getLeft(tabNode, wrapperNode) {
 }
 
 function getTop(tabNode, wrapperNode) {
-  var top = getTypeValue('top', 'offsetHeight', 'bottom', tabNode, wrapperNode);
-  var height = getStyle(tabNode.parentNode, 'height');
-  return top - height;
+  return getTypeValue('top', 'offsetHeight', 'bottom', tabNode, wrapperNode);
 }
 
 /***/ }),
+/* 10 */,
+/* 11 */,
+/* 12 */,
+/* 13 */,
+/* 14 */,
+/* 15 */,
 /* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -865,7 +864,7 @@ SaveRef.defaultProps = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_classnames__ = __webpack_require__(23);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_classnames___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9_classnames__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__utils__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__utils__ = __webpack_require__(9);
 
 
 
@@ -1144,7 +1143,7 @@ module.exports = shouldUseNative() ? Object.assign : function (target, source) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_classnames__ = __webpack_require__(23);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_classnames___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_classnames__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__utils__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__utils__ = __webpack_require__(9);
 
 
 
@@ -1175,6 +1174,16 @@ function _componentDidUpdate(component, init) {
   if (activeTab) {
     var tabNode = activeTab;
     var transformSupported = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_8__utils__["k" /* isTransformSupported */])(inkBarNodeStyle);
+
+    // Reset current style
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_8__utils__["i" /* setTransform */])(inkBarNodeStyle, '');
+    inkBarNodeStyle.width = '';
+    inkBarNodeStyle.height = '';
+    inkBarNodeStyle.left = '';
+    inkBarNodeStyle.top = '';
+    inkBarNodeStyle.bottom = '';
+    inkBarNodeStyle.right = '';
+
     if (tabBarPosition === 'top' || tabBarPosition === 'bottom') {
       var left = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_8__utils__["l" /* getLeft */])(tabNode, wrapNode);
       var width = tabNode.offsetWidth;
@@ -1194,16 +1203,12 @@ function _componentDidUpdate(component, init) {
       // use 3d gpu to optimize render
       if (transformSupported) {
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_8__utils__["i" /* setTransform */])(inkBarNodeStyle, 'translate3d(' + left + 'px,0,0)');
-        inkBarNodeStyle.width = width + 'px';
-        inkBarNodeStyle.height = '';
       } else {
         inkBarNodeStyle.left = left + 'px';
-        inkBarNodeStyle.top = '';
-        inkBarNodeStyle.bottom = '';
-        inkBarNodeStyle.right = wrapNode.offsetWidth - left - width + 'px';
       }
+      inkBarNodeStyle.width = width + 'px';
     } else {
-      var top = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_8__utils__["m" /* getTop */])(tabNode, wrapNode);
+      var top = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_8__utils__["m" /* getTop */])(tabNode, wrapNode, true);
       var height = tabNode.offsetHeight;
       if (styles.inkBar && styles.inkBar.height !== undefined) {
         height = parseFloat(styles.inkBar.height, 10);
@@ -1213,14 +1218,11 @@ function _componentDidUpdate(component, init) {
       }
       if (transformSupported) {
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_8__utils__["i" /* setTransform */])(inkBarNodeStyle, 'translate3d(0,' + top + 'px,0)');
-        inkBarNodeStyle.height = height + 'px';
-        inkBarNodeStyle.width = '';
+        inkBarNodeStyle.top = '0';
       } else {
-        inkBarNodeStyle.left = '';
-        inkBarNodeStyle.right = '';
         inkBarNodeStyle.top = top + 'px';
-        inkBarNodeStyle.bottom = wrapNode.offsetHeight - top - height + 'px';
       }
+      inkBarNodeStyle.height = height + 'px';
     }
   }
   inkBarNodeStyle.display = activeIndex !== -1 ? 'block' : 'none';
@@ -1324,7 +1326,7 @@ InkTabBarNode.defaultProps = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_classnames__ = __webpack_require__(23);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_classnames___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_classnames__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__utils__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__utils__ = __webpack_require__(9);
 
 
 
@@ -2073,7 +2075,7 @@ module.exports = ReactPropTypesSecret;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_classnames__ = __webpack_require__(23);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_classnames___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9_classnames__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__utils__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__utils__ = __webpack_require__(9);
 
 
 
@@ -2497,7 +2499,7 @@ if (process.env.NODE_ENV === 'production') {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__TabPane__ = __webpack_require__(100);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_classnames__ = __webpack_require__(23);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_classnames___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_11_classnames__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__utils__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__utils__ = __webpack_require__(9);
 
 
 

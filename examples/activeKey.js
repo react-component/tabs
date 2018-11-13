@@ -3,6 +3,19 @@ webpackJsonp([2],{
 /***/ 10:
 /***/ (function(module, exports, __webpack_require__) {
 
+var root = __webpack_require__(11);
+
+/** Built-in value references. */
+var Symbol = root.Symbol;
+
+module.exports = Symbol;
+
+
+/***/ }),
+
+/***/ 11:
+/***/ (function(module, exports, __webpack_require__) {
+
 var freeGlobal = __webpack_require__(25);
 
 /** Detect free variable `self`. */
@@ -16,7 +29,7 @@ module.exports = root;
 
 /***/ }),
 
-/***/ 11:
+/***/ 12:
 /***/ (function(module, exports) {
 
 /**
@@ -51,75 +64,6 @@ function isObject(value) {
 
 module.exports = isObject;
 
-
-/***/ }),
-
-/***/ 12:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(process) {/**
- * Copyright 2014-2015, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- */
-
-
-
-/**
- * Similar to invariant but only logs a warning if the condition is not met.
- * This can be used to log issues in development environments in critical
- * paths. Removing the logging code for production environments will keep the
- * same logic and follow the same code paths.
- */
-
-var warning = function() {};
-
-if (process.env.NODE_ENV !== 'production') {
-  warning = function(condition, format, args) {
-    var len = arguments.length;
-    args = new Array(len > 2 ? len - 2 : 0);
-    for (var key = 2; key < len; key++) {
-      args[key - 2] = arguments[key];
-    }
-    if (format === undefined) {
-      throw new Error(
-        '`warning(condition, format, ...args)` requires a warning ' +
-        'message argument'
-      );
-    }
-
-    if (format.length < 10 || (/^[s\W]*$/).test(format)) {
-      throw new Error(
-        'The warning format should be able to uniquely identify this ' +
-        'warning. Please, use a more descriptive format than: ' + format
-      );
-    }
-
-    if (!condition) {
-      var argIndex = 0;
-      var message = 'Warning: ' +
-        format.replace(/%s/g, function() {
-          return args[argIndex++];
-        });
-      if (typeof console !== 'undefined') {
-        console.error(message);
-      }
-      try {
-        // This error was thrown as a convenience so that you can use this stack
-        // to find the callsite that caused this warning to fire.
-        throw new Error(message);
-      } catch(x) {}
-    }
-  };
-}
-
-module.exports = warning;
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
 
 /***/ }),
 
@@ -293,6 +237,75 @@ __WEBPACK_IMPORTED_MODULE_7_react_dom___default.a.render(__WEBPACK_IMPORTED_MODU
 /***/ }),
 
 /***/ 13:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {/**
+ * Copyright 2014-2015, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ */
+
+
+
+/**
+ * Similar to invariant but only logs a warning if the condition is not met.
+ * This can be used to log issues in development environments in critical
+ * paths. Removing the logging code for production environments will keep the
+ * same logic and follow the same code paths.
+ */
+
+var warning = function() {};
+
+if (process.env.NODE_ENV !== 'production') {
+  warning = function(condition, format, args) {
+    var len = arguments.length;
+    args = new Array(len > 2 ? len - 2 : 0);
+    for (var key = 2; key < len; key++) {
+      args[key - 2] = arguments[key];
+    }
+    if (format === undefined) {
+      throw new Error(
+        '`warning(condition, format, ...args)` requires a warning ' +
+        'message argument'
+      );
+    }
+
+    if (format.length < 10 || (/^[s\W]*$/).test(format)) {
+      throw new Error(
+        'The warning format should be able to uniquely identify this ' +
+        'warning. Please, use a more descriptive format than: ' + format
+      );
+    }
+
+    if (!condition) {
+      var argIndex = 0;
+      var message = 'Warning: ' +
+        format.replace(/%s/g, function() {
+          return args[argIndex++];
+        });
+      if (typeof console !== 'undefined') {
+        console.error(message);
+      }
+      try {
+        // This error was thrown as a convenience so that you can use this stack
+        // to find the callsite that caused this warning to fire.
+        throw new Error(message);
+      } catch(x) {}
+    }
+  };
+}
+
+module.exports = warning;
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
+
+/***/ }),
+
+/***/ 14:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -308,10 +321,12 @@ __WEBPACK_IMPORTED_MODULE_7_react_dom___default.a.render(__WEBPACK_IMPORTED_MODU
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_babel_runtime_helpers_inherits___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_babel_runtime_helpers_inherits__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_warning__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_warning__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_warning___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_warning__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_prop_types__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_prop_types__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__utils__ = __webpack_require__(9);
+
 
 
 
@@ -340,7 +355,8 @@ var TabBarTabsNode = function (_React$Component) {
           activeKey = _props.activeKey,
           prefixCls = _props.prefixCls,
           tabBarGutter = _props.tabBarGutter,
-          saveRef = _props.saveRef;
+          saveRef = _props.saveRef,
+          tabBarPosition = _props.tabBarPosition;
 
       var rst = [];
 
@@ -363,6 +379,7 @@ var TabBarTabsNode = function (_React$Component) {
         if (activeKey === key) {
           ref.ref = saveRef('activeTab');
         }
+        var style = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_8__utils__["f" /* isVertical */])(tabBarPosition) ? { marginBottom: tabBarGutter || 0 } : { marginRight: tabBarGutter && index === children.length - 1 ? 0 : tabBarGutter };
         __WEBPACK_IMPORTED_MODULE_6_warning___default()('tab' in child.props, 'There must be `tab` property on children of Tabs.');
         rst.push(__WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
           'div',
@@ -373,7 +390,7 @@ var TabBarTabsNode = function (_React$Component) {
           }, events, {
             className: cls,
             key: key,
-            style: { marginRight: tabBarGutter && index === children.length - 1 ? 0 : tabBarGutter }
+            style: style
           }, ref),
           child.props.tab
         ));
@@ -399,7 +416,8 @@ TabBarTabsNode.propTypes = {
   prefixCls: __WEBPACK_IMPORTED_MODULE_7_prop_types___default.a.string,
   tabBarGutter: __WEBPACK_IMPORTED_MODULE_7_prop_types___default.a.number,
   onTabClick: __WEBPACK_IMPORTED_MODULE_7_prop_types___default.a.func,
-  saveRef: __WEBPACK_IMPORTED_MODULE_7_prop_types___default.a.func
+  saveRef: __WEBPACK_IMPORTED_MODULE_7_prop_types___default.a.func,
+  tabBarPosition: __WEBPACK_IMPORTED_MODULE_7_prop_types___default.a.string
 };
 
 TabBarTabsNode.defaultProps = {
@@ -412,7 +430,7 @@ TabBarTabsNode.defaultProps = {
 
 /***/ }),
 
-/***/ 14:
+/***/ 15:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -432,7 +450,7 @@ TabBarTabsNode.defaultProps = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_classnames__ = __webpack_require__(23);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_classnames___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_classnames__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__utils__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__utils__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_rc_util_lib_Dom_addEventListener__ = __webpack_require__(34);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_rc_util_lib_Dom_addEventListener___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9_rc_util_lib_Dom_addEventListener__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_lodash_debounce__ = __webpack_require__(28);
@@ -1220,9 +1238,9 @@ module.exports = exports['default'];
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__InkTabBarNode__ = __webpack_require__(37);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__TabBarTabsNode__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__TabBarTabsNode__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__TabBarRootNode__ = __webpack_require__(22);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__ScrollableTabBarNode__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__ScrollableTabBarNode__ = __webpack_require__(15);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__SaveRef__ = __webpack_require__(20);
 
 
@@ -1287,7 +1305,7 @@ module.exports = __webpack_require__(126);
 /***/ 24:
 /***/ (function(module, exports, __webpack_require__) {
 
-var Symbol = __webpack_require__(9),
+var Symbol = __webpack_require__(10),
     getRawTag = __webpack_require__(26),
     objectToString = __webpack_require__(27);
 
@@ -1334,7 +1352,7 @@ module.exports = freeGlobal;
 /***/ 26:
 /***/ (function(module, exports, __webpack_require__) {
 
-var Symbol = __webpack_require__(9);
+var Symbol = __webpack_require__(10);
 
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
@@ -1416,7 +1434,7 @@ module.exports = objectToString;
 /***/ 28:
 /***/ (function(module, exports, __webpack_require__) {
 
-var isObject = __webpack_require__(11),
+var isObject = __webpack_require__(12),
     now = __webpack_require__(31),
     toNumber = __webpack_require__(32);
 
@@ -1685,7 +1703,7 @@ module.exports = isSymbol;
 /***/ 31:
 /***/ (function(module, exports, __webpack_require__) {
 
-var root = __webpack_require__(10);
+var root = __webpack_require__(11);
 
 /**
  * Gets the timestamp of the number of milliseconds that have elapsed since
@@ -1715,7 +1733,7 @@ module.exports = now;
 /***/ 32:
 /***/ (function(module, exports, __webpack_require__) {
 
-var isObject = __webpack_require__(11),
+var isObject = __webpack_require__(12),
     isSymbol = __webpack_require__(30);
 
 /** Used as references for various `Number` constants. */
@@ -1878,7 +1896,7 @@ module.exports = g;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_rc_hammerjs__ = __webpack_require__(55);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_react_dom__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9_react_dom__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__utils__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__utils__ = __webpack_require__(9);
 
 
 
@@ -4910,19 +4928,6 @@ HammerComponent.propTypes = {
 	className: __WEBPACK_IMPORTED_MODULE_5_prop_types___default.a.string
 };
 /* harmony default export */ __webpack_exports__["a"] = (HammerComponent);
-
-/***/ }),
-
-/***/ 9:
-/***/ (function(module, exports, __webpack_require__) {
-
-var root = __webpack_require__(10);
-
-/** Built-in value references. */
-var Symbol = root.Symbol;
-
-module.exports = Symbol;
-
 
 /***/ }),
 

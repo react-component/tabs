@@ -3,6 +3,19 @@ webpackJsonp([3],{
 /***/ 10:
 /***/ (function(module, exports, __webpack_require__) {
 
+var root = __webpack_require__(11);
+
+/** Built-in value references. */
+var Symbol = root.Symbol;
+
+module.exports = Symbol;
+
+
+/***/ }),
+
+/***/ 11:
+/***/ (function(module, exports, __webpack_require__) {
+
 var freeGlobal = __webpack_require__(25);
 
 /** Detect free variable `self`. */
@@ -16,7 +29,7 @@ module.exports = root;
 
 /***/ }),
 
-/***/ 11:
+/***/ 12:
 /***/ (function(module, exports) {
 
 /**
@@ -54,7 +67,7 @@ module.exports = isObject;
 
 /***/ }),
 
-/***/ 12:
+/***/ 13:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -120,126 +133,6 @@ if (process.env.NODE_ENV !== 'production') {
 module.exports = warning;
 
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
-
-/***/ }),
-
-/***/ 13:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_classCallCheck__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_classCallCheck___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_classCallCheck__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_createClass__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_createClass___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_createClass__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_possibleConstructorReturn__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_possibleConstructorReturn___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_possibleConstructorReturn__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_babel_runtime_helpers_inherits__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_babel_runtime_helpers_inherits___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_babel_runtime_helpers_inherits__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_react__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_warning__ = __webpack_require__(12);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_warning___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_warning__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_prop_types__ = __webpack_require__(6);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_prop_types__);
-
-
-
-
-
-
-
-
-
-var TabBarTabsNode = function (_React$Component) {
-  __WEBPACK_IMPORTED_MODULE_4_babel_runtime_helpers_inherits___default()(TabBarTabsNode, _React$Component);
-
-  function TabBarTabsNode() {
-    __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_classCallCheck___default()(this, TabBarTabsNode);
-
-    return __WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_possibleConstructorReturn___default()(this, (TabBarTabsNode.__proto__ || Object.getPrototypeOf(TabBarTabsNode)).apply(this, arguments));
-  }
-
-  __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_createClass___default()(TabBarTabsNode, [{
-    key: 'render',
-    value: function render() {
-      var _this2 = this;
-
-      var _props = this.props,
-          children = _props.panels,
-          activeKey = _props.activeKey,
-          prefixCls = _props.prefixCls,
-          tabBarGutter = _props.tabBarGutter,
-          saveRef = _props.saveRef;
-
-      var rst = [];
-
-      __WEBPACK_IMPORTED_MODULE_5_react___default.a.Children.forEach(children, function (child, index) {
-        if (!child) {
-          return;
-        }
-        var key = child.key;
-        var cls = activeKey === key ? prefixCls + '-tab-active' : '';
-        cls += ' ' + prefixCls + '-tab';
-        var events = {};
-        if (child.props.disabled) {
-          cls += ' ' + prefixCls + '-tab-disabled';
-        } else {
-          events = {
-            onClick: _this2.props.onTabClick.bind(_this2, key)
-          };
-        }
-        var ref = {};
-        if (activeKey === key) {
-          ref.ref = saveRef('activeTab');
-        }
-        __WEBPACK_IMPORTED_MODULE_6_warning___default()('tab' in child.props, 'There must be `tab` property on children of Tabs.');
-        rst.push(__WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
-          'div',
-          __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends___default()({
-            role: 'tab',
-            'aria-disabled': child.props.disabled ? 'true' : 'false',
-            'aria-selected': activeKey === key ? 'true' : 'false'
-          }, events, {
-            className: cls,
-            key: key,
-            style: { marginRight: tabBarGutter && index === children.length - 1 ? 0 : tabBarGutter }
-          }, ref),
-          child.props.tab
-        ));
-      });
-
-      return __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
-        'div',
-        { ref: saveRef('navTabsContainer') },
-        rst
-      );
-    }
-  }]);
-
-  return TabBarTabsNode;
-}(__WEBPACK_IMPORTED_MODULE_5_react___default.a.Component);
-
-/* harmony default export */ __webpack_exports__["a"] = (TabBarTabsNode);
-
-
-TabBarTabsNode.propTypes = {
-  activeKey: __WEBPACK_IMPORTED_MODULE_7_prop_types___default.a.string,
-  panels: __WEBPACK_IMPORTED_MODULE_7_prop_types___default.a.node,
-  prefixCls: __WEBPACK_IMPORTED_MODULE_7_prop_types___default.a.string,
-  tabBarGutter: __WEBPACK_IMPORTED_MODULE_7_prop_types___default.a.number,
-  onTabClick: __WEBPACK_IMPORTED_MODULE_7_prop_types___default.a.func,
-  saveRef: __WEBPACK_IMPORTED_MODULE_7_prop_types___default.a.func
-};
-
-TabBarTabsNode.defaultProps = {
-  panels: [],
-  prefixCls: [],
-  tabBarGutter: null,
-  onTabClick: function onTabClick() {},
-  saveRef: function saveRef() {}
-};
 
 /***/ }),
 
@@ -563,6 +456,131 @@ __WEBPACK_IMPORTED_MODULE_7_react_dom___default.a.render(__WEBPACK_IMPORTED_MODU
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_classCallCheck__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_classCallCheck___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_classCallCheck__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_createClass__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_createClass___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_createClass__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_possibleConstructorReturn__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_possibleConstructorReturn___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_possibleConstructorReturn__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_babel_runtime_helpers_inherits__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_babel_runtime_helpers_inherits___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_babel_runtime_helpers_inherits__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_react__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_warning__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_warning___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_warning__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_prop_types__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_prop_types__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__utils__ = __webpack_require__(9);
+
+
+
+
+
+
+
+
+
+
+var TabBarTabsNode = function (_React$Component) {
+  __WEBPACK_IMPORTED_MODULE_4_babel_runtime_helpers_inherits___default()(TabBarTabsNode, _React$Component);
+
+  function TabBarTabsNode() {
+    __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_classCallCheck___default()(this, TabBarTabsNode);
+
+    return __WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_possibleConstructorReturn___default()(this, (TabBarTabsNode.__proto__ || Object.getPrototypeOf(TabBarTabsNode)).apply(this, arguments));
+  }
+
+  __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_createClass___default()(TabBarTabsNode, [{
+    key: 'render',
+    value: function render() {
+      var _this2 = this;
+
+      var _props = this.props,
+          children = _props.panels,
+          activeKey = _props.activeKey,
+          prefixCls = _props.prefixCls,
+          tabBarGutter = _props.tabBarGutter,
+          saveRef = _props.saveRef,
+          tabBarPosition = _props.tabBarPosition;
+
+      var rst = [];
+
+      __WEBPACK_IMPORTED_MODULE_5_react___default.a.Children.forEach(children, function (child, index) {
+        if (!child) {
+          return;
+        }
+        var key = child.key;
+        var cls = activeKey === key ? prefixCls + '-tab-active' : '';
+        cls += ' ' + prefixCls + '-tab';
+        var events = {};
+        if (child.props.disabled) {
+          cls += ' ' + prefixCls + '-tab-disabled';
+        } else {
+          events = {
+            onClick: _this2.props.onTabClick.bind(_this2, key)
+          };
+        }
+        var ref = {};
+        if (activeKey === key) {
+          ref.ref = saveRef('activeTab');
+        }
+        var style = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_8__utils__["f" /* isVertical */])(tabBarPosition) ? { marginBottom: tabBarGutter || 0 } : { marginRight: tabBarGutter && index === children.length - 1 ? 0 : tabBarGutter };
+        __WEBPACK_IMPORTED_MODULE_6_warning___default()('tab' in child.props, 'There must be `tab` property on children of Tabs.');
+        rst.push(__WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
+          'div',
+          __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends___default()({
+            role: 'tab',
+            'aria-disabled': child.props.disabled ? 'true' : 'false',
+            'aria-selected': activeKey === key ? 'true' : 'false'
+          }, events, {
+            className: cls,
+            key: key,
+            style: style
+          }, ref),
+          child.props.tab
+        ));
+      });
+
+      return __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
+        'div',
+        { ref: saveRef('navTabsContainer') },
+        rst
+      );
+    }
+  }]);
+
+  return TabBarTabsNode;
+}(__WEBPACK_IMPORTED_MODULE_5_react___default.a.Component);
+
+/* harmony default export */ __webpack_exports__["a"] = (TabBarTabsNode);
+
+
+TabBarTabsNode.propTypes = {
+  activeKey: __WEBPACK_IMPORTED_MODULE_7_prop_types___default.a.string,
+  panels: __WEBPACK_IMPORTED_MODULE_7_prop_types___default.a.node,
+  prefixCls: __WEBPACK_IMPORTED_MODULE_7_prop_types___default.a.string,
+  tabBarGutter: __WEBPACK_IMPORTED_MODULE_7_prop_types___default.a.number,
+  onTabClick: __WEBPACK_IMPORTED_MODULE_7_prop_types___default.a.func,
+  saveRef: __WEBPACK_IMPORTED_MODULE_7_prop_types___default.a.func,
+  tabBarPosition: __WEBPACK_IMPORTED_MODULE_7_prop_types___default.a.string
+};
+
+TabBarTabsNode.defaultProps = {
+  panels: [],
+  prefixCls: [],
+  tabBarGutter: null,
+  onTabClick: function onTabClick() {},
+  saveRef: function saveRef() {}
+};
+
+/***/ }),
+
+/***/ 15:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty__ = __webpack_require__(16);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_classCallCheck__ = __webpack_require__(1);
@@ -579,7 +597,7 @@ __WEBPACK_IMPORTED_MODULE_7_react_dom___default.a.render(__WEBPACK_IMPORTED_MODU
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_classnames__ = __webpack_require__(23);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_classnames___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_classnames__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__utils__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__utils__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_rc_util_lib_Dom_addEventListener__ = __webpack_require__(34);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_rc_util_lib_Dom_addEventListener___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9_rc_util_lib_Dom_addEventListener__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_lodash_debounce__ = __webpack_require__(28);
@@ -1367,9 +1385,9 @@ module.exports = exports['default'];
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__InkTabBarNode__ = __webpack_require__(37);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__TabBarTabsNode__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__TabBarTabsNode__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__TabBarRootNode__ = __webpack_require__(22);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__ScrollableTabBarNode__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__ScrollableTabBarNode__ = __webpack_require__(15);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__SaveRef__ = __webpack_require__(20);
 
 
@@ -1434,7 +1452,7 @@ module.exports = __webpack_require__(133);
 /***/ 24:
 /***/ (function(module, exports, __webpack_require__) {
 
-var Symbol = __webpack_require__(9),
+var Symbol = __webpack_require__(10),
     getRawTag = __webpack_require__(26),
     objectToString = __webpack_require__(27);
 
@@ -1481,7 +1499,7 @@ module.exports = freeGlobal;
 /***/ 26:
 /***/ (function(module, exports, __webpack_require__) {
 
-var Symbol = __webpack_require__(9);
+var Symbol = __webpack_require__(10);
 
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
@@ -1563,7 +1581,7 @@ module.exports = objectToString;
 /***/ 28:
 /***/ (function(module, exports, __webpack_require__) {
 
-var isObject = __webpack_require__(11),
+var isObject = __webpack_require__(12),
     now = __webpack_require__(31),
     toNumber = __webpack_require__(32);
 
@@ -1832,7 +1850,7 @@ module.exports = isSymbol;
 /***/ 31:
 /***/ (function(module, exports, __webpack_require__) {
 
-var root = __webpack_require__(10);
+var root = __webpack_require__(11);
 
 /**
  * Gets the timestamp of the number of milliseconds that have elapsed since
@@ -1862,7 +1880,7 @@ module.exports = now;
 /***/ 32:
 /***/ (function(module, exports, __webpack_require__) {
 
-var isObject = __webpack_require__(11),
+var isObject = __webpack_require__(12),
     isSymbol = __webpack_require__(30);
 
 /** Used as references for various `Number` constants. */
@@ -2011,7 +2029,7 @@ module.exports = g;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_prop_types__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__InkTabBarNode__ = __webpack_require__(37);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__TabBarTabsNode__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__TabBarTabsNode__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__TabBarRootNode__ = __webpack_require__(22);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__SaveRef__ = __webpack_require__(20);
 
@@ -2087,9 +2105,9 @@ InkTabBar.defaultProps = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_babel_runtime_helpers_inherits___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_babel_runtime_helpers_inherits__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__ScrollableTabBarNode__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__ScrollableTabBarNode__ = __webpack_require__(15);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__TabBarRootNode__ = __webpack_require__(22);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__TabBarTabsNode__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__TabBarTabsNode__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__SaveRef__ = __webpack_require__(20);
 
 
@@ -2158,7 +2176,7 @@ var ScrollableTabBar = function (_React$Component) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__TabBarRootNode__ = __webpack_require__(22);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__TabBarTabsNode__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__TabBarTabsNode__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__SaveRef__ = __webpack_require__(20);
 
 
@@ -2202,19 +2220,6 @@ var TabBar1 = function (_React$Component) {
 }(__WEBPACK_IMPORTED_MODULE_5_react___default.a.Component);
 
 /* harmony default export */ __webpack_exports__["a"] = (TabBar1);
-
-/***/ }),
-
-/***/ 9:
-/***/ (function(module, exports, __webpack_require__) {
-
-var root = __webpack_require__(10);
-
-/** Built-in value references. */
-var Symbol = root.Symbol;
-
-module.exports = Symbol;
-
 
 /***/ })
 
