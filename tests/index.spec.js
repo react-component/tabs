@@ -209,10 +209,10 @@ describe('rc-tabs', () => {
   });
 
   it('tabBarGutter should work', () => {
-    let wrapper = mount(
+    const generateTabBarGutter = tabBarPosition => (
       <Tabs
         defaultActiveKey="3"
-        tabBarPosition="top"
+        tabBarPosition={tabBarPosition}
         renderTabBar={() => (
           <InkTabBar
             tabBarGutter={40}
@@ -224,25 +224,10 @@ describe('rc-tabs', () => {
         <TabPane tab="tab 2" key="2">second</TabPane>
       </Tabs>
     );
-
+    let wrapper = mount(generateTabBarGutter('top'));
     expect(wrapper.find('.rc-tabs-tab').at(0).instance().style.marginRight).toBe('40px');
 
-    wrapper = mount(
-      <Tabs
-        defaultActiveKey="3"
-        tabBarPosition="left"
-        renderTabBar={() => (
-          <InkTabBar
-            tabBarGutter={40}
-          />
-        )}
-        renderTabContent={() => <TabContent />}
-      >
-        <TabPane tab="tab 1" key="1">first</TabPane>
-        <TabPane tab="tab 2" key="2">second</TabPane>
-      </Tabs>
-    );
-
-    expect(wrapper.find('.rc-tabs-tab').at(0).instance().style.marginTop).toBe('40px');
+    wrapper = mount(generateTabBarGutter('left'));
+    expect(wrapper.find('.rc-tabs-tab').at(0).instance().style.marginBottom).toBe('40px');
   });
 });

@@ -35,7 +35,7 @@ export default class TabBarTabsNode extends React.Component {
         ref.ref = saveRef('activeTab');
       }
       const style = isVertical(tabBarPosition) ?
-        { marginTop: tabBarGutter || 0 } :
+        { marginBottom: tabBarGutter || 0 } :
         { marginRight: tabBarGutter && index === children.length - 1 ? 0 : tabBarGutter };
       warning('tab' in child.props, 'There must be `tab` property on children of Tabs.');
       rst.push(
