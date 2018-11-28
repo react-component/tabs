@@ -5,14 +5,6 @@ import { getDataAttr } from './utils';
 import Sentinel, { SentinelConsumer } from './Sentinel';
 
 export default class TabPane extends React.Component {
-  setSentinelStart = (node) => {
-    this.sentinelStart = node;
-  };
-
-  setSentinelEnd = (node) => {
-    this.sentinelEnd = node;
-  };
-
   render() {
     const {
       id, className, destroyInactiveTabPane, active, forceRender,
