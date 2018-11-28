@@ -24,7 +24,7 @@ const makeMultiTabPane = (count) => {
 };
 
 
-class NormoalTabs extends Component {
+class NormalTabs extends Component {
   render() {
     return (
       <div style={{ width: 500, height: 500 }}>
@@ -40,31 +40,28 @@ class NormoalTabs extends Component {
 }
 
 describe('tabs with tab key', () => {
-  it('press at first input', () => {
-    const wrapper = mount(<NormoalTabs />);
+  function testTab(name, from, to, shiftKey) {
+    it(name, (done) => {
+      const wrapper = mount(<NormalTabs />);
 
-    const src = wrapper.find('div[role="tabpanel"] > div').at(0);
-    src.instance().focus();
-    src.simulate('keyDown', {
-      shiftKey: true,
-      which: KeyCode.TAB,
+      setTimeout(() => {
+        const src = wrapper.find('div[role="presentation"]').at(from);
+        src.instance().focus();
+        src.simulate('keyDown', {
+          shiftKey,
+          which: KeyCode.TAB,
+        });
+
+        const tgt = wrapper.find('div[role="presentation"]').at(to);
+        expect(document.activeElement).toBe(tgt.getDOMNode());
+
+        done();
+      }, 50);
     });
+  }
 
-    const tgt = wrapper.find('div[role="tabpanel"] > div').at(2);
-    expect(document.activeElement).toBe(tgt.instance());
-  });
-
-  it('press at last input', () => {
-    const wrapper = mount(<NormoalTabs />);
-
-    const src = wrapper.find('div[role="tabpanel"] > div').at(2);
-    src.instance().focus();
-    src.simulate('keyDown', {
-      shiftKey: false,
-      which: KeyCode.TAB,
-    });
-
-    const tgt = wrapper.find('div[role="tabpanel"] > div').at(0);
-    expect(document.activeElement).toBe(tgt.instance());
-  });
+  testTab('up tab to up panel', 0, 1, false);
+  testTab('down panel to down tab', 2, 3, false);
+  testTab('up panel to up tab', 1, 0, true);
+  testTab('down tab to down panel', 3, 2, true);
 });

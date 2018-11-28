@@ -3,7 +3,9 @@ import PropTypes from 'prop-types';
 import KeyCode from './KeyCode';
 import TabPane from './TabPane';
 import classnames from 'classnames';
+import raf from 'raf';
 import { getDataAttr } from './utils';
+import Sentinel, { SentinelProvider } from './Sentinel';
 
 function noop() {
 }
@@ -54,6 +56,10 @@ export default class Tabs extends React.Component {
     }
   }
 
+  componentWillUnmount() {
+    raf.cancel(this.sentinelId);
+  }
+
   onTabClick = (activeKey, e) => {
     if (this.tabBar.props.onTabClick) {
       this.tabBar.props.onTabClick(activeKey, e);
@@ -78,6 +84,29 @@ export default class Tabs extends React.Component {
     if (target === currentTarget && target.scrollLeft > 0) {
       target.scrollLeft = 0;
     }
+  };
+
+  // Sentinel for tab index
+  setSentinelStart = (node) => {
+    this.sentinelStart = node;
+  };
+
+  setSentinelEnd = (node) => {
+    this.sentinelEnd = node;
+  };
+
+  setPanelSentinelStart = (node) => {
+    if (node !== this.panelSentinelStart) {
+      this.updateSentinelContext();
+    }
+    this.panelSentinelStart = node;
+  };
+
+  setPanelSentinelEnd = (node) => {
+    if (node !== this.panelSentinelEnd) {
+      this.updateSentinelContext();
+    }
+    this.panelSentinelEnd = node;
   };
 
   setActiveKey = (activeKey) => {
@@ -117,6 +146,13 @@ export default class Tabs extends React.Component {
     return ret;
   }
 
+  updateSentinelContext() {
+    raf.cancel(this.sentinelId);
+    this.sentinelId = raf(() => {
+      this.forceUpdate();
+    });
+  }
+
   render() {
     const props = this.props;
     const {
@@ -135,39 +171,68 @@ export default class Tabs extends React.Component {
     });
 
     this.tabBar = renderTabBar();
-    const contents = [
-      React.cloneElement(this.tabBar, {
-        prefixCls,
-        navWrapper,
-        key: 'tabBar',
-        onKeyDown: this.onNavKeyDown,
-        tabBarPosition,
-        onTabClick: this.onTabClick,
-        panels: props.children,
-        activeKey: this.state.activeKey,
-      }),
-      React.cloneElement(renderTabContent(), {
-        prefixCls,
-        tabBarPosition,
-        activeKey: this.state.activeKey,
-        destroyInactiveTabPane,
-        children: props.children,
-        onChange: this.setActiveKey,
-        key: 'tabContent',
-      }),
-    ];
+
+    const tabBar = React.cloneElement(this.tabBar, {
+      prefixCls,
+      navWrapper,
+      key: 'tabBar',
+      onKeyDown: this.onNavKeyDown,
+      tabBarPosition,
+      onTabClick: this.onTabClick,
+      panels: props.children,
+      activeKey: this.state.activeKey,
+    });
+
+    const tabContent = React.cloneElement(renderTabContent(), {
+      prefixCls,
+      tabBarPosition,
+      activeKey: this.state.activeKey,
+      destroyInactiveTabPane,
+      children: props.children,
+      onChange: this.setActiveKey,
+      key: 'tabContent',
+    });
+
+    const sentinelStart = (
+      <Sentinel
+        key="sentinelStart"
+        setRef={this.setSentinelStart}
+        nextElement={this.panelSentinelStart}
+      />
+    );
+    const sentinelEnd = (
+      <Sentinel
+        key="sentinelEnd"
+        setRef={this.setSentinelEnd}
+        prevElement={this.panelSentinelEnd}
+      />
+    );
+
+    const contents = [];
     if (tabBarPosition === 'bottom') {
-      contents.reverse();
+      contents.push(sentinelStart, tabContent, sentinelEnd, tabBar);
+    } else {
+      contents.push(tabBar, sentinelStart, tabContent, sentinelEnd);
     }
+
     return (
-      <div
-        className={cls}
-        style={props.style}
-        {...getDataAttr(restProps)}
-        onScroll={this.onScroll}
+      <SentinelProvider
+        value={{
+          sentinelStart: this.sentinelStart,
+          sentinelEnd: this.sentinelEnd,
+          setPanelSentinelStart: this.setPanelSentinelStart,
+          setPanelSentinelEnd: this.setPanelSentinelEnd,
+        }}
       >
-        {contents}
-      </div>
+        <div
+          className={cls}
+          style={props.style}
+          {...getDataAttr(restProps)}
+          onScroll={this.onScroll}
+        >
+          {contents}
+        </div>
+      </SentinelProvider>
     );
   }
 }
