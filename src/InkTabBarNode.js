@@ -1,62 +1,36 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import { setTransform, isTransformSupported } from './utils';
-
-export function getScroll(w, top) {
-  let ret = w[`page${top ? 'Y' : 'X'}Offset`];
-  const method = `scroll${top ? 'Top' : 'Left'}`;
-  if (typeof ret !== 'number') {
-    const d = w.document;
-    // ie6,7,8 standard mode
-    ret = d.documentElement[method];
-    if (typeof ret !== 'number') {
-      // quirks mode
-      ret = d.body[method];
-    }
-  }
-  return ret;
-}
-
-function offset(elem) {
-  let box;
-  let x;
-  let y;
-  const doc = elem.ownerDocument;
-  const body = doc.body;
-  const docElem = doc && doc.documentElement;
-  box = elem.getBoundingClientRect();
-  x = box.left;
-  y = box.top;
-  x -= docElem.clientLeft || body.clientLeft || 0;
-  y -= docElem.clientTop || body.clientTop || 0;
-  const w = doc.defaultView || doc.parentWindow;
-  x += getScroll(w);
-  y += getScroll(w, true);
-  return {
-    left: x, top: y,
-  };
-}
+import { setTransform, isTransformSupported, getLeft, getTop, getActiveIndex } from './utils';
 
 function componentDidUpdate(component, init) {
-  const { styles } = component.props;
+  const { styles, panels, activeKey } = component.props;
   const rootNode = component.props.getRef('root');
   const wrapNode = component.props.getRef('nav') || rootNode;
-  const containerOffset = offset(wrapNode);
   const inkBarNode = component.props.getRef('inkBar');
   const activeTab = component.props.getRef('activeTab');
   const inkBarNodeStyle = inkBarNode.style;
   const tabBarPosition = component.props.tabBarPosition;
+  const activeIndex = getActiveIndex(panels, activeKey);
   if (init) {
     // prevent mount animation
     inkBarNodeStyle.display = 'none';
   }
   if (activeTab) {
     const tabNode = activeTab;
-    const tabOffset = offset(tabNode);
     const transformSupported = isTransformSupported(inkBarNodeStyle);
+
+    // Reset current style
+    setTransform(inkBarNodeStyle, '');
+    inkBarNodeStyle.width = '';
+    inkBarNodeStyle.height = '';
+    inkBarNodeStyle.left = '';
+    inkBarNodeStyle.top = '';
+    inkBarNodeStyle.bottom = '';
+    inkBarNodeStyle.right = '';
+
     if (tabBarPosition === 'top' || tabBarPosition === 'bottom') {
-      let left = tabOffset.left - containerOffset.left;
+      let left = getLeft(tabNode, wrapNode);
       let width = tabNode.offsetWidth;
 
       // If tabNode'width width equal to wrapNode'width when tabBarPosition is top or bottom
@@ -70,19 +44,16 @@ function componentDidUpdate(component, init) {
           left = left + (tabNode.offsetWidth - width) / 2;
         }
       }
+
       // use 3d gpu to optimize render
       if (transformSupported) {
         setTransform(inkBarNodeStyle, `translate3d(${left}px,0,0)`);
-        inkBarNodeStyle.width = `${width}px`;
-        inkBarNodeStyle.height = '';
       } else {
         inkBarNodeStyle.left = `${left}px`;
-        inkBarNodeStyle.top = '';
-        inkBarNodeStyle.bottom = '';
-        inkBarNodeStyle.right = `${wrapNode.offsetWidth - left - width}px`;
       }
+      inkBarNodeStyle.width = `${width}px`;
     } else {
-      let top = tabOffset.top - containerOffset.top;
+      let top = getTop(tabNode, wrapNode, true);
       let height = tabNode.offsetHeight;
       if (styles.inkBar && styles.inkBar.height !== undefined) {
         height = parseFloat(styles.inkBar.height, 10);
@@ -92,17 +63,14 @@ function componentDidUpdate(component, init) {
       }
       if (transformSupported) {
         setTransform(inkBarNodeStyle, `translate3d(0,${top}px,0)`);
-        inkBarNodeStyle.height = `${height}px`;
-        inkBarNodeStyle.width = '';
+        inkBarNodeStyle.top = '0';
       } else {
-        inkBarNodeStyle.left = '';
-        inkBarNodeStyle.right = '';
         inkBarNodeStyle.top = `${top}px`;
-        inkBarNodeStyle.bottom = `${wrapNode.offsetHeight - top - height}px`;
       }
+      inkBarNodeStyle.height = `${height}px`;
     }
   }
-  inkBarNodeStyle.display = activeTab ? 'block' : 'none';
+  inkBarNodeStyle.display = activeIndex !== -1 ? 'block' : 'none';
 }
 
 export default class InkTabBarNode extends React.Component {

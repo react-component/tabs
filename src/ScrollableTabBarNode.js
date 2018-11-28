@@ -53,7 +53,8 @@ export default class ScrollableTabBarNode extends React.Component {
 
   setNextPrev() {
     const navNode = this.props.getRef('nav');
-    const navNodeWH = this.getScrollWH(navNode);
+    const navTabsContainer = this.props.getRef('navTabsContainer');
+    const navNodeWH = this.getScrollWH(navTabsContainer || navNode);
     const containerWH = this.getOffsetWH(this.props.getRef('container'));
     const navWrapNodeWH = this.getOffsetWH(this.props.getRef('navWrap'));
     let { offset } = this;

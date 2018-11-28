@@ -34,7 +34,7 @@ export default class TabContent extends React.Component {
   render() {
     const { props } = this;
     const {
-      prefixCls, children, activeKey,
+      prefixCls, children, activeKey, className,
       tabBarPosition, animated, animatedWithMargin,
     } = props;
     let { style } = props;
@@ -43,7 +43,7 @@ export default class TabContent extends React.Component {
       [animated ?
         `${prefixCls}-content-animated` :
         `${prefixCls}-content-no-animated`]: true,
-    });
+    }, className);
     if (animated) {
       const activeIndex = getActiveIndex(children, activeKey);
       if (activeIndex !== -1) {
@@ -80,6 +80,7 @@ TabContent.propTypes = {
   activeKey: PropTypes.string,
   style: PropTypes.any,
   tabBarPosition: PropTypes.string,
+  className: PropTypes.string,
 };
 
 TabContent.defaultProps = {

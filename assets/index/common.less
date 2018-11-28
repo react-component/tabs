@@ -22,8 +22,17 @@
     margin-top: -3px;
     background-color: #108ee9;
     transform-origin: 0 0;
+
+    width: 0;
+    height: 0;
+
     &-animated {
-      transition: transform @effect-duration @easing-in-out;
+      transition:
+        transform @effect-duration @easing-in-out,
+        left @effect-duration @easing-in-out,
+        top @effect-duration @easing-in-out,
+        height @effect-duration @easing-in-out,
+        width @effect-duration @easing-in-out;
     }
   }
 

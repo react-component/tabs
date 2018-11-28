@@ -1,10 +1,18 @@
 import React from 'react';
 import warning from 'warning';
 import PropTypes from 'prop-types';
+import { isVertical } from './utils';
 
 export default class TabBarTabsNode extends React.Component {
   render() {
-    const { panels: children, activeKey, prefixCls, tabBarGutter } = this.props;
+    const {
+      panels: children,
+      activeKey,
+      prefixCls,
+      tabBarGutter,
+      saveRef,
+      tabBarPosition,
+    } = this.props;
     const rst = [];
 
     React.Children.forEach(children, (child, index) => {
@@ -24,8 +32,13 @@ export default class TabBarTabsNode extends React.Component {
       }
       const ref = {};
       if (activeKey === key) {
-        ref.ref = this.props.saveRef('activeTab');
+        ref.ref = saveRef('activeTab');
       }
+
+      const gutter = tabBarGutter && index === children.length - 1 ? 0 : tabBarGutter;
+      const style = {
+        [isVertical(tabBarPosition) ? 'marginBottom' : 'marginRight']: gutter,
+      };
       warning('tab' in child.props, 'There must be `tab` property on children of Tabs.');
       rst.push(
         <div
@@ -35,7 +48,7 @@ export default class TabBarTabsNode extends React.Component {
           {...events}
           className={cls}
           key={key}
-          style={{ marginRight: tabBarGutter && index === children.length - 1 ? 0 : tabBarGutter }}
+          style={ style }
           {...ref}
         >
           {child.props.tab}
@@ -43,7 +56,11 @@ export default class TabBarTabsNode extends React.Component {
       );
     });
 
-    return <div>{rst}</div>;
+    return (
+      <div ref={saveRef('navTabsContainer')}>
+        {rst}
+      </div>
+    );
   }
 }
 
@@ -54,6 +71,7 @@ TabBarTabsNode.propTypes = {
   tabBarGutter: PropTypes.number,
   onTabClick: PropTypes.func,
   saveRef: PropTypes.func,
+  tabBarPosition: PropTypes.string,
 };
 
 TabBarTabsNode.defaultProps = {

@@ -64,7 +64,7 @@ class Component extends React.Component {
           renderTabContent={() => <TabContent/>}
           onChange={this.onChange}
         >
-          <TabPane tab={`tab ${start}`} key="1">
+          <TabPane tab={`tab ${start}`} key="1" id="test1">
             <PanelContent id={start}/>
           </TabPane>
           <TabPane tab={`tab ${start + 1}`} key="2">

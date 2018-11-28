@@ -39,6 +39,12 @@ class Demo extends React.Component {
     });
   }
 
+  handleNotExistKey = () => {
+    this.setState({
+      activeKey: '-1',
+    });
+  }
+
   render() {
     const start = this.state.start;
     return (
@@ -65,6 +71,11 @@ class Demo extends React.Component {
           </TabPane>
         </Tabs>
         <button onClick={this.tick}>rerender</button>
+        <button onClick={this.handleNotExistKey}
+          style={{ marginLeft: 10 }}
+        >
+          change to a non-existent activeKey
+        </button>
       </div>
     );
   }
