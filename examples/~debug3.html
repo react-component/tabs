@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>activeKey.js - example - rc-tabs@9.5.3</title>
+  <title>~debug3.js - example - rc-tabs@9.5.3</title>
   <meta name="viewport"
         content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
   <meta charset="utf-8"/>
@@ -269,14 +269,14 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
     </div>
     <div class="example" id="__react-content"></div>
 
-    <div class="highlight"><pre><code language="undefined">/* eslint react/no-multi-comp:0, no-console:0, react/prop-types:0 */
+    <div class="highlight"><pre><code language="undefined">/* eslint-disable */
 import 'rc-tabs/assets/index.css';
 import React from 'react';
 import Sortable from 'react-sortablejs';
 import ReactDOM from 'react-dom';
 import Tabs, { TabPane } from 'rc-tabs';
 import TabContent from 'rc-tabs/lib/SwipeableTabContent';
-import ScrollableInkTabBar from 'rc-tabs/lib/ScrollableInkTabBar';
+import InkTabBar from 'rc-tabs/lib/InkTabBar';
 
 const PanelContent = ({ id }) =&gt; (
   &lt;div&gt;{[1, 2, 3, 4].map(item =&gt; &lt;p key={item}&gt;{id}&lt;/p&gt;)}&lt;/div&gt;
@@ -284,75 +284,58 @@ const PanelContent = ({ id }) =&gt; (
 
 class Demo extends React.Component {
   state = {
-    activeKey: '',
-    start: 0,
+    tabsData: [
+      { tab: "tab1", content: "tab1 content" },
+      { tab: "tab2", content: "tab2 content" }
+    ]
   };
 
-  onChange = (activeKey) =&gt; {
-    console.log(`onChange ${activeKey}`);
-    this.setState({
-      activeKey,
-    });
-  }
-
-  onTabClick = (key) =&gt; {
-    console.log(`onTabClick ${key}`);
-    if (key === this.state.activeKey) {
+  handleRemoveTabsChild = () =&gt; {
+    this.setState({ tabsData: [] });
+    // 模拟网络请求
+    setTimeout(() =&gt; {
       this.setState({
-        activeKey: '',
+        tabsData: [
+          { tab: "tab1", content: "tab1 content" },
+          { tab: "tab2", content: "tab2 content" }
+        ]
       });
-    }
-  }
-
-  tick = () =&gt; {
-    this.setState({
-      start: this.state.start + 10,
-    });
-  }
-
-  handleNotExistKey = () =&gt; {
-    this.setState({
-      activeKey: '-1',
-    });
-  }
+    }, 100);
+  };
 
   render() {
-    const start = this.state.start;
     return (
-      &lt;div style={{ margin: 20 }}&gt;
-        &lt;h1&gt;Simple Tabs&lt;/h1&gt;
+      &lt;div&gt;
+        &lt;button onClick={this.handleRemoveTabsChild}&gt;刷新&lt;/button&gt;
+        {/* 当 tabPosition 为 'left'/'right' 时，点刷新按钮报错 */}
         &lt;Tabs
-          renderTabBar={() =&gt; &lt;ScrollableInkTabBar onTabClick={this.onTabClick}/&gt;}
-          renderTabContent={() =&gt; &lt;TabContent animatedWithMargin /&gt;}
-          navWrapper={(content) =&gt; &lt;Sortable&gt;{content}&lt;/Sortable&gt;}
-          activeKey={this.state.activeKey}
-          onChange={this.onChange}
-        &gt;
-          &lt;TabPane tab={`tab ${start}`} key="1"&gt;
-            &lt;PanelContent id={start} /&gt;
-          &lt;/TabPane&gt;
-          &lt;TabPane tab={`tab ${start + 1}`} key="2"&gt;
-            &lt;PanelContent id={start + 1} /&gt;
-          &lt;/TabPane&gt;
-          &lt;TabPane tab={`tab ${start + 2}`} key="3"&gt;
-            &lt;PanelContent id={start + 2} /&gt;
-          &lt;/TabPane&gt;
-          &lt;TabPane tab={`tab ${start + 3}`} key="4" disabled&gt;
-            &lt;PanelContent id={start + 3} /&gt;
-          &lt;/TabPane&gt;
-        &lt;/Tabs&gt;
-        &lt;button onClick={this.tick}&gt;rerender&lt;/button&gt;
-        &lt;button onClick={this.handleNotExistKey}
-          style={{ marginLeft: 10 }}
-        &gt;
-          change to a non-existent activeKey
-        &lt;/button&gt;
+            defaultActiveKey="3"
+            tabBarPosition="left"
+            renderTabBar={() =&gt; (
+              &lt;InkTabBar
+                onTabClick={this.onTabClick}
+                tabBarGutter={40}
+              /&gt;
+            )}
+            renderTabContent={() =&gt; &lt;TabContent /&gt;}
+            onChange={this.onChange}
+          &gt;
+            {this.state.tabsData.map(({ tab, content }) =&gt; (
+              &lt;TabPane
+                tab={tab}
+                key={tab}
+              &gt;
+                {content}
+              &lt;/TabPane&gt;
+            ))}
+          &lt;/Tabs&gt;
       &lt;/div&gt;
     );
   }
 }
 
 ReactDOM.render(&lt;Demo /&gt;, document.getElementById('__react-content'));
+/* eslint-enable */
 </code></pre></div>
   </div>
   <a href="http://github.com/react-component/tabs">
@@ -363,7 +346,7 @@ ReactDOM.render(&lt;Demo /&gt;, document.getElementById('__react-content'));
   </a>
   <script>FastClick.attach(document.body);</script>
   <script src="../common.js?nowrap"></script>
-  <script src="activeKey.js?nowrap"></script>
+  <script src="~debug3.js?nowrap"></script>
 </body>
 
 </html>
