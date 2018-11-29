@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { getDataAttr } from './utils';
+import Sentinel, { SentinelConsumer } from './Sentinel';
 
 export default class TabPane extends React.Component {
   render() {
@@ -18,17 +19,45 @@ export default class TabPane extends React.Component {
       [className]: className,
     });
     const isRender = destroyInactiveTabPane ? active : this._isActived;
+    const shouldRender = isRender || forceRender;
+
     return (
-      <div
-        style={style}
-        role="tabpanel"
-        aria-hidden={active ? 'false' : 'true'}
-        className={cls}
-        id={id}
-        {...getDataAttr(restProps)}
-      >
-        {isRender || forceRender ? children : placeholder}
-      </div>
+      <SentinelConsumer>
+        {({ sentinelStart, sentinelEnd, setPanelSentinelStart, setPanelSentinelEnd }) => {
+          // Create sentinel
+          let panelSentinelStart;
+          let panelSentinelEnd;
+          if (active && shouldRender) {
+            panelSentinelStart = (
+              <Sentinel
+                setRef={setPanelSentinelStart}
+                prevElement={sentinelStart}
+              />
+            );
+            panelSentinelEnd = (
+              <Sentinel
+                setRef={setPanelSentinelEnd}
+                nextElement={sentinelEnd}
+              />
+            );
+          }
+
+          return (
+            <div
+              style={style}
+              role="tabpanel"
+              aria-hidden={active ? 'false' : 'true'}
+              className={cls}
+              id={id}
+              {...getDataAttr(restProps)}
+            >
+              {panelSentinelStart}
+              {shouldRender ? children : placeholder}
+              {panelSentinelEnd}
+            </div>
+          );
+        }}
+      </SentinelConsumer>
     );
   }
 }

@@ -134,6 +134,13 @@ exports[`rc-swipeable-tabs should render Slider with correct DOM structure 1`] =
       </div>
     </div>
     <div
+      role="presentation"
+      style="width:0;height:0;overflow:hidden"
+      tabindex="0"
+    >
+      
+    </div>
+    <div
       class="rc-tabs-content rc-tabs-content-animated"
       style="transform:translateX(-800%) translateZ(0);-webkit-transform:translateX(-800%) translateZ(0);-moz-transform:translateX(-800%) translateZ(0)"
     >
@@ -199,9 +206,23 @@ exports[`rc-swipeable-tabs should render Slider with correct DOM structure 1`] =
         role="tabpanel"
       >
         <div
+          role="presentation"
+          style="width:0;height:0;overflow:hidden"
+          tabindex="0"
+        >
+          
+        </div>
+        <div
           style="display:flex;align-items:center;justify-content:center;height:5rem;background-color:#fff"
         >
           选项8内容
+        </div>
+        <div
+          role="presentation"
+          style="width:0;height:0;overflow:hidden"
+          tabindex="0"
+        >
+          
         </div>
       </div>
       <div
@@ -218,6 +239,13 @@ exports[`rc-swipeable-tabs should render Slider with correct DOM structure 1`] =
       >
         
       </div>
+    </div>
+    <div
+      role="presentation"
+      style="width:0;height:0;overflow:hidden"
+      tabindex="0"
+    >
+      
     </div>
   </div>
 </div>
