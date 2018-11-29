@@ -7,7 +7,7 @@ export default class TabBarRootNode extends React.Component {
   render() {
     const {
       prefixCls, onKeyDown, className, extraContent, style, tabBarPosition, children,
-      ...restProps,
+      ...restProps
     } = this.props;
     const cls = classnames(`${prefixCls}-bar`, {
       [className]: !!className,

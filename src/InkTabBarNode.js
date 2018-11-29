@@ -41,7 +41,7 @@ function componentDidUpdate(component, init) {
       } else if (styles.inkBar && styles.inkBar.width !== undefined) {
         width = parseFloat(styles.inkBar.width, 10);
         if (width) {
-          left = left + (tabNode.offsetWidth - width) / 2;
+          left += (tabNode.offsetWidth - width) / 2;
         }
       }
 
@@ -58,7 +58,7 @@ function componentDidUpdate(component, init) {
       if (styles.inkBar && styles.inkBar.height !== undefined) {
         height = parseFloat(styles.inkBar.height, 10);
         if (height) {
-          top = top + (tabNode.offsetHeight - height) / 2;
+          top += (tabNode.offsetHeight - height) / 2;
         }
       }
       if (transformSupported) {

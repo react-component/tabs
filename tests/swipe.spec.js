@@ -36,9 +36,9 @@ class NormoalTabs extends Component {
     return (
       <div style={{ width: '750px', height: '1334px' }}>
         <Tabs
-          ref={root => this.root = root}
+          ref={root => { this.root = root; }}
           defaultActiveKey="8"
-          renderTabBar={() => <SwipeableInkTabBar ref={tabBar => this.tabBar = tabBar} />}
+          renderTabBar={() => <SwipeableInkTabBar ref={tabBar => { this.tabBar = tabBar; }} />}
           renderTabContent={() => <SwipeableTabContent/>}
         >
           {makeMultiTabPane(11)}

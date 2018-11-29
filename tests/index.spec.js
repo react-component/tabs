@@ -1,4 +1,4 @@
-/* eslint-disable no-undef */
+/* eslint-disable no-undef, react/prop-types, react/no-string-refs */
 import React, { Component } from 'react';
 import { mount, shallow, render } from 'enzyme';
 import { renderToJson } from 'enzyme-to-json';
@@ -97,12 +97,13 @@ describe('rc-tabs', () => {
     expect(prevIcon.at(0).text()).toBe('prev-icon');
   });
 
-  it('`onPrevClick` and `onNextClick` should work', () => {
+  it('`onPrevClick` and `onNextClick` should work', (done) => {
     const onPrevClick = jest.fn();
     const onNextClick = jest.fn();
     const wrapper = mount(
       <Tabs
         defaultActiveKey="1"
+        style={{ width: 100 }}
         renderTabBar={() => (
           <ScrollableInkTabBar onPrevClick={onPrevClick} onNextClick={onNextClick} />
         )}
@@ -115,11 +116,19 @@ describe('rc-tabs', () => {
     );
 
     // To force Tabs show prev/next button
-    Object.defineProperty(wrapper.find('.rc-tabs-nav').instance(), 'scrollWidth', {
-      get() { return 1000; },
+    const scrollableTabBarNode = wrapper.find('ScrollableTabBarNode').instance();
+    scrollableTabBarNode.offset = -1;
+    jest.spyOn(scrollableTabBarNode, 'getScrollWH').mockImplementation(() => {
+      return 200;
     });
-    Object.defineProperty(wrapper.find('.rc-tabs-nav-wrap').instance(), 'scrollWidth', {
-      get() { return 100; },
+    jest.spyOn(scrollableTabBarNode, 'getOffsetWH').mockImplementation((node) => {
+      if (node.className.indexOf('rc-tabs-nav-container') !== -1) {
+        return 100;
+      }
+      if (node.className.indexOf('rc-tabs-nav-wrap') !== -1) {
+        return 100;
+      }
+      return 0;
     });
     wrapper.update();
 
@@ -129,6 +138,8 @@ describe('rc-tabs', () => {
 
       wrapper.find('.rc-tabs-tab-prev').simulate('click');
       expect(onPrevClick).toHaveBeenCalled();
+
+      done();
     }, 10);
   });
 
@@ -229,5 +240,32 @@ describe('rc-tabs', () => {
 
     wrapper = mount(generateTabBarGutter('left'));
     expect(wrapper.find('.rc-tabs-tab').at(0).instance().style.marginBottom).toBe('40px');
+  });
+
+  it('destroy not re-render', (done) => {
+    const errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+
+    const Test = ({ visible }) => {
+      if (!visible) return false;
+
+      return (
+        <Tabs
+          renderTabBar={() => <InkTabBar />}
+          renderTabContent={() => <TabContent />}
+        >
+          <TabPane tab="tab 1" key="1">first</TabPane>
+        </Tabs>
+      );
+    };
+
+    const wrapper = mount(<Test visible />);
+    wrapper.setProps({ visible: false });
+
+    setTimeout(() => {
+      expect(errorSpy).not.toBeCalled();
+      errorSpy.mockRestore();
+
+      done();
+    }, 1000);
   });
 });

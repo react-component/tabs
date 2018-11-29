@@ -29,15 +29,15 @@ class PanelContent extends React.Component {
 
 const defaultTabKey = '2';
 
+function onChange(key) {
+  console.log(`onChange ${key}`);
+}
+
 class Component extends React.Component {
   state = {
     start: 0,
     tabKey: defaultTabKey,
   };
-
-  onChange(key) {
-    console.log(`onChange ${key}`);
-  }
 
   onTabClick = (key) => {
     console.log(`onTabClick ${key}`);
@@ -62,7 +62,7 @@ class Component extends React.Component {
           defaultActiveKey={defaultTabKey}
           renderTabBar={() => <ScrollableInkTabBar onTabClick={this.onTabClick}/>}
           renderTabContent={() => <TabContent/>}
-          onChange={this.onChange}
+          onChange={onChange}
         >
           <TabPane tab={`tab ${start}`} key="1" id="test1">
             <PanelContent id={start}/>

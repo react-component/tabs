@@ -1,3 +1,4 @@
+/* eslint-disable react/prefer-stateless-function */
 import React from 'react';
 import InkTabBarNode from './InkTabBarNode';
 import TabBarTabsNode from './TabBarTabsNode';

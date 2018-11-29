@@ -1,3 +1,4 @@
+/* eslint-disable react/prefer-stateless-function */
 import React from 'react';
 import SwipeableTabBarNode from './SwipeableTabBarNode';
 import TabBarSwipeableTabs from './TabBarSwipeableTabs';

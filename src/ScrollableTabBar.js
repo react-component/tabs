@@ -1,3 +1,4 @@
+/* eslint-disable react/prefer-stateless-function */
 import React from 'react';
 import ScrollableTabBarNode from './ScrollableTabBarNode';
 import TabBarRootNode from './TabBarRootNode';

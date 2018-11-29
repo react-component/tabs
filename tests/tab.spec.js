@@ -1,5 +1,5 @@
-/* eslint-disable no-undef */
-import React, { Component } from 'react';
+/* eslint-disable no-undef, jsx-a11y/no-autofocus */
+import React from 'react';
 import { mount } from 'enzyme';
 import KeyCode from 'rc-util/lib/KeyCode';
 import Tabs, { TabPane } from '../src/';
@@ -24,20 +24,16 @@ const makeMultiTabPane = (count) => {
 };
 
 
-class NormalTabs extends Component {
-  render() {
-    return (
-      <div style={{ width: 500, height: 500 }}>
-        <Tabs
-          renderTabBar={() => <ScrollableInkTabBar />}
-          renderTabContent={() => <TabContent />}
-        >
-          {makeMultiTabPane(2)}
-        </Tabs>
-      </div>
-    );
-  }
-}
+const NormalTabs = () => (
+  <div style={{ width: 500, height: 500 }}>
+    <Tabs
+      renderTabBar={() => <ScrollableInkTabBar />}
+      renderTabContent={() => <TabContent />}
+    >
+      {makeMultiTabPane(2)}
+    </Tabs>
+  </div>
+);
 
 describe('tabs with tab key', () => {
   function testTab(name, from, to, shiftKey) {

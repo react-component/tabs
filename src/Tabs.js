@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import KeyCode from './KeyCode';
-import TabPane from './TabPane';
 import classnames from 'classnames';
 import raf from 'raf';
+import KeyCode from './KeyCode';
+import TabPane from './TabPane';
 import { getDataAttr } from './utils';
 import Sentinel, { SentinelProvider } from './Sentinel';
 
@@ -57,6 +57,7 @@ export default class Tabs extends React.Component {
   }
 
   componentWillUnmount() {
+    this.destroy = true;
     raf.cancel(this.sentinelId);
   }
 
@@ -147,6 +148,8 @@ export default class Tabs extends React.Component {
   }
 
   updateSentinelContext() {
+    if (this.destroy) return;
+
     raf.cancel(this.sentinelId);
     this.sentinelId = raf(() => {
       this.forceUpdate();
@@ -162,7 +165,7 @@ export default class Tabs extends React.Component {
       renderTabContent,
       renderTabBar,
       destroyInactiveTabPane,
-      ...restProps,
+      ...restProps
     } = props;
     const cls = classnames({
       [prefixCls]: 1,

@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import { setTransform, isTransformSupported } from './utils';
 import addEventListener from 'rc-util/lib/Dom/addEventListener';
 import debounce from 'lodash/debounce';
+import { setTransform, isTransformSupported } from './utils';
 
 export default class ScrollableTabBarNode extends React.Component {
   constructor(props) {
@@ -137,8 +137,7 @@ export default class ScrollableTabBarNode extends React.Component {
             value: `${target}px`,
           };
         }
-      } else {
-        if (transformSupported) {
+      } else if (transformSupported) {
           navOffset = {
             value: `translate3d(${target}px,0,0)`,
           };
@@ -148,7 +147,6 @@ export default class ScrollableTabBarNode extends React.Component {
             value: `${target}px`,
           };
         }
-      }
       if (transformSupported) {
         setTransform(navStyle, navOffset.value);
       } else {

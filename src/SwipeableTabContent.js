@@ -1,8 +1,8 @@
-import TabContent from './TabContent';
 import React from 'react';
 import PropTypes from 'prop-types';
 import Hammer from 'rc-hammerjs';
 import ReactDOM from 'react-dom';
+import TabContent from './TabContent';
 import {
   isVertical,
   getActiveIndex,
@@ -61,7 +61,8 @@ export default class SwipeableTabContent extends React.Component {
 
   onPanStart = () => {
     const { tabBarPosition, children, activeKey, animated } = this.props;
-    const startIndex = this.startIndex = getActiveIndex(children, activeKey);
+    this.startIndex = getActiveIndex(children, activeKey);
+    const startIndex = this.startIndex;
     if (startIndex === -1) {
       return;
     }

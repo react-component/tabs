@@ -8,7 +8,8 @@ export default class TabPane extends React.Component {
   render() {
     const {
       id, className, destroyInactiveTabPane, active, forceRender,
-      rootPrefixCls, style, children, placeholder, ...restProps,
+      rootPrefixCls, style, children, placeholder,
+      ...restProps
     } = this.props;
     this._isActived = this._isActived || active;
     const prefixCls = `${rootPrefixCls}-tabpane`;

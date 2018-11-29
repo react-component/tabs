@@ -45,7 +45,7 @@ export default class SwipeableTabBarNode extends React.Component {
     const { speed } = this.props;
     // calculate touch distance
     let nowDelta = vertical ? e.deltaY : e.deltaX;
-    nowDelta = nowDelta * (speed / 10);
+    nowDelta *= (speed / 10);
 
     // calculate distance dom need transform
     let _nextDelta = nowDelta + totalDelta;

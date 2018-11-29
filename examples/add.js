@@ -1,4 +1,4 @@
-/* eslint react/no-multi-comp:0, no-console:0, no-alert:0 */
+/* eslint react/no-multi-comp:0, no-console:0, no-alert:0, no-undef: 0 */
 import 'rc-tabs/assets/index.less';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -36,7 +36,9 @@ class Demo extends React.Component {
               right: 5,
               top: 0,
             }}
-            onClick={this.remove.bind(this, t.title)}
+            onClick={() => {
+              this.remove(t.title)
+            }}
           >x</a>
       </span>}
         key={t.title}
@@ -49,7 +51,7 @@ class Demo extends React.Component {
       <TabPane
         tab={<a style={{ color: 'black', cursor: 'pointer' }} onClick={this.add}> + 添加</a>}
         disabled={disabled}
-        key={'__add'}
+        key="__add"
       />,
     ]);
   }

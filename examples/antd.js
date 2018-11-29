@@ -24,7 +24,7 @@ const getSvg = (path, style = {}, svgStyle = {}) => {
         fill="currentColor"
         style={{ verticalAlign: '-.125em ', ...svgStyle }}
       >
-        <path d={path} p-id="5827"></path>
+        <path d={path} p-id="5827" />
       </svg>
     </i>
   );
@@ -136,8 +136,7 @@ class Demo extends React.Component {
     const ends2 = construct(start, 3);
     const tabBarPosition = this.state.tabBarPosition;
     let style;
-    let contentStyle;
-    contentStyle = {
+    const contentStyle = {
       height: 400,
     };
     if (tabBarPosition === 'left' || tabBarPosition === 'right') {
