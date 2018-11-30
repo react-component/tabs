@@ -2464,7 +2464,7 @@ TabPane.defaultProps = {
 
 
 
-var SentinelContext = __WEBPACK_IMPORTED_MODULE_7_create_react_context___default()(null);
+var SentinelContext = __WEBPACK_IMPORTED_MODULE_7_create_react_context___default()({});
 var SentinelProvider = SentinelContext.Provider;
 var SentinelConsumer = SentinelContext.Consumer;
 
