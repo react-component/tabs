@@ -55,7 +55,9 @@ export default class ScrollableTabBarNode extends React.Component {
     const navNode = this.props.getRef('nav');
     const navTabsContainer = this.props.getRef('navTabsContainer');
     const navNodeWH = this.getScrollWH(navTabsContainer || navNode);
-    const containerWH = this.getOffsetWH(this.props.getRef('container'));
+    // Add 1px to fix `offsetWidth` with decimal in Chrome not correct handle
+    // https://github.com/ant-design/ant-design/issues/13423
+    const containerWH = this.getOffsetWH(this.props.getRef('container')) + 1;
     const navWrapNodeWH = this.getOffsetWH(this.props.getRef('navWrap'));
     let { offset } = this;
     const minOffset = containerWH - navNodeWH;
