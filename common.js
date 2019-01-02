@@ -2468,7 +2468,7 @@ var SentinelContext = __WEBPACK_IMPORTED_MODULE_7_create_react_context___default
 var SentinelProvider = SentinelContext.Provider;
 var SentinelConsumer = SentinelContext.Consumer;
 
-var sentinelStyle = { width: 0, height: 0, overflow: 'hidden' };
+var sentinelStyle = { width: 0, height: 0, overflow: 'hidden', position: 'absolute' };
 
 var Sentinel = function (_React$Component) {
   __WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_inherits___default()(Sentinel, _React$Component);
