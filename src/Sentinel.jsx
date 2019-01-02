@@ -8,7 +8,7 @@ const SentinelContext = createReactContext({});
 export const SentinelProvider = SentinelContext.Provider;
 export const SentinelConsumer = SentinelContext.Consumer;
 
-const sentinelStyle = { width: 0, height: 0, overflow: 'hidden' };
+const sentinelStyle = { width: 0, height: 0, overflow: 'hidden', position: 'absolute' };
 export default class Sentinel extends React.Component {
   static propTypes = {
     setRef: PropTypes.func,
