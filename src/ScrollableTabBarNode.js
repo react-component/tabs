@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import addEventListener from 'rc-util/lib/Dom/addEventListener';
 import debounce from 'lodash/debounce';
-import { setTransform, isTransformSupported } from './utils';
+import { setTransform, isTransform3dSupported } from './utils';
 
 export default class ScrollableTabBarNode extends React.Component {
   constructor(props) {
@@ -127,7 +127,7 @@ export default class ScrollableTabBarNode extends React.Component {
       let navOffset = {};
       const tabBarPosition = this.props.tabBarPosition;
       const navStyle = this.props.getRef('nav').style;
-      const transformSupported = isTransformSupported(navStyle);
+      const transformSupported = isTransform3dSupported(navStyle);
       if (tabBarPosition === 'left' || tabBarPosition === 'right') {
         if (transformSupported) {
           navOffset = {
@@ -322,6 +322,7 @@ ScrollableTabBarNode.propTypes = {
   children: PropTypes.node,
   prevIcon: PropTypes.node,
   nextIcon: PropTypes.node,
+  activeKey: PropTypes.string,
 };
 
 ScrollableTabBarNode.defaultProps = {
