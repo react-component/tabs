@@ -73,7 +73,7 @@ exports[`rc-tabs should render Tabs with correct DOM structure 1`] = `
   </div>
   <div
     role="presentation"
-    style="width:0;height:0;overflow:hidden"
+    style="width:0;height:0;overflow:hidden;position:absolute"
     tabindex="0"
   />
   <div
@@ -92,13 +92,13 @@ exports[`rc-tabs should render Tabs with correct DOM structure 1`] = `
     >
       <div
         role="presentation"
-        style="width:0;height:0;overflow:hidden"
+        style="width:0;height:0;overflow:hidden;position:absolute"
         tabindex="0"
       />
       second
       <div
         role="presentation"
-        style="width:0;height:0;overflow:hidden"
+        style="width:0;height:0;overflow:hidden;position:absolute"
         tabindex="0"
       />
     </div>
@@ -110,7 +110,7 @@ exports[`rc-tabs should render Tabs with correct DOM structure 1`] = `
   </div>
   <div
     role="presentation"
-    style="width:0;height:0;overflow:hidden"
+    style="width:0;height:0;overflow:hidden;position:absolute"
     tabindex="0"
   />
 </div>
