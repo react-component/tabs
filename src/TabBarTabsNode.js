@@ -12,6 +12,7 @@ export default class TabBarTabsNode extends React.Component {
       tabBarGutter,
       saveRef,
       tabBarPosition,
+      renderTabBarNode,
     } = this.props;
     const rst = [];
 
@@ -40,7 +41,8 @@ export default class TabBarTabsNode extends React.Component {
         [isVertical(tabBarPosition) ? 'marginBottom' : 'marginRight']: gutter,
       };
       warning('tab' in child.props, 'There must be `tab` property on children of Tabs.');
-      rst.push(
+
+      let node = (
         <div
           role="tab"
           aria-disabled={child.props.disabled ? 'true' : 'false'}
@@ -54,6 +56,12 @@ export default class TabBarTabsNode extends React.Component {
           {child.props.tab}
         </div>
       );
+
+      if (renderTabBarNode) {
+        node = renderTabBarNode(node);
+      }
+
+      rst.push(node);
     });
 
     return (
@@ -71,6 +79,7 @@ TabBarTabsNode.propTypes = {
   tabBarGutter: PropTypes.number,
   onTabClick: PropTypes.func,
   saveRef: PropTypes.func,
+  renderTabBarNode: PropTypes.func,
   tabBarPosition: PropTypes.string,
 };
 

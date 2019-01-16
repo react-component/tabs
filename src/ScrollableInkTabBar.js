@@ -1,5 +1,6 @@
 /* eslint-disable react/prefer-stateless-function */
 import React from 'react';
+import PropTypes from 'prop-types';
 import InkTabBarNode from './InkTabBarNode';
 import TabBarTabsNode from './TabBarTabsNode';
 import TabBarRootNode from './TabBarRootNode';
@@ -8,13 +9,15 @@ import SaveRef from './SaveRef';
 
 export default class ScrollableInkTabBar extends React.Component {
   render() {
+    const { children: renderTabBarNode, ...restProps } = this.props;
+
     return (
       <SaveRef>
         {(saveRef, getRef) => (
-          <TabBarRootNode saveRef={saveRef} {...this.props}>
-            <ScrollableTabBarNode saveRef={saveRef} getRef={getRef} {...this.props}>
-              <TabBarTabsNode saveRef={saveRef} {...this.props} />
-              <InkTabBarNode saveRef={saveRef} getRef={getRef} {...this.props} />
+          <TabBarRootNode saveRef={saveRef} {...restProps}>
+            <ScrollableTabBarNode saveRef={saveRef} getRef={getRef} {...restProps}>
+              <TabBarTabsNode saveRef={saveRef} renderTabBarNode={renderTabBarNode} {...restProps} />
+              <InkTabBarNode saveRef={saveRef} getRef={getRef} {...restProps} />
             </ScrollableTabBarNode>
           </TabBarRootNode>
         )}
@@ -22,3 +25,7 @@ export default class ScrollableInkTabBar extends React.Component {
     );
   }
 }
+
+ScrollableInkTabBar.propTypes = {
+  children: PropTypes.func,
+};

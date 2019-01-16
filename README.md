@@ -306,6 +306,10 @@ scrollable tab bar, in addition to tab bar props, extra props:
 
 scrollable tab bar with ink indicator, same with tab bar and ink bar and scrollable bar props.
 
+| name | type | default | description |
+|------|------|---------|-------------|
+| children | (node) => node | - | Customize tab bar node |
+
 ### lib/SwipeableInkTabBar (Use for Mobile)
 
 swipeable tab bar with ink indicator, same with tab bar/ink bar props, and below is the additional props.
