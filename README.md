@@ -308,7 +308,7 @@ scrollable tab bar with ink indicator, same with tab bar and ink bar and scrolla
 
 | name | type | default | description |
 |------|------|---------|-------------|
-| renderTabBarNode | (node) => node | - | Customize tab bar node |
+| children | (node) => node | - | Customize tab bar node |
 
 ### lib/SwipeableInkTabBar (Use for Mobile)
 

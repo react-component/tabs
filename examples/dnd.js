@@ -117,7 +117,11 @@ class Demo extends React.Component {
         <div style={{ margin: 20 }}>
           <h1>Simple Tabs</h1>
           <Tabs
-            renderTabBar={() => <ScrollableInkTabBar renderTabBarNode={this.renderTabBarNode} onTabClick={this.onTabClick}/>}
+            renderTabBar={() => (
+              <ScrollableInkTabBar onTabClick={this.onTabClick}>
+                {this.renderTabBarNode}
+              </ScrollableInkTabBar>
+            )}
             renderTabContent={() => <TabContent animatedWithMargin />}
             activeKey={this.state.activeKey}
             onChange={this.onChange}
