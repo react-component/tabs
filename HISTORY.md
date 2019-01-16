@@ -1,6 +1,11 @@
 # History
 ----
 
+## 9.6.0 / 2019-01-16
+
+* ScrollableInkTabBar support render props to customize TabNode
+
+
 ## 9.4.0 / 2018-08-13
 
 * Add `prevIcon` and `nextIcon`.
