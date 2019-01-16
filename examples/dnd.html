@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>router.js - example - rc-tabs@9.6.0</title>
+  <title>dnd.js - example - rc-tabs@9.6.0</title>
   <meta name="viewport"
         content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
   <meta charset="utf-8"/>
@@ -269,68 +269,148 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
     </div>
     <div class="example" id="__react-content"></div>
 
-    <div class="highlight"><pre><code language="js"><span class="hljs-comment">/* eslint react/no-multi-comp:0, no-console:0, react/prop-types:0 */</span>
-<span class="hljs-keyword">import</span> { Router, Route, IndexRoute, hashHistory } <span class="hljs-keyword">from</span> <span class="hljs-string">'react-router'</span>;
-<span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
-<span class="hljs-keyword">import</span> ReactDOM <span class="hljs-keyword">from</span> <span class="hljs-string">'react-dom'</span>;
-<span class="hljs-keyword">import</span> Tabs, { TabPane } <span class="hljs-keyword">from</span> <span class="hljs-string">'rc-tabs'</span>;
-<span class="hljs-keyword">import</span> <span class="hljs-string">'rc-tabs/assets/index.css'</span>;
-<span class="hljs-keyword">import</span> TabContent <span class="hljs-keyword">from</span> <span class="hljs-string">'rc-tabs/lib/TabContent'</span>;
-<span class="hljs-keyword">import</span> ScrollableInkTabBar <span class="hljs-keyword">from</span> <span class="hljs-string">'rc-tabs/lib/ScrollableInkTabBar'</span>;
+    <div class="highlight"><pre><code language="undefined">/* eslint react/no-multi-comp:0, no-console:0, react/prop-types:0 */
+import 'rc-tabs/assets/index.css';
+import React from 'react';
+import HTML5Backend from 'react-dnd-html5-backend'
+import ReactDOM from 'react-dom';
+import Tabs, { TabPane } from 'rc-tabs';
+import update from 'immutability-helper';
+import TabContent from 'rc-tabs/lib/SwipeableTabContent';
+import ScrollableInkTabBar from 'rc-tabs/lib/ScrollableInkTabBar';
+import {
+	DragSource,
+  DropTarget,
+  DragDropContextProvider,
+} from 'react-dnd';
 
-<span class="hljs-keyword">const</span> Tab1 = () =&gt; <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">div</span>&gt;</span>tab1<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>;</span>
-<span class="hljs-keyword">const</span> Tab2 = () =&gt; <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">div</span>&gt;</span>tab2<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>;</span>
-
-<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">App</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> </span>{
-  componentWillMount() {
-    <span class="hljs-keyword">this</span>.data = [{
-      key: <span class="hljs-string">'tab1'</span>,
-      component: <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">Tab1</span> /&gt;</span>,
-    }, {
-      key: 'tab2',
-      component: <span class="hljs-tag">&lt;<span class="hljs-title">Tab2</span> /&gt;</span>,
-    }];
-  }
-  onChange = (key) =&gt; {
-    // for demo, better use router api
-    window.location.hash = key;
-  }
+// Drag &amp; Drop node
+class TabNode extends React.Component {
   render() {
-    let activeKey = 'tab1';
-    const { children } = this.props;
-    if (children) {
-      this.data.forEach((d) =&gt; {
-        if (d.component.type === children.type) {
-          // for demo, better immutable
-          d.component = children;
-          activeKey = d.key;
-        }
+		const {
+			connectDragSource,
+      connectDropTarget,
+      children,
+		} = this.props
+
+		return connectDragSource(
+			connectDropTarget(children),
+    );
+	}
+}
+
+const cardTarget = {
+  drop(props, monitor) {
+    const dragKey = monitor.getItem().index;
+    const hoverKey = props.index;
+
+    if (dragKey === hoverKey) {
+      return;
+    }
+
+    props.moveTabNode(dragKey, hoverKey);
+    monitor.getItem().index = hoverKey;
+  },
+};
+
+const cardSource = {
+	beginDrag(props) {
+		return {
+			id: props.id,
+			index: props.index,
+		}
+	},
+};
+
+const WrapTabNode = DropTarget(
+	'DND_NODE',
+	cardTarget,
+	(connect) =&gt; ({
+		connectDropTarget: connect.dropTarget(),
+	}),
+)(
+	DragSource(
+		'DND_NODE',
+		cardSource,
+		(connect, monitor) =&gt; ({
+			connectDragSource: connect.dragSource(),
+			isDragging: monitor.isDragging(),
+		}),
+	)(TabNode),
+);
+
+// Demo
+class Demo extends React.Component {
+  state = {
+    activeKey: '1',
+    tabs: ['1', '2', '3'],
+  };
+
+  onChange = (activeKey) =&gt; {
+    console.log(`onChange ${activeKey}`);
+    this.setState({
+      activeKey,
+    });
+  }
+
+  onTabClick = (key) =&gt; {
+    console.log(`onTabClick ${key}`);
+    if (key === this.state.activeKey) {
+      this.setState({
+        activeKey: '',
       });
     }
-    const tabs = this.data.map(d =&gt; <span class="hljs-tag">&lt;<span class="hljs-title">TabPane</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">{d.key}</span> <span class="hljs-attribute">tab</span>=<span class="hljs-value">{d.key}</span>&gt;</span>{d.component}<span class="hljs-tag">&lt;/<span class="hljs-title">TabPane</span>&gt;</span>)</span>;
-    <span class="hljs-keyword">return</span> (
-      <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">Tabs</span>
-        <span class="hljs-attribute">activeKey</span>=<span class="hljs-value">{activeKey}</span>
-        <span class="hljs-attribute">onChange</span>=<span class="hljs-value">{this.onChange}</span>
-        <span class="hljs-attribute">renderTabBar</span>=<span class="hljs-value">{()</span> =&gt;</span> <span class="hljs-tag">&lt;<span class="hljs-title">ScrollableInkTabBar</span>/&gt;</span>}
-        renderTabContent={() =&gt; <span class="hljs-tag">&lt;<span class="hljs-title">TabContent</span>/&gt;</span>}
-      &gt;
-        {tabs}
-      <span class="hljs-tag">&lt;/<span class="hljs-title">Tabs</span>&gt;</span>
-    )</span>;
+  }
+
+  moveTabNode = (dragKey, hoverKey) =&gt; {
+    const { tabs } = this.state;
+    const dragIndex = tabs.indexOf(dragKey);
+    const hoverIndex = tabs.indexOf(hoverKey);
+    const dragTab = this.state.tabs[dragIndex];
+    this.setState(
+			update(this.state, {
+				tabs: {
+					$splice: [[dragIndex, 1], [hoverIndex, 0, dragTab]],
+				},
+			}),
+		);
+  };
+
+  renderTabBarNode = (node) =&gt; {
+    return (
+      &lt;WrapTabNode key={node.key} index={node.key} moveTabNode={this.moveTabNode}&gt;{node}&lt;/WrapTabNode&gt;
+    );
+  };
+
+  render() {
+    return (
+      &lt;DragDropContextProvider backend={HTML5Backend}&gt;
+        &lt;div style={{ margin: 20 }}&gt;
+          &lt;h1&gt;Simple Tabs&lt;/h1&gt;
+          &lt;Tabs
+            renderTabBar={() =&gt; (
+              &lt;ScrollableInkTabBar onTabClick={this.onTabClick}&gt;
+                {this.renderTabBarNode}
+              &lt;/ScrollableInkTabBar&gt;
+            )}
+            renderTabContent={() =&gt; &lt;TabContent animatedWithMargin /&gt;}
+            activeKey={this.state.activeKey}
+            onChange={this.onChange}
+          &gt;
+            {this.state.tabs.map(id =&gt; (
+              &lt;TabPane tab={`tab ${id}`} key={id}&gt;
+                {id}
+              &lt;/TabPane&gt;
+            ))}
+          &lt;/Tabs&gt;
+        &lt;/div&gt;
+      &lt;/DragDropContextProvider&gt;
+    );
   }
 }
 
-ReactDOM.render(
-  <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">Router</span> <span class="hljs-attribute">history</span>=<span class="hljs-value">{hashHistory}</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-title">Route</span> <span class="hljs-attribute">path</span>=<span class="hljs-value">"/"</span> <span class="hljs-attribute">component</span>=<span class="hljs-value">{App}</span>&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-title">IndexRoute</span> <span class="hljs-attribute">component</span>=<span class="hljs-value">{Tab1}</span>/&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-title">Route</span> <span class="hljs-attribute">path</span>=<span class="hljs-value">"tab1"</span> <span class="hljs-attribute">component</span>=<span class="hljs-value">{Tab1}</span>/&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-title">Route</span> <span class="hljs-attribute">path</span>=<span class="hljs-value">"tab2"</span> <span class="hljs-attribute">component</span>=<span class="hljs-value">{Tab2}</span>/&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-title">Route</span>&gt;</span>
-  <span class="hljs-tag">&lt;/<span class="hljs-title">Router</span>&gt;</span>
-, document.getElementById('__react-content'));
-</span></code></pre></div>
+ReactDOM.render(&lt;Demo /&gt;, document.getElementById('__react-content'));
+</code></pre></div>
   </div>
   <a href="http://github.com/react-component/tabs">
     <img style="position: absolute; top: 0; right: 0; border: 0;"
@@ -340,7 +420,7 @@ ReactDOM.render(
   </a>
   <script>FastClick.attach(document.body);</script>
   <script src="../common.js?nowrap"></script>
-  <script src="router.js?nowrap"></script>
+  <script src="dnd.js?nowrap"></script>
 </body>
 
 </html>
