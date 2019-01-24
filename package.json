@@ -74,7 +74,7 @@
     "enzyme-to-json": "^3.3.4",
     "fastclick": "~1.0.6",
     "history": "^1.17.0",
-    "immutability-helper": "^2.9.0",
+    "immutability-helper": "^3.0.0",
     "jest": "^23.6.0",
     "pre-commit": "1.x",
     "preact": "^8.2.1",
