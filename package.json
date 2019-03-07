@@ -75,7 +75,7 @@
     "fastclick": "~1.0.6",
     "history": "^1.17.0",
     "immutability-helper": "^2.9.0",
-    "jest": "^23.6.0",
+    "jest": "^24.3.0",
     "pre-commit": "1.x",
     "preact": "^8.2.1",
     "preact-compat": "^3.16.0",
