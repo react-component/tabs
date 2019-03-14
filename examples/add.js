@@ -36,8 +36,8 @@ class Demo extends React.Component {
               right: 5,
               top: 0,
             }}
-            onClick={() => {
-              this.remove(t.title)
+            onClick={(e) => {
+              this.remove(t.title, e)
             }}
           >x</a>
       </span>}
