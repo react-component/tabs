@@ -32,10 +32,11 @@ export function setTransform(style, v) {
   style.mozTransform = v;
 }
 
-export function isTransformSupported(style) {
-  return 'transform' in style ||
+export function isTransform3dSupported(style) {
+  return ('transform' in style ||
     'webkitTransform' in style ||
-    'MozTransform' in style;
+    'MozTransform' in style) &&
+    window.atob;
 }
 
 export function setTransition(style, v) {

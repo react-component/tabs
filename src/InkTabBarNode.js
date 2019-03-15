@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import { setTransform, isTransformSupported, getLeft, getTop, getActiveIndex } from './utils';
+import { setTransform, isTransform3dSupported, getLeft, getTop, getActiveIndex } from './utils';
 
 function componentDidUpdate(component, init) {
   const { styles, panels, activeKey } = component.props;
@@ -18,7 +18,7 @@ function componentDidUpdate(component, init) {
   }
   if (activeTab) {
     const tabNode = activeTab;
-    const transformSupported = isTransformSupported(inkBarNodeStyle);
+    const transformSupported = isTransform3dSupported(inkBarNodeStyle);
 
     // Reset current style
     setTransform(inkBarNodeStyle, '');
