@@ -140,7 +140,7 @@ describe('rc-tabs', () => {
       expect(onPrevClick).toHaveBeenCalled();
 
       done();
-    }, 10);
+    }, 50);
   });
 
   it('active first tab when children is changed', () => {

@@ -44,6 +44,7 @@ export function setTransition(style, v) {
   style.webkitTransition = v;
   style.MozTransition = v;
 }
+
 export function getTransformPropValue(v) {
   return {
     transform: v,
