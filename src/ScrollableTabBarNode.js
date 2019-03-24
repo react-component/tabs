@@ -22,7 +22,13 @@ export default class ScrollableTabBarNode extends React.Component {
       this.setNextPrev();
       this.scrollToActiveTab();
     }, 200);
-    this.resizeEvent = addEventListener(window, 'resize', this.debouncedResize);
+    if ('ResizeObserver' in window) {
+      this.resizeObserver = new window.ResizeObserver(this.debouncedResize);
+      this.resizeObserver.observe(this.props.getRef('container'));
+    } else {
+      // fallback to window resize event when ResizeObserver is not available
+      this.resizeEvent = addEventListener(window, 'resize', this.debouncedResize);
+    }
   }
 
   componentDidUpdate(prevProps) {
@@ -43,7 +49,9 @@ export default class ScrollableTabBarNode extends React.Component {
   }
 
   componentWillUnmount() {
-    if (this.resizeEvent) {
+    if (this.resizeObserver) {
+      this.resizeObserver.disconnect();
+    } else if (this.resizeEvent) {
       this.resizeEvent.remove();
     }
     if (this.debouncedResize && this.debouncedResize.cancel) {
