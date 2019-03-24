@@ -323,7 +323,6 @@ ScrollableTabBarNode.propTypes = {
   children: PropTypes.node,
   prevIcon: PropTypes.node,
   nextIcon: PropTypes.node,
-  activeKey: PropTypes.string,
 };
 
 ScrollableTabBarNode.defaultProps = {
