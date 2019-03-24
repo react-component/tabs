@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import addEventListener from 'rc-util/lib/Dom/addEventListener';
 import debounce from 'lodash/debounce';
+import ResizeObserver from 'resize-observer-polyfill';
 import { setTransform, isTransform3dSupported } from './utils';
 
 export default class ScrollableTabBarNode extends React.Component {
@@ -22,13 +22,8 @@ export default class ScrollableTabBarNode extends React.Component {
       this.setNextPrev();
       this.scrollToActiveTab();
     }, 200);
-    if ('ResizeObserver' in window) {
-      this.resizeObserver = new window.ResizeObserver(this.debouncedResize);
-      this.resizeObserver.observe(this.props.getRef('container'));
-    } else {
-      // fallback to window resize event when ResizeObserver is not available
-      this.resizeEvent = addEventListener(window, 'resize', this.debouncedResize);
-    }
+    this.resizeObserver = new ResizeObserver(this.debouncedResize);
+    this.resizeObserver.observe(this.props.getRef('container'));
   }
 
   componentDidUpdate(prevProps) {
@@ -51,8 +46,6 @@ export default class ScrollableTabBarNode extends React.Component {
   componentWillUnmount() {
     if (this.resizeObserver) {
       this.resizeObserver.disconnect();
-    } else if (this.resizeEvent) {
-      this.resizeEvent.remove();
     }
     if (this.debouncedResize && this.debouncedResize.cancel) {
       this.debouncedResize.cancel();
