@@ -152,6 +152,7 @@ export default class Tabs extends React.Component {
 
     raf.cancel(this.sentinelId);
     this.sentinelId = raf(() => {
+      if (this.destroy) return;
       this.forceUpdate();
     });
   }
