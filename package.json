@@ -82,7 +82,7 @@
     "rc-test": "^6.0.1",
     "rc-tools": "8.x",
     "react": "^16.0.0",
-    "react-dnd": "^7.0.2",
+    "react-dnd": "^8.0.0",
     "react-dnd-html5-backend": "^7.0.2",
     "react-dom": "^16.0.0",
     "react-router": "^3.0.0",
