@@ -5500,7 +5500,7 @@ var __rest = (this && this.__rest) || function (s, e) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
-var dnd_core_1 = __webpack_require__(238);
+var dnd_core_1 = __webpack_require__(239);
 var checkDecoratorArguments_1 = __webpack_require__(76);
 var isRefable_1 = __webpack_require__(95);
 var invariant = __webpack_require__(7);
@@ -5581,11 +5581,11 @@ function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
 Object.defineProperty(exports, "__esModule", { value: true });
-var beginDrag_1 = __webpack_require__(247);
-var publishDragSource_1 = __webpack_require__(249);
-var hover_1 = __webpack_require__(250);
-var drop_1 = __webpack_require__(251);
-var endDrag_1 = __webpack_require__(252);
+var beginDrag_1 = __webpack_require__(248);
+var publishDragSource_1 = __webpack_require__(250);
+var hover_1 = __webpack_require__(251);
+var drop_1 = __webpack_require__(252);
+var endDrag_1 = __webpack_require__(253);
 __export(__webpack_require__(48));
 function createDragDropActions(manager) {
     return {
@@ -6074,7 +6074,7 @@ var __assign = (this && this.__assign) || function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(0);
 var DragDropContext_1 = __webpack_require__(73);
-var disposables_1 = __webpack_require__(266);
+var disposables_1 = __webpack_require__(267);
 var isRefable_1 = __webpack_require__(95);
 var discount_lodash_1 = __webpack_require__(49);
 var invariant = __webpack_require__(7);
@@ -6537,8 +6537,8 @@ exports.default = SourceConnector;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var react_1 = __webpack_require__(0);
-var cloneWithRef_1 = __webpack_require__(271);
-__webpack_require__(272);
+var cloneWithRef_1 = __webpack_require__(272);
+__webpack_require__(273);
 function throwIfCompositeComponentElement(element) {
     // Custom components can no longer be wrapped directly in React DnD 2.0
     // so that we don't need to depend on findDOMNode() from react-dom.
@@ -6962,14 +6962,15 @@ exports.useCollector = useCollector;
 /* 221 */,
 /* 222 */,
 /* 223 */,
-/* 224 */
+/* 224 */,
+/* 225 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(225);
+module.exports = __webpack_require__(226);
 
 
 /***/ }),
-/* 225 */
+/* 226 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -6986,16 +6987,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rc_tabs_assets_index_less___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_rc_tabs_assets_index_less__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_react_dnd_html5_backend__ = __webpack_require__(226);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_react_dnd_html5_backend__ = __webpack_require__(227);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_react_dnd_html5_backend___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_react_dnd_html5_backend__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_react_dom__ = __webpack_require__(16);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_react_dom__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_rc_tabs__ = __webpack_require__(40);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_immutability_helper__ = __webpack_require__(236);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_immutability_helper__ = __webpack_require__(237);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_immutability_helper___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9_immutability_helper__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_rc_tabs_lib_SwipeableTabContent__ = __webpack_require__(62);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_rc_tabs_lib_ScrollableInkTabBar__ = __webpack_require__(19);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12_react_dnd__ = __webpack_require__(237);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12_react_dnd__ = __webpack_require__(238);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12_react_dnd___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_12_react_dnd__);
 
 
@@ -7175,14 +7176,14 @@ var Demo = function (_React$Component2) {
 __WEBPACK_IMPORTED_MODULE_7_react_dom___default.a.render(__WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(Demo, null), document.getElementById('__react-content'));
 
 /***/ }),
-/* 226 */
+/* 227 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var HTML5Backend_1 = __webpack_require__(227);
-var getEmptyImage_1 = __webpack_require__(235);
+var HTML5Backend_1 = __webpack_require__(228);
+var getEmptyImage_1 = __webpack_require__(236);
 exports.getEmptyImage = getEmptyImage_1.default;
 var NativeTypes = __webpack_require__(94);
 exports.NativeTypes = NativeTypes;
@@ -7193,7 +7194,7 @@ exports.default = createHTML5Backend;
 
 
 /***/ }),
-/* 227 */
+/* 228 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7210,10 +7211,10 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var EnterLeaveCounter_1 = __webpack_require__(228);
+var EnterLeaveCounter_1 = __webpack_require__(229);
 var BrowserDetector_1 = __webpack_require__(122);
-var OffsetUtils_1 = __webpack_require__(229);
-var NativeDragSources_1 = __webpack_require__(231);
+var OffsetUtils_1 = __webpack_require__(230);
+var NativeDragSources_1 = __webpack_require__(232);
 var NativeTypes = __webpack_require__(94);
 var HTML5Backend = /** @class */ (function () {
     function HTML5Backend(manager) {
@@ -7695,7 +7696,7 @@ exports.default = HTML5Backend;
 
 
 /***/ }),
-/* 228 */
+/* 229 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7731,14 +7732,14 @@ exports.default = EnterLeaveCounter;
 
 
 /***/ }),
-/* 229 */
+/* 230 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var BrowserDetector_1 = __webpack_require__(122);
-var MonotonicInterpolant_1 = __webpack_require__(230);
+var MonotonicInterpolant_1 = __webpack_require__(231);
 var ELEMENT_NODE = 1;
 function getNodeClientOffset(node) {
     var el = node.nodeType === ELEMENT_NODE ? node : node.parentElement;
@@ -7826,7 +7827,7 @@ exports.getDragPreviewOffset = getDragPreviewOffset;
 
 
 /***/ }),
-/* 230 */
+/* 231 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7924,14 +7925,14 @@ exports.default = MonotonicInterpolant;
 
 
 /***/ }),
-/* 231 */
+/* 232 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var nativeTypesConfig_1 = __webpack_require__(232);
-var NativeDragSource_1 = __webpack_require__(234);
+var nativeTypesConfig_1 = __webpack_require__(233);
+var NativeDragSource_1 = __webpack_require__(235);
 function createNativeDragSource(type) {
     return new NativeDragSource_1.NativeDragSource(nativeTypesConfig_1.nativeTypesConfig[type]);
 }
@@ -7950,7 +7951,7 @@ exports.matchNativeItemType = matchNativeItemType;
 
 
 /***/ }),
-/* 232 */
+/* 233 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7958,7 +7959,7 @@ exports.matchNativeItemType = matchNativeItemType;
 var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
 var NativeTypes = __webpack_require__(94);
-var getDataFromDataTransfer_1 = __webpack_require__(233);
+var getDataFromDataTransfer_1 = __webpack_require__(234);
 exports.nativeTypesConfig = (_a = {},
     _a[NativeTypes.FILE] = {
         exposeProperties: {
@@ -7989,7 +7990,7 @@ exports.nativeTypesConfig = (_a = {},
 
 
 /***/ }),
-/* 233 */
+/* 234 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8003,7 +8004,7 @@ exports.getDataFromDataTransfer = getDataFromDataTransfer;
 
 
 /***/ }),
-/* 234 */
+/* 235 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8056,7 +8057,7 @@ exports.NativeDragSource = NativeDragSource;
 
 
 /***/ }),
-/* 235 */
+/* 236 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8075,7 +8076,7 @@ exports.default = getEmptyImage;
 
 
 /***/ }),
-/* 236 */
+/* 237 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8315,7 +8316,7 @@ function invariantMapOrSet(target, command) {
 
 
 /***/ }),
-/* 237 */
+/* 238 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8325,22 +8326,22 @@ var DragDropContext_1 = __webpack_require__(73);
 exports.DragDropContext = DragDropContext_1.DragDropContext;
 exports.DragDropContextProvider = DragDropContext_1.DragDropContextProvider;
 exports.DragDropContextConsumer = DragDropContext_1.Consumer;
-var DragLayer_1 = __webpack_require__(264);
+var DragLayer_1 = __webpack_require__(265);
 exports.DragLayer = DragLayer_1.default;
-var DragSource_1 = __webpack_require__(265);
+var DragSource_1 = __webpack_require__(266);
 exports.DragSource = DragSource_1.default;
-var DropTarget_1 = __webpack_require__(273);
+var DropTarget_1 = __webpack_require__(274);
 exports.DropTarget = DropTarget_1.default;
-var DragPreviewImage_1 = __webpack_require__(275);
+var DragPreviewImage_1 = __webpack_require__(276);
 exports.DragPreviewImage = DragPreviewImage_1.default;
-var hooks_1 = __webpack_require__(276);
+var hooks_1 = __webpack_require__(277);
 exports.useDrag = hooks_1.useDrag;
 exports.useDragLayer = hooks_1.useDragLayer;
 exports.useDrop = hooks_1.useDrop;
 
 
 /***/ }),
-/* 238 */
+/* 239 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8350,21 +8351,7 @@ function __export(m) {
 }
 Object.defineProperty(exports, "__esModule", { value: true });
 __export(__webpack_require__(123));
-__export(__webpack_require__(239));
-
-
-/***/ }),
-/* 239 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var DragDropManagerImpl_1 = __webpack_require__(240);
-function createDragDropManager(backend, context, debugMode) {
-    return new DragDropManagerImpl_1.default(backend, context, debugMode);
-}
-exports.createDragDropManager = createDragDropManager;
+__export(__webpack_require__(240));
 
 
 /***/ }),
@@ -8374,11 +8361,25 @@ exports.createDragDropManager = createDragDropManager;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var redux_1 = __webpack_require__(241);
-var reducers_1 = __webpack_require__(245);
+var DragDropManagerImpl_1 = __webpack_require__(241);
+function createDragDropManager(backend, context, debugMode) {
+    return new DragDropManagerImpl_1.default(backend, context, debugMode);
+}
+exports.createDragDropManager = createDragDropManager;
+
+
+/***/ }),
+/* 241 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var redux_1 = __webpack_require__(242);
+var reducers_1 = __webpack_require__(246);
 var dragDrop_1 = __webpack_require__(74);
-var DragDropMonitorImpl_1 = __webpack_require__(257);
-var HandlerRegistryImpl_1 = __webpack_require__(259);
+var DragDropMonitorImpl_1 = __webpack_require__(258);
+var HandlerRegistryImpl_1 = __webpack_require__(260);
 function makeStoreInstance(debugMode) {
     // TODO: if we ever make a react-native version of this,
     // we'll need to consider how to pull off dev-tooling
@@ -8458,7 +8459,7 @@ exports.default = DragDropManagerImpl;
 
 
 /***/ }),
-/* 241 */
+/* 242 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -8469,7 +8470,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "combineReducers", function() { return combineReducers; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "compose", function() { return compose; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createStore", function() { return createStore; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_symbol_observable__ = __webpack_require__(242);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_symbol_observable__ = __webpack_require__(243);
 
 
 /**
@@ -9135,11 +9136,11 @@ if (process.env.NODE_ENV !== 'production' && typeof isCrushed.name === 'string' 
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(1)))
 
 /***/ }),
-/* 242 */
+/* 243 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(global, module) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ponyfill_js__ = __webpack_require__(244);
+/* WEBPACK VAR INJECTION */(function(global, module) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ponyfill_js__ = __webpack_require__(245);
 /* global window */
 
 
@@ -9160,10 +9161,10 @@ if (typeof self !== 'undefined') {
 var result = Object(__WEBPACK_IMPORTED_MODULE_0__ponyfill_js__["a" /* default */])(root);
 /* harmony default export */ __webpack_exports__["a"] = (result);
 
-/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(14), __webpack_require__(243)(module)))
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(14), __webpack_require__(244)(module)))
 
 /***/ }),
-/* 243 */
+/* 244 */
 /***/ (function(module, exports) {
 
 module.exports = function(originalModule) {
@@ -9193,7 +9194,7 @@ module.exports = function(originalModule) {
 
 
 /***/ }),
-/* 244 */
+/* 245 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -9218,7 +9219,7 @@ function symbolObservablePonyfill(root) {
 
 
 /***/ }),
-/* 245 */
+/* 246 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9235,11 +9236,11 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var dragOffset_1 = __webpack_require__(246);
-var dragOperation_1 = __webpack_require__(253);
-var refCount_1 = __webpack_require__(254);
-var dirtyHandlerIds_1 = __webpack_require__(255);
-var stateId_1 = __webpack_require__(256);
+var dragOffset_1 = __webpack_require__(247);
+var dragOperation_1 = __webpack_require__(254);
+var refCount_1 = __webpack_require__(255);
+var dirtyHandlerIds_1 = __webpack_require__(256);
+var stateId_1 = __webpack_require__(257);
 var discount_lodash_1 = __webpack_require__(56);
 function reduce(state, action) {
     if (state === void 0) { state = {}; }
@@ -9258,7 +9259,7 @@ exports.default = reduce;
 
 
 /***/ }),
-/* 246 */
+/* 247 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9309,13 +9310,13 @@ exports.default = dragOffset;
 
 
 /***/ }),
-/* 247 */
+/* 248 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var setClientOffset_1 = __webpack_require__(248);
+var setClientOffset_1 = __webpack_require__(249);
 var discount_lodash_1 = __webpack_require__(56);
 var invariant = __webpack_require__(7);
 var types_1 = __webpack_require__(48);
@@ -9397,7 +9398,7 @@ function getDraggableSource(sourceIds, monitor) {
 
 
 /***/ }),
-/* 248 */
+/* 249 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9417,7 +9418,7 @@ exports.setClientOffset = setClientOffset;
 
 
 /***/ }),
-/* 249 */
+/* 250 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9436,7 +9437,7 @@ exports.default = createPublishDragSource;
 
 
 /***/ }),
-/* 250 */
+/* 251 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9502,7 +9503,7 @@ function hoverAllTargets(targetIds, monitor, registry) {
 
 
 /***/ }),
-/* 251 */
+/* 252 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9569,7 +9570,7 @@ function getDroppableTargets(monitor) {
 
 
 /***/ }),
-/* 252 */
+/* 253 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9596,7 +9597,7 @@ function verifyIsDragging(monitor) {
 
 
 /***/ }),
-/* 253 */
+/* 254 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9652,7 +9653,7 @@ exports.default = dragOperation;
 
 
 /***/ }),
-/* 254 */
+/* 255 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9676,7 +9677,7 @@ exports.default = refCount;
 
 
 /***/ }),
-/* 255 */
+/* 256 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9728,7 +9729,7 @@ exports.default = dirtyHandlerIds;
 
 
 /***/ }),
-/* 256 */
+/* 257 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9742,14 +9743,14 @@ exports.default = stateId;
 
 
 /***/ }),
-/* 257 */
+/* 258 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var matchesType_1 = __webpack_require__(124);
-var coords_1 = __webpack_require__(258);
+var coords_1 = __webpack_require__(259);
 var dirtiness_1 = __webpack_require__(126);
 var invariant = __webpack_require__(7);
 var DragDropMonitorImpl = /** @class */ (function () {
@@ -9909,7 +9910,7 @@ exports.default = DragDropMonitorImpl;
 
 
 /***/ }),
-/* 258 */
+/* 259 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9971,18 +9972,18 @@ exports.getDifferenceFromInitialOffset = getDifferenceFromInitialOffset;
 
 
 /***/ }),
-/* 259 */
+/* 260 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var registry_1 = __webpack_require__(75);
-var getNextUniqueId_1 = __webpack_require__(260);
+var getNextUniqueId_1 = __webpack_require__(261);
 var interfaces_1 = __webpack_require__(123);
-var contracts_1 = __webpack_require__(261);
+var contracts_1 = __webpack_require__(262);
 var invariant = __webpack_require__(7);
-var asap = __webpack_require__(262);
+var asap = __webpack_require__(263);
 function getNextHandlerId(role) {
     var id = getNextUniqueId_1.default().toString();
     switch (role) {
@@ -10113,7 +10114,7 @@ exports.default = HandlerRegistryImpl;
 
 
 /***/ }),
-/* 260 */
+/* 261 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10127,7 +10128,7 @@ exports.default = getNextUniqueId;
 
 
 /***/ }),
-/* 261 */
+/* 262 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10159,14 +10160,14 @@ exports.validateType = validateType;
 
 
 /***/ }),
-/* 262 */
+/* 263 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 // rawAsap provides everything we need except exception management.
-var rawAsap = __webpack_require__(263);
+var rawAsap = __webpack_require__(264);
 // RawTasks are recycled to reduce GC churn.
 var freeTasks = [];
 // We queue errors to ensure they are thrown in right order (FIFO).
@@ -10232,7 +10233,7 @@ RawTask.prototype.call = function () {
 
 
 /***/ }),
-/* 263 */
+/* 264 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10463,7 +10464,7 @@ rawAsap.makeRequestCallFromTimer = makeRequestCallFromTimer;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(14)))
 
 /***/ }),
-/* 264 */
+/* 265 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10596,7 +10597,7 @@ exports.default = DragLayer;
 
 
 /***/ }),
-/* 265 */
+/* 266 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10605,7 +10606,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var checkDecoratorArguments_1 = __webpack_require__(76);
 var decorateHandler_1 = __webpack_require__(127);
 var registerSource_1 = __webpack_require__(128);
-var createSourceFactory_1 = __webpack_require__(270);
+var createSourceFactory_1 = __webpack_require__(271);
 var DragSourceMonitorImpl_1 = __webpack_require__(130);
 var SourceConnector_1 = __webpack_require__(131);
 var isValidType_1 = __webpack_require__(134);
@@ -10661,7 +10662,7 @@ exports.default = DragSource;
 
 
 /***/ }),
-/* 266 */
+/* 267 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10670,13 +10671,13 @@ function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
 Object.defineProperty(exports, "__esModule", { value: true });
-__export(__webpack_require__(267));
 __export(__webpack_require__(268));
 __export(__webpack_require__(269));
+__export(__webpack_require__(270));
 
 
 /***/ }),
-/* 267 */
+/* 268 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10730,7 +10731,7 @@ exports.Disposable = Disposable;
 
 
 /***/ }),
-/* 268 */
+/* 269 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10782,7 +10783,7 @@ exports.SerialDisposable = SerialDisposable;
 
 
 /***/ }),
-/* 269 */
+/* 270 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10870,7 +10871,7 @@ exports.CompositeDisposable = CompositeDisposable;
 
 
 /***/ }),
-/* 270 */
+/* 271 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10957,7 +10958,7 @@ exports.default = createSourceFactory;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 271 */
+/* 272 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10997,7 +10998,7 @@ exports.default = cloneWithRef;
 
 
 /***/ }),
-/* 272 */
+/* 273 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11013,7 +11014,7 @@ if (!String.prototype.endsWith) {
 
 
 /***/ }),
-/* 273 */
+/* 274 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11022,7 +11023,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var checkDecoratorArguments_1 = __webpack_require__(76);
 var decorateHandler_1 = __webpack_require__(127);
 var registerTarget_1 = __webpack_require__(135);
-var createTargetFactory_1 = __webpack_require__(274);
+var createTargetFactory_1 = __webpack_require__(275);
 var isValidType_1 = __webpack_require__(134);
 var DropTargetMonitorImpl_1 = __webpack_require__(136);
 var TargetConnector_1 = __webpack_require__(137);
@@ -11071,7 +11072,7 @@ exports.default = DropTarget;
 
 
 /***/ }),
-/* 274 */
+/* 275 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11139,7 +11140,7 @@ exports.default = createTargetFactory;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 275 */
+/* 276 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11163,7 +11164,7 @@ exports.default = DragPreviewImage;
 
 
 /***/ }),
-/* 276 */
+/* 277 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11172,20 +11173,20 @@ function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
 Object.defineProperty(exports, "__esModule", { value: true });
-__export(__webpack_require__(277));
-__export(__webpack_require__(279));
-__export(__webpack_require__(281));
+__export(__webpack_require__(278));
+__export(__webpack_require__(280));
+__export(__webpack_require__(282));
 
 
 /***/ }),
-/* 277 */
+/* 278 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var useMonitorOutput_1 = __webpack_require__(138);
-var drag_1 = __webpack_require__(278);
+var drag_1 = __webpack_require__(279);
 var react_1 = __webpack_require__(0);
 var invariant = __webpack_require__(7);
 /**
@@ -11221,7 +11222,7 @@ exports.useDrag = useDrag;
 
 
 /***/ }),
-/* 278 */
+/* 279 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11293,14 +11294,14 @@ exports.useDragHandler = useDragHandler;
 
 
 /***/ }),
-/* 279 */
+/* 280 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var useMonitorOutput_1 = __webpack_require__(138);
-var drop_1 = __webpack_require__(280);
+var drop_1 = __webpack_require__(281);
 var react_1 = __webpack_require__(0);
 var invariant = __webpack_require__(7);
 /**
@@ -11327,7 +11328,7 @@ exports.useDrop = useDrop;
 
 
 /***/ }),
-/* 280 */
+/* 281 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11381,7 +11382,7 @@ exports.useDropHandler = useDropHandler;
 
 
 /***/ }),
-/* 281 */
+/* 282 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11406,5 +11407,5 @@ exports.useDragLayer = useDragLayer;
 
 
 /***/ })
-],[224]);
+],[225]);
 //# sourceMappingURL=dnd.js.map

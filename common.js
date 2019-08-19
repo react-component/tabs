@@ -2543,8 +2543,8 @@ TabPane.defaultProps = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_prop_types__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_rc_util_es_KeyCode__ = __webpack_require__(209);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__ant_design_create_react_context__ = __webpack_require__(210);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_rc_util_es_KeyCode__ = __webpack_require__(210);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__ant_design_create_react_context__ = __webpack_require__(211);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__ant_design_create_react_context___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__ant_design_create_react_context__);
 
 
@@ -32691,10 +32691,12 @@ exports.unstable_unsubscribe = unstable_unsubscribe;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_classnames___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9_classnames__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_raf__ = __webpack_require__(206);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_raf___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_10_raf__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__KeyCode__ = __webpack_require__(208);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__TabPane__ = __webpack_require__(119);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__utils__ = __webpack_require__(9);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__Sentinel__ = __webpack_require__(120);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_react_lifecycles_compat__ = __webpack_require__(208);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__KeyCode__ = __webpack_require__(209);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__TabPane__ = __webpack_require__(119);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__utils__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__Sentinel__ = __webpack_require__(120);
+
 
 
 
@@ -32756,20 +32758,6 @@ var Tabs = function (_React$Component) {
   }
 
   __WEBPACK_IMPORTED_MODULE_4_babel_runtime_helpers_createClass___default()(Tabs, [{
-    key: 'componentWillReceiveProps',
-    value: function componentWillReceiveProps(nextProps) {
-      if ('activeKey' in nextProps) {
-        this.setState({
-          activeKey: nextProps.activeKey
-        });
-      } else if (!activeKeyIsValid(nextProps, this.state.activeKey)) {
-        // https://github.com/ant-design/ant-design/issues/7093
-        this.setState({
-          activeKey: getDefaultActiveKey(nextProps)
-        });
-      }
-    }
-  }, {
     key: 'componentWillUnmount',
     value: function componentWillUnmount() {
       this.destroy = true;
@@ -32832,12 +32820,12 @@ var Tabs = function (_React$Component) {
         key: 'tabContent'
       });
 
-      var sentinelStart = __WEBPACK_IMPORTED_MODULE_7_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_14__Sentinel__["c" /* default */], {
+      var sentinelStart = __WEBPACK_IMPORTED_MODULE_7_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_15__Sentinel__["c" /* default */], {
         key: 'sentinelStart',
         setRef: this.setSentinelStart,
         nextElement: this.panelSentinelStart
       });
-      var sentinelEnd = __WEBPACK_IMPORTED_MODULE_7_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_14__Sentinel__["c" /* default */], {
+      var sentinelEnd = __WEBPACK_IMPORTED_MODULE_7_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_15__Sentinel__["c" /* default */], {
         key: 'sentinelEnd',
         setRef: this.setSentinelEnd,
         prevElement: this.panelSentinelEnd
@@ -32851,7 +32839,7 @@ var Tabs = function (_React$Component) {
       }
 
       return __WEBPACK_IMPORTED_MODULE_7_react___default.a.createElement(
-        __WEBPACK_IMPORTED_MODULE_14__Sentinel__["b" /* SentinelProvider */],
+        __WEBPACK_IMPORTED_MODULE_15__Sentinel__["b" /* SentinelProvider */],
         {
           value: {
             sentinelStart: this.sentinelStart,
@@ -32865,12 +32853,26 @@ var Tabs = function (_React$Component) {
           __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends___default()({
             className: cls,
             style: props.style
-          }, Object(__WEBPACK_IMPORTED_MODULE_13__utils__["c" /* getDataAttr */])(restProps), {
+          }, Object(__WEBPACK_IMPORTED_MODULE_14__utils__["c" /* getDataAttr */])(restProps), {
             onScroll: this.onScroll
           }),
           contents
         )
       );
+    }
+  }], [{
+    key: 'getDerivedStateFromProps',
+    value: function getDerivedStateFromProps(props, state) {
+      var newState = {};
+      if ('activeKey' in props) {
+        newState.activeKey = props.activeKey;
+      } else if (!activeKeyIsValid(props, state.activeKey)) {
+        newState.activeKey = getDefaultActiveKey(props);
+      }
+      if (Object.keys(newState).length > 0) {
+        return newState;
+      }
+      return null;
     }
   }]);
 
@@ -32889,11 +32891,11 @@ var _initialiseProps = function _initialiseProps() {
 
   this.onNavKeyDown = function (e) {
     var eventKeyCode = e.keyCode;
-    if (eventKeyCode === __WEBPACK_IMPORTED_MODULE_11__KeyCode__["a" /* default */].RIGHT || eventKeyCode === __WEBPACK_IMPORTED_MODULE_11__KeyCode__["a" /* default */].DOWN) {
+    if (eventKeyCode === __WEBPACK_IMPORTED_MODULE_12__KeyCode__["a" /* default */].RIGHT || eventKeyCode === __WEBPACK_IMPORTED_MODULE_12__KeyCode__["a" /* default */].DOWN) {
       e.preventDefault();
       var nextKey = _this3.getNextActiveKey(true);
       _this3.onTabClick(nextKey);
-    } else if (eventKeyCode === __WEBPACK_IMPORTED_MODULE_11__KeyCode__["a" /* default */].LEFT || eventKeyCode === __WEBPACK_IMPORTED_MODULE_11__KeyCode__["a" /* default */].UP) {
+    } else if (eventKeyCode === __WEBPACK_IMPORTED_MODULE_12__KeyCode__["a" /* default */].LEFT || eventKeyCode === __WEBPACK_IMPORTED_MODULE_12__KeyCode__["a" /* default */].UP) {
       e.preventDefault();
       var previousKey = _this3.getNextActiveKey(false);
       _this3.onTabClick(previousKey);
@@ -32999,7 +33001,9 @@ Tabs.defaultProps = {
   style: {}
 };
 
-Tabs.TabPane = __WEBPACK_IMPORTED_MODULE_12__TabPane__["a" /* default */];
+Object(__WEBPACK_IMPORTED_MODULE_11_react_lifecycles_compat__["a" /* polyfill */])(__WEBPACK_IMPORTED_MODULE_13__TabPane__["a" /* default */]);
+
+Tabs.TabPane = __WEBPACK_IMPORTED_MODULE_13__TabPane__["a" /* default */];
 
 /***/ }),
 /* 198 */
@@ -34132,6 +34136,172 @@ module.exports.polyfill = function(object) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return polyfill; });
+/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+function componentWillMount() {
+  // Call this.constructor.gDSFP to support sub-classes.
+  var state = this.constructor.getDerivedStateFromProps(this.props, this.state);
+  if (state !== null && state !== undefined) {
+    this.setState(state);
+  }
+}
+
+function componentWillReceiveProps(nextProps) {
+  // Call this.constructor.gDSFP to support sub-classes.
+  // Use the setState() updater to ensure state isn't stale in certain edge cases.
+  function updater(prevState) {
+    var state = this.constructor.getDerivedStateFromProps(nextProps, prevState);
+    return state !== null && state !== undefined ? state : null;
+  }
+  // Binding "this" is important for shallow renderer support.
+  this.setState(updater.bind(this));
+}
+
+function componentWillUpdate(nextProps, nextState) {
+  try {
+    var prevProps = this.props;
+    var prevState = this.state;
+    this.props = nextProps;
+    this.state = nextState;
+    this.__reactInternalSnapshotFlag = true;
+    this.__reactInternalSnapshot = this.getSnapshotBeforeUpdate(
+      prevProps,
+      prevState
+    );
+  } finally {
+    this.props = prevProps;
+    this.state = prevState;
+  }
+}
+
+// React may warn about cWM/cWRP/cWU methods being deprecated.
+// Add a flag to suppress these warnings for this special case.
+componentWillMount.__suppressDeprecationWarning = true;
+componentWillReceiveProps.__suppressDeprecationWarning = true;
+componentWillUpdate.__suppressDeprecationWarning = true;
+
+function polyfill(Component) {
+  var prototype = Component.prototype;
+
+  if (!prototype || !prototype.isReactComponent) {
+    throw new Error('Can only polyfill class components');
+  }
+
+  if (
+    typeof Component.getDerivedStateFromProps !== 'function' &&
+    typeof prototype.getSnapshotBeforeUpdate !== 'function'
+  ) {
+    return Component;
+  }
+
+  // If new component APIs are defined, "unsafe" lifecycles won't be called.
+  // Error if any of these lifecycles are present,
+  // Because they would work differently between older and newer (16.3+) versions of React.
+  var foundWillMountName = null;
+  var foundWillReceivePropsName = null;
+  var foundWillUpdateName = null;
+  if (typeof prototype.componentWillMount === 'function') {
+    foundWillMountName = 'componentWillMount';
+  } else if (typeof prototype.UNSAFE_componentWillMount === 'function') {
+    foundWillMountName = 'UNSAFE_componentWillMount';
+  }
+  if (typeof prototype.componentWillReceiveProps === 'function') {
+    foundWillReceivePropsName = 'componentWillReceiveProps';
+  } else if (typeof prototype.UNSAFE_componentWillReceiveProps === 'function') {
+    foundWillReceivePropsName = 'UNSAFE_componentWillReceiveProps';
+  }
+  if (typeof prototype.componentWillUpdate === 'function') {
+    foundWillUpdateName = 'componentWillUpdate';
+  } else if (typeof prototype.UNSAFE_componentWillUpdate === 'function') {
+    foundWillUpdateName = 'UNSAFE_componentWillUpdate';
+  }
+  if (
+    foundWillMountName !== null ||
+    foundWillReceivePropsName !== null ||
+    foundWillUpdateName !== null
+  ) {
+    var componentName = Component.displayName || Component.name;
+    var newApiName =
+      typeof Component.getDerivedStateFromProps === 'function'
+        ? 'getDerivedStateFromProps()'
+        : 'getSnapshotBeforeUpdate()';
+
+    throw Error(
+      'Unsafe legacy lifecycles will not be called for components using new component APIs.\n\n' +
+        componentName +
+        ' uses ' +
+        newApiName +
+        ' but also contains the following legacy lifecycles:' +
+        (foundWillMountName !== null ? '\n  ' + foundWillMountName : '') +
+        (foundWillReceivePropsName !== null
+          ? '\n  ' + foundWillReceivePropsName
+          : '') +
+        (foundWillUpdateName !== null ? '\n  ' + foundWillUpdateName : '') +
+        '\n\nThe above lifecycles should be removed. Learn more about this warning here:\n' +
+        'https://fb.me/react-async-component-lifecycle-hooks'
+    );
+  }
+
+  // React <= 16.2 does not support static getDerivedStateFromProps.
+  // As a workaround, use cWM and cWRP to invoke the new static lifecycle.
+  // Newer versions of React will ignore these lifecycles if gDSFP exists.
+  if (typeof Component.getDerivedStateFromProps === 'function') {
+    prototype.componentWillMount = componentWillMount;
+    prototype.componentWillReceiveProps = componentWillReceiveProps;
+  }
+
+  // React <= 16.2 does not support getSnapshotBeforeUpdate.
+  // As a workaround, use cWU to invoke the new lifecycle.
+  // Newer versions of React will ignore that lifecycle if gSBU exists.
+  if (typeof prototype.getSnapshotBeforeUpdate === 'function') {
+    if (typeof prototype.componentDidUpdate !== 'function') {
+      throw new Error(
+        'Cannot polyfill getSnapshotBeforeUpdate() for components that do not define componentDidUpdate() on the prototype'
+      );
+    }
+
+    prototype.componentWillUpdate = componentWillUpdate;
+
+    var componentDidUpdate = prototype.componentDidUpdate;
+
+    prototype.componentDidUpdate = function componentDidUpdatePolyfill(
+      prevProps,
+      prevState,
+      maybeSnapshot
+    ) {
+      // 16.3+ will not execute our will-update method;
+      // It will pass a snapshot value to did-update though.
+      // Older versions will require our polyfilled will-update value.
+      // We need to handle both cases, but can't just check for the presence of "maybeSnapshot",
+      // Because for <= 15.x versions this might be a "prevContext" object.
+      // We also can't just check "__reactInternalSnapshot",
+      // Because get-snapshot might return a falsy value.
+      // So check for the explicit __reactInternalSnapshotFlag flag to determine behavior.
+      var snapshot = this.__reactInternalSnapshotFlag
+        ? this.__reactInternalSnapshot
+        : maybeSnapshot;
+
+      componentDidUpdate.call(this, prevProps, prevState, snapshot);
+    };
+  }
+
+  return Component;
+}
+
+
+
+
+/***/ }),
+/* 209 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
 /* harmony default export */ __webpack_exports__["a"] = ({
   /**
    * LEFT
@@ -34152,7 +34322,7 @@ module.exports.polyfill = function(object) {
 });
 
 /***/ }),
-/* 209 */
+/* 210 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -34807,7 +34977,7 @@ KeyCode.isCharacterKey = function isCharacterKey(keyCode) {
 /* harmony default export */ __webpack_exports__["a"] = (KeyCode);
 
 /***/ }),
-/* 210 */
+/* 211 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34819,7 +34989,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _implementation = __webpack_require__(211);
+var _implementation = __webpack_require__(212);
 
 var _implementation2 = _interopRequireDefault(_implementation);
 
@@ -34829,7 +34999,7 @@ exports.default = _react2.default.createContext || _implementation2.default;
 module.exports = exports['default'];
 
 /***/ }),
-/* 211 */
+/* 212 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34845,7 +35015,7 @@ var _propTypes = __webpack_require__(2);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _gud = __webpack_require__(212);
+var _gud = __webpack_require__(213);
 
 var _gud2 = _interopRequireDefault(_gud);
 
@@ -35032,7 +35202,7 @@ module.exports = exports['default'];
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 212 */
+/* 213 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
