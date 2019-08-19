@@ -2,7 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import KeyCode from 'rc-util/lib/KeyCode';
-import createReactContext from 'create-react-context';
+import createReactContext from '@ant-design/create-react-context';
 
 const SentinelContext = createReactContext({});
 export const SentinelProvider = SentinelContext.Provider;
