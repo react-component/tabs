@@ -105,6 +105,6 @@
     "rc-hammerjs": "~0.6.0",
     "rc-util": "^4.0.4",
     "resize-observer-polyfill": "^1.5.1",
-    "warning": "^3.0.0"
+    "warning": "^4.0.3"
   }
 }
