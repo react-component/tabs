@@ -73,7 +73,7 @@
     "enzyme-adapter-react-16": "^1.7.0",
     "enzyme-to-json": "^3.3.4",
     "fastclick": "~1.0.6",
-    "history": "^1.17.0",
+    "history": "^4.9.0",
     "immutability-helper": "^3.0.1",
     "jest": "^23.6.0",
     "pre-commit": "1.x",
