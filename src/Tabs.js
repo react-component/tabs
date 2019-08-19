@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import raf from 'raf';
+import { polyfill } from 'react-lifecycles-compat';
 import KeyCode from './KeyCode';
 import TabPane from './TabPane';
 import { getDataAttr } from './utils';
@@ -43,17 +44,17 @@ export default class Tabs extends React.Component {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
-    if ('activeKey' in nextProps) {
-      this.setState({
-        activeKey: nextProps.activeKey,
-      });
-    } else if (!activeKeyIsValid(nextProps, this.state.activeKey)) {
-      // https://github.com/ant-design/ant-design/issues/7093
-      this.setState({
-        activeKey: getDefaultActiveKey(nextProps),
-      });
+  static getDerivedStateFromProps(props, state) {
+    const newState = {};
+    if ('activeKey' in props) {
+      newState.activeKey = props.activeKey;
+    } else if (!activeKeyIsValid(props, state.activeKey)) {
+      newState.activeKey = getDefaultActiveKey(props);
     }
+    if (Object.keys(newState).length > 0) {
+      return newState;
+    }
+    return null;
   }
 
   componentWillUnmount() {
@@ -265,5 +266,7 @@ Tabs.defaultProps = {
   children: null,
   style: {},
 };
+
+polyfill(TabPane);
 
 Tabs.TabPane = TabPane;
