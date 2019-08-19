@@ -81,6 +81,7 @@ TabContent.propTypes = {
   style: PropTypes.any,
   tabBarPosition: PropTypes.string,
   className: PropTypes.string,
+  destroyInactiveTabPane: PropTypes.bool,
 };
 
 TabContent.defaultProps = {

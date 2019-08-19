@@ -57,6 +57,10 @@ TabBarSwipeableTabs.propTypes = {
   pageSize: PropTypes.number,
   onTabClick: PropTypes.func,
   saveRef: PropTypes.func,
+  destroyInactiveTabPane: PropTypes.bool,
+  prefixCls: PropTypes.string,
+  activeKey: PropTypes.string,
+  panels: PropTypes.node,
 };
 
 TabBarSwipeableTabs.defaultProps = {
