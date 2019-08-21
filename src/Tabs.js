@@ -26,7 +26,7 @@ function activeKeyIsValid(props, key) {
   return keys.indexOf(key) >= 0;
 }
 
-export default class Tabs extends React.Component {
+class Tabs extends React.Component {
   constructor(props) {
     super(props);
 
@@ -267,6 +267,8 @@ Tabs.defaultProps = {
   style: {},
 };
 
-polyfill(TabPane);
-
 Tabs.TabPane = TabPane;
+
+polyfill(Tabs);
+
+export default Tabs;
