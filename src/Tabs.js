@@ -26,6 +26,16 @@ function activeKeyIsValid(props, key) {
   return keys.indexOf(key) >= 0;
 }
 
+function defaultActiveKeyIsValid(props, defaultActiveKey) {
+  let idx;
+  React.Children.forEach(props.children, (child, index) => {
+    if (child && !child.props.disabled && child.defaultActiveKey === defaultActiveKey) {
+      idx = index;
+    }
+  });
+  return idx > -1;
+}
+
 export default class Tabs extends React.Component {
   constructor(props) {
     super(props);
@@ -33,7 +43,8 @@ export default class Tabs extends React.Component {
     let activeKey;
     if ('activeKey' in props) {
       activeKey = props.activeKey;
-    } else if ('defaultActiveKey' in props) {
+    } else if ('defaultActiveKey' in props &&
+      defaultActiveKeyIsValid(props, props.defaultActiveKey)) {
       activeKey = props.defaultActiveKey;
     } else {
       activeKey = getDefaultActiveKey(props);
