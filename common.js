@@ -32971,9 +32971,6 @@ var _initialiseProps = function _initialiseProps() {
   };
 };
 
-/* harmony default export */ __webpack_exports__["a"] = (Tabs);
-
-
 Tabs.propTypes = {
   destroyInactiveTabPane: __WEBPACK_IMPORTED_MODULE_8_prop_types___default.a.bool,
   renderTabBar: __WEBPACK_IMPORTED_MODULE_8_prop_types___default.a.func.isRequired,
@@ -33001,9 +32998,11 @@ Tabs.defaultProps = {
   style: {}
 };
 
-Object(__WEBPACK_IMPORTED_MODULE_11_react_lifecycles_compat__["a" /* polyfill */])(__WEBPACK_IMPORTED_MODULE_13__TabPane__["a" /* default */]);
-
 Tabs.TabPane = __WEBPACK_IMPORTED_MODULE_13__TabPane__["a" /* default */];
+
+Object(__WEBPACK_IMPORTED_MODULE_11_react_lifecycles_compat__["a" /* polyfill */])(Tabs);
+
+/* harmony default export */ __webpack_exports__["a"] = (Tabs);
 
 /***/ }),
 /* 198 */
