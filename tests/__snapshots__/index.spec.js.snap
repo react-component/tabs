@@ -42,6 +42,7 @@ exports[`rc-tabs should render Tabs with correct DOM structure 1`] = `
                 aria-disabled="false"
                 aria-selected="false"
                 class=" rc-tabs-tab"
+                data-tab="tab 1"
                 role="tab"
               >
                 tab 1
@@ -50,6 +51,7 @@ exports[`rc-tabs should render Tabs with correct DOM structure 1`] = `
                 aria-disabled="false"
                 aria-selected="true"
                 class="rc-tabs-tab-active rc-tabs-tab"
+                data-tab="tab 2"
                 role="tab"
               >
                 tab 2
@@ -58,6 +60,7 @@ exports[`rc-tabs should render Tabs with correct DOM structure 1`] = `
                 aria-disabled="false"
                 aria-selected="false"
                 class=" rc-tabs-tab"
+                data-tab="tab 3"
                 role="tab"
               >
                 tab 3
