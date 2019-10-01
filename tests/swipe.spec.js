@@ -39,7 +39,7 @@ class NormoalTabs extends Component {
           ref={root => { this.root = root; }}
           defaultActiveKey="8"
           renderTabBar={() => <SwipeableInkTabBar ref={tabBar => { this.tabBar = tabBar; }} />}
-          renderTabContent={() => <SwipeableTabContent/>}
+          renderTabContent={() => <SwipeableTabContent />}
         >
           {makeMultiTabPane(11)}
         </Tabs>
@@ -47,21 +47,41 @@ class NormoalTabs extends Component {
     );
   }
 }
+class RtlTabs extends Component {
+  render() {
+    return (
+      <div style={{ width: '750px', height: '1334px' }}>
 
+        <Tabs
+          ref={root => { this.root = root; }}
+          defaultActiveKey="8"
+          renderTabBar={() => <SwipeableInkTabBar direction="rtl" ref={tabBar => { this.tabBar = tabBar; }} />}
+          renderTabContent={() => <SwipeableTabContent />}
+          direction="rtl"
+        >
+          {makeMultiTabPane(11)}
+        </Tabs>
+      </div>
+    );
+  }
+}
 describe('rc-swipeable-tabs', () => {
   it('should render Slider with correct DOM structure', () => {
-    const wrapper = render(<NormoalTabs/>);
+    const wrapper = render(<NormoalTabs />);
     expect(renderToJson(wrapper)).toMatchSnapshot();
   });
-
+  it('should render Rtl Slider with correct DOM structure', () => {
+    const wrapper = render(<RtlTabs />);
+    expect(renderToJson(wrapper)).toMatchSnapshot();
+  });
   it('create and nav should works', () => {
-    const wrapper = render(<NormoalTabs/>);
+    const wrapper = render(<NormoalTabs />);
     expect(wrapper.find('.rc-tabs').length).toBe(1);
     expect(wrapper.find('.rc-tabs-tab').length).toBe(11);
   });
 
   it('default active should works', () => {
-    const wrapper = mount(<NormoalTabs/>);
+    const wrapper = mount(<NormoalTabs />);
     expect(wrapper.find('.rc-tabs-tab').length).toBe(11);
     expect(wrapper.instance().root.state.activeKey).toBe('8');
     expect(wrapper.find('.rc-tabs-tab').at(8).hasClass('rc-tabs-tab-active')).toBe(true);
