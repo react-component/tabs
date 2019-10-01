@@ -149,6 +149,12 @@ navWrapper={(content) => <Sortable>{content}</Sortable>}
           <th>rc-tabs</th>
           <td>prefix class name, use to custom style</td>
       </tr>
+      <tr>
+          <td>direction</td>
+          <td>String</td>
+          <th>ltr</th>
+          <td>Layout direction of tabs component, it supports RTL direction too.</td>
+      </tr>
     </tbody>
 </table>
 
@@ -258,6 +264,12 @@ tab bar with ink indicator, in addition to tab bar props, extra props:
           <th></th>
           <td>can set inkBar style</td>
       </tr>
+      <tr>
+          <td>direction</td>
+          <td>String</td>
+          <th>ltr</th>
+          <td>Layout direction of InkTabBar, set it to `rtl` in right-to-left direciton</td>
+      </tr>
     </tbody>
 </table>
 
@@ -298,6 +310,12 @@ scrollable tab bar, in addition to tab bar props, extra props:
           <td>ReactNode</td>
           <th></th>
           <td>specific the next icon</td>
+      </tr>
+      <tr>
+          <td>direction</td>
+          <td>String</td>
+          <th>ltr</th>
+          <td>Layout direction of InkTabBar, set it to `rtl` in right-to-left direciton</td>
       </tr>
     </tbody>
 </table>
@@ -375,6 +393,12 @@ swipeable tab bar with ink indicator, same with tab bar/ink bar props, and below
           <td>false</td>
           <td>whether animate tabpane with css margin</td>
       </tr>
+      <tr>
+          <td>direction</td>
+          <td>String</td>
+          <th>ltr</th>
+          <td>Layout direction of InkTabBar, set it to `rtl` in right-to-left direciton</td>
+      </tr>
     </tbody>
 </table>
 
@@ -397,6 +421,12 @@ swipeable tab panes, in addition to lib/TabContent props, extra props:
           <td>Object</td>
           <td></td>
           <td>options for react-hammerjs</td>
+      </tr>
+      <tr>
+          <td>direction</td>
+          <td>String</td>
+          <th>ltr</th>
+          <td>Layout direction of InkTabBar, set it to `rtl` in right-to-left direciton</td>
       </tr>
     </tbody>
 </table>
