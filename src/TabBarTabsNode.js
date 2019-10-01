@@ -13,6 +13,7 @@ export default class TabBarTabsNode extends React.Component {
       saveRef,
       tabBarPosition,
       renderTabBarNode,
+      direction,
     } = this.props;
     const rst = [];
 
@@ -37,8 +38,10 @@ export default class TabBarTabsNode extends React.Component {
       }
 
       const gutter = tabBarGutter && index === children.length - 1 ? 0 : tabBarGutter;
+
+      const marginProperty = direction === 'rtl' ? 'marginLeft' : 'marginRight';
       const style = {
-        [isVertical(tabBarPosition) ? 'marginBottom' : 'marginRight']: gutter,
+        [isVertical(tabBarPosition) ? 'marginBottom' : marginProperty]: gutter,
       };
       warning('tab' in child.props, 'There must be `tab` property on children of Tabs.');
 
@@ -50,7 +53,7 @@ export default class TabBarTabsNode extends React.Component {
           {...events}
           className={cls}
           key={key}
-          style={ style }
+          style={style}
           {...ref}
         >
           {child.props.tab}
@@ -81,12 +84,13 @@ TabBarTabsNode.propTypes = {
   saveRef: PropTypes.func,
   renderTabBarNode: PropTypes.func,
   tabBarPosition: PropTypes.string,
+  direction: PropTypes.string,
 };
 
 TabBarTabsNode.defaultProps = {
   panels: [],
   prefixCls: [],
   tabBarGutter: null,
-  onTabClick: () => {},
-  saveRef: () => {},
+  onTabClick: () => { },
+  saveRef: () => { },
 };

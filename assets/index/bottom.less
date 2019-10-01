@@ -56,12 +56,23 @@
     }
   }
 
+  &-bottom.rtl &-tab-next {
+    left: 2px;
+    right:auto;
+  }
+
   &-bottom &-tab-prev {
     left: 0;
     &-icon:before {
       content: "<";
     }
   }
+  
+  &-bottom.rtl &-tab-prev {
+    right: 0;
+    left:auto;
+  }
+
 
   &-bottom &-tab-prev, &-bottom &-tab-next {
     margin-right: -2px;
@@ -77,12 +88,22 @@
     left: 0;
   }
 
+  &-bottom.rtl &-ink-bar {
+    right: 0;
+    left:auto;
+  }
+
   &-bottom &-tab {
     float: left;
     height: 100%;
     margin-right: 30px;
   }
 
+  &-bottom.rtl &-tab {
+    float: right;
+    margin-left: 30px;
+    margin-right: 0;
+  }
   &-bottom &-tabpane-inactive {
     height: 0;
     overflow: visible;

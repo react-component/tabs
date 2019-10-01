@@ -167,12 +167,14 @@ class Tabs extends React.Component {
       renderTabContent,
       renderTabBar,
       destroyInactiveTabPane,
+      direction,
       ...restProps
     } = props;
     const cls = classnames({
       [prefixCls]: 1,
       [`${prefixCls}-${tabBarPosition}`]: 1,
       [className]: !!className,
+      'rtl': direction === 'rtl',
     });
 
     this.tabBar = renderTabBar();
@@ -196,6 +198,7 @@ class Tabs extends React.Component {
       children: props.children,
       onChange: this.setActiveKey,
       key: 'tabContent',
+      direction: this.props.direction,
     });
 
     const sentinelStart = (
@@ -255,6 +258,7 @@ Tabs.propTypes = {
   style: PropTypes.object,
   activeKey: PropTypes.string,
   defaultActiveKey: PropTypes.string,
+  direction: PropTypes.string,
 };
 
 Tabs.defaultProps = {
@@ -265,6 +269,7 @@ Tabs.defaultProps = {
   tabBarPosition: 'top',
   children: null,
   style: {},
+  direction: 'ltr',
 };
 
 Tabs.TabPane = TabPane;

@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import { setTransform, isTransform3dSupported, getLeft, getTop, getActiveIndex } from './utils';
+import { setTransform, isTransform3dSupported, getLeft, getStyle, getTop, getActiveIndex } from './utils';
 
 function componentDidUpdate(component, init) {
-  const { styles, panels, activeKey } = component.props;
+  const { styles, panels, activeKey, direction } = component.props;
   const rootNode = component.props.getRef('root');
   const wrapNode = component.props.getRef('nav') || rootNode;
   const inkBarNode = component.props.getRef('inkBar');
@@ -44,7 +44,9 @@ function componentDidUpdate(component, init) {
           left += (tabNode.offsetWidth - width) / 2;
         }
       }
-
+      if (direction === 'rtl') {
+        left = (left * -1) + getStyle(tabNode, 'margin-left');
+      }
       // use 3d gpu to optimize render
       if (transformSupported) {
         setTransform(inkBarNodeStyle, `translate3d(${left}px,0,0)`);
@@ -103,7 +105,7 @@ export default class InkTabBarNode extends React.Component {
         inkBarAnimated ?
           `${className}-animated` :
           `${className}-no-animated`
-        ]: true,
+      ]: true,
     });
     return (
       <div
@@ -121,11 +123,12 @@ InkTabBarNode.propTypes = {
   styles: PropTypes.object,
   inkBarAnimated: PropTypes.bool,
   saveRef: PropTypes.func,
+  direction: PropTypes.string,
 };
 
 InkTabBarNode.defaultProps = {
   prefixCls: '',
   inkBarAnimated: true,
   styles: {},
-  saveRef: () => {},
+  saveRef: () => { },
 };
