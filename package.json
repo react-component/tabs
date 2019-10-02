@@ -49,7 +49,8 @@
     "test": "jest",
     "updateSn": "jest --updateSnapshot",
     "chrome-test": "rc-test run chrome-test",
-    "coverage": "jest --coverage && cat ./coverage/lcov.info | coveralls"
+    "coverage": "jest --coverage && cat ./coverage/lcov.info | coveralls",
+    "now-build": "npm run build"
   },
   "jest": {
     "setupFiles": [
