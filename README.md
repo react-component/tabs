@@ -393,12 +393,6 @@ swipeable tab bar with ink indicator, same with tab bar/ink bar props, and below
           <td>false</td>
           <td>whether animate tabpane with css margin</td>
       </tr>
-      <tr>
-          <td>direction</td>
-          <td>String</td>
-          <th>ltr</th>
-          <td>Layout direction of InkTabBar, set it to `rtl` in right-to-left direciton</td>
-      </tr>
     </tbody>
 </table>
 
@@ -421,12 +415,6 @@ swipeable tab panes, in addition to lib/TabContent props, extra props:
           <td>Object</td>
           <td></td>
           <td>options for react-hammerjs</td>
-      </tr>
-      <tr>
-          <td>direction</td>
-          <td>String</td>
-          <th>ltr</th>
-          <td>Layout direction of InkTabBar, set it to `rtl` in right-to-left direciton</td>
       </tr>
     </tbody>
 </table>
