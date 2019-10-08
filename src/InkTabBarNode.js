@@ -45,7 +45,7 @@ function componentDidUpdate(component, init) {
         }
       }
       if (direction === 'rtl') {
-        left = (left * -1) + getStyle(tabNode, 'margin-left');
+        left = getStyle(tabNode, 'margin-left') - left;
       }
       // use 3d gpu to optimize render
       if (transformSupported) {

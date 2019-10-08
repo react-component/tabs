@@ -142,7 +142,7 @@ export default class ScrollableTabBarNode extends React.Component {
         }
       } else if (transformSupported) {
         if (this.props.direction === 'rtl') {
-          target = target * -1;
+          target = -target;
         }
         navOffset = {
           value: `translate3d(${target}px,0,0)`,
