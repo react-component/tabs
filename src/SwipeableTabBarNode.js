@@ -49,24 +49,19 @@ export default class SwipeableTabBarNode extends React.Component {
 
     // calculate distance dom need transform
     let _nextDelta = nowDelta + totalDelta;
+
     if (this.isRtl()) {
       if (_nextDelta <= 0) {
         _nextDelta = 0;
       } else if (_nextDelta >= totalAvaliableDelta) {
         _nextDelta = totalAvaliableDelta;
       }
-    } else {
-      if (_nextDelta >= 0) {
-        _nextDelta = 0;
-      } else if (_nextDelta <= -totalAvaliableDelta) {
-        _nextDelta = -totalAvaliableDelta;
-      }
-    }
-    if (_nextDelta <= 0) {
+    } else if (_nextDelta >= 0) {
       _nextDelta = 0;
-    } else if (_nextDelta >= totalAvaliableDelta) {
-      _nextDelta = totalAvaliableDelta;
+    } else if (_nextDelta <= -totalAvaliableDelta) {
+      _nextDelta = -totalAvaliableDelta;
     }
+
     this.cache.totalDelta = _nextDelta;
     this.setSwipePosition();
 
@@ -103,7 +98,7 @@ export default class SwipeableTabBarNode extends React.Component {
     const { tabWidth } = this.cache;
     let delta = (index - centerTabCount) * tabWidth;
     if (!this.isRtl()) {
-      delta = delta * -1;
+      delta *= -1;
     }
     return delta;
   }

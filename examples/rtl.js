@@ -157,11 +157,13 @@ class Demo extends React.Component {
     const ends2 = construct(start, 3);
     const tabBarPosition = this.state.tabBarPosition;
     let style;
-    const contentStyle = {
+    const contentStyleSwipeable = {
       height: 400,
     };
     if (tabBarPosition === 'left' || tabBarPosition === 'right') {
-      style = contentStyle;
+      style = {
+        height: 400,
+      };
     } else {
       style = {
         width: 500,
@@ -199,7 +201,7 @@ class Demo extends React.Component {
                 direction="rtl"
               />
             )}
-            renderTabContent={() => <TabContent style={contentStyle} />}
+            renderTabContent={() => <TabContent style={contentStyleSwipeable} />}
             onChange={this.onChange}
             direction='rtl'
           >
@@ -227,7 +229,7 @@ class Demo extends React.Component {
               direction='rtl'
               {...iconProps}
             />}
-            renderTabContent={() => <TabContent style={contentStyle} />}
+            renderTabContent={() => <TabContent style={contentStyleSwipeable} />}
             onChange={this.onChange2}
             direction='rtl'
           >
