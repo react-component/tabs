@@ -5,6 +5,8 @@ import { renderToJson } from 'enzyme-to-json';
 import Tabs, { TabPane } from '../src';
 import SwipeableTabContent from '../src/SwipeableTabContent';
 import SwipeableInkTabBar from '../src/SwipeableInkTabBar';
+import ScrollableInkTabBar from '../src/ScrollableInkTabBar';
+import InkTabBar from '../src/InkTabBar';
 import TabContent from '../src/TabContent';
 
 const contentStyle = {
@@ -51,10 +53,6 @@ class RtlTabs extends Component {
 }
 describe('rc-swipeable-tabs', () => {
   it('should render Slider with correct DOM structure', () => {
-    const wrapper = render(<RtlTabs />);
-    expect(renderToJson(wrapper)).toMatchSnapshot();
-  });
-  it('should render Rtl Slider with correct DOM structure', () => {
     const wrapper = render(<RtlTabs />);
     expect(renderToJson(wrapper)).toMatchSnapshot();
   });
@@ -111,7 +109,7 @@ describe('rc-swipeable-tabs', () => {
     expect(handleChange).toHaveBeenCalledWith('6');
   });
 
-  it('is direction set', () => {
+  it('Should render swipeable tabbar with correct DOM structure', () => {
     const wrapper = mount(
       <Tabs
         renderTabBar={() => <SwipeableInkTabBar direction="rtl" />}
@@ -122,5 +120,79 @@ describe('rc-swipeable-tabs', () => {
       </Tabs>
     );
     expect(renderToJson(wrapper)).toMatchSnapshot();
+  });
+  it('Should render scrollable tabbar with correct DOM structure', () => {
+    const wrapper = mount(
+      <Tabs
+        renderTabBar={() => <ScrollableInkTabBar direction="rtl" />}
+        renderTabContent={() => <TabContent />}
+        direction="rtl"
+      >
+        {makeMultiTabPane(11)}
+      </Tabs>
+    );
+    expect(renderToJson(wrapper)).toMatchSnapshot();
+  });
+  it('`onPrevClick` and `onNextClick` should work', (done) => {
+    const onPrevClick = jest.fn();
+    const onNextClick = jest.fn();
+    const wrapper = mount(
+      <Tabs
+        defaultActiveKey="1"
+        style={{ width: 100 }}
+        renderTabBar={() => (
+          <ScrollableInkTabBar direction="rtl" onPrevClick={onPrevClick} onNextClick={onNextClick} />
+        )}
+        renderTabContent={() => <TabContent />}
+        direction="rtl"
+      >
+        <TabPane tab="tab 1" key="1">first</TabPane>
+        <TabPane tab="tab 2" key="2">second</TabPane>
+        <TabPane tab="tab 3" key="3">third</TabPane>
+      </Tabs>
+    );
+
+    // To force Tabs show prev/next button
+    const scrollableTabBarNode = wrapper.find('ScrollableTabBarNode').instance();
+    scrollableTabBarNode.offset = -1;
+    jest.spyOn(scrollableTabBarNode, 'getScrollWH').mockImplementation(() => {
+      return 200;
+    });
+    jest.spyOn(scrollableTabBarNode, 'getOffsetWH').mockImplementation((node) => {
+      if (node.className.indexOf('rc-tabs-nav-container') !== -1) {
+        return 100;
+      }
+      if (node.className.indexOf('rc-tabs-nav-wrap') !== -1) {
+        return 100;
+      }
+      return 0;
+    });
+    wrapper.update();
+
+    setTimeout(() => {
+      wrapper.find('.rc-tabs-tab-next').simulate('click');
+      expect(onNextClick).toHaveBeenCalled();
+
+      wrapper.find('.rc-tabs-tab-prev').simulate('click');
+      expect(onPrevClick).toHaveBeenCalled();
+
+      done();
+    }, 50);
+  });
+  it('activate tab on click should show inkbar', () => {
+    const children = [1, 2]
+      .map(number => <TabPane tab={number} key={number.toString()}>{number}</TabPane>);
+    const wrapper = mount(
+      <Tabs
+        renderTabBar={() => <InkTabBar direction="rtl" />}
+        renderTabContent={() => <TabContent />}
+        direction="rtl"
+      >
+        {children}
+      </Tabs>
+    );
+
+    wrapper.find('TabBarTabsNode').find('.rc-tabs-tab').at(1).simulate('click', {});
+    expect(wrapper.find('InkTabBarNode').html().indexOf('display: block;') !== -1).toBe(true);
   });
 });
