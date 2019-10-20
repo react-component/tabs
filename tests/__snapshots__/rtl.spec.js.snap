@@ -1,5 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`rc-swipeable-tabs is direction set 1`] = `null`;
+
 exports[`rc-swipeable-tabs should render Rtl Slider with correct DOM structure 1`] = `
 <div
   style="width:750px;height:1334px"

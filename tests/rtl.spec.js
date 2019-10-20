@@ -1,10 +1,12 @@
 /* eslint-disable no-undef */
 import React, { Component } from 'react';
-import { mount, render } from 'enzyme';
+import { mount, shallow, render } from 'enzyme';
 import { renderToJson } from 'enzyme-to-json';
 import Tabs, { TabPane } from '../src';
 import SwipeableTabContent from '../src/SwipeableTabContent';
 import SwipeableInkTabBar from '../src/SwipeableInkTabBar';
+import ScrollableInkTabBar from '../src/ScrollableInkTabBar';
+import TabContent from '../src/TabContent';
 
 const contentStyle = {
   display: 'flex',
@@ -88,5 +90,38 @@ describe('rc-swipeable-tabs', () => {
     targetTab.simulate('click');
     expect(handleTabClick).toHaveBeenCalledWith('6', expect.anything());
     expect(handleChange).toHaveBeenCalledWith('6');
+  });
+
+  it('onChange and onTabClick should works', () => {
+    const handleChange = jest.fn();
+    const handleTabClick = jest.fn();
+    const wrapper = mount(
+      <Tabs
+        defaultActiveKey="8"
+        renderTabBar={() => <SwipeableInkTabBar direction="rtl" onTabClick={handleTabClick} />}
+        renderTabContent={() => <SwipeableTabContent />}
+        onChange={handleChange}
+        direction="rtl"
+      >
+        {makeMultiTabPane(11)}
+      </Tabs>
+    );
+    const targetTab = wrapper.find('.rc-tabs-tab').at(6);
+    targetTab.simulate('click');
+    expect(handleTabClick).toHaveBeenCalledWith('6', expect.anything());
+    expect(handleChange).toHaveBeenCalledWith('6');
+  });
+
+  it('is direction set', () => {
+    const wrapper = mount(
+      <Tabs
+        renderTabBar={() => <SwipeableInkTabBar direction="rtl" />}
+        renderTabContent={() => <TabContent />}
+        direction="rtl"
+      >
+        {makeMultiTabPane(11)}
+      </Tabs>
+    );
+    expect(renderToJson(wrapper)).toMatchSnapshot();
   });
 });
