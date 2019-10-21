@@ -110,7 +110,7 @@ describe('rc-swipeable-tabs', () => {
   });
 
   it('Should render swipeable tabbar with correct DOM structure', () => {
-    const wrapper = mount(
+    const wrapper = render(
       <Tabs
         renderTabBar={() => <SwipeableInkTabBar direction="rtl" />}
         renderTabContent={() => <TabContent />}
@@ -122,7 +122,7 @@ describe('rc-swipeable-tabs', () => {
     expect(renderToJson(wrapper)).toMatchSnapshot();
   });
   it('Should render scrollable tabbar with correct DOM structure', () => {
-    const wrapper = mount(
+    const wrapper = render(
       <Tabs
         renderTabBar={() => <ScrollableInkTabBar direction="rtl" />}
         renderTabContent={() => <TabContent />}
@@ -193,6 +193,23 @@ describe('rc-swipeable-tabs', () => {
     );
 
     wrapper.find('TabBarTabsNode').find('.rc-tabs-tab').at(1).simulate('click', {});
+    expect(wrapper.find('InkTabBarNode').html().indexOf('display: block;') !== -1).toBe(true);
+  });
+
+  it('activate tab on click should show inkbar', () => {
+    const children = [1, 2]
+      .map(number => <TabPane tab={number} key={number.toString()}>{number}</TabPane>);
+    const wrapper = mount(
+      <Tabs
+        renderTabBar={() => <SwipeableInkTabBar direction="rtl" />}
+        renderTabContent={() => <TabContent />}
+        direction="rtl"
+      >
+        {children}
+      </Tabs>
+    );
+
+    wrapper.find('SwipeableTabBarNode').find('.rc-tabs-tab').at(1).simulate('click', {});
     expect(wrapper.find('InkTabBarNode').html().indexOf('display: block;') !== -1).toBe(true);
   });
 });
