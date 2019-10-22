@@ -174,7 +174,7 @@ class Tabs extends React.Component {
       [prefixCls]: 1,
       [`${prefixCls}-${tabBarPosition}`]: 1,
       [className]: !!className,
-      'rtl': direction === 'rtl',
+      [`${prefixCls}-rtl`]: direction === 'rtl',
     });
 
     this.tabBar = renderTabBar();
@@ -188,6 +188,7 @@ class Tabs extends React.Component {
       onTabClick: this.onTabClick,
       panels: props.children,
       activeKey: this.state.activeKey,
+      direction: this.props.direction,
     });
 
     const tabContent = React.cloneElement(renderTabContent(), {

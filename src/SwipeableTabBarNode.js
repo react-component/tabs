@@ -51,12 +51,15 @@ export default class SwipeableTabBarNode extends React.Component {
     let _nextDelta = nowDelta + totalDelta;
 
     if (this.isRtl()) {
+      // calculate distance from right when direction is right-to-left 
       if (_nextDelta <= 0) {
         _nextDelta = 0;
       } else if (_nextDelta >= totalAvaliableDelta) {
         _nextDelta = totalAvaliableDelta;
       }
-    } else if (_nextDelta >= 0) {
+    }
+    // calculate distance from left when direction is left-to-right 
+    else if (_nextDelta >= 0) {
       _nextDelta = 0;
     } else if (_nextDelta <= -totalAvaliableDelta) {
       _nextDelta = -totalAvaliableDelta;

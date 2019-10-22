@@ -198,7 +198,6 @@ class Demo extends React.Component {
               <InkTabBar
                 onTabClick={this.onTabClick}
                 tabBarGutter={30}
-                direction="rtl"
               />
             )}
             renderTabContent={() => <TabContent style={contentStyleSwipeable} />}
@@ -226,7 +225,6 @@ class Demo extends React.Component {
             renderTabBar={() => <ScrollableTabBar
               ref={this.saveBar}
               onTabClick={this.onTabClick}
-              direction='rtl'
               {...iconProps}
             />}
             renderTabContent={() => <TabContent style={contentStyleSwipeable} />}
@@ -244,7 +242,6 @@ class Demo extends React.Component {
             direction="rtl"
             renderTabBar={() =>
               <SwipeableInkTabBar
-                direction="rtl"
                 pageSize={5}
                 speed={5}
                 data-extra="tabbar"
