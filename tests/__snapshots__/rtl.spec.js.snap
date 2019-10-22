@@ -2,7 +2,7 @@
 
 exports[`rc-swipeable-tabs Should render scrollable tabbar with correct DOM structure 1`] = `
 <div
-  class="rc-tabs rc-tabs-top rtl"
+  class="rc-tabs rc-tabs-top rc-tabs-rtl"
 >
   <div
     class="rc-tabs-bar"
@@ -226,7 +226,7 @@ exports[`rc-swipeable-tabs Should render scrollable tabbar with correct DOM stru
 
 exports[`rc-swipeable-tabs Should render swipeable tabbar with correct DOM structure 1`] = `
 <div
-  class="rc-tabs rc-tabs-top rtl"
+  class="rc-tabs rc-tabs-top rc-tabs-rtl"
 >
   <div
     class="rc-tabs-bar"
@@ -446,7 +446,7 @@ exports[`rc-swipeable-tabs should render Slider with correct DOM structure 1`] =
   style="width:750px;height:1334px"
 >
   <div
-    class="rc-tabs rc-tabs-top rtl"
+    class="rc-tabs rc-tabs-top rc-tabs-rtl"
   >
     <div
       class="rc-tabs-bar"
