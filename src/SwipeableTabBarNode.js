@@ -100,6 +100,8 @@ export default class SwipeableTabBarNode extends React.Component {
     const centerTabCount = Math.floor(pageSize / 2);
     const { tabWidth } = this.cache;
     let delta = (index - centerTabCount) * tabWidth;
+    // in rtl direction tabs are ordered from right to left, so delta should be positive in order to 
+    // push swiped element to righ side (start of view)
     if (!this.isRtl()) {
       delta *= -1;
     }
