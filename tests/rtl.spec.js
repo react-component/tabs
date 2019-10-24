@@ -41,7 +41,7 @@ class RtlTabs extends Component {
         <Tabs
           ref={root => { this.root = root; }}
           defaultActiveKey="8"
-          renderTabBar={() => <SwipeableInkTabBar direction="rtl" ref={tabBar => { this.tabBar = tabBar; }} />}
+          renderTabBar={() => <SwipeableInkTabBar ref={tabBar => { this.tabBar = tabBar; }} />}
           renderTabContent={() => <SwipeableTabContent />}
           direction="rtl"
         >
@@ -75,7 +75,7 @@ describe('rc-swipeable-tabs', () => {
     const wrapper = mount(
       <Tabs
         defaultActiveKey="8"
-        renderTabBar={() => <SwipeableInkTabBar direction="rtl" onTabClick={handleTabClick} />}
+        renderTabBar={() => <SwipeableInkTabBar onTabClick={handleTabClick} />}
         renderTabContent={() => <SwipeableTabContent />}
         onChange={handleChange}
         direction="rtl"
@@ -95,7 +95,7 @@ describe('rc-swipeable-tabs', () => {
     const wrapper = mount(
       <Tabs
         defaultActiveKey="8"
-        renderTabBar={() => <SwipeableInkTabBar direction="rtl" onTabClick={handleTabClick} />}
+        renderTabBar={() => <SwipeableInkTabBar onTabClick={handleTabClick} />}
         renderTabContent={() => <SwipeableTabContent />}
         onChange={handleChange}
         direction="rtl"
@@ -112,7 +112,7 @@ describe('rc-swipeable-tabs', () => {
   it('Should render swipeable tabbar with correct DOM structure', () => {
     const wrapper = render(
       <Tabs
-        renderTabBar={() => <SwipeableInkTabBar direction="rtl" />}
+        renderTabBar={() => <SwipeableInkTabBar />}
         renderTabContent={() => <TabContent />}
         direction="rtl"
       >
@@ -124,7 +124,7 @@ describe('rc-swipeable-tabs', () => {
   it('Should render scrollable tabbar with correct DOM structure', () => {
     const wrapper = render(
       <Tabs
-        renderTabBar={() => <ScrollableInkTabBar direction="rtl" />}
+        renderTabBar={() => <ScrollableInkTabBar />}
         renderTabContent={() => <TabContent />}
         direction="rtl"
       >
@@ -141,7 +141,7 @@ describe('rc-swipeable-tabs', () => {
         defaultActiveKey="1"
         style={{ width: 100 }}
         renderTabBar={() => (
-          <ScrollableInkTabBar direction="rtl" onPrevClick={onPrevClick} onNextClick={onNextClick} />
+          <ScrollableInkTabBar onPrevClick={onPrevClick} onNextClick={onNextClick} />
         )}
         renderTabContent={() => <TabContent />}
         direction="rtl"
@@ -184,7 +184,7 @@ describe('rc-swipeable-tabs', () => {
       .map(number => <TabPane tab={number} key={number.toString()}>{number}</TabPane>);
     const wrapper = mount(
       <Tabs
-        renderTabBar={() => <InkTabBar direction="rtl" />}
+        renderTabBar={() => <InkTabBar />}
         renderTabContent={() => <TabContent />}
         direction="rtl"
       >
@@ -201,7 +201,7 @@ describe('rc-swipeable-tabs', () => {
       .map(number => <TabPane tab={number} key={number.toString()}>{number}</TabPane>);
     const wrapper = mount(
       <Tabs
-        renderTabBar={() => <SwipeableInkTabBar direction="rtl" />}
+        renderTabBar={() => <SwipeableInkTabBar />}
         renderTabContent={() => <TabContent />}
         direction="rtl"
       >
