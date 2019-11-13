@@ -172,7 +172,7 @@ class Demo extends React.Component {
             style={style}
             tabBarPosition={this.state.tabBarPosition}
             renderTabBar={() => <TabBar onTabClick={this.onTabClick} />}
-            renderTabContent={() => <TabContent style={contentStyle} animatedWithMargin />}
+            renderTabContent={() => <TabContent style={contentStyle} />}
             onChange={this.onChange}
           >
             {ends2}
