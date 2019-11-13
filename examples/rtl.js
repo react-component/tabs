@@ -200,7 +200,7 @@ class Demo extends React.Component {
                 tabBarGutter={30}
               />
             )}
-            renderTabContent={() => <TabContent animatedWithMargin style={contentStyleSwipeable} />}
+            renderTabContent={() => <TabContent animatedWithMargin style={contentStyleSwipeable} animatedWithMargin />}
             onChange={this.onChange}
             direction='rtl'
           >
