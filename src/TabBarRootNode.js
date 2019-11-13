@@ -4,16 +4,23 @@ import classnames from 'classnames';
 import { getDataAttr } from './utils';
 
 export default class TabBarRootNode extends React.Component {
+
+  getExtraContentStyle(topOrBottom, direction) {
+    if (direction === 'rtl') {
+      return topOrBottom ? { float: 'left' } : {};
+    }
+    return topOrBottom ? { float: 'right' } : {};
+  }
+
   render() {
     const {
-      prefixCls, onKeyDown, className, extraContent, style, tabBarPosition, children,
+      prefixCls, onKeyDown, className, extraContent, style, tabBarPosition, children, direction,
       ...restProps
     } = this.props;
     const cls = classnames(`${prefixCls}-bar`, {
       [className]: !!className,
     });
     const topOrBottom = (tabBarPosition === 'top' || tabBarPosition === 'bottom');
-    const tabBarExtraContentStyle = topOrBottom ? { float: 'right' } : {};
     const extraContentStyle = (extraContent && extraContent.props) ? extraContent.props.style : {};
     let newChildren = children;
     if (extraContent) {
@@ -21,7 +28,7 @@ export default class TabBarRootNode extends React.Component {
         cloneElement(extraContent, {
           key: 'extra',
           style: {
-            ...tabBarExtraContentStyle,
+            ...getExtraContentStyle(topOrBottom, direction),
             ...extraContentStyle,
           },
         }),
@@ -54,6 +61,7 @@ TabBarRootNode.propTypes = {
   extraContent: PropTypes.node,
   onKeyDown: PropTypes.func,
   saveRef: PropTypes.func,
+  direction: 'ltr' | 'rtl',
 };
 
 TabBarRootNode.defaultProps = {
@@ -63,6 +71,6 @@ TabBarRootNode.defaultProps = {
   tabBarPosition: 'top',
   extraContent: null,
   children: null,
-  onKeyDown: () => {},
-  saveRef: () => {},
+  onKeyDown: () => { },
+  saveRef: () => { },
 };
