@@ -1,4 +1,528 @@
-webpackJsonp([4],{
+webpackJsonp([2],{
+
+/***/ 107:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_classCallCheck__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_classCallCheck___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_classCallCheck__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_createClass__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_createClass___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_createClass__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_possibleConstructorReturn__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_possibleConstructorReturn___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_possibleConstructorReturn__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_babel_runtime_helpers_inherits__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_babel_runtime_helpers_inherits___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_babel_runtime_helpers_inherits__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_react__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__SwipeableTabBarNode__ = __webpack_require__(108);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__TabBarSwipeableTabs__ = __webpack_require__(109);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__TabBarRootNode__ = __webpack_require__(19);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__InkTabBarNode__ = __webpack_require__(33);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__SaveRef__ = __webpack_require__(20);
+
+
+
+
+
+/* eslint-disable react/prefer-stateless-function */
+
+
+
+
+
+
+
+var SwipeableInkTabBar = function (_React$Component) {
+  __WEBPACK_IMPORTED_MODULE_4_babel_runtime_helpers_inherits___default()(SwipeableInkTabBar, _React$Component);
+
+  function SwipeableInkTabBar() {
+    __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_classCallCheck___default()(this, SwipeableInkTabBar);
+
+    return __WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_possibleConstructorReturn___default()(this, (SwipeableInkTabBar.__proto__ || Object.getPrototypeOf(SwipeableInkTabBar)).apply(this, arguments));
+  }
+
+  __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_createClass___default()(SwipeableInkTabBar, [{
+    key: 'render',
+    value: function render() {
+      var _this2 = this;
+
+      return __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
+        __WEBPACK_IMPORTED_MODULE_10__SaveRef__["a" /* default */],
+        null,
+        function (saveRef, getRef) {
+          return __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
+            __WEBPACK_IMPORTED_MODULE_8__TabBarRootNode__["a" /* default */],
+            __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends___default()({ saveRef: saveRef }, _this2.props),
+            __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
+              __WEBPACK_IMPORTED_MODULE_6__SwipeableTabBarNode__["a" /* default */],
+              __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends___default()({ saveRef: saveRef, getRef: getRef }, _this2.props),
+              __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_7__TabBarSwipeableTabs__["a" /* default */], __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends___default()({ saveRef: saveRef }, _this2.props)),
+              __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_9__InkTabBarNode__["a" /* default */], __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends___default()({ saveRef: saveRef, getRef: getRef }, _this2.props))
+            )
+          );
+        }
+      );
+    }
+  }]);
+
+  return SwipeableInkTabBar;
+}(__WEBPACK_IMPORTED_MODULE_5_react___default.a.Component);
+
+/* harmony default export */ __webpack_exports__["a"] = (SwipeableInkTabBar);
+
+/***/ }),
+
+/***/ 108:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_extends__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_extends___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_extends__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_classCallCheck__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_classCallCheck___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_classCallCheck__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_createClass__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_createClass___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_createClass__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_babel_runtime_helpers_possibleConstructorReturn__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_babel_runtime_helpers_possibleConstructorReturn___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_babel_runtime_helpers_possibleConstructorReturn__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_babel_runtime_helpers_inherits__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_babel_runtime_helpers_inherits___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_babel_runtime_helpers_inherits__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_react__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_prop_types__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_prop_types__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_classnames__ = __webpack_require__(21);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_classnames___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_classnames__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_rc_hammerjs__ = __webpack_require__(38);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_react_dom__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_10_react_dom__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__utils__ = __webpack_require__(9);
+
+
+
+
+
+
+
+
+
+
+
+
+
+var SwipeableTabBarNode = function (_React$Component) {
+  __WEBPACK_IMPORTED_MODULE_5_babel_runtime_helpers_inherits___default()(SwipeableTabBarNode, _React$Component);
+
+  function SwipeableTabBarNode(props) {
+    __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_classCallCheck___default()(this, SwipeableTabBarNode);
+
+    var _this = __WEBPACK_IMPORTED_MODULE_4_babel_runtime_helpers_possibleConstructorReturn___default()(this, (SwipeableTabBarNode.__proto__ || Object.getPrototypeOf(SwipeableTabBarNode)).call(this, props));
+
+    _initialiseProps.call(_this);
+
+    var _this$checkPagination = _this.checkPaginationByKey(_this.props.activeKey),
+        hasPrevPage = _this$checkPagination.hasPrevPage,
+        hasNextPage = _this$checkPagination.hasNextPage;
+
+    _this.state = {
+      hasPrevPage: hasPrevPage,
+      hasNextPage: hasNextPage
+    };
+    return _this;
+  }
+
+  __WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_createClass___default()(SwipeableTabBarNode, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      var swipe = this.props.getRef('swipe');
+      var nav = this.props.getRef('nav');
+      var activeKey = this.props.activeKey;
+
+      this.swipeNode = __WEBPACK_IMPORTED_MODULE_10_react_dom___default.a.findDOMNode(swipe); // dom which scroll (9999px)
+      this.realNode = __WEBPACK_IMPORTED_MODULE_10_react_dom___default.a.findDOMNode(nav); // dom which visiable in screen (viewport)
+      this.setCache();
+      this.setSwipePositionByKey(activeKey);
+    }
+  }, {
+    key: 'componentDidUpdate',
+    value: function componentDidUpdate(prevProps) {
+      this.setCache();
+      if (this.props.activeKey && this.props.activeKey !== prevProps.activeKey || this.props.panels.length !== prevProps.panels.length || this.props.pageSize !== prevProps.pageSize) {
+        this.setSwipePositionByKey(this.props.activeKey);
+      }
+    }
+  }, {
+    key: 'setCache',
+    value: function setCache() {
+      var _props = this.props,
+          tabBarPosition = _props.tabBarPosition,
+          pageSize = _props.pageSize,
+          panels = _props.panels;
+
+      var _isVertical = Object(__WEBPACK_IMPORTED_MODULE_11__utils__["k" /* isVertical */])(tabBarPosition);
+      var _viewSize = Object(__WEBPACK_IMPORTED_MODULE_11__utils__["f" /* getStyle */])(this.realNode, _isVertical ? 'height' : 'width');
+      var _tabWidth = _viewSize / pageSize;
+      this.cache = __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_extends___default()({}, this.cache, {
+        vertical: _isVertical,
+        totalAvaliableDelta: _tabWidth * panels.length - _viewSize,
+        tabWidth: _tabWidth
+      });
+    }
+
+    /**
+     * used for props.activeKey setting, not for swipe callback
+     */
+
+  }, {
+    key: 'getDeltaByKey',
+    value: function getDeltaByKey(activeKey) {
+      var pageSize = this.props.pageSize;
+
+      var index = this.getIndexByKey(activeKey);
+      var centerTabCount = Math.floor(pageSize / 2);
+      var tabWidth = this.cache.tabWidth;
+
+      var delta = (index - centerTabCount) * tabWidth;
+      // in rtl direction tabs are ordered from right to left, so delta should be positive in order to 
+      // push swiped element to righ side (start of view)
+      if (!this.isRtl()) {
+        delta *= -1;
+      }
+      return delta;
+    }
+  }, {
+    key: 'getIndexByKey',
+    value: function getIndexByKey(activeKey) {
+      var panels = this.props.panels;
+
+      var length = panels.length;
+      for (var i = 0; i < length; i++) {
+        if (panels[i].key === activeKey) {
+          return i;
+        }
+      }
+      return -1;
+    }
+  }, {
+    key: 'setSwipePositionByKey',
+    value: function setSwipePositionByKey(activeKey) {
+      var _checkPaginationByKey = this.checkPaginationByKey(activeKey),
+          hasPrevPage = _checkPaginationByKey.hasPrevPage,
+          hasNextPage = _checkPaginationByKey.hasNextPage;
+
+      var totalAvaliableDelta = this.cache.totalAvaliableDelta;
+
+      this.setState({
+        hasPrevPage: hasPrevPage,
+        hasNextPage: hasNextPage
+      });
+      var delta = void 0;
+      if (!hasPrevPage) {
+        // the first page
+        delta = 0;
+      } else if (!hasNextPage) {
+        // the last page
+        delta = this.isRtl() ? totalAvaliableDelta : -totalAvaliableDelta;
+      } else if (hasNextPage) {
+        // the middle page
+        delta = this.getDeltaByKey(activeKey);
+      }
+      this.cache.totalDelta = delta;
+      this.setSwipePosition();
+    }
+  }, {
+    key: 'setSwipePosition',
+    value: function setSwipePosition() {
+      var _cache = this.cache,
+          totalDelta = _cache.totalDelta,
+          vertical = _cache.vertical;
+
+      Object(__WEBPACK_IMPORTED_MODULE_11__utils__["l" /* setPxStyle */])(this.swipeNode, totalDelta, vertical);
+    }
+  }, {
+    key: 'checkPaginationByKey',
+    value: function checkPaginationByKey(activeKey) {
+      var _props2 = this.props,
+          panels = _props2.panels,
+          pageSize = _props2.pageSize;
+
+      var index = this.getIndexByKey(activeKey);
+      var centerTabCount = Math.floor(pageSize / 2);
+      // the basic rule is to make activeTab be shown in the center of TabBar viewport
+      return {
+        hasPrevPage: index - centerTabCount > 0,
+        hasNextPage: index + centerTabCount < panels.length
+      };
+    }
+  }, {
+    key: 'checkPaginationByDelta',
+    value: function checkPaginationByDelta(delta) {
+      var totalAvaliableDelta = this.cache.totalAvaliableDelta;
+
+      return {
+        hasPrevPage: delta < 0,
+        hasNextPage: -delta < totalAvaliableDelta
+      };
+    }
+  }, {
+    key: 'isRtl',
+    value: function isRtl() {
+      return this.props.direction === 'rtl';
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _classnames2;
+
+      var _props3 = this.props,
+          prefixCls = _props3.prefixCls,
+          hammerOptions = _props3.hammerOptions,
+          tabBarPosition = _props3.tabBarPosition;
+      var _state = this.state,
+          hasPrevPage = _state.hasPrevPage,
+          hasNextPage = _state.hasNextPage;
+
+      var navClassName = prefixCls + '-nav';
+      var navClasses = __WEBPACK_IMPORTED_MODULE_8_classnames___default()(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()({}, navClassName, true));
+      var events = {
+        onPan: this.onPan
+      };
+      return __WEBPACK_IMPORTED_MODULE_6_react___default.a.createElement(
+        'div',
+        {
+          className: __WEBPACK_IMPORTED_MODULE_8_classnames___default()((_classnames2 = {}, __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()(_classnames2, prefixCls + '-nav-container', 1), __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()(_classnames2, prefixCls + '-nav-swipe-container', 1), __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()(_classnames2, prefixCls + '-prevpage', hasPrevPage), __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_defineProperty___default()(_classnames2, prefixCls + '-nextpage', hasNextPage), _classnames2)),
+          key: 'container',
+          ref: this.props.saveRef('container')
+        },
+        __WEBPACK_IMPORTED_MODULE_6_react___default.a.createElement(
+          'div',
+          { className: prefixCls + '-nav-wrap', ref: this.props.saveRef('navWrap') },
+          __WEBPACK_IMPORTED_MODULE_6_react___default.a.createElement(
+            __WEBPACK_IMPORTED_MODULE_9_rc_hammerjs__["a" /* default */],
+            __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_extends___default()({}, events, {
+              direction: Object(__WEBPACK_IMPORTED_MODULE_11__utils__["k" /* isVertical */])(tabBarPosition) ? 'DIRECTION_ALL' : 'DIRECTION_HORIZONTAL',
+              options: hammerOptions
+            }),
+            __WEBPACK_IMPORTED_MODULE_6_react___default.a.createElement(
+              'div',
+              { className: prefixCls + '-nav-swipe', ref: this.props.saveRef('swipe') },
+              __WEBPACK_IMPORTED_MODULE_6_react___default.a.createElement(
+                'div',
+                { className: navClasses, ref: this.props.saveRef('nav') },
+                this.props.children
+              )
+            )
+          )
+        )
+      );
+    }
+  }]);
+
+  return SwipeableTabBarNode;
+}(__WEBPACK_IMPORTED_MODULE_6_react___default.a.Component);
+
+var _initialiseProps = function _initialiseProps() {
+  var _this2 = this;
+
+  this.onPan = function (e) {
+    var _cache2 = _this2.cache,
+        vertical = _cache2.vertical,
+        totalAvaliableDelta = _cache2.totalAvaliableDelta,
+        totalDelta = _cache2.totalDelta;
+    var speed = _this2.props.speed;
+    // calculate touch distance
+
+    var nowDelta = vertical ? e.deltaY : e.deltaX;
+    nowDelta *= speed / 10;
+
+    // calculate distance dom need transform
+    var _nextDelta = nowDelta + totalDelta;
+
+    if (_this2.isRtl()) {
+      // calculate distance from right when direction is right-to-left 
+      if (_nextDelta <= 0) {
+        _nextDelta = 0;
+      } else if (_nextDelta >= totalAvaliableDelta) {
+        _nextDelta = totalAvaliableDelta;
+      }
+    }
+    // calculate distance from left when direction is left-to-right 
+    else if (_nextDelta >= 0) {
+        _nextDelta = 0;
+      } else if (_nextDelta <= -totalAvaliableDelta) {
+        _nextDelta = -totalAvaliableDelta;
+      }
+
+    _this2.cache.totalDelta = _nextDelta;
+    _this2.setSwipePosition();
+
+    // calculate pagination display
+
+    var _checkPaginationByDel = _this2.checkPaginationByDelta(_this2.cache.totalDelta),
+        hasPrevPage = _checkPaginationByDel.hasPrevPage,
+        hasNextPage = _checkPaginationByDel.hasNextPage;
+
+    if (hasPrevPage !== _this2.state.hasPrevPage || hasNextPage !== _this2.state.hasNextPage) {
+      _this2.setState({
+        hasPrevPage: hasPrevPage,
+        hasNextPage: hasNextPage
+      });
+    }
+  };
+};
+
+/* harmony default export */ __webpack_exports__["a"] = (SwipeableTabBarNode);
+
+
+SwipeableTabBarNode.propTypes = {
+  activeKey: __WEBPACK_IMPORTED_MODULE_7_prop_types___default.a.string,
+  panels: __WEBPACK_IMPORTED_MODULE_7_prop_types___default.a.node,
+  pageSize: __WEBPACK_IMPORTED_MODULE_7_prop_types___default.a.number,
+  tabBarPosition: __WEBPACK_IMPORTED_MODULE_7_prop_types___default.a.oneOf(['left', 'right', 'top', 'bottom']),
+  prefixCls: __WEBPACK_IMPORTED_MODULE_7_prop_types___default.a.string,
+  children: __WEBPACK_IMPORTED_MODULE_7_prop_types___default.a.node,
+  hammerOptions: __WEBPACK_IMPORTED_MODULE_7_prop_types___default.a.object,
+  speed: __WEBPACK_IMPORTED_MODULE_7_prop_types___default.a.number,
+  saveRef: __WEBPACK_IMPORTED_MODULE_7_prop_types___default.a.func,
+  getRef: __WEBPACK_IMPORTED_MODULE_7_prop_types___default.a.func,
+  direction: __WEBPACK_IMPORTED_MODULE_7_prop_types___default.a.string
+};
+
+SwipeableTabBarNode.defaultProps = {
+  panels: null,
+  tabBarPosition: 'top',
+  prefixCls: '',
+  children: null,
+  hammerOptions: {},
+  pageSize: 5, // per page show how many tabs
+  speed: 7, // swipe speed, 1 to 10, more bigger more faster
+  saveRef: function saveRef() {},
+  getRef: function getRef() {}
+};
+
+/***/ }),
+
+/***/ 109:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_defineProperty__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_defineProperty___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_defineProperty__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_classCallCheck__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_classCallCheck___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_classCallCheck__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_createClass__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_createClass___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_createClass__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_babel_runtime_helpers_possibleConstructorReturn__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_babel_runtime_helpers_possibleConstructorReturn___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_babel_runtime_helpers_possibleConstructorReturn__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_babel_runtime_helpers_inherits__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_babel_runtime_helpers_inherits___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_babel_runtime_helpers_inherits__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_react__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_prop_types__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_prop_types__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_classnames__ = __webpack_require__(21);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_classnames___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_classnames__);
+
+
+
+
+
+
+
+
+
+
+var TabBarSwipeableTabs = function (_React$Component) {
+  __WEBPACK_IMPORTED_MODULE_5_babel_runtime_helpers_inherits___default()(TabBarSwipeableTabs, _React$Component);
+
+  function TabBarSwipeableTabs() {
+    __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_classCallCheck___default()(this, TabBarSwipeableTabs);
+
+    return __WEBPACK_IMPORTED_MODULE_4_babel_runtime_helpers_possibleConstructorReturn___default()(this, (TabBarSwipeableTabs.__proto__ || Object.getPrototypeOf(TabBarSwipeableTabs)).apply(this, arguments));
+  }
+
+  __WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_createClass___default()(TabBarSwipeableTabs, [{
+    key: 'render',
+    value: function render() {
+      var _this2 = this;
+
+      var props = this.props;
+      var children = props.panels;
+      var activeKey = props.activeKey;
+      var rst = [];
+      var prefixCls = props.prefixCls;
+
+      var _flexWidth = 1 / props.pageSize * 100 + '%';
+      var tabStyle = {
+        WebkitFlexBasis: _flexWidth,
+        flexBasis: _flexWidth
+      };
+
+      __WEBPACK_IMPORTED_MODULE_6_react___default.a.Children.forEach(children, function (child) {
+        var _classnames;
+
+        if (!child) {
+          return;
+        }
+        var key = child.key;
+        var cls = __WEBPACK_IMPORTED_MODULE_8_classnames___default()(prefixCls + '-tab', (_classnames = {}, __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_defineProperty___default()(_classnames, prefixCls + '-tab-active', activeKey === key), __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_defineProperty___default()(_classnames, prefixCls + '-tab-disabled', child.props.disabled), _classnames));
+        var events = {};
+        if (!child.props.disabled) {
+          events = {
+            onClick: _this2.props.onTabClick.bind(_this2, key)
+          };
+        }
+        var refProps = {};
+        if (activeKey === key) {
+          refProps.ref = _this2.props.saveRef('activeTab');
+        }
+        rst.push(__WEBPACK_IMPORTED_MODULE_6_react___default.a.createElement(
+          'div',
+          __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends___default()({
+            role: 'tab',
+            style: tabStyle,
+            'aria-disabled': child.props.disabled ? 'true' : 'false',
+            'aria-selected': activeKey === key ? 'true' : 'false'
+          }, events, {
+            className: cls,
+            key: key
+          }, refProps),
+          child.props.tab
+        ));
+      });
+
+      return rst;
+    }
+  }]);
+
+  return TabBarSwipeableTabs;
+}(__WEBPACK_IMPORTED_MODULE_6_react___default.a.Component);
+
+/* harmony default export */ __webpack_exports__["a"] = (TabBarSwipeableTabs);
+
+
+TabBarSwipeableTabs.propTypes = {
+  pageSize: __WEBPACK_IMPORTED_MODULE_7_prop_types___default.a.number,
+  onTabClick: __WEBPACK_IMPORTED_MODULE_7_prop_types___default.a.func,
+  saveRef: __WEBPACK_IMPORTED_MODULE_7_prop_types___default.a.func,
+  destroyInactiveTabPane: __WEBPACK_IMPORTED_MODULE_7_prop_types___default.a.bool,
+  prefixCls: __WEBPACK_IMPORTED_MODULE_7_prop_types___default.a.string,
+  activeKey: __WEBPACK_IMPORTED_MODULE_7_prop_types___default.a.string,
+  panels: __WEBPACK_IMPORTED_MODULE_7_prop_types___default.a.node
+};
+
+TabBarSwipeableTabs.defaultProps = {
+  pageSize: 5,
+  onTabClick: function onTabClick() {},
+  saveRef: function saveRef() {}
+};
+
+/***/ }),
 
 /***/ 11:
 /***/ (function(module, exports, __webpack_require__) {
@@ -276,173 +800,6 @@ TabBarTabsNode.defaultProps = {
   onTabClick: function onTabClick() {},
   saveRef: function saveRef() {}
 };
-
-/***/ }),
-
-/***/ 156:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(157);
-
-
-/***/ }),
-
-/***/ 157:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_classCallCheck__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_classCallCheck___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_classCallCheck__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_createClass__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_createClass___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_createClass__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_possibleConstructorReturn__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_possibleConstructorReturn___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_possibleConstructorReturn__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_inherits__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_inherits___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_inherits__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rc_tabs_assets_index_less__ = __webpack_require__(35);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rc_tabs_assets_index_less___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_rc_tabs_assets_index_less__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_react__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_react_dom__ = __webpack_require__(16);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_react_dom__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_rc_tabs__ = __webpack_require__(36);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_rc_tabs_lib_SwipeableTabContent__ = __webpack_require__(41);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_rc_tabs_lib_ScrollableInkTabBar__ = __webpack_require__(32);
-
-
-
-
-/* eslint react/no-multi-comp:0, no-console:0, react/prop-types:0 */
-
-
-
-
-
-
-
-var PanelContent = function PanelContent(_ref) {
-  var id = _ref.id;
-  return __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
-    'div',
-    null,
-    [1, 2, 3, 4].map(function (item) {
-      return __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
-        'p',
-        { key: item },
-        id
-      );
-    })
-  );
-};
-
-var Demo = function (_React$Component) {
-  __WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_inherits___default()(Demo, _React$Component);
-
-  function Demo() {
-    var _ref2;
-
-    var _temp, _this, _ret;
-
-    __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_classCallCheck___default()(this, Demo);
-
-    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
-
-    return _ret = (_temp = (_this = __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_possibleConstructorReturn___default()(this, (_ref2 = Demo.__proto__ || Object.getPrototypeOf(Demo)).call.apply(_ref2, [this].concat(args))), _this), _this.state = {
-      activeKey: '',
-      start: 0
-    }, _this.onChange = function (activeKey) {
-      console.log('onChange ' + activeKey);
-      _this.setState({
-        activeKey: activeKey
-      });
-    }, _this.onTabClick = function (key) {
-      console.log('onTabClick ' + key);
-      if (key === _this.state.activeKey) {
-        _this.setState({
-          activeKey: ''
-        });
-      }
-    }, _this.tick = function () {
-      _this.setState({
-        start: _this.state.start + 10
-      });
-    }, _this.handleNotExistKey = function () {
-      _this.setState({
-        activeKey: '-1'
-      });
-    }, _temp), __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_possibleConstructorReturn___default()(_this, _ret);
-  }
-
-  __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_createClass___default()(Demo, [{
-    key: 'render',
-    value: function render() {
-      var _this2 = this;
-
-      var start = this.state.start;
-      return __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
-        'div',
-        { style: { margin: 20 } },
-        __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
-          'h1',
-          null,
-          'Simple Tabs'
-        ),
-        __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
-          __WEBPACK_IMPORTED_MODULE_7_rc_tabs__["b" /* default */],
-          {
-            renderTabBar: function renderTabBar() {
-              return __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_9_rc_tabs_lib_ScrollableInkTabBar__["a" /* default */], { onTabClick: _this2.onTabClick });
-            },
-            renderTabContent: function renderTabContent() {
-              return __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_8_rc_tabs_lib_SwipeableTabContent__["a" /* default */], { animatedWithMargin: true });
-            },
-            activeKey: this.state.activeKey,
-            onChange: this.onChange
-          },
-          __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
-            __WEBPACK_IMPORTED_MODULE_7_rc_tabs__["a" /* TabPane */],
-            { tab: 'tab ' + start, key: '1' },
-            __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(PanelContent, { id: start })
-          ),
-          __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
-            __WEBPACK_IMPORTED_MODULE_7_rc_tabs__["a" /* TabPane */],
-            { tab: 'tab ' + (start + 1), key: '2' },
-            __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(PanelContent, { id: start + 1 })
-          ),
-          __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
-            __WEBPACK_IMPORTED_MODULE_7_rc_tabs__["a" /* TabPane */],
-            { tab: 'tab ' + (start + 2), key: '3' },
-            __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(PanelContent, { id: start + 2 })
-          ),
-          __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
-            __WEBPACK_IMPORTED_MODULE_7_rc_tabs__["a" /* TabPane */],
-            { tab: 'tab ' + (start + 3), key: '4', disabled: true },
-            __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(PanelContent, { id: start + 3 })
-          )
-        ),
-        __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
-          'button',
-          { onClick: this.tick },
-          'rerender'
-        ),
-        __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
-          'button',
-          { onClick: this.handleNotExistKey,
-            style: { marginLeft: 10 }
-          },
-          'change to a non-existent activeKey'
-        )
-      );
-    }
-  }]);
-
-  return Demo;
-}(__WEBPACK_IMPORTED_MODULE_5_react___default.a.Component);
-
-__WEBPACK_IMPORTED_MODULE_6_react_dom___default.a.render(__WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(Demo, null), document.getElementById('__react-content'));
 
 /***/ }),
 
@@ -2286,90 +2643,415 @@ var index = (function () {
 
 /***/ }),
 
-/***/ 32:
+/***/ 314:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(315);
+
+
+/***/ }),
+
+/***/ 315:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_objectWithoutProperties__ = __webpack_require__(37);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_objectWithoutProperties___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_objectWithoutProperties__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_classCallCheck__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_classCallCheck___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_classCallCheck__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_createClass__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_createClass___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_createClass__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_babel_runtime_helpers_possibleConstructorReturn__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_babel_runtime_helpers_possibleConstructorReturn___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_babel_runtime_helpers_possibleConstructorReturn__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_babel_runtime_helpers_inherits__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_babel_runtime_helpers_inherits___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_babel_runtime_helpers_inherits__);
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_classCallCheck__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_classCallCheck___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_classCallCheck__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_createClass__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_createClass___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_createClass__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_possibleConstructorReturn__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_possibleConstructorReturn___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_possibleConstructorReturn__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_inherits__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_inherits___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_inherits__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_babel_runtime_helpers_extends__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_babel_runtime_helpers_extends___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_babel_runtime_helpers_extends__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rc_tabs_assets_index_less__ = __webpack_require__(35);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rc_tabs_assets_index_less___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_rc_tabs_assets_index_less__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_prop_types__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__InkTabBarNode__ = __webpack_require__(33);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__TabBarTabsNode__ = __webpack_require__(15);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__TabBarRootNode__ = __webpack_require__(19);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__ScrollableTabBarNode__ = __webpack_require__(18);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__SaveRef__ = __webpack_require__(20);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_react_dom__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_react_dom__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_rc_tabs__ = __webpack_require__(36);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_rc_tabs_lib_TabContent__ = __webpack_require__(34);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_rc_tabs_lib_SwipeableInkTabBar__ = __webpack_require__(107);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_rc_tabs_lib_ScrollableTabBar__ = __webpack_require__(65);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12_rc_tabs_lib_InkTabBar__ = __webpack_require__(51);
+
+
+
+
+
+/* eslint react/no-multi-comp:0, no-console:0, react/prop-types:0 */
 
 
 
 
 
 
-/* eslint-disable react/prefer-stateless-function */
 
 
 
+var arrowPath = 'M869 487.8L491.2 159.9c-2.9-2.5-6.6-3.9-10.5-3.9h' + '-88.5c-7.4 0-10.8 9.2-5.2 14l350.2 304H152c-4.4 0-8 3.6-8 8v' + '60c0 4.4 3.6 8 8 8h585.1L386.9 854c-5.6 4.9-2.2 14 5.2 14h91' + '.5c1.9 0 3.8-0.7 5.2-2L869 536.2c14.7-12.8 14.7-35.6 0-48.4z';
 
+var getSvg = function getSvg(path) {
+  var style = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  var svgStyle = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
+  return __WEBPACK_IMPORTED_MODULE_6_react___default.a.createElement(
+    'i',
+    { style: style },
+    __WEBPACK_IMPORTED_MODULE_6_react___default.a.createElement(
+      'svg',
+      {
+        viewBox: '0 0 1024 1024',
+        width: '1em',
+        height: '1em',
+        fill: 'currentColor',
+        style: __WEBPACK_IMPORTED_MODULE_4_babel_runtime_helpers_extends___default()({ verticalAlign: '-.125em ' }, svgStyle)
+      },
+      __WEBPACK_IMPORTED_MODULE_6_react___default.a.createElement('path', { d: path, 'p-id': '5827' })
+    )
+  );
+};
 
+var next = getSvg(arrowPath, {}, {
+  transform: 'scaleX(-1)'
+});
+var prev = getSvg(arrowPath);
 
+var contentStyle = {
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  height: '100px',
+  backgroundColor: '#fff'
+};
+var tabTitle = function tabTitle(key) {
+  return __WEBPACK_IMPORTED_MODULE_6_react___default.a.createElement(
+    'div',
+    { 'data-extra': 'tab-bar-title' },
+    '\u062A\u0628 ' + key
+  );
+};
+var makeTabPane = function makeTabPane(key) {
+  return __WEBPACK_IMPORTED_MODULE_6_react___default.a.createElement(
+    __WEBPACK_IMPORTED_MODULE_8_rc_tabs__["a" /* TabPane */],
+    { tab: tabTitle(key), 'data-extra': 'tabpane', key: '' + key },
+    __WEBPACK_IMPORTED_MODULE_6_react___default.a.createElement(
+      'div',
+      { style: contentStyle },
+      '\u0645\u0637\u0627\u0644\u0628 \u062F\u0627\u062E\u0644 \u062A\u0628 ' + key
+    )
+  );
+};
 
-var ScrollableInkTabBar = function (_React$Component) {
-  __WEBPACK_IMPORTED_MODULE_5_babel_runtime_helpers_inherits___default()(ScrollableInkTabBar, _React$Component);
+var makeMultiTabPane = function makeMultiTabPane(count) {
+  var result = [];
+  for (var i = 0; i < count; i++) {
+    result.push(makeTabPane(i));
+  }
+  return result;
+};
 
-  function ScrollableInkTabBar() {
-    __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_classCallCheck___default()(this, ScrollableInkTabBar);
+var PanelContent = function (_React$Component) {
+  __WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_inherits___default()(PanelContent, _React$Component);
 
-    return __WEBPACK_IMPORTED_MODULE_4_babel_runtime_helpers_possibleConstructorReturn___default()(this, (ScrollableInkTabBar.__proto__ || Object.getPrototypeOf(ScrollableInkTabBar)).apply(this, arguments));
+  function PanelContent(props) {
+    __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_classCallCheck___default()(this, PanelContent);
+
+    var _this = __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_possibleConstructorReturn___default()(this, (PanelContent.__proto__ || Object.getPrototypeOf(PanelContent)).call(this, props));
+
+    console.log(_this.props.id, 'constructor');
+    return _this;
   }
 
-  __WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_createClass___default()(ScrollableInkTabBar, [{
+  __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_createClass___default()(PanelContent, [{
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(nextProps) {
+      console.log(nextProps.id, 'componentWillReceiveProps');
+    }
+  }, {
     key: 'render',
     value: function render() {
-      var _props = this.props,
-          renderTabBarNode = _props.children,
-          restProps = __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_objectWithoutProperties___default()(_props, ['children']);
-
+      var length = Math.round(10 * Math.random() + 4);
+      var count = new Array(length); // new Array(4) skip forEach ....
+      for (var i = 0; i < length; i++) {
+        count[i] = 1;
+      }
+      var content = new Array(Math.round(100 * Math.random()) + 4).join(' ' + this.props.id);
+      var els = count.map(function (c, i) {
+        return __WEBPACK_IMPORTED_MODULE_6_react___default.a.createElement(
+          'p',
+          { key: i },
+          content
+        );
+      });
       return __WEBPACK_IMPORTED_MODULE_6_react___default.a.createElement(
-        __WEBPACK_IMPORTED_MODULE_12__SaveRef__["a" /* default */],
+        'div',
         null,
-        function (saveRef, getRef) {
-          return __WEBPACK_IMPORTED_MODULE_6_react___default.a.createElement(
-            __WEBPACK_IMPORTED_MODULE_10__TabBarRootNode__["a" /* default */],
-            __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends___default()({ saveRef: saveRef }, restProps),
-            __WEBPACK_IMPORTED_MODULE_6_react___default.a.createElement(
-              __WEBPACK_IMPORTED_MODULE_11__ScrollableTabBarNode__["a" /* default */],
-              __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends___default()({ saveRef: saveRef, getRef: getRef }, restProps),
-              __WEBPACK_IMPORTED_MODULE_6_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_9__TabBarTabsNode__["a" /* default */], __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends___default()({ saveRef: saveRef, renderTabBarNode: renderTabBarNode }, restProps)),
-              __WEBPACK_IMPORTED_MODULE_6_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_8__InkTabBarNode__["a" /* default */], __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends___default()({ saveRef: saveRef, getRef: getRef }, restProps))
-            )
-          );
-        }
+        els
       );
     }
   }]);
 
-  return ScrollableInkTabBar;
+  return PanelContent;
 }(__WEBPACK_IMPORTED_MODULE_6_react___default.a.Component);
 
-/* harmony default export */ __webpack_exports__["a"] = (ScrollableInkTabBar);
+function construct(start, num) {
+  var ends = [];
+  var index = 1;
+  for (var i = start; i < start + num; i++) {
+    ends.push(__WEBPACK_IMPORTED_MODULE_6_react___default.a.createElement(
+      __WEBPACK_IMPORTED_MODULE_8_rc_tabs__["a" /* TabPane */],
+      {
+        placeholder: 'loading ' + i,
+        tab: 'tab ' + i,
+        key: index
+      },
+      __WEBPACK_IMPORTED_MODULE_6_react___default.a.createElement(PanelContent, { id: i })
+    ));
+    index++;
+  }
+  return ends;
+}
 
+var Demo = function (_React$Component2) {
+  __WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_inherits___default()(Demo, _React$Component2);
 
-ScrollableInkTabBar.propTypes = {
-  children: __WEBPACK_IMPORTED_MODULE_7_prop_types___default.a.func
-};
+  function Demo() {
+    var _ref;
+
+    var _temp, _this2, _ret;
+
+    __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_classCallCheck___default()(this, Demo);
+
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return _ret = (_temp = (_this2 = __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_possibleConstructorReturn___default()(this, (_ref = Demo.__proto__ || Object.getPrototypeOf(Demo)).call.apply(_ref, [this].concat(args))), _this2), _this2.state = {
+      tabBarPosition: 'top',
+      activeKey: '3',
+      start: 0,
+      useIcon: false
+    }, _this2.onChange = function (key) {
+      console.log('onChange ' + key);
+    }, _this2.onChange2 = function (activeKey) {
+      _this2.setState({ activeKey: activeKey });
+    }, _this2.onTabClick = function (key) {
+      console.log('onTabClick ' + key);
+    }, _this2.tick = function () {
+      _this2.setState({
+        start: _this2.state.start + 10
+      });
+    }, _this2.toggleCustomIcon = function () {
+      _this2.setState({
+        useIcon: !_this2.state.useIcon
+      });
+    }, _this2.changeTabPosition = function (e) {
+      _this2.setState({
+        tabBarPosition: e.target.value
+      });
+    }, _this2.scrollToActive = function () {
+      _this2.bar.scrollToActiveTab();
+    }, _this2.switchToLast = function (ends) {
+      if (_this2.state.activeKey !== ends[ends.length - 1].key) {
+        _this2.setState({ activeKey: ends[ends.length - 1].key }, _this2.scrollToActive);
+      } else {
+        _this2.scrollToActive();
+      }
+    }, _this2.saveBar = function (bar) {
+      _this2.bar = bar;
+    }, _temp), __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_possibleConstructorReturn___default()(_this2, _ret);
+  }
+
+  __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_createClass___default()(Demo, [{
+    key: 'render',
+    value: function render() {
+      var _this3 = this;
+
+      var start = this.state.start;
+      var ends = construct(start, 9);
+      var ends2 = construct(start, 3);
+      var tabBarPosition = this.state.tabBarPosition;
+      var style = void 0;
+      var contentStyleSwipeable = {
+        height: 400
+      };
+      if (tabBarPosition === 'left' || tabBarPosition === 'right') {
+        style = {
+          height: 400
+        };
+      } else {
+        style = {
+          width: 500
+        };
+      }
+
+      var cls = this.state.useIcon && 'rc-tabs-custom-icon' || undefined;
+
+      var iconProps = this.state.useIcon ? {
+        nextIcon: next,
+        prevIcon: prev
+      } : {};
+
+      return __WEBPACK_IMPORTED_MODULE_6_react___default.a.createElement(
+        'div',
+        { style: { margin: 20 } },
+        __WEBPACK_IMPORTED_MODULE_6_react___default.a.createElement(
+          'h2',
+          null,
+          'Basic Tabs With Ink Bar and tabBarGutter'
+        ),
+        __WEBPACK_IMPORTED_MODULE_6_react___default.a.createElement(
+          'p',
+          null,
+          'tabBarPosition:',
+          __WEBPACK_IMPORTED_MODULE_6_react___default.a.createElement(
+            'select',
+            { value: this.state.tabBarPosition, onChange: this.changeTabPosition },
+            __WEBPACK_IMPORTED_MODULE_6_react___default.a.createElement(
+              'option',
+              { value: 'top' },
+              'top'
+            ),
+            __WEBPACK_IMPORTED_MODULE_6_react___default.a.createElement(
+              'option',
+              { value: 'bottom' },
+              'bottom'
+            ),
+            __WEBPACK_IMPORTED_MODULE_6_react___default.a.createElement(
+              'option',
+              { value: 'left' },
+              'left'
+            ),
+            __WEBPACK_IMPORTED_MODULE_6_react___default.a.createElement(
+              'option',
+              { value: 'right' },
+              'right'
+            )
+          )
+        ),
+        __WEBPACK_IMPORTED_MODULE_6_react___default.a.createElement(
+          'div',
+          null,
+          __WEBPACK_IMPORTED_MODULE_6_react___default.a.createElement(
+            __WEBPACK_IMPORTED_MODULE_8_rc_tabs__["b" /* default */],
+            {
+              defaultActiveKey: '3',
+              style: style,
+              tabBarPosition: this.state.tabBarPosition,
+              renderTabBar: function renderTabBar() {
+                return __WEBPACK_IMPORTED_MODULE_6_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_12_rc_tabs_lib_InkTabBar__["a" /* default */], {
+                  onTabClick: _this3.onTabClick,
+                  tabBarGutter: 30
+                });
+              },
+              renderTabContent: function renderTabContent() {
+                return __WEBPACK_IMPORTED_MODULE_6_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_9_rc_tabs_lib_TabContent__["a" /* default */], { style: contentStyleSwipeable });
+              },
+              onChange: this.onChange,
+              direction: 'rtl'
+            },
+            ends2
+          )
+        ),
+        __WEBPACK_IMPORTED_MODULE_6_react___default.a.createElement(
+          'h2',
+          null,
+          'Scroll Tabs'
+        ),
+        __WEBPACK_IMPORTED_MODULE_6_react___default.a.createElement(
+          'div',
+          null,
+          __WEBPACK_IMPORTED_MODULE_6_react___default.a.createElement(
+            'button',
+            { onClick: function onClick() {
+                return _this3.switchToLast(ends);
+              } },
+            'switch to last tab'
+          ),
+          __WEBPACK_IMPORTED_MODULE_6_react___default.a.createElement('br', null),
+          __WEBPACK_IMPORTED_MODULE_6_react___default.a.createElement(
+            'button',
+            { onClick: this.toggleCustomIcon },
+            'toggle custom icon'
+          ),
+          __WEBPACK_IMPORTED_MODULE_6_react___default.a.createElement(
+            'span',
+            null,
+            'is using icon: ',
+            this.state.useIcon && 'true' || 'false'
+          ),
+          __WEBPACK_IMPORTED_MODULE_6_react___default.a.createElement(
+            __WEBPACK_IMPORTED_MODULE_8_rc_tabs__["b" /* default */],
+            {
+              activeKey: this.state.activeKey,
+              className: cls,
+              style: style,
+              tabBarPosition: this.state.tabBarPosition,
+              renderTabBar: function renderTabBar() {
+                return __WEBPACK_IMPORTED_MODULE_6_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_11_rc_tabs_lib_ScrollableTabBar__["a" /* default */], __WEBPACK_IMPORTED_MODULE_4_babel_runtime_helpers_extends___default()({
+                  ref: _this3.saveBar,
+                  onTabClick: _this3.onTabClick
+                }, iconProps));
+              },
+              renderTabContent: function renderTabContent() {
+                return __WEBPACK_IMPORTED_MODULE_6_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_9_rc_tabs_lib_TabContent__["a" /* default */], { style: contentStyleSwipeable });
+              },
+              onChange: this.onChange2,
+              direction: 'rtl'
+            },
+            ends
+          )
+        ),
+        __WEBPACK_IMPORTED_MODULE_6_react___default.a.createElement(
+          'button',
+          { onClick: this.tick },
+          'rerender'
+        ),
+        __WEBPACK_IMPORTED_MODULE_6_react___default.a.createElement(
+          'h2',
+          null,
+          'Swipeable Tabs with inkBar'
+        ),
+        __WEBPACK_IMPORTED_MODULE_6_react___default.a.createElement(
+          'div',
+          null,
+          __WEBPACK_IMPORTED_MODULE_6_react___default.a.createElement(
+            __WEBPACK_IMPORTED_MODULE_8_rc_tabs__["b" /* default */],
+            {
+              'data-extra': 'tabs',
+              direction: 'rtl',
+              renderTabBar: function renderTabBar() {
+                return __WEBPACK_IMPORTED_MODULE_6_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_10_rc_tabs_lib_SwipeableInkTabBar__["a" /* default */], {
+                  pageSize: 5,
+                  speed: 5,
+                  'data-extra': 'tabbar'
+                });
+              },
+              renderTabContent: function renderTabContent() {
+                return __WEBPACK_IMPORTED_MODULE_6_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_9_rc_tabs_lib_TabContent__["a" /* default */], null);
+              },
+              defaultActiveKey: '2'
+            },
+            makeMultiTabPane(11)
+          )
+        ),
+        __WEBPACK_IMPORTED_MODULE_6_react___default.a.createElement(
+          'button',
+          { onClick: this.tick },
+          'rerender'
+        )
+      );
+    }
+  }]);
+
+  return Demo;
+}(__WEBPACK_IMPORTED_MODULE_6_react___default.a.Component);
+
+__WEBPACK_IMPORTED_MODULE_7_react_dom___default.a.render(__WEBPACK_IMPORTED_MODULE_6_react___default.a.createElement(Demo, null), document.getElementById('__react-content'));
 
 /***/ }),
 
@@ -5220,7 +5902,7 @@ if (true) {
 
 /***/ }),
 
-/***/ 41:
+/***/ 51:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5238,11 +5920,16 @@ if (true) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_prop_types__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_rc_hammerjs__ = __webpack_require__(38);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_react_dom__ = __webpack_require__(16);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_react_dom__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__TabContent__ = __webpack_require__(34);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__utils__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__InkTabBarNode__ = __webpack_require__(33);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__TabBarTabsNode__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__TabBarRootNode__ = __webpack_require__(19);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__SaveRef__ = __webpack_require__(20);
+
+
+
+
+
+/* eslint-disable react/prefer-stateless-function */
 
 
 
@@ -5250,197 +5937,121 @@ if (true) {
 
 
 
+var InkTabBar = function (_React$Component) {
+  __WEBPACK_IMPORTED_MODULE_4_babel_runtime_helpers_inherits___default()(InkTabBar, _React$Component);
 
+  function InkTabBar() {
+    __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_classCallCheck___default()(this, InkTabBar);
 
-
-
-
-var RESISTANCE_COEF = 0.6;
-
-function computeIndex(_ref) {
-  var maxIndex = _ref.maxIndex,
-      startIndex = _ref.startIndex,
-      delta = _ref.delta,
-      viewSize = _ref.viewSize;
-
-  var index = startIndex + -delta / viewSize;
-  if (index < 0) {
-    index = Math.exp(index * RESISTANCE_COEF) - 1;
-  } else if (index > maxIndex) {
-    index = maxIndex + 1 - Math.exp((maxIndex - index) * RESISTANCE_COEF);
-  }
-  return index;
-}
-
-function getIndexByDelta(e) {
-  var delta = Object(__WEBPACK_IMPORTED_MODULE_10__utils__["k" /* isVertical */])(this.props.tabBarPosition) ? e.deltaY : e.deltaX;
-  var otherDelta = Object(__WEBPACK_IMPORTED_MODULE_10__utils__["k" /* isVertical */])(this.props.tabBarPosition) ? e.deltaX : e.deltaY;
-  if (Math.abs(delta) < Math.abs(otherDelta)) {
-    return undefined;
-  }
-  var currentIndex = computeIndex({
-    maxIndex: this.maxIndex,
-    viewSize: this.viewSize,
-    startIndex: this.startIndex,
-    delta: delta
-  });
-  var showIndex = delta < 0 ? Math.floor(currentIndex + 1) : Math.floor(currentIndex);
-  if (showIndex < 0) {
-    showIndex = 0;
-  } else if (showIndex > this.maxIndex) {
-    showIndex = this.maxIndex;
-  }
-  if (this.children[showIndex].props.disabled) {
-    return undefined;
-  }
-  return currentIndex;
-}
-
-var SwipeableTabContent = function (_React$Component) {
-  __WEBPACK_IMPORTED_MODULE_4_babel_runtime_helpers_inherits___default()(SwipeableTabContent, _React$Component);
-
-  function SwipeableTabContent() {
-    var _ref2;
-
-    var _temp, _this, _ret;
-
-    __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_classCallCheck___default()(this, SwipeableTabContent);
-
-    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
-
-    return _ret = (_temp = (_this = __WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_possibleConstructorReturn___default()(this, (_ref2 = SwipeableTabContent.__proto__ || Object.getPrototypeOf(SwipeableTabContent)).call.apply(_ref2, [this].concat(args))), _this), _this.onPanStart = function () {
-      var _this$props = _this.props,
-          tabBarPosition = _this$props.tabBarPosition,
-          children = _this$props.children,
-          activeKey = _this$props.activeKey,
-          animated = _this$props.animated;
-
-      _this.startIndex = Object(__WEBPACK_IMPORTED_MODULE_10__utils__["a" /* getActiveIndex */])(children, activeKey);
-      var startIndex = _this.startIndex;
-      if (startIndex === -1) {
-        return;
-      }
-      if (animated) {
-        Object(__WEBPACK_IMPORTED_MODULE_10__utils__["n" /* setTransition */])(_this.rootNode.style, 'none');
-      }
-      _this.startDrag = true;
-      _this.children = Object(__WEBPACK_IMPORTED_MODULE_10__utils__["o" /* toArray */])(children);
-      _this.maxIndex = _this.children.length - 1;
-      _this.viewSize = Object(__WEBPACK_IMPORTED_MODULE_10__utils__["k" /* isVertical */])(tabBarPosition) ? _this.rootNode.offsetHeight : _this.rootNode.offsetWidth;
-    }, _this.onPan = function (e) {
-      if (!_this.startDrag) {
-        return;
-      }
-      var tabBarPosition = _this.props.tabBarPosition;
-
-      var currentIndex = getIndexByDelta.call(_this, e);
-      if (currentIndex !== undefined) {
-        Object(__WEBPACK_IMPORTED_MODULE_10__utils__["m" /* setTransform */])(_this.rootNode.style, Object(__WEBPACK_IMPORTED_MODULE_10__utils__["h" /* getTransformByIndex */])(currentIndex, tabBarPosition));
-      }
-    }, _this.onPanEnd = function (e) {
-      if (!_this.startDrag) {
-        return;
-      }
-      _this.end(e);
-    }, _this.onSwipe = function (e) {
-      _this.end(e, true);
-    }, _this.end = function (e, swipe) {
-      var _this$props2 = _this.props,
-          tabBarPosition = _this$props2.tabBarPosition,
-          animated = _this$props2.animated;
-
-      _this.startDrag = false;
-      if (animated) {
-        Object(__WEBPACK_IMPORTED_MODULE_10__utils__["n" /* setTransition */])(_this.rootNode.style, '');
-      }
-      var currentIndex = getIndexByDelta.call(_this, e);
-      var finalIndex = _this.startIndex;
-      if (currentIndex !== undefined) {
-        if (currentIndex < 0) {
-          finalIndex = 0;
-        } else if (currentIndex > _this.maxIndex) {
-          finalIndex = _this.maxIndex;
-        } else if (swipe) {
-          var delta = Object(__WEBPACK_IMPORTED_MODULE_10__utils__["k" /* isVertical */])(tabBarPosition) ? e.deltaY : e.deltaX;
-          finalIndex = delta < 0 ? Math.ceil(currentIndex) : Math.floor(currentIndex);
-        } else {
-          var floorIndex = Math.floor(currentIndex);
-          if (currentIndex - floorIndex > 0.6) {
-            finalIndex = floorIndex + 1;
-          } else {
-            finalIndex = floorIndex;
-          }
-        }
-      }
-      if (_this.children[finalIndex].props.disabled) {
-        return;
-      }
-      if (_this.startIndex === finalIndex) {
-        if (animated) {
-          Object(__WEBPACK_IMPORTED_MODULE_10__utils__["m" /* setTransform */])(_this.rootNode.style, Object(__WEBPACK_IMPORTED_MODULE_10__utils__["h" /* getTransformByIndex */])(finalIndex, _this.props.tabBarPosition));
-        }
-      } else {
-        _this.props.onChange(Object(__WEBPACK_IMPORTED_MODULE_10__utils__["b" /* getActiveKey */])(_this.props.children, finalIndex));
-      }
-    }, _temp), __WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_possibleConstructorReturn___default()(_this, _ret);
+    return __WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_possibleConstructorReturn___default()(this, (InkTabBar.__proto__ || Object.getPrototypeOf(InkTabBar)).apply(this, arguments));
   }
 
-  __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_createClass___default()(SwipeableTabContent, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      this.rootNode = __WEBPACK_IMPORTED_MODULE_8_react_dom___default.a.findDOMNode(this);
-    }
-  }, {
+  __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_createClass___default()(InkTabBar, [{
     key: 'render',
     value: function render() {
-      var _props = this.props,
-          tabBarPosition = _props.tabBarPosition,
-          hammerOptions = _props.hammerOptions,
-          animated = _props.animated;
+      var _this2 = this;
 
-      var events = {
-        onSwipe: this.onSwipe,
-        onPanStart: this.onPanStart
-      };
-      if (animated !== false) {
-        events = __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends___default()({}, events, {
-          onPan: this.onPan,
-          onPanEnd: this.onPanEnd
-        });
-      }
       return __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
-        __WEBPACK_IMPORTED_MODULE_7_rc_hammerjs__["a" /* default */],
-        __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends___default()({}, events, {
-          direction: Object(__WEBPACK_IMPORTED_MODULE_10__utils__["k" /* isVertical */])(tabBarPosition) ? 'DIRECTION_ALL' : 'DIRECTION_HORIZONTAL',
-          options: hammerOptions
-        }),
-        __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_9__TabContent__["a" /* default */], this.props)
+        __WEBPACK_IMPORTED_MODULE_10__SaveRef__["a" /* default */],
+        null,
+        function (saveRef, getRef) {
+          return __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
+            __WEBPACK_IMPORTED_MODULE_9__TabBarRootNode__["a" /* default */],
+            __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends___default()({ saveRef: saveRef }, _this2.props),
+            __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_8__TabBarTabsNode__["a" /* default */], __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends___default()({ onTabClick: _this2.props.onTabClick, saveRef: saveRef }, _this2.props)),
+            __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_7__InkTabBarNode__["a" /* default */], __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends___default()({ saveRef: saveRef, getRef: getRef }, _this2.props))
+          );
+        }
       );
     }
   }]);
 
-  return SwipeableTabContent;
+  return InkTabBar;
 }(__WEBPACK_IMPORTED_MODULE_5_react___default.a.Component);
 
-/* harmony default export */ __webpack_exports__["a"] = (SwipeableTabContent);
+/* harmony default export */ __webpack_exports__["a"] = (InkTabBar);
 
 
-SwipeableTabContent.propTypes = {
-  tabBarPosition: __WEBPACK_IMPORTED_MODULE_6_prop_types___default.a.string,
-  onChange: __WEBPACK_IMPORTED_MODULE_6_prop_types___default.a.func,
-  children: __WEBPACK_IMPORTED_MODULE_6_prop_types___default.a.node,
-  hammerOptions: __WEBPACK_IMPORTED_MODULE_6_prop_types___default.a.any,
-  animated: __WEBPACK_IMPORTED_MODULE_6_prop_types___default.a.bool,
-  activeKey: __WEBPACK_IMPORTED_MODULE_6_prop_types___default.a.string
+InkTabBar.propTypes = {
+  onTabClick: __WEBPACK_IMPORTED_MODULE_6_prop_types___default.a.func
 };
 
-SwipeableTabContent.defaultProps = {
-  animated: true
+InkTabBar.defaultProps = {
+  onTabClick: function onTabClick() {}
 };
+
+/***/ }),
+
+/***/ 65:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_classCallCheck__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_classCallCheck___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_classCallCheck__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_createClass__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_createClass___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_createClass__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_possibleConstructorReturn__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_possibleConstructorReturn___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_possibleConstructorReturn__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_babel_runtime_helpers_inherits__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_babel_runtime_helpers_inherits___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_babel_runtime_helpers_inherits__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_react__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__ScrollableTabBarNode__ = __webpack_require__(18);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__TabBarRootNode__ = __webpack_require__(19);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__TabBarTabsNode__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__SaveRef__ = __webpack_require__(20);
+
+
+
+
+
+/* eslint-disable react/prefer-stateless-function */
+
+
+
+
+
+
+var ScrollableTabBar = function (_React$Component) {
+  __WEBPACK_IMPORTED_MODULE_4_babel_runtime_helpers_inherits___default()(ScrollableTabBar, _React$Component);
+
+  function ScrollableTabBar() {
+    __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_classCallCheck___default()(this, ScrollableTabBar);
+
+    return __WEBPACK_IMPORTED_MODULE_3_babel_runtime_helpers_possibleConstructorReturn___default()(this, (ScrollableTabBar.__proto__ || Object.getPrototypeOf(ScrollableTabBar)).apply(this, arguments));
+  }
+
+  __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_createClass___default()(ScrollableTabBar, [{
+    key: 'render',
+    value: function render() {
+      var _this2 = this;
+
+      return __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
+        __WEBPACK_IMPORTED_MODULE_9__SaveRef__["a" /* default */],
+        null,
+        function (saveRef, getRef) {
+          return __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
+            __WEBPACK_IMPORTED_MODULE_7__TabBarRootNode__["a" /* default */],
+            __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends___default()({ saveRef: saveRef }, _this2.props),
+            __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(
+              __WEBPACK_IMPORTED_MODULE_6__ScrollableTabBarNode__["a" /* default */],
+              __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends___default()({ saveRef: saveRef, getRef: getRef }, _this2.props),
+              __WEBPACK_IMPORTED_MODULE_5_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_8__TabBarTabsNode__["a" /* default */], __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends___default()({ saveRef: saveRef }, _this2.props))
+            )
+          );
+        }
+      );
+    }
+  }]);
+
+  return ScrollableTabBar;
+}(__WEBPACK_IMPORTED_MODULE_5_react___default.a.Component);
+
+/* harmony default export */ __webpack_exports__["a"] = (ScrollableTabBar);
 
 /***/ })
 
-},[156]);
-//# sourceMappingURL=activeKey.js.map
+},[314]);
+//# sourceMappingURL=rtl.js.map

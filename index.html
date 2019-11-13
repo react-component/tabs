@@ -7,7 +7,7 @@
   <meta charset="utf-8"/>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link href="//cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.css" rel="stylesheet"/>
-  <title>rc-tabs@9.6.7 - tabs ui component for react</title>
+  <title>rc-tabs@9.7.0 - tabs ui component for react</title>
   <style>
     @font-face {
       font-family: octicons-anchor;
@@ -737,7 +737,7 @@
 
 <body>
 <div class="header">
-  <h1>rc-tabs@9.6.7</h1>
+  <h1>rc-tabs@9.7.0</h1>
 </div>
 <div class="examples">
   <h3>EXAMPLES</h3>
@@ -757,6 +757,8 @@
       <li><a href="examples/dnd.html">dnd</a></li>
       
       <li><a href="examples/router.html">router</a></li>
+      
+      <li><a href="examples/rtl.html">rtl</a></li>
       
       <li><a href="examples/swipeInkTabBar.html">swipeInkTabBar</a></li>
       
@@ -781,28 +783,26 @@
 <li>left and up: switch to previous tab</li>
 <li>right and down: switch to next tab</li>
 </ul>
-<h2>Usage<a id="user-content-usage" name="usage" class="anchor" aria-hidden="true" href="#usage"><span class="octicon octicon-link"></span></a></h2><div class="highlight"><pre><code language="js"><span class="hljs-keyword">import</span> Tabs, { TabPane } <span class="hljs-keyword">from</span> <span class="hljs-string">'rc-tabs'</span>;
-<span class="hljs-keyword">import</span> TabContent <span class="hljs-keyword">from</span> <span class="hljs-string">'rc-tabs/lib/TabContent'</span>;
-<span class="hljs-keyword">import</span> ScrollableInkTabBar <span class="hljs-keyword">from</span> <span class="hljs-string">'rc-tabs/lib/ScrollableInkTabBar'</span>;
+<h2>Usage<a id="user-content-usage" name="usage" class="anchor" aria-hidden="true" href="#usage"><span class="octicon octicon-link"></span></a></h2><div class="highlight"><pre><code language="js"><span class="hljs-keyword">import</span> Tabs, { TabPane } <span class="hljs-keyword">from</span> <span class="hljs-string">"rc-tabs"</span>;
+<span class="hljs-keyword">import</span> TabContent <span class="hljs-keyword">from</span> <span class="hljs-string">"rc-tabs/lib/TabContent"</span>;
+<span class="hljs-keyword">import</span> ScrollableInkTabBar <span class="hljs-keyword">from</span> <span class="hljs-string">"rc-tabs/lib/ScrollableInkTabBar"</span>;
 
-<span class="hljs-keyword">var</span> callback = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">key</span>)</span>{
-
-}
+<span class="hljs-keyword">var</span> callback = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">key</span>) </span>{};
 
 React.render(
-  (
-    <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">Tabs</span>
-      <span class="hljs-attribute">defaultActiveKey</span>=<span class="hljs-value">"2"</span>
-      <span class="hljs-attribute">onChange</span>=<span class="hljs-value">{callback}</span>
-      <span class="hljs-attribute">renderTabBar</span>=<span class="hljs-value">{()=</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-title">ScrollableInkTabBar</span> /&gt;</span>}
-      renderTabContent={()=&gt;<span class="hljs-tag">&lt;<span class="hljs-title">TabContent</span> /&gt;</span>}
-    &gt;
-      <span class="hljs-tag">&lt;<span class="hljs-title">TabPane</span> <span class="hljs-attribute">tab</span>=<span class="hljs-value">'tab 1'</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"1"</span>&gt;</span>first<span class="hljs-tag">&lt;/<span class="hljs-title">TabPane</span>&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-title">TabPane</span> <span class="hljs-attribute">tab</span>=<span class="hljs-value">'tab 2'</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"2"</span>&gt;</span>second<span class="hljs-tag">&lt;/<span class="hljs-title">TabPane</span>&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-title">TabPane</span> <span class="hljs-attribute">tab</span>=<span class="hljs-value">'tab 3'</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"3"</span>&gt;</span>third<span class="hljs-tag">&lt;/<span class="hljs-title">TabPane</span>&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-title">Tabs</span>&gt;</span>
-  )</span>,
-  <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'t2'</span>));</code></pre></div><h3>Usage of navWrapper() function<a id="user-content-usage-of-navwrapper()-function" name="usage-of-navwrapper()-function" class="anchor" aria-hidden="true" href="#usage-of-navwrapper()-function"><span class="octicon octicon-link"></span></a></h3><p>navWrapper() prop allows to wrap tabs bar in a component to provide additional features.<br>Eg with react-sortablejs to make tabs sortable by DnD : </p>
+  <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">Tabs</span> <span class="hljs-attribute">defaultActiveKey</span>=<span class="hljs-value">"2"</span> <span class="hljs-attribute">onChange</span>=<span class="hljs-value">{callback}</span> <span class="hljs-attribute">renderTabBar</span>=<span class="hljs-value">{()</span> =&gt;</span> <span class="hljs-tag">&lt;<span class="hljs-title">ScrollableInkTabBar</span> /&gt;</span>} renderTabContent={() =&gt; <span class="hljs-tag">&lt;<span class="hljs-title">TabContent</span> /&gt;</span>}&gt;
+    <span class="hljs-tag">&lt;<span class="hljs-title">TabPane</span> <span class="hljs-attribute">tab</span>=<span class="hljs-value">"tab 1"</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"1"</span>&gt;</span>
+      first
+    <span class="hljs-tag">&lt;/<span class="hljs-title">TabPane</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">TabPane</span> <span class="hljs-attribute">tab</span>=<span class="hljs-value">"tab 2"</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"2"</span>&gt;</span>
+      second
+    <span class="hljs-tag">&lt;/<span class="hljs-title">TabPane</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">TabPane</span> <span class="hljs-attribute">tab</span>=<span class="hljs-value">"tab 3"</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">"3"</span>&gt;</span>
+      third
+    <span class="hljs-tag">&lt;/<span class="hljs-title">TabPane</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-title">Tabs</span>&gt;</span>,
+  document.getElementById("t2")
+);</span></code></pre></div><h3>Usage of navWrapper() function<a id="user-content-usage-of-navwrapper()-function" name="usage-of-navwrapper()-function" class="anchor" aria-hidden="true" href="#usage-of-navwrapper()-function"><span class="octicon octicon-link"></span></a></h3><p>navWrapper() prop allows to wrap tabs bar in a component to provide additional features.<br>Eg with react-sortablejs to make tabs sortable by DnD :</p>
 <div class="highlight"><pre><code language="js"><span class="hljs-keyword">import</span> Sortable <span class="hljs-keyword">from</span> <span class="hljs-string">'react-sortablejs'</span>;
 
 navWrapper={(content) =&gt; <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">Sortable</span>&gt;</span>{content}<span class="hljs-tag">&lt;/<span class="hljs-title">Sortable</span>&gt;</span>}</span></code></pre></div><h2>API<a id="user-content-api" name="api" class="anchor" aria-hidden="true" href="#api"><span class="octicon octicon-link"></span></a></h2><h3>Tabs<a id="user-content-tabs" name="tabs" class="anchor" aria-hidden="true" href="#tabs"><span class="octicon octicon-link"></span></a></h3><h4>props:<a id="user-content-props:" name="props:" class="anchor" aria-hidden="true" href="#props:"><span class="octicon octicon-link"></span></a></h4><table class="table table-bordered table-striped">
@@ -868,6 +868,12 @@ navWrapper={(content) =&gt; <span class="xml"><span class="hljs-tag">&lt;<span c
           <td>String</td>
           <th>rc-tabs</th>
           <td>prefix class name, use to custom style</td>
+      </tr>
+      <tr>
+          <td>direction</td>
+          <td>String</td>
+          <th>ltr</th>
+          <td>Layout direction of tabs component, it supports RTL direction too.</td>
       </tr>
     </tbody>
 </table>

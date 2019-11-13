@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>antd.js - example - rc-tabs@9.7.0</title>
+  <title>rtl.js - example - rc-tabs@9.7.0</title>
   <meta name="viewport"
         content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
   <meta charset="utf-8"/>
@@ -275,10 +275,9 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
 <span class="hljs-keyword">import</span> ReactDOM <span class="hljs-keyword">from</span> <span class="hljs-string">'react-dom'</span>;
 <span class="hljs-keyword">import</span> Tabs, { TabPane } <span class="hljs-keyword">from</span> <span class="hljs-string">'rc-tabs'</span>;
 <span class="hljs-keyword">import</span> TabContent <span class="hljs-keyword">from</span> <span class="hljs-string">'rc-tabs/lib/TabContent'</span>;
-<span class="hljs-keyword">import</span> ScrollableInkTabBar <span class="hljs-keyword">from</span> <span class="hljs-string">'rc-tabs/lib/ScrollableInkTabBar'</span>;
+<span class="hljs-keyword">import</span> SwipeableInkTabBar <span class="hljs-keyword">from</span> <span class="hljs-string">'rc-tabs/lib/SwipeableInkTabBar'</span>;
 <span class="hljs-keyword">import</span> ScrollableTabBar <span class="hljs-keyword">from</span> <span class="hljs-string">'rc-tabs/lib/ScrollableTabBar'</span>;
 <span class="hljs-keyword">import</span> InkTabBar <span class="hljs-keyword">from</span> <span class="hljs-string">'rc-tabs/lib/InkTabBar'</span>;
-<span class="hljs-keyword">import</span> TabBar <span class="hljs-keyword">from</span> <span class="hljs-string">'rc-tabs/lib/TabBar'</span>;
 
 <span class="hljs-keyword">const</span> arrowPath = <span class="hljs-string">'M869 487.8L491.2 159.9c-2.9-2.5-6.6-3.9-10.5-3.9h'</span> +
   <span class="hljs-string">'-88.5c-7.4 0-10.8 9.2-5.2 14l350.2 304H152c-4.4 0-8 3.6-8 8v'</span> +
@@ -301,11 +300,34 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
   )</span>;
 };
 
-<span class="hljs-keyword">const</span> next = getSvg(arrowPath);
-<span class="hljs-keyword">const</span> prev = getSvg(arrowPath, {}, {
+<span class="hljs-keyword">const</span> next = getSvg(arrowPath, {}, {
   transform: <span class="hljs-string">'scaleX(-1)'</span>,
 });
+<span class="hljs-keyword">const</span> prev = getSvg(arrowPath);
 
+<span class="hljs-keyword">const</span> contentStyle = {
+  display: <span class="hljs-string">'flex'</span>,
+  alignItems: <span class="hljs-string">'center'</span>,
+  justifyContent: <span class="hljs-string">'center'</span>,
+  height: <span class="hljs-string">'100px'</span>,
+  backgroundColor: <span class="hljs-string">'#fff'</span>,
+};
+<span class="hljs-keyword">const</span> tabTitle = (key) =&gt; (<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">data-extra</span>=<span class="hljs-value">"tab-bar-title"</span>&gt;</span>{`تب ${key}`}<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>)</span>;
+<span class="hljs-keyword">const</span> makeTabPane = key =&gt; (
+  <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">TabPane</span> <span class="hljs-attribute">tab</span>=<span class="hljs-value">{tabTitle(key)}</span> <span class="hljs-attribute">data-extra</span>=<span class="hljs-value">"tabpane"</span> <span class="hljs-attribute">key</span>=<span class="hljs-value">{`${key}`}</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">style</span>=<span class="hljs-value">{contentStyle}</span>&gt;</span>
+      {`مطالب داخل تب ${key}`}
+    <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-title">TabPane</span>&gt;</span>
+)</span>;
+
+<span class="hljs-keyword">const</span> makeMultiTabPane = (count) =&gt; {
+  <span class="hljs-keyword">const</span> result = [];
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; count; i++) {
+    result.push(makeTabPane(i));
+  }
+  <span class="hljs-keyword">return</span> result;
+};
 <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">PanelContent</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> </span>{
   constructor(props) {
     <span class="hljs-keyword">super</span>(props);
@@ -337,7 +359,6 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
     ends.push(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">TabPane</span>
       <span class="hljs-attribute">placeholder</span>=<span class="hljs-value">{`loading</span> ${<span class="hljs-attribute">i</span>}`}
       <span class="hljs-attribute">tab</span>=<span class="hljs-value">{`tab</span> ${<span class="hljs-attribute">i</span>}`}
-      <span class="hljs-attribute">disabled</span>=<span class="hljs-value">{!!(i</span> % <span class="hljs-attribute">2</span>)}
       <span class="hljs-attribute">key</span>=<span class="hljs-value">{index}</span>
     &gt;</span>
       <span class="hljs-tag">&lt;<span class="hljs-title">PanelContent</span> <span class="hljs-attribute">id</span>=<span class="hljs-value">{i}</span> /&gt;</span>
@@ -407,11 +428,13 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
     <span class="hljs-keyword">const</span> ends2 = construct(start, <span class="hljs-number">3</span>);
     <span class="hljs-keyword">const</span> tabBarPosition = <span class="hljs-keyword">this</span>.state.tabBarPosition;
     <span class="hljs-keyword">let</span> style;
-    <span class="hljs-keyword">const</span> contentStyle = {
+    <span class="hljs-keyword">const</span> contentStyleSwipeable = {
       height: <span class="hljs-number">400</span>,
     };
     <span class="hljs-keyword">if</span> (tabBarPosition === <span class="hljs-string">'left'</span> || tabBarPosition === <span class="hljs-string">'right'</span>) {
-      style = contentStyle;
+      style = {
+        height: <span class="hljs-number">400</span>,
+      };
     } <span class="hljs-keyword">else</span> {
       style = {
         width: <span class="hljs-number">500</span>,
@@ -427,28 +450,6 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
 
     <span class="hljs-keyword">return</span> (
       <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">style</span>=<span class="hljs-value">{{</span> <span class="hljs-attribute">margin:</span> <span class="hljs-attribute">20</span> }}&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-title">h2</span>&gt;</span>Basic Tabs<span class="hljs-tag">&lt;/<span class="hljs-title">h2</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-title">p</span>&gt;</span>
-          tabBarPosition:
-          <span class="hljs-tag">&lt;<span class="hljs-title">select</span> <span class="hljs-attribute">value</span>=<span class="hljs-value">{this.state.tabBarPosition}</span> <span class="hljs-attribute">onChange</span>=<span class="hljs-value">{this.changeTabPosition}</span>&gt;</span>
-            <span class="hljs-tag">&lt;<span class="hljs-title">option</span> <span class="hljs-attribute">value</span>=<span class="hljs-value">"top"</span>&gt;</span>top<span class="hljs-tag">&lt;/<span class="hljs-title">option</span>&gt;</span>
-            <span class="hljs-tag">&lt;<span class="hljs-title">option</span> <span class="hljs-attribute">value</span>=<span class="hljs-value">"bottom"</span>&gt;</span>bottom<span class="hljs-tag">&lt;/<span class="hljs-title">option</span>&gt;</span>
-            <span class="hljs-tag">&lt;<span class="hljs-title">option</span> <span class="hljs-attribute">value</span>=<span class="hljs-value">"left"</span>&gt;</span>left<span class="hljs-tag">&lt;/<span class="hljs-title">option</span>&gt;</span>
-            <span class="hljs-tag">&lt;<span class="hljs-title">option</span> <span class="hljs-attribute">value</span>=<span class="hljs-value">"right"</span>&gt;</span>right<span class="hljs-tag">&lt;/<span class="hljs-title">option</span>&gt;</span>
-          <span class="hljs-tag">&lt;/<span class="hljs-title">select</span>&gt;</span>
-        <span class="hljs-tag">&lt;/<span class="hljs-title">p</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-title">div</span>&gt;</span>
-          <span class="hljs-tag">&lt;<span class="hljs-title">Tabs</span>
-            <span class="hljs-attribute">defaultActiveKey</span>=<span class="hljs-value">"3"</span>
-            <span class="hljs-attribute">style</span>=<span class="hljs-value">{style}</span>
-            <span class="hljs-attribute">tabBarPosition</span>=<span class="hljs-value">{this.state.tabBarPosition}</span>
-            <span class="hljs-attribute">renderTabBar</span>=<span class="hljs-value">{()</span> =&gt;</span> <span class="hljs-tag">&lt;<span class="hljs-title">TabBar</span> <span class="hljs-attribute">onTabClick</span>=<span class="hljs-value">{this.onTabClick}</span> /&gt;</span>}
-            renderTabContent={() =&gt; <span class="hljs-tag">&lt;<span class="hljs-title">TabContent</span> <span class="hljs-attribute">style</span>=<span class="hljs-value">{contentStyle}</span> /&gt;</span>}
-            onChange={this.onChange}
-          &gt;
-            {ends2}
-          <span class="hljs-tag">&lt;/<span class="hljs-title">Tabs</span>&gt;</span>
-        <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
         <span class="hljs-tag">&lt;<span class="hljs-title">h2</span>&gt;</span>Basic Tabs With Ink Bar and tabBarGutter<span class="hljs-tag">&lt;/<span class="hljs-title">h2</span>&gt;</span>
         <span class="hljs-tag">&lt;<span class="hljs-title">p</span>&gt;</span>
           tabBarPosition:
@@ -467,11 +468,12 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
             <span class="hljs-attribute">renderTabBar</span>=<span class="hljs-value">{()</span> =&gt;</span> (
               <span class="hljs-tag">&lt;<span class="hljs-title">InkTabBar</span>
                 <span class="hljs-attribute">onTabClick</span>=<span class="hljs-value">{this.onTabClick}</span>
-                <span class="hljs-attribute">tabBarGutter</span>=<span class="hljs-value">{40}</span>
+                <span class="hljs-attribute">tabBarGutter</span>=<span class="hljs-value">{30}</span>
               /&gt;</span>
             )</span>}
-            renderTabContent={() =&gt; <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">TabContent</span> <span class="hljs-attribute">style</span>=<span class="hljs-value">{contentStyle}</span> /&gt;</span>}
+            renderTabContent={() =&gt; <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">TabContent</span> <span class="hljs-attribute">style</span>=<span class="hljs-value">{contentStyleSwipeable}</span> /&gt;</span>}
             onChange={this.onChange}
+            direction='rtl'
           &gt;
             {ends2}
           <span class="hljs-tag">&lt;/<span class="hljs-title">Tabs</span>&gt;</span>
@@ -496,32 +498,30 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
               <span class="hljs-attribute">onTabClick</span>=<span class="hljs-value">{this.onTabClick}</span>
               {<span class="hljs-attribute">...iconProps</span>}
             /&gt;</span>}
-            renderTabContent={() =&gt; <span class="hljs-tag">&lt;<span class="hljs-title">TabContent</span> <span class="hljs-attribute">style</span>=<span class="hljs-value">{contentStyle}</span> /&gt;</span>}
+            renderTabContent={() =&gt; <span class="hljs-tag">&lt;<span class="hljs-title">TabContent</span> <span class="hljs-attribute">style</span>=<span class="hljs-value">{contentStyleSwipeable}</span> /&gt;</span>}
             onChange={this.onChange2}
+            direction='rtl'
           &gt;
             {ends}
           <span class="hljs-tag">&lt;/<span class="hljs-title">Tabs</span>&gt;</span>
         <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
         <span class="hljs-tag">&lt;<span class="hljs-title">button</span> <span class="hljs-attribute">onClick</span>=<span class="hljs-value">{this.tick}</span>&gt;</span>rerender<span class="hljs-tag">&lt;/<span class="hljs-title">button</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-title">h2</span>&gt;</span>Scroll Tabs with inkBar<span class="hljs-tag">&lt;/<span class="hljs-title">h2</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-title">h2</span>&gt;</span>Swipeable Tabs with inkBar<span class="hljs-tag">&lt;/<span class="hljs-title">h2</span>&gt;</span>
         <span class="hljs-tag">&lt;<span class="hljs-title">div</span>&gt;</span>
-          <span class="hljs-tag">&lt;<span class="hljs-title">button</span> <span class="hljs-attribute">onClick</span>=<span class="hljs-value">{()</span> =&gt;</span> this.switchToLast(ends)}&gt;
-            switch to last tab
-          <span class="hljs-tag">&lt;/<span class="hljs-title">button</span>&gt;</span>
           <span class="hljs-tag">&lt;<span class="hljs-title">Tabs</span>
-            <span class="hljs-attribute">activeKey</span>=<span class="hljs-value">{this.state.activeKey}</span>
-            <span class="hljs-attribute">className</span>=<span class="hljs-value">{cls}</span>
-            <span class="hljs-attribute">style</span>=<span class="hljs-value">{style}</span>
-            <span class="hljs-attribute">tabBarPosition</span>=<span class="hljs-value">{this.state.tabBarPosition}</span>
-            <span class="hljs-attribute">renderTabBar</span>=<span class="hljs-value">{()</span> =&gt;</span> <span class="hljs-tag">&lt;<span class="hljs-title">ScrollableInkTabBar</span>
-              <span class="hljs-attribute">ref</span>=<span class="hljs-value">{this.saveBar}</span>
-              <span class="hljs-attribute">onTabClick</span>=<span class="hljs-value">{this.onTabClick}</span>
-              {<span class="hljs-attribute">...iconProps</span>}
-            /&gt;</span>}
-            renderTabContent={() =&gt; <span class="hljs-tag">&lt;<span class="hljs-title">TabContent</span> <span class="hljs-attribute">style</span>=<span class="hljs-value">{contentStyle}</span> /&gt;</span>}
-            onChange={this.onChange2}
+            <span class="hljs-attribute">data-extra</span>=<span class="hljs-value">"tabs"</span>
+            <span class="hljs-attribute">direction</span>=<span class="hljs-value">"rtl"</span>
+            <span class="hljs-attribute">renderTabBar</span>=<span class="hljs-value">{()</span> =&gt;</span>
+              <span class="hljs-tag">&lt;<span class="hljs-title">SwipeableInkTabBar</span>
+                <span class="hljs-attribute">pageSize</span>=<span class="hljs-value">{5}</span>
+                <span class="hljs-attribute">speed</span>=<span class="hljs-value">{5}</span>
+                <span class="hljs-attribute">data-extra</span>=<span class="hljs-value">"tabbar"</span>
+              /&gt;</span>
+            }
+            renderTabContent={() =&gt; <span class="hljs-tag">&lt;<span class="hljs-title">TabContent</span> /&gt;</span>}
+            defaultActiveKey="2"
           &gt;
-            {ends}
+            {makeMultiTabPane(11)}
           <span class="hljs-tag">&lt;/<span class="hljs-title">Tabs</span>&gt;</span>
         <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
         <span class="hljs-tag">&lt;<span class="hljs-title">button</span> <span class="hljs-attribute">onClick</span>=<span class="hljs-value">{this.tick}</span>&gt;</span>rerender<span class="hljs-tag">&lt;/<span class="hljs-title">button</span>&gt;</span>
@@ -541,7 +541,7 @@ ReactDOM.render(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-t
   </a>
   <script>FastClick.attach(document.body);</script>
   <script src="../common.js?nowrap"></script>
-  <script src="antd.js?nowrap"></script>
+  <script src="rtl.js?nowrap"></script>
 </body>
 
 </html>
