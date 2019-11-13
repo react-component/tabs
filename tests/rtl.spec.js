@@ -143,7 +143,7 @@ describe('rc-swipeable-tabs', () => {
         renderTabBar={() => (
           <ScrollableInkTabBar onPrevClick={onPrevClick} onNextClick={onNextClick} />
         )}
-        renderTabContent={() => <TabContent />}
+        renderTabContent={() => <TabContent animatedWithMargin />}
         direction="rtl"
       >
         <TabPane tab="tab 1" key="1">first</TabPane>
@@ -185,7 +185,7 @@ describe('rc-swipeable-tabs', () => {
     const wrapper = mount(
       <Tabs
         renderTabBar={() => <InkTabBar />}
-        renderTabContent={() => <TabContent />}
+        renderTabContent={() => <TabContent animatedWithMargin />}
         direction="rtl"
       >
         {children}
