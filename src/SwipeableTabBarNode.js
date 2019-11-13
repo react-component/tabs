@@ -49,7 +49,17 @@ export default class SwipeableTabBarNode extends React.Component {
 
     // calculate distance dom need transform
     let _nextDelta = nowDelta + totalDelta;
-    if (_nextDelta >= 0) {
+
+    if (this.isRtl()) {
+      // calculate distance from right when direction is right-to-left 
+      if (_nextDelta <= 0) {
+        _nextDelta = 0;
+      } else if (_nextDelta >= totalAvaliableDelta) {
+        _nextDelta = totalAvaliableDelta;
+      }
+    }
+    // calculate distance from left when direction is left-to-right 
+    else if (_nextDelta >= 0) {
       _nextDelta = 0;
     } else if (_nextDelta <= -totalAvaliableDelta) {
       _nextDelta = -totalAvaliableDelta;
@@ -89,7 +99,12 @@ export default class SwipeableTabBarNode extends React.Component {
     const index = this.getIndexByKey(activeKey);
     const centerTabCount = Math.floor(pageSize / 2);
     const { tabWidth } = this.cache;
-    const delta = (index - centerTabCount) * tabWidth * -1;
+    let delta = (index - centerTabCount) * tabWidth;
+    // in rtl direction tabs are ordered from right to left, so delta should be positive in order to 
+    // push swiped element to righ side (start of view)
+    if (!this.isRtl()) {
+      delta *= -1;
+    }
     return delta;
   }
 
@@ -117,7 +132,7 @@ export default class SwipeableTabBarNode extends React.Component {
       delta = 0;
     } else if (!hasNextPage) {
       // the last page
-      delta = -totalAvaliableDelta;
+      delta = this.isRtl() ? totalAvaliableDelta : -totalAvaliableDelta;
     } else if (hasNextPage) {
       // the middle page
       delta = this.getDeltaByKey(activeKey);
@@ -149,7 +164,9 @@ export default class SwipeableTabBarNode extends React.Component {
       hasNextPage: -delta < totalAvaliableDelta,
     };
   }
-
+  isRtl() {
+    return this.props.direction === 'rtl';
+  }
   render() {
     const { prefixCls, hammerOptions, tabBarPosition } = this.props;
     const { hasPrevPage, hasNextPage } = this.state;
@@ -201,6 +218,7 @@ SwipeableTabBarNode.propTypes = {
   speed: PropTypes.number,
   saveRef: PropTypes.func,
   getRef: PropTypes.func,
+  direction: PropTypes.string,
 };
 
 SwipeableTabBarNode.defaultProps = {
@@ -211,6 +229,6 @@ SwipeableTabBarNode.defaultProps = {
   hammerOptions: {},
   pageSize: 5, // per page show how many tabs
   speed: 7, // swipe speed, 1 to 10, more bigger more faster
-  saveRef: () => {},
-  getRef: () => {},
+  saveRef: () => { },
+  getRef: () => { },
 };

@@ -36,6 +36,7 @@ export default class TabContent extends React.Component {
     const {
       prefixCls, children, activeKey, className,
       tabBarPosition, animated, animatedWithMargin,
+      direction,
     } = props;
     let { style } = props;
     const classes = classnames({
@@ -48,8 +49,8 @@ export default class TabContent extends React.Component {
       const activeIndex = getActiveIndex(children, activeKey);
       if (activeIndex !== -1) {
         const animatedStyle = animatedWithMargin ?
-                getMarginStyle(activeIndex, tabBarPosition) :
-                getTransformPropValue(getTransformByIndex(activeIndex, tabBarPosition));
+          getMarginStyle(activeIndex, tabBarPosition) :
+          getTransformPropValue(getTransformByIndex(activeIndex, tabBarPosition, direction));
         style = {
           ...style,
           ...animatedStyle,
@@ -82,6 +83,7 @@ TabContent.propTypes = {
   tabBarPosition: PropTypes.string,
   className: PropTypes.string,
   destroyInactiveTabPane: PropTypes.bool,
+  direction: PropTypes.string,
 };
 
 TabContent.defaultProps = {

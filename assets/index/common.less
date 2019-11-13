@@ -83,7 +83,6 @@
     list-style: none;
     display: inline-block;
     transform-origin: 0 0;
-
     &-animated {
       transition: transform 0.5s @easing-in-out;
     }
@@ -96,6 +95,10 @@
     &:after {
       clear: both;
     }
+  }
+  
+  &-rtl &-nav {
+    float: right;
   }
 
   &-tab {
@@ -158,5 +161,8 @@
   .no-flexbox &-tabpane-inactive,
   &-content-no-animated &-tabpane-inactive {
     display: none;
+  }
+  &-rtl{
+    direction: rtl;
   }
 }

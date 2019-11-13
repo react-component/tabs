@@ -1,4 +1,5 @@
 # rc-tabs
+
 ---
 
 React Tabs
@@ -39,39 +40,38 @@ online example: http://react-component.github.io/tabs/
 
 ### Keyboard
 
-* left and up: switch to previous tab
-* right and down: switch to next tab
+- left and up: switch to previous tab
+- right and down: switch to next tab
 
 ## Usage
 
 ```js
-import Tabs, { TabPane } from 'rc-tabs';
-import TabContent from 'rc-tabs/lib/TabContent';
-import ScrollableInkTabBar from 'rc-tabs/lib/ScrollableInkTabBar';
+import Tabs, { TabPane } from "rc-tabs";
+import TabContent from "rc-tabs/lib/TabContent";
+import ScrollableInkTabBar from "rc-tabs/lib/ScrollableInkTabBar";
 
-var callback = function(key){
-
-}
+var callback = function(key) {};
 
 React.render(
-  (
-    <Tabs
-      defaultActiveKey="2"
-      onChange={callback}
-      renderTabBar={()=><ScrollableInkTabBar />}
-      renderTabContent={()=><TabContent />}
-    >
-      <TabPane tab='tab 1' key="1">first</TabPane>
-      <TabPane tab='tab 2' key="2">second</TabPane>
-      <TabPane tab='tab 3' key="3">third</TabPane>
-    </Tabs>
-  ),
-  document.getElementById('t2'));
+  <Tabs defaultActiveKey="2" onChange={callback} renderTabBar={() => <ScrollableInkTabBar />} renderTabContent={() => <TabContent />}>
+    <TabPane tab="tab 1" key="1">
+      first
+    </TabPane>
+    <TabPane tab="tab 2" key="2">
+      second
+    </TabPane>
+    <TabPane tab="tab 3" key="3">
+      third
+    </TabPane>
+  </Tabs>,
+  document.getElementById("t2")
+);
 ```
+
 ### Usage of navWrapper() function
 
 navWrapper() prop allows to wrap tabs bar in a component to provide additional features.  
-Eg with react-sortablejs to make tabs sortable by DnD : 
+Eg with react-sortablejs to make tabs sortable by DnD :
 
 ```js
 import Sortable from 'react-sortablejs';
@@ -148,6 +148,12 @@ navWrapper={(content) => <Sortable>{content}</Sortable>}
           <td>String</td>
           <th>rc-tabs</th>
           <td>prefix class name, use to custom style</td>
+      </tr>
+      <tr>
+          <td>direction</td>
+          <td>String</td>
+          <th>ltr</th>
+          <td>Layout direction of tabs component, it supports RTL direction too.</td>
       </tr>
     </tbody>
 </table>
@@ -306,9 +312,9 @@ scrollable tab bar, in addition to tab bar props, extra props:
 
 scrollable tab bar with ink indicator, same with tab bar and ink bar and scrollable bar props.
 
-| name | type | default | description |
-|------|------|---------|-------------|
-| children | (node) => node | - | Customize tab bar node |
+| name     | type           | default | description            |
+| -------- | -------------- | ------- | ---------------------- |
+| children | (node) => node | -       | Customize tab bar node |
 
 ### lib/SwipeableInkTabBar (Use for Mobile)
 

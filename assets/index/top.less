@@ -56,11 +56,21 @@
     }
   }
 
+  &-top&-rtl &-tab-next {
+    left: 2px;
+    right:auto;
+  }
+
   &-top &-tab-prev {
     left: 0;
     &-icon:before {
       content: "<";
     }
+  }
+
+  &-top&-rtl &-tab-prev {
+    right: 0;
+    left:auto;
   }
 
   &-top &-tab-prev, &-top &-tab-next {
@@ -85,10 +95,21 @@
     left: 0;
   }
 
+  &-top&-rtl &-ink-bar {
+    right: 0;
+    left:auto;
+  }
+
   &-top &-tab {
     float: left;
     height: 100%;
     margin-right: 30px;
+  }
+
+  &-top&-rtl &-tab {
+    float: right;
+    margin-left: 30px;
+    margin-right: 0;
   }
 
   &-top &-tabpane-inactive {
