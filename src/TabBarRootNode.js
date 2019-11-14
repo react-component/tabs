@@ -28,7 +28,7 @@ export default class TabBarRootNode extends React.Component {
         cloneElement(extraContent, {
           key: 'extra',
           style: {
-            ...getExtraContentStyle(topOrBottom, direction),
+            ...this.getExtraContentStyle(topOrBottom, direction),
             ...extraContentStyle,
           },
         }),
@@ -61,7 +61,7 @@ TabBarRootNode.propTypes = {
   extraContent: PropTypes.node,
   onKeyDown: PropTypes.func,
   saveRef: PropTypes.func,
-  direction: 'ltr' | 'rtl',
+  direction: ropTypes.oneOf(['ltr', 'rtl']),
 };
 
 TabBarRootNode.defaultProps = {
