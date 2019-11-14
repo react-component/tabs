@@ -5,7 +5,9 @@ import { getDataAttr } from './utils';
 
 export default class TabBarRootNode extends React.Component {
 
-  getExtraContentStyle(topOrBottom, direction) {
+  getExtraContentStyle = () => {
+    const { tabBarPosition, direction } = this.props;
+    const topOrBottom = (tabBarPosition === 'top' || tabBarPosition === 'bottom');
     if (direction === 'rtl') {
       return topOrBottom ? { float: 'left' } : {};
     }
@@ -61,7 +63,7 @@ TabBarRootNode.propTypes = {
   extraContent: PropTypes.node,
   onKeyDown: PropTypes.func,
   saveRef: PropTypes.func,
-  direction: ropTypes.oneOf(['ltr', 'rtl']),
+  direction: PropTypes.oneOf(['ltr', 'rtl']),
 };
 
 TabBarRootNode.defaultProps = {
