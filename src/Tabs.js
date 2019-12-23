@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import raf from 'raf';
-import { polyfill } from 'react-lifecycles-compat';
 import KeyCode from './KeyCode';
 import TabPane from './TabPane';
 import { getDataAttr } from './utils';
@@ -274,7 +273,5 @@ Tabs.defaultProps = {
 };
 
 Tabs.TabPane = TabPane;
-
-polyfill(Tabs);
 
 export default Tabs;

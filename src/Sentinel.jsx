@@ -1,10 +1,9 @@
 /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
-import React from 'react';
+import React, { createContext } from 'react';
 import PropTypes from 'prop-types';
 import KeyCode from 'rc-util/lib/KeyCode';
-import createReactContext from '@ant-design/create-react-context';
 
-const SentinelContext = createReactContext({});
+const SentinelContext = createContext({});
 export const SentinelProvider = SentinelContext.Provider;
 export const SentinelConsumer = SentinelContext.Consumer;
 
