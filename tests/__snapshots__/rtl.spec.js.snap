@@ -6,9 +6,15 @@ exports[`rc-swipeable-tabs Should render scrollable tabbar with correct DOM stru
 >
   <div
     class="rc-tabs-bar"
+    data-extra="tabbar"
     role="tablist"
     tabindex="0"
   >
+    <button
+      style="float:left"
+    >
+      Extra Content
+    </button>
     <div
       class="rc-tabs-nav-container"
     >

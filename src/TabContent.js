@@ -49,7 +49,7 @@ export default class TabContent extends React.Component {
       const activeIndex = getActiveIndex(children, activeKey);
       if (activeIndex !== -1) {
         const animatedStyle = animatedWithMargin ?
-          getMarginStyle(activeIndex, tabBarPosition) :
+          getMarginStyle(activeIndex, tabBarPosition, direction) :
           getTransformPropValue(getTransformByIndex(activeIndex, tabBarPosition, direction));
         style = {
           ...style,

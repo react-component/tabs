@@ -124,7 +124,11 @@ describe('rc-swipeable-tabs', () => {
   it('Should render scrollable tabbar with correct DOM structure', () => {
     const wrapper = render(
       <Tabs
-        renderTabBar={() => <ScrollableInkTabBar />}
+        renderTabBar={() => <ScrollableInkTabBar
+          data-extra="tabbar"
+          extraContent={
+            <button>Extra Content</button>
+          } />}
         renderTabContent={() => <TabContent />}
         direction="rtl"
       >
@@ -141,9 +145,16 @@ describe('rc-swipeable-tabs', () => {
         defaultActiveKey="1"
         style={{ width: 100 }}
         renderTabBar={() => (
-          <ScrollableInkTabBar onPrevClick={onPrevClick} onNextClick={onNextClick} />
+          <ScrollableInkTabBar
+            onPrevClick={onPrevClick}
+            onNextClick={onNextClick}
+            tabBarPosition="bottom"
+            data-extra="tabbar"
+            extraContent={
+              <button>Extra Content</button>
+            } />
         )}
-        renderTabContent={() => <TabContent />}
+        renderTabContent={() => <TabContent animatedWithMargin />}
         direction="rtl"
       >
         <TabPane tab="tab 1" key="1">first</TabPane>
@@ -185,7 +196,7 @@ describe('rc-swipeable-tabs', () => {
     const wrapper = mount(
       <Tabs
         renderTabBar={() => <InkTabBar />}
-        renderTabContent={() => <TabContent />}
+        renderTabContent={() => <TabContent animatedWithMargin />}
         direction="rtl"
       >
         {children}
