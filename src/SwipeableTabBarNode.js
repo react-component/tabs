@@ -168,7 +168,7 @@ export default class SwipeableTabBarNode extends React.Component {
     return this.props.direction === 'rtl';
   }
   render() {
-    const { prefixCls, hammerOptions, tabBarPosition } = this.props;
+    const { prefixCls, hammerOptions, tabBarPosition, onKeyDown } = this.props;
     const { hasPrevPage, hasNextPage } = this.state;
     const navClassName = `${prefixCls}-nav`;
     const navClasses = classnames({
@@ -177,6 +177,7 @@ export default class SwipeableTabBarNode extends React.Component {
     const events = {
       onPan: this.onPan,
     };
+
     return (
       <div
         className={classnames({
@@ -187,6 +188,9 @@ export default class SwipeableTabBarNode extends React.Component {
           [`${prefixCls}-nextpage`]: hasNextPage,
         })}
         key="container"
+        tabIndex="0"
+        onKeyDown={onKeyDown}
+        role="tablist"
         ref={this.props.saveRef('container')}
       >
         <div className={`${prefixCls}-nav-wrap`} ref={this.props.saveRef('navWrap')}>
@@ -219,6 +223,7 @@ SwipeableTabBarNode.propTypes = {
   saveRef: PropTypes.func,
   getRef: PropTypes.func,
   direction: PropTypes.string,
+  onKeyDown: PropTypes.func,
 };
 
 SwipeableTabBarNode.defaultProps = {
@@ -231,4 +236,5 @@ SwipeableTabBarNode.defaultProps = {
   speed: 7, // swipe speed, 1 to 10, more bigger more faster
   saveRef: () => { },
   getRef: () => { },
+  onKeyDown: () => { },
 };

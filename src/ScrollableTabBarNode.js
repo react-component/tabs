@@ -249,6 +249,7 @@ export default class ScrollableTabBarNode extends React.Component {
       navWrapper,
       prevIcon,
       nextIcon,
+      onKeyDown,
     } = this.props;
     const showNextPrev = prev || next;
 
@@ -298,6 +299,9 @@ export default class ScrollableTabBarNode extends React.Component {
           [`${prefixCls}-nav-container-scrolling`]: showNextPrev,
         })}
         key="container"
+        tabIndex="0"
+        onKeyDown={onKeyDown}
+        role="tablist"
         ref={this.props.saveRef('container')}
       >
         {prevButton}
@@ -323,6 +327,7 @@ ScrollableTabBarNode.propTypes = {
   scrollAnimated: PropTypes.bool,
   onPrevClick: PropTypes.func,
   onNextClick: PropTypes.func,
+  onKeyDown: PropTypes.func,
   navWrapper: PropTypes.func,
   children: PropTypes.node,
   prevIcon: PropTypes.node,
@@ -336,5 +341,6 @@ ScrollableTabBarNode.defaultProps = {
   scrollAnimated: true,
   onPrevClick: () => { },
   onNextClick: () => { },
+  onKeyDown: () => {},
   navWrapper: (ele) => ele,
 };

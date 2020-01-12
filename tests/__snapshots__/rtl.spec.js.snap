@@ -7,8 +7,6 @@ exports[`rc-swipeable-tabs Should render scrollable tabbar with correct DOM stru
   <div
     class="rc-tabs-bar"
     data-extra="tabbar"
-    role="tablist"
-    tabindex="0"
   >
     <button
       style="float:left"
@@ -17,6 +15,8 @@ exports[`rc-swipeable-tabs Should render scrollable tabbar with correct DOM stru
     </button>
     <div
       class="rc-tabs-nav-container"
+      role="tablist"
+      tabindex="0"
     >
       <span
         class="rc-tabs-tab-prev rc-tabs-tab-btn-disabled"
@@ -236,11 +236,11 @@ exports[`rc-swipeable-tabs Should render swipeable tabbar with correct DOM struc
 >
   <div
     class="rc-tabs-bar"
-    role="tablist"
-    tabindex="0"
   >
     <div
       class="rc-tabs-nav-container rc-tabs-nav-swipe-container rc-tabs-nextpage"
+      role="tablist"
+      tabindex="0"
     >
       <div
         class="rc-tabs-nav-wrap"
@@ -456,11 +456,11 @@ exports[`rc-swipeable-tabs should render Slider with correct DOM structure 1`] =
   >
     <div
       class="rc-tabs-bar"
-      role="tablist"
-      tabindex="0"
     >
       <div
         class="rc-tabs-nav-container rc-tabs-nav-swipe-container rc-tabs-prevpage rc-tabs-nextpage"
+        role="tablist"
+        tabindex="0"
       >
         <div
           class="rc-tabs-nav-wrap"

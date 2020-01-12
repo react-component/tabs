@@ -16,7 +16,7 @@ export default class TabBarRootNode extends React.Component {
 
   render() {
     const {
-      prefixCls, onKeyDown, className, extraContent, style, tabBarPosition, children, direction,
+      prefixCls, className, extraContent, style, tabBarPosition, children, direction,
       ...restProps
     } = this.props;
     const cls = classnames(`${prefixCls}-bar`, {
@@ -40,11 +40,8 @@ export default class TabBarRootNode extends React.Component {
     }
     return (
       <div
-        role="tablist"
         className={cls}
-        tabIndex="0"
         ref={this.props.saveRef('root')}
-        onKeyDown={onKeyDown}
         style={style}
         {...getDataAttr(restProps)}
       >
@@ -61,7 +58,6 @@ TabBarRootNode.propTypes = {
   tabBarPosition: PropTypes.oneOf(['left', 'right', 'top', 'bottom']),
   children: PropTypes.node,
   extraContent: PropTypes.node,
-  onKeyDown: PropTypes.func,
   saveRef: PropTypes.func,
   direction: PropTypes.oneOf(['ltr', 'rtl']),
 };
@@ -73,6 +69,5 @@ TabBarRootNode.defaultProps = {
   tabBarPosition: 'top',
   extraContent: null,
   children: null,
-  onKeyDown: () => { },
   saveRef: () => { },
 };

@@ -9,11 +9,11 @@ exports[`rc-swipeable-tabs should render Slider with correct DOM structure 1`] =
   >
     <div
       class="rc-tabs-bar"
-      role="tablist"
-      tabindex="0"
     >
       <div
         class="rc-tabs-nav-container rc-tabs-nav-swipe-container rc-tabs-prevpage rc-tabs-nextpage"
+        role="tablist"
+        tabindex="0"
       >
         <div
           class="rc-tabs-nav-wrap"

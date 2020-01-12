@@ -6,11 +6,11 @@ exports[`rc-tabs should render Tabs with correct DOM structure 1`] = `
 >
   <div
     class="rc-tabs-bar"
-    role="tablist"
-    tabindex="0"
   >
     <div
       class="rc-tabs-nav-container"
+      role="tablist"
+      tabindex="0"
     >
       <span
         class="rc-tabs-tab-prev rc-tabs-tab-btn-disabled"
