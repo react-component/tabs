@@ -1,59 +1,70 @@
-/* eslint react/no-multi-comp:0, no-console:0, no-alert:0, no-undef: 0 */
-import 'rc-tabs/assets/index.less';
+/* eslint-disable no-console,react/button-has-type,no-alert,no-plusplus */
+import '../assets/index.less';
 import React from 'react';
-import ReactDOM from 'react-dom';
-import Tabs, { TabPane } from 'rc-tabs';
-import TabContent from 'rc-tabs/lib/TabContent';
-import ScrollableInkTabBar from 'rc-tabs/lib/ScrollableInkTabBar';
+import Tabs, { TabPane } from '../src';
+import TabContent from '../src/TabContent';
+import ScrollableInkTabBar from '../src/ScrollableInkTabBar';
 
 let index = 1;
 
 class Demo extends React.Component {
   state = {
-    tabs: [{
-      title: '初始',
-      content: '初始内容',
-    }],
+    tabs: [
+      {
+        title: '初始',
+        content: '初始内容',
+      },
+    ],
     activeKey: '初始',
   };
 
-  onTabChange = (activeKey) => {
+  onTabChange = activeKey => {
     this.setState({
       activeKey,
     });
-  }
+  };
 
   construct() {
     const disabled = true;
-    return this.state.tabs.map((t) => {
-      return (<TabPane
-        tab={<span>{t.title}
-          <a
-            style={{
-              position: 'absolute',
-              cursor: 'pointer',
-              color: 'red',
-              right: 5,
-              top: 0,
-            }}
-            onClick={(e) => {
-              this.remove(t.title, e)
-            }}
-          >x</a>
-      </span>}
-        key={t.title}
-      >
-        <div style={{ padding: 100 }}>
-          {t.content}
-        </div>
-      </TabPane>);
-    }).concat([
-      <TabPane
-        tab={<a style={{ color: 'black', cursor: 'pointer' }} onClick={this.add}> + 添加</a>}
-        disabled={disabled}
-        key="__add"
-      />,
-    ]);
+    return this.state.tabs
+      .map(t => (
+        <TabPane
+          tab={
+            <span>
+              {t.title}
+              <a
+                style={{
+                  position: 'absolute',
+                  cursor: 'pointer',
+                  color: 'red',
+                  right: 5,
+                  top: 0,
+                }}
+                onClick={e => {
+                  this.remove(t.title, e);
+                }}
+              >
+                x
+              </a>
+            </span>
+          }
+          key={t.title}
+        >
+          <div style={{ padding: 100 }}>{t.content}</div>
+        </TabPane>
+      ))
+      .concat([
+        <TabPane
+          tab={
+            <a style={{ color: 'black', cursor: 'pointer' }} onClick={this.add}>
+              {' '}
+              + 添加
+            </a>
+          }
+          disabled={disabled}
+          key="__add"
+        />,
+      ]);
   }
 
   remove = (title, e) => {
@@ -70,7 +81,8 @@ class Demo extends React.Component {
       foundIndex = i;
       return false;
     });
-    let activeKey = this.state.activeKey;
+
+    let { activeKey } = this.state;
     if (activeKey === title) {
       if (foundIndex) {
         foundIndex--;
@@ -81,9 +93,9 @@ class Demo extends React.Component {
       tabs: after,
       activeKey,
     });
-  }
+  };
 
-  add = (e) => {
+  add = e => {
     e.stopPropagation();
     index++;
     const newTab = {
@@ -94,7 +106,7 @@ class Demo extends React.Component {
       tabs: this.state.tabs.concat(newTab),
       activeKey: `名称: ${index}`,
     });
-  }
+  };
 
   render() {
     const tabStyle = {
@@ -107,13 +119,9 @@ class Demo extends React.Component {
         <div style={tabStyle}>
           <Tabs
             renderTabBar={() => (
-              <ScrollableInkTabBar
-                extraContent={
-                  <button onClick={this.add}>+添加</button>
-                }
-              />
+              <ScrollableInkTabBar extraContent={<button onClick={this.add}>+添加</button>} />
             )}
-            renderTabContent={() => <TabContent/>}
+            renderTabContent={() => <TabContent />}
             activeKey={this.state.activeKey}
             onChange={this.onTabChange}
           >
@@ -125,4 +133,4 @@ class Demo extends React.Component {
   }
 }
 
-ReactDOM.render(<Demo />, document.getElementById('__react-content'));
+export default Demo;

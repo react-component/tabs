@@ -3,11 +3,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import Hammer from 'rc-hammerjs';
 import ReactDOM from 'react-dom';
-import {
-  isVertical,
-  getStyle,
-  setPxStyle,
-} from './utils';
+import { isVertical, getStyle, setPxStyle } from './utils';
 
 export default class SwipeableTabBarNode extends React.Component {
   constructor(props) {
@@ -32,33 +28,34 @@ export default class SwipeableTabBarNode extends React.Component {
 
   componentDidUpdate(prevProps) {
     this.setCache();
-    if ((this.props.activeKey && this.props.activeKey !== prevProps.activeKey)
-      || this.props.panels.length !== prevProps.panels.length
-      || this.props.pageSize !== prevProps.pageSize
+    if (
+      (this.props.activeKey && this.props.activeKey !== prevProps.activeKey) ||
+      this.props.panels.length !== prevProps.panels.length ||
+      this.props.pageSize !== prevProps.pageSize
     ) {
       this.setSwipePositionByKey(this.props.activeKey);
     }
   }
 
-  onPan = (e) => {
+  onPan = e => {
     const { vertical, totalAvaliableDelta, totalDelta } = this.cache;
     const { speed } = this.props;
     // calculate touch distance
     let nowDelta = vertical ? e.deltaY : e.deltaX;
-    nowDelta *= (speed / 10);
+    nowDelta *= speed / 10;
 
     // calculate distance dom need transform
     let _nextDelta = nowDelta + totalDelta;
 
     if (this.isRtl()) {
-      // calculate distance from right when direction is right-to-left 
+      // calculate distance from right when direction is right-to-left
       if (_nextDelta <= 0) {
         _nextDelta = 0;
       } else if (_nextDelta >= totalAvaliableDelta) {
         _nextDelta = totalAvaliableDelta;
       }
     }
-    // calculate distance from left when direction is left-to-right 
+    // calculate distance from left when direction is left-to-right
     else if (_nextDelta >= 0) {
       _nextDelta = 0;
     } else if (_nextDelta <= -totalAvaliableDelta) {
@@ -76,7 +73,7 @@ export default class SwipeableTabBarNode extends React.Component {
         hasNextPage,
       });
     }
-  }
+  };
 
   setCache() {
     const { tabBarPosition, pageSize, panels } = this.props;
@@ -100,7 +97,7 @@ export default class SwipeableTabBarNode extends React.Component {
     const centerTabCount = Math.floor(pageSize / 2);
     const { tabWidth } = this.cache;
     let delta = (index - centerTabCount) * tabWidth;
-    // in rtl direction tabs are ordered from right to left, so delta should be positive in order to 
+    // in rtl direction tabs are ordered from right to left, so delta should be positive in order to
     // push swiped element to righ side (start of view)
     if (!this.isRtl()) {
       delta *= -1;
@@ -110,7 +107,7 @@ export default class SwipeableTabBarNode extends React.Component {
 
   getIndexByKey(activeKey) {
     const { panels } = this.props;
-    const length = panels.length;
+    const { length } = panels;
     for (let i = 0; i < length; i++) {
       if (panels[i].key === activeKey) {
         return i;
@@ -164,9 +161,11 @@ export default class SwipeableTabBarNode extends React.Component {
       hasNextPage: -delta < totalAvaliableDelta,
     };
   }
+
   isRtl() {
     return this.props.direction === 'rtl';
   }
+
   render() {
     const { prefixCls, hammerOptions, tabBarPosition } = this.props;
     const { hasPrevPage, hasNextPage } = this.state;
@@ -229,6 +228,6 @@ SwipeableTabBarNode.defaultProps = {
   hammerOptions: {},
   pageSize: 5, // per page show how many tabs
   speed: 7, // swipe speed, 1 to 10, more bigger more faster
-  saveRef: () => { },
-  getRef: () => { },
+  saveRef: () => {},
+  getRef: () => {},
 };

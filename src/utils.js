@@ -33,10 +33,9 @@ export function setTransform(style, v) {
 }
 
 export function isTransform3dSupported(style) {
-  return ('transform' in style ||
-    'webkitTransform' in style ||
-    'MozTransform' in style) &&
-    window.atob;
+  return (
+    ('transform' in style || 'webkitTransform' in style || 'MozTransform' in style) && window.atob
+  );
 }
 
 export function setTransition(style, v) {
@@ -80,7 +79,10 @@ export function getMarginStyle(index, tabBarPosition, direction = 'ltr') {
 }
 
 export function getStyle(el, property) {
-  return +window.getComputedStyle(el).getPropertyValue(property).replace('px', '');
+  return +window
+    .getComputedStyle(el)
+    .getPropertyValue(property)
+    .replace('px', '');
 }
 
 export function setPxStyle(el, value, vertical) {
@@ -108,7 +110,7 @@ function getTypeValue(start, current, end, tabNode, wrapperNode) {
   }
 
   const { childNodes } = tabNode.parentNode;
-  Array.prototype.some.call(childNodes, (node) => {
+  Array.prototype.some.call(childNodes, node => {
     const style = window.getComputedStyle(node);
 
     if (node !== tabNode) {

@@ -27,7 +27,7 @@ export default class ScrollableTabBarNode extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    const props = this.props;
+    const { props } = this;
     if (prevProps && prevProps.tabBarPosition !== props.tabBarPosition) {
       this.setOffset(0);
       return;
@@ -94,7 +94,7 @@ export default class ScrollableTabBarNode extends React.Component {
   }
 
   getOffsetWH(node) {
-    const tabBarPosition = this.props.tabBarPosition;
+    const { tabBarPosition } = this.props;
     let prop = 'offsetWidth';
     if (tabBarPosition === 'left' || tabBarPosition === 'right') {
       prop = 'offsetHeight';
@@ -103,7 +103,7 @@ export default class ScrollableTabBarNode extends React.Component {
   }
 
   getScrollWH(node) {
-    const tabBarPosition = this.props.tabBarPosition;
+    const { tabBarPosition } = this.props;
     let prop = 'scrollWidth';
     if (tabBarPosition === 'left' || tabBarPosition === 'right') {
       prop = 'scrollHeight';
@@ -111,9 +111,8 @@ export default class ScrollableTabBarNode extends React.Component {
     return node[prop];
   }
 
-
   getOffsetLT(node) {
-    const tabBarPosition = this.props.tabBarPosition;
+    const { tabBarPosition } = this.props;
     let prop = 'left';
     if (tabBarPosition === 'left' || tabBarPosition === 'right') {
       prop = 'top';
@@ -126,7 +125,7 @@ export default class ScrollableTabBarNode extends React.Component {
     if (this.offset !== target) {
       this.offset = target;
       let navOffset = {};
-      const tabBarPosition = this.props.tabBarPosition;
+      const { tabBarPosition } = this.props;
       const navStyle = this.props.getRef('nav').style;
       const transformSupported = isTransform3dSupported(navStyle);
       if (tabBarPosition === 'left' || tabBarPosition === 'right') {
@@ -187,7 +186,7 @@ export default class ScrollableTabBarNode extends React.Component {
     return this.state.next || this.state.prev;
   }
 
-  prevTransitionEnd = (e) => {
+  prevTransitionEnd = e => {
     if (e.propertyName !== 'opacity') {
       return;
     }
@@ -196,12 +195,12 @@ export default class ScrollableTabBarNode extends React.Component {
       target: container,
       currentTarget: container,
     });
-  }
+  };
 
-  scrollToActiveTab = (e) => {
+  scrollToActiveTab = e => {
     const activeTab = this.props.getRef('activeTab');
     const navWrap = this.props.getRef('navWrap');
-    if (e && e.target !== e.currentTarget || !activeTab) {
+    if ((e && e.target !== e.currentTarget) || !activeTab) {
       return;
     }
 
@@ -218,38 +217,33 @@ export default class ScrollableTabBarNode extends React.Component {
     const wrapOffset = this.getOffsetLT(navWrap);
     const activeTabOffset = this.getOffsetLT(activeTab);
     if (wrapOffset > activeTabOffset) {
-      offset += (wrapOffset - activeTabOffset);
+      offset += wrapOffset - activeTabOffset;
       this.setOffset(offset);
-    } else if ((wrapOffset + navWrapNodeWH) < (activeTabOffset + activeTabWH)) {
-      offset -= (activeTabOffset + activeTabWH) - (wrapOffset + navWrapNodeWH);
+    } else if (wrapOffset + navWrapNodeWH < activeTabOffset + activeTabWH) {
+      offset -= activeTabOffset + activeTabWH - (wrapOffset + navWrapNodeWH);
       this.setOffset(offset);
     }
-  }
+  };
 
-  prev = (e) => {
+  prev = e => {
     this.props.onPrevClick(e);
     const navWrapNode = this.props.getRef('navWrap');
     const navWrapNodeWH = this.getOffsetWH(navWrapNode);
     const { offset } = this;
     this.setOffset(offset + navWrapNodeWH);
-  }
+  };
 
-  next = (e) => {
+  next = e => {
     this.props.onNextClick(e);
     const navWrapNode = this.props.getRef('navWrap');
     const navWrapNodeWH = this.getOffsetWH(navWrapNode);
     const { offset } = this;
     this.setOffset(offset - navWrapNodeWH);
-  }
+  };
 
   render() {
     const { next, prev } = this.state;
-    const { prefixCls,
-      scrollAnimated,
-      navWrapper,
-      prevIcon,
-      nextIcon,
-    } = this.props;
+    const { prefixCls, scrollAnimated, navWrapper, prevIcon, nextIcon } = this.props;
     const showNextPrev = prev || next;
 
     const prevButton = (
@@ -284,11 +278,7 @@ export default class ScrollableTabBarNode extends React.Component {
     const navClassName = `${prefixCls}-nav`;
     const navClasses = classnames({
       [navClassName]: true,
-      [
-        scrollAnimated ?
-          `${navClassName}-animated` :
-          `${navClassName}-no-animated`
-      ]: true,
+      [scrollAnimated ? `${navClassName}-animated` : `${navClassName}-no-animated`]: true,
     });
 
     return (
@@ -334,7 +324,7 @@ ScrollableTabBarNode.defaultProps = {
   tabBarPosition: 'left',
   prefixCls: '',
   scrollAnimated: true,
-  onPrevClick: () => { },
-  onNextClick: () => { },
-  navWrapper: (ele) => ele,
+  onPrevClick: () => {},
+  onNextClick: () => {},
+  navWrapper: ele => ele,
 };

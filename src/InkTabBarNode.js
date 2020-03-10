@@ -1,7 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import { setTransform, isTransform3dSupported, getLeft, getStyle, getTop, getActiveIndex } from './utils';
+import {
+  setTransform,
+  isTransform3dSupported,
+  getLeft,
+  getStyle,
+  getTop,
+  getActiveIndex,
+} from './utils';
 
 function componentDidUpdate(component, init) {
   const { styles, panels, activeKey, direction } = component.props;
@@ -10,7 +17,7 @@ function componentDidUpdate(component, init) {
   const inkBarNode = component.props.getRef('inkBar');
   const activeTab = component.props.getRef('activeTab');
   const inkBarNodeStyle = inkBarNode.style;
-  const tabBarPosition = component.props.tabBarPosition;
+  const { tabBarPosition } = component.props;
   const activeIndex = getActiveIndex(panels, activeKey);
   if (init) {
     // prevent mount animation
@@ -101,11 +108,7 @@ export default class InkTabBarNode extends React.Component {
     const className = `${prefixCls}-ink-bar`;
     const classes = classnames({
       [className]: true,
-      [
-        inkBarAnimated ?
-          `${className}-animated` :
-          `${className}-no-animated`
-      ]: true,
+      [inkBarAnimated ? `${className}-animated` : `${className}-no-animated`]: true,
     });
     return (
       <div
@@ -130,5 +133,5 @@ InkTabBarNode.defaultProps = {
   prefixCls: '',
   inkBarAnimated: true,
   styles: {},
-  saveRef: () => { },
+  saveRef: () => {},
 };

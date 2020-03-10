@@ -4,23 +4,23 @@ import classnames from 'classnames';
 
 export default class TabBarSwipeableTabs extends React.Component {
   render() {
-    const props = this.props;
+    const { props } = this;
     const children = props.panels;
-    const activeKey = props.activeKey;
+    const { activeKey } = props;
     const rst = [];
-    const prefixCls = props.prefixCls;
+    const { prefixCls } = props;
 
-    const _flexWidth = `${1 / props.pageSize * 100}%`;
+    const _flexWidth = `${(1 / props.pageSize) * 100}%`;
     const tabStyle = {
       WebkitFlexBasis: _flexWidth,
       flexBasis: _flexWidth,
     };
 
-    React.Children.forEach(children, (child) => {
+    React.Children.forEach(children, child => {
       if (!child) {
         return;
       }
-      const key = child.key;
+      const { key } = child;
       const cls = classnames(`${prefixCls}-tab`, {
         [`${prefixCls}-tab-active`]: activeKey === key,
         [`${prefixCls}-tab-disabled`]: child.props.disabled,
@@ -35,18 +35,20 @@ export default class TabBarSwipeableTabs extends React.Component {
       if (activeKey === key) {
         refProps.ref = this.props.saveRef('activeTab');
       }
-      rst.push(<div
-        role="tab"
-        style={tabStyle}
-        aria-disabled={child.props.disabled ? 'true' : 'false'}
-        aria-selected={activeKey === key ? 'true' : 'false'}
-        {...events}
-        className={cls}
-        key={key}
-        {...refProps}
-      >
-        {child.props.tab}
-      </div>);
+      rst.push(
+        <div
+          role="tab"
+          style={tabStyle}
+          aria-disabled={child.props.disabled ? 'true' : 'false'}
+          aria-selected={activeKey === key ? 'true' : 'false'}
+          {...events}
+          className={cls}
+          key={key}
+          {...refProps}
+        >
+          {child.props.tab}
+        </div>,
+      );
     });
 
     return rst;
