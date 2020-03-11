@@ -1,13 +1,16 @@
-/* eslint react/no-multi-comp:0, no-console:0, react/prop-types:0 */
-import 'rc-tabs/assets/index.less';
+/* eslint-disable no-console,react/button-has-type */
+import '../assets/index.less';
 import React from 'react';
-import ReactDOM from 'react-dom';
-import Tabs, { TabPane } from 'rc-tabs';
-import TabContent from 'rc-tabs/lib/SwipeableTabContent';
-import ScrollableInkTabBar from 'rc-tabs/lib/ScrollableInkTabBar';
+import Tabs, { TabPane } from '../src';
+import TabContent from '../src/SwipeableTabContent';
+import ScrollableInkTabBar from '../src/ScrollableInkTabBar';
 
 const PanelContent = ({ id }) => (
-  <div>{[1, 2, 3, 4].map(item => <p key={item}>{id}</p>)}</div>
+  <div>
+    {[1, 2, 3, 4].map(item => (
+      <p key={item}>{id}</p>
+    ))}
+  </div>
 );
 
 class Demo extends React.Component {
@@ -16,41 +19,41 @@ class Demo extends React.Component {
     start: 0,
   };
 
-  onChange = (activeKey) => {
+  onChange = activeKey => {
     console.log(`onChange ${activeKey}`);
     this.setState({
       activeKey,
     });
-  }
+  };
 
-  onTabClick = (key) => {
+  onTabClick = key => {
     console.log(`onTabClick ${key}`);
     if (key === this.state.activeKey) {
       this.setState({
         activeKey: '',
       });
     }
-  }
+  };
 
   tick = () => {
     this.setState({
       start: this.state.start + 10,
     });
-  }
+  };
 
   handleNotExistKey = () => {
     this.setState({
       activeKey: '-1',
     });
-  }
+  };
 
   render() {
-    const start = this.state.start;
+    const { start } = this.state;
     return (
       <div style={{ margin: 20 }}>
         <h1>Simple Tabs</h1>
         <Tabs
-          renderTabBar={() => <ScrollableInkTabBar onTabClick={this.onTabClick}/>}
+          renderTabBar={() => <ScrollableInkTabBar onTabClick={this.onTabClick} />}
           renderTabContent={() => <TabContent animatedWithMargin />}
           activeKey={this.state.activeKey}
           onChange={this.onChange}
@@ -69,14 +72,11 @@ class Demo extends React.Component {
           </TabPane>
         </Tabs>
         <button onClick={this.tick}>rerender</button>
-        <button onClick={this.handleNotExistKey}
-          style={{ marginLeft: 10 }}
-        >
+        <button onClick={this.handleNotExistKey} style={{ marginLeft: 10 }}>
           change to a non-existent activeKey
         </button>
       </div>
     );
   }
 }
-
-ReactDOM.render(<Demo />, document.getElementById('__react-content'));
+export default Demo;

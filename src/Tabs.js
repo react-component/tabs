@@ -7,12 +7,11 @@ import TabPane from './TabPane';
 import { getDataAttr } from './utils';
 import Sentinel, { SentinelProvider } from './Sentinel';
 
-function noop() {
-}
+function noop() {}
 
 function getDefaultActiveKey(props) {
   let activeKey;
-  React.Children.forEach(props.children, (child) => {
+  React.Children.forEach(props.children, child => {
     if (child && !activeKey && !child.props.disabled) {
       activeKey = child.key;
     }
@@ -66,9 +65,9 @@ class Tabs extends React.Component {
       this.tabBar.props.onTabClick(activeKey, e);
     }
     this.setActiveKey(activeKey);
-  }
+  };
 
-  onNavKeyDown = (e) => {
+  onNavKeyDown = e => {
     const eventKeyCode = e.keyCode;
     if (eventKeyCode === KeyCode.RIGHT || eventKeyCode === KeyCode.DOWN) {
       e.preventDefault();
@@ -79,7 +78,7 @@ class Tabs extends React.Component {
       const previousKey = this.getNextActiveKey(false);
       this.onTabClick(previousKey);
     }
-  }
+  };
 
   onScroll = ({ target, currentTarget }) => {
     if (target === currentTarget && target.scrollLeft > 0) {
@@ -88,29 +87,29 @@ class Tabs extends React.Component {
   };
 
   // Sentinel for tab index
-  setSentinelStart = (node) => {
+  setSentinelStart = node => {
     this.sentinelStart = node;
   };
 
-  setSentinelEnd = (node) => {
+  setSentinelEnd = node => {
     this.sentinelEnd = node;
   };
 
-  setPanelSentinelStart = (node) => {
+  setPanelSentinelStart = node => {
     if (node !== this.panelSentinelStart) {
       this.updateSentinelContext();
     }
     this.panelSentinelStart = node;
   };
 
-  setPanelSentinelEnd = (node) => {
+  setPanelSentinelEnd = node => {
     if (node !== this.panelSentinelEnd) {
       this.updateSentinelContext();
     }
     this.panelSentinelEnd = node;
   };
 
-  setActiveKey = (activeKey) => {
+  setActiveKey = activeKey => {
     if (this.state.activeKey !== activeKey) {
       if (!('activeKey' in this.props)) {
         this.setState({
@@ -119,12 +118,12 @@ class Tabs extends React.Component {
       }
       this.props.onChange(activeKey);
     }
-  }
+  };
 
-  getNextActiveKey = (next) => {
-    const activeKey = this.state.activeKey;
+  getNextActiveKey = next => {
+    const { activeKey } = this.state;
     const children = [];
-    React.Children.forEach(this.props.children, (c) => {
+    React.Children.forEach(this.props.children, c => {
       if (c && !c.props.disabled) {
         if (next) {
           children.push(c);
@@ -133,7 +132,7 @@ class Tabs extends React.Component {
         }
       }
     });
-    const length = children.length;
+    const { length } = children;
     let ret = length && children[0].key;
     children.forEach((child, i) => {
       if (child.key === activeKey) {
@@ -145,7 +144,7 @@ class Tabs extends React.Component {
       }
     });
     return ret;
-  }
+  };
 
   updateSentinelContext() {
     if (this.destroy) return;
@@ -158,11 +157,12 @@ class Tabs extends React.Component {
   }
 
   render() {
-    const props = this.props;
+    const { props } = this;
     const {
       prefixCls,
       navWrapper,
-      tabBarPosition, className,
+      tabBarPosition,
+      className,
       renderTabContent,
       renderTabBar,
       destroyInactiveTabPane,

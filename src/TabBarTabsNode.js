@@ -21,7 +21,7 @@ export default class TabBarTabsNode extends React.Component {
       if (!child) {
         return;
       }
-      const key = child.key;
+      const { key } = child;
       let cls = activeKey === key ? `${prefixCls}-tab-active` : '';
       cls += ` ${prefixCls}-tab`;
       let events = {};
@@ -67,11 +67,7 @@ export default class TabBarTabsNode extends React.Component {
       rst.push(node);
     });
 
-    return (
-      <div ref={saveRef('navTabsContainer')}>
-        {rst}
-      </div>
-    );
+    return <div ref={saveRef('navTabsContainer')}>{rst}</div>;
   }
 }
 
@@ -91,6 +87,6 @@ TabBarTabsNode.defaultProps = {
   panels: [],
   prefixCls: [],
   tabBarGutter: null,
-  onTabClick: () => { },
-  saveRef: () => { },
+  onTabClick: () => {},
+  saveRef: () => {},
 };

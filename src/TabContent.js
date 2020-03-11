@@ -10,22 +10,24 @@ import {
 
 export default class TabContent extends React.Component {
   getTabPanes() {
-    const props = this.props;
-    const activeKey = props.activeKey;
-    const children = props.children;
+    const { props } = this;
+    const { activeKey } = props;
+    const { children } = props;
     const newChildren = [];
 
-    React.Children.forEach(children, (child) => {
+    React.Children.forEach(children, child => {
       if (!child) {
         return;
       }
-      const key = child.key;
+      const { key } = child;
       const active = activeKey === key;
-      newChildren.push(React.cloneElement(child, {
-        active,
-        destroyInactiveTabPane: props.destroyInactiveTabPane,
-        rootPrefixCls: props.prefixCls,
-      }));
+      newChildren.push(
+        React.cloneElement(child, {
+          active,
+          destroyInactiveTabPane: props.destroyInactiveTabPane,
+          rootPrefixCls: props.prefixCls,
+        }),
+      );
     });
 
     return newChildren;
@@ -34,23 +36,29 @@ export default class TabContent extends React.Component {
   render() {
     const { props } = this;
     const {
-      prefixCls, children, activeKey, className,
-      tabBarPosition, animated, animatedWithMargin,
+      prefixCls,
+      children,
+      activeKey,
+      className,
+      tabBarPosition,
+      animated,
+      animatedWithMargin,
       direction,
     } = props;
     let { style } = props;
-    const classes = classnames({
-      [`${prefixCls}-content`]: true,
-      [animated ?
-        `${prefixCls}-content-animated` :
-        `${prefixCls}-content-no-animated`]: true,
-    }, className);
+    const classes = classnames(
+      {
+        [`${prefixCls}-content`]: true,
+        [animated ? `${prefixCls}-content-animated` : `${prefixCls}-content-no-animated`]: true,
+      },
+      className,
+    );
     if (animated) {
       const activeIndex = getActiveIndex(children, activeKey);
       if (activeIndex !== -1) {
-        const animatedStyle = animatedWithMargin ?
-          getMarginStyle(activeIndex, tabBarPosition, direction) :
-          getTransformPropValue(getTransformByIndex(activeIndex, tabBarPosition, direction));
+        const animatedStyle = animatedWithMargin
+          ? getMarginStyle(activeIndex, tabBarPosition, direction)
+          : getTransformPropValue(getTransformByIndex(activeIndex, tabBarPosition, direction));
         style = {
           ...style,
           ...animatedStyle,
@@ -63,10 +71,7 @@ export default class TabContent extends React.Component {
       }
     }
     return (
-      <div
-        className={classes}
-        style={style}
-      >
+      <div className={classes} style={style}>
         {this.getTabPanes()}
       </div>
     );

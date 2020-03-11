@@ -15,12 +15,7 @@ import {
 
 const RESISTANCE_COEF = 0.6;
 
-function computeIndex({
-  maxIndex,
-  startIndex,
-  delta,
-  viewSize,
-}) {
+function computeIndex({ maxIndex, startIndex, delta, viewSize }) {
   let index = startIndex + -delta / viewSize;
   if (index < 0) {
     index = Math.exp(index * RESISTANCE_COEF) - 1;
@@ -62,7 +57,7 @@ export default class SwipeableTabContent extends React.Component {
   onPanStart = () => {
     const { tabBarPosition, children, activeKey, animated } = this.props;
     this.startIndex = getActiveIndex(children, activeKey);
-    const startIndex = this.startIndex;
+    const { startIndex } = this;
     if (startIndex === -1) {
       return;
     }
@@ -72,12 +67,12 @@ export default class SwipeableTabContent extends React.Component {
     this.startDrag = true;
     this.children = toArray(children);
     this.maxIndex = this.children.length - 1;
-    this.viewSize = isVertical(tabBarPosition) ?
-      this.rootNode.offsetHeight :
-      this.rootNode.offsetWidth;
-  }
+    this.viewSize = isVertical(tabBarPosition)
+      ? this.rootNode.offsetHeight
+      : this.rootNode.offsetWidth;
+  };
 
-  onPan = (e) => {
+  onPan = e => {
     if (!this.startDrag) {
       return;
     }
@@ -86,18 +81,18 @@ export default class SwipeableTabContent extends React.Component {
     if (currentIndex !== undefined) {
       setTransform(this.rootNode.style, getTransformByIndex(currentIndex, tabBarPosition));
     }
-  }
+  };
 
-  onPanEnd = (e) => {
+  onPanEnd = e => {
     if (!this.startDrag) {
       return;
     }
     this.end(e);
-  }
+  };
 
-  onSwipe = (e) => {
+  onSwipe = e => {
     this.end(e, true);
-  }
+  };
 
   end = (e, swipe) => {
     const { tabBarPosition, animated } = this.props;
@@ -129,13 +124,15 @@ export default class SwipeableTabContent extends React.Component {
     }
     if (this.startIndex === finalIndex) {
       if (animated) {
-        setTransform(this.rootNode.style,
-          getTransformByIndex(finalIndex, this.props.tabBarPosition));
+        setTransform(
+          this.rootNode.style,
+          getTransformByIndex(finalIndex, this.props.tabBarPosition),
+        );
       }
     } else {
       this.props.onChange(getActiveKey(this.props.children, finalIndex));
     }
-  }
+  };
 
   render() {
     const { tabBarPosition, hammerOptions, animated } = this.props;
@@ -156,7 +153,7 @@ export default class SwipeableTabContent extends React.Component {
         direction={isVertical(tabBarPosition) ? 'DIRECTION_ALL' : 'DIRECTION_HORIZONTAL'}
         options={hammerOptions}
       >
-        <TabContent {...this.props}/>
+        <TabContent {...this.props} />
       </Hammer>
     );
   }
