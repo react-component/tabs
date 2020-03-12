@@ -268,4 +268,21 @@ describe('rc-tabs', () => {
       done();
     }, 1000);
   });
+
+  it('string type tab should have [data-tab] attribute', () => {
+    const wrapper = mount(
+      <Tabs
+        defaultActiveKey="2"
+        renderTabBar={() => <ScrollableInkTabBar/>}
+        renderTabContent={() => <TabContent/>}
+      >
+        <TabPane tab="tab 1" key="1">first</TabPane>
+        <TabPane tab="tab 2" key="2">second</TabPane>
+        <TabPane tab="tab 3" key="3">third</TabPane>
+        <TabPane tab={<div>tab 4</div>} key="4">fourth</TabPane>
+      </Tabs>
+    );
+
+    expect(wrapper.find('[data-tab]').length).toBe(3);
+  })
 });

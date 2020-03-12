@@ -55,6 +55,7 @@ export default class TabBarTabsNode extends React.Component {
           key={key}
           style={style}
           {...ref}
+          {...(typeof child.props.tab === 'string' ? {'data-tab': child.props.tab}: {})}
         >
           {child.props.tab}
         </div>
