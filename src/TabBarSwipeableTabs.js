@@ -35,15 +35,19 @@ export default class TabBarSwipeableTabs extends React.Component {
       if (activeKey === key) {
         refProps.ref = this.props.saveRef('activeTab');
       }
+      const id = this.props.id ? `${key}-${this.props.id}` : key;
       rst.push(
         <div
           role="tab"
           style={tabStyle}
           aria-disabled={child.props.disabled ? 'true' : 'false'}
           aria-selected={activeKey === key ? 'true' : 'false'}
+          tabIndex={activeKey === key ? 0 : -1}
           {...events}
           className={cls}
           key={key}
+          id={`tab-${id}`}
+          aria-controls={`tabpane-${id}`}
           {...refProps}
         >
           {child.props.tab}
@@ -63,6 +67,7 @@ TabBarSwipeableTabs.propTypes = {
   prefixCls: PropTypes.string,
   activeKey: PropTypes.string,
   panels: PropTypes.node,
+  id: PropTypes.string,
 };
 
 TabBarSwipeableTabs.defaultProps = {

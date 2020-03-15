@@ -10,7 +10,7 @@ export default class ScrollableTabBar extends React.Component {
     return (
       <SaveRef>
         {(saveRef, getRef) => (
-          <TabBarRootNode saveRef={saveRef} {...this.props}>
+          <TabBarRootNode saveRef={saveRef} getRef={getRef} {...this.props}>
             <ScrollableTabBarNode saveRef={saveRef} getRef={getRef} {...this.props}>
               <TabBarTabsNode saveRef={saveRef} {...this.props} />
             </ScrollableTabBarNode>

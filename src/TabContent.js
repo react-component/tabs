@@ -26,6 +26,7 @@ export default class TabContent extends React.Component {
           active,
           destroyInactiveTabPane: props.destroyInactiveTabPane,
           rootPrefixCls: props.prefixCls,
+          id: props.id,
         }),
       );
     });
@@ -89,6 +90,7 @@ TabContent.propTypes = {
   className: PropTypes.string,
   destroyInactiveTabPane: PropTypes.bool,
   direction: PropTypes.string,
+  id: PropTypes.string,
 };
 
 TabContent.defaultProps = {

@@ -14,9 +14,13 @@ export default class ScrollableInkTabBar extends React.Component {
     return (
       <SaveRef>
         {(saveRef, getRef) => (
-          <TabBarRootNode saveRef={saveRef} {...restProps}>
+          <TabBarRootNode saveRef={saveRef} getRef={getRef} {...restProps}>
             <ScrollableTabBarNode saveRef={saveRef} getRef={getRef} {...restProps}>
-              <TabBarTabsNode saveRef={saveRef} renderTabBarNode={renderTabBarNode} {...restProps} />
+              <TabBarTabsNode
+                saveRef={saveRef}
+                renderTabBarNode={renderTabBarNode}
+                {...restProps}
+              />
               <InkTabBarNode saveRef={saveRef} getRef={getRef} {...restProps} />
             </ScrollableTabBarNode>
           </TabBarRootNode>

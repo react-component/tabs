@@ -11,7 +11,7 @@ export default class InkTabBar extends React.Component {
     return (
       <SaveRef>
         {(saveRef, getRef) => (
-          <TabBarRootNode saveRef={saveRef} {...this.props}>
+          <TabBarRootNode saveRef={saveRef} getRef={getRef} {...this.props}>
             <TabBarTabsNode onTabClick={this.props.onTabClick} saveRef={saveRef} {...this.props} />
             <InkTabBarNode saveRef={saveRef} getRef={getRef} {...this.props} />
           </TabBarRootNode>
