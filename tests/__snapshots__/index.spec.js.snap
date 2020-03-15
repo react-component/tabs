@@ -1,13 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`rc-tabs should render Tabs with correct DOM structure 1`] = `
+exports[`rc-tabs should render Tabs with correct DOM structure (scrollable ink) 1`] = `
 <div
   class="rc-tabs rc-tabs-top"
 >
   <div
     class="rc-tabs-bar"
     role="tablist"
-    tabindex="0"
+    tabindex="-1"
   >
     <div
       class="rc-tabs-nav-container"
@@ -39,26 +39,35 @@ exports[`rc-tabs should render Tabs with correct DOM structure 1`] = `
           >
             <div>
               <div
+                aria-controls="tabpane-1"
                 aria-disabled="false"
                 aria-selected="false"
                 class=" rc-tabs-tab"
+                id="tab-1"
                 role="tab"
+                tabindex="-1"
               >
                 tab 1
               </div>
               <div
+                aria-controls="tabpane-2"
                 aria-disabled="false"
                 aria-selected="true"
                 class="rc-tabs-tab-active rc-tabs-tab"
+                id="tab-2"
                 role="tab"
+                tabindex="0"
               >
                 tab 2
               </div>
               <div
+                aria-controls="tabpane-3"
                 aria-disabled="false"
                 aria-selected="false"
                 class=" rc-tabs-tab"
+                id="tab-3"
                 role="tab"
+                tabindex="-1"
               >
                 tab 3
               </div>
@@ -72,10 +81,113 @@ exports[`rc-tabs should render Tabs with correct DOM structure 1`] = `
     </div>
   </div>
   <div
-    role="presentation"
-    style="width:0;height:0;overflow:hidden;position:absolute"
-    tabindex="0"
-  />
+    class="rc-tabs-content rc-tabs-content-animated"
+    style="transform:translateX(-100%) translateZ(0);-webkit-transform:translateX(-100%) translateZ(0);-moz-transform:translateX(-100%) translateZ(0)"
+  >
+    <div
+      aria-hidden="true"
+      class="rc-tabs-tabpane rc-tabs-tabpane-inactive"
+      role="tabpanel"
+      style="visibility:hidden"
+      tabindex="-1"
+    />
+    <div
+      aria-hidden="false"
+      class="rc-tabs-tabpane rc-tabs-tabpane-active"
+      role="tabpanel"
+      style="visibility:visible"
+      tabindex="0"
+    >
+      second
+    </div>
+    <div
+      aria-hidden="true"
+      class="rc-tabs-tabpane rc-tabs-tabpane-inactive"
+      role="tabpanel"
+      style="visibility:hidden"
+      tabindex="-1"
+    />
+  </div>
+</div>
+`;
+
+exports[`rc-tabs should render Tabs with correct DOM structure (scrollable) 1`] = `
+<div
+  class="rc-tabs rc-tabs-top"
+>
+  <div
+    class="rc-tabs-bar"
+    role="tablist"
+    tabindex="-1"
+  >
+    <div
+      class="rc-tabs-nav-container"
+    >
+      <span
+        class="rc-tabs-tab-prev rc-tabs-tab-btn-disabled"
+        unselectable="unselectable"
+      >
+        <span
+          class="rc-tabs-tab-prev-icon"
+        />
+      </span>
+      <span
+        class="rc-tabs-tab-next rc-tabs-tab-btn-disabled"
+        unselectable="unselectable"
+      >
+        <span
+          class="rc-tabs-tab-next-icon"
+        />
+      </span>
+      <div
+        class="rc-tabs-nav-wrap"
+      >
+        <div
+          class="rc-tabs-nav-scroll"
+        >
+          <div
+            class="rc-tabs-nav rc-tabs-nav-animated"
+          >
+            <div>
+              <div
+                aria-controls="tabpane-1"
+                aria-disabled="false"
+                aria-selected="false"
+                class=" rc-tabs-tab"
+                id="tab-1"
+                role="tab"
+                tabindex="-1"
+              >
+                tab 1
+              </div>
+              <div
+                aria-controls="tabpane-2"
+                aria-disabled="false"
+                aria-selected="true"
+                class="rc-tabs-tab-active rc-tabs-tab"
+                id="tab-2"
+                role="tab"
+                tabindex="0"
+              >
+                tab 2
+              </div>
+              <div
+                aria-controls="tabpane-3"
+                aria-disabled="false"
+                aria-selected="false"
+                class=" rc-tabs-tab"
+                id="tab-3"
+                role="tab"
+                tabindex="-1"
+              >
+                tab 3
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
   <div
     class="rc-tabs-content rc-tabs-content-animated"
     style="transform:translateX(-100%) translateZ(0);-webkit-transform:translateX(-100%) translateZ(0);-moz-transform:translateX(-100%) translateZ(0)"
@@ -84,34 +196,101 @@ exports[`rc-tabs should render Tabs with correct DOM structure 1`] = `
       aria-hidden="true"
       class="rc-tabs-tabpane rc-tabs-tabpane-inactive"
       role="tabpanel"
+      style="visibility:hidden"
+      tabindex="-1"
     />
     <div
       aria-hidden="false"
       class="rc-tabs-tabpane rc-tabs-tabpane-active"
       role="tabpanel"
+      style="visibility:visible"
+      tabindex="0"
     >
-      <div
-        role="presentation"
-        style="width:0;height:0;overflow:hidden;position:absolute"
-        tabindex="0"
-      />
       second
-      <div
-        role="presentation"
-        style="width:0;height:0;overflow:hidden;position:absolute"
-        tabindex="0"
-      />
     </div>
     <div
       aria-hidden="true"
       class="rc-tabs-tabpane rc-tabs-tabpane-inactive"
       role="tabpanel"
+      style="visibility:hidden"
+      tabindex="-1"
     />
   </div>
+</div>
+`;
+
+exports[`rc-tabs should render Tabs with correct DOM structure 1`] = `
+<div
+  class="rc-tabs rc-tabs-top"
+>
   <div
-    role="presentation"
-    style="width:0;height:0;overflow:hidden;position:absolute"
-    tabindex="0"
-  />
+    class="rc-tabs-bar"
+    role="tablist"
+    tabindex="-1"
+  >
+    <div>
+      <div
+        aria-controls="tabpane-1"
+        aria-disabled="false"
+        aria-selected="false"
+        class=" rc-tabs-tab"
+        id="tab-1"
+        role="tab"
+        tabindex="-1"
+      >
+        tab 1
+      </div>
+      <div
+        aria-controls="tabpane-2"
+        aria-disabled="false"
+        aria-selected="true"
+        class="rc-tabs-tab-active rc-tabs-tab"
+        id="tab-2"
+        role="tab"
+        tabindex="0"
+      >
+        tab 2
+      </div>
+      <div
+        aria-controls="tabpane-3"
+        aria-disabled="false"
+        aria-selected="false"
+        class=" rc-tabs-tab"
+        id="tab-3"
+        role="tab"
+        tabindex="-1"
+      >
+        tab 3
+      </div>
+    </div>
+  </div>
+  <div
+    class="rc-tabs-content rc-tabs-content-animated"
+    style="transform:translateX(-100%) translateZ(0);-webkit-transform:translateX(-100%) translateZ(0);-moz-transform:translateX(-100%) translateZ(0)"
+  >
+    <div
+      aria-hidden="true"
+      class="rc-tabs-tabpane rc-tabs-tabpane-inactive"
+      role="tabpanel"
+      style="visibility:hidden"
+      tabindex="-1"
+    />
+    <div
+      aria-hidden="false"
+      class="rc-tabs-tabpane rc-tabs-tabpane-active"
+      role="tabpanel"
+      style="visibility:visible"
+      tabindex="0"
+    >
+      second
+    </div>
+    <div
+      aria-hidden="true"
+      class="rc-tabs-tabpane rc-tabs-tabpane-inactive"
+      role="tabpanel"
+      style="visibility:hidden"
+      tabindex="-1"
+    />
+  </div>
 </div>
 `;
