@@ -1,11 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import raf from 'raf';
 import KeyCode from './KeyCode';
 import TabPane from './TabPane';
 import { getDataAttr } from './utils';
-import Sentinel, { SentinelProvider } from './Sentinel';
 
 function noop() {}
 
@@ -57,7 +55,6 @@ class Tabs extends React.Component {
 
   componentWillUnmount() {
     this.destroy = true;
-    raf.cancel(this.sentinelId);
   }
 
   onTabClick = (activeKey, e) => {
@@ -84,29 +81,6 @@ class Tabs extends React.Component {
     if (target === currentTarget && target.scrollLeft > 0) {
       target.scrollLeft = 0;
     }
-  };
-
-  // Sentinel for tab index
-  setSentinelStart = node => {
-    this.sentinelStart = node;
-  };
-
-  setSentinelEnd = node => {
-    this.sentinelEnd = node;
-  };
-
-  setPanelSentinelStart = node => {
-    if (node !== this.panelSentinelStart) {
-      this.updateSentinelContext();
-    }
-    this.panelSentinelStart = node;
-  };
-
-  setPanelSentinelEnd = node => {
-    if (node !== this.panelSentinelEnd) {
-      this.updateSentinelContext();
-    }
-    this.panelSentinelEnd = node;
   };
 
   setActiveKey = activeKey => {
@@ -146,16 +120,6 @@ class Tabs extends React.Component {
     return ret;
   };
 
-  updateSentinelContext() {
-    if (this.destroy) return;
-
-    raf.cancel(this.sentinelId);
-    this.sentinelId = raf(() => {
-      if (this.destroy) return;
-      this.forceUpdate();
-    });
-  }
-
   render() {
     const { props } = this;
     const {
@@ -167,6 +131,7 @@ class Tabs extends React.Component {
       renderTabBar,
       destroyInactiveTabPane,
       direction,
+      id,
       ...restProps
     } = props;
     const cls = classnames({
@@ -188,6 +153,7 @@ class Tabs extends React.Component {
       panels: props.children,
       activeKey: this.state.activeKey,
       direction: this.props.direction,
+      id,
     });
 
     const tabContent = React.cloneElement(renderTabContent(), {
@@ -199,48 +165,26 @@ class Tabs extends React.Component {
       onChange: this.setActiveKey,
       key: 'tabContent',
       direction: this.props.direction,
+      id,
     });
-
-    const sentinelStart = (
-      <Sentinel
-        key="sentinelStart"
-        setRef={this.setSentinelStart}
-        nextElement={this.panelSentinelStart}
-      />
-    );
-    const sentinelEnd = (
-      <Sentinel
-        key="sentinelEnd"
-        setRef={this.setSentinelEnd}
-        prevElement={this.panelSentinelEnd}
-      />
-    );
 
     const contents = [];
     if (tabBarPosition === 'bottom') {
-      contents.push(sentinelStart, tabContent, sentinelEnd, tabBar);
+      contents.push(tabContent, tabBar);
     } else {
-      contents.push(tabBar, sentinelStart, tabContent, sentinelEnd);
+      contents.push(tabBar, tabContent);
     }
 
     return (
-      <SentinelProvider
-        value={{
-          sentinelStart: this.sentinelStart,
-          sentinelEnd: this.sentinelEnd,
-          setPanelSentinelStart: this.setPanelSentinelStart,
-          setPanelSentinelEnd: this.setPanelSentinelEnd,
-        }}
+      <div
+        className={cls}
+        style={props.style}
+        {...getDataAttr(restProps)}
+        onScroll={this.onScroll}
+        id={id}
       >
-        <div
-          className={cls}
-          style={props.style}
-          {...getDataAttr(restProps)}
-          onScroll={this.onScroll}
-        >
-          {contents}
-        </div>
-      </SentinelProvider>
+        {contents}
+      </div>
     );
   }
 }
@@ -259,6 +203,7 @@ Tabs.propTypes = {
   activeKey: PropTypes.string,
   defaultActiveKey: PropTypes.string,
   direction: PropTypes.string,
+  id: PropTypes.string,
 };
 
 Tabs.defaultProps = {
