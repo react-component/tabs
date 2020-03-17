@@ -65,6 +65,10 @@ class Tabs extends React.Component {
   };
 
   onNavKeyDown = e => {
+    const { keyboard } = this.props;
+    if (!keyboard) {
+      return;
+    }
     const eventKeyCode = e.keyCode;
     if (eventKeyCode === KeyCode.RIGHT || eventKeyCode === KeyCode.DOWN) {
       e.preventDefault();
@@ -210,6 +214,7 @@ Tabs.defaultProps = {
   prefixCls: 'rc-tabs',
   destroyInactiveTabPane: false,
   onChange: noop,
+  keyboard: true,
   navWrapper: arg => arg,
   tabBarPosition: 'top',
   children: null,
