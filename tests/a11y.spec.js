@@ -2,7 +2,6 @@ import React from 'react';
 import TestUtils from 'react-dom/test-utils';
 import { mount, render } from 'enzyme';
 import { renderToJson } from 'enzyme-to-json';
-import PropTypes from 'prop-types';
 import KeyCode from '../src/KeyCode';
 import Tabs, { TabPane } from '../src';
 import TabContent from '../src/TabContent';
@@ -30,7 +29,7 @@ const makeMultiTabPane = (count, withTabKey) => {
 const TabsComponent = ({ withCustomId, withTabKey }) => (
   <div style={{ width: 500, height: 500 }}>
     <Tabs
-      renderTabBar={() => <ScrollableInkTabBar />}
+      renderTabBar={() => <ScrollableInkTabBar extraContent={<input id="input" />} />}
       renderTabContent={() => <TabContent />}
       id={withCustomId && customId}
     >
@@ -38,11 +37,6 @@ const TabsComponent = ({ withCustomId, withTabKey }) => (
     </Tabs>
   </div>
 );
-
-TabsComponent.propTypes = {
-  withCustomId: PropTypes.bool,
-  withTabKey: PropTypes.bool,
-};
 
 TabsComponent.defaults = {
   withCustomId: false,
@@ -64,6 +58,15 @@ describe('<TabsComponent />', () => {
 
   it('should render correctly', () => {
     expect(renderToJson(render(component))).toMatchSnapshot();
+  });
+
+  it('extraContent not listen keyboard naviagtion', () => {
+    wrapper.find('#input').simulate('keyDown', {
+      keyCode: KeyCode.RIGHT,
+      which: KeyCode.RIGHT,
+    });
+    expect(tabs.at(0).getDOMNode().className).toContain('rc-tabs-tab-active');
+    expect(tabs.at(1).getDOMNode().className).not.toContain('rc-tabs-tab-active');
   });
 
   it('first tab should be selected by default', () => {

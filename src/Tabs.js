@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import KeyCode from './KeyCode';
 import TabPane from './TabPane';
@@ -65,6 +64,10 @@ class Tabs extends React.Component {
   };
 
   onNavKeyDown = e => {
+    const { keyboard } = this.props;
+    if (!keyboard) {
+      return;
+    }
     const eventKeyCode = e.keyCode;
     if (eventKeyCode === KeyCode.RIGHT || eventKeyCode === KeyCode.DOWN) {
       e.preventDefault();
@@ -189,27 +192,11 @@ class Tabs extends React.Component {
   }
 }
 
-Tabs.propTypes = {
-  destroyInactiveTabPane: PropTypes.bool,
-  renderTabBar: PropTypes.func.isRequired,
-  renderTabContent: PropTypes.func.isRequired,
-  navWrapper: PropTypes.func,
-  onChange: PropTypes.func,
-  children: PropTypes.node,
-  prefixCls: PropTypes.string,
-  className: PropTypes.string,
-  tabBarPosition: PropTypes.string,
-  style: PropTypes.object,
-  activeKey: PropTypes.string,
-  defaultActiveKey: PropTypes.string,
-  direction: PropTypes.string,
-  id: PropTypes.string,
-};
-
 Tabs.defaultProps = {
   prefixCls: 'rc-tabs',
   destroyInactiveTabPane: false,
   onChange: noop,
+  keyboard: true,
   navWrapper: arg => arg,
   tabBarPosition: 'top',
   children: null,

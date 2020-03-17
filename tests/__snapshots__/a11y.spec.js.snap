@@ -12,6 +12,10 @@ exports[`<TabsComponent /> should render correctly 1`] = `
       role="tablist"
       tabindex="-1"
     >
+      <input
+        id="input"
+        style="float:right"
+      />
       <div
         class="rc-tabs-nav-container"
       >
@@ -172,6 +176,10 @@ exports[`<TabsComponent withTabKey /> should render correctly 1`] = `
       role="tablist"
       tabindex="-1"
     >
+      <input
+        id="input"
+        style="float:right"
+      />
       <div
         class="rc-tabs-nav-container"
       >
@@ -343,6 +351,10 @@ exports[`<TabsComponent withTabKey withCustomId /> should render correctly 1`] =
       role="tablist"
       tabindex="-1"
     >
+      <input
+        id="input"
+        style="float:right"
+      />
       <div
         class="rc-tabs-nav-container"
       >

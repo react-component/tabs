@@ -1,5 +1,4 @@
 import React, { cloneElement } from 'react';
-import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { getDataAttr } from './utils';
 
@@ -42,6 +41,7 @@ export default class TabBarRootNode extends React.Component {
       newChildren = [
         cloneElement(extraContent, {
           key: 'extra',
+          onKeyDown: e => e.stopPropagation(),
           style: {
             ...this.getExtraContentStyle(topOrBottom, direction),
             ...extraContentStyle,
@@ -66,19 +66,6 @@ export default class TabBarRootNode extends React.Component {
     );
   }
 }
-
-TabBarRootNode.propTypes = {
-  prefixCls: PropTypes.string,
-  className: PropTypes.string,
-  style: PropTypes.object,
-  tabBarPosition: PropTypes.oneOf(['left', 'right', 'top', 'bottom']),
-  children: PropTypes.node,
-  extraContent: PropTypes.node,
-  onKeyDown: PropTypes.func,
-  saveRef: PropTypes.func,
-  direction: PropTypes.oneOf(['ltr', 'rtl']),
-  getRef: PropTypes.func,
-};
 
 TabBarRootNode.defaultProps = {
   prefixCls: '',

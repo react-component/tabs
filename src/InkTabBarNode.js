@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import {
   setTransform,
@@ -120,14 +119,6 @@ export default class InkTabBarNode extends React.Component {
     );
   }
 }
-
-InkTabBarNode.propTypes = {
-  prefixCls: PropTypes.string,
-  styles: PropTypes.object,
-  inkBarAnimated: PropTypes.bool,
-  saveRef: PropTypes.func,
-  direction: PropTypes.string,
-};
 
 InkTabBarNode.defaultProps = {
   prefixCls: '',

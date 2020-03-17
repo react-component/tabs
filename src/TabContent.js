@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import {
   getTransformByIndex,
@@ -78,20 +77,6 @@ export default class TabContent extends React.Component {
     );
   }
 }
-
-TabContent.propTypes = {
-  animated: PropTypes.bool,
-  animatedWithMargin: PropTypes.bool,
-  prefixCls: PropTypes.string,
-  children: PropTypes.node,
-  activeKey: PropTypes.string,
-  style: PropTypes.any,
-  tabBarPosition: PropTypes.string,
-  className: PropTypes.string,
-  destroyInactiveTabPane: PropTypes.bool,
-  direction: PropTypes.string,
-  id: PropTypes.string,
-};
 
 TabContent.defaultProps = {
   animated: true,

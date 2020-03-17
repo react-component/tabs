@@ -41,12 +41,15 @@
     "prepublishOnly": "npm run lint && npm run test && npm run compile && np --no-cleanup --yolo --no-publish"
   },
   "devDependencies": {
+    "@umijs/fabric": "^2.0.4",
     "coveralls": "^3.0.6",
     "cross-env": "^7.0.2",
     "enzyme": "^3.7.0",
     "enzyme-adapter-react-16": "^1.7.0",
     "enzyme-to-json": "^3.3.4",
+    "eslint": "^6.8.0",
     "fastclick": "~1.0.6",
+    "father": "^2.29.2",
     "history": "^1.17.0",
     "immutability-helper": "^3.0.1",
     "less-loader": "^5.0.0",
@@ -56,22 +59,16 @@
     "react": "^16.0.0",
     "react-dnd": "^7.0.2",
     "react-dnd-html5-backend": "^7.0.2",
+    "react-dom": "^16.0.0",
     "react-router": "^3.0.0",
     "react-test-renderer": "^16.0.0",
     "sortablejs": "^1.7.0"
   },
-  "peerDependencies": {
-    "react": ">=15.0.0"
-  },
   "dependencies": {
-    "@umijs/fabric": "^2.0.4",
     "classnames": "2.x",
-    "father": "^2.29.2",
     "lodash": "^4.17.5",
-    "prop-types": "15.x",
     "rc-hammerjs": "~0.6.0",
     "resize-observer-polyfill": "^1.5.1",
-    "warning": "^4.0.3",
-    "react-dom": "^16.0.0"
+    "warning": "^4.0.3"
   }
 }
