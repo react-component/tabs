@@ -241,6 +241,12 @@ navWrapper={(content) => <Sortable>{content}</Sortable>}
         <th></th>
         <td>the gap between tabs</td>
       </tr>
+      <tr>
+        <td>keyboard</td>
+        <td>boolean</td>
+        <th>true</th>
+        <td>whether support keyboard to navigate tabs</td>
+      </tr>
     </tbody>
 </table>
 

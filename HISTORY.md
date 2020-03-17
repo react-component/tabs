@@ -1,6 +1,12 @@
 # History
 ----
 
+## 10.1.0 / 2020-03-17
+
+* Add `keyboard` prop.
+* `extraContent` don't trigger keyboard navigate now.
+* Remove `prop-types` and clean up dependencies.
+
 ## 9.6.0 / 2019-01-16
 
 * ScrollableInkTabBar support render props to customize TabNode
