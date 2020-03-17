@@ -64,7 +64,7 @@
     "react": ">=15.0.0"
   },
   "dependencies": {
-    "@umijs/fabric": "^1.1.9",
+    "@umijs/fabric": "^2.0.4",
     "classnames": "2.x",
     "father": "^2.29.2",
     "lodash": "^4.17.5",
