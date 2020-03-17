@@ -1,6 +1,5 @@
 /* eslint-disable react/prefer-stateless-function */
 import React from 'react';
-import PropTypes from 'prop-types';
 import InkTabBarNode from './InkTabBarNode';
 import TabBarTabsNode from './TabBarTabsNode';
 import TabBarRootNode from './TabBarRootNode';
@@ -20,10 +19,6 @@ export default class InkTabBar extends React.Component {
     );
   }
 }
-
-InkTabBar.propTypes = {
-  onTabClick: PropTypes.func,
-};
 
 InkTabBar.defaultProps = {
   onTabClick: () => {},

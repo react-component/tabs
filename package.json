@@ -68,7 +68,6 @@
     "classnames": "2.x",
     "father": "^2.29.2",
     "lodash": "^4.17.5",
-    "prop-types": "15.x",
     "rc-hammerjs": "~0.6.0",
     "resize-observer-polyfill": "^1.5.1",
     "warning": "^4.0.3",

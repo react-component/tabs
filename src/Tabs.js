@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import KeyCode from './KeyCode';
 import TabPane from './TabPane';
@@ -192,23 +191,6 @@ class Tabs extends React.Component {
     );
   }
 }
-
-Tabs.propTypes = {
-  destroyInactiveTabPane: PropTypes.bool,
-  renderTabBar: PropTypes.func.isRequired,
-  renderTabContent: PropTypes.func.isRequired,
-  navWrapper: PropTypes.func,
-  onChange: PropTypes.func,
-  children: PropTypes.node,
-  prefixCls: PropTypes.string,
-  className: PropTypes.string,
-  tabBarPosition: PropTypes.string,
-  style: PropTypes.object,
-  activeKey: PropTypes.string,
-  defaultActiveKey: PropTypes.string,
-  direction: PropTypes.string,
-  id: PropTypes.string,
-};
 
 Tabs.defaultProps = {
   prefixCls: 'rc-tabs',

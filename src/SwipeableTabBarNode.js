@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import Hammer from 'rc-hammerjs';
 import ReactDOM from 'react-dom';
@@ -205,20 +204,6 @@ export default class SwipeableTabBarNode extends React.Component {
     );
   }
 }
-
-SwipeableTabBarNode.propTypes = {
-  activeKey: PropTypes.string,
-  panels: PropTypes.node,
-  pageSize: PropTypes.number,
-  tabBarPosition: PropTypes.oneOf(['left', 'right', 'top', 'bottom']),
-  prefixCls: PropTypes.string,
-  children: PropTypes.node,
-  hammerOptions: PropTypes.object,
-  speed: PropTypes.number,
-  saveRef: PropTypes.func,
-  getRef: PropTypes.func,
-  direction: PropTypes.string,
-};
 
 SwipeableTabBarNode.defaultProps = {
   panels: null,

@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { getDataAttr } from './utils';
 
@@ -47,19 +46,6 @@ export default class TabPane extends React.Component {
     );
   }
 }
-
-TabPane.propTypes = {
-  className: PropTypes.string,
-  active: PropTypes.bool,
-  style: PropTypes.any,
-  destroyInactiveTabPane: PropTypes.bool,
-  forceRender: PropTypes.bool,
-  placeholder: PropTypes.node,
-  rootPrefixCls: PropTypes.string,
-  children: PropTypes.node,
-  id: PropTypes.string,
-  tabKey: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-};
 
 TabPane.defaultProps = {
   placeholder: null,

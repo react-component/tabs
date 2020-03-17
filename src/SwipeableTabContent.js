@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import Hammer from 'rc-hammerjs';
 import ReactDOM from 'react-dom';
 import TabContent from './TabContent';
@@ -158,15 +157,6 @@ export default class SwipeableTabContent extends React.Component {
     );
   }
 }
-
-SwipeableTabContent.propTypes = {
-  tabBarPosition: PropTypes.string,
-  onChange: PropTypes.func,
-  children: PropTypes.node,
-  hammerOptions: PropTypes.any,
-  animated: PropTypes.bool,
-  activeKey: PropTypes.string,
-};
 
 SwipeableTabContent.defaultProps = {
   animated: true,

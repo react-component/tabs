@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import debounce from 'lodash/debounce';
 import ResizeObserver from 'resize-observer-polyfill';
@@ -303,22 +302,6 @@ export default class ScrollableTabBarNode extends React.Component {
     );
   }
 }
-
-ScrollableTabBarNode.propTypes = {
-  activeKey: PropTypes.string,
-  getRef: PropTypes.func.isRequired,
-  saveRef: PropTypes.func.isRequired,
-  tabBarPosition: PropTypes.oneOf(['left', 'right', 'top', 'bottom']),
-  prefixCls: PropTypes.string,
-  scrollAnimated: PropTypes.bool,
-  onPrevClick: PropTypes.func,
-  onNextClick: PropTypes.func,
-  navWrapper: PropTypes.func,
-  children: PropTypes.node,
-  prevIcon: PropTypes.node,
-  nextIcon: PropTypes.node,
-  direction: PropTypes.node,
-};
 
 ScrollableTabBarNode.defaultProps = {
   tabBarPosition: 'left',

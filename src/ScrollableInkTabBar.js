@@ -1,6 +1,5 @@
 /* eslint-disable react/prefer-stateless-function */
 import React from 'react';
-import PropTypes from 'prop-types';
 import InkTabBarNode from './InkTabBarNode';
 import TabBarTabsNode from './TabBarTabsNode';
 import TabBarRootNode from './TabBarRootNode';
@@ -29,7 +28,3 @@ export default class ScrollableInkTabBar extends React.Component {
     );
   }
 }
-
-ScrollableInkTabBar.propTypes = {
-  children: PropTypes.func,
-};

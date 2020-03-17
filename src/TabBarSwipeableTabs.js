@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
 export default class TabBarSwipeableTabs extends React.Component {
@@ -58,17 +57,6 @@ export default class TabBarSwipeableTabs extends React.Component {
     return rst;
   }
 }
-
-TabBarSwipeableTabs.propTypes = {
-  pageSize: PropTypes.number,
-  onTabClick: PropTypes.func,
-  saveRef: PropTypes.func,
-  destroyInactiveTabPane: PropTypes.bool,
-  prefixCls: PropTypes.string,
-  activeKey: PropTypes.string,
-  panels: PropTypes.node,
-  id: PropTypes.string,
-};
 
 TabBarSwipeableTabs.defaultProps = {
   pageSize: 5,

@@ -1,6 +1,5 @@
 import React from 'react';
 import warning from 'warning';
-import PropTypes from 'prop-types';
 import { isVertical } from './utils';
 
 export default class TabBarTabsNode extends React.Component {
@@ -75,19 +74,6 @@ export default class TabBarTabsNode extends React.Component {
     return <div ref={saveRef('navTabsContainer')}>{rst}</div>;
   }
 }
-
-TabBarTabsNode.propTypes = {
-  activeKey: PropTypes.string,
-  panels: PropTypes.node,
-  prefixCls: PropTypes.string,
-  tabBarGutter: PropTypes.number,
-  onTabClick: PropTypes.func,
-  saveRef: PropTypes.func,
-  renderTabBarNode: PropTypes.func,
-  tabBarPosition: PropTypes.string,
-  direction: PropTypes.string,
-  id: PropTypes.string,
-};
 
 TabBarTabsNode.defaultProps = {
   panels: [],

@@ -2,7 +2,6 @@ import React from 'react';
 import TestUtils from 'react-dom/test-utils';
 import { mount, render } from 'enzyme';
 import { renderToJson } from 'enzyme-to-json';
-import PropTypes from 'prop-types';
 import KeyCode from '../src/KeyCode';
 import Tabs, { TabPane } from '../src';
 import TabContent from '../src/TabContent';
@@ -38,11 +37,6 @@ const TabsComponent = ({ withCustomId, withTabKey }) => (
     </Tabs>
   </div>
 );
-
-TabsComponent.propTypes = {
-  withCustomId: PropTypes.bool,
-  withTabKey: PropTypes.bool,
-};
 
 TabsComponent.defaults = {
   withCustomId: false,
