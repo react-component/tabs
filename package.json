@@ -63,9 +63,6 @@
     "father": "^2.29.2",
     "@umijs/fabric": "^2.0.4"
   },
-  "peerDependencies": {
-    "react": ">=15.0.0"
-  },
   "dependencies": {
     "classnames": "2.x",
     "lodash": "^4.17.5",
