@@ -78,7 +78,7 @@ describe('<TabsComponent />', () => {
     expect(document.activeElement).toBe(thirdTab.getDOMNode());
   });
 
-  fit('xxxx', () => {
+  it('extraContent not listen keyboard naviagtion', () => {
     wrapper.find('#input').simulate('keyDown', {
       keyCode: KeyCode.RIGHT,
       which: KeyCode.RIGHT,
