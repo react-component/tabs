@@ -45,15 +45,20 @@ export default class TabBarTabsNode extends React.Component {
       };
       warning('tab' in child.props, 'There must be `tab` property on children of Tabs.');
 
+      const id = this.props.id ? `${key}-${this.props.id}` : key;
+
       let node = (
         <div
           role="tab"
           aria-disabled={child.props.disabled ? 'true' : 'false'}
           aria-selected={activeKey === key ? 'true' : 'false'}
+          tabIndex={activeKey === key ? 0 : -1}
           {...events}
           className={cls}
           key={key}
           style={style}
+          id={`tab-${id}`}
+          aria-controls={`tabpane-${id}`}
           {...ref}
         >
           {child.props.tab}
@@ -81,6 +86,7 @@ TabBarTabsNode.propTypes = {
   renderTabBarNode: PropTypes.func,
   tabBarPosition: PropTypes.string,
   direction: PropTypes.string,
+  id: PropTypes.string,
 };
 
 TabBarTabsNode.defaultProps = {

@@ -8,10 +8,11 @@ exports[`rc-swipeable-tabs Should render scrollable tabbar with correct DOM stru
     class="rc-tabs-bar"
     data-extra="tabbar"
     role="tablist"
-    tabindex="0"
+    tabindex="-1"
   >
     <button
       style="float:left"
+      type="button"
     >
       Extra Content
     </button>
@@ -45,90 +46,123 @@ exports[`rc-swipeable-tabs Should render scrollable tabbar with correct DOM stru
           >
             <div>
               <div
+                aria-controls="tabpane-0"
                 aria-disabled="false"
                 aria-selected="true"
                 class="rc-tabs-tab-active rc-tabs-tab"
+                id="tab-0"
                 role="tab"
+                tabindex="0"
               >
                 tab-0
               </div>
               <div
+                aria-controls="tabpane-1"
                 aria-disabled="false"
                 aria-selected="false"
                 class=" rc-tabs-tab"
+                id="tab-1"
                 role="tab"
+                tabindex="-1"
               >
                 tab-1
               </div>
               <div
+                aria-controls="tabpane-2"
                 aria-disabled="false"
                 aria-selected="false"
                 class=" rc-tabs-tab"
+                id="tab-2"
                 role="tab"
+                tabindex="-1"
               >
                 tab-2
               </div>
               <div
+                aria-controls="tabpane-3"
                 aria-disabled="false"
                 aria-selected="false"
                 class=" rc-tabs-tab"
+                id="tab-3"
                 role="tab"
+                tabindex="-1"
               >
                 tab-3
               </div>
               <div
+                aria-controls="tabpane-4"
                 aria-disabled="false"
                 aria-selected="false"
                 class=" rc-tabs-tab"
+                id="tab-4"
                 role="tab"
+                tabindex="-1"
               >
                 tab-4
               </div>
               <div
+                aria-controls="tabpane-5"
                 aria-disabled="false"
                 aria-selected="false"
                 class=" rc-tabs-tab"
+                id="tab-5"
                 role="tab"
+                tabindex="-1"
               >
                 tab-5
               </div>
               <div
+                aria-controls="tabpane-6"
                 aria-disabled="false"
                 aria-selected="false"
                 class=" rc-tabs-tab"
+                id="tab-6"
                 role="tab"
+                tabindex="-1"
               >
                 tab-6
               </div>
               <div
+                aria-controls="tabpane-7"
                 aria-disabled="false"
                 aria-selected="false"
                 class=" rc-tabs-tab"
+                id="tab-7"
                 role="tab"
+                tabindex="-1"
               >
                 tab-7
               </div>
               <div
+                aria-controls="tabpane-8"
                 aria-disabled="false"
                 aria-selected="false"
                 class=" rc-tabs-tab"
+                id="tab-8"
                 role="tab"
+                tabindex="-1"
               >
                 tab-8
               </div>
               <div
+                aria-controls="tabpane-9"
                 aria-disabled="false"
                 aria-selected="false"
                 class=" rc-tabs-tab"
+                id="tab-9"
                 role="tab"
+                tabindex="-1"
               >
                 tab-9
               </div>
               <div
+                aria-controls="tabpane-10"
                 aria-disabled="false"
                 aria-selected="false"
                 class=" rc-tabs-tab"
+                id="tab-10"
                 role="tab"
+                tabindex="-1"
               >
                 tab-10
               </div>
@@ -142,11 +176,6 @@ exports[`rc-swipeable-tabs Should render scrollable tabbar with correct DOM stru
     </div>
   </div>
   <div
-    role="presentation"
-    style="width:0;height:0;overflow:hidden;position:absolute"
-    tabindex="0"
-  />
-  <div
     class="rc-tabs-content rc-tabs-content-animated"
     style="transform:translateX(0%) translateZ(0);-webkit-transform:translateX(0%) translateZ(0);-moz-transform:translateX(0%) translateZ(0)"
   >
@@ -154,79 +183,86 @@ exports[`rc-swipeable-tabs Should render scrollable tabbar with correct DOM stru
       aria-hidden="false"
       class="rc-tabs-tabpane rc-tabs-tabpane-active"
       role="tabpanel"
+      style="visibility:visible"
+      tabindex="0"
     >
-      <div
-        role="presentation"
-        style="width:0;height:0;overflow:hidden;position:absolute"
-        tabindex="0"
-      />
       <div
         style="display:flex;align-items:center;justify-content:center;height:5rem;background-color:#fff"
       >
         tab-0-content
       </div>
-      <div
-        role="presentation"
-        style="width:0;height:0;overflow:hidden;position:absolute"
-        tabindex="0"
-      />
     </div>
     <div
       aria-hidden="true"
       class="rc-tabs-tabpane rc-tabs-tabpane-inactive"
       role="tabpanel"
+      style="visibility:hidden"
+      tabindex="-1"
     />
     <div
       aria-hidden="true"
       class="rc-tabs-tabpane rc-tabs-tabpane-inactive"
       role="tabpanel"
+      style="visibility:hidden"
+      tabindex="-1"
     />
     <div
       aria-hidden="true"
       class="rc-tabs-tabpane rc-tabs-tabpane-inactive"
       role="tabpanel"
+      style="visibility:hidden"
+      tabindex="-1"
     />
     <div
       aria-hidden="true"
       class="rc-tabs-tabpane rc-tabs-tabpane-inactive"
       role="tabpanel"
+      style="visibility:hidden"
+      tabindex="-1"
     />
     <div
       aria-hidden="true"
       class="rc-tabs-tabpane rc-tabs-tabpane-inactive"
       role="tabpanel"
+      style="visibility:hidden"
+      tabindex="-1"
     />
     <div
       aria-hidden="true"
       class="rc-tabs-tabpane rc-tabs-tabpane-inactive"
       role="tabpanel"
+      style="visibility:hidden"
+      tabindex="-1"
     />
     <div
       aria-hidden="true"
       class="rc-tabs-tabpane rc-tabs-tabpane-inactive"
       role="tabpanel"
+      style="visibility:hidden"
+      tabindex="-1"
     />
     <div
       aria-hidden="true"
       class="rc-tabs-tabpane rc-tabs-tabpane-inactive"
       role="tabpanel"
+      style="visibility:hidden"
+      tabindex="-1"
     />
     <div
       aria-hidden="true"
       class="rc-tabs-tabpane rc-tabs-tabpane-inactive"
       role="tabpanel"
+      style="visibility:hidden"
+      tabindex="-1"
     />
     <div
       aria-hidden="true"
       class="rc-tabs-tabpane rc-tabs-tabpane-inactive"
       role="tabpanel"
+      style="visibility:hidden"
+      tabindex="-1"
     />
   </div>
-  <div
-    role="presentation"
-    style="width:0;height:0;overflow:hidden;position:absolute"
-    tabindex="0"
-  />
 </div>
 `;
 
@@ -237,7 +273,7 @@ exports[`rc-swipeable-tabs Should render swipeable tabbar with correct DOM struc
   <div
     class="rc-tabs-bar"
     role="tablist"
-    tabindex="0"
+    tabindex="-1"
   >
     <div
       class="rc-tabs-nav-container rc-tabs-nav-swipe-container rc-tabs-nextpage"
@@ -252,101 +288,134 @@ exports[`rc-swipeable-tabs Should render swipeable tabbar with correct DOM struc
             class="rc-tabs-nav"
           >
             <div
+              aria-controls="tabpane-0"
               aria-disabled="false"
               aria-selected="true"
               class="rc-tabs-tab rc-tabs-tab-active"
+              id="tab-0"
               role="tab"
               style="-webkit-flex-basis:20%;flex-basis:20%"
+              tabindex="0"
             >
               tab-0
             </div>
             <div
+              aria-controls="tabpane-1"
               aria-disabled="false"
               aria-selected="false"
               class="rc-tabs-tab"
+              id="tab-1"
               role="tab"
               style="-webkit-flex-basis:20%;flex-basis:20%"
+              tabindex="-1"
             >
               tab-1
             </div>
             <div
+              aria-controls="tabpane-2"
               aria-disabled="false"
               aria-selected="false"
               class="rc-tabs-tab"
+              id="tab-2"
               role="tab"
               style="-webkit-flex-basis:20%;flex-basis:20%"
+              tabindex="-1"
             >
               tab-2
             </div>
             <div
+              aria-controls="tabpane-3"
               aria-disabled="false"
               aria-selected="false"
               class="rc-tabs-tab"
+              id="tab-3"
               role="tab"
               style="-webkit-flex-basis:20%;flex-basis:20%"
+              tabindex="-1"
             >
               tab-3
             </div>
             <div
+              aria-controls="tabpane-4"
               aria-disabled="false"
               aria-selected="false"
               class="rc-tabs-tab"
+              id="tab-4"
               role="tab"
               style="-webkit-flex-basis:20%;flex-basis:20%"
+              tabindex="-1"
             >
               tab-4
             </div>
             <div
+              aria-controls="tabpane-5"
               aria-disabled="false"
               aria-selected="false"
               class="rc-tabs-tab"
+              id="tab-5"
               role="tab"
               style="-webkit-flex-basis:20%;flex-basis:20%"
+              tabindex="-1"
             >
               tab-5
             </div>
             <div
+              aria-controls="tabpane-6"
               aria-disabled="false"
               aria-selected="false"
               class="rc-tabs-tab"
+              id="tab-6"
               role="tab"
               style="-webkit-flex-basis:20%;flex-basis:20%"
+              tabindex="-1"
             >
               tab-6
             </div>
             <div
+              aria-controls="tabpane-7"
               aria-disabled="false"
               aria-selected="false"
               class="rc-tabs-tab"
+              id="tab-7"
               role="tab"
               style="-webkit-flex-basis:20%;flex-basis:20%"
+              tabindex="-1"
             >
               tab-7
             </div>
             <div
+              aria-controls="tabpane-8"
               aria-disabled="false"
               aria-selected="false"
               class="rc-tabs-tab"
+              id="tab-8"
               role="tab"
               style="-webkit-flex-basis:20%;flex-basis:20%"
+              tabindex="-1"
             >
               tab-8
             </div>
             <div
+              aria-controls="tabpane-9"
               aria-disabled="false"
               aria-selected="false"
               class="rc-tabs-tab"
+              id="tab-9"
               role="tab"
               style="-webkit-flex-basis:20%;flex-basis:20%"
+              tabindex="-1"
             >
               tab-9
             </div>
             <div
+              aria-controls="tabpane-10"
               aria-disabled="false"
               aria-selected="false"
               class="rc-tabs-tab"
+              id="tab-10"
               role="tab"
               style="-webkit-flex-basis:20%;flex-basis:20%"
+              tabindex="-1"
             >
               tab-10
             </div>
@@ -359,11 +428,6 @@ exports[`rc-swipeable-tabs Should render swipeable tabbar with correct DOM struc
     </div>
   </div>
   <div
-    role="presentation"
-    style="width:0;height:0;overflow:hidden;position:absolute"
-    tabindex="0"
-  />
-  <div
     class="rc-tabs-content rc-tabs-content-animated"
     style="transform:translateX(0%) translateZ(0);-webkit-transform:translateX(0%) translateZ(0);-moz-transform:translateX(0%) translateZ(0)"
   >
@@ -371,79 +435,86 @@ exports[`rc-swipeable-tabs Should render swipeable tabbar with correct DOM struc
       aria-hidden="false"
       class="rc-tabs-tabpane rc-tabs-tabpane-active"
       role="tabpanel"
+      style="visibility:visible"
+      tabindex="0"
     >
-      <div
-        role="presentation"
-        style="width:0;height:0;overflow:hidden;position:absolute"
-        tabindex="0"
-      />
       <div
         style="display:flex;align-items:center;justify-content:center;height:5rem;background-color:#fff"
       >
         tab-0-content
       </div>
-      <div
-        role="presentation"
-        style="width:0;height:0;overflow:hidden;position:absolute"
-        tabindex="0"
-      />
     </div>
     <div
       aria-hidden="true"
       class="rc-tabs-tabpane rc-tabs-tabpane-inactive"
       role="tabpanel"
+      style="visibility:hidden"
+      tabindex="-1"
     />
     <div
       aria-hidden="true"
       class="rc-tabs-tabpane rc-tabs-tabpane-inactive"
       role="tabpanel"
+      style="visibility:hidden"
+      tabindex="-1"
     />
     <div
       aria-hidden="true"
       class="rc-tabs-tabpane rc-tabs-tabpane-inactive"
       role="tabpanel"
+      style="visibility:hidden"
+      tabindex="-1"
     />
     <div
       aria-hidden="true"
       class="rc-tabs-tabpane rc-tabs-tabpane-inactive"
       role="tabpanel"
+      style="visibility:hidden"
+      tabindex="-1"
     />
     <div
       aria-hidden="true"
       class="rc-tabs-tabpane rc-tabs-tabpane-inactive"
       role="tabpanel"
+      style="visibility:hidden"
+      tabindex="-1"
     />
     <div
       aria-hidden="true"
       class="rc-tabs-tabpane rc-tabs-tabpane-inactive"
       role="tabpanel"
+      style="visibility:hidden"
+      tabindex="-1"
     />
     <div
       aria-hidden="true"
       class="rc-tabs-tabpane rc-tabs-tabpane-inactive"
       role="tabpanel"
+      style="visibility:hidden"
+      tabindex="-1"
     />
     <div
       aria-hidden="true"
       class="rc-tabs-tabpane rc-tabs-tabpane-inactive"
       role="tabpanel"
+      style="visibility:hidden"
+      tabindex="-1"
     />
     <div
       aria-hidden="true"
       class="rc-tabs-tabpane rc-tabs-tabpane-inactive"
       role="tabpanel"
+      style="visibility:hidden"
+      tabindex="-1"
     />
     <div
       aria-hidden="true"
       class="rc-tabs-tabpane rc-tabs-tabpane-inactive"
       role="tabpanel"
+      style="visibility:hidden"
+      tabindex="-1"
     />
   </div>
-  <div
-    role="presentation"
-    style="width:0;height:0;overflow:hidden;position:absolute"
-    tabindex="0"
-  />
 </div>
 `;
 
@@ -457,7 +528,7 @@ exports[`rc-swipeable-tabs should render Slider with correct DOM structure 1`] =
     <div
       class="rc-tabs-bar"
       role="tablist"
-      tabindex="0"
+      tabindex="-1"
     >
       <div
         class="rc-tabs-nav-container rc-tabs-nav-swipe-container rc-tabs-prevpage rc-tabs-nextpage"
@@ -472,101 +543,134 @@ exports[`rc-swipeable-tabs should render Slider with correct DOM structure 1`] =
               class="rc-tabs-nav"
             >
               <div
+                aria-controls="tabpane-0"
                 aria-disabled="false"
                 aria-selected="false"
                 class="rc-tabs-tab"
+                id="tab-0"
                 role="tab"
                 style="-webkit-flex-basis:20%;flex-basis:20%"
+                tabindex="-1"
               >
                 tab-0
               </div>
               <div
+                aria-controls="tabpane-1"
                 aria-disabled="false"
                 aria-selected="false"
                 class="rc-tabs-tab"
+                id="tab-1"
                 role="tab"
                 style="-webkit-flex-basis:20%;flex-basis:20%"
+                tabindex="-1"
               >
                 tab-1
               </div>
               <div
+                aria-controls="tabpane-2"
                 aria-disabled="false"
                 aria-selected="false"
                 class="rc-tabs-tab"
+                id="tab-2"
                 role="tab"
                 style="-webkit-flex-basis:20%;flex-basis:20%"
+                tabindex="-1"
               >
                 tab-2
               </div>
               <div
+                aria-controls="tabpane-3"
                 aria-disabled="false"
                 aria-selected="false"
                 class="rc-tabs-tab"
+                id="tab-3"
                 role="tab"
                 style="-webkit-flex-basis:20%;flex-basis:20%"
+                tabindex="-1"
               >
                 tab-3
               </div>
               <div
+                aria-controls="tabpane-4"
                 aria-disabled="false"
                 aria-selected="false"
                 class="rc-tabs-tab"
+                id="tab-4"
                 role="tab"
                 style="-webkit-flex-basis:20%;flex-basis:20%"
+                tabindex="-1"
               >
                 tab-4
               </div>
               <div
+                aria-controls="tabpane-5"
                 aria-disabled="false"
                 aria-selected="false"
                 class="rc-tabs-tab"
+                id="tab-5"
                 role="tab"
                 style="-webkit-flex-basis:20%;flex-basis:20%"
+                tabindex="-1"
               >
                 tab-5
               </div>
               <div
+                aria-controls="tabpane-6"
                 aria-disabled="false"
                 aria-selected="false"
                 class="rc-tabs-tab"
+                id="tab-6"
                 role="tab"
                 style="-webkit-flex-basis:20%;flex-basis:20%"
+                tabindex="-1"
               >
                 tab-6
               </div>
               <div
+                aria-controls="tabpane-7"
                 aria-disabled="false"
                 aria-selected="false"
                 class="rc-tabs-tab"
+                id="tab-7"
                 role="tab"
                 style="-webkit-flex-basis:20%;flex-basis:20%"
+                tabindex="-1"
               >
                 tab-7
               </div>
               <div
+                aria-controls="tabpane-8"
                 aria-disabled="false"
                 aria-selected="true"
                 class="rc-tabs-tab rc-tabs-tab-active"
+                id="tab-8"
                 role="tab"
                 style="-webkit-flex-basis:20%;flex-basis:20%"
+                tabindex="0"
               >
                 tab-8
               </div>
               <div
+                aria-controls="tabpane-9"
                 aria-disabled="false"
                 aria-selected="false"
                 class="rc-tabs-tab"
+                id="tab-9"
                 role="tab"
                 style="-webkit-flex-basis:20%;flex-basis:20%"
+                tabindex="-1"
               >
                 tab-9
               </div>
               <div
+                aria-controls="tabpane-10"
                 aria-disabled="false"
                 aria-selected="false"
                 class="rc-tabs-tab"
+                id="tab-10"
                 role="tab"
                 style="-webkit-flex-basis:20%;flex-basis:20%"
+                tabindex="-1"
               >
                 tab-10
               </div>
@@ -579,11 +683,6 @@ exports[`rc-swipeable-tabs should render Slider with correct DOM structure 1`] =
       </div>
     </div>
     <div
-      role="presentation"
-      style="width:0;height:0;overflow:hidden;position:absolute"
-      tabindex="0"
-    />
-    <div
       class="rc-tabs-content rc-tabs-content-animated"
       style="transform:translateX(800%) translateZ(0);-webkit-transform:translateX(800%) translateZ(0);-moz-transform:translateX(800%) translateZ(0)"
     >
@@ -591,79 +690,86 @@ exports[`rc-swipeable-tabs should render Slider with correct DOM structure 1`] =
         aria-hidden="true"
         class="rc-tabs-tabpane rc-tabs-tabpane-inactive"
         role="tabpanel"
+        style="visibility:hidden"
+        tabindex="-1"
       />
       <div
         aria-hidden="true"
         class="rc-tabs-tabpane rc-tabs-tabpane-inactive"
         role="tabpanel"
+        style="visibility:hidden"
+        tabindex="-1"
       />
       <div
         aria-hidden="true"
         class="rc-tabs-tabpane rc-tabs-tabpane-inactive"
         role="tabpanel"
+        style="visibility:hidden"
+        tabindex="-1"
       />
       <div
         aria-hidden="true"
         class="rc-tabs-tabpane rc-tabs-tabpane-inactive"
         role="tabpanel"
+        style="visibility:hidden"
+        tabindex="-1"
       />
       <div
         aria-hidden="true"
         class="rc-tabs-tabpane rc-tabs-tabpane-inactive"
         role="tabpanel"
+        style="visibility:hidden"
+        tabindex="-1"
       />
       <div
         aria-hidden="true"
         class="rc-tabs-tabpane rc-tabs-tabpane-inactive"
         role="tabpanel"
+        style="visibility:hidden"
+        tabindex="-1"
       />
       <div
         aria-hidden="true"
         class="rc-tabs-tabpane rc-tabs-tabpane-inactive"
         role="tabpanel"
+        style="visibility:hidden"
+        tabindex="-1"
       />
       <div
         aria-hidden="true"
         class="rc-tabs-tabpane rc-tabs-tabpane-inactive"
         role="tabpanel"
+        style="visibility:hidden"
+        tabindex="-1"
       />
       <div
         aria-hidden="false"
         class="rc-tabs-tabpane rc-tabs-tabpane-active"
         role="tabpanel"
+        style="visibility:visible"
+        tabindex="0"
       >
-        <div
-          role="presentation"
-          style="width:0;height:0;overflow:hidden;position:absolute"
-          tabindex="0"
-        />
         <div
           style="display:flex;align-items:center;justify-content:center;height:5rem;background-color:#fff"
         >
           tab-8-content
         </div>
-        <div
-          role="presentation"
-          style="width:0;height:0;overflow:hidden;position:absolute"
-          tabindex="0"
-        />
       </div>
       <div
         aria-hidden="true"
         class="rc-tabs-tabpane rc-tabs-tabpane-inactive"
         role="tabpanel"
+        style="visibility:hidden"
+        tabindex="-1"
       />
       <div
         aria-hidden="true"
         class="rc-tabs-tabpane rc-tabs-tabpane-inactive"
         role="tabpanel"
+        style="visibility:hidden"
+        tabindex="-1"
       />
     </div>
-    <div
-      role="presentation"
-      style="width:0;height:0;overflow:hidden;position:absolute"
-      tabindex="0"
-    />
   </div>
 </div>
 `;

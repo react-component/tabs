@@ -4,24 +4,33 @@ import { mount, shallow, render } from 'enzyme';
 import { renderToJson } from 'enzyme-to-json';
 import Tabs, { TabPane } from '../src';
 import TabContent from '../src/TabContent';
+import TabBar from '../src/TabBar';
+import ScrollableTabBar from '../src/ScrollableTabBar';
 import ScrollableInkTabBar from '../src/ScrollableInkTabBar';
 import InkTabBar from '../src/InkTabBar';
 
-class NormoalTabs extends Component {
+class ScrollableInkTabs extends Component {
   getRoot() {
     return this.refs.root;
   }
+
   render() {
     return (
       <Tabs
         ref="root"
         defaultActiveKey="2"
-        renderTabBar={() => <ScrollableInkTabBar/>}
-        renderTabContent={() => <TabContent/>}
+        renderTabBar={() => <ScrollableInkTabBar />}
+        renderTabContent={() => <TabContent />}
       >
-        <TabPane tab="tab 1" key="1">first</TabPane>
-        <TabPane tab="tab 2" key="2">second</TabPane>
-        <TabPane tab="tab 3" key="3">third</TabPane>
+        <TabPane tab="tab 1" key="1">
+          first
+        </TabPane>
+        <TabPane tab="tab 2" key="2">
+          second
+        </TabPane>
+        <TabPane tab="tab 3" key="3">
+          third
+        </TabPane>
       </Tabs>
     );
   }
@@ -29,21 +38,70 @@ class NormoalTabs extends Component {
 
 describe('rc-tabs', () => {
   it('should render Tabs with correct DOM structure', () => {
-    const wrapper = render(<NormoalTabs/>);
+    const wrapper = render(
+      <Tabs
+        ref="root"
+        defaultActiveKey="2"
+        renderTabBar={() => <TabBar />}
+        renderTabContent={() => <TabContent />}
+      >
+        <TabPane tab="tab 1" key="1">
+          first
+        </TabPane>
+        <TabPane tab="tab 2" key="2">
+          second
+        </TabPane>
+        <TabPane tab="tab 3" key="3">
+          third
+        </TabPane>
+      </Tabs>,
+    );
+    expect(renderToJson(wrapper)).toMatchSnapshot();
+  });
+
+  it('should render Tabs with correct DOM structure (scrollable ink)', () => {
+    const wrapper = render(<ScrollableInkTabs />);
+    expect(renderToJson(wrapper)).toMatchSnapshot();
+  });
+
+  it('should render Tabs with correct DOM structure (scrollable)', () => {
+    const wrapper = render(
+      <Tabs
+        ref="root"
+        defaultActiveKey="2"
+        renderTabBar={() => <ScrollableTabBar />}
+        renderTabContent={() => <TabContent />}
+      >
+        <TabPane tab="tab 1" key="1">
+          first
+        </TabPane>
+        <TabPane tab="tab 2" key="2">
+          second
+        </TabPane>
+        <TabPane tab="tab 3" key="3">
+          third
+        </TabPane>
+      </Tabs>,
+    );
     expect(renderToJson(wrapper)).toMatchSnapshot();
   });
 
   it('create and nav should work', () => {
-    const wrapper = mount(<NormoalTabs/>);
+    const wrapper = mount(<ScrollableInkTabs />);
     expect(wrapper.find('.rc-tabs').length).toBe(1);
     expect(wrapper.find('.rc-tabs-tab').length).toBe(3);
   });
 
   it('default active should work', () => {
-    const wrapper = mount(<NormoalTabs/>);
+    const wrapper = mount(<ScrollableInkTabs />);
     expect(wrapper.find('.rc-tabs-tab').length).toBe(3);
     expect(wrapper.instance().getRoot().state.activeKey).toBe('2');
-    expect(wrapper.find('.rc-tabs-tab').at(1).hasClass('rc-tabs-tab-active')).toBe(true);
+    expect(
+      wrapper
+        .find('.rc-tabs-tab')
+        .at(1)
+        .hasClass('rc-tabs-tab-active'),
+    ).toBe(true);
   });
 
   it('onChange and onTabClick should work', () => {
@@ -53,13 +111,19 @@ describe('rc-tabs', () => {
       <Tabs
         defaultActiveKey="1"
         renderTabBar={() => <ScrollableInkTabBar onTabClick={handleTabClick} />}
-        renderTabContent={() => <TabContent/>}
+        renderTabContent={() => <TabContent />}
         onChange={handleChange}
       >
-        <TabPane tab="tab 1" key="1">first</TabPane>
-        <TabPane tab="tab 2" key="2">second</TabPane>
-        <TabPane tab="tab 3" key="3">third</TabPane>
-      </Tabs>
+        <TabPane tab="tab 1" key="1">
+          first
+        </TabPane>
+        <TabPane tab="tab 2" key="2">
+          second
+        </TabPane>
+        <TabPane tab="tab 3" key="3">
+          third
+        </TabPane>
+      </Tabs>,
     );
     const targetTab = wrapper.find('.rc-tabs-tab').at(2);
     targetTab.simulate('click');
@@ -81,13 +145,19 @@ describe('rc-tabs', () => {
       <Tabs
         defaultActiveKey="1"
         renderTabBar={renderTabBar}
-        renderTabContent={() => <TabContent/>}
+        renderTabContent={() => <TabContent />}
         onChange={handleChange}
       >
-        <TabPane tab="tab 1" key="1">first</TabPane>
-        <TabPane tab="tab 2" key="2">second</TabPane>
-        <TabPane tab="tab 3" key="3">third</TabPane>
-      </Tabs>
+        <TabPane tab="tab 1" key="1">
+          first
+        </TabPane>
+        <TabPane tab="tab 2" key="2">
+          second
+        </TabPane>
+        <TabPane tab="tab 3" key="3">
+          third
+        </TabPane>
+      </Tabs>,
     );
     const nextIcon = wrapper.find('.next-icon');
     const prevIcon = wrapper.find('.prev-icon');
@@ -97,7 +167,7 @@ describe('rc-tabs', () => {
     expect(prevIcon.at(0).text()).toBe('prev-icon');
   });
 
-  it('`onPrevClick` and `onNextClick` should work', (done) => {
+  it('`onPrevClick` and `onNextClick` should work', done => {
     const onPrevClick = jest.fn();
     const onNextClick = jest.fn();
     const wrapper = mount(
@@ -107,21 +177,34 @@ describe('rc-tabs', () => {
         renderTabBar={() => (
           <ScrollableInkTabBar onPrevClick={onPrevClick} onNextClick={onNextClick} />
         )}
-        renderTabContent={() => <TabContent/>}
+        renderTabContent={() => <TabContent />}
       >
-        <TabPane tab="tab 1" key="1">first</TabPane>
-        <TabPane tab="tab 2" key="2">second</TabPane>
-        <TabPane tab="tab 3" key="3">third</TabPane>
-      </Tabs>
+        <TabPane tab="tab 1" key="1">
+          first
+        </TabPane>
+        <TabPane tab="tab 2" key="2">
+          second
+        </TabPane>
+        <TabPane tab="tab 3" key="3">
+          third
+        </TabPane>
+        <TabPane tab="tab 4" key="4">
+          fourth
+        </TabPane>
+        <TabPane tab="tab 5" key="5">
+          fifth
+        </TabPane>
+        <TabPane tab="tab 6" key="6">
+          sixth
+        </TabPane>
+      </Tabs>,
     );
 
     // To force Tabs show prev/next button
     const scrollableTabBarNode = wrapper.find('ScrollableTabBarNode').instance();
     scrollableTabBarNode.offset = -1;
-    jest.spyOn(scrollableTabBarNode, 'getScrollWH').mockImplementation(() => {
-      return 200;
-    });
-    jest.spyOn(scrollableTabBarNode, 'getOffsetWH').mockImplementation((node) => {
+    jest.spyOn(scrollableTabBarNode, 'getScrollWH').mockImplementation(() => 200);
+    jest.spyOn(scrollableTabBarNode, 'getOffsetWH').mockImplementation(node => {
       if (node.className.indexOf('rc-tabs-nav-container') !== -1) {
         return 100;
       }
@@ -133,6 +216,13 @@ describe('rc-tabs', () => {
     wrapper.update();
 
     setTimeout(() => {
+      // Selects a tab from the middle so that prev/next buttons are not disabled.
+      // Otherwise click event cannot be simulated.
+      wrapper
+        .find('.rc-tabs-tab')
+        .at(3)
+        .simulate('click');
+
       wrapper.find('.rc-tabs-tab-next').simulate('click');
       expect(onNextClick).toHaveBeenCalled();
 
@@ -144,15 +234,15 @@ describe('rc-tabs', () => {
   });
 
   it('active first tab when children is changed', () => {
-    const children = [1, 2, 3]
-      .map(number => <TabPane tab={number} key={number.toString()}>{number}</TabPane>);
+    const children = [1, 2, 3].map(number => (
+      <TabPane tab={number} key={number.toString()}>
+        {number}
+      </TabPane>
+    ));
     const wrapper = shallow(
-      <Tabs
-        renderTabBar={() => <ScrollableInkTabBar />}
-        renderTabContent={() => <TabContent/>}
-      >
+      <Tabs renderTabBar={() => <ScrollableInkTabBar />} renderTabContent={() => <TabContent />}>
         {children}
-      </Tabs>
+      </Tabs>,
     );
     expect(wrapper.state().activeKey).toBe('1');
     const newChildren = [...children];
@@ -164,16 +254,19 @@ describe('rc-tabs', () => {
   });
 
   it('active first tab when children is not changed at controlled mode', () => {
-    const children = [1, 2, 3]
-      .map(number => <TabPane tab={number} key={number.toString()}>{number}</TabPane>);
+    const children = [1, 2, 3].map(number => (
+      <TabPane tab={number} key={number.toString()}>
+        {number}
+      </TabPane>
+    ));
     const wrapper = shallow(
       <Tabs
         activeKey="1"
         renderTabBar={() => <ScrollableInkTabBar />}
-        renderTabContent={() => <TabContent/>}
+        renderTabContent={() => <TabContent />}
       >
         {children}
-      </Tabs>
+      </Tabs>,
     );
     expect(wrapper.state().activeKey).toBe('1');
     const newChildren = [...children];
@@ -185,36 +278,53 @@ describe('rc-tabs', () => {
   });
 
   it('activate tab on click should show inkbar', () => {
-    const children = [1, 2]
-      .map(number => <TabPane tab={number} key={number.toString()}>{number}</TabPane>);
+    const children = [1, 2].map(number => (
+      <TabPane tab={number} key={number.toString()}>
+        {number}
+      </TabPane>
+    ));
     const wrapper = mount(
-      <Tabs
-        renderTabBar={() => <InkTabBar />}
-        renderTabContent={() => <TabContent/>}
-      >
+      <Tabs renderTabBar={() => <InkTabBar />} renderTabContent={() => <TabContent />}>
         {children}
-      </Tabs>
+      </Tabs>,
     );
 
-    wrapper.find('TabBarTabsNode').find('.rc-tabs-tab').at(1).simulate('click', {});
-    expect(wrapper.find('InkTabBarNode').html().indexOf('display: block;') !== -1).toBe(true);
+    wrapper
+      .find('TabBarTabsNode')
+      .find('.rc-tabs-tab')
+      .at(1)
+      .simulate('click', {});
+    expect(
+      wrapper
+        .find('InkTabBarNode')
+        .html()
+        .indexOf('display: block;') !== -1,
+    ).toBe(true);
   });
 
-  it('un-activate tab should not show inkbar', (done) => {
-    const children = [1, 2]
-      .map(number => <TabPane tab={number} key={number.toString()}>{number}</TabPane>);
+  it('un-activate tab should not show inkbar', done => {
+    const children = [1, 2].map(number => (
+      <TabPane tab={number} key={number.toString()}>
+        {number}
+      </TabPane>
+    ));
     const wrapper = mount(
       <Tabs
         renderTabBar={() => <InkTabBar />}
-        renderTabContent={() => <TabContent/>}
+        renderTabContent={() => <TabContent />}
         activeKey="-1"
       >
         {children}
-      </Tabs>
+      </Tabs>,
     );
 
     setTimeout(() => {
-      expect(wrapper.find('InkTabBarNode').html().indexOf('display: none;') !== -1).toBe(true);
+      expect(
+        wrapper
+          .find('InkTabBarNode')
+          .html()
+          .indexOf('display: none;') !== -1,
+      ).toBe(true);
       done();
     }, 0);
   });
@@ -224,36 +334,45 @@ describe('rc-tabs', () => {
       <Tabs
         defaultActiveKey="3"
         tabBarPosition={tabBarPosition}
-        renderTabBar={() => (
-          <InkTabBar
-            tabBarGutter={40}
-          />
-        )}
+        renderTabBar={() => <InkTabBar tabBarGutter={40} />}
         renderTabContent={() => <TabContent />}
       >
-        <TabPane tab="tab 1" key="1">first</TabPane>
-        <TabPane tab="tab 2" key="2">second</TabPane>
+        <TabPane tab="tab 1" key="1">
+          first
+        </TabPane>
+        <TabPane tab="tab 2" key="2">
+          second
+        </TabPane>
       </Tabs>
     );
     let wrapper = mount(generateTabBarGutter('top'));
-    expect(wrapper.find('.rc-tabs-tab').at(0).instance().style.marginRight).toBe('40px');
+    expect(
+      wrapper
+        .find('.rc-tabs-tab')
+        .at(0)
+        .instance().style.marginRight,
+    ).toBe('40px');
 
     wrapper = mount(generateTabBarGutter('left'));
-    expect(wrapper.find('.rc-tabs-tab').at(0).instance().style.marginBottom).toBe('40px');
+    expect(
+      wrapper
+        .find('.rc-tabs-tab')
+        .at(0)
+        .instance().style.marginBottom,
+    ).toBe('40px');
   });
 
-  it('destroy not re-render', (done) => {
+  it('destroy not re-render', done => {
     const errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
 
     const Test = ({ visible }) => {
       if (!visible) return false;
 
       return (
-        <Tabs
-          renderTabBar={() => <InkTabBar />}
-          renderTabContent={() => <TabContent />}
-        >
-          <TabPane tab="tab 1" key="1">first</TabPane>
+        <Tabs renderTabBar={() => <InkTabBar />} renderTabContent={() => <TabContent />}>
+          <TabPane tab="tab 1" key="1">
+            first
+          </TabPane>
         </Tabs>
       );
     };

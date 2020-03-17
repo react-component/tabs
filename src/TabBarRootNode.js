@@ -4,6 +4,13 @@ import classnames from 'classnames';
 import { getDataAttr } from './utils';
 
 export default class TabBarRootNode extends React.Component {
+  componentDidUpdate() {
+    const activeTab = this.props.getRef('activeTab');
+    if (activeTab) {
+      activeTab.focus();
+    }
+  }
+
   getExtraContentStyle = () => {
     const { tabBarPosition, direction } = this.props;
     const topOrBottom = tabBarPosition === 'top' || tabBarPosition === 'bottom';
@@ -47,8 +54,8 @@ export default class TabBarRootNode extends React.Component {
     return (
       <div
         role="tablist"
+        tabIndex={-1}
         className={cls}
-        tabIndex="0"
         ref={this.props.saveRef('root')}
         onKeyDown={onKeyDown}
         style={style}
@@ -70,6 +77,7 @@ TabBarRootNode.propTypes = {
   onKeyDown: PropTypes.func,
   saveRef: PropTypes.func,
   direction: PropTypes.oneOf(['ltr', 'rtl']),
+  getRef: PropTypes.func,
 };
 
 TabBarRootNode.defaultProps = {
@@ -81,4 +89,5 @@ TabBarRootNode.defaultProps = {
   children: null,
   onKeyDown: () => {},
   saveRef: () => {},
+  getRef: () => {},
 };
