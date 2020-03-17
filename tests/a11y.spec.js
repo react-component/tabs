@@ -29,7 +29,7 @@ const makeMultiTabPane = (count, withTabKey) => {
 const TabsComponent = ({ withCustomId, withTabKey }) => (
   <div style={{ width: 500, height: 500 }}>
     <Tabs
-      renderTabBar={() => <ScrollableInkTabBar />}
+      renderTabBar={() => <ScrollableInkTabBar extraContent={<input id="input" />} />}
       renderTabContent={() => <TabContent />}
       id={withCustomId && customId}
     >
@@ -76,6 +76,15 @@ describe('<TabsComponent />', () => {
     const thirdTab = tabs.at(2);
     thirdTab.simulate('click');
     expect(document.activeElement).toBe(thirdTab.getDOMNode());
+  });
+
+  fit('xxxx', () => {
+    wrapper.find('#input').simulate('keyDown', {
+      keyCode: KeyCode.RIGHT,
+      which: KeyCode.RIGHT,
+    });
+    expect(tabs.at(0).getDOMNode().className).toContain('rc-tabs-tab-active');
+    expect(tabs.at(1).getDOMNode().className).not.toContain('rc-tabs-tab-active');
   });
 });
 

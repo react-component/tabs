@@ -41,6 +41,7 @@ export default class TabBarRootNode extends React.Component {
       newChildren = [
         cloneElement(extraContent, {
           key: 'extra',
+          onKeyDown: e => e.stopPropagation(),
           style: {
             ...this.getExtraContentStyle(topOrBottom, direction),
             ...extraContentStyle,
