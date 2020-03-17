@@ -60,6 +60,15 @@ describe('<TabsComponent />', () => {
     expect(renderToJson(render(component))).toMatchSnapshot();
   });
 
+  it('extraContent not listen keyboard naviagtion', () => {
+    wrapper.find('#input').simulate('keyDown', {
+      keyCode: KeyCode.RIGHT,
+      which: KeyCode.RIGHT,
+    });
+    expect(tabs.at(0).getDOMNode().className).toContain('rc-tabs-tab-active');
+    expect(tabs.at(1).getDOMNode().className).not.toContain('rc-tabs-tab-active');
+  });
+
   it('first tab should be selected by default', () => {
     const firstTab = tabs.first();
     const selectedTab = tabs.find('[aria-selected="true"]');
@@ -76,15 +85,6 @@ describe('<TabsComponent />', () => {
     const thirdTab = tabs.at(2);
     thirdTab.simulate('click');
     expect(document.activeElement).toBe(thirdTab.getDOMNode());
-  });
-
-  it('extraContent not listen keyboard naviagtion', () => {
-    wrapper.find('#input').simulate('keyDown', {
-      keyCode: KeyCode.RIGHT,
-      which: KeyCode.RIGHT,
-    });
-    expect(tabs.at(0).getDOMNode().className).toContain('rc-tabs-tab-active');
-    expect(tabs.at(1).getDOMNode().className).not.toContain('rc-tabs-tab-active');
   });
 });
 

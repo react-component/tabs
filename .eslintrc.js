@@ -17,6 +17,7 @@ module.exports = {
     'prefer-destructuring': 0,
     'react/no-unused-prop-types': 0,
     'max-len': 0,
-    'brace-style': 0,
+    "import/no-extraneous-dependencies": ["error", {"devDependencies": true, "optionalDependencies": false, "peerDependencies": false}],
+    'brace-style': 0
   },
 };
