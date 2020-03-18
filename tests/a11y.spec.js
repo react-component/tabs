@@ -66,7 +66,6 @@ describe('<TabsComponent />', () => {
       which: KeyCode.RIGHT,
     });
     expect(tabs.at(0).getDOMNode().className).toContain('rc-tabs-tab-active');
-    expect(tabs.at(1).getDOMNode().className).not.toContain('rc-tabs-tab-active');
   });
 
   it('first tab should be selected by default', () => {
@@ -75,16 +74,14 @@ describe('<TabsComponent />', () => {
     expect(selectedTab.getDOMNode()).toBe(firstTab.getDOMNode());
   });
 
-  it('switching tab via keyboard arrow navigation should move focus to new active tab', () => {
+  it('switching tab via keyboard arrow navigation should move to new active tab', () => {
     simulateKeyDown(tabList.getDOMNode(), KeyCode.RIGHT);
-    const secondTab = tabs.at(1);
-    expect(document.activeElement).toBe(secondTab.getDOMNode());
+    expect(tabs.at(1).getDOMNode().className).toContain('rc-tabs-tab-active');
   });
 
-  it('clicking a tab should move focus to this tab', () => {
-    const thirdTab = tabs.at(2);
-    thirdTab.simulate('click');
-    expect(document.activeElement).toBe(thirdTab.getDOMNode());
+  it('clicking a tab should active this tab', () => {
+    tabs.at(2).simulate('click');
+    expect(tabs.at(2).getDOMNode().className).toContain('rc-tabs-tab-active');
   });
 });
 

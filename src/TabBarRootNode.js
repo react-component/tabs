@@ -3,13 +3,6 @@ import classnames from 'classnames';
 import { getDataAttr } from './utils';
 
 export default class TabBarRootNode extends React.Component {
-  componentDidUpdate() {
-    const activeTab = this.props.getRef('activeTab');
-    if (activeTab) {
-      activeTab.focus();
-    }
-  }
-
   getExtraContentStyle = () => {
     const { tabBarPosition, direction } = this.props;
     const topOrBottom = tabBarPosition === 'top' || tabBarPosition === 'bottom';
