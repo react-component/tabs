@@ -55,7 +55,7 @@
     "less": "^3.11.1",
     "less-loader": "^5.0.0",
     "np": "^6.2.0",
-    "preact": "^8.2.1",
+    "preact": "^10.4.0",
     "preact-compat": "^3.16.0",
     "react": "^16.0.0",
     "react-dnd": "^7.0.2",
