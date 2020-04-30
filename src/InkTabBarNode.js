@@ -9,7 +9,7 @@ import {
   getActiveIndex,
 } from './utils';
 
-function componentDidUpdate(component, init) {
+function componentDidUpdate(component, init, prevProps) {
   const { styles, panels, activeKey, direction } = component.props;
   const rootNode = component.props.getRef('root');
   const wrapNode = component.props.getRef('nav') || rootNode;
@@ -22,7 +22,9 @@ function componentDidUpdate(component, init) {
     // prevent mount animation
     inkBarNodeStyle.display = 'none';
   }
-  if (activeTab) {
+  // !prevProps || activeKey !== prevProps.activeKey条件为了防止多次设置同样的activeKey会导致动画重复,不流畅的问题.如点击tab进行三次render,下划线会三次闪顿再回到目标tab
+  // In order to prevent the problem that setting the same activeKey for many times.And it will cause animation to not smoothly.For example, if you click the tab once, and it will render three times.Then,the underline will flash three times and back to final position
+  if (activeTab && (!prevProps || activeKey !== prevProps.activeKey)) {
     const tabNode = activeTab;
     const transformSupported = isTransform3dSupported(inkBarNodeStyle);
 
@@ -94,8 +96,9 @@ export default class InkTabBarNode extends React.Component {
     }, 0);
   }
 
-  componentDidUpdate() {
-    componentDidUpdate(this);
+  componentDidUpdate(prevProps) {
+    // resolve the probleme that when our component render many times ,inkTabBarNode's animation is not smoothly.
+    componentDidUpdate(this, false, prevProps);
   }
 
   componentWillUnmount() {
