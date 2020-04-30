@@ -96,7 +96,7 @@ export default class InkTabBarNode extends React.Component {
     }, 0);
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
     // resolve the probleme that when our component render many times ,inkTabBarNode's animation is not smoothly.
     componentDidUpdate(this, false, prevProps);
   }
