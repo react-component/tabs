@@ -23,6 +23,8 @@ export default class ScrollableTabBarNode extends React.Component {
     }, 200);
     this.resizeObserver = new ResizeObserver(this.debouncedResize);
     this.resizeObserver.observe(this.props.getRef('container'));
+
+    this.observeActiveTabResize(this.props);
   }
 
   componentDidUpdate(prevProps) {
@@ -31,6 +33,11 @@ export default class ScrollableTabBarNode extends React.Component {
       this.setOffset(0);
       return;
     }
+
+    if (prevProps && prevProps.activeKey !== props.activeKey) {
+      this.observeActiveTabResize(props);
+    }
+
     const nextPrev = this.setNextPrev();
     // wait next, prev show hide
     /* eslint react/no-did-update-set-state:0 */
@@ -48,6 +55,18 @@ export default class ScrollableTabBarNode extends React.Component {
     }
     if (this.debouncedResize && this.debouncedResize.cancel) {
       this.debouncedResize.cancel();
+    }
+  }
+
+  observeActiveTabResize(props) {
+    const activeTabRef = props.getRef('activeTab');
+    if (activeTabRef) {
+      if (this._lastActiveTabRef) {
+        this.resizeObserver.unobserve(this._lastActiveTabRef);
+      }
+
+      this._lastActiveTabRef = activeTabRef;
+      this.resizeObserver.observe(activeTabRef);
     }
   }
 

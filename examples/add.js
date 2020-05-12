@@ -13,9 +13,10 @@ class Demo extends React.Component {
       {
         title: '初始',
         content: '初始内容',
+        key: '0',
       },
     ],
-    activeKey: '初始',
+    activeKey: '0',
   };
 
   onTabChange = activeKey => {
@@ -48,7 +49,7 @@ class Demo extends React.Component {
               </a>
             </span>
           }
-          key={t.title}
+          key={t.key}
         >
           <div style={{ padding: 100 }}>{t.content}</div>
         </TabPane>
@@ -101,11 +102,20 @@ class Demo extends React.Component {
     const newTab = {
       title: `名称: ${index}`,
       content: `内容: ${index}`,
+      key: `${index}`,
     };
     this.setState({
       tabs: this.state.tabs.concat(newTab),
-      activeKey: `名称: ${index}`,
+      activeKey: `${index}`,
     });
+
+    setTimeout(() => {
+      this.setState({
+        tabs: this.state.tabs.map(v =>
+          v.title === newTab.title ? { ...v, title: `${v.title  }(tab description)` } : v,
+        ),
+      });
+    }, 1000);
   };
 
   render() {
