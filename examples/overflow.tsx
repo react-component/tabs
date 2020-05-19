@@ -1,0 +1,21 @@
+import React from 'react';
+import Tabs, { TabPane } from '../src';
+import '../assets/index.less';
+
+const tabs: React.ReactElement[] = [];
+
+for (let i = 0; i < 100; i += 1) {
+  tabs.push(
+    <TabPane key={i} tab={`Tab ${i}`}>
+      Content of {i}
+    </TabPane>,
+  );
+}
+
+export default () => {
+  return (
+    <React.StrictMode>
+      <Tabs tabBarExtraContent={233}>{tabs}</Tabs>
+    </React.StrictMode>
+  );
+};
