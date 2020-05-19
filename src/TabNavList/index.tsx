@@ -25,7 +25,7 @@ function useMeasureTabs({
   id,
   onTabClick,
 }: TabNavListProps): [TabSizeMap, React.ReactNode] {
-  const wrapperRef = useRef<HTMLDivElement>(null);
+  const wrapperRef = useRef<HTMLDivElement>();
   const [tabSizes, setTabSizes] = useState<TabSizeMap>(new Map());
   const tabNodesRef = useRef(new Map<React.Key, HTMLButtonElement>());
 
@@ -117,17 +117,14 @@ function useMeasureTabs({
 function useVisibleTabs(
   tabSizes: TabSizeMap,
   containerWidth: number,
+  moreWidth: number,
   { tabs, activeKey, id, prefixCls, onTabClick }: TabNavListProps,
 ) {
   const activeIndex = tabs.findIndex(tab => tab.key === activeKey) || 0;
-
-  function getWidth(index: number) {
-    const tab = tabs[index];
-    return tabSizes.get(tab.key)?.width || 0;
-  }
+  const availableWidth = containerWidth - moreWidth;
 
   // Find start index
-  let restWidth = containerWidth;
+  let restWidth = availableWidth;
   let startIndex = 0;
   for (let i = activeIndex; i >= 0; i -= 1) {
     const tab = tabs[i];
@@ -140,7 +137,7 @@ function useVisibleTabs(
   }
 
   // Find end index
-  restWidth = containerWidth;
+  restWidth = availableWidth;
   const nodes: React.ReactElement[] = [];
   for (let i = startIndex; i < tabs.length; i += 1) {
     const tab = tabs[i];
@@ -149,6 +146,7 @@ function useVisibleTabs(
     if (restWidth < width) {
       break;
     }
+
     restWidth -= width;
 
     // Push nodes
@@ -170,16 +168,22 @@ function useVisibleTabs(
 }
 
 export default function TabNavList(props: TabNavListProps) {
-  const { prefixCls, animated, id, activeKey, tabs, extra, onTabClick } = props;
+  const { prefixCls, animated, activeKey, extra } = props;
   const [tabSizes, measureNode] = useMeasureTabs(props);
   const [wrapperWidth, setWrapperWidth] = useState<number>(null);
+  const moreRef = useRef<HTMLDivElement>();
 
   // ========================== Tab ==========================
   const onWrapperResize = useRaf(({ offsetWidth }: { offsetWidth: number }) => {
     setWrapperWidth(offsetWidth);
   });
 
-  const visibleTabNodes = useVisibleTabs(tabSizes, wrapperWidth, props);
+  const visibleTabNodes = useVisibleTabs(
+    tabSizes,
+    wrapperWidth,
+    moreRef.current?.offsetWidth || 0,
+    props,
+  );
 
   // ========================== Ink ==========================
   const inkStyle: React.CSSProperties = {};
@@ -203,6 +207,10 @@ export default function TabNavList(props: TabNavListProps) {
             )}
             style={inkStyle}
           />
+
+          <div ref={moreRef} className={`${prefixCls}-nav-more`}>
+            More
+          </div>
         </div>
       </ResizeObserver>
 
