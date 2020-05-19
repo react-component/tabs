@@ -59,6 +59,7 @@ function Tabs({
   children,
   activeKey,
   defaultActiveKey,
+  animated = true,
   onChange,
   onTabClick,
   ...restProps
@@ -93,7 +94,9 @@ function Tabs({
   return (
     <div id={id} className={classNames(prefixCls, className)} {...restProps}>
       <TabList
+        prefixCls={prefixCls}
         id={mergedId}
+        animated={animated}
         tabs={tabList}
         activeKey={mergedActiveKey}
         onTabClick={onInternalTabClick}
