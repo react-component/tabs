@@ -37,6 +37,7 @@ export interface TabsProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'o
   tabBarGutter?: number;
   tabBarStyle?: React.CSSProperties;
   tabPosition?: 'top' | 'right' | 'bottom' | 'left';
+  tabBarScrollable?: boolean;
   onChange?: (activeKey: React.Key) => void;
   onTabClick?: (activeKey: React.Key) => void;
 }

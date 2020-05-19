@@ -23,6 +23,7 @@ function useMeasureTabs({
   tabs,
   activeKey,
   id,
+  onTabClick,
 }: TabNavListProps): [TabSizeMap, React.ReactNode] {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const [tabSizes, setTabSizes] = useState<TabSizeMap>(new Map());
@@ -100,6 +101,9 @@ function useMeasureTabs({
               key={key}
               tab={entity}
               active={active}
+              onClick={() => {
+                onTabClick(key);
+              }}
             />
           );
         })}
@@ -110,9 +114,72 @@ function useMeasureTabs({
   return [tabSizes, holder];
 }
 
+function useVisibleTabs(
+  tabSizes: TabSizeMap,
+  containerWidth: number,
+  { tabs, activeKey, id, prefixCls, onTabClick }: TabNavListProps,
+) {
+  const activeIndex = tabs.findIndex(tab => tab.key === activeKey) || 0;
+
+  function getWidth(index: number) {
+    const tab = tabs[index];
+    return tabSizes.get(tab.key)?.width || 0;
+  }
+
+  // Find start index
+  let restWidth = containerWidth;
+  let startIndex = 0;
+  for (let i = activeIndex; i >= 0; i -= 1) {
+    const tab = tabs[i];
+    const width = tabSizes.get(tab.key)?.width || 0;
+    if (restWidth < width) {
+      break;
+    }
+    restWidth -= width;
+    startIndex = i;
+  }
+
+  // Find end index
+  restWidth = containerWidth;
+  const nodes: React.ReactElement[] = [];
+  for (let i = startIndex; i < tabs.length; i += 1) {
+    const tab = tabs[i];
+    const { key } = tab;
+    const width = tabSizes.get(tab.key)?.width || 0;
+    if (restWidth < width) {
+      break;
+    }
+    restWidth -= width;
+
+    // Push nodes
+    nodes.push(
+      <TabNode
+        id={id}
+        prefixCls={prefixCls}
+        key={key}
+        tab={tab}
+        active={key === activeKey}
+        onClick={() => {
+          onTabClick(key);
+        }}
+      />,
+    );
+  }
+
+  return nodes;
+}
+
 export default function TabNavList(props: TabNavListProps) {
   const { prefixCls, animated, id, activeKey, tabs, extra, onTabClick } = props;
   const [tabSizes, measureNode] = useMeasureTabs(props);
+  const [wrapperWidth, setWrapperWidth] = useState<number>(null);
+
+  // ========================== Tab ==========================
+  const onWrapperResize = useRaf(({ offsetWidth }: { offsetWidth: number }) => {
+    setWrapperWidth(offsetWidth);
+  });
+
+  const visibleTabNodes = useVisibleTabs(tabSizes, wrapperWidth, props);
 
   // ========================== Ink ==========================
   const inkStyle: React.CSSProperties = {};
@@ -125,33 +192,19 @@ export default function TabNavList(props: TabNavListProps) {
   return (
     <div role="tablist" className={`${prefixCls}-nav`}>
       {measureNode}
-      <div className={`${prefixCls}-nav-wrap`}>
-        {tabs.map(entity => {
-          const { key } = entity;
-          const active = key === activeKey;
+      <ResizeObserver onResize={onWrapperResize}>
+        <div className={`${prefixCls}-nav-wrap`}>
+          {visibleTabNodes}
 
-          return (
-            <TabNode
-              id={id}
-              prefixCls={prefixCls}
-              key={key}
-              tab={entity}
-              active={active}
-              onClick={() => {
-                onTabClick(key);
-              }}
-            />
-          );
-        })}
-
-        <div
-          className={classNames(
-            `${prefixCls}-ink-bar`,
-            animated && `${prefixCls}-ink-bar-animated`,
-          )}
-          style={inkStyle}
-        />
-      </div>
+          <div
+            className={classNames(
+              `${prefixCls}-ink-bar`,
+              animated && `${prefixCls}-ink-bar-animated`,
+            )}
+            style={inkStyle}
+          />
+        </div>
+      </ResizeObserver>
 
       {extra && <div className={`${prefixCls}-extra-content`}>{extra}</div>}
     </div>

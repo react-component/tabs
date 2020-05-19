@@ -14,15 +14,14 @@
   &-nav {
     display: flex;
 
-    &-measure {
-    }
-
+    &-measure,
     &-wrap {
       position: relative;
       display: inline-block;
-      flex: 0 1 auto;
+      flex: auto;
       white-space: nowrap;
       overflow: hidden;
+      display: flex;
     }
   }
 
@@ -34,6 +33,10 @@
     padding: 8px 16px;
     outline: none;
     cursor: pointer;
+
+    &:focus {
+      background: rgba(0, 0, 255, 0.1);
+    }
   }
 
   &-ink-bar {
@@ -50,7 +53,6 @@
   }
 
   &-extra-content {
-    margin-left: auto;
     flex: none;
   }
 

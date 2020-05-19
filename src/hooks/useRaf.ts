@@ -1,12 +1,14 @@
 import { useRef } from 'react';
 import raf from 'raf';
 
-export default function useRaf(callback: () => void) {
+export default function useRaf<Callback extends Function>(callback: Callback) {
   const rafRef = useRef<number>(null);
 
-  function trigger() {
+  function trigger(...args: any[]) {
     raf.cancel(rafRef.current);
-    rafRef.current = raf(callback);
+    rafRef.current = raf(() => {
+      callback(...args);
+    });
   }
 
   return trigger;

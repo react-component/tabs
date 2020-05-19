@@ -15,7 +15,9 @@ for (let i = 0; i < 50; i += 1) {
 export default () => {
   return (
     <React.StrictMode>
-      <Tabs tabBarExtraContent={233}>{tabs}</Tabs>
+      <div style={{ width: 550 }}>
+        <Tabs tabBarExtraContent={233}>{tabs}</Tabs>
+      </div>
     </React.StrictMode>
   );
 };
