@@ -13,6 +13,7 @@ export interface TabListProps {
   tabs: TabPaneProps[];
   activeKey: React.Key;
   animated?: boolean;
+  extra?: React.ReactNode;
   onTabClick: (activeKey: React.Key) => void;
 }
 
@@ -22,6 +23,7 @@ export default function TabList({
   id,
   activeKey,
   tabs,
+  extra,
   onTabClick,
 }: TabListProps) {
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -127,6 +129,8 @@ export default function TabList({
           />
         </div>
       </ResizeObserver>
+
+      {extra && <div className={`${prefixCls}-extra-content`}>{extra}</div>}
     </div>
   );
 }

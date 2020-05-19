@@ -60,6 +60,7 @@ function Tabs({
   activeKey,
   defaultActiveKey,
   animated = true,
+  tabBarExtraContent,
   onChange,
   onTabClick,
   ...restProps
@@ -100,6 +101,7 @@ function Tabs({
         tabs={tabList}
         activeKey={mergedActiveKey}
         onTabClick={onInternalTabClick}
+        extra={tabBarExtraContent}
       />
       <div>
         {tabList.map(({ key, children: content }) => {
