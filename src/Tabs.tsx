@@ -105,10 +105,10 @@ function Tabs({
           return (
             <div
               key={key}
-              id="panel-1"
+              id={id && `${id}-panel-${key}`}
               role="tabpanel"
               tabIndex={0}
-              aria-labelledby="tab-1"
+              aria-labelledby={id && `${id}-tab-${key}`}
               hidden={!active}
             >
               {content}

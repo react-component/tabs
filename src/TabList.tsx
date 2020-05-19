@@ -10,14 +10,15 @@ export interface TabListProps {
 
 export default function TabList({ id, activeKey, tabs, onTabClick }: TabListProps) {
   return (
-    <div role="tablist" aria-label="Sample Tabs">
+    <div role="tablist">
       {tabs.map(({ key, tab }) => (
         <button
           key={key}
           type="button"
           role="tab"
           aria-selected={key === activeKey}
-          aria-controls={id && `${id}-${key}`}
+          id={id && `${id}-tab-${key}`}
+          aria-controls={id && `${id}-panel-${key}`}
           tabIndex={0}
           onClick={() => {
             onTabClick(key);
