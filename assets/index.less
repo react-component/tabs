@@ -7,11 +7,17 @@
 .@{tabs-prefix-cls} {
   border: 1px solid gray;
   font-size: 14px;
+  display: flex;
+  flex-direction: column;
 
+  // ========================== Navigation ==========================
   &-nav {
+    display: flex;
+
     &-wrap {
       position: relative;
       display: inline-block;
+      flex: none;
     }
   }
 
@@ -33,4 +39,11 @@
       transition: all 0.3s;
     }
   }
+
+  &-extra-content {
+    margin-left: auto;
+    flex: none;
+  }
+
+  // ============================ Panels ============================
 }

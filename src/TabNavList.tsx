@@ -7,7 +7,7 @@ import useRaf from './hooks/useRaf';
 
 type TabSizeMap = Map<React.Key, { width: number; height: number; left: number; right: number }>;
 
-export interface TabListProps {
+export interface TabNavListProps {
   prefixCls: string;
   id: string;
   tabs: TabPaneProps[];
@@ -17,7 +17,7 @@ export interface TabListProps {
   onTabClick: (activeKey: React.Key) => void;
 }
 
-export default function TabList({
+export default function TabNavList({
   prefixCls,
   animated,
   id,
@@ -25,7 +25,7 @@ export default function TabList({
   tabs,
   extra,
   onTabClick,
-}: TabListProps) {
+}: TabNavListProps) {
   const wrapperRef = useRef<HTMLDivElement>(null);
 
   // ========================== Tab ==========================

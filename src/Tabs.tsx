@@ -4,7 +4,8 @@ import classNames from 'classnames';
 import toArray from 'rc-util/lib/Children/toArray';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import TabPane, { TabPaneProps } from './sugar/TabPane';
-import TabList from './TabList';
+import TabNavList from './TabNavList';
+import TabPanelList from './TabPanelList';
 
 /**
  * Should added antd:
@@ -44,9 +45,8 @@ function parseTabList(children: React.ReactNode): TabPaneProps[] {
   return toArray(children).map((node: React.ReactElement<TabPaneProps>) =>
     React.isValidElement(node)
       ? {
-          tab: node.props.tab,
           key: node.key,
-          children: node.props.children,
+          ...node.props,
         }
       : null,
   );
@@ -92,35 +92,18 @@ function Tabs({
     onChange?.(key);
   }
 
+  const sharedProps = {
+    tabs: tabList,
+    id: mergedId,
+    activeKey: mergedActiveKey,
+    prefixCls,
+    animated,
+  };
+
   return (
     <div id={id} className={classNames(prefixCls, className)} {...restProps}>
-      <TabList
-        prefixCls={prefixCls}
-        id={mergedId}
-        animated={animated}
-        tabs={tabList}
-        activeKey={mergedActiveKey}
-        onTabClick={onInternalTabClick}
-        extra={tabBarExtraContent}
-      />
-      <div>
-        {tabList.map(({ key, children: content }) => {
-          const active = key === mergedActiveKey;
-
-          return (
-            <div
-              key={key}
-              id={id && `${id}-panel-${key}`}
-              role="tabpanel"
-              tabIndex={0}
-              aria-labelledby={id && `${id}-tab-${key}`}
-              hidden={!active}
-            >
-              {content}
-            </div>
-          );
-        })}
-      </div>
+      <TabNavList {...sharedProps} onTabClick={onInternalTabClick} extra={tabBarExtraContent} />
+      <TabPanelList {...sharedProps} />
     </div>
   );
 }
