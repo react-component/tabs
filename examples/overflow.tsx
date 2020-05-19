@@ -4,7 +4,7 @@ import '../assets/index.less';
 
 const tabs: React.ReactElement[] = [];
 
-for (let i = 0; i < 100; i += 1) {
+for (let i = 0; i < 50; i += 1) {
   tabs.push(
     <TabPane key={i} tab={`Tab ${i}`}>
       Content of {i}

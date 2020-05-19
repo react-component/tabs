@@ -14,10 +14,15 @@
   &-nav {
     display: flex;
 
+    &-measure {
+    }
+
     &-wrap {
       position: relative;
       display: inline-block;
-      flex: none;
+      flex: 0 1 auto;
+      white-space: nowrap;
+      overflow: hidden;
     }
   }
 
@@ -25,6 +30,10 @@
     border: 0;
     font-size: 20px;
     background: transparent;
+    margin: 0;
+    padding: 8px 16px;
+    outline: none;
+    cursor: pointer;
   }
 
   &-ink-bar {
