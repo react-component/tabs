@@ -1,3 +1,5 @@
+@import './dropdown.less';
+
 @tabs-prefix-cls: rc-tabs;
 
 @easing-in-out: cubic-bezier(0.35, 0, 0.25, 1);
@@ -25,9 +27,11 @@
     }
 
     &-more {
-      position: absolute;
-      right: 0;
-      top: 0;
+      // position: absolute;
+      // right: 0;
+      // top: 0;
+      flex: none;
+      background: rgba(255, 0, 0, 0.1);
     }
   }
 

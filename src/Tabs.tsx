@@ -39,6 +39,7 @@ export interface TabsProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'o
   tabBarStyle?: React.CSSProperties;
   tabPosition?: 'top' | 'right' | 'bottom' | 'left';
   tabBarScrollable?: boolean;
+  moreIcon?: React.ReactNode;
   onChange?: (activeKey: React.Key) => void;
   onTabClick?: (activeKey: React.Key) => void;
 }
@@ -63,6 +64,7 @@ function Tabs({
   defaultActiveKey,
   animated = true,
   tabBarExtraContent,
+  moreIcon,
   onChange,
   onTabClick,
   ...restProps
@@ -104,7 +106,12 @@ function Tabs({
 
   return (
     <div id={id} className={classNames(prefixCls, className)} {...restProps}>
-      <TabNavList {...sharedProps} onTabClick={onInternalTabClick} extra={tabBarExtraContent} />
+      <TabNavList
+        {...sharedProps}
+        moreIcon={moreIcon}
+        onTabClick={onInternalTabClick}
+        extra={tabBarExtraContent}
+      />
       <TabPanelList {...sharedProps} />
     </div>
   );

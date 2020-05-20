@@ -2,11 +2,13 @@ import * as React from 'react';
 import { useRef, useState } from 'react';
 import classNames from 'classnames';
 import ResizeObserver from 'rc-resize-observer';
+import Menu, { MenuItem } from 'rc-menu';
 import useRaf, { useRafState } from '../hooks/useRaf';
 import TabNode from './TabNode';
 import { TabSizeMap, Tab } from '../interface';
 import useOffsets from '../hooks/useOffsets';
 import useVisibleRange from '../hooks/useVisibleRange';
+import MoreList from '../MoreList';
 
 export interface TabNavListProps {
   prefixCls: string;
@@ -15,12 +17,13 @@ export interface TabNavListProps {
   activeKey: React.Key;
   animated?: boolean;
   extra?: React.ReactNode;
+  moreIcon?: React.ReactNode;
   onTabClick: (activeKey: React.Key) => void;
 }
 
 export default function TabNavList(props: TabNavListProps) {
   const { id, prefixCls, animated, activeKey, extra, tabs, onTabClick } = props;
-  const moreRef = useRef<HTMLDivElement>();
+  const moreRef = useRef<HTMLButtonElement>();
 
   // ========================== Tab ==========================
   const [wrapperWidth, setWrapperWidth] = useState<number>(null);
@@ -65,6 +68,24 @@ export default function TabNavList(props: TabNavListProps) {
     );
   });
 
+  // ======================== Dropdown =======================
+  const startHiddenTabs = tabs.slice(0, visibleStart);
+  const endHiddenTabs = tabs.slice(visibleEnd + 1);
+  const hiddenTabs = [...startHiddenTabs, ...endHiddenTabs];
+
+  const menu = (
+    <Menu
+      onSelect={({ selectedKeys }) => {
+        const [key] = selectedKeys;
+        onTabClick(key);
+      }}
+    >
+      {hiddenTabs.map(tab => (
+        <MenuItem key={tab.key}>{tab.tab}</MenuItem>
+      ))}
+    </Menu>
+  );
+
   // ========================== Ink ==========================
   const inkStyle: React.CSSProperties = {};
   const activeTabOffset = tabOffsets.get(activeKey);
@@ -74,6 +95,7 @@ export default function TabNavList(props: TabNavListProps) {
   }
 
   // ========================= Render ========================
+
   return (
     <div role="tablist" className={`${prefixCls}-nav`}>
       {/* {measureNode} */}
@@ -88,12 +110,10 @@ export default function TabNavList(props: TabNavListProps) {
             )}
             style={inkStyle}
           />
-
-          <div ref={moreRef} className={`${prefixCls}-nav-more`}>
-            More
-          </div>
         </div>
       </ResizeObserver>
+
+      <MoreList {...props} />
 
       {extra && <div className={`${prefixCls}-extra-content`}>{extra}</div>}
     </div>
