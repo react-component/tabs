@@ -9,7 +9,20 @@ export interface TabPaneProps {
   active: boolean;
 }
 
-export default function TabPane({ prefixCls, id, active, tab: { key, children } }: TabPaneProps) {
+export default function TabPane({
+  prefixCls,
+  id,
+  active,
+  tab: { key, children, forceRender },
+}: TabPaneProps) {
+  const [visited, setVisited] = React.useState(forceRender);
+
+  React.useEffect(() => {
+    if (active) {
+      setVisited(true);
+    }
+  }, [active]);
+
   return (
     <div
       id={id && `${id}-panel-${key}`}
@@ -20,7 +33,7 @@ export default function TabPane({ prefixCls, id, active, tab: { key, children } 
       style={{ visibility: active ? 'visible' : 'hidden' }}
       className={classNames(`${prefixCls}-tabpane`, active && `${prefixCls}-tabpane-active`)}
     >
-      {children}
+      {(visited || forceRender) && children}
     </div>
   );
 }
