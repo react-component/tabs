@@ -31,8 +31,8 @@ export default function TabNavList(props: TabNavListProps) {
 
   // Render tab node & collect tab offset
   const [tabSizes, setTabSizes] = useRafState<TabSizeMap>(new Map());
-  const tabOffsets = useOffsets(tabs, tabSizes);
   const [visibleStart, visibleEnd] = useVisibleRange(tabSizes, wrapperWidth, props);
+  const tabOffsets = useOffsets(tabs.slice(visibleStart, visibleEnd + 1), tabSizes);
 
   const tabNodes: React.ReactElement[] = tabs.map((tab, index) => {
     const { key } = tab;
