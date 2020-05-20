@@ -1,8 +1,7 @@
 import * as React from 'react';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import classNames from 'classnames';
 import ResizeObserver from 'rc-resize-observer';
-import Menu, { MenuItem } from 'rc-menu';
 import useRaf, { useRafState } from '../hooks/useRaf';
 import TabNode from './TabNode';
 import { TabSizeMap, Tab } from '../interface';
@@ -14,7 +13,7 @@ export interface TabNavListProps {
   prefixCls: string;
   id: string;
   tabs: Tab[];
-  activeKey: React.Key;
+  activeKey: string;
   animated?: boolean;
   extra?: React.ReactNode;
   moreIcon?: React.ReactNode;
@@ -23,7 +22,6 @@ export interface TabNavListProps {
 
 export default function TabNavList(props: TabNavListProps) {
   const { id, prefixCls, animated, activeKey, extra, tabs, onTabClick } = props;
-  const moreRef = useRef<HTMLButtonElement>();
 
   // ========================== Tab ==========================
   const [wrapperWidth, setWrapperWidth] = useState<number>(null);
@@ -73,19 +71,6 @@ export default function TabNavList(props: TabNavListProps) {
   const endHiddenTabs = tabs.slice(visibleEnd + 1);
   const hiddenTabs = [...startHiddenTabs, ...endHiddenTabs];
 
-  const menu = (
-    <Menu
-      onSelect={({ selectedKeys }) => {
-        const [key] = selectedKeys;
-        onTabClick(key);
-      }}
-    >
-      {hiddenTabs.map(tab => (
-        <MenuItem key={tab.key}>{tab.tab}</MenuItem>
-      ))}
-    </Menu>
-  );
-
   // ========================== Ink ==========================
   const inkStyle: React.CSSProperties = {};
   const activeTabOffset = tabOffsets.get(activeKey);
@@ -113,7 +98,7 @@ export default function TabNavList(props: TabNavListProps) {
         </div>
       </ResizeObserver>
 
-      <MoreList {...props} />
+      <MoreList {...props} tabs={hiddenTabs} />
 
       {extra && <div className={`${prefixCls}-extra-content`}>{extra}</div>}
     </div>

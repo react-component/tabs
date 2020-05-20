@@ -2,6 +2,7 @@ import * as React from 'react';
 
 export interface TabPaneProps {
   tab?: React.ReactNode;
+  disabled?: boolean;
   children?: React.ReactNode;
   forceRender?: boolean;
 }
