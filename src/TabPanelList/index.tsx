@@ -1,6 +1,7 @@
 import * as React from 'react';
 import classNames from 'classnames';
-import { Tab } from './interface';
+import { Tab } from '../interface';
+import TabPane from './TabPane';
 
 export interface TabPanelListProps {
   prefixCls: string;
@@ -21,21 +22,8 @@ export default function TabPanelList({
     <div
       className={classNames(`${prefixCls}-content`, animated && `${prefixCls}-content-animated`)}
     >
-      {tabs.map(({ key, children: content }) => {
-        const active = key === activeKey;
-
-        return (
-          <div
-            key={key}
-            id={id && `${id}-panel-${key}`}
-            role="tabpanel"
-            tabIndex={0}
-            aria-labelledby={id && `${id}-tab-${key}`}
-            hidden={!active}
-          >
-            {content}
-          </div>
-        );
+      {tabs.map(tab => {
+        return <TabPane id={id} active={tab.key === activeKey} key={tab.key} tab={tab} />;
       })}
     </div>
   );
