@@ -1,20 +1,24 @@
 import * as React from 'react';
+import classNames from 'classnames';
 import { Tab } from '../interface';
 
 export interface TabPaneProps {
+  prefixCls: string;
   id: string;
   tab: Tab;
   active: boolean;
 }
 
-export default function TabPane({ id, active, tab: { key, children } }: TabPaneProps) {
+export default function TabPane({ prefixCls, id, active, tab: { key, children } }: TabPaneProps) {
   return (
     <div
       id={id && `${id}-panel-${key}`}
       role="tabpanel"
-      tabIndex={0}
+      tabIndex={active ? 0 : -1}
       aria-labelledby={id && `${id}-tab-${key}`}
-      hidden={!active}
+      aria-hidden={!active}
+      style={{ visibility: active ? 'visible' : 'hidden' }}
+      className={classNames(`${prefixCls}-tabpane`, active && `${prefixCls}-tabpane-active`)}
     >
       {children}
     </div>

@@ -23,7 +23,15 @@ export default function TabPanelList({
       className={classNames(`${prefixCls}-content`, animated && `${prefixCls}-content-animated`)}
     >
       {tabs.map(tab => {
-        return <TabPane id={id} active={tab.key === activeKey} key={tab.key} tab={tab} />;
+        return (
+          <TabPane
+            prefixCls={prefixCls}
+            id={id}
+            active={tab.key === activeKey}
+            key={tab.key}
+            tab={tab}
+          />
+        );
       })}
     </div>
   );
