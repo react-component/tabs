@@ -6,6 +6,7 @@ import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import TabPane, { TabPaneProps } from './sugar/TabPane';
 import TabNavList from './TabNavList';
 import TabPanelList from './TabPanelList';
+import { Tab } from './interface';
 
 /**
  * Should added antd:
@@ -29,8 +30,8 @@ export interface TabsProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'o
   children?: React.ReactNode;
   id?: string;
 
-  activeKey?: React.Key;
-  defaultActiveKey?: React.Key;
+  activeKey?: string;
+  defaultActiveKey?: string;
   animated?: boolean;
   renderTabBar?: (props: any, DefaultTabBar: React.ComponentClass) => React.ReactElement;
   tabBarExtraContent?: React.ReactNode;
@@ -42,11 +43,11 @@ export interface TabsProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'o
   onTabClick?: (activeKey: React.Key) => void;
 }
 
-function parseTabList(children: React.ReactNode): TabPaneProps[] {
+function parseTabList(children: React.ReactNode): Tab[] {
   return toArray(children).map((node: React.ReactElement<TabPaneProps>) =>
     React.isValidElement(node)
       ? {
-          key: node.key,
+          key: node.key !== undefined ? String(node.key) : undefined,
           ...node.props,
         }
       : null,
@@ -68,7 +69,7 @@ function Tabs({
 }: TabsProps) {
   const tabList = parseTabList(children);
 
-  const [mergedActiveKey, setMergedActiveKey] = useMergedState(undefined, {
+  const [mergedActiveKey, setMergedActiveKey] = useMergedState<string>(undefined, {
     value: activeKey,
     defaultValue: defaultActiveKey,
     postState: key => (key === undefined ? tabList[0]?.key : key),
@@ -86,7 +87,7 @@ function Tabs({
     }
   }, []);
 
-  function onInternalTabClick(key: React.Key) {
+  function onInternalTabClick(key: string) {
     onTabClick?.(key);
 
     setMergedActiveKey(key);

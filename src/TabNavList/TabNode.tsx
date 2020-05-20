@@ -1,20 +1,24 @@
 import * as React from 'react';
 import classNames from 'classnames';
-import { TabPaneProps } from '../sugar/TabPane';
+import ResizeObserver, { ResizeObserverProps } from 'rc-resize-observer';
+import { Tab } from '../interface';
 
 export interface TabNodeProps {
   id: string;
   prefixCls: string;
-  tab: TabPaneProps;
+  tab: Tab;
   active: boolean;
+  visible?: boolean;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
+  onResize?: ResizeObserverProps['onResize'];
+  onRemove: () => void;
 }
 
 function TabNode(
-  { prefixCls, id, active, tab: { key, tab }, onClick }: TabNodeProps,
+  { prefixCls, visible, id, active, tab: { key, tab }, onClick, onResize, onRemove }: TabNodeProps,
   ref: React.Ref<HTMLButtonElement>,
 ) {
-  return (
+  let node = (
     <button
       key={key}
       ref={ref}
@@ -30,6 +34,29 @@ function TabNode(
       {tab}
     </button>
   );
+
+  React.useEffect(
+    () => () => {
+      onRemove();
+    },
+    [],
+  );
+
+  if (onResize) {
+    node = <ResizeObserver onResize={onResize}>{node}</ResizeObserver>;
+  }
+
+  let wrapperStyle: React.CSSProperties;
+  if (visible === false) {
+    wrapperStyle = {
+      visibility: 'hidden',
+      width: 0,
+      height: 0,
+      overflow: 'hidden',
+    };
+  }
+
+  return <div style={wrapperStyle}>{node}</div>;
 }
 
 export default React.forwardRef(TabNode);

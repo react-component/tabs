@@ -16,7 +16,7 @@ export default () => {
   return (
     <React.StrictMode>
       <div style={{ width: 550 }}>
-        <Tabs tabBarExtraContent={233}>{tabs}</Tabs>
+        <Tabs tabBarExtraContent={233} defaultActiveKey="8">{tabs}</Tabs>
       </div>
     </React.StrictMode>
   );

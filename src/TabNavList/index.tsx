@@ -2,203 +2,84 @@ import * as React from 'react';
 import { useRef, useState } from 'react';
 import classNames from 'classnames';
 import ResizeObserver from 'rc-resize-observer';
-import { TabPaneProps } from '../sugar/TabPane';
-import useRaf from '../hooks/useRaf';
+import useRaf, { useRafState } from '../hooks/useRaf';
 import TabNode from './TabNode';
-
-type TabSizeMap = Map<React.Key, { width: number; height: number; left: number; right: number }>;
+import { TabSizeMap, Tab } from '../interface';
+import useOffsets from '../hooks/useOffsets';
+import useVisibleRange from '../hooks/useVisibleRange';
 
 export interface TabNavListProps {
   prefixCls: string;
   id: string;
-  tabs: TabPaneProps[];
+  tabs: Tab[];
   activeKey: React.Key;
   animated?: boolean;
   extra?: React.ReactNode;
   onTabClick: (activeKey: React.Key) => void;
 }
 
-function useMeasureTabs({
-  prefixCls,
-  tabs,
-  activeKey,
-  id,
-  onTabClick,
-}: TabNavListProps): [TabSizeMap, React.ReactNode] {
-  const wrapperRef = useRef<HTMLDivElement>();
-  const [tabSizes, setTabSizes] = useState<TabSizeMap>(new Map());
-  const tabNodesRef = useRef(new Map<React.Key, HTMLButtonElement>());
+export default function TabNavList(props: TabNavListProps) {
+  const { id, prefixCls, animated, activeKey, extra, tabs, onTabClick } = props;
+  const moreRef = useRef<HTMLDivElement>();
 
-  const onResize = useRaf(() => {
-    const newTabSizes: TabSizeMap = new Map();
+  // ========================== Tab ==========================
+  const [wrapperWidth, setWrapperWidth] = useState<number>(null);
 
-    const tabNodes = tabs
-      .map(({ key }) => {
-        const node = tabNodesRef.current.get(key);
-        if (node) {
-          return { key, node };
-        }
-        return null;
-      })
-      .filter(node => node);
-
-    let left = 0;
-    let top = 0;
-    tabNodes.forEach(({ key, node }) => {
-      const { offsetWidth, offsetHeight } = node;
-
-      newTabSizes.set(key, {
-        width: offsetWidth,
-        height: offsetHeight,
-        left,
-        top,
-      } as any);
-
-      left += offsetWidth;
-      top += offsetHeight;
-    });
-
-    let right = 0;
-    for (let i = tabNodes.length - 1; i >= 0; i -= 1) {
-      const {
-        key,
-        node: { offsetWidth },
-      } = tabNodes[i];
-
-      newTabSizes.set(key, {
-        ...newTabSizes.get(key),
-        right,
-      });
-
-      right += offsetWidth;
-    }
-
-    setTabSizes(newTabSizes);
+  const onWrapperResize = useRaf(({ offsetWidth }: { offsetWidth: number }) => {
+    setWrapperWidth(offsetWidth);
   });
 
-  const holder = (
-    <ResizeObserver onResize={onResize}>
-      <div
-        ref={wrapperRef}
-        className={`${prefixCls}-nav-measure`}
-        style={{ position: 'absolute', height: 0, visibility: 'hidden' }}
-      >
-        {tabs.map(entity => {
-          const { key } = entity;
-          const active = key === activeKey;
+  // Render tab node & collect tab offset
+  const [tabSizes, setTabSizes] = useRafState<TabSizeMap>(new Map());
+  const tabOffsets = useOffsets(tabs, tabSizes);
+  const [visibleStart, visibleEnd] = useVisibleRange(tabSizes, wrapperWidth, props);
 
-          return (
-            <TabNode
-              id={id}
-              prefixCls={prefixCls}
-              ref={node => {
-                if (node) {
-                  tabNodesRef.current.set(key, node);
-                } else {
-                  tabNodesRef.current.delete(key);
-                }
-              }}
-              key={key}
-              tab={entity}
-              active={active}
-              onClick={() => {
-                onTabClick(key);
-              }}
-            />
-          );
-        })}
-      </div>
-    </ResizeObserver>
-  );
-
-  return [tabSizes, holder];
-}
-
-function useVisibleTabs(
-  tabSizes: TabSizeMap,
-  containerWidth: number,
-  moreWidth: number,
-  { tabs, activeKey, id, prefixCls, onTabClick }: TabNavListProps,
-) {
-  const activeIndex = tabs.findIndex(tab => tab.key === activeKey) || 0;
-  const availableWidth = containerWidth - moreWidth;
-
-  // Find start index
-  let restWidth = availableWidth;
-  let startIndex = 0;
-  for (let i = activeIndex; i >= 0; i -= 1) {
-    const tab = tabs[i];
-    const width = tabSizes.get(tab.key)?.width || 0;
-    if (restWidth < width) {
-      break;
-    }
-    restWidth -= width;
-    startIndex = i;
-  }
-
-  // Find end index
-  restWidth = availableWidth;
-  const nodes: React.ReactElement[] = [];
-  for (let i = startIndex; i < tabs.length; i += 1) {
-    const tab = tabs[i];
+  const tabNodes: React.ReactElement[] = tabs.map((tab, index) => {
     const { key } = tab;
-    const width = tabSizes.get(tab.key)?.width || 0;
-    if (restWidth < width) {
-      break;
-    }
-
-    restWidth -= width;
-
-    // Push nodes
-    nodes.push(
+    return (
       <TabNode
         id={id}
         prefixCls={prefixCls}
         key={key}
         tab={tab}
         active={key === activeKey}
+        visible={visibleStart <= index && index <= visibleEnd}
         onClick={() => {
           onTabClick(key);
         }}
-      />,
+        onResize={({ offsetWidth, offsetHeight }) => {
+          setTabSizes(oriTabSizes => {
+            const clone = new Map(oriTabSizes);
+            clone.set(key, { width: offsetWidth, height: offsetHeight });
+            return clone;
+          });
+        }}
+        onRemove={() => {
+          setTabSizes(oriTabSizes => {
+            const clone = new Map(oriTabSizes);
+            clone.delete(key);
+            return clone;
+          });
+        }}
+      />
     );
-  }
-
-  return nodes;
-}
-
-export default function TabNavList(props: TabNavListProps) {
-  const { prefixCls, animated, activeKey, extra } = props;
-  const [tabSizes, measureNode] = useMeasureTabs(props);
-  const [wrapperWidth, setWrapperWidth] = useState<number>(null);
-  const moreRef = useRef<HTMLDivElement>();
-
-  // ========================== Tab ==========================
-  const onWrapperResize = useRaf(({ offsetWidth }: { offsetWidth: number }) => {
-    setWrapperWidth(offsetWidth);
   });
-
-  const visibleTabNodes = useVisibleTabs(
-    tabSizes,
-    wrapperWidth,
-    moreRef.current?.offsetWidth || 0,
-    props,
-  );
 
   // ========================== Ink ==========================
   const inkStyle: React.CSSProperties = {};
-  const activeTabSize = tabSizes.get(activeKey);
-  if (activeTabSize) {
-    inkStyle.left = activeTabSize.left;
-    inkStyle.width = activeTabSize.width;
+  const activeTabOffset = tabOffsets.get(activeKey);
+  if (activeTabOffset) {
+    inkStyle.left = activeTabOffset.left;
+    inkStyle.width = activeTabOffset.width;
   }
 
+  // ========================= Render ========================
   return (
     <div role="tablist" className={`${prefixCls}-nav`}>
-      {measureNode}
+      {/* {measureNode} */}
       <ResizeObserver onResize={onWrapperResize}>
         <div className={`${prefixCls}-nav-wrap`}>
-          {visibleTabNodes}
+          {tabNodes}
 
           <div
             className={classNames(

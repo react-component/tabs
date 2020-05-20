@@ -1,10 +1,10 @@
 import * as React from 'react';
 import classNames from 'classnames';
-import { TabPaneProps } from './sugar/TabPane';
+import { Tab } from './interface';
 
 export interface TabPanelListProps {
   prefixCls: string;
-  tabs: TabPaneProps[];
+  tabs: Tab[];
   activeKey: React.Key;
   id: string;
   animated?: boolean;

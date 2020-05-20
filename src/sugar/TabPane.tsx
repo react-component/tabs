@@ -3,7 +3,6 @@ import * as React from 'react';
 export interface TabPaneProps {
   tab?: React.ReactNode;
   children?: React.ReactNode;
-  key: React.Key;
   forceRender?: boolean;
 }
 
