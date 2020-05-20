@@ -18,9 +18,12 @@ export default function TabPanelList({
   tabs,
   animated,
 }: TabPanelListProps) {
+  const activeIndex = tabs.findIndex(tab => tab.key === activeKey);
+
   return (
     <div
       className={classNames(`${prefixCls}-content`, animated && `${prefixCls}-content-animated`)}
+      style={{ marginLeft: `-${activeIndex}00%` }}
     >
       {tabs.map(tab => {
         return (
