@@ -18,13 +18,25 @@ export interface TabNavListProps {
   extra?: React.ReactNode;
   moreIcon?: React.ReactNode;
   renderTabBar?: RenderTabBar;
+  className?: string;
+  style?: React.CSSProperties;
   onTabClick: (activeKey: React.Key) => void;
   children?: (node: React.ReactElement) => React.ReactElement;
 }
 
-export default function TabNavList(props: TabNavListProps) {
+function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   const { prefixCls, tabs } = React.useContext(TabContext);
-  const { id, animated, activeKey, extra, tabPosition, children, onTabClick } = props;
+  const {
+    className,
+    style,
+    id,
+    animated,
+    activeKey,
+    extra,
+    tabPosition,
+    children,
+    onTabClick,
+  } = props;
   const tabsWrapperRef = useRef<HTMLDivElement>();
   const tabPositionTopOrBottom = tabPosition === 'top' || tabPosition === 'bottom';
 
@@ -116,7 +128,12 @@ export default function TabNavList(props: TabNavListProps) {
 
   // ========================= Render ========================
   return (
-    <div role="tablist" className={`${prefixCls}-nav`}>
+    <div
+      ref={ref}
+      role="tablist"
+      className={classNames(`${prefixCls}-nav`, className)}
+      style={style}
+    >
       <ResizeObserver onResize={onWrapperResize}>
         <div className={`${prefixCls}-nav-wrap`} ref={tabsWrapperRef}>
           {tabNodes}
@@ -137,3 +154,5 @@ export default function TabNavList(props: TabNavListProps) {
     </div>
   );
 }
+
+export default React.forwardRef(TabNavList);

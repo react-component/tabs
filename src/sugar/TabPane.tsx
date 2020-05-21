@@ -2,6 +2,8 @@ import * as React from 'react';
 
 export interface TabPaneProps {
   tab?: React.ReactNode;
+  className?: string;
+  style?: React.CSSProperties;
   disabled?: boolean;
   children?: React.ReactNode;
   forceRender?: boolean;

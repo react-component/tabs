@@ -13,7 +13,7 @@ export default function TabPane({
   prefixCls,
   id,
   active,
-  tab: { key, children, forceRender },
+  tab: { key, children, forceRender, className, style },
 }: TabPaneProps) {
   const [visited, setVisited] = React.useState(forceRender);
 
@@ -30,8 +30,12 @@ export default function TabPane({
       tabIndex={active ? 0 : -1}
       aria-labelledby={id && `${id}-tab-${key}`}
       aria-hidden={!active}
-      style={{ visibility: active ? 'visible' : 'hidden' }}
-      className={classNames(`${prefixCls}-tabpane`, active && `${prefixCls}-tabpane-active`)}
+      style={{ visibility: active ? 'visible' : 'hidden', ...style }}
+      className={classNames(
+        `${prefixCls}-tabpane`,
+        active && `${prefixCls}-tabpane-active`,
+        className,
+      )}
     >
       {(visited || forceRender) && children}
     </div>
