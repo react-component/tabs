@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import classNames from 'classnames';
 import ResizeObserver from 'rc-resize-observer';
 import useRaf, { useRafState } from '../hooks/useRaf';
@@ -23,6 +23,7 @@ export interface TabNavListProps {
 
 export default function TabNavList(props: TabNavListProps) {
   const { id, prefixCls, animated, activeKey, extra, tabs, tabPosition, onTabClick } = props;
+  const tabsWrapperRef = useRef<HTMLDivElement>();
 
   // ========================== Tab ==========================
   const [wrapperWidth, setWrapperWidth] = useState<number>(null);
@@ -42,7 +43,7 @@ export default function TabNavList(props: TabNavListProps) {
     { width: wrapperWidth, height: wrapperHeight },
     props,
   );
-  const tabOffsets = useOffsets(tabs.slice(visibleStart, visibleEnd + 1), tabSizes);
+  const tabOffsets = useOffsets(tabs, tabSizes);
 
   const tabNodes: React.ReactElement[] = tabs.map((tab, index) => {
     const { key } = tab;
@@ -75,6 +76,12 @@ export default function TabNavList(props: TabNavListProps) {
     );
   });
 
+  useEffect(() => {
+    const startTab = tabs[visibleStart];
+    const startTabOffset = tabOffsets.get(startTab.key);
+    tabsWrapperRef.current.scrollLeft = startTabOffset.left;
+  }, [visibleStart, tabOffsets]);
+
   // ======================== Dropdown =======================
   const startHiddenTabs = tabs.slice(0, visibleStart);
   const endHiddenTabs = tabs.slice(visibleEnd + 1);
@@ -99,7 +106,7 @@ export default function TabNavList(props: TabNavListProps) {
     <div role="tablist" className={`${prefixCls}-nav`}>
       {/* {measureNode} */}
       <ResizeObserver onResize={onWrapperResize}>
-        <div className={`${prefixCls}-nav-wrap`}>
+        <div className={`${prefixCls}-nav-wrap`} ref={tabsWrapperRef}>
           {tabNodes}
 
           <div

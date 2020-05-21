@@ -50,9 +50,6 @@ function TabNode(
   if (visible === false) {
     wrapperStyle = {
       visibility: 'hidden',
-      width: 0,
-      height: 0,
-      overflow: 'hidden',
     };
   }
 
