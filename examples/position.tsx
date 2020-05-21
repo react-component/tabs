@@ -3,7 +3,7 @@ import Tabs, { TabPane } from '../src';
 import '../assets/index.less';
 
 export default () => {
-  const [position, setPosition] = React.useState<any>('top');
+  const [position, setPosition] = React.useState<any>('left');
 
   return (
     <React.StrictMode>

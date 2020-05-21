@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import ResizeObserver from 'rc-resize-observer';
 import useRaf, { useRafState } from '../hooks/useRaf';
 import TabNode from './TabNode';
-import { TabSizeMap, Tab } from '../interface';
+import { TabSizeMap, Tab, TabPosition } from '../interface';
 import useOffsets from '../hooks/useOffsets';
 import useVisibleRange from '../hooks/useVisibleRange';
 import MoreList from '../MoreList';
@@ -13,6 +13,7 @@ export interface TabNavListProps {
   prefixCls: string;
   id: string;
   tabs: Tab[];
+  tabPosition: TabPosition;
   activeKey: string;
   animated?: boolean;
   extra?: React.ReactNode;
@@ -25,14 +26,22 @@ export default function TabNavList(props: TabNavListProps) {
 
   // ========================== Tab ==========================
   const [wrapperWidth, setWrapperWidth] = useState<number>(null);
+  const [wrapperHeight, setWrapperHeight] = useState<number>(null);
 
-  const onWrapperResize = useRaf(({ offsetWidth }: { offsetWidth: number }) => {
-    setWrapperWidth(offsetWidth);
-  });
+  const onWrapperResize = useRaf(
+    ({ offsetWidth, offsetHeight }: { offsetWidth: number; offsetHeight: number }) => {
+      setWrapperWidth(offsetWidth);
+      setWrapperHeight(offsetHeight);
+    },
+  );
 
   // Render tab node & collect tab offset
   const [tabSizes, setTabSizes] = useRafState<TabSizeMap>(new Map());
-  const [visibleStart, visibleEnd] = useVisibleRange(tabSizes, wrapperWidth, props);
+  const [visibleStart, visibleEnd] = useVisibleRange(
+    tabSizes,
+    { width: wrapperWidth, height: wrapperHeight },
+    props,
+  );
   const tabOffsets = useOffsets(tabs.slice(visibleStart, visibleEnd + 1), tabSizes);
 
   const tabNodes: React.ReactElement[] = tabs.map((tab, index) => {

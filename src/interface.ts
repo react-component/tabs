@@ -6,7 +6,7 @@ export type TabOffsetMap = Map<
   { width: number; height: number; left: number; right: number }
 >;
 
-export type Direction = 'left' | 'right' | 'top' | 'bottom';
+export type TabPosition = 'left' | 'right' | 'top' | 'bottom';
 
 export interface Tab extends TabPaneProps {
   tab?: React.ReactNode;

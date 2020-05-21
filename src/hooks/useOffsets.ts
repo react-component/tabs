@@ -1,11 +1,11 @@
 import { useMemo } from 'react';
-import { TabSizeMap, TabOffsetMap, Direction, Tab } from '../interface';
+import { TabSizeMap, TabOffsetMap, TabPosition, Tab } from '../interface';
 
 export default function useOffsets(tabs: Tab[], tabSizes: TabSizeMap) {
   return useMemo(() => {
     const map: TabOffsetMap = new Map();
 
-    function loop(direction: Direction) {
+    function loop(direction: TabPosition) {
       let start: number;
       let end: number;
       let min: number;

@@ -6,7 +6,7 @@ import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import TabPane, { TabPaneProps } from './sugar/TabPane';
 import TabNavList from './TabNavList';
 import TabPanelList from './TabPanelList';
-import { Tab } from './interface';
+import { Tab, TabPosition } from './interface';
 
 /**
  * Should added antd:
@@ -38,7 +38,7 @@ export interface TabsProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'o
   tabBarExtraContent?: React.ReactNode;
   tabBarGutter?: number;
   tabBarStyle?: React.CSSProperties;
-  tabPosition?: 'top' | 'right' | 'bottom' | 'left';
+  tabPosition?: TabPosition;
   tabBarScrollable?: boolean;
   moreIcon?: React.ReactNode;
   onChange?: (activeKey: React.Key) => void;
@@ -114,6 +114,7 @@ function Tabs({
     >
       <TabNavList
         {...sharedProps}
+        tabPosition={tabPosition}
         moreIcon={moreIcon}
         onTabClick={onInternalTabClick}
         extra={tabBarExtraContent}
