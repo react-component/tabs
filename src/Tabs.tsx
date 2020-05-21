@@ -141,6 +141,10 @@ function Tabs(
   );
 }
 
-Tabs.TabPane = TabPane;
+const ForwardTabs = React.forwardRef(Tabs);
 
-export default React.forwardRef(Tabs);
+export type ForwardTabsType = typeof ForwardTabs & { TabPane: typeof TabPane };
+
+(ForwardTabs as ForwardTabsType).TabPane = TabPane;
+
+export default ForwardTabs as ForwardTabsType;
