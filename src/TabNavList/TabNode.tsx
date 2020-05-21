@@ -11,6 +11,7 @@ export interface TabNodeProps {
   visible?: boolean;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
   onResize?: ResizeObserverProps['onResize'];
+  renderWrapper?: (node: React.ReactElement) => React.ReactElement;
   onRemove: () => void;
 }
 
@@ -21,6 +22,7 @@ function TabNode(
     id,
     active,
     tab: { key, tab, disabled },
+    renderWrapper,
     onClick,
     onResize,
     onRemove,
@@ -50,6 +52,10 @@ function TabNode(
       {tab}
     </button>
   );
+
+  if (renderWrapper) {
+    node = renderWrapper(node);
+  }
 
   React.useEffect(
     () => () => {

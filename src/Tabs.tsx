@@ -57,22 +57,25 @@ function parseTabList(children: React.ReactNode): Tab[] {
   );
 }
 
-function Tabs({
-  id,
-  prefixCls = 'rc-tabs',
-  className,
-  children,
-  activeKey,
-  defaultActiveKey,
-  animated = true,
-  tabPosition = 'top',
-  tabBarExtraContent,
-  moreIcon,
-  renderTabBar,
-  onChange,
-  onTabClick,
-  ...restProps
-}: TabsProps) {
+function Tabs(
+  {
+    id,
+    prefixCls = 'rc-tabs',
+    className,
+    children,
+    activeKey,
+    defaultActiveKey,
+    animated = true,
+    tabPosition = 'top',
+    tabBarExtraContent,
+    moreIcon,
+    renderTabBar,
+    onChange,
+    onTabClick,
+    ...restProps
+  }: TabsProps,
+  ref: React.Ref<HTMLDivElement>,
+) {
   const tabs = parseTabList(children);
 
   const [mergedActiveKey, setMergedActiveKey] = useMergedState<string>(undefined, {
@@ -126,6 +129,7 @@ function Tabs({
   return (
     <TabContext.Provider value={{ tabs, prefixCls }}>
       <div
+        ref={ref}
         id={id}
         className={classNames(prefixCls, `${prefixCls}-${tabPosition}`, className)}
         {...restProps}
@@ -139,4 +143,4 @@ function Tabs({
 
 Tabs.TabPane = TabPane;
 
-export default Tabs;
+export default React.forwardRef(Tabs);

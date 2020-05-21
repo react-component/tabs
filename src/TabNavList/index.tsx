@@ -62,7 +62,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
 
   const tabNodes: React.ReactElement[] = tabs.map((tab, index) => {
     const { key } = tab;
-    let tabNode = (
+    return (
       <TabNode
         id={id}
         prefixCls={prefixCls}
@@ -70,6 +70,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
         tab={tab}
         active={key === activeKey}
         visible={visibleStart <= index && index <= visibleEnd}
+        renderWrapper={children}
         onClick={() => {
           onTabClick(key);
         }}
@@ -89,22 +90,18 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
         }}
       />
     );
-
-    if (children) {
-      tabNode = children(tabNode);
-    }
-
-    return tabNode;
   });
 
   useEffect(() => {
     const startTab = tabs[visibleStart];
-    const startTabOffset = tabOffsets.get(startTab.key);
+    const startTabOffset = tabOffsets.get(startTab?.key);
 
-    if (tabPositionTopOrBottom) {
-      tabsWrapperRef.current.scrollLeft = startTabOffset.left;
-    } else {
-      tabsWrapperRef.current.scrollTop = startTabOffset.top;
+    if (startTabOffset) {
+      if (tabPositionTopOrBottom) {
+        tabsWrapperRef.current.scrollLeft = startTabOffset.left;
+      } else {
+        tabsWrapperRef.current.scrollTop = startTabOffset.top;
+      }
     }
   }, [visibleStart, tabOffsets]);
 
