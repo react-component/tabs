@@ -26,6 +26,11 @@
       white-space: nowrap;
       overflow: hidden;
       display: flex;
+
+      &::after {
+        content: '';
+        flex: none;
+      }
     }
 
     &-more {
@@ -45,10 +50,6 @@
 
     &:focus {
       background: rgba(0, 0, 255, 0.1);
-    }
-
-    &-placeholder {
-      flex: none;
     }
   }
 

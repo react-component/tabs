@@ -24,8 +24,6 @@ export interface TabNavListProps {
 export default function TabNavList(props: TabNavListProps) {
   const { id, prefixCls, animated, activeKey, extra, tabs, tabPosition, onTabClick } = props;
   const tabsWrapperRef = useRef<HTMLDivElement>();
-  const startPlaceholderRef = useRef<HTMLDivElement>();
-  const endPlaceholderRef = useRef<HTMLDivElement>();
   const tabPositionTopOrBottom = tabPosition === 'top' || tabPosition === 'bottom';
 
   // ========================== Tab ==========================
@@ -84,11 +82,9 @@ export default function TabNavList(props: TabNavListProps) {
     const startTabOffset = tabOffsets.get(startTab.key);
 
     if (tabPositionTopOrBottom) {
-      tabsWrapperRef.current.scrollLeft =
-        startTabOffset.left + startPlaceholderRef.current.offsetWidth;
+      tabsWrapperRef.current.scrollLeft = startTabOffset.left;
     } else {
-      tabsWrapperRef.current.scrollTop =
-        startTabOffset.top + startPlaceholderRef.current.offsetHeight;
+      tabsWrapperRef.current.scrollTop = startTabOffset.top;
     }
   }, [visibleStart, tabOffsets]);
 
@@ -100,12 +96,12 @@ export default function TabNavList(props: TabNavListProps) {
   // ========================== Ink ==========================
   const inkStyle: React.CSSProperties = {};
   const activeTabOffset = tabOffsets.get(activeKey);
-  if (activeTabOffset && startPlaceholderRef.current && endPlaceholderRef.current) {
+  if (activeTabOffset) {
     if (tabPositionTopOrBottom) {
-      inkStyle.left = activeTabOffset.left + startPlaceholderRef.current.offsetWidth;
+      inkStyle.left = activeTabOffset.left;
       inkStyle.width = activeTabOffset.width;
     } else {
-      inkStyle.top = activeTabOffset.top + startPlaceholderRef.current.offsetHeight;
+      inkStyle.top = activeTabOffset.top;
       inkStyle.height = activeTabOffset.height;
     }
   }
@@ -117,9 +113,7 @@ export default function TabNavList(props: TabNavListProps) {
       {/* {measureNode} */}
       <ResizeObserver onResize={onWrapperResize}>
         <div className={`${prefixCls}-nav-wrap`} ref={tabsWrapperRef}>
-          <div aria-hidden className={`${prefixCls}-tab-placeholder`} ref={startPlaceholderRef} />
           {tabNodes}
-          <div aria-hidden className={`${prefixCls}-tab-placeholder`} ref={endPlaceholderRef} />
 
           <div
             className={classNames(
