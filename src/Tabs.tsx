@@ -32,6 +32,7 @@ export interface TabsProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'o
 
   activeKey?: string;
   defaultActiveKey?: string;
+  direction?: 'rtl';
   animated?: boolean;
   renderTabBar?: (props: any, DefaultTabBar: React.ComponentClass) => React.ReactElement;
   tabBarExtraContent?: React.ReactNode;
@@ -63,6 +64,7 @@ function Tabs({
   activeKey,
   defaultActiveKey,
   animated = true,
+  tabPosition = 'top',
   tabBarExtraContent,
   moreIcon,
   onChange,
@@ -105,7 +107,11 @@ function Tabs({
   };
 
   return (
-    <div id={id} className={classNames(prefixCls, className)} {...restProps}>
+    <div
+      id={id}
+      className={classNames(prefixCls, `${prefixCls}-${tabPosition}`, className)}
+      {...restProps}
+    >
       <TabNavList
         {...sharedProps}
         moreIcon={moreIcon}
