@@ -24,6 +24,9 @@ export interface TabNavListProps {
 export default function TabNavList(props: TabNavListProps) {
   const { id, prefixCls, animated, activeKey, extra, tabs, tabPosition, onTabClick } = props;
   const tabsWrapperRef = useRef<HTMLDivElement>();
+  const startPlaceholderRef = useRef<HTMLDivElement>();
+  const endPlaceholderRef = useRef<HTMLDivElement>();
+  const tabPositionTopOrBottom = tabPosition === 'top' || tabPosition === 'bottom';
 
   // ========================== Tab ==========================
   const [wrapperWidth, setWrapperWidth] = useState<number>(null);
@@ -79,7 +82,14 @@ export default function TabNavList(props: TabNavListProps) {
   useEffect(() => {
     const startTab = tabs[visibleStart];
     const startTabOffset = tabOffsets.get(startTab.key);
-    tabsWrapperRef.current.scrollLeft = startTabOffset.left;
+
+    if (tabPositionTopOrBottom) {
+      tabsWrapperRef.current.scrollLeft =
+        startTabOffset.left + startPlaceholderRef.current.offsetWidth;
+    } else {
+      tabsWrapperRef.current.scrollTop =
+        startTabOffset.top + startPlaceholderRef.current.offsetHeight;
+    }
   }, [visibleStart, tabOffsets]);
 
   // ======================== Dropdown =======================
@@ -90,12 +100,12 @@ export default function TabNavList(props: TabNavListProps) {
   // ========================== Ink ==========================
   const inkStyle: React.CSSProperties = {};
   const activeTabOffset = tabOffsets.get(activeKey);
-  if (activeTabOffset) {
-    if (tabPosition === 'top' || tabPosition === 'bottom') {
-      inkStyle.left = activeTabOffset.left;
+  if (activeTabOffset && startPlaceholderRef.current && endPlaceholderRef.current) {
+    if (tabPositionTopOrBottom) {
+      inkStyle.left = activeTabOffset.left + startPlaceholderRef.current.offsetWidth;
       inkStyle.width = activeTabOffset.width;
     } else {
-      inkStyle.top = activeTabOffset.top;
+      inkStyle.top = activeTabOffset.top + startPlaceholderRef.current.offsetHeight;
       inkStyle.height = activeTabOffset.height;
     }
   }
@@ -107,7 +117,9 @@ export default function TabNavList(props: TabNavListProps) {
       {/* {measureNode} */}
       <ResizeObserver onResize={onWrapperResize}>
         <div className={`${prefixCls}-nav-wrap`} ref={tabsWrapperRef}>
+          <div aria-hidden className={`${prefixCls}-tab-placeholder`} ref={startPlaceholderRef} />
           {tabNodes}
+          <div aria-hidden className={`${prefixCls}-tab-placeholder`} ref={endPlaceholderRef} />
 
           <div
             className={classNames(

@@ -30,6 +30,7 @@ function TabNode(
       tabIndex={0}
       className={classNames(`${prefixCls}-tab`, active && `${prefixCls}-tab`)}
       onClick={onClick}
+      style={{ visibility: visible ? null : 'hidden' }}
     >
       {tab}
     </button>
@@ -46,14 +47,7 @@ function TabNode(
     node = <ResizeObserver onResize={onResize}>{node}</ResizeObserver>;
   }
 
-  let wrapperStyle: React.CSSProperties;
-  if (visible === false) {
-    wrapperStyle = {
-      visibility: 'hidden',
-    };
-  }
-
-  return <div style={wrapperStyle}>{node}</div>;
+  return node;
 }
 
 export default React.forwardRef(TabNode);
