@@ -36,12 +36,28 @@
   // ========================= Horizontal =========================
   &-left,
   &-right {
+    .@{tabs-prefix-cls}-ink-bar {
+      width: 3px;
+    }
+
     .@{tabs-prefix-cls}-nav {
       flex-direction: column;
 
       &-wrap {
         flex-direction: column;
       }
+    }
+  }
+
+  &-left {
+    .@{tabs-prefix-cls}-ink-bar {
+      right: 0;
+    }
+  }
+
+  &-right {
+    .@{tabs-prefix-cls}-ink-bar {
+      left: 0;
     }
   }
 }

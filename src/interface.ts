@@ -3,7 +3,7 @@ import { TabPaneProps } from './sugar/TabPane';
 export type TabSizeMap = Map<React.Key, { width: number; height: number }>;
 export type TabOffsetMap = Map<
   React.Key,
-  { width: number; height: number; left: number; right: number }
+  { width: number; height: number; left: number; right: number; top: number; bottom: number }
 >;
 
 export type TabPosition = 'left' | 'right' | 'top' | 'bottom';

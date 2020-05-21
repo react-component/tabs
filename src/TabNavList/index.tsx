@@ -22,7 +22,7 @@ export interface TabNavListProps {
 }
 
 export default function TabNavList(props: TabNavListProps) {
-  const { id, prefixCls, animated, activeKey, extra, tabs, onTabClick } = props;
+  const { id, prefixCls, animated, activeKey, extra, tabs, tabPosition, onTabClick } = props;
 
   // ========================== Tab ==========================
   const [wrapperWidth, setWrapperWidth] = useState<number>(null);
@@ -84,8 +84,13 @@ export default function TabNavList(props: TabNavListProps) {
   const inkStyle: React.CSSProperties = {};
   const activeTabOffset = tabOffsets.get(activeKey);
   if (activeTabOffset) {
-    inkStyle.left = activeTabOffset.left;
-    inkStyle.width = activeTabOffset.width;
+    if (tabPosition === 'top' || tabPosition === 'bottom') {
+      inkStyle.left = activeTabOffset.left;
+      inkStyle.width = activeTabOffset.width;
+    } else {
+      inkStyle.top = activeTabOffset.top;
+      inkStyle.height = activeTabOffset.height;
+    }
   }
 
   // ========================= Render ========================

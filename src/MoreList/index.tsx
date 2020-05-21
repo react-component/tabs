@@ -33,6 +33,7 @@ export default function MoreList({
       onSelect={({ selectedKeys }) => {
         const [key] = selectedKeys;
         onTabClick(key);
+        setOpen(false);
       }}
       id={popupId}
       tabIndex={-1}
