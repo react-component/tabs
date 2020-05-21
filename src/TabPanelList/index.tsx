@@ -1,11 +1,9 @@
 import * as React from 'react';
 import classNames from 'classnames';
-import { Tab } from '../interface';
 import TabPane from './TabPane';
+import TabContext from '../TabContext';
 
 export interface TabPanelListProps {
-  prefixCls: string;
-  tabs: Tab[];
   activeKey: React.Key;
   id: string;
   animated?: boolean;
@@ -13,11 +11,11 @@ export interface TabPanelListProps {
 
 export default function TabPanelList({
   id,
-  prefixCls,
   activeKey,
-  tabs,
   animated,
 }: TabPanelListProps) {
+  const { prefixCls, tabs } = React.useContext(TabContext);
+
   const activeIndex = tabs.findIndex(tab => tab.key === activeKey);
 
   return (

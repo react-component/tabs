@@ -14,3 +14,5 @@ export interface Tab extends TabPaneProps {
   forceRender?: boolean;
   key: string;
 }
+
+export type RenderTabBar = (props: any, DefaultTabBar: React.ComponentType) => React.ReactElement;

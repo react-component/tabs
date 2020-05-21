@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { TabSizeMap } from '../interface';
+import { TabSizeMap, Tab } from '../interface';
 import { TabNavListProps } from '../TabNavList';
 
 const DEFAULT_SIZE = { width: 0, height: 0 };
@@ -7,7 +7,7 @@ const DEFAULT_SIZE = { width: 0, height: 0 };
 export default function useVisibleRange(
   tabsSizes: TabSizeMap,
   containerSize: { width: number; height: number },
-  { tabs, activeKey, tabPosition }: TabNavListProps,
+  { tabs, activeKey, tabPosition }: { tabs: Tab[] } & TabNavListProps,
 ): [number, number] {
   const unit = ['top', 'bottom'].includes(tabPosition) ? 'width' : 'height';
   const basicSize = containerSize[unit];

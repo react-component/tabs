@@ -15,9 +15,20 @@ export interface TabNodeProps {
 }
 
 function TabNode(
-  { prefixCls, visible, id, active, tab: { key, tab }, onClick, onResize, onRemove }: TabNodeProps,
+  {
+    prefixCls,
+    visible,
+    id,
+    active,
+    tab: { key, tab, disabled },
+    onClick,
+    onResize,
+    onRemove,
+  }: TabNodeProps,
   ref: React.Ref<HTMLButtonElement>,
 ) {
+  const tabPrefix = `${prefixCls}-tab`;
+
   let node = (
     <button
       key={key}
@@ -28,7 +39,11 @@ function TabNode(
       id={id && `${id}-tab-${key}`}
       aria-controls={id && `${id}-panel-${key}`}
       tabIndex={0}
-      className={classNames(`${prefixCls}-tab`, active && `${prefixCls}-tab`)}
+      disabled={disabled}
+      className={classNames(tabPrefix, {
+        [`${tabPrefix}-active`]: active,
+        [`${tabPrefix}-disabled`]: disabled,
+      })}
       onClick={onClick}
       style={{ visibility: visible ? null : 'hidden' }}
     >

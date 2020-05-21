@@ -5,7 +5,14 @@ import '../assets/index.less';
 export default () => {
   return (
     <React.StrictMode>
-      <Tabs tabBarExtraContent={233}>
+      <Tabs
+        tabBarExtraContent={233}
+        renderTabBar={(props, Component) => (
+          <div data-test="233">
+            <Component {...props}>{node => <span>{node}</span>}</Component>
+          </div>
+        )}
+      >
         <TabPane key="light" tab="light">
           Light
         </TabPane>

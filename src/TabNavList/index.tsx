@@ -4,25 +4,27 @@ import classNames from 'classnames';
 import ResizeObserver from 'rc-resize-observer';
 import useRaf, { useRafState } from '../hooks/useRaf';
 import TabNode from './TabNode';
-import { TabSizeMap, Tab, TabPosition } from '../interface';
+import { TabSizeMap, TabPosition, RenderTabBar } from '../interface';
 import useOffsets from '../hooks/useOffsets';
 import useVisibleRange from '../hooks/useVisibleRange';
 import MoreList from '../MoreList';
+import TabContext from '../TabContext';
 
 export interface TabNavListProps {
-  prefixCls: string;
   id: string;
-  tabs: Tab[];
   tabPosition: TabPosition;
   activeKey: string;
   animated?: boolean;
   extra?: React.ReactNode;
   moreIcon?: React.ReactNode;
+  renderTabBar?: RenderTabBar;
   onTabClick: (activeKey: React.Key) => void;
+  children?: (node: React.ReactElement) => React.ReactElement;
 }
 
 export default function TabNavList(props: TabNavListProps) {
-  const { id, prefixCls, animated, activeKey, extra, tabs, tabPosition, onTabClick } = props;
+  const { prefixCls, tabs } = React.useContext(TabContext);
+  const { id, animated, activeKey, extra, tabPosition, children, onTabClick } = props;
   const tabsWrapperRef = useRef<HTMLDivElement>();
   const tabPositionTopOrBottom = tabPosition === 'top' || tabPosition === 'bottom';
 
@@ -42,13 +44,13 @@ export default function TabNavList(props: TabNavListProps) {
   const [visibleStart, visibleEnd] = useVisibleRange(
     tabSizes,
     { width: wrapperWidth, height: wrapperHeight },
-    props,
+    { ...props, tabs },
   );
   const tabOffsets = useOffsets(tabs, tabSizes);
 
   const tabNodes: React.ReactElement[] = tabs.map((tab, index) => {
     const { key } = tab;
-    return (
+    let tabNode = (
       <TabNode
         id={id}
         prefixCls={prefixCls}
@@ -75,6 +77,12 @@ export default function TabNavList(props: TabNavListProps) {
         }}
       />
     );
+
+    if (children) {
+      tabNode = children(tabNode);
+    }
+
+    return tabNode;
   });
 
   useEffect(() => {
@@ -107,10 +115,8 @@ export default function TabNavList(props: TabNavListProps) {
   }
 
   // ========================= Render ========================
-
   return (
     <div role="tablist" className={`${prefixCls}-nav`}>
-      {/* {measureNode} */}
       <ResizeObserver onResize={onWrapperResize}>
         <div className={`${prefixCls}-nav-wrap`} ref={tabsWrapperRef}>
           {tabNodes}
@@ -125,7 +131,7 @@ export default function TabNavList(props: TabNavListProps) {
         </div>
       </ResizeObserver>
 
-      <MoreList {...props} tabs={hiddenTabs} />
+      <MoreList {...props} prefixCls={prefixCls} tabs={hiddenTabs} />
 
       {extra && <div className={`${prefixCls}-extra-content`}>{extra}</div>}
     </div>

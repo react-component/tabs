@@ -6,7 +6,8 @@ import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import TabPane, { TabPaneProps } from './sugar/TabPane';
 import TabNavList from './TabNavList';
 import TabPanelList from './TabPanelList';
-import { Tab, TabPosition } from './interface';
+import { Tab, TabPosition, RenderTabBar } from './interface';
+import TabContext from './TabContext';
 
 /**
  * Should added antd:
@@ -34,7 +35,7 @@ export interface TabsProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'o
   defaultActiveKey?: string;
   direction?: 'rtl';
   animated?: boolean;
-  renderTabBar?: (props: any, DefaultTabBar: React.ComponentClass) => React.ReactElement;
+  renderTabBar?: RenderTabBar;
   tabBarExtraContent?: React.ReactNode;
   tabBarGutter?: number;
   tabBarStyle?: React.CSSProperties;
@@ -67,16 +68,17 @@ function Tabs({
   tabPosition = 'top',
   tabBarExtraContent,
   moreIcon,
+  renderTabBar,
   onChange,
   onTabClick,
   ...restProps
 }: TabsProps) {
-  const tabList = parseTabList(children);
+  const tabs = parseTabList(children);
 
   const [mergedActiveKey, setMergedActiveKey] = useMergedState<string>(undefined, {
     value: activeKey,
     defaultValue: defaultActiveKey,
-    postState: key => (key === undefined ? tabList[0]?.key : key),
+    postState: key => (key === undefined ? tabs[0]?.key : key),
   });
 
   const [mergedId, setMergedId] = useMergedState(null, {
@@ -99,28 +101,39 @@ function Tabs({
   }
 
   const sharedProps = {
-    tabs: tabList,
     id: mergedId,
     activeKey: mergedActiveKey,
-    prefixCls,
     animated,
   };
 
+  // ======================== Render ========================
+  let tabNavBar: React.ReactElement;
+
+  const tabNavBarProps = {
+    ...sharedProps,
+    tabPosition,
+    moreIcon,
+    onTabClick: onInternalTabClick,
+    extra: tabBarExtraContent,
+  };
+
+  if (renderTabBar) {
+    tabNavBar = renderTabBar(tabNavBarProps, TabNavList);
+  } else {
+    tabNavBar = <TabNavList {...tabNavBarProps} />;
+  }
+
   return (
-    <div
-      id={id}
-      className={classNames(prefixCls, `${prefixCls}-${tabPosition}`, className)}
-      {...restProps}
-    >
-      <TabNavList
-        {...sharedProps}
-        tabPosition={tabPosition}
-        moreIcon={moreIcon}
-        onTabClick={onInternalTabClick}
-        extra={tabBarExtraContent}
-      />
-      <TabPanelList {...sharedProps} />
-    </div>
+    <TabContext.Provider value={{ tabs, prefixCls }}>
+      <div
+        id={id}
+        className={classNames(prefixCls, `${prefixCls}-${tabPosition}`, className)}
+        {...restProps}
+      >
+        {tabNavBar}
+        <TabPanelList {...sharedProps} />
+      </div>
+    </TabContext.Provider>
   );
 }
 
