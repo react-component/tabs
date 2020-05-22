@@ -7,7 +7,7 @@ function getTabPanes(count = 50) {
   const tabs: React.ReactElement[] = [];
   for (let i = 0; i < count; i += 1) {
     tabs.push(
-      <TabPane key={i} tab={`Tab ${i}`}>
+      <TabPane key={i} tab={`Tab ${i}`} disabled={i === 3}>
         Content of {i}
       </TabPane>,
     );
@@ -19,6 +19,7 @@ export default () => {
   const [position, setPosition] = React.useState<any>('top');
   const [gutter, setGutter] = React.useState(false);
   const [destroy, setDestroy] = React.useState(false);
+  const [animated, setAnimated] = React.useState(true);
   const [tabPanes, setTabPanes] = React.useState(getTabPanes(10));
 
   return (
@@ -26,8 +27,14 @@ export default () => {
       <div>
         {/* tabBarGutter */}
         <label>
-          <input type="checkbox" checked={gutter} onChange={() => setGutter(!gutter)} />
+          <input type="checkbox" checked={gutter} onChange={() => setGutter(val => !val)} />
           Set `tabBarGutter`
+        </label>
+
+        {/* tabBarGutter */}
+        <label>
+          <input type="checkbox" checked={animated} onChange={() => setAnimated(val => !val)} />
+          Set `animated`
         </label>
 
         {/* Change children */}
@@ -65,6 +72,7 @@ export default () => {
       {!destroy && (
         <React.StrictMode>
           <Tabs
+            animated={animated}
             tabPosition={position}
             tabBarGutter={gutter ? 32 : null}
             tabBarExtraContent="extra"

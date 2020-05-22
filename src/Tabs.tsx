@@ -107,6 +107,7 @@ function Tabs(
     id: mergedId,
     activeKey: mergedActiveKey,
     animated,
+    tabPosition,
   };
 
   // ======================== Render ========================
@@ -114,7 +115,6 @@ function Tabs(
 
   const tabNavBarProps = {
     ...sharedProps,
-    tabPosition,
     moreIcon,
     tabBarGutter,
     onTabClick: onInternalTabClick,
