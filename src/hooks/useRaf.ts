@@ -21,12 +21,15 @@ export function useRafState<T>(defaultState: T | (() => T)): [T, (updater: Callb
   const [state, setState] = useState<T>(defaultState);
 
   const flushUpdate = useRaf(() => {
-    let current = state;
-    batchRef.current.forEach(callback => {
-      current = callback(current);
+    setState(origin => {
+      let current = origin;
+      batchRef.current.forEach(callback => {
+        current = callback(current);
+      });
+      batchRef.current = [];
+
+      return current;
     });
-    batchRef.current = [];
-    setState(current);
   });
 
   function updater(callback: Callback<T>) {

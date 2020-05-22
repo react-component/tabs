@@ -12,37 +12,37 @@ exports[`Tabs.Basic Normal 1`] = `
       class="rc-tabs-nav-wrap"
     >
       <button
-        aria-controls="rc-tabs-0-panel-1"
+        aria-controls="rc-tabs-0-panel-light"
         aria-selected="false"
         class="rc-tabs-tab"
-        id="rc-tabs-0-tab-1"
+        id="rc-tabs-0-tab-light"
         role="tab"
         tabindex="0"
         type="button"
       >
-        tab 1
+        light
       </button>
       <button
-        aria-controls="rc-tabs-0-panel-2"
+        aria-controls="rc-tabs-0-panel-bamboo"
         aria-selected="true"
         class="rc-tabs-tab rc-tabs-tab-active"
-        id="rc-tabs-0-tab-2"
+        id="rc-tabs-0-tab-bamboo"
         role="tab"
         tabindex="0"
         type="button"
       >
-        tab 2
+        bamboo
       </button>
       <button
-        aria-controls="rc-tabs-0-panel-3"
+        aria-controls="rc-tabs-0-panel-cute"
         aria-selected="false"
         class="rc-tabs-tab"
-        id="rc-tabs-0-tab-3"
+        id="rc-tabs-0-tab-cute"
         role="tab"
         tabindex="0"
         type="button"
       >
-        tab 3
+        cute
       </button>
       <div
         class="rc-tabs-ink-bar rc-tabs-ink-bar-animated"
@@ -67,33 +67,47 @@ exports[`Tabs.Basic Normal 1`] = `
   >
     <div
       aria-hidden="true"
-      aria-labelledby="rc-tabs-0-tab-1"
+      aria-labelledby="rc-tabs-0-tab-light"
       class="rc-tabs-tabpane"
-      id="rc-tabs-0-panel-1"
+      id="rc-tabs-0-panel-light"
       role="tabpanel"
       style="visibility: hidden;"
       tabindex="-1"
     />
     <div
       aria-hidden="false"
-      aria-labelledby="rc-tabs-0-tab-2"
+      aria-labelledby="rc-tabs-0-tab-bamboo"
       class="rc-tabs-tabpane rc-tabs-tabpane-active"
-      id="rc-tabs-0-panel-2"
+      id="rc-tabs-0-panel-bamboo"
       role="tabpanel"
       style="visibility: visible;"
       tabindex="0"
     >
-      second
+      Bamboo
     </div>
     <div
       aria-hidden="true"
-      aria-labelledby="rc-tabs-0-tab-3"
+      aria-labelledby="rc-tabs-0-tab-cute"
       class="rc-tabs-tabpane"
-      id="rc-tabs-0-panel-3"
+      id="rc-tabs-0-panel-cute"
       role="tabpanel"
       style="visibility: hidden;"
       tabindex="-1"
     />
   </div>
 </div>
+`;
+
+exports[`Tabs.Basic overflow to collapse into menu should collapse 1`] = `
+<button
+  aria-controls="rc-tabs-2-more-popup"
+  aria-expanded="false"
+  aria-haspopup="listbox"
+  class="rc-tabs-nav-more"
+  id="rc-tabs-2-more"
+  style=""
+  type="button"
+>
+  More
+</button>
 `;

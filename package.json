@@ -45,6 +45,7 @@
     "@types/jest": "^25.2.3",
     "@types/raf": "^3.4.0",
     "@types/react": "^16.9.35",
+    "@types/react-dom": "^16.9.8",
     "@umijs/fabric": "^2.0.4",
     "coveralls": "^3.0.6",
     "cross-env": "^7.0.2",
