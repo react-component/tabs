@@ -83,7 +83,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
         active={key === activeKey}
         visible={isMobile || (visibleStart <= index && index <= visibleEnd)}
         tabPosition={tabPosition}
-        tabBarGutter={index !== tabs.length - 1 ? tabBarGutter : null}
+        tabBarGutter={tabBarGutter}
         renderWrapper={children}
         onClick={e => {
           onTabClick(key, e);
