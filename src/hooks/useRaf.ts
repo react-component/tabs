@@ -18,18 +18,20 @@ type Callback<T> = (ori: T) => T;
 
 export function useRafState<T>(defaultState: T | (() => T)): [T, (updater: Callback<T>) => void] {
   const batchRef = useRef<Callback<T>[]>([]);
-  const [state, setState] = useState<T>(defaultState);
+  const [, forceUpdate] = useState({});
+  const state = useRef<T>(
+    typeof defaultState === 'function' ? (defaultState as any)() : defaultState,
+  );
 
   const flushUpdate = useRaf(() => {
-    setState(origin => {
-      let current = origin;
-      batchRef.current.forEach(callback => {
-        current = callback(current);
-      });
-      batchRef.current = [];
-
-      return current;
+    let current = state.current;
+    batchRef.current.forEach(callback => {
+      current = callback(current);
     });
+    batchRef.current = [];
+
+    state.current = current;
+    forceUpdate({});
   });
 
   function updater(callback: Callback<T>) {
@@ -37,5 +39,5 @@ export function useRafState<T>(defaultState: T | (() => T)): [T, (updater: Callb
     flushUpdate();
   }
 
-  return [state, updater];
+  return [state.current, updater];
 }

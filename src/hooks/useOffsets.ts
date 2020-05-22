@@ -30,19 +30,19 @@ export default function useOffsets(tabs: Tab[], tabSizes: TabSizeMap) {
       let total = 0;
       for (let i = start; min <= i && i <= max; i += step) {
         const { key } = tabs[i];
-        const data = tabSizes.get(key) || { width: 0, height: 0 };
+        const data = tabSizes.get(key) || { width: 0, height: 0, left: 0, top: 0 };
 
         const entity = map.get(key) || { ...data };
         map.set(key, entity as any);
-        entity[direction] = total;
+        // entity[direction] = total;
 
-        total += data[direction === 'left' || direction === 'right' ? 'width' : 'height'];
+        // total += data[direction === 'left' || direction === 'right' ? 'width' : 'height'];
       }
     }
 
-    loop('left');
-    loop('right');
-    loop('top');
+    // loop('left');
+    // loop('right');
+    // loop('top');
     loop('bottom');
 
     return map;

@@ -18,6 +18,7 @@ export interface TabNavListProps {
   animated?: boolean;
   extra?: React.ReactNode;
   moreIcon?: React.ReactNode;
+  tabBarGutter?: number;
   renderTabBar?: RenderTabBar;
   className?: string;
   style?: React.CSSProperties;
@@ -35,6 +36,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     activeKey,
     extra,
     tabPosition,
+    tabBarGutter,
     children,
     onTabClick,
   } = props;
@@ -63,12 +65,12 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
 
   // Render tab node & collect tab offset
   const [tabSizes, setTabSizes] = useRafState<TabSizeMap>(new Map());
+  const tabOffsets = useOffsets(tabs, tabSizes);
   const [visibleStart, visibleEnd] = useVisibleRange(
-    tabSizes,
+    tabOffsets,
     { width: wrapperWidth, height: wrapperHeight },
     { ...props, tabs },
   );
-  const tabOffsets = useOffsets(tabs, tabSizes);
 
   const tabNodes: React.ReactElement[] = tabs.map((tab, index) => {
     const { key } = tab;
@@ -80,14 +82,16 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
         tab={tab}
         active={key === activeKey}
         visible={isMobile || (visibleStart <= index && index <= visibleEnd)}
+        tabPosition={tabPosition}
+        tabBarGutter={index !== tabs.length - 1 ? tabBarGutter : null}
         renderWrapper={children}
         onClick={e => {
           onTabClick(key, e);
         }}
-        onResize={({ offsetWidth, offsetHeight }) => {
+        onResize={(width, height, left, top) => {
           setTabSizes(oriTabSizes => {
             const clone = new Map(oriTabSizes);
-            clone.set(key, { width: offsetWidth, height: offsetHeight });
+            clone.set(key, { width, height, left, top });
             return clone;
           });
         }}

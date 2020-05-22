@@ -1,7 +1,7 @@
 import * as React from 'react';
 import classNames from 'classnames';
-import ResizeObserver, { ResizeObserverProps } from 'rc-resize-observer';
-import { Tab } from '../interface';
+import ResizeObserver from 'rc-resize-observer';
+import { Tab, TabPosition } from '../interface';
 
 export interface TabNodeProps {
   id: string;
@@ -10,31 +10,43 @@ export interface TabNodeProps {
   active: boolean;
   visible?: boolean;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
-  onResize?: ResizeObserverProps['onResize'];
+  onResize?: (width: number, height: number, left: number, top: number) => void;
+  tabBarGutter?: number;
+  tabPosition: TabPosition;
   renderWrapper?: (node: React.ReactElement) => React.ReactElement;
   onRemove: () => void;
 }
 
-function TabNode(
-  {
-    prefixCls,
-    visible,
-    id,
-    active,
-    tab: { key, tab, disabled },
-    renderWrapper,
-    onClick,
-    onResize,
-    onRemove,
-  }: TabNodeProps,
-  ref: React.Ref<HTMLButtonElement>,
-) {
+function TabNode({
+  prefixCls,
+  visible,
+  id,
+  active,
+  tab: { key, tab, disabled },
+  tabBarGutter,
+  tabPosition,
+  renderWrapper,
+  onClick,
+  onResize,
+  onRemove,
+}: TabNodeProps) {
   const tabPrefix = `${prefixCls}-tab`;
+  const nodeRef = React.useRef<HTMLButtonElement>();
+
+  const nodeStyle: React.CSSProperties = {};
+  if (!visible) {
+    nodeStyle.visibility = 'hidden';
+  }
+  if (tabPosition === 'top' || tabPosition === 'bottom') {
+    nodeStyle.marginRight = tabBarGutter;
+  } else {
+    nodeStyle.marginBottom = tabBarGutter;
+  }
 
   let node = (
     <button
       key={key}
-      ref={ref}
+      ref={nodeRef}
       type="button"
       role="tab"
       aria-selected={active}
@@ -47,7 +59,7 @@ function TabNode(
         [`${tabPrefix}-disabled`]: disabled,
       })}
       onClick={onClick}
-      style={{ visibility: visible ? null : 'hidden' }}
+      style={nodeStyle}
     >
       {tab}
     </button>
@@ -64,11 +76,28 @@ function TabNode(
     [],
   );
 
+  // ================== Resize ==================
+  function triggerResize() {
+    const { offsetHeight, offsetWidth, offsetLeft, offsetTop } = nodeRef.current;
+    onResize(offsetWidth, offsetHeight, offsetLeft, offsetTop);
+  }
+  React.useEffect(() => {
+    triggerResize();
+  }, [tabBarGutter]);
+
   if (onResize) {
-    node = <ResizeObserver onResize={onResize}>{node}</ResizeObserver>;
+    node = (
+      <ResizeObserver
+        onResize={() => {
+          triggerResize();
+        }}
+      >
+        {node}
+      </ResizeObserver>
+    );
   }
 
   return node;
 }
 
-export default React.forwardRef(TabNode);
+export default TabNode;

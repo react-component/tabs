@@ -66,6 +66,7 @@ function Tabs(
     defaultActiveKey,
     animated = true,
     tabPosition = 'top',
+    tabBarGutter,
     tabBarExtraContent,
     moreIcon,
     renderTabBar,
@@ -115,6 +116,7 @@ function Tabs(
     ...sharedProps,
     tabPosition,
     moreIcon,
+    tabBarGutter,
     onTabClick: onInternalTabClick,
     extra: tabBarExtraContent,
   };

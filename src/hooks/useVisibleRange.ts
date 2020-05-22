@@ -1,49 +1,65 @@
 import { useMemo } from 'react';
-import { TabSizeMap, Tab } from '../interface';
+import { Tab, TabOffsetMap } from '../interface';
 import { TabNavListProps } from '../TabNavList';
 
-const DEFAULT_SIZE = { width: 0, height: 0 };
+const DEFAULT_SIZE = { width: 0, height: 0, left: 0, top: 0 };
 
 export default function useVisibleRange(
-  tabsSizes: TabSizeMap,
+  tabOffsets: TabOffsetMap,
   containerSize: { width: number; height: number },
   { tabs, activeKey, tabPosition }: { tabs: Tab[] } & TabNavListProps,
 ): [number, number] {
-  const unit = ['top', 'bottom'].includes(tabPosition) ? 'width' : 'height';
+  let unit: 'width' | 'height';
+  let position: 'left' | 'top';
+
+  if (['top', 'bottom'].includes(tabPosition)) {
+    unit = 'width';
+    position = 'left';
+  } else {
+    unit = 'height';
+    position = 'top';
+  }
+
   const basicSize = containerSize[unit];
 
   return useMemo(() => {
     // TODO: direction
-    const activeIndex = tabs.findIndex(tab => tab.key === activeKey);
+    let activeIndex = tabs.findIndex(tab => tab.key === activeKey);
+    if (activeIndex === -1) {
+      activeIndex = 0;
+    }
+
+    const activeTab = tabs[activeIndex];
+    const activeOffset = tabOffsets.get(activeTab.key);
 
     // Get start index
-    let restSize = basicSize;
+    const minPosition = activeOffset[position] - (basicSize - activeOffset[unit]);
     let startIndex = 0;
     for (let i = activeIndex; i >= 0; i -= 1) {
       const { key } = tabs[i];
-      const size = (tabsSizes.get(key) || DEFAULT_SIZE)[unit];
-      if (restSize < size) {
+      const offset = tabOffsets.get(key) || DEFAULT_SIZE;
+
+      if (offset[position] < minPosition) {
         break;
       }
 
-      restSize -= size;
       startIndex = i;
     }
 
     // Get end index
-    restSize = basicSize;
-    let endIndex = startIndex;
-    for (let i = startIndex; i < tabs.length; i += 1) {
+    let endIndex = 0;
+    const startPosition = tabOffsets.get(tabs[startIndex].key)[position];
+    for (let i = activeIndex; i < tabs.length; i += 1) {
       const { key } = tabs[i];
-      const size = (tabsSizes.get(key) || DEFAULT_SIZE)[unit];
-      if (restSize < size) {
+      const offset = tabOffsets.get(key) || DEFAULT_SIZE;
+
+      if (offset[position] + offset[unit] > startPosition + basicSize) {
         break;
       }
 
-      restSize -= size;
       endIndex = i;
     }
 
     return [startIndex, endIndex];
-  }, [activeKey, tabsSizes, basicSize, tabPosition, tabs.map(tab => tab.key).join('_')]);
+  }, [activeKey, tabOffsets, basicSize, tabPosition, tabs.map(tab => tab.key).join('_')]);
 }

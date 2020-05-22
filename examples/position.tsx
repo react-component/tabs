@@ -5,6 +5,7 @@ import '../assets/index.less';
 
 export default () => {
   const [position, setPosition] = React.useState<any>('left');
+  const [gutter, setGutter] = React.useState(false);
   const [fixedHeight, setFixedHeight] = React.useState(false);
 
   return (
@@ -23,10 +24,15 @@ export default () => {
         />
         Fixed Height
       </label>
+      <label>
+        <input type="checkbox" checked={gutter} onChange={() => setGutter(!gutter)} />
+        Set Gutter
+      </label>
       <Tabs
         tabBarExtraContent={233}
         tabPosition={position}
-        style={{ height: fixedHeight ? 100 : undefined }}
+        style={{ height: fixedHeight ? 180 : undefined }}
+        tabBarGutter={gutter ? 16 : null}
       >
         <TabPane key="light" tab="light">
           Light
@@ -39,6 +45,12 @@ export default () => {
         </TabPane>
         <TabPane key="miu" tab="miu">
           Miu
+        </TabPane>
+        <TabPane key="333" tab="333">
+          3333
+        </TabPane>
+        <TabPane key="4444" tab="4444">
+          4444
         </TabPane>
       </Tabs>
     </React.StrictMode>

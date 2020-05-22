@@ -1,5 +1,6 @@
 import React from 'react';
 import { mount } from 'enzyme';
+import { spyElementPrototypes } from 'rc-util/lib/test/domHook';
 import { act } from 'react-dom/test-utils';
 import Tabs, { TabPane } from '../src';
 import { TabsProps } from '../src/Tabs';
@@ -39,6 +40,23 @@ describe('Tabs.Basic', () => {
   });
 
   describe('overflow to collapse into menu', () => {
+    let domSpy: ReturnType<typeof spyElementPrototypes>;
+
+    beforeAll(() => {
+      domSpy = spyElementPrototypes(HTMLButtonElement, {
+        offsetWidth: {
+          get: () => 20,
+        },
+        offsetLeft: {
+          get: () => 20,
+        },
+      });
+    });
+
+    afterAll(() => {
+      domSpy.mockRestore();
+    });
+
     it('should collapse', () => {
       jest.useFakeTimers();
       const onChange = jest.fn();
@@ -48,7 +66,7 @@ describe('Tabs.Basic', () => {
         .find(TabNode)
         .find('ResizeObserver')
         .forEach(node => {
-          (node.props() as any).onResize({ offsetWidth: 20, offsetHeight: 20 });
+          (node.props() as any).onResize();
         });
 
       (wrapper
