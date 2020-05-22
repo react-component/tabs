@@ -21,7 +21,7 @@ export interface TabNavListProps {
   renderTabBar?: RenderTabBar;
   className?: string;
   style?: React.CSSProperties;
-  onTabClick: (activeKey: React.Key) => void;
+  onTabClick: (activeKey: React.Key, e: React.MouseEvent | React.KeyboardEvent) => void;
   children?: (node: React.ReactElement) => React.ReactElement;
 }
 
@@ -81,8 +81,8 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
         active={key === activeKey}
         visible={isMobile || (visibleStart <= index && index <= visibleEnd)}
         renderWrapper={children}
-        onClick={() => {
-          onTabClick(key);
+        onClick={e => {
+          onTabClick(key, e);
         }}
         onResize={({ offsetWidth, offsetHeight }) => {
           setTabSizes(oriTabSizes => {

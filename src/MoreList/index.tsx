@@ -11,7 +11,7 @@ export interface MoreListProps {
   tabs: Tab[];
   activeKey: string;
   moreIcon?: React.ReactNode;
-  onTabClick: (key: React.Key) => void;
+  onTabClick: (key: React.Key, e: React.MouseEvent | React.KeyboardEvent) => void;
 }
 
 export default function MoreList({
@@ -30,9 +30,8 @@ export default function MoreList({
 
   const menu = (
     <Menu
-      onSelect={({ selectedKeys }) => {
-        const [key] = selectedKeys;
-        onTabClick(key);
+      onClick={({ key, domEvent }) => {
+        onTabClick(key, domEvent);
         setOpen(false);
       }}
       id={popupId}
@@ -65,7 +64,9 @@ export default function MoreList({
     }
   }
 
-  function onKeyDown({ which }: React.KeyboardEvent) {
+  function onKeyDown(e: React.KeyboardEvent) {
+    const { which } = e;
+
     if (!open) {
       if (which === KeyCode.DOWN) {
         setOpen(true);
@@ -85,7 +86,7 @@ export default function MoreList({
         break;
       case KeyCode.SPACE:
       case KeyCode.ENTER:
-        if (selectedKey !== null) onTabClick(selectedKey);
+        if (selectedKey !== null) onTabClick(selectedKey, e);
         break;
 
       default:

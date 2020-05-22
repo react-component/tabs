@@ -42,7 +42,7 @@ export interface TabsProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'o
   tabPosition?: TabPosition;
   moreIcon?: React.ReactNode;
   onChange?: (activeKey: React.Key) => void;
-  onTabClick?: (activeKey: React.Key) => void;
+  onTabClick?: (activeKey: React.Key, e: React.KeyboardEvent | React.MouseEvent) => void;
 }
 
 function parseTabList(children: React.ReactNode): Tab[] {
@@ -95,8 +95,8 @@ function Tabs(
     }
   }, []);
 
-  function onInternalTabClick(key: string) {
-    onTabClick?.(key);
+  function onInternalTabClick(key: string, e: React.MouseEvent | React.KeyboardEvent) {
+    onTabClick?.(key, e);
 
     setMergedActiveKey(key);
     onChange?.(key);

@@ -1,0 +1,99 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Tabs.Basic Normal 1`] = `
+<div
+  class="rc-tabs rc-tabs-top"
+>
+  <div
+    class="rc-tabs-nav"
+    role="tablist"
+  >
+    <div
+      class="rc-tabs-nav-wrap"
+    >
+      <button
+        aria-controls="rc-tabs-0-panel-1"
+        aria-selected="false"
+        class="rc-tabs-tab"
+        id="rc-tabs-0-tab-1"
+        role="tab"
+        tabindex="0"
+        type="button"
+      >
+        tab 1
+      </button>
+      <button
+        aria-controls="rc-tabs-0-panel-2"
+        aria-selected="true"
+        class="rc-tabs-tab rc-tabs-tab-active"
+        id="rc-tabs-0-tab-2"
+        role="tab"
+        tabindex="0"
+        type="button"
+      >
+        tab 2
+      </button>
+      <button
+        aria-controls="rc-tabs-0-panel-3"
+        aria-selected="false"
+        class="rc-tabs-tab"
+        id="rc-tabs-0-tab-3"
+        role="tab"
+        tabindex="0"
+        type="button"
+      >
+        tab 3
+      </button>
+      <div
+        class="rc-tabs-ink-bar rc-tabs-ink-bar-animated"
+        style="left: 0px; width: 0px;"
+      />
+    </div>
+    <button
+      aria-controls="rc-tabs-0-more-popup"
+      aria-expanded="false"
+      aria-haspopup="listbox"
+      class="rc-tabs-nav-more"
+      id="rc-tabs-0-more"
+      style="visibility: hidden;"
+      type="button"
+    >
+      More
+    </button>
+  </div>
+  <div
+    class="rc-tabs-content rc-tabs-content-animated"
+    style="margin-left: -100%;"
+  >
+    <div
+      aria-hidden="true"
+      aria-labelledby="rc-tabs-0-tab-1"
+      class="rc-tabs-tabpane"
+      id="rc-tabs-0-panel-1"
+      role="tabpanel"
+      style="visibility: hidden;"
+      tabindex="-1"
+    />
+    <div
+      aria-hidden="false"
+      aria-labelledby="rc-tabs-0-tab-2"
+      class="rc-tabs-tabpane rc-tabs-tabpane-active"
+      id="rc-tabs-0-panel-2"
+      role="tabpanel"
+      style="visibility: visible;"
+      tabindex="0"
+    >
+      second
+    </div>
+    <div
+      aria-hidden="true"
+      aria-labelledby="rc-tabs-0-tab-3"
+      class="rc-tabs-tabpane"
+      id="rc-tabs-0-panel-3"
+      role="tabpanel"
+      style="visibility: hidden;"
+      tabindex="-1"
+    />
+  </div>
+</div>
+`;
