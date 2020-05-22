@@ -3,51 +3,78 @@ import React from 'react';
 import Tabs, { TabPane } from '../src';
 import '../assets/index.less';
 
-const tabs: React.ReactElement[] = [];
-
-for (let i = 0; i < 50; i += 1) {
-  tabs.push(
-    <TabPane key={i} tab={`Tab ${i}`}>
-      Content of {i}
-    </TabPane>,
-  );
+function getTabPanes(count = 50) {
+  const tabs: React.ReactElement[] = [];
+  for (let i = 0; i < count; i += 1) {
+    tabs.push(
+      <TabPane key={i} tab={`Tab ${i}`}>
+        Content of {i}
+      </TabPane>,
+    );
+  }
+  return tabs;
 }
 
 export default () => {
-  const [gutter, setGutter] = React.useState(true);
+  const [position, setPosition] = React.useState<any>('top');
+  const [gutter, setGutter] = React.useState(false);
   const [destroy, setDestroy] = React.useState(false);
-
-  if (destroy) {
-    return null;
-  }
+  const [tabPanes, setTabPanes] = React.useState(getTabPanes(10));
 
   return (
-    <div style={{ height: 2000 }}>
-      <React.StrictMode>
-        <div style={{ maxWidth: 550 }}>
+    <div style={{ minHeight: 2000 }}>
+      <div>
+        {/* tabBarGutter */}
+        <label>
+          <input type="checkbox" checked={gutter} onChange={() => setGutter(!gutter)} />
+          Set `tabBarGutter`
+        </label>
+
+        {/* Change children */}
+        <button
+          type="button"
+          onClick={() => {
+            const counts = [50, 10, 0];
+            const count = counts[(counts.indexOf(tabPanes.length) + 1) % counts.length];
+            console.log('>>>', count);
+            setTabPanes(getTabPanes(count));
+          }}
+        >
+          Change TabPanes
+        </button>
+
+        {/* Position */}
+        <select value={position} onChange={e => setPosition(e.target.value)}>
+          <option>left</option>
+          <option>right</option>
+          <option>top</option>
+          <option>bottom</option>
+        </select>
+
+        {/* destroy */}
+        <button
+          type="button"
+          onClick={() => {
+            setDestroy(!destroy);
+          }}
+        >
+          Destroy
+        </button>
+      </div>
+
+      {!destroy && (
+        <React.StrictMode>
           <Tabs
+            tabPosition={position}
             tabBarGutter={gutter ? 32 : null}
             tabBarExtraContent="extra"
             defaultActiveKey="8"
             moreIcon="..."
           >
-            {tabs}
+            {tabPanes}
           </Tabs>
-        </div>
-      </React.StrictMode>
-
-      <label>
-        <input type="checkbox" checked={gutter} onChange={() => setGutter(!gutter)} />
-        Set `tabBarGutter`
-      </label>
-      <button
-        type="button"
-        onClick={() => {
-          setDestroy(true);
-        }}
-      >
-        Destroy
-      </button>
+        </React.StrictMode>
+      )}
     </div>
   );
 };

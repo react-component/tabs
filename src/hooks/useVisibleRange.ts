@@ -29,6 +29,10 @@ export default function useVisibleRange(
       activeIndex = 0;
     }
 
+    if (!tabs.length) {
+      return [0, 0];
+    }
+
     const activeTab = tabs[activeIndex];
     const activeOffset = tabOffsets.get(activeTab.key);
 
