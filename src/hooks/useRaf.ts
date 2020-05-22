@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import raf from 'raf';
 
 export default function useRaf<Callback extends Function>(callback: Callback) {
@@ -10,6 +10,12 @@ export default function useRaf<Callback extends Function>(callback: Callback) {
       callback(...args);
     });
   }
+
+  useEffect(() => {
+    return () => {
+      raf.cancel(rafRef.current);
+    };
+  }, []);
 
   return trigger;
 }
