@@ -3,16 +3,20 @@ import raf from 'raf';
 
 export default function useRaf<Callback extends Function>(callback: Callback) {
   const rafRef = useRef<number>();
+  const removedRef = useRef(false);
 
   function trigger(...args: any[]) {
-    raf.cancel(rafRef.current);
-    rafRef.current = raf(() => {
-      callback(...args);
-    });
+    if (!removedRef.current) {
+      raf.cancel(rafRef.current);
+      rafRef.current = raf(() => {
+        callback(...args);
+      });
+    }
   }
 
   useEffect(() => {
     return () => {
+      removedRef.current = true;
       raf.cancel(rafRef.current);
     };
   }, []);

@@ -5,6 +5,7 @@ import { act } from 'react-dom/test-utils';
 import Tabs, { TabPane } from '../src';
 import { TabsProps } from '../src/Tabs';
 import TabNode from '../src/TabNavList/TabNode';
+import { TabPosition } from '../src/interface';
 
 describe('Tabs.Mobile', () => {
   function getTabs(props: TabsProps = null) {
@@ -52,69 +53,79 @@ describe('Tabs.Mobile', () => {
       domSpy.mockRestore();
     });
 
-    it('touchable', () => {
-      jest.useFakeTimers();
-      const onChange = jest.fn();
-      const wrapper = mount(getTabs({ onChange }));
+    const list: { position: TabPosition }[] = [{ position: 'top' }, { position: 'left' }];
+    list.forEach(({ position }) => {
+      it('touchable', () => {
+        jest.useFakeTimers();
+        const onChange = jest.fn();
+        const wrapper = mount(getTabs({ onChange, tabPosition: position }));
 
-      wrapper
-        .find(TabNode)
-        .find('ResizeObserver')
-        .forEach(node => {
-          (node.props() as any).onResize();
+        wrapper
+          .find(TabNode)
+          .find('ResizeObserver')
+          .forEach(node => {
+            (node.props() as any).onResize();
+          });
+
+        (wrapper
+          .find('.rc-tabs-nav')
+          .find('ResizeObserver')
+          .first()
+          .props() as any).onResize({ offsetWidth: 40, offsetHeight: 40 });
+
+        act(() => {
+          jest.runAllTimers();
+          wrapper.update();
+        });
+        expect(wrapper.find('.rc-tabs-nav-more')).toHaveLength(0);
+
+        // Touch to move
+        wrapper.find('.rc-tabs-nav-wrap').simulate('touchstart', {
+          touches: [{ screenX: 0, screenY: 0 }],
         });
 
-      (wrapper
-        .find('.rc-tabs-nav')
-        .find('ResizeObserver')
-        .first()
-        .props() as any).onResize({ offsetWidth: 40, offsetHeight: 40 });
-
-      act(() => {
-        jest.runAllTimers();
-        wrapper.update();
-      });
-      expect(wrapper.find('.rc-tabs-nav-more')).toHaveLength(0);
-
-      // Touch to move
-      wrapper.find('.rc-tabs-nav-wrap').simulate('touchstart', {
-        touches: [{ screenX: 0, screenY: 0 }],
-      });
-
-      // First move
-      act(() => {
-        const moveEvent1 = new TouchEvent('touchmove', {
-          touches: [{ screenX: 0, screenY: 0 } as any],
+        // First move
+        act(() => {
+          const moveEvent1 = new TouchEvent('touchmove', {
+            touches: [{ screenX: 0, screenY: 0 } as any],
+          });
+          document.dispatchEvent(moveEvent1);
         });
-        document.dispatchEvent(moveEvent1);
-      });
 
-      // Second move
-      act(() => {
-        const moveEvent2 = new TouchEvent('touchmove', {
-          touches: [{ screenX: -200, screenY: 0 } as any],
+        // Second move
+        act(() => {
+          const moveEvent2 = new TouchEvent('touchmove', {
+            touches: [{ screenX: -200, screenY: -200 } as any],
+          });
+          document.dispatchEvent(moveEvent2);
         });
-        document.dispatchEvent(moveEvent2);
+
+        // Release
+        act(() => {
+          const endEvent = new TouchEvent('touchend', {});
+          document.dispatchEvent(endEvent);
+        });
+
+        // Execution swipe
+        act(() => {
+          jest.runAllTimers();
+          wrapper.update();
+        });
+
+        if (position === 'top') {
+          expect(
+            ((wrapper.find('.rc-tabs-nav-wrap').instance() as unknown) as HTMLDivElement)
+              .scrollLeft > 200,
+          ).toBeTruthy();
+        } else {
+          expect(
+            ((wrapper.find('.rc-tabs-nav-wrap').instance() as unknown) as HTMLDivElement)
+              .scrollTop > 200,
+          ).toBeTruthy();
+        }
+
+        jest.useRealTimers();
       });
-
-      // Release
-      act(() => {
-        const endEvent = new TouchEvent('touchend', {});
-        document.dispatchEvent(endEvent);
-      });
-
-      // Execution swipe
-      act(() => {
-        jest.runAllTimers();
-        wrapper.update();
-      });
-
-      expect(
-        ((wrapper.find('.rc-tabs-nav-wrap').instance() as unknown) as HTMLDivElement).scrollLeft >
-          200,
-      ).toBeTruthy();
-
-      jest.useRealTimers();
     });
   });
 });

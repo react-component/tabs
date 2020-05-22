@@ -97,17 +97,3 @@ exports[`Tabs.Basic Normal 1`] = `
   </div>
 </div>
 `;
-
-exports[`Tabs.Basic overflow to collapse into menu should collapse 1`] = `
-<button
-  aria-controls="rc-tabs-2-more-popup"
-  aria-expanded="false"
-  aria-haspopup="listbox"
-  class="rc-tabs-nav-more"
-  id="rc-tabs-2-more"
-  style=""
-  type="button"
->
-  More
-</button>
-`;

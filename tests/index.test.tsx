@@ -1,10 +1,7 @@
 import React from 'react';
 import { mount } from 'enzyme';
-import { spyElementPrototypes } from 'rc-util/lib/test/domHook';
-import { act } from 'react-dom/test-utils';
 import Tabs, { TabPane } from '../src';
 import { TabsProps } from '../src/Tabs';
-import TabNode from '../src/TabNavList/TabNode';
 
 describe('Tabs.Basic', () => {
   function getTabs(props: TabsProps = null) {
@@ -37,65 +34,6 @@ describe('Tabs.Basic', () => {
     targetTab.simulate('click');
     expect(onTabClick).toHaveBeenCalledWith('cute', expect.anything());
     expect(onChange).toHaveBeenCalledWith('cute');
-  });
-
-  describe('overflow to collapse into menu', () => {
-    let domSpy: ReturnType<typeof spyElementPrototypes>;
-
-    beforeAll(() => {
-      domSpy = spyElementPrototypes(HTMLButtonElement, {
-        offsetWidth: {
-          get: () => 20,
-        },
-        offsetLeft: {
-          get() {
-            // Mock button offset
-            const btn = this as HTMLButtonElement;
-            const btnList = [...btn.parentNode.childNodes];
-            return 20 * btnList.indexOf(btn);
-          },
-        },
-      });
-    });
-
-    afterAll(() => {
-      domSpy.mockRestore();
-    });
-
-    it('should collapse', () => {
-      jest.useFakeTimers();
-      const onChange = jest.fn();
-      const wrapper = mount(getTabs({ onChange }));
-
-      wrapper
-        .find(TabNode)
-        .find('ResizeObserver')
-        .forEach(node => {
-          (node.props() as any).onResize();
-        });
-
-      (wrapper
-        .find('.rc-tabs-nav')
-        .find('ResizeObserver')
-        .first()
-        .props() as any).onResize({ offsetWidth: 40, offsetHeight: 40 });
-
-      act(() => {
-        jest.runAllTimers();
-        wrapper.update();
-      });
-      expect(wrapper.find('.rc-tabs-nav-more').render()).toMatchSnapshot();
-
-      // Click to open
-      wrapper.find('.rc-tabs-nav-more').simulate('click');
-      expect(wrapper.find('.rc-tabs-dropdown li').text()).toEqual('cute');
-
-      // Click to select
-      wrapper.find('.rc-tabs-dropdown-menu-item').simulate('click');
-      expect(onChange).toHaveBeenCalledWith('cute');
-
-      jest.useRealTimers();
-    });
   });
 
   it('active first tab when children is changed', () => {
@@ -141,5 +79,19 @@ describe('Tabs.Basic', () => {
         .first()
         .props().style.marginBottom,
     ).toEqual(33);
+  });
+
+  it('tabNavBar', () => {
+    const renderTabBar = jest.fn((props, Component) => {
+      return (
+        <div className="my-wrapper">
+          <Component {...props}>{node => <span className="my-node">{node}</span>}</Component>
+        </div>
+      );
+    });
+    const wrapper = mount(getTabs({ renderTabBar }));
+    expect(wrapper.find('.my-wrapper').length).toBeTruthy();
+    expect(wrapper.find('.my-node').length).toBeTruthy();
+    expect(renderTabBar).toHaveBeenCalled();
   });
 });

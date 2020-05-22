@@ -4,6 +4,7 @@ module.exports = {
   ...base,
   rules: {
     ...base.rules,
+    'default-case': 0,
     'react/sort-comp': 0,
     'react/no-array-index-key': 0,
     'react/no-access-state-in-setstate': 0,

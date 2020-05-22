@@ -3,6 +3,7 @@ import Tabs, { TabPane } from '../src';
 import '../assets/index.less';
 
 export default () => {
+  const [destroy, setDestroy] = React.useState(false);
   const [children, setChildren] = React.useState([
     <TabPane key="light" tab="light">
       Light
@@ -14,6 +15,10 @@ export default () => {
       Cute
     </TabPane>,
   ]);
+
+  if (destroy) {
+    return null;
+  }
 
   return (
     <React.StrictMode>
@@ -29,6 +34,14 @@ export default () => {
         }}
       >
         Change children
+      </button>
+      <button
+        type="button"
+        onClick={() => {
+          setDestroy(true);
+        }}
+      >
+        Destroy
       </button>
     </React.StrictMode>
   );

@@ -70,6 +70,7 @@ export default function MoreList({
     if (!open) {
       if (which === KeyCode.DOWN) {
         setOpen(true);
+        e.preventDefault();
       }
       return;
     }
@@ -77,9 +78,11 @@ export default function MoreList({
     switch (which) {
       case KeyCode.UP:
         selectOffset(-1);
+        e.preventDefault();
         break;
       case KeyCode.DOWN:
         selectOffset(1);
+        e.preventDefault();
         break;
       case KeyCode.ESC:
         setOpen(false);
@@ -88,16 +91,13 @@ export default function MoreList({
       case KeyCode.ENTER:
         if (selectedKey !== null) onTabClick(selectedKey, e);
         break;
-
-      default:
-      // Do nothing
     }
   }
 
   // We use query element here to avoid React strict warning
   useEffect(() => {
     const ele = document.getElementById(selectedItemId);
-    if (ele) {
+    if (ele && ele.scrollIntoView) {
       ele.scrollIntoView(false);
     }
   }, [selectedKey]);
