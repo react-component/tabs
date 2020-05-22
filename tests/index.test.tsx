@@ -124,4 +124,22 @@ describe('Tabs.Basic', () => {
     });
     expect(wrapper.find('.rc-tabs-tab-active')).toHaveLength(0);
   });
+
+  it('tabBarGutter should work', () => {
+    const topTabs = mount(getTabs({ tabBarGutter: 23 }));
+    expect(
+      topTabs
+        .find('.rc-tabs-tab')
+        .first()
+        .props().style.marginRight,
+    ).toEqual(23);
+
+    const rightTabs = mount(getTabs({ tabBarGutter: 33, tabPosition: 'right' }));
+    expect(
+      rightTabs
+        .find('.rc-tabs-tab')
+        .first()
+        .props().style.marginBottom,
+    ).toEqual(33);
+  });
 });
