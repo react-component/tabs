@@ -43,7 +43,7 @@ function TabNode({
     nodeStyle.marginBottom = tabBarGutter;
   }
 
-  let node = (
+  let node: React.ReactElement = (
     <button
       key={key}
       ref={nodeRef}
@@ -83,7 +83,7 @@ function TabNode({
   }
   React.useEffect(() => {
     triggerResize();
-  }, [tabBarGutter]);
+  }, [tabBarGutter, tabPosition]);
 
   if (onResize) {
     node = (
