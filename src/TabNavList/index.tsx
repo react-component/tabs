@@ -42,7 +42,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   const tabPositionTopOrBottom = tabPosition === 'top' || tabPosition === 'bottom';
 
   // ========================= Mobile ========================
-  const [touched, onTouchStart] = useTouchMove((offsetX, offsetY) => {
+  const [isMobile, onTouchStart] = useTouchMove((offsetX, offsetY) => {
     tabsWrapperRef.current.scrollLeft -= offsetX;
   });
 
@@ -75,7 +75,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
         key={key}
         tab={tab}
         active={key === activeKey}
-        visible={touched || (visibleStart <= index && index <= visibleEnd)}
+        visible={isMobile || (visibleStart <= index && index <= visibleEnd)}
         renderWrapper={children}
         onClick={() => {
           onTabClick(key);
@@ -98,18 +98,24 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     );
   });
 
+  // Scroll to visible region
+  const initRef = useRef(false);
   useEffect(() => {
     const startTab = tabs[visibleStart];
     const startTabOffset = tabOffsets.get(startTab?.key);
 
     if (startTabOffset) {
-      if (tabPositionTopOrBottom) {
-        tabsWrapperRef.current.scrollLeft = startTabOffset.left;
-      } else {
-        tabsWrapperRef.current.scrollTop = startTabOffset.top;
+      if (!initRef.current || !isMobile) {
+        if (tabPositionTopOrBottom) {
+          tabsWrapperRef.current.scrollLeft = startTabOffset.left;
+          if (startTabOffset.left) initRef.current = true;
+        } else {
+          tabsWrapperRef.current.scrollTop = startTabOffset.top;
+          if (startTabOffset.top) initRef.current = true;
+        }
       }
     }
-  }, [visibleStart, tabOffsets]);
+  }, [visibleStart, tabOffsets, isMobile]);
 
   // ======================== Dropdown =======================
   const startHiddenTabs = tabs.slice(0, visibleStart);
@@ -151,7 +157,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
         </div>
       </ResizeObserver>
 
-      <MoreList {...props} prefixCls={prefixCls} tabs={hiddenTabs} />
+      {!isMobile && <MoreList {...props} prefixCls={prefixCls} tabs={hiddenTabs} />}
 
       {extra && <div className={`${prefixCls}-extra-content`}>{extra}</div>}
     </div>
