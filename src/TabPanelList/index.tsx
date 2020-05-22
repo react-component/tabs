@@ -17,23 +17,25 @@ export default function TabPanelList({ id, activeKey, animated, tabPosition }: T
   const activeIndex = tabs.findIndex(tab => tab.key === activeKey);
 
   return (
-    <div
-      className={classNames(`${prefixCls}-content`, `${prefixCls}-content-${tabPosition}`, {
-        [`${prefixCls}-content-animated`]: animated,
-      })}
-      style={{ marginLeft: `-${activeIndex}00%` }}
-    >
-      {tabs.map(tab => {
-        return (
-          <TabPane
-            prefixCls={prefixCls}
-            id={id}
-            active={tab.key === activeKey}
-            key={tab.key}
-            tab={tab}
-          />
-        );
-      })}
+    <div className={classNames(`${prefixCls}-content-holder`)}>
+      <div
+        className={classNames(`${prefixCls}-content`, `${prefixCls}-content-${tabPosition}`, {
+          [`${prefixCls}-content-animated`]: animated,
+        })}
+        style={{ marginLeft: `-${activeIndex}00%` }}
+      >
+        {tabs.map(tab => {
+          return (
+            <TabPane
+              prefixCls={prefixCls}
+              id={id}
+              active={tab.key === activeKey}
+              key={tab.key}
+              tab={tab}
+            />
+          );
+        })}
+      </div>
     </div>
   );
 }
