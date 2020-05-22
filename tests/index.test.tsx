@@ -48,7 +48,12 @@ describe('Tabs.Basic', () => {
           get: () => 20,
         },
         offsetLeft: {
-          get: () => 20,
+          get() {
+            // Mock button offset
+            const btn = this as HTMLButtonElement;
+            const btnList = [...btn.parentNode.childNodes];
+            return 20 * btnList.indexOf(btn);
+          },
         },
       });
     });
