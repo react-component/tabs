@@ -33,14 +33,13 @@ export interface TabsProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'o
 
   activeKey?: string;
   defaultActiveKey?: string;
-  direction?: 'rtl';
+  direction?: 'ltr' | 'rtl';
   animated?: boolean;
   renderTabBar?: RenderTabBar;
   tabBarExtraContent?: React.ReactNode;
   tabBarGutter?: number;
   tabBarStyle?: React.CSSProperties;
   tabPosition?: TabPosition;
-  tabBarScrollable?: boolean;
   moreIcon?: React.ReactNode;
   onChange?: (activeKey: React.Key) => void;
   onTabClick?: (activeKey: React.Key) => void;
