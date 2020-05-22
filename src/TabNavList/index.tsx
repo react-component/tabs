@@ -43,7 +43,11 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
 
   // ========================= Mobile ========================
   const [isMobile, onTouchStart] = useTouchMove((offsetX, offsetY) => {
-    tabsWrapperRef.current.scrollLeft -= offsetX;
+    if (tabPositionTopOrBottom) {
+      tabsWrapperRef.current.scrollLeft -= offsetX;
+    } else {
+      tabsWrapperRef.current.scrollTop -= offsetY;
+    }
   });
 
   // ========================== Tab ==========================
