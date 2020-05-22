@@ -9,6 +9,7 @@ import useOffsets from '../hooks/useOffsets';
 import useVisibleRange from '../hooks/useVisibleRange';
 import MoreList from '../MoreList';
 import TabContext from '../TabContext';
+import useTouchMove from '../hooks/useTouchMove';
 
 export interface TabNavListProps {
   id: string;
@@ -40,6 +41,11 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   const tabsWrapperRef = useRef<HTMLDivElement>();
   const tabPositionTopOrBottom = tabPosition === 'top' || tabPosition === 'bottom';
 
+  // ========================= Mobile ========================
+  const [touched, onTouchStart] = useTouchMove((offsetX, offsetY) => {
+    tabsWrapperRef.current.scrollLeft -= offsetX;
+  });
+
   // ========================== Tab ==========================
   const [wrapperWidth, setWrapperWidth] = useState<number>(null);
   const [wrapperHeight, setWrapperHeight] = useState<number>(null);
@@ -69,7 +75,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
         key={key}
         tab={tab}
         active={key === activeKey}
-        visible={visibleStart <= index && index <= visibleEnd}
+        visible={touched || (visibleStart <= index && index <= visibleEnd)}
         renderWrapper={children}
         onClick={() => {
           onTabClick(key);
@@ -132,7 +138,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
       style={style}
     >
       <ResizeObserver onResize={onWrapperResize}>
-        <div className={`${prefixCls}-nav-wrap`} ref={tabsWrapperRef}>
+        <div className={`${prefixCls}-nav-wrap`} ref={tabsWrapperRef} onTouchStart={onTouchStart}>
           {tabNodes}
 
           <div
