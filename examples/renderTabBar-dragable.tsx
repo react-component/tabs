@@ -1,3 +1,4 @@
+/* eslint-disable import/no-named-as-default-member */
 import React from 'react';
 import { DndProvider, DragSource, DropTarget } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
@@ -56,7 +57,7 @@ class DraggableTabs extends React.Component {
     const newOrder = this.state.order.slice();
     const { children } = this.props;
 
-    React.Children.forEach(children, c => {
+    React.Children.forEach(children, (c: React.ReactElement) => {
       if (newOrder.indexOf(c.key) === -1) {
         newOrder.push(c.key);
       }
