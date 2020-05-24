@@ -62,6 +62,7 @@ function Tabs(
     prefixCls = 'rc-tabs',
     className,
     children,
+    direction,
     activeKey,
     defaultActiveKey,
     animated = true,
@@ -77,6 +78,7 @@ function Tabs(
   ref: React.Ref<HTMLDivElement>,
 ) {
   const tabs = parseTabList(children);
+  const rtl = direction === 'rtl';
 
   const [mergedActiveKey, setMergedActiveKey] = useMergedState<string>(undefined, {
     value: activeKey,
@@ -132,7 +134,12 @@ function Tabs(
       <div
         ref={ref}
         id={id}
-        className={classNames(prefixCls, `${prefixCls}-${tabPosition}`, className)}
+        className={classNames(
+          prefixCls,
+          `${prefixCls}-${tabPosition}`,
+          rtl && `${prefixCls}-rtl`,
+          className,
+        )}
         {...restProps}
       >
         {tabNavBar}

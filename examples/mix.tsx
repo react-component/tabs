@@ -18,6 +18,7 @@ function getTabPanes(count = 50) {
 export default () => {
   const [position, setPosition] = React.useState<any>('top');
   const [gutter, setGutter] = React.useState(false);
+  const [rtl, setRTL] = React.useState(false);
   const [destroy, setDestroy] = React.useState(false);
   const [animated, setAnimated] = React.useState(true);
   const [tabPanes, setTabPanes] = React.useState(getTabPanes(10));
@@ -31,10 +32,16 @@ export default () => {
           Set `tabBarGutter`
         </label>
 
-        {/* tabBarGutter */}
+        {/* animated */}
         <label>
           <input type="checkbox" checked={animated} onChange={() => setAnimated(val => !val)} />
           Set `animated`
+        </label>
+
+        {/* direction */}
+        <label>
+          <input type="checkbox" checked={rtl} onChange={() => setRTL(val => !val)} />
+          Set `direction=rtl`
         </label>
 
         {/* Change children */}
@@ -73,6 +80,7 @@ export default () => {
         <React.StrictMode>
           <Tabs
             animated={animated}
+            direction={rtl ? 'rtl' : null}
             tabPosition={position}
             tabBarGutter={gutter ? 32 : null}
             tabBarExtraContent="extra"
