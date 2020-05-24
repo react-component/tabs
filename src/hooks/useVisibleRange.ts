@@ -7,14 +7,14 @@ const DEFAULT_SIZE = { width: 0, height: 0, left: 0, top: 0 };
 export default function useVisibleRange(
   tabOffsets: TabOffsetMap,
   containerSize: { width: number; height: number },
-  { tabs, activeKey, tabPosition }: { tabs: Tab[] } & TabNavListProps,
+  { tabs, activeKey, tabPosition, rtl }: { tabs: Tab[] } & TabNavListProps,
 ): [number, number] {
   let unit: 'width' | 'height';
-  let position: 'left' | 'top';
+  let position: 'left' | 'top' | 'right';
 
   if (['top', 'bottom'].includes(tabPosition)) {
     unit = 'width';
-    position = 'left';
+    position = rtl ? 'right' : 'left';
   } else {
     unit = 'height';
     position = 'top';
@@ -65,5 +65,5 @@ export default function useVisibleRange(
     }
 
     return [startIndex, endIndex];
-  }, [activeKey, tabOffsets, basicSize, tabPosition, tabs.map(tab => tab.key).join('_')]);
+  }, [activeKey, tabOffsets, basicSize, tabPosition, tabs.map(tab => tab.key).join('_'), rtl]);
 }

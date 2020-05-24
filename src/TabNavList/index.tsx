@@ -69,7 +69,8 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
 
   // Render tab node & collect tab offset
   const [tabSizes, setTabSizes] = useRafState<TabSizeMap>(new Map());
-  const tabOffsets = useOffsets(tabs, tabSizes, wrapperScrollWidth);
+  const tabOffsets = useOffsets(tabs, tabSizes, wrapperWidth);
+  console.warn('OFFSETS:', tabOffsets);
   const [visibleStart, visibleEnd] = useVisibleRange(
     tabOffsets,
     { width: wrapperWidth, height: wrapperHeight },
@@ -140,7 +141,12 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   const activeTabOffset = tabOffsets.get(activeKey);
   if (activeTabOffset) {
     if (tabPositionTopOrBottom) {
-      inkStyle.left = activeTabOffset.left;
+      if (rtl) {
+        inkStyle.right = activeTabOffset.right;
+      } else {
+        inkStyle.left = activeTabOffset.left;
+      }
+
       inkStyle.width = activeTabOffset.width;
     } else {
       inkStyle.top = activeTabOffset.top;
