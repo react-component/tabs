@@ -102,7 +102,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     const { offsetWidth, offsetHeight } = tabsWrapperRef.current;
     setWrapperWidth(offsetWidth);
     setWrapperHeight(offsetHeight);
-    setWrapperScrollWidth(tabsWrapperRef.current.scrollWidth);
+    setWrapperScrollWidth(tabListRef.current.offsetWidth);
 
     // Update buttons records
     setTabSizes(() => {
@@ -157,7 +157,8 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
         if (tabPositionTopOrBottom) {
           // let scrollLeft: number;
           if (rtl) {
-            setTransformLeft(wrapperScrollWidth - wrapperWidth - startTabOffset.right);
+            console.log('>>>', startTabOffset, startTab?.key);
+            setTransformLeft(startTabOffset.right);
             // scrollLeft = wrapperScrollWidth - wrapperWidth - startTabOffset.right;
           } else {
             setTransformLeft(-startTabOffset.left);
@@ -177,7 +178,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   // Should recalculate when rtl changed
   useEffect(() => {
     onListHolderResize();
-  }, [rtl]);
+  }, [rtl, tabBarGutter]);
 
   // ========================= Render ========================
   return (
