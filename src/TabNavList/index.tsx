@@ -17,6 +17,7 @@ export interface TabNavListProps {
   tabPosition: TabPosition;
   activeKey: string;
   rtl: boolean;
+  mobile: boolean;
   animated?: boolean;
   extra?: React.ReactNode;
   moreIcon?: React.ReactNode;
@@ -39,6 +40,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     activeKey,
     rtl,
     extra,
+    mobile,
     tabPosition,
     tabBarGutter,
     children,
@@ -46,22 +48,44 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   } = props;
   const tabsWrapperRef = useRef<HTMLDivElement>();
   const tabListRef = useRef<HTMLDivElement>();
+  const [getBtnRef, removeBtnRef] = useRefs<HTMLButtonElement>();
+
+  const [transformLeft, setTransformLeft] = useState(0);
+  const [transformTop, setTransformTop] = useState(0);
+
+  const [wrapperScrollWidth, setWrapperScrollWidth] = useState<number>(0);
+  const [wrapperWidth, setWrapperWidth] = useState<number>(null);
+  const [wrapperHeight, setWrapperHeight] = useState<number>(null);
+
   const tabPositionTopOrBottom = tabPosition === 'top' || tabPosition === 'bottom';
 
   // ========================= Mobile ========================
-  const [isMobile, onTouchStart] = useTouchMove((offsetX, offsetY) => {
+  const onTouchStart = useTouchMove(mobile, offsetX => {
     if (tabPositionTopOrBottom) {
-      tabsWrapperRef.current.scrollLeft -= offsetX;
-    } else {
-      tabsWrapperRef.current.scrollTop -= offsetY;
+      setTransformLeft(left => {
+        const newLeft = left + offsetX;
+        let min: number;
+        let max: number;
+        if (rtl) {
+          min = 0;
+          max = wrapperScrollWidth - wrapperWidth;
+        } else {
+          min = wrapperWidth - wrapperScrollWidth;
+          max = 0;
+        }
+
+        if (newLeft < min) {
+          return min;
+        }
+        if (newLeft > max) {
+          return max;
+        }
+        return newLeft;
+      });
     }
   });
 
   // ========================== Tab ==========================
-  const [getBtnRef, removeBtnRef] = useRefs<HTMLButtonElement>();
-  const [wrapperScrollWidth, setWrapperScrollWidth] = useState<number>(0);
-  const [wrapperWidth, setWrapperWidth] = useState<number>(null);
-  const [wrapperHeight, setWrapperHeight] = useState<number>(null);
 
   // Render tab node & collect tab offset
   const [tabSizes, setTabSizes] = useRafState<TabSizeMap>(new Map());
@@ -82,7 +106,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
         rtl={rtl}
         tab={tab}
         active={key === activeKey}
-        visible={isMobile || (visibleStart <= index && index <= visibleEnd)}
+        visible={mobile || (visibleStart <= index && index <= visibleEnd)}
         tabPosition={tabPosition}
         tabBarGutter={tabBarGutter}
         renderWrapper={children}
@@ -144,7 +168,6 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   }
 
   // ========================= Effect ========================
-  const [transformLeft, setTransformLeft] = useState(0);
 
   // Scroll to visible region
   const initRef = useRef(false);
@@ -153,8 +176,9 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     const startTabOffset = tabOffsets.get(startTab?.key);
 
     if (startTabOffset) {
-      if (!initRef.current || !isMobile) {
+      if (!initRef.current || !mobile) {
         if (tabPositionTopOrBottom) {
+          setTransformTop(0);
           if (rtl) {
             setTransformLeft(startTabOffset.right);
           } else {
@@ -163,12 +187,13 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
 
           if (startTabOffset.left) initRef.current = true;
         } else {
-          tabsWrapperRef.current.scrollTop = startTabOffset.top;
+          setTransformLeft(0);
+          setTransformTop(-startTabOffset.top);
           if (startTabOffset.top) initRef.current = true;
         }
       }
     }
-  }, [wrapperScrollWidth, visibleStart, tabOffsets, isMobile]);
+  }, [wrapperScrollWidth, visibleStart, tabOffsets, mobile, tabPositionTopOrBottom]);
 
   // Should recalculate when rtl changed
   useEffect(() => {
@@ -188,7 +213,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
           <div
             ref={tabListRef}
             className={`${prefixCls}-nav-list`}
-            style={{ transform: `translateX(${transformLeft}px)` }}
+            style={{ transform: `translate(${transformLeft}px, ${transformTop}px)` }}
           >
             {tabNodes}
 
@@ -203,7 +228,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
         </ResizeObserver>
       </div>
 
-      {!isMobile && <MoreList {...props} prefixCls={prefixCls} tabs={hiddenTabs} />}
+      {!mobile && <MoreList {...props} prefixCls={prefixCls} tabs={hiddenTabs} />}
 
       {extra && <div className={`${prefixCls}-extra-content`}>{extra}</div>}
     </div>

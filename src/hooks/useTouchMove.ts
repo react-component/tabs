@@ -7,7 +7,7 @@ const REFRESH_INTERVAL = 20;
 const SPEED_OFF_MULTIPLE = 0.9;
 
 // ========================= Check if is a mobile =========================
-function isMobile() {
+export function isMobile() {
   const agent = navigator.userAgent || navigator.vendor || (window as any).opera;
   if (
     /(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino|android|ipad|playbook|silk/i.test(
@@ -24,14 +24,14 @@ function isMobile() {
 
 // ================================= Hook =================================
 export default function useTouchMove(
+  mobile: boolean,
   onOffset: (offsetX: number, offsetY: number) => void,
-): [boolean, React.TouchEventHandler] {
+): React.TouchEventHandler {
   const [touchPosition, setTouchPosition] = useState<{ x: number; y: number }>();
   const [lastTimestamp, setLastTimestamp] = useState<number>(0);
   const [lastTimeDiff, setLastTimeDiff] = useState<number>(0);
   const [lastOffset, setLastOffset] = useState<{ x: number; y: number }>();
   const motionRef = useRef<number>();
-  const mobileRef = useRef(isMobile());
 
   function onTouchStart(e: React.TouchEvent) {
     const { screenX, screenY } = e.touches[0];
@@ -74,7 +74,7 @@ export default function useTouchMove(
     let currentY = distanceY;
 
     motionRef.current = window.setInterval(() => {
-      if (Math.abs(currentX) < 5 && Math.abs(currentY) < 5) {
+      if (Math.abs(currentX) < 1 && Math.abs(currentY) < 1) {
         window.clearInterval(motionRef.current);
         return;
       }
@@ -110,5 +110,5 @@ export default function useTouchMove(
     };
   }, []);
 
-  return [mobileRef.current, onTouchStart];
+  return onTouchStart;
 }

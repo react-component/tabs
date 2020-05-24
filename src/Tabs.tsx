@@ -8,6 +8,7 @@ import TabNavList from './TabNavList';
 import TabPanelList from './TabPanelList';
 import { Tab, TabPosition, RenderTabBar, TabsLocale } from './interface';
 import TabContext from './TabContext';
+import { isMobile } from './hooks/useTouchMove';
 
 /**
  * Should added antd:
@@ -79,6 +80,7 @@ function Tabs(
   }: TabsProps,
   ref: React.Ref<HTMLDivElement>,
 ) {
+  const [mobile] = React.useState(isMobile);
   const tabs = parseTabList(children);
   const rtl = direction === 'rtl';
 
@@ -91,6 +93,8 @@ function Tabs(
   const [mergedId, setMergedId] = useMergedState(null, {
     value: id,
   });
+
+  const mergedTabPosition = mobile ? 'top' : tabPosition;
 
   // Async generate id to avoid ssr mapping failed
   React.useEffect(() => {
@@ -111,7 +115,7 @@ function Tabs(
     id: mergedId,
     activeKey: mergedActiveKey,
     animated,
-    tabPosition,
+    tabPosition: mergedTabPosition,
     rtl,
   };
 
@@ -125,6 +129,7 @@ function Tabs(
     tabBarGutter,
     onTabClick: onInternalTabClick,
     extra: tabBarExtraContent,
+    mobile,
   };
 
   if (renderTabBar) {
@@ -140,8 +145,11 @@ function Tabs(
         id={id}
         className={classNames(
           prefixCls,
-          `${prefixCls}-${tabPosition}`,
-          rtl && `${prefixCls}-rtl`,
+          `${prefixCls}-${mergedTabPosition}`,
+          {
+            [`${prefixCls}-mobile`]: mobile,
+            [`${prefixCls}-rtl`]: rtl,
+          },
           className,
         )}
         {...restProps}
