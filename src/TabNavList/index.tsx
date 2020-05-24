@@ -44,6 +44,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     onTabClick,
   } = props;
   const tabsWrapperRef = useRef<HTMLDivElement>();
+  const tabListRef = useRef<HTMLDivElement>();
   const tabPositionTopOrBottom = tabPosition === 'top' || tabPosition === 'bottom';
 
   // ========================= Mobile ========================
@@ -97,10 +98,10 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
 
   const onListHolderResize = useRaf(() => {
     // Update wrapper records
-    const { offsetWidth, offsetHeight, scrollWidth } = tabsWrapperRef.current;
+    const { offsetWidth, offsetHeight } = tabsWrapperRef.current;
     setWrapperWidth(offsetWidth);
     setWrapperHeight(offsetHeight);
-    setWrapperScrollWidth(scrollWidth);
+    setWrapperScrollWidth(tabListRef.current.offsetWidth);
 
     // Update buttons records
     setTabSizes(() => {
@@ -116,6 +117,8 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
       });
       return newSizes;
     });
+
+    console.warn('Resize:', offsetWidth, tabListRef.current.offsetWidth);
   });
 
   // Scroll to visible region
@@ -172,7 +175,9 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     >
       <div className={`${prefixCls}-nav-wrap`} ref={tabsWrapperRef} onTouchStart={onTouchStart}>
         <ResizeObserver onResize={onListHolderResize}>
-          <div className={`${prefixCls}-nav-list`}>{tabNodes}</div>
+          <div ref={tabListRef} className={`${prefixCls}-nav-list`}>
+            {tabNodes}
+          </div>
         </ResizeObserver>
 
         <div
