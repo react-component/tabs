@@ -11,39 +11,43 @@ exports[`Tabs.Basic Normal 1`] = `
     <div
       class="rc-tabs-nav-wrap"
     >
-      <button
-        aria-controls="rc-tabs-0-panel-light"
-        aria-selected="false"
-        class="rc-tabs-tab"
-        id="rc-tabs-0-tab-light"
-        role="tab"
-        tabindex="0"
-        type="button"
+      <div
+        class="rc-tabs-nav-list"
       >
-        light
-      </button>
-      <button
-        aria-controls="rc-tabs-0-panel-bamboo"
-        aria-selected="true"
-        class="rc-tabs-tab rc-tabs-tab-active"
-        id="rc-tabs-0-tab-bamboo"
-        role="tab"
-        tabindex="0"
-        type="button"
-      >
-        bamboo
-      </button>
-      <button
-        aria-controls="rc-tabs-0-panel-cute"
-        aria-selected="false"
-        class="rc-tabs-tab"
-        id="rc-tabs-0-tab-cute"
-        role="tab"
-        tabindex="0"
-        type="button"
-      >
-        cute
-      </button>
+        <button
+          aria-controls="rc-tabs-0-panel-light"
+          aria-selected="false"
+          class="rc-tabs-tab"
+          id="rc-tabs-0-tab-light"
+          role="tab"
+          tabindex="0"
+          type="button"
+        >
+          light
+        </button>
+        <button
+          aria-controls="rc-tabs-0-panel-bamboo"
+          aria-selected="true"
+          class="rc-tabs-tab rc-tabs-tab-active"
+          id="rc-tabs-0-tab-bamboo"
+          role="tab"
+          tabindex="0"
+          type="button"
+        >
+          bamboo
+        </button>
+        <button
+          aria-controls="rc-tabs-0-panel-cute"
+          aria-selected="false"
+          class="rc-tabs-tab"
+          id="rc-tabs-0-tab-cute"
+          role="tab"
+          tabindex="0"
+          type="button"
+        >
+          cute
+        </button>
+      </div>
       <div
         class="rc-tabs-ink-bar rc-tabs-ink-bar-animated"
         style="left: 0px; width: 0px;"
@@ -62,38 +66,42 @@ exports[`Tabs.Basic Normal 1`] = `
     </button>
   </div>
   <div
-    class="rc-tabs-content rc-tabs-content-animated"
-    style="margin-left: -100%;"
+    class="rc-tabs-content-holder"
   >
     <div
-      aria-hidden="true"
-      aria-labelledby="rc-tabs-0-tab-light"
-      class="rc-tabs-tabpane"
-      id="rc-tabs-0-panel-light"
-      role="tabpanel"
-      style="visibility: hidden;"
-      tabindex="-1"
-    />
-    <div
-      aria-hidden="false"
-      aria-labelledby="rc-tabs-0-tab-bamboo"
-      class="rc-tabs-tabpane rc-tabs-tabpane-active"
-      id="rc-tabs-0-panel-bamboo"
-      role="tabpanel"
-      style="visibility: visible;"
-      tabindex="0"
+      class="rc-tabs-content rc-tabs-content-top rc-tabs-content-animated"
+      style="margin-left: -100%;"
     >
-      Bamboo
+      <div
+        aria-hidden="true"
+        aria-labelledby="rc-tabs-0-tab-light"
+        class="rc-tabs-tabpane"
+        id="rc-tabs-0-panel-light"
+        role="tabpanel"
+        style="visibility: hidden;"
+        tabindex="-1"
+      />
+      <div
+        aria-hidden="false"
+        aria-labelledby="rc-tabs-0-tab-bamboo"
+        class="rc-tabs-tabpane rc-tabs-tabpane-active"
+        id="rc-tabs-0-panel-bamboo"
+        role="tabpanel"
+        style="visibility: visible;"
+        tabindex="0"
+      >
+        Bamboo
+      </div>
+      <div
+        aria-hidden="true"
+        aria-labelledby="rc-tabs-0-tab-cute"
+        class="rc-tabs-tabpane"
+        id="rc-tabs-0-panel-cute"
+        role="tabpanel"
+        style="visibility: hidden;"
+        tabindex="-1"
+      />
     </div>
-    <div
-      aria-hidden="true"
-      aria-labelledby="rc-tabs-0-tab-cute"
-      class="rc-tabs-tabpane"
-      id="rc-tabs-0-panel-cute"
-      role="tabpanel"
-      style="visibility: hidden;"
-      tabindex="-1"
-    />
   </div>
 </div>
 `;
