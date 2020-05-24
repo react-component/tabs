@@ -71,7 +71,6 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     { width: wrapperWidth, height: wrapperHeight },
     { ...props, tabs },
   );
-  console.warn('tabOffsets:', tabOffsets);
 
   const tabNodes: React.ReactElement[] = tabs.map((tab, index) => {
     const { key } = tab;
@@ -121,6 +120,33 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     });
   });
 
+  
+
+  // ======================== Dropdown =======================
+  const startHiddenTabs = tabs.slice(0, visibleStart);
+  const endHiddenTabs = tabs.slice(visibleEnd + 1);
+  const hiddenTabs = [...startHiddenTabs, ...endHiddenTabs];
+
+  // ========================== Ink ==========================
+  const inkStyle: React.CSSProperties = {};
+  const activeTabOffset = tabOffsets.get(activeKey);
+  if (activeTabOffset) {
+    if (tabPositionTopOrBottom) {
+      if (rtl) {
+        inkStyle.right = activeTabOffset.right;
+      } else {
+        inkStyle.left = activeTabOffset.left;
+      }
+
+      inkStyle.width = activeTabOffset.width;
+    } else {
+      inkStyle.top = activeTabOffset.top;
+      inkStyle.height = activeTabOffset.height;
+    }
+  }
+
+  // ========================= Effect ========================
+
   // Scroll to visible region
   const initRef = useRef(false);
   useEffect(() => {
@@ -141,30 +167,12 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
       }
     }
   }, [wrapperScrollWidth, visibleStart, tabOffsets, isMobile]);
+  
+  // Should recalculate when rtl changed
+  useEffect(() => {
+    onListHolderResize();
+  }, [rtl]);
 
-  // ======================== Dropdown =======================
-  const startHiddenTabs = tabs.slice(0, visibleStart);
-  const endHiddenTabs = tabs.slice(visibleEnd + 1);
-  const hiddenTabs = [...startHiddenTabs, ...endHiddenTabs];
-
-  // ========================== Ink ==========================
-  const inkStyle: React.CSSProperties = {};
-  const activeTabOffset = tabOffsets.get(activeKey);
-  console.log('=>', activeTabOffset, activeKey);
-  if (activeTabOffset) {
-    if (tabPositionTopOrBottom) {
-      if (rtl) {
-        inkStyle.right = activeTabOffset.right;
-      } else {
-        inkStyle.left = activeTabOffset.left;
-      }
-
-      inkStyle.width = activeTabOffset.width;
-    } else {
-      inkStyle.top = activeTabOffset.top;
-      inkStyle.height = activeTabOffset.height;
-    }
-  }
 
   // ========================= Render ========================
   return (
