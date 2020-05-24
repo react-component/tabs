@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Tabs.Overflow should collapse 1`] = `
+exports[`Tabs.Overflow LRT should collapse 1`] = `
 <button
   aria-controls="rc-tabs-0-more-popup"
   aria-expanded="false"

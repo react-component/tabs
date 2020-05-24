@@ -102,7 +102,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     const { offsetWidth, offsetHeight } = tabsWrapperRef.current;
     setWrapperWidth(offsetWidth);
     setWrapperHeight(offsetHeight);
-    setWrapperScrollWidth(tabListRef.current.offsetWidth);
+    setWrapperScrollWidth(tabsWrapperRef.current.scrollWidth);
 
     // Update buttons records
     setTabSizes(() => {
@@ -119,8 +119,6 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
       return newSizes;
     });
   });
-
-  
 
   // ======================== Dropdown =======================
   const startHiddenTabs = tabs.slice(0, visibleStart);
@@ -167,12 +165,11 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
       }
     }
   }, [wrapperScrollWidth, visibleStart, tabOffsets, isMobile]);
-  
+
   // Should recalculate when rtl changed
   useEffect(() => {
     onListHolderResize();
   }, [rtl]);
-
 
   // ========================= Render ========================
   return (

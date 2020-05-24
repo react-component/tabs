@@ -5,13 +5,13 @@ import { spyElementPrototypes } from 'rc-util/lib/test/domHook';
 import { act } from 'react-dom/test-utils';
 import Tabs, { TabPane } from '../src';
 import { TabsProps } from '../src/Tabs';
-import TabNode from '../src/TabNavList/TabNode';
 
 describe('Tabs.Overflow', () => {
   let scrollLeft: number = 0;
   let domSpy: ReturnType<typeof spyElementPrototypes>;
   let buttonSpy: ReturnType<typeof spyElementPrototypes>;
   let holder: HTMLDivElement;
+  let rtl = false;
 
   beforeAll(() => {
     holder = document.createElement('div');
@@ -25,7 +25,11 @@ describe('Tabs.Overflow', () => {
           // Mock button offset
           const btn = this as HTMLButtonElement;
           const btnList = [...btn.parentNode.childNodes];
-          return 20 * btnList.indexOf(btn);
+          const index = btnList.indexOf(btn);
+          if (rtl) {
+            return 20 * (btnList.length - index - 1);
+          }
+          return 20 * index;
         },
       },
     });
@@ -85,105 +89,115 @@ describe('Tabs.Overflow', () => {
       .props() as any).onResize();
   }
 
-  it('should collapse', () => {
-    jest.useFakeTimers();
-    const onChange = jest.fn();
-    const wrapper = mount(getTabs({ onChange }));
-
-    triggerResize(wrapper);
-    act(() => {
-      jest.runAllTimers();
-      wrapper.update();
+  describe('LRT', () => {
+    beforeAll(() => {
+      rtl = false;
     });
-    expect(wrapper.find('.rc-tabs-nav-more').render()).toMatchSnapshot();
 
-    // Click to open
-    wrapper.find('.rc-tabs-nav-more').simulate('mouseenter');
-    expect(
-      wrapper
-        .find('.rc-tabs-dropdown li')
-        .first()
-        .text(),
-    ).toEqual('cute');
-
-    // Click to select
-    wrapper
-      .find('.rc-tabs-dropdown-menu-item')
-      .first()
-      .simulate('click');
-    expect(onChange).toHaveBeenCalledWith('cute');
-
-    wrapper.unmount();
-
-    jest.useRealTimers();
-  });
-
-  [KeyCode.SPACE, KeyCode.ENTER].forEach(code => {
-    it(`keyboard with select keycode: ${code}`, () => {
+    it('should collapse', () => {
       jest.useFakeTimers();
       const onChange = jest.fn();
-      const wrapper = mount(getTabs({ onChange }), { attachTo: holder });
+      const wrapper = mount(getTabs({ onChange }));
 
       triggerResize(wrapper);
       act(() => {
         jest.runAllTimers();
         wrapper.update();
       });
+      expect(wrapper.find('.rc-tabs-nav-more').render()).toMatchSnapshot();
 
-      // Open
-      wrapper.find('.rc-tabs-nav-more').simulate('keydown', {
-        which: KeyCode.DOWN,
-      });
+      // Click to open
+      wrapper.find('.rc-tabs-nav-more').simulate('mouseenter');
+      expect(
+        wrapper
+          .find('.rc-tabs-dropdown li')
+          .first()
+          .text(),
+      ).toEqual('cute');
 
-      // key selection
-      function keyMatch(which: number, match: string) {
-        wrapper.find('.rc-tabs-nav-more').simulate('keydown', {
-          which,
-        });
-        expect(wrapper.find('.rc-tabs-dropdown-menu-item-selected').text()).toEqual(match);
-      }
-
-      keyMatch(KeyCode.DOWN, 'cute');
-      keyMatch(KeyCode.DOWN, 'miu');
-      keyMatch(KeyCode.UP, 'cute');
-
-      // Select
-      wrapper.find('.rc-tabs-nav-more').simulate('keydown', {
-        which: code,
-      });
+      // Click to select
+      wrapper
+        .find('.rc-tabs-dropdown-menu-item')
+        .first()
+        .simulate('click');
       expect(onChange).toHaveBeenCalledWith('cute');
-
-      // Open
-      wrapper.find('.rc-tabs-nav-more').simulate('keydown', {
-        which: KeyCode.DOWN,
-      });
-      wrapper.update();
-      expect(
-        wrapper
-          .find('.rc-tabs-dropdown')
-          .last()
-          .hasClass('rc-tabs-dropdown-hidden'),
-      ).toBeFalsy();
-
-      // ESC
-      wrapper.find('.rc-tabs-nav-more').simulate('keydown', {
-        which: KeyCode.ESC,
-      });
-      wrapper.update();
-      expect(
-        wrapper
-          .find('.rc-tabs-dropdown')
-          .last()
-          .hasClass('rc-tabs-dropdown-hidden'),
-      ).toBeTruthy();
 
       wrapper.unmount();
 
       jest.useRealTimers();
     });
+
+    [KeyCode.SPACE, KeyCode.ENTER].forEach(code => {
+      it(`keyboard with select keycode: ${code}`, () => {
+        jest.useFakeTimers();
+        const onChange = jest.fn();
+        const wrapper = mount(getTabs({ onChange }), { attachTo: holder });
+
+        triggerResize(wrapper);
+        act(() => {
+          jest.runAllTimers();
+          wrapper.update();
+        });
+
+        // Open
+        wrapper.find('.rc-tabs-nav-more').simulate('keydown', {
+          which: KeyCode.DOWN,
+        });
+
+        // key selection
+        function keyMatch(which: number, match: string) {
+          wrapper.find('.rc-tabs-nav-more').simulate('keydown', {
+            which,
+          });
+          expect(wrapper.find('.rc-tabs-dropdown-menu-item-selected').text()).toEqual(match);
+        }
+
+        keyMatch(KeyCode.DOWN, 'cute');
+        keyMatch(KeyCode.DOWN, 'miu');
+        keyMatch(KeyCode.UP, 'cute');
+
+        // Select
+        wrapper.find('.rc-tabs-nav-more').simulate('keydown', {
+          which: code,
+        });
+        expect(onChange).toHaveBeenCalledWith('cute');
+
+        // Open
+        wrapper.find('.rc-tabs-nav-more').simulate('keydown', {
+          which: KeyCode.DOWN,
+        });
+        wrapper.update();
+        expect(
+          wrapper
+            .find('.rc-tabs-dropdown')
+            .last()
+            .hasClass('rc-tabs-dropdown-hidden'),
+        ).toBeFalsy();
+
+        // ESC
+        wrapper.find('.rc-tabs-nav-more').simulate('keydown', {
+          which: KeyCode.ESC,
+        });
+        wrapper.update();
+        expect(
+          wrapper
+            .find('.rc-tabs-dropdown')
+            .last()
+            .hasClass('rc-tabs-dropdown-hidden'),
+        ).toBeTruthy();
+
+        wrapper.unmount();
+
+        jest.useRealTimers();
+      });
+    });
   });
 
-  describe.only('RTL', () => {
+  describe('RTL', () => {
+    beforeAll(() => {
+      rtl = true;
+    });
+
     it('overflow to scroll', () => {
       /**
        * Miu Disabled [Cute Bamboo] Light
@@ -195,7 +209,7 @@ describe('Tabs.Overflow', () => {
         jest.runAllTimers();
         wrapper.update();
       });
-      console.log('>>>', scrollLeft);
+      expect(scrollLeft).toEqual(40);
       jest.useRealTimers();
     });
   });
