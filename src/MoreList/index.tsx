@@ -46,6 +46,7 @@ export default function MoreList({
           id={`${popupId}-${tab.key}`}
           role="option"
           aria-controls={id && `${id}-panel-${tab.key}`}
+          disabled={tab.disabled}
         >
           {tab.tab}
         </MenuItem>
@@ -58,9 +59,13 @@ export default function MoreList({
     let selectedIndex = enabledTabs.findIndex(tab => tab.key === selectedKey) || 0;
     const len = enabledTabs.length;
 
-    if (len > 1) {
+    for (let i = 0; i < len; i += 1) {
       selectedIndex = (selectedIndex + offset + len) % len;
-      setSelectedKey(enabledTabs[selectedIndex].key);
+      const tab = enabledTabs[selectedIndex];
+      if (!tab.disabled) {
+        setSelectedKey(tab.key);
+        return;
+      }
     }
   }
 
