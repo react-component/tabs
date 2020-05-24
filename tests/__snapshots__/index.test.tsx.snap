@@ -13,6 +13,7 @@ exports[`Tabs.Basic Normal 1`] = `
     >
       <div
         class="rc-tabs-nav-list"
+        style="transform: translate(0px, 0px);"
       >
         <button
           aria-controls="rc-tabs-0-panel-light"
@@ -47,11 +48,11 @@ exports[`Tabs.Basic Normal 1`] = `
         >
           cute
         </button>
+        <div
+          class="rc-tabs-ink-bar rc-tabs-ink-bar-animated"
+          style="left: 0px; width: 0px;"
+        />
       </div>
-      <div
-        class="rc-tabs-ink-bar rc-tabs-ink-bar-animated"
-        style="left: 0px; width: 0px;"
-      />
     </div>
     <button
       aria-controls="rc-tabs-0-more-popup"
