@@ -5,25 +5,32 @@ import { TabsProps } from '../src/Tabs';
 
 describe('Tabs.Basic', () => {
   function getTabs(props: TabsProps = null) {
-    return (
-      <Tabs {...props}>
+    const mergedProps = {
+      children: [
         <TabPane tab="light" key="light">
           Light
-        </TabPane>
+        </TabPane>,
         <TabPane tab="bamboo" key="bamboo">
           Bamboo
-        </TabPane>
+        </TabPane>,
         <TabPane tab="cute" key="cute">
           Cute
-        </TabPane>
-      </Tabs>
-    );
+        </TabPane>,
+      ],
+      ...props,
+    };
+
+    return <Tabs {...mergedProps} />;
   }
 
   it('Normal', () => {
     const wrapper = mount(getTabs({ defaultActiveKey: 'bamboo' }));
 
     expect(wrapper.render()).toMatchSnapshot();
+  });
+
+  it('nothing for empty tabs', () => {
+    mount(getTabs({ children: null }));
   });
 
   it('onChange and onTabClick should work', () => {

@@ -23,7 +23,6 @@ export default function useVisibleRange(
   const basicSize = containerSize[unit];
 
   return useMemo(() => {
-    // TODO: direction
     let activeIndex = tabs.findIndex(tab => tab.key === activeKey);
     if (activeIndex === -1) {
       activeIndex = 0;

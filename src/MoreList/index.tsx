@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import KeyCode from 'rc-util/lib/KeyCode';
 import Menu, { MenuItem } from 'rc-menu';
 import Dropdown from 'rc-dropdown';
-import { Tab } from '../interface';
+import { Tab, TabsLocale } from '../interface';
 
 export interface MoreListProps {
   prefixCls: string;
@@ -11,6 +11,7 @@ export interface MoreListProps {
   tabs: Tab[];
   activeKey: string;
   moreIcon?: React.ReactNode;
+  locale?: TabsLocale;
   onTabClick: (key: React.Key, e: React.MouseEvent | React.KeyboardEvent) => void;
 }
 
@@ -18,6 +19,7 @@ export default function MoreList({
   prefixCls,
   id,
   tabs,
+  locale,
   moreIcon = 'More',
   onTabClick,
 }: MoreListProps) {
@@ -27,6 +29,8 @@ export default function MoreList({
   const popupId = `${id}-more-popup`;
   const dropdownPrefix = `${prefixCls}-dropdown`;
   const selectedItemId = selectedKey !== null ? `${popupId}-${selectedKey}` : null;
+
+  const dropdownAriaLabel = locale?.dropdownAriaLabel;
 
   const menu = (
     <Menu
@@ -39,6 +43,7 @@ export default function MoreList({
       role="listbox"
       aria-activedescendant={selectedItemId}
       selectedKeys={[selectedKey]}
+      aria-label={dropdownAriaLabel !== undefined ? dropdownAriaLabel : 'expanded dropdown'}
     >
       {tabs.map(tab => (
         <MenuItem

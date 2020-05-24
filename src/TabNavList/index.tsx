@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import ResizeObserver from 'rc-resize-observer';
 import useRaf, { useRafState } from '../hooks/useRaf';
 import TabNode from './TabNode';
-import { TabSizeMap, TabPosition, RenderTabBar } from '../interface';
+import { TabSizeMap, TabPosition, RenderTabBar, TabsLocale } from '../interface';
 import useOffsets from '../hooks/useOffsets';
 import useVisibleRange from '../hooks/useVisibleRange';
 import MoreList from '../MoreList';
@@ -24,6 +24,7 @@ export interface TabNavListProps {
   renderTabBar?: RenderTabBar;
   className?: string;
   style?: React.CSSProperties;
+  locale?: TabsLocale;
   onTabClick: (activeKey: React.Key, e: React.MouseEvent | React.KeyboardEvent) => void;
   children?: (node: React.ReactElement) => React.ReactElement;
 }

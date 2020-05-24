@@ -24,3 +24,7 @@ export interface Tab extends TabPaneProps {
 }
 
 export type RenderTabBar = (props: any, DefaultTabBar: React.ComponentType) => React.ReactElement;
+
+export interface TabsLocale {
+  dropdownAriaLabel?: string;
+}

@@ -6,7 +6,7 @@ import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import TabPane, { TabPaneProps } from './sugar/TabPane';
 import TabNavList from './TabNavList';
 import TabPanelList from './TabPanelList';
-import { Tab, TabPosition, RenderTabBar } from './interface';
+import { Tab, TabPosition, RenderTabBar, TabsLocale } from './interface';
 import TabContext from './TabContext';
 
 /**
@@ -41,6 +41,7 @@ export interface TabsProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'o
   tabBarStyle?: React.CSSProperties;
   tabPosition?: TabPosition;
   moreIcon?: React.ReactNode;
+  locale?: TabsLocale;
   onChange?: (activeKey: React.Key) => void;
   onTabClick?: (activeKey: React.Key, e: React.KeyboardEvent | React.MouseEvent) => void;
 }
@@ -69,6 +70,7 @@ function Tabs(
     tabPosition = 'top',
     tabBarGutter,
     tabBarExtraContent,
+    locale,
     moreIcon,
     renderTabBar,
     onChange,
@@ -118,6 +120,7 @@ function Tabs(
 
   const tabNavBarProps = {
     ...sharedProps,
+    locale,
     moreIcon,
     tabBarGutter,
     onTabClick: onInternalTabClick,
