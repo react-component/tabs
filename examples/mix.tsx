@@ -18,10 +18,10 @@ function getTabPanes(count = 50) {
 export default () => {
   const [position, setPosition] = React.useState<any>('top');
   const [gutter, setGutter] = React.useState(false);
-  const [rtl, setRTL] = React.useState(true);
+  const [rtl, setRTL] = React.useState(false);
   const [destroy, setDestroy] = React.useState(false);
   const [animated, setAnimated] = React.useState(true);
-  const [tabPanes, setTabPanes] = React.useState(getTabPanes(50));
+  const [tabPanes, setTabPanes] = React.useState(getTabPanes(10));
 
   return (
     <div style={{ minHeight: 2000 }}>
