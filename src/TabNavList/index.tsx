@@ -59,13 +59,17 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   const [wrapperWidth, setWrapperWidth] = useState<number>(null);
   const [wrapperHeight, setWrapperHeight] = useState<number>(null);
 
-  const onWrapperResize = useRaf(
-    ({ offsetWidth, offsetHeight }: { offsetWidth: number; offsetHeight: number }) => {
-      setWrapperWidth(offsetWidth);
-      setWrapperHeight(offsetHeight);
-      setWrapperScrollWidth(tabsWrapperRef.current.scrollWidth);
-    },
-  );
+  function updateWrapperSize() {
+    const { offsetWidth, offsetHeight, scrollWidth } = tabsWrapperRef.current;
+    console.warn('RESIZE WRAPPER!!!', offsetWidth);
+    setWrapperWidth(offsetWidth);
+    setWrapperHeight(offsetHeight);
+    setWrapperScrollWidth(scrollWidth);
+  }
+
+  const onWrapperResize = useRaf(() => {
+    updateWrapperSize();
+  });
 
   // Render tab node & collect tab offset
   const [tabSizes, setTabSizes] = useRafState<TabSizeMap>(new Map());
@@ -94,6 +98,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
           onTabClick(key, e);
         }}
         onResize={(width, height, left, top) => {
+          updateWrapperSize();
           setTabSizes(oriTabSizes => {
             const clone = new Map(oriTabSizes);
             clone.set(key, { width, height, left, top });
