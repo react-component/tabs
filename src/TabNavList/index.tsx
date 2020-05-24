@@ -70,7 +70,6 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   // Render tab node & collect tab offset
   const [tabSizes, setTabSizes] = useRafState<TabSizeMap>(new Map());
   const tabOffsets = useOffsets(tabs, tabSizes, wrapperWidth);
-  console.warn('OFFSETS:', tabOffsets);
   const [visibleStart, visibleEnd] = useVisibleRange(
     tabOffsets,
     { width: wrapperWidth, height: wrapperHeight },
@@ -121,7 +120,9 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     if (startTabOffset) {
       if (!initRef.current || !isMobile) {
         if (tabPositionTopOrBottom) {
-          tabsWrapperRef.current.scrollLeft = rtl ? startTabOffset.right : startTabOffset.left;
+          tabsWrapperRef.current.scrollLeft = rtl
+            ? wrapperScrollWidth - wrapperWidth - startTabOffset.right
+            : startTabOffset.left;
           if (startTabOffset.left) initRef.current = true;
         } else {
           tabsWrapperRef.current.scrollTop = startTabOffset.top;
@@ -129,7 +130,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
         }
       }
     }
-  }, [visibleStart, tabOffsets, isMobile]);
+  }, [wrapperScrollWidth, visibleStart, tabOffsets, isMobile]);
 
   // ======================== Dropdown =======================
   const startHiddenTabs = tabs.slice(0, visibleStart);

@@ -84,7 +84,7 @@ export default () => {
             tabPosition={position}
             tabBarGutter={gutter ? 32 : null}
             tabBarExtraContent="extra"
-            defaultActiveKey="8"
+            defaultActiveKey="16"
             moreIcon="..."
           >
             {tabPanes}
