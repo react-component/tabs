@@ -30,6 +30,12 @@ describe('Tabs.Overflow', () => {
     });
     domSpy = spyElementPrototypes(HTMLElement, {
       scrollIntoView: () => {},
+      offsetWidth: {
+        get: () => 40,
+      },
+      offsetHeight: {
+        get: () => 40,
+      },
     });
   });
 
@@ -73,7 +79,7 @@ describe('Tabs.Overflow', () => {
       .find('.rc-tabs-nav')
       .find('ResizeObserver')
       .first()
-      .props() as any).onResize({ offsetWidth: 40, offsetHeight: 40 });
+      .props() as any).onResize();
   }
 
   it('should collapse', () => {
@@ -89,7 +95,7 @@ describe('Tabs.Overflow', () => {
     expect(wrapper.find('.rc-tabs-nav-more').render()).toMatchSnapshot();
 
     // Click to open
-    wrapper.find('.rc-tabs-nav-more').simulate('click');
+    wrapper.find('.rc-tabs-nav-more').simulate('mouseenter');
     expect(
       wrapper
         .find('.rc-tabs-dropdown li')
