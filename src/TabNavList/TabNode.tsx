@@ -40,7 +40,7 @@ function TabNode({
     nodeStyle.visibility = 'hidden';
   }
   if (tabPosition === 'top' || tabPosition === 'bottom') {
-    nodeStyle.marginRight = tabBarGutter;
+    nodeStyle[rtl ? 'marginLeft' : 'marginRight'] = tabBarGutter;
   } else {
     nodeStyle.marginBottom = tabBarGutter;
   }
