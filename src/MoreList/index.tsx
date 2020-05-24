@@ -68,7 +68,7 @@ export default function MoreList({
     const { which } = e;
 
     if (!open) {
-      if (which === KeyCode.DOWN) {
+      if ([KeyCode.DOWN, KeyCode.SPACE, KeyCode.ENTER].includes(which)) {
         setOpen(true);
         e.preventDefault();
       }
@@ -112,7 +112,7 @@ export default function MoreList({
     <Dropdown
       prefixCls={dropdownPrefix}
       overlay={menu}
-      trigger={['click']}
+      trigger={['hover']}
       visible={open}
       onVisibleChange={setOpen}
     >
