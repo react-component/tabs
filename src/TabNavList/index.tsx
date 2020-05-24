@@ -117,8 +117,6 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
       });
       return newSizes;
     });
-
-    console.warn('Resize:', offsetWidth, tabListRef.current.offsetWidth);
   });
 
   // Scroll to visible region
