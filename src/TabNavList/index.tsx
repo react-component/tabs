@@ -155,16 +155,11 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     if (startTabOffset) {
       if (!initRef.current || !isMobile) {
         if (tabPositionTopOrBottom) {
-          // let scrollLeft: number;
           if (rtl) {
-            console.log('>>>', startTabOffset, startTab?.key);
             setTransformLeft(startTabOffset.right);
-            // scrollLeft = wrapperScrollWidth - wrapperWidth - startTabOffset.right;
           } else {
             setTransformLeft(-startTabOffset.left);
-            // scrollLeft = startTabOffset.left;
           }
-          // tabsWrapperRef.current.scrollLeft = scrollLeft;
 
           if (startTabOffset.left) initRef.current = true;
         } else {
