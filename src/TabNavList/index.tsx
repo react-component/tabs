@@ -15,6 +15,7 @@ export interface TabNavListProps {
   id: string;
   tabPosition: TabPosition;
   activeKey: string;
+  rtl: boolean;
   animated?: boolean;
   extra?: React.ReactNode;
   moreIcon?: React.ReactNode;
@@ -34,6 +35,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     id,
     animated,
     activeKey,
+    rtl,
     extra,
     tabPosition,
     tabBarGutter,
@@ -79,6 +81,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
         id={id}
         prefixCls={prefixCls}
         key={key}
+        rtl={rtl}
         tab={tab}
         active={key === activeKey}
         visible={isMobile || (visibleStart <= index && index <= visibleEnd)}

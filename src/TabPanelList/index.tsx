@@ -7,11 +7,18 @@ import { TabPosition } from '../interface';
 export interface TabPanelListProps {
   activeKey: React.Key;
   id: string;
+  rtl: boolean;
   animated?: boolean;
   tabPosition?: TabPosition;
 }
 
-export default function TabPanelList({ id, activeKey, animated, tabPosition }: TabPanelListProps) {
+export default function TabPanelList({
+  id,
+  activeKey,
+  animated,
+  tabPosition,
+  rtl,
+}: TabPanelListProps) {
   const { prefixCls, tabs } = React.useContext(TabContext);
 
   const activeIndex = tabs.findIndex(tab => tab.key === activeKey);
@@ -22,7 +29,7 @@ export default function TabPanelList({ id, activeKey, animated, tabPosition }: T
         className={classNames(`${prefixCls}-content`, `${prefixCls}-content-${tabPosition}`, {
           [`${prefixCls}-content-animated`]: animated,
         })}
-        style={{ marginLeft: `-${activeIndex}00%` }}
+        style={{ [rtl ? 'marginRight' : 'marginLeft']: `-${activeIndex}00%` }}
       >
         {tabs.map(tab => {
           return (

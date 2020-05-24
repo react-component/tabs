@@ -8,6 +8,7 @@ export interface TabNodeProps {
   prefixCls: string;
   tab: Tab;
   active: boolean;
+  rtl: boolean;
   visible?: boolean;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
   onResize?: (width: number, height: number, left: number, top: number) => void;
@@ -22,6 +23,7 @@ function TabNode({
   visible,
   id,
   active,
+  rtl,
   tab: { key, tab, disabled },
   tabBarGutter,
   tabPosition,
@@ -83,7 +85,7 @@ function TabNode({
   }
   React.useEffect(() => {
     triggerResize();
-  }, [tabBarGutter, tabPosition]);
+  }, [tabBarGutter, tabPosition, rtl]);
 
   if (onResize) {
     node = (

@@ -110,6 +110,7 @@ function Tabs(
     activeKey: mergedActiveKey,
     animated,
     tabPosition,
+    rtl,
   };
 
   // ======================== Render ========================
