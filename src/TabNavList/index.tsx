@@ -144,6 +144,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   }
 
   // ========================= Effect ========================
+  const [transformLeft, setTransformLeft] = useState(0);
 
   // Scroll to visible region
   const initRef = useRef(false);
@@ -154,9 +155,16 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     if (startTabOffset) {
       if (!initRef.current || !isMobile) {
         if (tabPositionTopOrBottom) {
-          tabsWrapperRef.current.scrollLeft = rtl
-            ? wrapperScrollWidth - wrapperWidth - startTabOffset.right
-            : startTabOffset.left;
+          // let scrollLeft: number;
+          if (rtl) {
+            setTransformLeft(wrapperScrollWidth - wrapperWidth - startTabOffset.right);
+            // scrollLeft = wrapperScrollWidth - wrapperWidth - startTabOffset.right;
+          } else {
+            setTransformLeft(-startTabOffset.left);
+            // scrollLeft = startTabOffset.left;
+          }
+          // tabsWrapperRef.current.scrollLeft = scrollLeft;
+
           if (startTabOffset.left) initRef.current = true;
         } else {
           tabsWrapperRef.current.scrollTop = startTabOffset.top;
@@ -181,18 +189,22 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     >
       <div className={`${prefixCls}-nav-wrap`} ref={tabsWrapperRef} onTouchStart={onTouchStart}>
         <ResizeObserver onResize={onListHolderResize}>
-          <div ref={tabListRef} className={`${prefixCls}-nav-list`}>
+          <div
+            ref={tabListRef}
+            className={`${prefixCls}-nav-list`}
+            style={{ transform: `translateX(${transformLeft}px)` }}
+          >
             {tabNodes}
+
+            <div
+              className={classNames(
+                `${prefixCls}-ink-bar`,
+                animated && `${prefixCls}-ink-bar-animated`,
+              )}
+              style={inkStyle}
+            />
           </div>
         </ResizeObserver>
-
-        <div
-          className={classNames(
-            `${prefixCls}-ink-bar`,
-            animated && `${prefixCls}-ink-bar-animated`,
-          )}
-          style={inkStyle}
-        />
       </div>
 
       {!isMobile && <MoreList {...props} prefixCls={prefixCls} tabs={hiddenTabs} />}

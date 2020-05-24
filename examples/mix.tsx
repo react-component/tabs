@@ -19,7 +19,7 @@ export default () => {
   const [position, setPosition] = React.useState<any>('top');
   const [gutter, setGutter] = React.useState(false);
   const [fixHeight, setFixHeight] = React.useState(false);
-  const [rtl, setRTL] = React.useState(true);
+  const [rtl, setRTL] = React.useState(false);
   const [destroy, setDestroy] = React.useState(false);
   const [animated, setAnimated] = React.useState(true);
   const [tabPanes, setTabPanes] = React.useState(getTabPanes(50));
@@ -91,7 +91,7 @@ export default () => {
             tabPosition={position}
             tabBarGutter={gutter ? 32 : null}
             tabBarExtraContent="extra"
-            defaultActiveKey="49"
+            defaultActiveKey="16"
             moreIcon="..."
             style={{ height: fixHeight ? 300 : null }}
           >
