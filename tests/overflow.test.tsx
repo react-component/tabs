@@ -8,6 +8,7 @@ import { TabsProps } from '../src/Tabs';
 import TabNode from '../src/TabNavList/TabNode';
 
 describe('Tabs.Overflow', () => {
+  let scrollLeft: number = 0;
   let domSpy: ReturnType<typeof spyElementPrototypes>;
   let buttonSpy: ReturnType<typeof spyElementPrototypes>;
   let holder: HTMLDivElement;
@@ -30,11 +31,20 @@ describe('Tabs.Overflow', () => {
     });
     domSpy = spyElementPrototypes(HTMLElement, {
       scrollIntoView: () => {},
+      scrollLeft: {
+        get: () => scrollLeft,
+        set: (_: any, val: number) => {
+          scrollLeft = val;
+        },
+      } as any,
       offsetWidth: {
         get: () => 40,
       },
       offsetHeight: {
         get: () => 40,
+      },
+      scrollWidth: {
+        get: () => 5 * 20,
       },
     });
   });
@@ -68,13 +78,6 @@ describe('Tabs.Overflow', () => {
   }
 
   function triggerResize(wrapper: ReactWrapper) {
-    wrapper
-      .find(TabNode)
-      .find('ResizeObserver')
-      .forEach(node => {
-        (node.props() as any).onResize();
-      });
-
     (wrapper
       .find('.rc-tabs-nav')
       .find('ResizeObserver')
@@ -176,6 +179,23 @@ describe('Tabs.Overflow', () => {
 
       wrapper.unmount();
 
+      jest.useRealTimers();
+    });
+  });
+
+  describe.only('RTL', () => {
+    it('overflow to scroll', () => {
+      /**
+       * Miu Disabled [Cute Bamboo] Light
+       */
+      jest.useFakeTimers();
+      const wrapper = mount(getTabs({ direction: 'rtl', defaultActiveKey: 'cute' }));
+      triggerResize(wrapper);
+      act(() => {
+        jest.runAllTimers();
+        wrapper.update();
+      });
+      console.log('>>>', scrollLeft);
       jest.useRealTimers();
     });
   });
