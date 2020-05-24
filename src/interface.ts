@@ -4,10 +4,15 @@ export type TabSizeMap = Map<
   React.Key,
   { width: number; height: number; left: number; top: number }
 >;
-export type TabOffsetMap = Map<
-  React.Key,
-  { width: number; height: number; left: number; right: number; top: number; bottom: number }
->;
+
+export interface TabOffset {
+  width: number;
+  height: number;
+  left: number;
+  right: number;
+  top: number;
+}
+export type TabOffsetMap = Map<React.Key, TabOffset>;
 
 export type TabPosition = 'left' | 'right' | 'top' | 'bottom';
 

@@ -21,7 +21,7 @@ export default () => {
   const [rtl, setRTL] = React.useState(true);
   const [destroy, setDestroy] = React.useState(false);
   const [animated, setAnimated] = React.useState(true);
-  const [tabPanes, setTabPanes] = React.useState(getTabPanes(10));
+  const [tabPanes, setTabPanes] = React.useState(getTabPanes(50));
 
   return (
     <div style={{ minHeight: 2000 }}>

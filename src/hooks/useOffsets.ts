@@ -1,50 +1,22 @@
 import { useMemo } from 'react';
-import { TabSizeMap, TabOffsetMap, TabPosition, Tab } from '../interface';
+import { TabSizeMap, TabOffsetMap, Tab, TabOffset } from '../interface';
 
-export default function useOffsets(tabs: Tab[], tabSizes: TabSizeMap) {
+export default function useOffsets(tabs: Tab[], tabSizes: TabSizeMap, holderScrollWidth: number) {
   return useMemo(() => {
     const map: TabOffsetMap = new Map();
 
-    function loop(direction: TabPosition) {
-      let start: number;
-      let end: number;
-      let min: number;
-      let max: number;
-      let step: number;
-      const len = tabs.length - 1;
+    for (let i = 0; i < tabs.length; i += 1) {
+      const { key } = tabs[i];
+      const data = tabSizes.get(key) || { width: 0, height: 0, left: 0, top: 0 };
+      const entity = (map.get(key) || { ...data }) as TabOffset;
 
-      if (direction === 'left' || direction === 'top') {
-        start = 0;
-        end = len;
-        min = start;
-        max = end;
-        step = 1;
-      } else {
-        start = len;
-        end = 0;
-        step = -1;
-        min = end;
-        max = start;
-      }
+      // Right
+      entity.right = holderScrollWidth - (entity.left + entity.width);
 
-      let total = 0;
-      for (let i = start; min <= i && i <= max; i += step) {
-        const { key } = tabs[i];
-        const data = tabSizes.get(key) || { width: 0, height: 0, left: 0, top: 0 };
-
-        const entity = map.get(key) || { ...data };
-        map.set(key, entity as any);
-        // entity[direction] = total;
-
-        // total += data[direction === 'left' || direction === 'right' ? 'width' : 'height'];
-      }
+      // Update entity
+      map.set(key, entity);
     }
 
-    // loop('left');
-    // loop('right');
-    // loop('top');
-    loop('bottom');
-
     return map;
-  }, [tabs.map(tab => tab.key).join('_'), tabSizes]);
+  }, [tabs.map(tab => tab.key).join('_'), tabSizes, holderScrollWidth]);
 }

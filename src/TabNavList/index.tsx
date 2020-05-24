@@ -55,6 +55,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   });
 
   // ========================== Tab ==========================
+  const [wrapperScrollWidth, setWrapperScrollWidth] = useState<number>(0);
   const [wrapperWidth, setWrapperWidth] = useState<number>(null);
   const [wrapperHeight, setWrapperHeight] = useState<number>(null);
 
@@ -62,12 +63,13 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     ({ offsetWidth, offsetHeight }: { offsetWidth: number; offsetHeight: number }) => {
       setWrapperWidth(offsetWidth);
       setWrapperHeight(offsetHeight);
+      setWrapperScrollWidth(tabsWrapperRef.current.scrollWidth);
     },
   );
 
   // Render tab node & collect tab offset
   const [tabSizes, setTabSizes] = useRafState<TabSizeMap>(new Map());
-  const tabOffsets = useOffsets(tabs, tabSizes);
+  const tabOffsets = useOffsets(tabs, tabSizes, wrapperScrollWidth);
   const [visibleStart, visibleEnd] = useVisibleRange(
     tabOffsets,
     { width: wrapperWidth, height: wrapperHeight },
@@ -118,7 +120,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     if (startTabOffset) {
       if (!initRef.current || !isMobile) {
         if (tabPositionTopOrBottom) {
-          tabsWrapperRef.current.scrollLeft = startTabOffset.left;
+          tabsWrapperRef.current.scrollLeft = rtl ? startTabOffset.right : startTabOffset.left;
           if (startTabOffset.left) initRef.current = true;
         } else {
           tabsWrapperRef.current.scrollTop = startTabOffset.top;
