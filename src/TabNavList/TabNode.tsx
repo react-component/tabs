@@ -1,6 +1,5 @@
 import * as React from 'react';
 import classNames from 'classnames';
-import ResizeObserver from 'rc-resize-observer';
 import { Tab, TabPosition } from '../interface';
 
 export interface TabNodeProps {
@@ -18,22 +17,25 @@ export interface TabNodeProps {
   onRemove: () => void;
 }
 
-function TabNode({
-  prefixCls,
-  visible,
-  id,
-  active,
-  rtl,
-  tab: { key, tab, disabled },
-  tabBarGutter,
-  tabPosition,
-  renderWrapper,
-  onClick,
-  onResize,
-  onRemove,
-}: TabNodeProps) {
+function TabNode(
+  {
+    prefixCls,
+    visible,
+    id,
+    active,
+    rtl,
+    tab: { key, tab, disabled },
+    tabBarGutter,
+    tabPosition,
+    renderWrapper,
+    onClick,
+    onRemove,
+  }: TabNodeProps,
+  ref: React.Ref<HTMLButtonElement>,
+) {
   const tabPrefix = `${prefixCls}-tab`;
-  const nodeRef = React.useRef<HTMLButtonElement>();
+
+  React.useEffect(() => onRemove, []);
 
   const nodeStyle: React.CSSProperties = {};
   if (!visible) {
@@ -48,7 +50,7 @@ function TabNode({
   let node: React.ReactElement = (
     <button
       key={key}
-      ref={nodeRef}
+      ref={ref}
       type="button"
       role="tab"
       aria-selected={active}
@@ -71,35 +73,7 @@ function TabNode({
     node = renderWrapper(node);
   }
 
-  React.useEffect(
-    () => () => {
-      onRemove();
-    },
-    [],
-  );
-
-  // ================== Resize ==================
-  function triggerResize() {
-    const { offsetHeight, offsetWidth, offsetLeft, offsetTop } = nodeRef.current;
-    onResize(offsetWidth, offsetHeight, offsetLeft, offsetTop);
-  }
-  React.useEffect(() => {
-    triggerResize();
-  }, [tabBarGutter, tabPosition, rtl]);
-
-  if (onResize) {
-    node = (
-      <ResizeObserver
-        onResize={() => {
-          triggerResize();
-        }}
-      >
-        {node}
-      </ResizeObserver>
-    );
-  }
-
   return node;
 }
 
-export default TabNode;
+export default React.forwardRef(TabNode);

@@ -10,6 +10,7 @@ import useVisibleRange from '../hooks/useVisibleRange';
 import MoreList from '../MoreList';
 import TabContext from '../TabContext';
 import useTouchMove from '../hooks/useTouchMove';
+import useRefs from '../hooks/useRefs';
 
 export interface TabNavListProps {
   id: string;
@@ -55,21 +56,10 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   });
 
   // ========================== Tab ==========================
+  const [getBtnRef, removeBtnRef] = useRefs<HTMLButtonElement>();
   const [wrapperScrollWidth, setWrapperScrollWidth] = useState<number>(0);
   const [wrapperWidth, setWrapperWidth] = useState<number>(null);
   const [wrapperHeight, setWrapperHeight] = useState<number>(null);
-
-  function updateWrapperSize() {
-    const { offsetWidth, offsetHeight, scrollWidth } = tabsWrapperRef.current;
-    console.warn('RESIZE WRAPPER!!!', offsetWidth);
-    setWrapperWidth(offsetWidth);
-    setWrapperHeight(offsetHeight);
-    setWrapperScrollWidth(scrollWidth);
-  }
-
-  const onWrapperResize = useRaf(() => {
-    updateWrapperSize();
-  });
 
   // Render tab node & collect tab offset
   const [tabSizes, setTabSizes] = useRafState<TabSizeMap>(new Map());
@@ -94,26 +84,38 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
         tabPosition={tabPosition}
         tabBarGutter={tabBarGutter}
         renderWrapper={children}
+        ref={getBtnRef(key)}
         onClick={e => {
           onTabClick(key, e);
         }}
-        onResize={(width, height, left, top) => {
-          updateWrapperSize();
-          setTabSizes(oriTabSizes => {
-            const clone = new Map(oriTabSizes);
-            clone.set(key, { width, height, left, top });
-            return clone;
-          });
-        }}
         onRemove={() => {
-          setTabSizes(oriTabSizes => {
-            const clone = new Map(oriTabSizes);
-            clone.delete(key);
-            return clone;
-          });
+          removeBtnRef(key);
         }}
       />
     );
+  });
+
+  const onListHolderResize = useRaf(() => {
+    // Update wrapper records
+    const { offsetWidth, offsetHeight, scrollWidth } = tabsWrapperRef.current;
+    setWrapperWidth(offsetWidth);
+    setWrapperHeight(offsetHeight);
+    setWrapperScrollWidth(scrollWidth);
+
+    // Update buttons records
+    setTabSizes(() => {
+      const newSizes: TabSizeMap = new Map();
+      tabs.forEach(({ key }) => {
+        const btnNode = getBtnRef(key).current;
+        newSizes.set(key, {
+          width: btnNode.offsetWidth,
+          height: btnNode.offsetHeight,
+          left: btnNode.offsetLeft,
+          top: btnNode.offsetTop,
+        });
+      });
+      return newSizes;
+    });
   });
 
   // Scroll to visible region
@@ -168,19 +170,19 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
       className={classNames(`${prefixCls}-nav`, className)}
       style={style}
     >
-      <ResizeObserver onResize={onWrapperResize}>
-        <div className={`${prefixCls}-nav-wrap`} ref={tabsWrapperRef} onTouchStart={onTouchStart}>
-          {tabNodes}
+      <div className={`${prefixCls}-nav-wrap`} ref={tabsWrapperRef} onTouchStart={onTouchStart}>
+        <ResizeObserver onResize={onListHolderResize}>
+          <div className={`${prefixCls}-nav-list`}>{tabNodes}</div>
+        </ResizeObserver>
 
-          <div
-            className={classNames(
-              `${prefixCls}-ink-bar`,
-              animated && `${prefixCls}-ink-bar-animated`,
-            )}
-            style={inkStyle}
-          />
-        </div>
-      </ResizeObserver>
+        <div
+          className={classNames(
+            `${prefixCls}-ink-bar`,
+            animated && `${prefixCls}-ink-bar-animated`,
+          )}
+          style={inkStyle}
+        />
+      </div>
 
       {!isMobile && <MoreList {...props} prefixCls={prefixCls} tabs={hiddenTabs} />}
 
