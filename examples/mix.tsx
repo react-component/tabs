@@ -7,7 +7,7 @@ function getTabPanes(count = 50) {
   const tabs: React.ReactElement[] = [];
   for (let i = 0; i < count; i += 1) {
     tabs.push(
-      <TabPane key={i} tab={`Tab ${i}`} disabled={i === 3}>
+      <TabPane key={i} tab={`Tab ${i}`} disabled={i === 3} closable={i === 5 ? false : undefined}>
         Content of {i}
       </TabPane>,
     );

@@ -96,12 +96,13 @@ function Tabs(
   const [mergedActiveKey, setMergedActiveKey] = useMergedState<string>(undefined, {
     value: activeKey,
     defaultValue: defaultActiveKey,
-    postState: key => {
-      if (tabs.some(tab => tab.key === key)) {
-        return key;
-      }
-      return tabs[0]?.key;
-    },
+    postState: key => (key !== undefined ? key : tabs[0]?.key),
+    // postState: key => {
+    //   if (tabs.some(tab => tab.key === key)) {
+    //     return key;
+    //   }
+    //   return tabs[0]?.key;
+    // },
   });
 
   const [mergedId, setMergedId] = useMergedState(null, {

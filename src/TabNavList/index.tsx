@@ -172,22 +172,31 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   const activeTabOffset = tabOffsets.get(activeKey);
   const lastVisibleTabOffset = tabOffsets.get(tabs[visibleEnd]?.key);
 
-  if (activeTabOffset && lastVisibleTabOffset) {
+  if (activeTabOffset) {
     if (tabPositionTopOrBottom) {
-      const optGutter = tabBarGutter || 0;
-
       if (rtl) {
         inkStyle.right = activeTabOffset.right;
-        operationsStyle.right = lastVisibleTabOffset.right + lastVisibleTabOffset.width + optGutter;
       } else {
         inkStyle.left = activeTabOffset.left;
-        operationsStyle.left = lastVisibleTabOffset.left + lastVisibleTabOffset.width + optGutter;
       }
 
       inkStyle.width = activeTabOffset.width;
     } else {
       inkStyle.top = activeTabOffset.top;
       inkStyle.height = activeTabOffset.height;
+    }
+  }
+
+  if (lastVisibleTabOffset) {
+    if (tabPositionTopOrBottom) {
+      const optGutter = tabBarGutter || 0;
+      if (rtl) {
+        operationsStyle.right = lastVisibleTabOffset.right + lastVisibleTabOffset.width + optGutter;
+      } else {
+        operationsStyle.left = lastVisibleTabOffset.left + lastVisibleTabOffset.width + optGutter;
+      }
+    } else {
+      // TODO:
     }
   }
 
