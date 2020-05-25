@@ -1,6 +1,6 @@
 // Accessibility https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/Tab_Role
 import * as React from 'react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import classNames from 'classnames';
 import toArray from 'rc-util/lib/Children/toArray';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
@@ -89,24 +89,43 @@ function Tabs(
   }: TabsProps,
   ref: React.Ref<HTMLDivElement>,
 ) {
+  const tabs = parseTabList(children);
+  const rtl = direction === 'rtl';
+
   // ======================== Mobile ========================
-  const [mobile, setMobile] = React.useState(false);
+  const [mobile, setMobile] = useState(false);
   useEffect(() => {
     // Only update on the client side
     setMobile(isMobile());
   }, []);
 
-  const tabs = parseTabList(children);
-  const rtl = direction === 'rtl';
+  // ======================= Animated =======================
+  let mergedAnimated = animated;
+  if (tabPosition === 'left' || tabPosition === 'right' || editable) {
+    mergedAnimated = false;
+  }
 
+  // ====================== Active Key ======================
   const [mergedActiveKey, setMergedActiveKey] = useMergedState<string>(undefined, {
     value: activeKey,
     defaultValue: defaultActiveKey,
-    postState: key => (key !== undefined ? key : tabs[0]?.key),
+    // postState: key => (key !== undefined ? key : tabs[0]?.key),
   });
+  const [activeIndex, setActiveIndex] = useState(() =>
+    tabs.findIndex(tab => tab.key === mergedActiveKey),
+  );
 
-  // Reset
+  // Reset active key if not exist anymore
+  useEffect(() => {
+    let newActiveIndex = tabs.findIndex(tab => tab.key === mergedActiveKey);
+    if (newActiveIndex === -1) {
+      newActiveIndex = Math.max(activeIndex - 1, 0);
+      setMergedActiveKey(tabs[newActiveIndex]?.key);
+    }
+    setActiveIndex(newActiveIndex);
+  }, [tabs.map(tab => tab.key).join('_'), mergedActiveKey, activeIndex]);
 
+  // ===================== Accessibility ====================
   const [mergedId, setMergedId] = useMergedState(null, {
     value: id,
   });
@@ -121,6 +140,7 @@ function Tabs(
     }
   }, []);
 
+  // ======================== Events ========================
   function onInternalTabClick(key: string, e: React.MouseEvent | React.KeyboardEvent) {
     onTabClick?.(key, e);
 
@@ -128,15 +148,15 @@ function Tabs(
     onChange?.(key);
   }
 
+  // ======================== Render ========================
   const sharedProps = {
     id: mergedId,
     activeKey: mergedActiveKey,
-    animated,
+    animated: mergedAnimated,
     tabPosition: mergedTabPosition,
     rtl,
   };
 
-  // ======================== Render ========================
   let tabNavBar: React.ReactElement;
 
   const tabNavBarProps = {
