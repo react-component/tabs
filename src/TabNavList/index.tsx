@@ -208,25 +208,27 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
       className={classNames(`${prefixCls}-nav`, className)}
       style={style}
     >
-      <div className={`${prefixCls}-nav-wrap`} ref={tabsWrapperRef} onTouchStart={onTouchStart}>
-        <ResizeObserver onResize={onListHolderResize}>
-          <div
-            ref={tabListRef}
-            className={`${prefixCls}-nav-list`}
-            style={{ transform: `translate(${transformLeft}px, ${transformTop}px)` }}
-          >
-            {tabNodes}
-
+      <ResizeObserver onResize={onListHolderResize}>
+        <div className={`${prefixCls}-nav-wrap`} ref={tabsWrapperRef} onTouchStart={onTouchStart}>
+          <ResizeObserver onResize={onListHolderResize}>
             <div
-              className={classNames(
-                `${prefixCls}-ink-bar`,
-                animated && `${prefixCls}-ink-bar-animated`,
-              )}
-              style={inkStyle}
-            />
-          </div>
-        </ResizeObserver>
-      </div>
+              ref={tabListRef}
+              className={`${prefixCls}-nav-list`}
+              style={{ transform: `translate(${transformLeft}px, ${transformTop}px)` }}
+            >
+              {tabNodes}
+
+              <div
+                className={classNames(
+                  `${prefixCls}-ink-bar`,
+                  animated && `${prefixCls}-ink-bar-animated`,
+                )}
+                style={inkStyle}
+              />
+            </div>
+          </ResizeObserver>
+        </div>
+      </ResizeObserver>
 
       {!mobile && <MoreList {...props} prefixCls={prefixCls} tabs={hiddenTabs} />}
 
