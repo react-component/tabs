@@ -4,10 +4,10 @@ import classNames from 'classnames';
 import ResizeObserver from 'rc-resize-observer';
 import useRaf, { useRafState } from '../hooks/useRaf';
 import TabNode from './TabNode';
-import { TabSizeMap, TabPosition, RenderTabBar, TabsLocale } from '../interface';
+import { TabSizeMap, TabPosition, RenderTabBar, TabsLocale, EditableConfig } from '../interface';
 import useOffsets from '../hooks/useOffsets';
 import useVisibleRange from '../hooks/useVisibleRange';
-import MoreList from '../MoreList';
+import OperationNode from './OperationNode';
 import TabContext from '../TabContext';
 import useTouchMove from '../hooks/useTouchMove';
 import useRefs from '../hooks/useRefs';
@@ -20,6 +20,7 @@ export interface TabNavListProps {
   mobile: boolean;
   animated?: boolean;
   extra?: React.ReactNode;
+  editable?: EditableConfig;
   moreIcon?: React.ReactNode;
   tabBarGutter?: number;
   renderTabBar?: RenderTabBar;
@@ -48,6 +49,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   } = props;
   const tabsWrapperRef = useRef<HTMLDivElement>();
   const tabListRef = useRef<HTMLDivElement>();
+  const operationsRef = useRef<HTMLDivElement>();
   const [getBtnRef, removeBtnRef] = useRefs<HTMLButtonElement>();
 
   const [transformLeft, setTransformLeft] = useState(0);
@@ -56,6 +58,8 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   const [wrapperScrollWidth, setWrapperScrollWidth] = useState<number>(0);
   const [wrapperWidth, setWrapperWidth] = useState<number>(null);
   const [wrapperHeight, setWrapperHeight] = useState<number>(null);
+  const [operationsWidth, setOperationsWidth] = useState<number>(0);
+  const [operationsHeight, setOperationsHeight] = useState<number>(0);
 
   const tabPositionTopOrBottom = tabPosition === 'top' || tabPosition === 'bottom';
 
@@ -92,7 +96,12 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   const tabOffsets = useOffsets(tabs, tabSizes, wrapperScrollWidth);
   const [visibleStart, visibleEnd] = useVisibleRange(
     tabOffsets,
-    { width: wrapperWidth, height: wrapperHeight },
+    {
+      width: wrapperWidth,
+      height: wrapperHeight,
+      optWidth: operationsWidth,
+      optHeight: operationsHeight,
+    },
     { ...props, tabs },
   );
 
@@ -127,6 +136,8 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     setWrapperWidth(offsetWidth);
     setWrapperHeight(offsetHeight);
     setWrapperScrollWidth(tabListRef.current.offsetWidth);
+    setOperationsWidth(operationsRef.current.offsetWidth);
+    setOperationsHeight(operationsRef.current.offsetHeight);
 
     // Update buttons records
     setTabSizes(() => {
@@ -149,15 +160,23 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   const endHiddenTabs = tabs.slice(visibleEnd + 1);
   const hiddenTabs = [...startHiddenTabs, ...endHiddenTabs];
 
-  // ========================== Ink ==========================
+  // =================== Link & Operations ===================
   const inkStyle: React.CSSProperties = {};
+  const operationsStyle: React.CSSProperties = {};
+
   const activeTabOffset = tabOffsets.get(activeKey);
-  if (activeTabOffset) {
+  const lastVisibleTabOffset = tabOffsets.get(tabs[visibleEnd]?.key);
+
+  if (activeTabOffset && lastVisibleTabOffset) {
     if (tabPositionTopOrBottom) {
+      const optGutter = tabBarGutter || 0;
+
       if (rtl) {
         inkStyle.right = activeTabOffset.right;
+        operationsStyle.right = lastVisibleTabOffset.right + lastVisibleTabOffset.width + optGutter;
       } else {
         inkStyle.left = activeTabOffset.left;
+        operationsStyle.left = lastVisibleTabOffset.left + lastVisibleTabOffset.width + optGutter;
       }
 
       inkStyle.width = activeTabOffset.width;
@@ -225,12 +244,18 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
                 )}
                 style={inkStyle}
               />
+
+              <OperationNode
+                {...props}
+                style={operationsStyle}
+                ref={operationsRef}
+                prefixCls={prefixCls}
+                tabs={hiddenTabs}
+              />
             </div>
           </ResizeObserver>
         </div>
       </ResizeObserver>
-
-      {!mobile && <MoreList {...props} prefixCls={prefixCls} tabs={hiddenTabs} />}
 
       {extra && <div className={`${prefixCls}-extra-content`}>{extra}</div>}
     </div>

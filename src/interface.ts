@@ -28,3 +28,12 @@ export type RenderTabBar = (props: any, DefaultTabBar: React.ComponentType) => R
 export interface TabsLocale {
   dropdownAriaLabel?: string;
 }
+
+export interface EditableConfig {
+  onEdit?: (
+    type: 'add' | 'remove',
+    info: { key: string; event: React.MouseEvent | React.KeyboardEvent },
+  ) => void;
+  showAdd?: boolean;
+  removeIcon?: React.ReactNode;
+}

@@ -5,24 +5,22 @@ import Menu, { MenuItem } from 'rc-menu';
 import Dropdown from 'rc-dropdown';
 import { Tab, TabsLocale } from '../interface';
 
-export interface MoreListProps {
+export interface OperationNodeProps {
   prefixCls: string;
+  style: React.CSSProperties;
   id: string;
   tabs: Tab[];
   activeKey: string;
+  mobile: boolean;
   moreIcon?: React.ReactNode;
   locale?: TabsLocale;
   onTabClick: (key: React.Key, e: React.MouseEvent | React.KeyboardEvent) => void;
 }
 
-export default function MoreList({
-  prefixCls,
-  id,
-  tabs,
-  locale,
-  moreIcon = 'More',
-  onTabClick,
-}: MoreListProps) {
+function OperationNode(
+  { prefixCls, id, tabs, locale, moreIcon = 'More', style, onTabClick }: OperationNodeProps,
+  ref: React.Ref<HTMLDivElement>,
+) {
   const [open, setOpen] = useState(false);
   const [selectedKey, setSelectedKey] = useState<string>(null);
 
@@ -119,25 +117,29 @@ export default function MoreList({
   }, [open]);
 
   return (
-    <Dropdown
-      prefixCls={dropdownPrefix}
-      overlay={menu}
-      trigger={['hover']}
-      visible={open}
-      onVisibleChange={setOpen}
-    >
-      <button
-        type="button"
-        className={`${prefixCls}-nav-more`}
-        style={{ visibility: tabs.length ? null : 'hidden' }}
-        aria-haspopup="listbox"
-        aria-controls={popupId}
-        id={`${id}-more`}
-        aria-expanded={open}
-        onKeyDown={onKeyDown}
+    <div className={`${prefixCls}-nav-operations`} style={style} ref={ref}>
+      <Dropdown
+        prefixCls={dropdownPrefix}
+        overlay={menu}
+        trigger={['hover']}
+        visible={open}
+        onVisibleChange={setOpen}
       >
-        {moreIcon}
-      </button>
-    </Dropdown>
+        <button
+          type="button"
+          className={`${prefixCls}-nav-more`}
+          style={{ visibility: tabs.length ? null : 'hidden' }}
+          aria-haspopup="listbox"
+          aria-controls={popupId}
+          id={`${id}-more`}
+          aria-expanded={open}
+          onKeyDown={onKeyDown}
+        >
+          {moreIcon}
+        </button>
+      </Dropdown>
+    </div>
   );
 }
+
+export default React.forwardRef(OperationNode);

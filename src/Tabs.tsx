@@ -6,7 +6,7 @@ import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import TabPane, { TabPaneProps } from './sugar/TabPane';
 import TabNavList from './TabNavList';
 import TabPanelList from './TabPanelList';
-import { Tab, TabPosition, RenderTabBar, TabsLocale } from './interface';
+import { Tab, TabPosition, RenderTabBar, TabsLocale, EditableConfig } from './interface';
 import TabContext from './TabContext';
 import { isMobile } from './hooks/useTouchMove';
 
@@ -41,10 +41,17 @@ export interface TabsProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'o
   tabBarGutter?: number;
   tabBarStyle?: React.CSSProperties;
   tabPosition?: TabPosition;
-  moreIcon?: React.ReactNode;
-  locale?: TabsLocale;
+
   onChange?: (activeKey: React.Key) => void;
   onTabClick?: (activeKey: React.Key, e: React.KeyboardEvent | React.MouseEvent) => void;
+
+  editable?: boolean | EditableConfig;
+
+  // Accessibility
+  locale?: TabsLocale;
+
+  // Icons
+  moreIcon?: React.ReactNode;
 }
 
 function parseTabList(children: React.ReactNode): Tab[] {
@@ -67,6 +74,7 @@ function Tabs(
     direction,
     activeKey,
     defaultActiveKey,
+    editable,
     animated = true,
     tabPosition = 'top',
     tabBarGutter,
@@ -119,11 +127,18 @@ function Tabs(
     rtl,
   };
 
+  // ======================= Editable =======================
+  let editConfig: EditableConfig;
+  if (editable === true) {
+    editConfig = {};
+  }
+
   // ======================== Render ========================
   let tabNavBar: React.ReactElement;
 
   const tabNavBarProps = {
     ...sharedProps,
+    editable: editConfig,
     locale,
     moreIcon,
     tabBarGutter,

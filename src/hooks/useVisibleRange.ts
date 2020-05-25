@@ -6,21 +6,26 @@ const DEFAULT_SIZE = { width: 0, height: 0, left: 0, top: 0 };
 
 export default function useVisibleRange(
   tabOffsets: TabOffsetMap,
-  containerSize: { width: number; height: number },
+  containerSize: { width: number; height: number; optWidth: number; optHeight: number },
   { tabs, activeKey, tabPosition, rtl }: { tabs: Tab[] } & TabNavListProps,
 ): [number, number] {
   let unit: 'width' | 'height';
+  let optUnit: 'optWidth' | 'optHeight';
   let position: 'left' | 'top' | 'right';
 
   if (['top', 'bottom'].includes(tabPosition)) {
     unit = 'width';
+    optUnit = 'optWidth';
     position = rtl ? 'right' : 'left';
   } else {
     unit = 'height';
+    optUnit = 'optHeight';
     position = 'top';
   }
 
-  const basicSize = containerSize[unit];
+  const holderSize = containerSize[unit];
+  const optSize = containerSize[optUnit];
+  const basicSize = holderSize - optSize;
 
   return useMemo(() => {
     let activeIndex = tabs.findIndex(tab => tab.key === activeKey);
