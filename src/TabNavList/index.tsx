@@ -141,8 +141,8 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     setWrapperWidth(offsetWidth);
     setWrapperHeight(offsetHeight);
     setWrapperScrollWidth(tabListRef.current.offsetWidth);
-    setOperationsWidth(operationsRef.current.offsetWidth);
-    setOperationsHeight(operationsRef.current.offsetHeight);
+    setOperationsWidth(operationsRef.current?.offsetWidth || 0);
+    setOperationsHeight(operationsRef.current?.offsetHeight || 0);
 
     // Update buttons records
     setTabSizes(() => {
@@ -259,13 +259,15 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
                 style={inkStyle}
               />
 
-              <OperationNode
-                {...props}
-                style={operationsStyle}
-                ref={operationsRef}
-                prefixCls={prefixCls}
-                tabs={hiddenTabs}
-              />
+              {!mobile && (
+                <OperationNode
+                  {...props}
+                  style={operationsStyle}
+                  ref={operationsRef}
+                  prefixCls={prefixCls}
+                  tabs={hiddenTabs}
+                />
+              )}
             </div>
           </ResizeObserver>
         </div>

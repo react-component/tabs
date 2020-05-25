@@ -1,8 +1,8 @@
 // Accessibility https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/Tab_Role
 import * as React from 'react';
+import { useEffect } from 'react';
 import classNames from 'classnames';
 import toArray from 'rc-util/lib/Children/toArray';
-import warning from 'rc-util/lib/warning';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import TabPane, { TabPaneProps } from './sugar/TabPane';
 import TabNavList from './TabNavList';
@@ -89,7 +89,13 @@ function Tabs(
   }: TabsProps,
   ref: React.Ref<HTMLDivElement>,
 ) {
-  const [mobile] = React.useState(isMobile);
+  // ======================== Mobile ========================
+  const [mobile, setMobile] = React.useState(false);
+  useEffect(() => {
+    // Only update on the client side
+    setMobile(isMobile());
+  }, []);
+
   const tabs = parseTabList(children);
   const rtl = direction === 'rtl';
 
@@ -97,13 +103,9 @@ function Tabs(
     value: activeKey,
     defaultValue: defaultActiveKey,
     postState: key => (key !== undefined ? key : tabs[0]?.key),
-    // postState: key => {
-    //   if (tabs.some(tab => tab.key === key)) {
-    //     return key;
-    //   }
-    //   return tabs[0]?.key;
-    // },
   });
+
+  // Reset
 
   const [mergedId, setMergedId] = useMergedState(null, {
     value: id,
@@ -112,7 +114,7 @@ function Tabs(
   const mergedTabPosition = mobile ? 'top' : tabPosition;
 
   // Async generate id to avoid ssr mapping failed
-  React.useEffect(() => {
+  useEffect(() => {
     if (!id) {
       setMergedId(`rc-tabs-${uuid}`);
       uuid += 1;

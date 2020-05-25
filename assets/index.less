@@ -35,13 +35,13 @@
       display: flex;
       position: relative;
 
-      // .@{tabs-prefix-cls}:not(.@{tabs-prefix-cls}-mobile) & {
-      //   transition: transform 0.3s;
-      // }
-
       &::after {
         content: '';
         flex: none;
+      }
+
+      .@{tabs-prefix-cls}-mobile &::after {
+        display: none;
       }
     }
 
