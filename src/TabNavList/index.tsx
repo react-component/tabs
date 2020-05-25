@@ -189,15 +189,15 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   }
 
   if (lastVisibleTabOffset) {
+    const optGutter = tabBarGutter || 0;
     if (tabPositionTopOrBottom) {
-      const optGutter = tabBarGutter || 0;
       if (rtl) {
         operationsStyle.right = lastVisibleTabOffset.right + lastVisibleTabOffset.width + optGutter;
       } else {
         operationsStyle.left = lastVisibleTabOffset.left + lastVisibleTabOffset.width + optGutter;
       }
     } else {
-      // TODO:
+      operationsStyle.top = lastVisibleTabOffset.top + lastVisibleTabOffset.height + optGutter;
     }
   }
 
