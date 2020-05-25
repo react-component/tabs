@@ -67,46 +67,44 @@ function TabNode(
   }
 
   let node: React.ReactElement = (
-    <div>
-      <button
-        key={key}
-        ref={ref}
-        type="button"
-        role="tab"
-        aria-selected={active}
-        id={id && `${id}-tab-${key}`}
-        aria-controls={id && `${id}-panel-${key}`}
-        tabIndex={0}
-        disabled={disabled}
-        className={classNames(tabPrefix, {
-          [`${tabPrefix}-with-remove`]: removable,
-          [`${tabPrefix}-active`]: active,
-          [`${tabPrefix}-disabled`]: disabled,
-        })}
-        onClick={onClick}
-        style={nodeStyle}
-      >
-        {tab}
-        {removable && (
-          <span
-            role="button"
-            aria-label={removeAriaLabel || 'remove'}
-            tabIndex={0}
-            className={`${tabPrefix}-remove`}
-            onClick={e => {
+    <button
+      key={key}
+      ref={ref}
+      type="button"
+      role="tab"
+      aria-selected={active}
+      id={id && `${id}-tab-${key}`}
+      aria-controls={id && `${id}-panel-${key}`}
+      tabIndex={0}
+      disabled={disabled}
+      className={classNames(tabPrefix, {
+        [`${tabPrefix}-with-remove`]: removable,
+        [`${tabPrefix}-active`]: active,
+        [`${tabPrefix}-disabled`]: disabled,
+      })}
+      onClick={onClick}
+      style={nodeStyle}
+    >
+      {tab}
+      {removable && (
+        <span
+          role="button"
+          aria-label={removeAriaLabel || 'remove'}
+          tabIndex={0}
+          className={`${tabPrefix}-remove`}
+          onClick={e => {
+            onRemoveTab(e);
+          }}
+          onKeyDown={e => {
+            if ([KeyCode.SPACE, KeyCode.ENTER].includes(e.which)) {
               onRemoveTab(e);
-            }}
-            onKeyDown={e => {
-              if ([KeyCode.SPACE, KeyCode.ENTER].includes(e.which)) {
-                onRemoveTab(e);
-              }
-            }}
-          >
-            {editable.removeIcon || '×'}
-          </span>
-        )}
-      </button>
-    </div>
+            }
+          }}
+        >
+          {editable.removeIcon || '×'}
+        </span>
+      )}
+    </button>
   );
 
   if (renderWrapper) {

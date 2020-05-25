@@ -186,6 +186,7 @@ function Tabs(
           `${prefixCls}-${mergedTabPosition}`,
           {
             [`${prefixCls}-mobile`]: mobile,
+            [`${prefixCls}-editable`]: editable,
             [`${prefixCls}-rtl`]: rtl,
           },
           className,

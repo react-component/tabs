@@ -15,6 +15,13 @@
     .@{tabs-prefix-cls}-nav-list::after {
       width: 100px;
     }
+
+    .@{tabs-prefix-cls}-nav {
+      &-operations {
+        top: 0;
+        bottom: 0;
+      }
+    }
   }
 
   &-top {
@@ -40,6 +47,10 @@
   // ========================= Horizontal =========================
   &-left,
   &-right {
+    &.@{tabs-prefix-cls}-editable .@{tabs-prefix-cls}-tab {
+      padding-right: 32px;
+    }
+
     .@{tabs-prefix-cls}-ink-bar {
       width: 3px;
     }
@@ -52,6 +63,12 @@
       flex-direction: column;
 
       &-list {
+        flex-direction: column;
+      }
+
+      &-operations {
+        left: 0;
+        right: 0;
         flex-direction: column;
       }
     }
