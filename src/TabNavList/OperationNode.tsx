@@ -4,6 +4,7 @@ import KeyCode from 'rc-util/lib/KeyCode';
 import Menu, { MenuItem } from 'rc-menu';
 import Dropdown from 'rc-dropdown';
 import { Tab, TabsLocale, EditableConfig } from '../interface';
+import AddButton from './AddButton';
 
 export interface OperationNodeProps {
   prefixCls: string;
@@ -149,21 +150,7 @@ function OperationNode(
         </button>
       </Dropdown>
 
-      {editable && editable.showAdd !== false && (
-        <button
-          type="button"
-          className={`${prefixCls}-nav-more`}
-          style={{ visibility: tabs.length ? null : 'hidden' }}
-          aria-label={locale?.addAriaLabel || 'Add tab'}
-          onClick={event => {
-            editable.onEdit('add', {
-              event,
-            });
-          }}
-        >
-          {editable.addIcon || 'Add'}
-        </button>
-      )}
+      <AddButton prefixCls={prefixCls} locale={locale} editable={editable} />
     </div>
   );
 }

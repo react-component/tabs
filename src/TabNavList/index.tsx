@@ -11,6 +11,7 @@ import OperationNode from './OperationNode';
 import TabContext from '../TabContext';
 import useTouchMove from '../hooks/useTouchMove';
 import useRefs from '../hooks/useRefs';
+import AddButton from './AddButton';
 
 export interface TabNavListProps {
   id: string;
@@ -272,6 +273,8 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
           </ResizeObserver>
         </div>
       </ResizeObserver>
+
+      {mobile && <AddButton prefixCls={prefixCls} locale={locale} editable={editable} />}
 
       {extra && <div className={`${prefixCls}-extra-content`}>{extra}</div>}
     </div>
