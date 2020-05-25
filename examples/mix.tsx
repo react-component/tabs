@@ -33,8 +33,18 @@ export default () => {
         ) => {
           if (type === 'remove') {
             setTabPanes(tabs => tabs.filter(tab => tab.key !== info.key));
+          } else {
+            setTabPanes(tabs => {
+              const lastTab = tabs[tabs.length - 1];
+              const num = Number(lastTab.key) + 1;
+              return [
+                ...tabs,
+                <TabPane key={num} tab={`Tab ${num}`}>
+                  Content of {num}
+                </TabPane>,
+              ];
+            });
           }
-          console.log(type, info);
         },
       }
     : null;

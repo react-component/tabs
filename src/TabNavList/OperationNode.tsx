@@ -32,6 +32,8 @@ function OperationNode(
   }: OperationNodeProps,
   ref: React.Ref<HTMLDivElement>,
 ) {
+  // ======================== Dropdown ========================
+  const showDropdown = !!tabs.length;
   const [open, setOpen] = useState(false);
   const [selectedKey, setSelectedKey] = useState<string>(null);
 
@@ -113,8 +115,9 @@ function OperationNode(
     }
   }
 
-  // We use query element here to avoid React strict warning
+  // ========================= Effect =========================
   useEffect(() => {
+    // We use query element here to avoid React strict warning
     const ele = document.getElementById(selectedItemId);
     if (ele && ele.scrollIntoView) {
       ele.scrollIntoView(false);
@@ -127,6 +130,7 @@ function OperationNode(
     }
   }, [open]);
 
+  // ========================= Render =========================
   return (
     <div className={`${prefixCls}-nav-operations`} style={style} ref={ref}>
       <Dropdown
@@ -139,7 +143,7 @@ function OperationNode(
         <button
           type="button"
           className={`${prefixCls}-nav-more`}
-          style={{ visibility: tabs.length ? null : 'hidden' }}
+          style={showDropdown ? null : { visibility: 'hidden', order: 1 }}
           aria-haspopup="listbox"
           aria-controls={popupId}
           id={`${id}-more`}
