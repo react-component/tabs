@@ -11,6 +11,8 @@ export interface OperationNodeProps {
   style: React.CSSProperties;
   id: string;
   tabs: Tab[];
+  rtl: boolean;
+  tabBarGutter?: number;
   activeKey: string;
   mobile: boolean;
   moreIcon?: React.ReactNode;
@@ -28,12 +30,13 @@ function OperationNode(
     moreIcon = 'More',
     style,
     editable,
+    tabBarGutter,
+    rtl,
     onTabClick,
   }: OperationNodeProps,
   ref: React.Ref<HTMLDivElement>,
 ) {
   // ======================== Dropdown ========================
-  const showDropdown = !!tabs.length;
   const [open, setOpen] = useState(false);
   const [selectedKey, setSelectedKey] = useState<string>(null);
 
@@ -131,6 +134,14 @@ function OperationNode(
   }, [open]);
 
   // ========================= Render =========================
+  const moreStyle: React.CSSProperties = {
+    [rtl ? 'marginLeft' : 'marginRight']: tabBarGutter,
+  };
+  if (!tabs.length) {
+    moreStyle.visibility = 'hidden';
+    moreStyle.order = 1;
+  }
+
   return (
     <div className={`${prefixCls}-nav-operations`} style={style} ref={ref}>
       <Dropdown
@@ -143,7 +154,7 @@ function OperationNode(
         <button
           type="button"
           className={`${prefixCls}-nav-more`}
-          style={showDropdown ? null : { visibility: 'hidden', order: 1 }}
+          style={moreStyle}
           aria-haspopup="listbox"
           aria-controls={popupId}
           id={`${id}-more`}

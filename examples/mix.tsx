@@ -16,6 +16,7 @@ function getTabPanes(count = 50) {
 }
 
 export default () => {
+  const [activeKey, setActiveKey] = React.useState<string>(undefined);
   const [position, setPosition] = React.useState<any>('top');
   const [gutter, setGutter] = React.useState(false);
   const [fixHeight, setFixHeight] = React.useState(false);
@@ -95,6 +96,17 @@ export default () => {
           Change TabPanes
         </button>
 
+        {/* Active random */}
+        <button
+          type="button"
+          onClick={() => {
+            const tab = tabPanes[Math.floor(tabPanes.length * Math.random())];
+            setActiveKey(String(tab.key));
+          }}
+        >
+          Active Random
+        </button>
+
         {/* Position */}
         <select value={position} onChange={e => setPosition(e.target.value)}>
           <option>left</option>
@@ -117,6 +129,12 @@ export default () => {
       {!destroy && (
         <React.StrictMode>
           <Tabs
+            activeKey={activeKey}
+            onChange={key => {
+              if (activeKey !== undefined) {
+                setActiveKey(key);
+              }
+            }}
             animated={animated}
             editable={editableConfig}
             direction={rtl ? 'rtl' : null}

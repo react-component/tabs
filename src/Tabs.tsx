@@ -43,8 +43,8 @@ export interface TabsProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'o
   tabBarStyle?: React.CSSProperties;
   tabPosition?: TabPosition;
 
-  onChange?: (activeKey: React.Key) => void;
-  onTabClick?: (activeKey: React.Key, e: React.KeyboardEvent | React.MouseEvent) => void;
+  onChange?: (activeKey: string) => void;
+  onTabClick?: (activeKey: string, e: React.KeyboardEvent | React.MouseEvent) => void;
 
   editable?: EditableConfig;
 
