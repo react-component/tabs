@@ -2,6 +2,7 @@
 import * as React from 'react';
 import classNames from 'classnames';
 import toArray from 'rc-util/lib/Children/toArray';
+import warning from 'rc-util/lib/warning';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import TabPane, { TabPaneProps } from './sugar/TabPane';
 import TabNavList from './TabNavList';
@@ -95,7 +96,12 @@ function Tabs(
   const [mergedActiveKey, setMergedActiveKey] = useMergedState<string>(undefined, {
     value: activeKey,
     defaultValue: defaultActiveKey,
-    postState: key => (key === undefined ? tabs[0]?.key : key),
+    postState: key => {
+      if (tabs.some(tab => tab.key === key)) {
+        return key;
+      }
+      return tabs[0]?.key;
+    },
   });
 
   const [mergedId, setMergedId] = useMergedState(null, {

@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import KeyCode from 'rc-util/lib/KeyCode';
 import Menu, { MenuItem } from 'rc-menu';
 import Dropdown from 'rc-dropdown';
-import { Tab, TabsLocale } from '../interface';
+import { Tab, TabsLocale, EditableConfig } from '../interface';
 
 export interface OperationNodeProps {
   prefixCls: string;
@@ -13,12 +13,22 @@ export interface OperationNodeProps {
   activeKey: string;
   mobile: boolean;
   moreIcon?: React.ReactNode;
+  editable?: EditableConfig;
   locale?: TabsLocale;
   onTabClick: (key: React.Key, e: React.MouseEvent | React.KeyboardEvent) => void;
 }
 
 function OperationNode(
-  { prefixCls, id, tabs, locale, moreIcon = 'More', style, onTabClick }: OperationNodeProps,
+  {
+    prefixCls,
+    id,
+    tabs,
+    locale,
+    moreIcon = 'More',
+    style,
+    editable,
+    onTabClick,
+  }: OperationNodeProps,
   ref: React.Ref<HTMLDivElement>,
 ) {
   const [open, setOpen] = useState(false);
@@ -138,6 +148,22 @@ function OperationNode(
           {moreIcon}
         </button>
       </Dropdown>
+
+      {editable && editable.showAdd !== false && (
+        <button
+          type="button"
+          className={`${prefixCls}-nav-more`}
+          style={{ visibility: tabs.length ? null : 'hidden' }}
+          aria-label={locale?.addAriaLabel || 'Add tab'}
+          onClick={event => {
+            editable.onEdit('add', {
+              event,
+            });
+          }}
+        >
+          {editable.addIcon || 'Add'}
+        </button>
+      )}
     </div>
   );
 }

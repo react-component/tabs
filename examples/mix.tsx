@@ -25,6 +25,20 @@ export default () => {
   const [animated, setAnimated] = React.useState(true);
   const [tabPanes, setTabPanes] = React.useState(getTabPanes(50));
 
+  const editableConfig = editable
+    ? {
+        onEdit: (
+          type: string,
+          info: { key?: string; event: React.MouseEvent | React.KeyboardEvent },
+        ) => {
+          if (type === 'remove') {
+            setTabPanes(tabs => tabs.filter(tab => tab.key !== info.key));
+          }
+          console.log(type, info);
+        },
+      }
+    : null;
+
   return (
     <div style={{ minHeight: 2000 }}>
       <div>
@@ -94,15 +108,7 @@ export default () => {
         <React.StrictMode>
           <Tabs
             animated={animated}
-            editable={
-              editable
-                ? {
-                    onEdit: (type, info) => {
-                      console.log(type, info);
-                    },
-                  }
-                : null
-            }
+            editable={editableConfig}
             direction={rtl ? 'rtl' : null}
             tabPosition={position}
             tabBarGutter={gutter ? 32 : null}
