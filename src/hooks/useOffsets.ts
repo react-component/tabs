@@ -7,7 +7,13 @@ export default function useOffsets(tabs: Tab[], tabSizes: TabSizeMap, holderScro
 
     for (let i = 0; i < tabs.length; i += 1) {
       const { key } = tabs[i];
-      const data = tabSizes.get(key) || { width: 0, height: 0, left: 0, top: 0 };
+      let data = tabSizes.get(key);
+
+      // Reuse last one when not exist yet
+      if (!data) {
+        data = tabSizes.get(tabs[i - 1]?.key) || { width: 0, height: 0, left: 0, top: 0 };
+      }
+
       const entity = (map.get(key) || { ...data }) as TabOffset;
 
       // Right
