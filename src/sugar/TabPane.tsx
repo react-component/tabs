@@ -7,6 +7,7 @@ export interface TabPaneProps {
   disabled?: boolean;
   children?: React.ReactNode;
   forceRender?: boolean;
+  closable?: boolean;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

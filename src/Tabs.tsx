@@ -45,7 +45,7 @@ export interface TabsProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'o
   onChange?: (activeKey: React.Key) => void;
   onTabClick?: (activeKey: React.Key, e: React.KeyboardEvent | React.MouseEvent) => void;
 
-  editable?: boolean | EditableConfig;
+  editable?: EditableConfig;
 
   // Accessibility
   locale?: TabsLocale;
@@ -127,18 +127,12 @@ function Tabs(
     rtl,
   };
 
-  // ======================= Editable =======================
-  let editConfig: EditableConfig;
-  if (editable === true) {
-    editConfig = {};
-  }
-
   // ======================== Render ========================
   let tabNavBar: React.ReactElement;
 
   const tabNavBarProps = {
     ...sharedProps,
-    editable: editConfig,
+    editable,
     locale,
     moreIcon,
     tabBarGutter,

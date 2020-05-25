@@ -66,6 +66,22 @@
     padding: 8px 16px;
     outline: none;
     cursor: pointer;
+    position: relative;
+
+    &-with-remove {
+      padding-right: 32px;
+    }
+
+    &-remove {
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+
+      &:hover {
+        color: red;
+      }
+    }
 
     &:focus {
       background: rgba(0, 0, 255, 0.1);

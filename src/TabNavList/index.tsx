@@ -41,7 +41,9 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     activeKey,
     rtl,
     extra,
+    editable,
     mobile,
+    locale,
     tabPosition,
     tabBarGutter,
     children,
@@ -114,11 +116,14 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
         key={key}
         rtl={rtl}
         tab={tab}
+        closable={tab.closable}
+        editable={editable}
         active={key === activeKey}
         visible={mobile || (visibleStart <= index && index <= visibleEnd)}
         tabPosition={tabPosition}
         tabBarGutter={tabBarGutter}
         renderWrapper={children}
+        removeAriaLabel={locale?.removeAriaLabel}
         ref={getBtnRef(key)}
         onClick={e => {
           onTabClick(key, e);

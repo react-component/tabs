@@ -20,6 +20,7 @@ export default () => {
   const [gutter, setGutter] = React.useState(false);
   const [fixHeight, setFixHeight] = React.useState(false);
   const [rtl, setRTL] = React.useState(false);
+  const [editable, setEditable] = React.useState(true);
   const [destroy, setDestroy] = React.useState(false);
   const [animated, setAnimated] = React.useState(true);
   const [tabPanes, setTabPanes] = React.useState(getTabPanes(50));
@@ -43,6 +44,12 @@ export default () => {
         <label>
           <input type="checkbox" checked={fixHeight} onChange={() => setFixHeight(val => !val)} />
           Set fixed height
+        </label>
+
+        {/* editable */}
+        <label>
+          <input type="checkbox" checked={editable} onChange={() => setEditable(val => !val)} />
+          Set Editable
         </label>
 
         {/* direction */}
@@ -87,6 +94,15 @@ export default () => {
         <React.StrictMode>
           <Tabs
             animated={animated}
+            editable={
+              editable
+                ? {
+                    onEdit: (type, info) => {
+                      console.log(type, info);
+                    },
+                  }
+                : null
+            }
             direction={rtl ? 'rtl' : null}
             tabPosition={position}
             tabBarGutter={gutter ? 32 : null}

@@ -27,6 +27,7 @@ export type RenderTabBar = (props: any, DefaultTabBar: React.ComponentType) => R
 
 export interface TabsLocale {
   dropdownAriaLabel?: string;
+  removeAriaLabel?: string;
 }
 
 export interface EditableConfig {
