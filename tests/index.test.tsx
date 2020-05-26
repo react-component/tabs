@@ -1,5 +1,6 @@
 import React from 'react';
-import { mount } from 'enzyme';
+import { mount, ReactWrapper } from 'enzyme';
+import KeyCode from 'rc-util/lib/KeyCode';
 import Tabs, { TabPane } from '../src';
 import { TabsProps } from '../src/Tabs';
 
@@ -101,5 +102,85 @@ describe('Tabs.Basic', () => {
     expect(wrapper.find('.my-wrapper').length).toBeTruthy();
     expect(wrapper.find('.my-node').length).toBeTruthy();
     expect(renderTabBar).toHaveBeenCalled();
+  });
+
+  it('destroyInactiveTabPane', () => {
+    const wrapper = mount(
+      getTabs({
+        activeKey: 'light',
+        destroyInactiveTabPane: true,
+        children: [<TabPane key="light">Light</TabPane>, <TabPane key="bamboo">Bamboo</TabPane>],
+      }),
+    );
+
+    function matchText(light: string, bamboo: string) {
+      expect(
+        wrapper
+          .find('.rc-tabs-tabpane')
+          .first()
+          .text(),
+      ).toEqual(light);
+      expect(
+        wrapper
+          .find('.rc-tabs-tabpane')
+          .last()
+          .text(),
+      ).toEqual(bamboo);
+    }
+
+    matchText('Light', '');
+
+    wrapper.setProps({ activeKey: 'bamboo' });
+    matchText('', 'Bamboo');
+  });
+
+  describe('editable', () => {
+    it('no and', () => {
+      const onEdit = jest.fn();
+      const wrapper = mount(getTabs({ editable: { onEdit, showAdd: false } }));
+      expect(wrapper.find('.rc-tabs-nav-add')).toHaveLength(0);
+    });
+
+    it('add', () => {
+      const onEdit = jest.fn();
+      const wrapper = mount(getTabs({ editable: { onEdit } }));
+      wrapper.find('.rc-tabs-nav-add').simulate('click');
+      expect(onEdit).toHaveBeenCalledWith('add', {
+        key: undefined,
+        event: expect.anything(),
+      });
+    });
+
+    const list: { name: string; trigger: (node: ReactWrapper) => void }[] = [
+      {
+        name: 'click',
+        trigger: node => {
+          node.simulate('click');
+        },
+      },
+      {
+        name: 'key',
+        trigger: node => {
+          node.simulate('keydown', {
+            which: KeyCode.SPACE,
+          });
+        },
+      },
+    ];
+
+    list.forEach(({ name, trigger }) => {
+      it(`remove by ${name}`, () => {
+        const onEdit = jest.fn();
+        const wrapper = mount(getTabs({ editable: { onEdit } }));
+
+        const first = wrapper.find('.rc-tabs-tab-remove').first();
+        trigger(first);
+
+        expect(onEdit).toHaveBeenCalledWith('remove', {
+          key: 'light',
+          event: expect.anything(),
+        });
+      });
+    });
   });
 });

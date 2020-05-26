@@ -129,6 +129,10 @@ describe('Tabs.Mobile', () => {
 
       const { transform } = wrapper.find('.rc-tabs-nav-list').props().style;
       const match = transform.match(/\(([-\d]+)px/);
+      if (!match) {
+        console.log(wrapper.find('.rc-tabs-nav-list').html());
+        throw new Error(`Not find transform: ${transform}`);
+      }
       expect(Number(match[1]) < -200).toBeTruthy();
 
       jest.useRealTimers();

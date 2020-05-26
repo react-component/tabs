@@ -13,9 +13,7 @@ import { isMobile } from './hooks/useTouchMove';
 
 /**
  * Should added antd:
- * - hideAdd
  * - type
- * - onEdit
  *
  * Removed:
  * - onNextClick
