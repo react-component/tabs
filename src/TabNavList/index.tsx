@@ -223,27 +223,25 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     }
   }, [wrapperScrollWidth, visibleStart, tabOffsets, mobile, tabPositionTopOrBottom]);
 
-  // Scroll mobile
+  // Scroll mobile - Mobile do not provides left & right style
   useEffect(() => {
     if (!mobile || !activeTabOffset) return;
 
-    if (tabPositionTopOrBottom) {
-      // RTL
-      if (rtl) {
-        if (activeTabOffset.right < transformLeft) {
-          setTransformLeft(activeTabOffset.right);
-        } else if (activeTabOffset.right + activeTabOffset.width > transformLeft + wrapperWidth) {
-          setTransformLeft(activeTabOffset.right + activeTabOffset.width - wrapperWidth);
-        }
-      }
-      // LTR
-      else if (activeTabOffset.left < -transformLeft) {
-        setTransformLeft(-activeTabOffset.left);
-      } else if (activeTabOffset.left > -transformLeft + wrapperWidth) {
-        setTransformLeft(-(activeTabOffset.left + activeTabOffset.width - wrapperWidth));
+    // RTL
+    if (rtl) {
+      if (activeTabOffset.right < transformLeft) {
+        setTransformLeft(activeTabOffset.right);
+      } else if (activeTabOffset.right + activeTabOffset.width > transformLeft + wrapperWidth) {
+        setTransformLeft(activeTabOffset.right + activeTabOffset.width - wrapperWidth);
       }
     }
-  }, [mobile, activeKey, activeTabOffset, tabOffsets, tabPositionTopOrBottom]);
+    // LTR
+    else if (activeTabOffset.left < -transformLeft) {
+      setTransformLeft(-activeTabOffset.left);
+    } else if (activeTabOffset.left > -transformLeft + wrapperWidth) {
+      setTransformLeft(-(activeTabOffset.left + activeTabOffset.width - wrapperWidth));
+    }
+  }, [mobile, activeKey, activeTabOffset, tabOffsets]);
 
   // Should recalculate when rtl changed
   useEffect(() => {
