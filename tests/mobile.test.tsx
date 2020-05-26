@@ -53,11 +53,9 @@ describe('Tabs.Mobile', () => {
             if (this.className.includes('rc-tabs-nav-list')) {
               return tabCount * 20;
             }
-
             if (this.className.includes('rc-tabs-nav-wrap')) {
               return 40;
             }
-
             throw new Error(`className not match ${this.className}`);
           },
         },

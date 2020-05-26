@@ -7,7 +7,6 @@ import Tabs, { TabPane } from '../src';
 import { TabsProps } from '../src/Tabs';
 
 describe('Tabs.Overflow', () => {
-  let scrollLeft: number = 0;
   let domSpy: ReturnType<typeof spyElementPrototypes>;
   let buttonSpy: ReturnType<typeof spyElementPrototypes>;
   let holder: HTMLDivElement;
@@ -24,7 +23,9 @@ describe('Tabs.Overflow', () => {
         get() {
           // Mock button offset
           const btn = this as HTMLButtonElement;
-          const btnList = [...btn.parentNode.childNodes];
+          const btnList = [...btn.parentNode.childNodes].filter(ele =>
+            (ele as HTMLElement).className.includes('rc-tabs-tab'),
+          );
           const index = btnList.indexOf(btn);
           if (rtl) {
             return 20 * (btnList.length - index - 1);
@@ -33,19 +34,31 @@ describe('Tabs.Overflow', () => {
         },
       },
     });
+
+    function getOffsetSize() {
+      if (this.className.includes('rc-tabs-tab')) {
+        return 20;
+      }
+      if (this.className.includes('rc-tabs-nav-list')) {
+        return 5 * 20;
+      }
+      if (this.className.includes('rc-tabs-nav-wrap')) {
+        return 50;
+      }
+      if (this.className.includes('rc-tabs-nav-operations')) {
+        return 10;
+      }
+
+      throw new Error(`className not match ${this.className}`);
+    }
+
     domSpy = spyElementPrototypes(HTMLElement, {
       scrollIntoView: () => {},
-      scrollLeft: {
-        get: () => scrollLeft,
-        set: (_: any, val: number) => {
-          scrollLeft = val;
-        },
-      } as any,
       offsetWidth: {
-        get: () => 40,
+        get: getOffsetSize,
       },
       offsetHeight: {
-        get: () => 40,
+        get: getOffsetSize,
       },
       scrollWidth: {
         get: () => 5 * 20,
@@ -209,7 +222,10 @@ describe('Tabs.Overflow', () => {
         jest.runAllTimers();
         wrapper.update();
       });
-      expect(scrollLeft).toEqual(40);
+
+      const { transform } = wrapper.find('.rc-tabs-nav-list').props().style;
+      const match = transform.match(/\(([-\d]+)px/);
+      expect(Number(match[1])).toEqual(20);
       jest.useRealTimers();
     });
   });
