@@ -10,6 +10,7 @@ export interface TabPanelListProps {
   rtl: boolean;
   animated?: boolean;
   tabPosition?: TabPosition;
+  destroyInactiveTabPane?: boolean;
 }
 
 export default function TabPanelList({
@@ -18,6 +19,7 @@ export default function TabPanelList({
   animated,
   tabPosition,
   rtl,
+  destroyInactiveTabPane,
 }: TabPanelListProps) {
   const { prefixCls, tabs } = React.useContext(TabContext);
 
@@ -29,13 +31,15 @@ export default function TabPanelList({
         className={classNames(`${prefixCls}-content`, `${prefixCls}-content-${tabPosition}`, {
           [`${prefixCls}-content-animated`]: animated,
         })}
-        style={{ [rtl ? 'marginRight' : 'marginLeft']: `-${activeIndex}00%` }}
+        style={animated ? { [rtl ? 'marginRight' : 'marginLeft']: `-${activeIndex}00%` } : null}
       >
         {tabs.map(tab => {
           return (
             <TabPane
               prefixCls={prefixCls}
               id={id}
+              animated={animated}
+              destroyInactiveTabPane={destroyInactiveTabPane}
               active={tab.key === activeKey}
               key={tab.key}
               tab={tab}

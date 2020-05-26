@@ -42,6 +42,7 @@ export interface TabsProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'o
   tabBarGutter?: number;
   tabBarStyle?: React.CSSProperties;
   tabPosition?: TabPosition;
+  destroyInactiveTabPane?: boolean;
 
   onChange?: (activeKey: string) => void;
   onTabClick?: (activeKey: string, e: React.KeyboardEvent | React.MouseEvent) => void;
@@ -82,6 +83,7 @@ function Tabs(
     tabBarExtraContent,
     locale,
     moreIcon,
+    destroyInactiveTabPane,
     renderTabBar,
     onChange,
     onTabClick,
@@ -194,7 +196,7 @@ function Tabs(
         {...restProps}
       >
         {tabNavBar}
-        <TabPanelList {...sharedProps} />
+        <TabPanelList destroyInactiveTabPane={destroyInactiveTabPane} {...sharedProps} />
       </div>
     </TabContext.Provider>
   );

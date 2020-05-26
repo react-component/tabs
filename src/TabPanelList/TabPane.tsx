@@ -6,13 +6,17 @@ export interface TabPaneProps {
   prefixCls: string;
   id: string;
   tab: Tab;
+  animated: boolean;
   active: boolean;
+  destroyInactiveTabPane?: boolean;
 }
 
 export default function TabPane({
   prefixCls,
   id,
   active,
+  animated,
+  destroyInactiveTabPane,
   tab: { key, children, forceRender, className, style },
 }: TabPaneProps) {
   const [visited, setVisited] = React.useState(forceRender);
@@ -20,8 +24,19 @@ export default function TabPane({
   React.useEffect(() => {
     if (active) {
       setVisited(true);
+    } else if (destroyInactiveTabPane) {
+      setVisited(false);
     }
-  }, [active]);
+  }, [active, destroyInactiveTabPane]);
+
+  const mergedStyle: React.CSSProperties = {};
+  if (!active) {
+    if (animated) {
+      mergedStyle.visibility = 'hidden';
+    } else {
+      mergedStyle.display = 'none';
+    }
+  }
 
   return (
     <div
@@ -30,14 +45,14 @@ export default function TabPane({
       tabIndex={active ? 0 : -1}
       aria-labelledby={id && `${id}-tab-${key}`}
       aria-hidden={!active}
-      style={{ visibility: active ? 'visible' : 'hidden', ...style }}
+      style={{ ...mergedStyle, ...style }}
       className={classNames(
         `${prefixCls}-tabpane`,
         active && `${prefixCls}-tabpane-active`,
         className,
       )}
     >
-      {(visited || forceRender) && children}
+      {(active || visited || forceRender) && children}
     </div>
   );
 }

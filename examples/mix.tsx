@@ -22,6 +22,7 @@ export default () => {
   const [fixHeight, setFixHeight] = React.useState(false);
   const [rtl, setRTL] = React.useState(false);
   const [editable, setEditable] = React.useState(true);
+  const [destroyInactiveTabPane, setDestroyInactiveTabPane] = React.useState(false);
   const [destroy, setDestroy] = React.useState(false);
   const [animated, setAnimated] = React.useState(true);
   const [tabPanes, setTabPanes] = React.useState(getTabPanes(50));
@@ -75,6 +76,16 @@ export default () => {
         <label>
           <input type="checkbox" checked={editable} onChange={() => setEditable(val => !val)} />
           Set Editable
+        </label>
+
+        {/* editable */}
+        <label>
+          <input
+            type="checkbox"
+            checked={destroyInactiveTabPane}
+            onChange={() => setDestroyInactiveTabPane(val => !val)}
+          />
+          Destroy Inactive TabPane
         </label>
 
         {/* direction */}
@@ -137,6 +148,7 @@ export default () => {
                 setActiveKey(key);
               }
             }}
+            destroyInactiveTabPane={destroyInactiveTabPane}
             animated={animated}
             editable={editableConfig}
             direction={rtl ? 'rtl' : null}
