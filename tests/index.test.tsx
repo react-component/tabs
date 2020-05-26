@@ -52,6 +52,7 @@ describe('Tabs.Basic', () => {
         </TabPane>
       ),
     });
+    wrapper.update();
 
     expect(wrapper.find('.rc-tabs-tab-active').text()).toEqual('Yo');
   });

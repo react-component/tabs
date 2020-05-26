@@ -111,7 +111,6 @@ function Tabs(
   const [mergedActiveKey, setMergedActiveKey] = useMergedState<string>(undefined, {
     value: activeKey,
     defaultValue: defaultActiveKey,
-    // postState: key => (key !== undefined ? key : tabs[0]?.key),
   });
   const [activeIndex, setActiveIndex] = useState(() =>
     tabs.findIndex(tab => tab.key === mergedActiveKey),
@@ -122,6 +121,7 @@ function Tabs(
     let newActiveIndex = tabs.findIndex(tab => tab.key === mergedActiveKey);
     if (newActiveIndex === -1) {
       newActiveIndex = Math.max(activeIndex - 1, 0);
+      newActiveIndex = Math.min(newActiveIndex, tabs.length - 1);
       setMergedActiveKey(tabs[newActiveIndex]?.key);
     }
     setActiveIndex(newActiveIndex);

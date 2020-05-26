@@ -89,7 +89,7 @@ describe('Tabs.Overflow', () => {
       .props() as any).onResize();
   }
 
-  describe('LRT', () => {
+  describe('LTR', () => {
     beforeAll(() => {
       rtl = false;
     });
