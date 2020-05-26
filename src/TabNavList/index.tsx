@@ -204,30 +204,46 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   // ========================= Effect ========================
 
   // Scroll to visible region
-  const initRef = useRef(false);
   useEffect(() => {
     const startTab = tabs[visibleStart];
     const startTabOffset = tabOffsets.get(startTab?.key);
 
-    if (startTabOffset) {
-      if (!initRef.current || !mobile) {
-        if (tabPositionTopOrBottom) {
-          setTransformTop(0);
-          if (rtl) {
-            setTransformLeft(startTabOffset.right);
-          } else {
-            setTransformLeft(-startTabOffset.left);
-          }
+    if (mobile || !startTabOffset) return;
 
-          if (startTabOffset.left) initRef.current = true;
-        } else {
-          setTransformLeft(0);
-          setTransformTop(-startTabOffset.top);
-          if (startTabOffset.top) initRef.current = true;
-        }
+    if (tabPositionTopOrBottom) {
+      setTransformTop(0);
+      if (rtl) {
+        setTransformLeft(startTabOffset.right);
+      } else {
+        setTransformLeft(-startTabOffset.left);
       }
+    } else {
+      setTransformLeft(0);
+      setTransformTop(-startTabOffset.top);
     }
   }, [wrapperScrollWidth, visibleStart, tabOffsets, mobile, tabPositionTopOrBottom]);
+
+  // Scroll mobile
+  useEffect(() => {
+    if (!mobile || !activeTabOffset) return;
+
+    if (tabPositionTopOrBottom) {
+      // RTL
+      if (rtl) {
+        if (activeTabOffset.right < transformLeft) {
+          setTransformLeft(activeTabOffset.right);
+        } else if (activeTabOffset.right + activeTabOffset.width > transformLeft + wrapperWidth) {
+          setTransformLeft(activeTabOffset.right + activeTabOffset.width - wrapperWidth);
+        }
+      }
+      // LTR
+      else if (activeTabOffset.left < -transformLeft) {
+        setTransformLeft(-activeTabOffset.left);
+      } else if (activeTabOffset.left > -transformLeft + wrapperWidth) {
+        setTransformLeft(-(activeTabOffset.left + activeTabOffset.width - wrapperWidth));
+      }
+    }
+  }, [mobile, activeKey, activeTabOffset, tabOffsets, tabPositionTopOrBottom]);
 
   // Should recalculate when rtl changed
   useEffect(() => {

@@ -20,7 +20,7 @@ export default () => {
   const [position, setPosition] = React.useState<any>('top');
   const [gutter, setGutter] = React.useState(false);
   const [fixHeight, setFixHeight] = React.useState(false);
-  const [rtl, setRTL] = React.useState(false);
+  const [rtl, setRTL] = React.useState(true);
   const [editable, setEditable] = React.useState(true);
   const [destroy, setDestroy] = React.useState(false);
   const [animated, setAnimated] = React.useState(true);
@@ -100,8 +100,10 @@ export default () => {
         <button
           type="button"
           onClick={() => {
-            const tab = tabPanes[Math.floor(tabPanes.length * Math.random())];
-            setActiveKey(String(tab.key));
+            const { key } = tabPanes[Math.floor(tabPanes.length * Math.random())];
+            // setActiveKey('29');
+            setActiveKey(String(key));
+            console.log('Random Key:', key);
           }}
         >
           Active Random
@@ -141,7 +143,7 @@ export default () => {
             tabPosition={position}
             tabBarGutter={gutter ? 32 : null}
             tabBarExtraContent="extra"
-            defaultActiveKey="16"
+            defaultActiveKey="30"
             moreIcon="..."
             style={{ height: fixHeight ? 300 : null }}
           >
