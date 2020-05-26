@@ -13,3 +13,17 @@ exports[`Tabs.Overflow LRT should collapse 1`] = `
   More
 </button>
 `;
+
+exports[`Tabs.Overflow LTR should collapse 1`] = `
+<button
+  aria-controls="rc-tabs-0-more-popup"
+  aria-expanded="false"
+  aria-haspopup="listbox"
+  class="rc-tabs-nav-more"
+  id="rc-tabs-0-more"
+  style=""
+  type="button"
+>
+  More
+</button>
+`;

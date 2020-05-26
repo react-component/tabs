@@ -80,6 +80,8 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
           min = wrapperWidth - wrapperScrollWidth;
           max = 0;
         }
+        // console.log('>>>', wrapperScrollWidth, wrapperWidth);
+        // console.log('>>>', offsetX, newLeft, min, max);
 
         if (newLeft < min) {
           return min;
