@@ -183,4 +183,9 @@ describe('Tabs.Basic', () => {
       });
     });
   });
+
+  it('extra', () => {
+    const wrapper = mount(getTabs({ tabBarExtraContent: 'Bamboo' }));
+    expect(wrapper.find('.rc-tabs-extra-content').text()).toEqual('Bamboo');
+  });
 });

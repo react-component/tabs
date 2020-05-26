@@ -1,12 +1,26 @@
 import React from 'react';
-import { mount } from 'enzyme';
+import { mount, ReactWrapper } from 'enzyme';
 import { spyElementPrototypes } from 'rc-util/lib/test/domHook';
 import { act } from 'react-dom/test-utils';
 import Tabs, { TabPane } from '../src';
 import { TabsProps } from '../src/Tabs';
-import TabNode from '../src/TabNavList/TabNode';
 
 describe('Tabs.Mobile', () => {
+  const originAgent = navigator.userAgent;
+
+  beforeAll(() => {
+    Object.defineProperty(window.navigator, 'userAgent', {
+      value:
+        'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.138 Mobile Safari/537.36',
+    });
+  });
+
+  afterAll(() => {
+    Object.defineProperty(window.navigator, 'userAgent', {
+      value: originAgent,
+    });
+  });
+
   const tabCount = 100;
 
   function getTabs(props: TabsProps = null) {
@@ -25,13 +39,12 @@ describe('Tabs.Mobile', () => {
   describe('mobile is scrollable', () => {
     let domSpy: ReturnType<typeof spyElementPrototypes>;
     let btnSpy: ReturnType<typeof spyElementPrototypes>;
-    const originAgent = navigator.userAgent;
+    let dateSpy: ReturnType<typeof jest.spyOn>;
+    let timestamp: number = 0;
+    let rtl = false;
 
     beforeAll(() => {
-      Object.defineProperty(window.navigator, 'userAgent', {
-        value:
-          'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.138 Mobile Safari/537.36',
-      });
+      dateSpy = jest.spyOn(Date, 'now').mockImplementation(() => timestamp);
 
       btnSpy = spyElementPrototypes(HTMLButtonElement, {
         offsetWidth: {
@@ -41,8 +54,14 @@ describe('Tabs.Mobile', () => {
           get() {
             // Mock button offset
             const btn = this as HTMLButtonElement;
-            const btnList = [...btn.parentNode.childNodes];
-            return 20 * btnList.indexOf(btn);
+            const btnList = [...btn.parentNode.childNodes].filter(ele =>
+              (ele as HTMLElement).className.includes('rc-tabs-tab'),
+            );
+            const index = btnList.indexOf(btn);
+            if (rtl) {
+              return 20 * (btnList.length - index - 1);
+            }
+            return 20 * index;
           },
         },
       });
@@ -63,56 +82,48 @@ describe('Tabs.Mobile', () => {
     });
 
     afterAll(() => {
-      Object.defineProperty(window.navigator, 'userAgent', {
-        value: originAgent,
-      });
       btnSpy.mockRestore();
       domSpy.mockRestore();
+      dateSpy.mockRestore();
     });
 
-    it(`touchable`, () => {
-      jest.useFakeTimers();
-      const onChange = jest.fn();
-      const wrapper = mount(getTabs({ onChange, tabPosition: 'top' }));
-
-      wrapper
-        .find(TabNode)
-        .find('ResizeObserver')
-        .forEach(node => {
-          (node.props() as any).onResize();
-        });
-
-      (wrapper
-        .find('.rc-tabs-nav')
-        .find('ResizeObserver')
-        .first()
-        .props() as any).onResize({ offsetWidth: 40, offsetHeight: 40 });
-
+    function touchMove(wrapper: ReactWrapper, jest: any, offsetX: number[] | number) {
       act(() => {
         jest.runAllTimers();
         wrapper.update();
       });
-      expect(wrapper.find('.rc-tabs-nav-more')).toHaveLength(0);
 
       // Touch to move
       wrapper.find('.rc-tabs-nav-wrap').simulate('touchstart', {
         touches: [{ screenX: 0, screenY: 0 }],
       });
 
-      // First move
-      act(() => {
-        const moveEvent1 = new TouchEvent('touchmove', {
-          touches: [{ screenX: 0, screenY: 0 } as any],
-        });
-        document.dispatchEvent(moveEvent1);
-      });
+      let screenX: number = 0;
+      let screenY: number = 0;
+      const offsetXs = Array.isArray(offsetX) ? offsetX : [offsetX];
 
-      // Second move
-      act(() => {
-        const moveEvent2 = new TouchEvent('touchmove', {
-          touches: [{ screenX: -200, screenY: -200 } as any],
+      function trigger(x = 0, y = 0) {
+        screenX += x;
+        screenY += y;
+
+        act(() => {
+          const moveEvent1 = new TouchEvent('touchmove', {
+            touches: [{ screenX, screenY } as any],
+          });
+          document.dispatchEvent(moveEvent1);
         });
-        document.dispatchEvent(moveEvent2);
+
+        timestamp += 10;
+      }
+
+      // Init
+      timestamp = 0;
+
+      // First move
+      trigger();
+
+      offsetXs.forEach(x => {
+        trigger(x);
       });
 
       // Release
@@ -126,16 +137,94 @@ describe('Tabs.Mobile', () => {
         jest.runAllTimers();
         wrapper.update();
       });
+    }
 
+    function getTransformX(wrapper: ReactWrapper) {
       const { transform } = wrapper.find('.rc-tabs-nav-list').props().style;
-      const match = transform.match(/\(([-\d]+)px/);
+      const match = transform.match(/\(([-\d.]+)px/);
       if (!match) {
         console.log(wrapper.find('.rc-tabs-nav-list').html());
         throw new Error(`Not find transform: ${transform}`);
       }
-      expect(Number(match[1]) < -200).toBeTruthy();
+      return Number(match[1]);
+    }
 
-      jest.useRealTimers();
+    describe('LTR', () => {
+      beforeAll(() => {
+        rtl = false;
+      });
+
+      it('slow move', () => {
+        jest.useFakeTimers();
+        const wrapper = mount(getTabs({ tabPosition: 'top' }));
+
+        // Last touch is slow move
+        touchMove(wrapper, jest, [-100, 0.05]);
+
+        expect(getTransformX(wrapper)).toEqual(-99.95);
+
+        jest.useRealTimers();
+      });
+
+      it('swipe', () => {
+        jest.useFakeTimers();
+        const wrapper = mount(getTabs({ tabPosition: 'top' }));
+
+        act(() => {
+          jest.runAllTimers();
+          wrapper.update();
+        });
+        expect(wrapper.find('.rc-tabs-nav-more')).toHaveLength(0);
+
+        touchMove(wrapper, jest, -200);
+
+        wrapper.update();
+        expect(getTransformX(wrapper) < -200).toBeTruthy();
+
+        jest.useRealTimers();
+      });
+
+      it('not out of the edge', () => {
+        jest.useFakeTimers();
+        const wrapper = mount(getTabs({ tabPosition: 'top' }));
+
+        touchMove(wrapper, jest, 100);
+
+        wrapper.update();
+        expect(getTransformX(wrapper)).toEqual(0);
+
+        jest.useRealTimers();
+      });
+    });
+
+    describe('RTL', () => {
+      beforeAll(() => {
+        rtl = true;
+      });
+
+      it('not out of the edge', () => {
+        jest.useFakeTimers();
+        const wrapper = mount(getTabs({ direction: 'rtl' }));
+
+        touchMove(wrapper, jest, -100);
+
+        wrapper.update();
+        expect(getTransformX(wrapper)).toEqual(0);
+
+        jest.useRealTimers();
+      });
+
+      // it('auto scroll to position', () => {
+      //   jest.useFakeTimers();
+      //   // 3 [2 1] 0
+      //   const wrapper = mount(getTabs({ direction: 'rtl', activeKey: '1' }));
+      //   act(() => {
+      //     jest.runAllTimers();
+      //   });
+      //   wrapper.update();
+      //   expect(getTransformX(wrapper)).toEqual(20);
+      //   jest.useRealTimers();
+      // });
     });
   });
 });

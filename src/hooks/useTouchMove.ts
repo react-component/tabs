@@ -3,8 +3,10 @@ import { useState, useRef } from 'react';
 
 type TouchEventHandler = (e: TouchEvent) => void;
 
+const MIN_SWIPE_DISTANCE = 0.1;
+const STOP_SWIPE_DISTANCE = 0.01;
 const REFRESH_INTERVAL = 20;
-const SPEED_OFF_MULTIPLE = 0.9;
+const SPEED_OFF_MULTIPLE = 0.995 ** REFRESH_INTERVAL;
 
 // ========================= Check if is a mobile =========================
 export function isMobile() {
@@ -50,7 +52,7 @@ export default function useTouchMove(
     onOffset(offsetX, offsetY);
     const now = Date.now();
     setLastTimestamp(now);
-    setLastTimeDiff((now - lastTimestamp) / 1000);
+    setLastTimeDiff(now - lastTimestamp);
     setLastOffset({ x: offsetX, y: offsetY });
   }
 
@@ -68,21 +70,20 @@ export default function useTouchMove(
     const absY = Math.abs(distanceY);
 
     // Skip swipe if low distance
-    if (Math.max(absX, absY) < 100) return;
+    if (Math.max(absX, absY) < MIN_SWIPE_DISTANCE) return;
 
     let currentX = distanceX;
     let currentY = distanceY;
 
     motionRef.current = window.setInterval(() => {
-      if (Math.abs(currentX) < 1 && Math.abs(currentY) < 1) {
+      if (Math.abs(currentX) < STOP_SWIPE_DISTANCE && Math.abs(currentY) < STOP_SWIPE_DISTANCE) {
         window.clearInterval(motionRef.current);
         return;
       }
 
-      const distanceMultiple = 1000 / REFRESH_INTERVAL;
-      onOffset(currentX / distanceMultiple, currentY / distanceMultiple);
       currentX *= SPEED_OFF_MULTIPLE;
       currentY *= SPEED_OFF_MULTIPLE;
+      onOffset(currentX * REFRESH_INTERVAL, currentY * REFRESH_INTERVAL);
     }, REFRESH_INTERVAL);
   }
 
