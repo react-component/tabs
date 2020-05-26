@@ -238,7 +238,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     // LTR
     else if (activeTabOffset.left < -transformLeft) {
       setTransformLeft(-activeTabOffset.left);
-    } else if (activeTabOffset.left > -transformLeft + wrapperWidth) {
+    } else if (activeTabOffset.left + activeTabOffset.width > -transformLeft + wrapperWidth) {
       setTransformLeft(-(activeTabOffset.left + activeTabOffset.width - wrapperWidth));
     }
   }, [mobile, activeKey, activeTabOffset, tabOffsets]);
