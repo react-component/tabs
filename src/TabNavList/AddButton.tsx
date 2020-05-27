@@ -8,13 +8,17 @@ export interface AddButtonProps {
   style?: React.CSSProperties;
 }
 
-export default function AddButton({ prefixCls, editable, locale, style }: AddButtonProps) {
+function AddButton(
+  { prefixCls, editable, locale, style }: AddButtonProps,
+  ref: React.Ref<HTMLButtonElement>,
+) {
   if (!editable || editable.showAdd === false) {
     return null;
   }
 
   return (
     <button
+      ref={ref}
       type="button"
       className={`${prefixCls}-nav-add`}
       style={style}
@@ -29,3 +33,5 @@ export default function AddButton({ prefixCls, editable, locale, style }: AddBut
     </button>
   );
 }
+
+export default React.forwardRef(AddButton);
