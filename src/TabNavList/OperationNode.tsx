@@ -14,7 +14,6 @@ export interface OperationNodeProps {
   rtl: boolean;
   tabBarGutter?: number;
   activeKey: string;
-  mobile: boolean;
   moreIcon?: React.ReactNode;
   editable?: EditableConfig;
   locale?: TabsLocale;

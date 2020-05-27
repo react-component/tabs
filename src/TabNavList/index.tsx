@@ -20,12 +20,13 @@ import useTouchMove from '../hooks/useTouchMove';
 import useRefs from '../hooks/useRefs';
 import AddButton from './AddButton';
 
+const HIDDEN_STYLE: React.CSSProperties = { visibility: 'hidden' };
+
 export interface TabNavListProps {
   id: string;
   tabPosition: TabPosition;
   activeKey: string;
   rtl: boolean;
-  mobile: boolean;
   animated?: AnimatedConfig;
   extra?: React.ReactNode;
   editable?: EditableConfig;
@@ -50,7 +51,6 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     rtl,
     extra,
     editable,
-    mobile,
     locale,
     tabPosition,
     tabBarGutter,
@@ -307,6 +307,8 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   }, [rtl, tabBarGutter]);
 
   // ========================= Render ========================
+  const hasDropdown = !!hiddenTabs.length;
+
   return (
     <div
       ref={ref}
@@ -331,7 +333,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
                 prefixCls={prefixCls}
                 locale={locale}
                 editable={editable}
-                style={hiddenTabs.length ? { visibility: 'hidden' } : null}
+                style={hasDropdown ? HIDDEN_STYLE : null}
               />
 
               <div
@@ -345,7 +347,12 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
         </div>
       </ResizeObserver>
 
-      <OperationNode {...props} prefixCls={prefixCls} tabs={hiddenTabs} />
+      <OperationNode
+        {...props}
+        prefixCls={prefixCls}
+        tabs={hiddenTabs}
+        style={hasDropdown ? null : HIDDEN_STYLE}
+      />
 
       {extra && <div className={`${prefixCls}-extra-content`}>{extra}</div>}
     </div>
