@@ -166,6 +166,7 @@ function Tabs(
     animated: mergedAnimated,
     tabPosition: mergedTabPosition,
     rtl,
+    mobile,
   };
 
   let tabNavBar: React.ReactElement;

@@ -14,6 +14,7 @@ export interface OperationNodeProps {
   rtl: boolean;
   tabBarGutter?: number;
   activeKey: string;
+  mobile: boolean;
   moreIcon?: React.ReactNode;
   editable?: EditableConfig;
   locale?: TabsLocale;
@@ -25,6 +26,7 @@ export default function OperationNode({
   id,
   tabs,
   locale,
+  mobile,
   moreIcon = 'More',
   style,
   editable,
@@ -138,31 +140,34 @@ export default function OperationNode({
     moreStyle.order = 1;
   }
 
+  const moreNode: React.ReactElement = mobile ? null : (
+    <Dropdown
+      prefixCls={dropdownPrefix}
+      overlay={menu}
+      trigger={['hover']}
+      visible={open}
+      onVisibleChange={setOpen}
+    >
+      <button
+        type="button"
+        className={`${prefixCls}-nav-more`}
+        style={moreStyle}
+        tabIndex={-1}
+        aria-hidden="true"
+        aria-haspopup="listbox"
+        aria-controls={popupId}
+        id={`${id}-more`}
+        aria-expanded={open}
+        onKeyDown={onKeyDown}
+      >
+        {moreIcon}
+      </button>
+    </Dropdown>
+  );
+
   return (
     <div className={`${prefixCls}-nav-operations`} style={style}>
-      <Dropdown
-        prefixCls={dropdownPrefix}
-        overlay={menu}
-        trigger={['hover']}
-        visible={open}
-        onVisibleChange={setOpen}
-      >
-        <button
-          type="button"
-          className={`${prefixCls}-nav-more`}
-          style={moreStyle}
-          tabIndex={-1}
-          aria-hidden="true"
-          aria-haspopup="listbox"
-          aria-controls={popupId}
-          id={`${id}-more`}
-          aria-expanded={open}
-          onKeyDown={onKeyDown}
-        >
-          {moreIcon}
-        </button>
-      </Dropdown>
-
+      {moreNode}
       <AddButton prefixCls={prefixCls} locale={locale} editable={editable} />
     </div>
   );

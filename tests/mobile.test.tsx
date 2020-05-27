@@ -94,8 +94,13 @@ describe('Tabs.Mobile', () => {
       });
 
       // Touch to move
-      wrapper.find('.rc-tabs-nav-wrap').simulate('touchstart', {
-        touches: [{ screenX: 0, screenY: 0 }],
+      const node = (wrapper.find('.rc-tabs-nav-wrap').instance() as unknown) as HTMLElement;
+
+      act(() => {
+        const touchStart = new TouchEvent('touchstart', {
+          touches: [{ screenX: 0, screenY: 0 } as any],
+        });
+        node.dispatchEvent(touchStart);
       });
 
       let screenX: number = 0;
