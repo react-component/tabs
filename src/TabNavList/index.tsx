@@ -225,8 +225,11 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   useEffect(() => {
     if (!activeTabOffset) return;
 
+    if (wrapperWidth >= wrapperScrollWidth) {
+      setTransformLeft(0);
+    }
     // RTL
-    if (rtl) {
+    else if (rtl) {
       if (activeTabOffset.right < transformLeft) {
         setTransformLeft(activeTabOffset.right);
       } else if (activeTabOffset.right + activeTabOffset.width > transformLeft + wrapperWidth) {
@@ -263,7 +266,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
               style={{ transform: `translate(${transformLeft}px, ${transformTop}px)` }}
             >
               {tabNodes}
-              {editable && <AddButton prefixCls={prefixCls} locale={locale} editable={editable} />}
+              <AddButton prefixCls={prefixCls} locale={locale} editable={editable} />
 
               <div
                 className={classNames(

@@ -92,7 +92,8 @@ export default function useTouchMove(
 
   // >>> Wheel event
   const lastMixedWheelRef = useRef(0);
-  const wheelTimestampRef = useRef(0);
+  const lastWheelTimestampRef = useRef(0);
+  const lastWheelPreventRef = useRef(false);
 
   function onWheel(e: WheelEvent) {
     const { deltaX, deltaY } = e;
@@ -108,15 +109,18 @@ export default function useTouchMove(
     const now = Date.now();
     const absMixed = Math.abs(mixed);
 
-    if (
-      onOffset(-mixed, -mixed) ||
-      (now - wheelTimestampRef.current < 100 && absMixed <= lastMixedWheelRef.current)
-    ) {
-      e.preventDefault();
+    if (now - lastWheelTimestampRef.current > 100 || absMixed - lastMixedWheelRef.current > 10) {
+      lastWheelPreventRef.current = false;
     }
 
+    if (onOffset(-mixed, -mixed) || lastWheelPreventRef.current) {
+      e.preventDefault();
+      lastWheelPreventRef.current = true;
+    }
+
+    lastWheelTimestampRef.current = now;
+
     lastMixedWheelRef.current = absMixed;
-    wheelTimestampRef.current = now;
   }
 
   // ========================= Effect =========================
