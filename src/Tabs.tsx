@@ -99,12 +99,6 @@ function Tabs(
     setMobile(isMobile());
   }, []);
 
-  // ======================= Animated =======================
-  let mergedAnimated = animated;
-  if (tabPosition === 'left' || tabPosition === 'right' || editable) {
-    mergedAnimated = false;
-  }
-
   // ====================== Active Key ======================
   const [mergedActiveKey, setMergedActiveKey] = useMergedState<string>(undefined, {
     value: activeKey,
@@ -152,7 +146,7 @@ function Tabs(
   const sharedProps = {
     id: mergedId,
     activeKey: mergedActiveKey,
-    animated: mergedAnimated,
+    animated,
     tabPosition: mergedTabPosition,
     rtl,
   };
@@ -194,7 +188,11 @@ function Tabs(
         {...restProps}
       >
         {tabNavBar}
-        <TabPanelList destroyInactiveTabPane={destroyInactiveTabPane} {...sharedProps} />
+        <TabPanelList
+          destroyInactiveTabPane={destroyInactiveTabPane}
+          {...sharedProps}
+          animated={animated && !['left', 'right'].includes(mergedTabPosition)}
+        />
       </div>
     </TabContext.Provider>
   );

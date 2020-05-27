@@ -17,7 +17,7 @@ function getTabPanes(count = 50) {
 
 export default () => {
   const [activeKey, setActiveKey] = React.useState<string>(undefined);
-  const [position, setPosition] = React.useState<any>('left');
+  const [position, setPosition] = React.useState<any>('top');
   const [gutter, setGutter] = React.useState(false);
   const [fixHeight, setFixHeight] = React.useState(true);
   const [rtl, setRTL] = React.useState(false);

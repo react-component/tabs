@@ -73,24 +73,24 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   let transformMax = 0;
 
   if (!tabPositionTopOrBottom) {
-    transformMin = wrapperHeight - wrapperScrollHeight;
+    transformMin = Math.min(0, wrapperHeight - wrapperScrollHeight);
     transformMax = 0;
   } else if (rtl) {
     transformMin = 0;
-    transformMax = wrapperScrollWidth - wrapperWidth;
+    transformMax = Math.max(0, wrapperScrollWidth - wrapperWidth);
   } else {
-    transformMin = wrapperWidth - wrapperScrollWidth;
+    transformMin = Math.min(0, wrapperWidth - wrapperScrollWidth);
     transformMax = 0;
   }
 
   function alignInRange(value: number): [number, boolean] {
     if (value < transformMin) {
-      return [transformMin, true];
+      return [transformMin, false];
     }
     if (value > transformMax) {
-      return [transformMax, true];
+      return [transformMax, false];
     }
-    return [value, false];
+    return [value, true];
   }
 
   // ========================= Mobile ========================
@@ -246,11 +246,8 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
       // ============ Align with top & bottom ============
       let newTransform = transformLeft;
 
-      if (wrapperWidth >= wrapperScrollWidth) {
-        newTransform = 0;
-      }
       // RTL
-      else if (rtl) {
+      if (rtl) {
         if (activeTabOffset.right < transformLeft) {
           newTransform = activeTabOffset.right;
         } else if (activeTabOffset.right + activeTabOffset.width > transformLeft + wrapperWidth) {
@@ -264,19 +261,19 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
         newTransform = -(activeTabOffset.left + activeTabOffset.width - wrapperWidth);
       }
 
+      setTransformTop(0);
       setTransformLeft(alignInRange(newTransform)[0]);
     } else {
       // ============ Align with left & right ============
       let newTransform = transformTop;
 
-      if (wrapperHeight >= wrapperScrollHeight) {
-        newTransform = 0;
-      } else if (activeTabOffset.top < -transformTop) {
+      if (activeTabOffset.top < -transformTop) {
         newTransform = -activeTabOffset.top;
       } else if (activeTabOffset.top + activeTabOffset.height > -transformTop + wrapperHeight) {
         newTransform = -(activeTabOffset.top + activeTabOffset.height - wrapperHeight);
       }
 
+      setTransformLeft(0);
       setTransformTop(alignInRange(newTransform)[0]);
     }
   }, [activeKey, activeTabOffset, tabOffsets, tabPositionTopOrBottom]);
@@ -308,6 +305,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
                 prefixCls={prefixCls}
                 locale={locale}
                 editable={editable}
+                style={hiddenTabs.length ? { visibility: 'hidden' } : null}
               />
 
               <div
