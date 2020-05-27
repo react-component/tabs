@@ -52,7 +52,6 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   } = props;
   const tabsWrapperRef = useRef<HTMLDivElement>();
   const tabListRef = useRef<HTMLDivElement>();
-  const operationsRef = useRef<HTMLDivElement>();
   const innerAddButtonRef = useRef<HTMLButtonElement>();
   const [getBtnRef, removeBtnRef] = useRefs<HTMLButtonElement>();
 
@@ -63,8 +62,6 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   const [wrapperScrollHeight, setWrapperScrollHeight] = useState<number>(0);
   const [wrapperWidth, setWrapperWidth] = useState<number>(null);
   const [wrapperHeight, setWrapperHeight] = useState<number>(null);
-  const [operationsWidth, setOperationsWidth] = useState<number>(0);
-  const [operationsHeight, setOperationsHeight] = useState<number>(0);
 
   const tabPositionTopOrBottom = tabPosition === 'top' || tabPosition === 'bottom';
 
@@ -155,8 +152,8 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     {
       width: wrapperWidth,
       height: wrapperHeight,
-      optWidth: operationsWidth,
-      optHeight: operationsHeight,
+      left: transformLeft,
+      top: transformTop,
     },
     { ...props, tabs },
   );
@@ -199,8 +196,6 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     setWrapperScrollHeight(
       tabListRef.current.offsetHeight - (innerAddButtonRef.current?.offsetHeight || 0),
     );
-    setOperationsWidth(operationsRef.current?.offsetWidth || 0);
-    setOperationsHeight(operationsRef.current?.offsetHeight || 0);
 
     // Update buttons records
     setTabSizes(() => {
@@ -344,7 +339,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
         </div>
       </ResizeObserver>
 
-      <OperationNode {...props} ref={operationsRef} prefixCls={prefixCls} tabs={hiddenTabs} />
+      <OperationNode {...props} prefixCls={prefixCls} tabs={hiddenTabs} />
 
       {extra && <div className={`${prefixCls}-extra-content`}>{extra}</div>}
     </div>

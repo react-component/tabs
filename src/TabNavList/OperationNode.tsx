@@ -21,21 +21,18 @@ export interface OperationNodeProps {
   onTabClick: (key: React.Key, e: React.MouseEvent | React.KeyboardEvent) => void;
 }
 
-function OperationNode(
-  {
-    prefixCls,
-    id,
-    tabs,
-    locale,
-    moreIcon = 'More',
-    style,
-    editable,
-    tabBarGutter,
-    rtl,
-    onTabClick,
-  }: OperationNodeProps,
-  ref: React.Ref<HTMLDivElement>,
-) {
+export default function OperationNode({
+  prefixCls,
+  id,
+  tabs,
+  locale,
+  moreIcon = 'More',
+  style,
+  editable,
+  tabBarGutter,
+  rtl,
+  onTabClick,
+}: OperationNodeProps) {
   // ======================== Dropdown ========================
   const [open, setOpen] = useState(false);
   const [selectedKey, setSelectedKey] = useState<string>(null);
@@ -143,7 +140,7 @@ function OperationNode(
   }
 
   return (
-    <div className={`${prefixCls}-nav-operations`} style={style} ref={ref}>
+    <div className={`${prefixCls}-nav-operations`} style={style}>
       <Dropdown
         prefixCls={dropdownPrefix}
         overlay={menu}
@@ -171,5 +168,3 @@ function OperationNode(
     </div>
   );
 }
-
-export default React.forwardRef(OperationNode);

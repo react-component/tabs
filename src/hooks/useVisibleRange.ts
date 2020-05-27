@@ -2,72 +2,53 @@ import { useMemo } from 'react';
 import { Tab, TabOffsetMap } from '../interface';
 import { TabNavListProps } from '../TabNavList';
 
-const DEFAULT_SIZE = { width: 0, height: 0, left: 0, top: 0 };
+const DEFAULT_SIZE = { width: 0, height: 0, left: 0, top: 0, right: 0 };
 
 export default function useVisibleRange(
   tabOffsets: TabOffsetMap,
-  containerSize: { width: number; height: number; optWidth: number; optHeight: number },
-  { tabs, activeKey, tabPosition, rtl }: { tabs: Tab[] } & TabNavListProps,
+  containerSize: { width: number; height: number; left: number; top: number },
+  { tabs, tabPosition, rtl }: { tabs: Tab[] } & TabNavListProps,
 ): [number, number] {
   let unit: 'width' | 'height';
-  let optUnit: 'optWidth' | 'optHeight';
   let position: 'left' | 'top' | 'right';
+  let transformSize: number;
 
   if (['top', 'bottom'].includes(tabPosition)) {
     unit = 'width';
-    optUnit = 'optWidth';
     position = rtl ? 'right' : 'left';
+    transformSize = Math.abs(containerSize.left);
   } else {
     unit = 'height';
-    optUnit = 'optHeight';
     position = 'top';
+    transformSize = -containerSize.top;
   }
 
-  const holderSize = containerSize[unit];
-  const optSize = containerSize[optUnit];
-  const basicSize = holderSize - optSize;
+  const basicSize = containerSize[unit];
 
   return useMemo(() => {
-    let activeIndex = tabs.findIndex(tab => tab.key === activeKey);
-    if (activeIndex === -1) {
-      activeIndex = 0;
-    }
-
     if (!tabs.length) {
       return [0, 0];
     }
 
-    const activeTab = tabs[activeIndex];
-    const activeOffset = tabOffsets.get(activeTab.key);
-
-    // Get start index
-    const minPosition = activeOffset[position] - (basicSize - activeOffset[unit]);
-    let startIndex = 0;
-    for (let i = activeIndex; i >= 0; i -= 1) {
-      const { key } = tabs[i];
-      const offset = tabOffsets.get(key) || DEFAULT_SIZE;
-
-      if (offset[position] < minPosition) {
+    const len = tabs.length;
+    let endIndex = len;
+    for (let i = 0; i < len; i += 1) {
+      const offset = tabOffsets.get(tabs[i].key) || DEFAULT_SIZE;
+      if (offset[position] + offset[unit] > transformSize + basicSize) {
+        endIndex = i - 1;
         break;
       }
-
-      startIndex = i;
     }
 
-    // Get end index
-    let endIndex = 0;
-    const startPosition = tabOffsets.get(tabs[startIndex].key)[position];
-    for (let i = activeIndex; i < tabs.length; i += 1) {
-      const { key } = tabs[i];
-      const offset = tabOffsets.get(key) || DEFAULT_SIZE;
-
-      if (offset[position] + offset[unit] > startPosition + basicSize) {
+    let startIndex = 0;
+    for (let i = len - 1; i >= 0; i -= 1) {
+      const offset = tabOffsets.get(tabs[i].key) || DEFAULT_SIZE;
+      if (offset[position] < transformSize) {
+        startIndex = i + 1;
         break;
       }
-
-      endIndex = i;
     }
 
     return [startIndex, endIndex];
-  }, [activeKey, tabOffsets, basicSize, tabPosition, tabs.map(tab => tab.key).join('_'), rtl]);
+  }, [tabOffsets, transformSize, basicSize, tabPosition, tabs.map(tab => tab.key).join('_'), rtl]);
 }
