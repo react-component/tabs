@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useState, useRef } from 'react';
 
 type TouchEventHandler = (e: TouchEvent) => void;
+type WheelEventHandler = (e: WheelEvent) => void;
 
 const MIN_SWIPE_DISTANCE = 0.1;
 const STOP_SWIPE_DISTANCE = 0.01;
@@ -26,16 +27,18 @@ export function isMobile() {
 
 // ================================= Hook =================================
 export default function useTouchMove(
-  mobile: boolean,
-  onOffset: (offsetX: number, offsetY: number) => void,
-): React.TouchEventHandler {
+  ref: React.RefObject<HTMLDivElement>,
+  onOffset: (offsetX: number, offsetY: number) => boolean,
+) {
   const [touchPosition, setTouchPosition] = useState<{ x: number; y: number }>();
   const [lastTimestamp, setLastTimestamp] = useState<number>(0);
   const [lastTimeDiff, setLastTimeDiff] = useState<number>(0);
   const [lastOffset, setLastOffset] = useState<{ x: number; y: number }>();
   const motionRef = useRef<number>();
 
-  function onTouchStart(e: React.TouchEvent) {
+  // ========================= Events =========================
+  // >>> Touch events
+  function onTouchStart(e: TouchEvent) {
     const { screenX, screenY } = e.touches[0];
     setTouchPosition({ x: screenX, y: screenY });
     window.clearInterval(motionRef.current);
@@ -87,29 +90,55 @@ export default function useTouchMove(
     }, REFRESH_INTERVAL);
   }
 
+  // >>> Wheel event
+  function onWheel(e: WheelEvent) {
+    const { deltaX, deltaY } = e;
+    // Convert both to x & y since wheel only happened on PC
+    let mixed: number = 0;
+    if (Math.abs(deltaX) > Math.abs(deltaY)) {
+      mixed = deltaX;
+    } else {
+      mixed = deltaY;
+    }
+
+    if (onOffset(-mixed, -mixed)) {
+      e.preventDefault();
+    }
+  }
+
   // ========================= Effect =========================
   const touchEventsRef = useRef<{
+    onTouchStart: TouchEventHandler;
     onTouchMove: TouchEventHandler;
     onTouchEnd: TouchEventHandler;
+    onWheel: WheelEventHandler;
   }>(null);
-  touchEventsRef.current = { onTouchMove, onTouchEnd };
+  touchEventsRef.current = { onTouchStart, onTouchMove, onTouchEnd, onWheel };
 
   React.useEffect(() => {
+    function onProxyTouchStart(e: TouchEvent) {
+      touchEventsRef.current.onTouchStart(e);
+    }
     function onProxyTouchMove(e: TouchEvent) {
       touchEventsRef.current.onTouchMove(e);
     }
     function onProxyTouchEnd(e: TouchEvent) {
       touchEventsRef.current.onTouchEnd(e);
     }
+    function onProxyWheel(e: WheelEvent) {
+      touchEventsRef.current.onWheel(e);
+    }
 
     document.addEventListener('touchmove', onProxyTouchMove, { passive: false });
     document.addEventListener('touchend', onProxyTouchEnd, { passive: false });
+
+    // No need to clean up since element removed
+    ref.current.addEventListener('touchstart', onProxyTouchStart, { passive: false });
+    ref.current.addEventListener('wheel', onProxyWheel);
 
     return () => {
       document.removeEventListener('touchmove', onProxyTouchMove);
       document.removeEventListener('touchend', onProxyTouchEnd);
     };
   }, []);
-
-  return onTouchStart;
 }

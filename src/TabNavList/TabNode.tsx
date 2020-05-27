@@ -11,7 +11,6 @@ export interface TabNodeProps {
   rtl: boolean;
   closable?: boolean;
   editable?: EditableConfig;
-  visible?: boolean;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
   onResize?: (width: number, height: number, left: number, top: number) => void;
   tabBarGutter?: number;
@@ -25,7 +24,6 @@ export interface TabNodeProps {
 function TabNode(
   {
     prefixCls,
-    visible,
     id,
     active,
     rtl,
@@ -46,9 +44,6 @@ function TabNode(
   React.useEffect(() => onRemove, []);
 
   const nodeStyle: React.CSSProperties = {};
-  if (!visible) {
-    nodeStyle.visibility = 'hidden';
-  }
   if (tabPosition === 'top' || tabPosition === 'bottom') {
     nodeStyle[rtl ? 'marginLeft' : 'marginRight'] = tabBarGutter;
   } else {

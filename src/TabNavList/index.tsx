@@ -59,6 +59,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   const [transformTop, setTransformTop] = useState(0);
 
   const [wrapperScrollWidth, setWrapperScrollWidth] = useState<number>(0);
+  const [wrapperScrollHeight, setWrapperScrollHeight] = useState<number>(0);
   const [wrapperWidth, setWrapperWidth] = useState<number>(null);
   const [wrapperHeight, setWrapperHeight] = useState<number>(null);
   const [operationsWidth, setOperationsWidth] = useState<number>(0);
@@ -67,29 +68,47 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   const tabPositionTopOrBottom = tabPosition === 'top' || tabPosition === 'bottom';
 
   // ========================= Mobile ========================
-  const onTouchStart = useTouchMove(mobile, offsetX => {
-    if (tabPositionTopOrBottom) {
-      setTransformLeft(left => {
-        const newLeft = left + offsetX;
-        let min: number;
-        let max: number;
-        if (rtl) {
-          min = 0;
-          max = wrapperScrollWidth - wrapperWidth;
-        } else {
-          min = wrapperWidth - wrapperScrollWidth;
-          max = 0;
-        }
+  useTouchMove(tabsWrapperRef, (offsetX, offsetY) => {
+    let preventDefault = true;
 
-        if (newLeft < min) {
+    function doMove(
+      setState: React.Dispatch<React.SetStateAction<number>>,
+      min: number,
+      max: number,
+      offset: number,
+    ) {
+      setState(value => {
+        const newValue = value + offset;
+
+        if (newValue < min) {
+          preventDefault = false;
           return min;
         }
-        if (newLeft > max) {
+        if (newValue > max) {
+          preventDefault = false;
           return max;
         }
-        return newLeft;
+        return newValue;
       });
     }
+
+    if (tabPositionTopOrBottom) {
+      let min: number;
+      let max: number;
+      if (rtl) {
+        min = 0;
+        max = wrapperScrollWidth - wrapperWidth;
+      } else {
+        min = wrapperWidth - wrapperScrollWidth;
+        max = 0;
+      }
+
+      doMove(setTransformLeft, min, max, offsetX);
+    } else {
+      doMove(setTransformTop, wrapperHeight - wrapperScrollHeight, 0, offsetY);
+    }
+
+    return preventDefault;
   });
 
   // ========================== Tab ==========================
@@ -108,7 +127,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     { ...props, tabs },
   );
 
-  const tabNodes: React.ReactElement[] = tabs.map((tab, index) => {
+  const tabNodes: React.ReactElement[] = tabs.map(tab => {
     const { key } = tab;
     return (
       <TabNode
@@ -120,7 +139,6 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
         closable={tab.closable}
         editable={editable}
         active={key === activeKey}
-        visible={mobile || (visibleStart <= index && index <= visibleEnd)}
         tabPosition={tabPosition}
         tabBarGutter={tabBarGutter}
         renderWrapper={children}
@@ -142,6 +160,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     setWrapperWidth(offsetWidth);
     setWrapperHeight(offsetHeight);
     setWrapperScrollWidth(tabListRef.current.offsetWidth);
+    setWrapperScrollHeight(tabListRef.current.offsetHeight);
     setOperationsWidth(operationsRef.current?.offsetWidth || 0);
     setOperationsHeight(operationsRef.current?.offsetHeight || 0);
 
@@ -257,7 +276,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
       style={style}
     >
       <ResizeObserver onResize={onListHolderResize}>
-        <div className={`${prefixCls}-nav-wrap`} ref={tabsWrapperRef} onTouchStart={onTouchStart}>
+        <div className={`${prefixCls}-nav-wrap`} ref={tabsWrapperRef}>
           <ResizeObserver onResize={onListHolderResize}>
             <div
               ref={tabListRef}
@@ -265,6 +284,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
               style={{ transform: `translate(${transformLeft}px, ${transformTop}px)` }}
             >
               {tabNodes}
+              <AddButton prefixCls={prefixCls} locale={locale} editable={editable} />
 
               <div
                 className={classNames(
@@ -273,22 +293,12 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
                 )}
                 style={inkStyle}
               />
-
-              {!mobile && (
-                <OperationNode
-                  {...props}
-                  style={operationsStyle}
-                  ref={operationsRef}
-                  prefixCls={prefixCls}
-                  tabs={hiddenTabs}
-                />
-              )}
             </div>
           </ResizeObserver>
         </div>
       </ResizeObserver>
 
-      {mobile && <AddButton prefixCls={prefixCls} locale={locale} editable={editable} />}
+      <OperationNode {...props} ref={operationsRef} prefixCls={prefixCls} tabs={hiddenTabs} />
 
       {extra && <div className={`${prefixCls}-extra-content`}>{extra}</div>}
     </div>

@@ -8,7 +8,7 @@ import AddButton from './AddButton';
 
 export interface OperationNodeProps {
   prefixCls: string;
-  style: React.CSSProperties;
+  style?: React.CSSProperties;
   id: string;
   tabs: Tab[];
   rtl: boolean;
