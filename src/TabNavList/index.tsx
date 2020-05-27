@@ -94,6 +94,13 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   }
 
   // ========================= Mobile ========================
+  const touchMovingRef = useRef<number>();
+  const [touchMoving, setTouchMoving] = useState<number>();
+
+  function clearTouchMoving() {
+    window.clearTimeout(touchMovingRef.current);
+  }
+
   useTouchMove(tabsWrapperRef, (offsetX, offsetY) => {
     let preventDefault = true;
 
@@ -121,8 +128,22 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
       doMove(setTransformTop, offsetY);
     }
 
+    clearTouchMoving();
+    setTouchMoving(Date.now());
+
     return preventDefault;
   });
+
+  useEffect(() => {
+    clearTouchMoving();
+    if (touchMoving) {
+      touchMovingRef.current = window.setTimeout(() => {
+        setTouchMoving(0);
+      }, 100);
+    }
+
+    return clearTouchMoving;
+  }, [touchMoving]);
 
   // ========================== Tab ==========================
 
@@ -297,7 +318,10 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
             <div
               ref={tabListRef}
               className={`${prefixCls}-nav-list`}
-              style={{ transform: `translate(${transformLeft}px, ${transformTop}px)` }}
+              style={{
+                transform: `translate(${transformLeft}px, ${transformTop}px)`,
+                transition: touchMoving ? 'none' : undefined,
+              }}
             >
               {tabNodes}
               <AddButton
