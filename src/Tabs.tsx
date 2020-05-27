@@ -130,8 +130,7 @@ function Tabs(
   useEffect(() => {
     let newActiveIndex = tabs.findIndex(tab => tab.key === mergedActiveKey);
     if (newActiveIndex === -1) {
-      newActiveIndex = Math.max(activeIndex - 1, 0);
-      newActiveIndex = Math.min(newActiveIndex, tabs.length - 1);
+      newActiveIndex = Math.min(activeIndex, tabs.length - 1);
       setMergedActiveKey(tabs[newActiveIndex]?.key);
     }
     setActiveIndex(newActiveIndex);
@@ -179,7 +178,6 @@ function Tabs(
     tabBarGutter,
     onTabClick: onInternalTabClick,
     extra: tabBarExtraContent,
-    mobile,
   };
 
   if (renderTabBar) {

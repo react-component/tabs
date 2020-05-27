@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useState, useRef, useEffect } from 'react';
 import classNames from 'classnames';
+import raf from 'raf';
 import ResizeObserver from 'rc-resize-observer';
 import useRaf, { useRafState } from '../hooks/useRaf';
 import TabNode from './TabNode';
@@ -226,26 +227,44 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   const hiddenTabs = [...startHiddenTabs, ...endHiddenTabs];
 
   // =================== Link & Operations ===================
-  const inkStyle: React.CSSProperties = {};
+  const [inkStyle, setInkStyle] = useState<React.CSSProperties>();
+  // const inkStyle: React.CSSProperties = {};
   const operationsStyle: React.CSSProperties = {};
 
   const activeTabOffset = tabOffsets.get(activeKey);
   const lastVisibleTabOffset = tabOffsets.get(tabs[visibleEnd]?.key);
 
-  if (activeTabOffset) {
-    if (tabPositionTopOrBottom) {
-      if (rtl) {
-        inkStyle.right = activeTabOffset.right;
-      } else {
-        inkStyle.left = activeTabOffset.left;
-      }
-
-      inkStyle.width = activeTabOffset.width;
-    } else {
-      inkStyle.top = activeTabOffset.top;
-      inkStyle.height = activeTabOffset.height;
-    }
+  // Delay set ink style to avoid remove tab blink
+  const inkBarRafRef = useRef<number>();
+  function cleanInkBarRaf() {
+    raf.cancel(inkBarRafRef.current);
   }
+
+  useEffect(() => {
+    const newInkStyle: React.CSSProperties = {};
+
+    if (activeTabOffset) {
+      if (tabPositionTopOrBottom) {
+        if (rtl) {
+          newInkStyle.right = activeTabOffset.right;
+        } else {
+          newInkStyle.left = activeTabOffset.left;
+        }
+
+        newInkStyle.width = activeTabOffset.width;
+      } else {
+        newInkStyle.top = activeTabOffset.top;
+        newInkStyle.height = activeTabOffset.height;
+      }
+    }
+
+    cleanInkBarRaf();
+    inkBarRafRef.current = raf(() => {
+      setInkStyle(newInkStyle);
+    });
+
+    return cleanInkBarRaf;
+  }, [activeTabOffset, tabPositionTopOrBottom, rtl]);
 
   if (lastVisibleTabOffset) {
     const optGutter = tabBarGutter || 0;
@@ -260,8 +279,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     }
   }
 
-  // ========================= Effect ========================
-  // Scroll
+  // ========================= Scroll ========================
   useEffect(() => {
     if (!activeTabOffset) return;
 
