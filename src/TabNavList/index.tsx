@@ -73,6 +73,9 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
 
   const tabPositionTopOrBottom = tabPosition === 'top' || tabPosition === 'bottom';
 
+  const [tabSizes, setTabSizes] = useRafState<TabSizeMap>(new Map());
+  const tabOffsets = useOffsets(tabs, tabSizes, wrapperScrollWidth);
+
   // ========================== Util =========================
   let transformMin = 0;
   let transformMax = 0;
@@ -150,11 +153,51 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     return clearTouchMoving;
   }, [touchMoving]);
 
-  // ========================== Tab ==========================
+  // ========================= Scroll ========================
+  function scrollToTab(key = activeKey) {
+    const tabOffset = tabOffsets.get(key);
 
+    if (!tabOffset) return;
+
+    if (tabPositionTopOrBottom) {
+      // ============ Align with top & bottom ============
+      let newTransform = transformLeft;
+
+      // RTL
+      if (rtl) {
+        if (tabOffset.right < transformLeft) {
+          newTransform = tabOffset.right;
+        } else if (tabOffset.right + tabOffset.width > transformLeft + wrapperWidth) {
+          newTransform = tabOffset.right + tabOffset.width - wrapperWidth;
+        }
+      }
+      // LTR
+      else if (tabOffset.left < -transformLeft) {
+        newTransform = -tabOffset.left;
+      } else if (tabOffset.left + tabOffset.width > -transformLeft + wrapperWidth) {
+        newTransform = -(tabOffset.left + tabOffset.width - wrapperWidth);
+      }
+
+      setTransformTop(0);
+      setTransformLeft(alignInRange(newTransform)[0]);
+    } else {
+      // ============ Align with left & right ============
+      let newTransform = transformTop;
+
+      if (tabOffset.top < -transformTop) {
+        newTransform = -tabOffset.top;
+      } else if (tabOffset.top + tabOffset.height > -transformTop + wrapperHeight) {
+        newTransform = -(tabOffset.top + tabOffset.height - wrapperHeight);
+      }
+
+      setTransformLeft(0);
+      setTransformTop(alignInRange(newTransform)[0]);
+    }
+  }
+
+  // ========================== Tab ==========================
   // Render tab node & collect tab offset
-  const [tabSizes, setTabSizes] = useRafState<TabSizeMap>(new Map());
-  const tabOffsets = useOffsets(tabs, tabSizes, wrapperScrollWidth);
+
   const [visibleStart, visibleEnd] = useVisibleRange(
     tabOffsets,
     {
@@ -188,6 +231,10 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
         }}
         onRemove={() => {
           removeBtnRef(key);
+        }}
+        onFocus={() => {
+          scrollToTab(key);
+          tabsWrapperRef.current.scrollLeft = 0;
         }}
       />
     );
@@ -279,44 +326,9 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     }
   }
 
-  // ========================= Scroll ========================
+  // ========================= Effect ========================
   useEffect(() => {
-    if (!activeTabOffset) return;
-
-    if (tabPositionTopOrBottom) {
-      // ============ Align with top & bottom ============
-      let newTransform = transformLeft;
-
-      // RTL
-      if (rtl) {
-        if (activeTabOffset.right < transformLeft) {
-          newTransform = activeTabOffset.right;
-        } else if (activeTabOffset.right + activeTabOffset.width > transformLeft + wrapperWidth) {
-          newTransform = activeTabOffset.right + activeTabOffset.width - wrapperWidth;
-        }
-      }
-      // LTR
-      else if (activeTabOffset.left < -transformLeft) {
-        newTransform = -activeTabOffset.left;
-      } else if (activeTabOffset.left + activeTabOffset.width > -transformLeft + wrapperWidth) {
-        newTransform = -(activeTabOffset.left + activeTabOffset.width - wrapperWidth);
-      }
-
-      setTransformTop(0);
-      setTransformLeft(alignInRange(newTransform)[0]);
-    } else {
-      // ============ Align with left & right ============
-      let newTransform = transformTop;
-
-      if (activeTabOffset.top < -transformTop) {
-        newTransform = -activeTabOffset.top;
-      } else if (activeTabOffset.top + activeTabOffset.height > -transformTop + wrapperHeight) {
-        newTransform = -(activeTabOffset.top + activeTabOffset.height - wrapperHeight);
-      }
-
-      setTransformLeft(0);
-      setTransformTop(alignInRange(newTransform)[0]);
-    }
+    scrollToTab();
   }, [activeKey, activeTabOffset, tabOffsets, tabPositionTopOrBottom]);
 
   // Should recalculate when rtl changed

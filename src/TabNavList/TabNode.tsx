@@ -19,6 +19,7 @@ export interface TabNodeProps {
   removeAriaLabel?: string;
   removeIcon?: React.ReactNode;
   onRemove: () => void;
+  onFocus: () => void;
 }
 
 function TabNode(
@@ -36,6 +37,7 @@ function TabNode(
     editable,
     onClick,
     onRemove,
+    onFocus,
   }: TabNodeProps,
   ref: React.Ref<HTMLButtonElement>,
 ) {
@@ -78,6 +80,7 @@ function TabNode(
         [`${tabPrefix}-disabled`]: disabled,
       })}
       onClick={onClick}
+      onFocus={onFocus}
       style={nodeStyle}
     >
       {tab}
