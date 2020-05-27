@@ -144,7 +144,7 @@ describe('Tabs.Basic', () => {
     it('add', () => {
       const onEdit = jest.fn();
       const wrapper = mount(getTabs({ editable: { onEdit } }));
-      wrapper.find('.rc-tabs-nav-add').simulate('click');
+      wrapper.find('.rc-tabs-nav-add').first().simulate('click');
       expect(onEdit).toHaveBeenCalledWith('add', {
         key: undefined,
         event: expect.anything(),

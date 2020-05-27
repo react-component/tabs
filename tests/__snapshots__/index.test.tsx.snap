@@ -50,33 +50,33 @@ exports[`Tabs.Basic Normal 1`] = `
         </button>
         <div
           class="rc-tabs-ink-bar rc-tabs-ink-bar-animated"
-          style="left: 0px; width: 0px;"
         />
-        <div
-          class="rc-tabs-nav-operations"
-          style="left: 0px;"
-        >
-          <button
-            aria-controls="rc-tabs-0-more-popup"
-            aria-expanded="false"
-            aria-haspopup="listbox"
-            class="rc-tabs-nav-more"
-            id="rc-tabs-0-more"
-            style="visibility: hidden; order: 1;"
-            type="button"
-          >
-            More
-          </button>
-        </div>
       </div>
+    </div>
+    <div
+      class="rc-tabs-nav-operations"
+      style="visibility: hidden;"
+    >
+      <button
+        aria-controls="rc-tabs-0-more-popup"
+        aria-expanded="false"
+        aria-haspopup="listbox"
+        aria-hidden="true"
+        class="rc-tabs-nav-more"
+        id="rc-tabs-0-more"
+        style="visibility: hidden; order: 1;"
+        tabindex="-1"
+        type="button"
+      >
+        More
+      </button>
     </div>
   </div>
   <div
     class="rc-tabs-content-holder"
   >
     <div
-      class="rc-tabs-content rc-tabs-content-top rc-tabs-content-animated"
-      style="margin-left: -100%;"
+      class="rc-tabs-content rc-tabs-content-top"
     >
       <div
         aria-hidden="true"
@@ -84,7 +84,7 @@ exports[`Tabs.Basic Normal 1`] = `
         class="rc-tabs-tabpane"
         id="rc-tabs-0-panel-light"
         role="tabpanel"
-        style="visibility: hidden;"
+        style="display: none;"
         tabindex="-1"
       />
       <div
@@ -103,7 +103,7 @@ exports[`Tabs.Basic Normal 1`] = `
         class="rc-tabs-tabpane"
         id="rc-tabs-0-panel-cute"
         role="tabpanel"
-        style="visibility: hidden;"
+        style="display: none;"
         tabindex="-1"
       />
     </div>

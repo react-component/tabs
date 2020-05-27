@@ -130,7 +130,7 @@ function Tabs(
   useEffect(() => {
     let newActiveIndex = tabs.findIndex(tab => tab.key === mergedActiveKey);
     if (newActiveIndex === -1) {
-      newActiveIndex = Math.min(activeIndex, tabs.length - 1);
+      newActiveIndex = Math.max(0, Math.min(activeIndex, tabs.length - 1));
       setMergedActiveKey(tabs[newActiveIndex]?.key);
     }
     setActiveIndex(newActiveIndex);
