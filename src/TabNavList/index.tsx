@@ -4,7 +4,14 @@ import classNames from 'classnames';
 import ResizeObserver from 'rc-resize-observer';
 import useRaf, { useRafState } from '../hooks/useRaf';
 import TabNode from './TabNode';
-import { TabSizeMap, TabPosition, RenderTabBar, TabsLocale, EditableConfig } from '../interface';
+import {
+  TabSizeMap,
+  TabPosition,
+  RenderTabBar,
+  TabsLocale,
+  EditableConfig,
+  AnimatedConfig,
+} from '../interface';
 import useOffsets from '../hooks/useOffsets';
 import useVisibleRange from '../hooks/useVisibleRange';
 import OperationNode from './OperationNode';
@@ -19,7 +26,7 @@ export interface TabNavListProps {
   activeKey: string;
   rtl: boolean;
   mobile: boolean;
-  animated?: boolean;
+  animated?: AnimatedConfig;
   extra?: React.ReactNode;
   editable?: EditableConfig;
   moreIcon?: React.ReactNode;
@@ -328,10 +335,9 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
               />
 
               <div
-                className={classNames(
-                  `${prefixCls}-ink-bar`,
-                  animated && `${prefixCls}-ink-bar-animated`,
-                )}
+                className={classNames(`${prefixCls}-ink-bar`, {
+                  [`${prefixCls}-ink-bar-animated`]: animated.inkBar,
+                })}
                 style={inkStyle}
               />
             </div>

@@ -7,7 +7,14 @@ import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import TabPane, { TabPaneProps } from './sugar/TabPane';
 import TabNavList from './TabNavList';
 import TabPanelList from './TabPanelList';
-import { Tab, TabPosition, RenderTabBar, TabsLocale, EditableConfig } from './interface';
+import {
+  Tab,
+  TabPosition,
+  RenderTabBar,
+  TabsLocale,
+  EditableConfig,
+  AnimatedConfig,
+} from './interface';
 import TabContext from './TabContext';
 import { isMobile } from './hooks/useTouchMove';
 
@@ -34,7 +41,7 @@ export interface TabsProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'o
   activeKey?: string;
   defaultActiveKey?: string;
   direction?: 'ltr' | 'rtl';
-  animated?: boolean;
+  animated?: boolean | AnimatedConfig;
   renderTabBar?: RenderTabBar;
   tabBarExtraContent?: React.ReactNode;
   tabBarGutter?: number;
@@ -75,7 +82,7 @@ function Tabs(
     activeKey,
     defaultActiveKey,
     editable,
-    animated = true,
+    animated,
     tabPosition = 'top',
     tabBarGutter,
     tabBarExtraContent,
@@ -91,6 +98,17 @@ function Tabs(
 ) {
   const tabs = parseTabList(children);
   const rtl = direction === 'rtl';
+
+  let mergedAnimated: AnimatedConfig | false;
+  if (animated === false) {
+    mergedAnimated = {};
+  } else {
+    mergedAnimated = {
+      ...(animated !== true ? animated : null),
+      inkBar: true,
+      tabPane: false,
+    };
+  }
 
   // ======================== Mobile ========================
   const [mobile, setMobile] = useState(false);
@@ -146,7 +164,7 @@ function Tabs(
   const sharedProps = {
     id: mergedId,
     activeKey: mergedActiveKey,
-    animated,
+    animated: mergedAnimated,
     tabPosition: mergedTabPosition,
     rtl,
   };
@@ -191,7 +209,7 @@ function Tabs(
         <TabPanelList
           destroyInactiveTabPane={destroyInactiveTabPane}
           {...sharedProps}
-          animated={animated && !['left', 'right'].includes(mergedTabPosition)}
+          animated={mergedAnimated}
         />
       </div>
     </TabContext.Provider>

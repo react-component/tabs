@@ -40,3 +40,8 @@ export interface EditableConfig {
   removeIcon?: React.ReactNode;
   addIcon?: React.ReactNode;
 }
+
+export interface AnimatedConfig {
+  inkBar?: boolean;
+  tabPane?: boolean;
+}

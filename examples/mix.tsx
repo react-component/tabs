@@ -20,7 +20,7 @@ export default () => {
   const [position, setPosition] = React.useState<any>('top');
   const [gutter, setGutter] = React.useState(false);
   const [fixHeight, setFixHeight] = React.useState(true);
-  const [rtl, setRTL] = React.useState(true);
+  const [rtl, setRTL] = React.useState(false);
   const [editable, setEditable] = React.useState(true);
   const [destroyInactiveTabPane, setDestroyInactiveTabPane] = React.useState(false);
   const [destroy, setDestroy] = React.useState(false);
@@ -63,7 +63,7 @@ export default () => {
         {/* animated */}
         <label>
           <input type="checkbox" checked={animated} onChange={() => setAnimated(val => !val)} />
-          Set `animated`
+          Set `animated.tabPane`
         </label>
 
         {/* fixHeight */}
@@ -149,7 +149,7 @@ export default () => {
               }
             }}
             destroyInactiveTabPane={destroyInactiveTabPane}
-            animated={animated}
+            animated={{ tabPane: animated }}
             editable={editableConfig}
             direction={rtl ? 'rtl' : null}
             tabPosition={position}
