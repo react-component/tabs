@@ -155,6 +155,8 @@ function OperationNode(
           type="button"
           className={`${prefixCls}-nav-more`}
           style={moreStyle}
+          tabIndex={-1}
+          aria-hidden="true"
           aria-haspopup="listbox"
           aria-controls={popupId}
           id={`${id}-more`}
