@@ -53,6 +53,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   const tabsWrapperRef = useRef<HTMLDivElement>();
   const tabListRef = useRef<HTMLDivElement>();
   const operationsRef = useRef<HTMLDivElement>();
+  const innerAddButtonRef = useRef<HTMLButtonElement>();
   const [getBtnRef, removeBtnRef] = useRefs<HTMLButtonElement>();
 
   const [transformLeft, setTransformLeft] = useState(0);
@@ -67,45 +68,57 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
 
   const tabPositionTopOrBottom = tabPosition === 'top' || tabPosition === 'bottom';
 
+  // ========================== Util =========================
+  let transformMin = 0;
+  let transformMax = 0;
+
+  if (!tabPositionTopOrBottom) {
+    transformMin = wrapperHeight - wrapperScrollHeight;
+    transformMax = 0;
+  } else if (rtl) {
+    transformMin = 0;
+    transformMax = wrapperScrollWidth - wrapperWidth;
+  } else {
+    transformMin = wrapperWidth - wrapperScrollWidth;
+    transformMax = 0;
+  }
+
+  function alignInRange(value: number): [number, boolean] {
+    if (value < transformMin) {
+      return [transformMin, true];
+    }
+    if (value > transformMax) {
+      return [transformMax, true];
+    }
+    return [value, false];
+  }
+
   // ========================= Mobile ========================
   useTouchMove(tabsWrapperRef, (offsetX, offsetY) => {
     let preventDefault = true;
 
-    function doMove(
-      setState: React.Dispatch<React.SetStateAction<number>>,
-      min: number,
-      max: number,
-      offset: number,
-    ) {
+    function doMove(setState: React.Dispatch<React.SetStateAction<number>>, offset: number) {
       setState(value => {
-        const newValue = value + offset;
+        const [newValue, needPrevent] = alignInRange(value + offset);
 
-        if (newValue < min) {
-          preventDefault = false;
-          return min;
-        }
-        if (newValue > max) {
-          preventDefault = false;
-          return max;
-        }
+        preventDefault = needPrevent;
         return newValue;
       });
     }
 
     if (tabPositionTopOrBottom) {
-      let min: number;
-      let max: number;
-      if (rtl) {
-        min = 0;
-        max = wrapperScrollWidth - wrapperWidth;
-      } else {
-        min = wrapperWidth - wrapperScrollWidth;
-        max = 0;
+      // Skip scroll if place is enough
+      if (wrapperWidth >= wrapperScrollWidth) {
+        return preventDefault;
       }
 
-      doMove(setTransformLeft, min, max, offsetX);
+      doMove(setTransformLeft, offsetX);
     } else {
-      doMove(setTransformTop, wrapperHeight - wrapperScrollHeight, 0, offsetY);
+      if (wrapperHeight >= wrapperScrollHeight) {
+        return preventDefault;
+      }
+
+      doMove(setTransformTop, offsetY);
     }
 
     return preventDefault;
@@ -159,8 +172,12 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     const { offsetWidth, offsetHeight } = tabsWrapperRef.current;
     setWrapperWidth(offsetWidth);
     setWrapperHeight(offsetHeight);
-    setWrapperScrollWidth(tabListRef.current.offsetWidth);
-    setWrapperScrollHeight(tabListRef.current.offsetHeight);
+    setWrapperScrollWidth(
+      tabListRef.current.offsetWidth - (innerAddButtonRef.current?.offsetWidth || 0),
+    );
+    setWrapperScrollHeight(
+      tabListRef.current.offsetHeight - (innerAddButtonRef.current?.offsetHeight || 0),
+    );
     setOperationsWidth(operationsRef.current?.offsetWidth || 0);
     setOperationsHeight(operationsRef.current?.offsetHeight || 0);
 
@@ -225,24 +242,44 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   useEffect(() => {
     if (!activeTabOffset) return;
 
-    if (wrapperWidth >= wrapperScrollWidth) {
-      setTransformLeft(0);
-    }
-    // RTL
-    else if (rtl) {
-      if (activeTabOffset.right < transformLeft) {
-        setTransformLeft(activeTabOffset.right);
-      } else if (activeTabOffset.right + activeTabOffset.width > transformLeft + wrapperWidth) {
-        setTransformLeft(activeTabOffset.right + activeTabOffset.width - wrapperWidth);
+    if (tabPositionTopOrBottom) {
+      // ============ Align with top & bottom ============
+      let newTransform = transformLeft;
+
+      if (wrapperWidth >= wrapperScrollWidth) {
+        newTransform = 0;
       }
+      // RTL
+      else if (rtl) {
+        if (activeTabOffset.right < transformLeft) {
+          newTransform = activeTabOffset.right;
+        } else if (activeTabOffset.right + activeTabOffset.width > transformLeft + wrapperWidth) {
+          newTransform = activeTabOffset.right + activeTabOffset.width - wrapperWidth;
+        }
+      }
+      // LTR
+      else if (activeTabOffset.left < -transformLeft) {
+        newTransform = -activeTabOffset.left;
+      } else if (activeTabOffset.left + activeTabOffset.width > -transformLeft + wrapperWidth) {
+        newTransform = -(activeTabOffset.left + activeTabOffset.width - wrapperWidth);
+      }
+
+      setTransformLeft(alignInRange(newTransform)[0]);
+    } else {
+      // ============ Align with left & right ============
+      let newTransform = transformTop;
+
+      if (wrapperHeight >= wrapperScrollHeight) {
+        newTransform = 0;
+      } else if (activeTabOffset.top < -transformTop) {
+        newTransform = -activeTabOffset.top;
+      } else if (activeTabOffset.top + activeTabOffset.height > -transformTop + wrapperHeight) {
+        newTransform = -(activeTabOffset.top + activeTabOffset.height - wrapperHeight);
+      }
+
+      setTransformTop(alignInRange(newTransform)[0]);
     }
-    // LTR
-    else if (activeTabOffset.left < -transformLeft) {
-      setTransformLeft(-activeTabOffset.left);
-    } else if (activeTabOffset.left + activeTabOffset.width > -transformLeft + wrapperWidth) {
-      setTransformLeft(-(activeTabOffset.left + activeTabOffset.width - wrapperWidth));
-    }
-  }, [activeKey, activeTabOffset, tabOffsets]);
+  }, [activeKey, activeTabOffset, tabOffsets, tabPositionTopOrBottom]);
 
   // Should recalculate when rtl changed
   useEffect(() => {
@@ -266,7 +303,12 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
               style={{ transform: `translate(${transformLeft}px, ${transformTop}px)` }}
             >
               {tabNodes}
-              <AddButton prefixCls={prefixCls} locale={locale} editable={editable} />
+              <AddButton
+                ref={innerAddButtonRef}
+                prefixCls={prefixCls}
+                locale={locale}
+                editable={editable}
+              />
 
               <div
                 className={classNames(

@@ -119,7 +119,6 @@ export default function useTouchMove(
     }
 
     lastWheelTimestampRef.current = now;
-
     lastMixedWheelRef.current = absMixed;
   }
 
