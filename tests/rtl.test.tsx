@@ -64,8 +64,11 @@ describe('Tabs.RTL', () => {
 
     // Miu Disabled [Cute Bamboo] Light
     wrapper.setProps({ activeKey: 'bamboo' });
-    jest.runAllTimers();
-    wrapper.update();
+    act(() => {
+      jest.runAllTimers();
+      wrapper.update();
+    });
+
     expect(getTransformX(wrapper)).toEqual(20);
 
     jest.useRealTimers();

@@ -276,8 +276,10 @@ describe('Tabs.Overflow', () => {
 
       // light [bamboo cute] disabled miu
       wrapper.setProps({ activeKey: 'bamboo' });
-      jest.runAllTimers();
-      wrapper.update();
+      act(() => {
+        jest.runAllTimers();
+        wrapper.update();
+      });
       expect(getTransformX(wrapper)).toEqual(-20);
 
       jest.useRealTimers();
@@ -305,8 +307,10 @@ describe('Tabs.Overflow', () => {
 
       // light [bamboo cute] disabled miu
       wrapper.setProps({ activeKey: 'bamboo' });
-      jest.runAllTimers();
-      wrapper.update();
+      act(() => {
+        jest.runAllTimers();
+        wrapper.update();
+      });
       expect(getTransformY(wrapper)).toEqual(-20);
 
       jest.useRealTimers();
