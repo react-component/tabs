@@ -62,6 +62,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   } = props;
   const tabsWrapperRef = useRef<HTMLDivElement>();
   const tabListRef = useRef<HTMLDivElement>();
+  const operationsRef = useRef<HTMLDivElement>();
   const innerAddButtonRef = useRef<HTMLButtonElement>();
   const [getBtnRef, removeBtnRef] = useRefs<HTMLButtonElement>();
 
@@ -79,6 +80,8 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   const tabOffsets = useOffsets(tabs, tabSizes, wrapperScrollWidth);
 
   // ========================== Util =========================
+  const operationsHiddenClassName = `${prefixCls}-nav-operations-hidden`;
+
   let transformMin = 0;
   let transformMax = 0;
 
@@ -215,8 +218,14 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     { ...props, tabs },
   );
 
-  function getInnerAddBtnWidth() {
-    return innerAddButtonRef.current?.offsetWidth || 0;
+  function getAdditionalSpaceSize(type: 'offsetWidth' | 'offsetHeight') {
+    const addBtnSize = innerAddButtonRef.current?.[type] || 0;
+    let optionsSize = 0;
+    if (operationsRef.current?.className.includes(operationsHiddenClassName)) {
+      optionsSize = operationsRef.current[type];
+    }
+
+    return addBtnSize + optionsSize;
   }
 
   const tabNodes: React.ReactElement[] = tabs.map(tab => {
@@ -261,8 +270,10 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     const { offsetWidth, offsetHeight } = tabsWrapperRef.current;
     setWrapperWidth(offsetWidth);
     setWrapperHeight(offsetHeight);
-    setWrapperScrollWidth(tabListRef.current.offsetWidth - getInnerAddBtnWidth());
-    setWrapperScrollHeight(tabListRef.current.offsetHeight - getInnerAddBtnWidth());
+    setWrapperScrollWidth(tabListRef.current.offsetWidth - getAdditionalSpaceSize('offsetWidth'));
+    setWrapperScrollHeight(
+      tabListRef.current.offsetHeight - getAdditionalSpaceSize('offsetHeight'),
+    );
 
     // Update buttons records
     setTabSizes(() => {
@@ -381,9 +392,10 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
 
       <OperationNode
         {...props}
+        ref={operationsRef}
         prefixCls={prefixCls}
         tabs={hiddenTabs}
-        style={hasDropdown ? null : HIDDEN_STYLE}
+        className={!hasDropdown && operationsHiddenClassName}
       />
 
       {extra && <div className={`${prefixCls}-extra-content`}>{extra}</div>}

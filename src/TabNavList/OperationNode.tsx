@@ -1,4 +1,5 @@
 import * as React from 'react';
+import classNames from 'classnames';
 import { useState, useEffect } from 'react';
 import KeyCode from 'rc-util/lib/KeyCode';
 import Menu, { MenuItem } from 'rc-menu';
@@ -8,6 +9,7 @@ import AddButton from './AddButton';
 
 export interface OperationNodeProps {
   prefixCls: string;
+  className?: string;
   style?: React.CSSProperties;
   id: string;
   tabs: Tab[];
@@ -21,19 +23,23 @@ export interface OperationNodeProps {
   onTabClick: (key: React.Key, e: React.MouseEvent | React.KeyboardEvent) => void;
 }
 
-export default function OperationNode({
-  prefixCls,
-  id,
-  tabs,
-  locale,
-  mobile,
-  moreIcon = 'More',
-  style,
-  editable,
-  tabBarGutter,
-  rtl,
-  onTabClick,
-}: OperationNodeProps) {
+function OperationNode(
+  {
+    prefixCls,
+    id,
+    tabs,
+    locale,
+    mobile,
+    moreIcon = 'More',
+    style,
+    className,
+    editable,
+    tabBarGutter,
+    rtl,
+    onTabClick,
+  }: OperationNodeProps,
+  ref: React.Ref<HTMLDivElement>,
+) {
   // ======================== Dropdown ========================
   const [open, setOpen] = useState(false);
   const [selectedKey, setSelectedKey] = useState<string>(null);
@@ -166,9 +172,11 @@ export default function OperationNode({
   );
 
   return (
-    <div className={`${prefixCls}-nav-operations`} style={style}>
+    <div className={classNames(`${prefixCls}-nav-operations`, className)} style={style} ref={ref}>
       {moreNode}
       <AddButton prefixCls={prefixCls} locale={locale} editable={editable} />
     </div>
   );
 }
+
+export default React.forwardRef(OperationNode);
