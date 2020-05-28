@@ -32,6 +32,7 @@ export interface TabNavListProps {
   extra?: React.ReactNode;
   editable?: EditableConfig;
   moreIcon?: React.ReactNode;
+  mobile: boolean;
   tabBarGutter?: number;
   renderTabBar?: RenderTabBar;
   className?: string;
@@ -209,6 +210,10 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     { ...props, tabs },
   );
 
+  function getInnerAddBtnWidth() {
+    return innerAddButtonRef.current?.offsetWidth || 0;
+  }
+
   const tabNodes: React.ReactElement[] = tabs.map(tab => {
     const { key } = tab;
     return (
@@ -234,7 +239,6 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
         }}
         onFocus={() => {
           scrollToTab(key);
-          tabsWrapperRef.current.scrollLeft = 0;
         }}
       />
     );
@@ -245,12 +249,8 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     const { offsetWidth, offsetHeight } = tabsWrapperRef.current;
     setWrapperWidth(offsetWidth);
     setWrapperHeight(offsetHeight);
-    setWrapperScrollWidth(
-      tabListRef.current.offsetWidth - (innerAddButtonRef.current?.offsetWidth || 0),
-    );
-    setWrapperScrollHeight(
-      tabListRef.current.offsetHeight - (innerAddButtonRef.current?.offsetHeight || 0),
-    );
+    setWrapperScrollWidth(tabListRef.current.offsetWidth - getInnerAddBtnWidth());
+    setWrapperScrollHeight(tabListRef.current.offsetHeight - getInnerAddBtnWidth());
 
     // Update buttons records
     setTabSizes(() => {
@@ -358,13 +358,14 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
               }}
             >
               {tabNodes}
-              <AddButton
-                ref={innerAddButtonRef}
-                prefixCls={prefixCls}
-                locale={locale}
-                editable={editable}
-                style={hasDropdown ? HIDDEN_STYLE : null}
-              />
+              {!hasDropdown && (
+                <AddButton
+                  ref={innerAddButtonRef}
+                  prefixCls={prefixCls}
+                  locale={locale}
+                  editable={editable}
+                />
+              )}
 
               <div
                 className={classNames(`${prefixCls}-ink-bar`, {
