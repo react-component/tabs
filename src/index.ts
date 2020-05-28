@@ -1,6 +1,6 @@
-import Tabs from './Tabs';
+import Tabs, { TabsProps } from './Tabs';
 import TabPane from './sugar/TabPane';
 
-export { TabPane };
+export { TabPane, TabsProps };
 
 export default Tabs;
