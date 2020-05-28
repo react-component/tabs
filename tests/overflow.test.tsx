@@ -1,13 +1,23 @@
+import React from 'react';
 import { mount } from 'enzyme';
 import KeyCode from 'rc-util/lib/KeyCode';
 import { spyElementPrototypes } from 'rc-util/lib/test/domHook';
 import { act } from 'react-dom/test-utils';
-import { getOffsetSize, getTabs, triggerResize, getTransformX, getTransformY } from './common/util';
+import {
+  getOffsetSizeFunc,
+  getTabs,
+  triggerResize,
+  getTransformX,
+  getTransformY,
+} from './common/util';
+import { TabPane } from '../src';
 
 describe('Tabs.Overflow', () => {
   let domSpy: ReturnType<typeof spyElementPrototypes>;
   let buttonSpy: ReturnType<typeof spyElementPrototypes>;
   let holder: HTMLDivElement;
+
+  const hackOffsetInfo: { list?: number } = {};
 
   beforeAll(() => {
     holder = document.createElement('div');
@@ -40,10 +50,10 @@ describe('Tabs.Overflow', () => {
     domSpy = spyElementPrototypes(HTMLElement, {
       scrollIntoView: () => {},
       offsetWidth: {
-        get: getOffsetSize,
+        get: getOffsetSizeFunc(hackOffsetInfo),
       },
       offsetHeight: {
-        get: getOffsetSize,
+        get: getOffsetSizeFunc(hackOffsetInfo),
       },
     });
   });
@@ -170,10 +180,58 @@ describe('Tabs.Overflow', () => {
       },
     ];
 
-    list.forEach(({ name, x1, y1, x2, y2 }) => {
-      it(`should work for ${name}`, () => {
+    ['top', 'left'].forEach((tabPosition: any) => {
+      list.forEach(({ name, x1, y1, x2, y2 }) => {
+        it(`should ${tabPosition} work for ${name}`, () => {
+          jest.useFakeTimers();
+          const wrapper = mount(getTabs({ tabPosition }), { attachTo: holder });
+
+          triggerResize(wrapper);
+          act(() => {
+            jest.runAllTimers();
+            wrapper.update();
+          });
+
+          // Wheel to move
+          const node = (wrapper.find('.rc-tabs-nav-wrap').instance() as unknown) as HTMLElement;
+
+          act(() => {
+            const touchStart = new WheelEvent('wheel', {
+              deltaX: x1,
+              deltaY: y1,
+            });
+            node.dispatchEvent(touchStart);
+            jest.runAllTimers();
+          });
+
+          act(() => {
+            const touchStart = new WheelEvent('wheel', {
+              deltaX: x2,
+              deltaY: y2,
+            });
+            node.dispatchEvent(touchStart);
+            jest.runAllTimers();
+          });
+
+          wrapper.update();
+          if (tabPosition === 'top') {
+            expect(getTransformX(wrapper)).toEqual(-23);
+          } else {
+            expect(getTransformY(wrapper)).toEqual(-23);
+          }
+
+          wrapper.unmount();
+          jest.useRealTimers();
+        });
+      });
+    });
+
+    ['top', 'left'].forEach((tabPosition: any) => {
+      it(`no need if place is enough: ${tabPosition}`, () => {
+        hackOffsetInfo.list = 20;
+
         jest.useFakeTimers();
-        const wrapper = mount(getTabs(), { attachTo: document.body });
+        const wrapper = mount(getTabs({ children: [<TabPane key="yo">Yo</TabPane>], tabPosition }));
 
         triggerResize(wrapper);
         act(() => {
@@ -183,30 +241,22 @@ describe('Tabs.Overflow', () => {
 
         // Wheel to move
         const node = (wrapper.find('.rc-tabs-nav-wrap').instance() as unknown) as HTMLElement;
+        const touchStart = new WheelEvent('wheel', {
+          deltaX: 20,
+          deltaY: 20,
+        });
+        touchStart.preventDefault = jest.fn();
 
         act(() => {
-          const touchStart = new WheelEvent('wheel', {
-            deltaX: x1,
-            deltaY: y1,
-          });
           node.dispatchEvent(touchStart);
           jest.runAllTimers();
         });
 
-        act(() => {
-          const touchStart = new WheelEvent('wheel', {
-            deltaX: x2,
-            deltaY: y2,
-          });
-          node.dispatchEvent(touchStart);
-          jest.runAllTimers();
-        });
+        expect(touchStart.preventDefault).not.toHaveBeenCalled();
+        expect(getTransformX(wrapper)).toEqual(0);
 
-        wrapper.update();
-        expect(getTransformX(wrapper)).toEqual(-23);
-
-        wrapper.unmount();
         jest.useRealTimers();
+        hackOffsetInfo.list = undefined;
       });
     });
   });

@@ -1,7 +1,7 @@
 import { mount } from 'enzyme';
 import { spyElementPrototypes } from 'rc-util/lib/test/domHook';
 import { act } from 'react-dom/test-utils';
-import { getOffsetSize, getTabs, triggerResize, getTransformX } from './common/util';
+import { getOffsetSizeFunc, getTabs, triggerResize, getTransformX } from './common/util';
 
 // Same as `overflow.test.tsx` but use in RTL
 
@@ -33,10 +33,10 @@ describe('Tabs.RTL', () => {
     domSpy = spyElementPrototypes(HTMLElement, {
       scrollIntoView: () => {},
       offsetWidth: {
-        get: getOffsetSize,
+        get: getOffsetSizeFunc(),
       },
       offsetHeight: {
-        get: getOffsetSize,
+        get: getOffsetSizeFunc(),
       },
       scrollWidth: {
         get: () => 5 * 20,

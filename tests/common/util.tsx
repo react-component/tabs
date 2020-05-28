@@ -3,21 +3,23 @@ import { ReactWrapper } from 'enzyme';
 import Tabs, { TabPane } from '../../src';
 import { TabsProps } from '../../src/Tabs';
 
-export function getOffsetSize() {
-  if (this.className.includes('rc-tabs-tab')) {
-    return 20;
-  }
-  if (this.className.includes('rc-tabs-nav-list')) {
-    return 5 * 20;
-  }
-  if (this.className.includes('rc-tabs-nav-wrap')) {
-    return 40;
-  }
-  if (this.className.includes('rc-tabs-nav-operations')) {
-    return 10;
-  }
+export function getOffsetSizeFunc(info: any = {}) {
+  return function getOffsetSize() {
+    if (this.className.includes('rc-tabs-tab')) {
+      return 20;
+    }
+    if (this.className.includes('rc-tabs-nav-list')) {
+      return info.list || 5 * 20;
+    }
+    if (this.className.includes('rc-tabs-nav-wrap')) {
+      return 40;
+    }
+    if (this.className.includes('rc-tabs-nav-operations')) {
+      return 10;
+    }
 
-  throw new Error(`className not match ${this.className}`);
+    throw new Error(`className not match ${this.className}`);
+  };
 }
 
 export function getTransformX(wrapper: ReactWrapper) {

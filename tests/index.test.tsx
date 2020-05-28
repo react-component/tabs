@@ -219,7 +219,7 @@ describe('Tabs.Basic', () => {
   });
 
   it('focus to scroll', () => {
-    const wrapper = mount(getTabs(), { attachTo: document.body });
+    const wrapper = mount(getTabs());
     wrapper
       .find('.rc-tabs-tab')
       .first()
