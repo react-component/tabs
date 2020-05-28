@@ -265,12 +265,15 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
 
   const onListHolderResize = useRaf(() => {
     // Update wrapper records
-    const { offsetWidth, offsetHeight } = tabsWrapperRef.current;
+    const offsetWidth = tabsWrapperRef.current?.offsetWidth || 0;
+    const offsetHeight = tabsWrapperRef.current?.offsetHeight || 0;
     setWrapperWidth(offsetWidth);
     setWrapperHeight(offsetHeight);
-    setWrapperScrollWidth(tabListRef.current.offsetWidth - getAdditionalSpaceSize('offsetWidth'));
+    setWrapperScrollWidth(
+      (tabListRef.current?.offsetWidth || 0) - getAdditionalSpaceSize('offsetWidth'),
+    );
     setWrapperScrollHeight(
-      tabListRef.current.offsetHeight - getAdditionalSpaceSize('offsetHeight'),
+      (tabListRef.current?.offsetHeight || 0) - getAdditionalSpaceSize('offsetHeight'),
     );
 
     // Update buttons records
