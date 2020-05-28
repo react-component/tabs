@@ -104,7 +104,11 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
 
   // ========================= Mobile ========================
   const touchMovingRef = useRef<number>();
-  const [touchMoving, setTouchMoving] = useState<number>();
+  const [lockAnimation, setLockAnimation] = useState<number>();
+
+  function doLockAnimation() {
+    setLockAnimation(Date.now());
+  }
 
   function clearTouchMoving() {
     window.clearTimeout(touchMovingRef.current);
@@ -138,21 +142,21 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     }
 
     clearTouchMoving();
-    setTouchMoving(Date.now());
+    doLockAnimation();
 
     return preventDefault;
   });
 
   useEffect(() => {
     clearTouchMoving();
-    if (touchMoving) {
+    if (lockAnimation) {
       touchMovingRef.current = window.setTimeout(() => {
-        setTouchMoving(0);
+        setLockAnimation(0);
       }, 100);
     }
 
     return clearTouchMoving;
-  }, [touchMoving]);
+  }, [lockAnimation]);
 
   // ========================= Scroll ========================
   function scrollToTab(key = activeKey) {
@@ -339,12 +343,17 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   // ========================= Render ========================
   const hasDropdown = !!hiddenTabs.length;
 
+  /* eslint-disable jsx-a11y/interactive-supports-focus */
   return (
     <div
       ref={ref}
       role="tablist"
       className={classNames(`${prefixCls}-nav`, className)}
       style={style}
+      onKeyDown={() => {
+        // No need animation when use keyboard
+        doLockAnimation();
+      }}
     >
       <ResizeObserver onResize={onListHolderResize}>
         <div className={`${prefixCls}-nav-wrap`} ref={tabsWrapperRef}>
@@ -354,7 +363,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
               className={`${prefixCls}-nav-list`}
               style={{
                 transform: `translate(${transformLeft}px, ${transformTop}px)`,
-                transition: touchMoving ? 'none' : undefined,
+                transition: lockAnimation ? 'none' : undefined,
               }}
             >
               {tabNodes}
@@ -388,6 +397,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
       {extra && <div className={`${prefixCls}-extra-content`}>{extra}</div>}
     </div>
   );
+  /* eslint-enable */
 }
 
 export default React.forwardRef(TabNavList);
