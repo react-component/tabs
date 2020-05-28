@@ -54,8 +54,7 @@ exports[`Tabs.Basic Normal 1`] = `
       </div>
     </div>
     <div
-      class="rc-tabs-nav-operations"
-      style="visibility: hidden;"
+      class="rc-tabs-nav-operations rc-tabs-nav-operations-hidden"
     >
       <button
         aria-controls="rc-tabs-0-more-popup"

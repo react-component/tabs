@@ -76,6 +76,9 @@ describe('Tabs.Mobile', () => {
             if (this.className.includes('rc-tabs-nav-wrap')) {
               return 40;
             }
+            if (this.className.includes('rc-tabs-nav-operations')) {
+              return 5;
+            }
             throw new Error(`className not match ${this.className}`);
           },
         },

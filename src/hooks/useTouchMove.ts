@@ -66,28 +66,29 @@ export default function useTouchMove(
     setLastOffset(null);
 
     // Swipe if needed
-    if (!lastOffset) return;
-    const distanceX = lastOffset.x / lastTimeDiff;
-    const distanceY = lastOffset.y / lastTimeDiff;
-    const absX = Math.abs(distanceX);
-    const absY = Math.abs(distanceY);
+    if (lastOffset) {
+      const distanceX = lastOffset.x / lastTimeDiff;
+      const distanceY = lastOffset.y / lastTimeDiff;
+      const absX = Math.abs(distanceX);
+      const absY = Math.abs(distanceY);
 
-    // Skip swipe if low distance
-    if (Math.max(absX, absY) < MIN_SWIPE_DISTANCE) return;
+      // Skip swipe if low distance
+      if (Math.max(absX, absY) < MIN_SWIPE_DISTANCE) return;
 
-    let currentX = distanceX;
-    let currentY = distanceY;
+      let currentX = distanceX;
+      let currentY = distanceY;
 
-    motionRef.current = window.setInterval(() => {
-      if (Math.abs(currentX) < STOP_SWIPE_DISTANCE && Math.abs(currentY) < STOP_SWIPE_DISTANCE) {
-        window.clearInterval(motionRef.current);
-        return;
-      }
+      motionRef.current = window.setInterval(() => {
+        if (Math.abs(currentX) < STOP_SWIPE_DISTANCE && Math.abs(currentY) < STOP_SWIPE_DISTANCE) {
+          window.clearInterval(motionRef.current);
+          return;
+        }
 
-      currentX *= SPEED_OFF_MULTIPLE;
-      currentY *= SPEED_OFF_MULTIPLE;
-      onOffset(currentX * REFRESH_INTERVAL, currentY * REFRESH_INTERVAL);
-    }, REFRESH_INTERVAL);
+        currentX *= SPEED_OFF_MULTIPLE;
+        currentY *= SPEED_OFF_MULTIPLE;
+        onOffset(currentX * REFRESH_INTERVAL, currentY * REFRESH_INTERVAL);
+      }, REFRESH_INTERVAL);
+    }
   }
 
   // >>> Wheel event
