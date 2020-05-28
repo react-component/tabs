@@ -19,7 +19,7 @@ export interface TabNodeProps {
   removeAriaLabel?: string;
   removeIcon?: React.ReactNode;
   onRemove: () => void;
-  onFocus: () => void;
+  onFocus: React.FocusEventHandler;
 }
 
 function TabNode(
