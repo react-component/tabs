@@ -227,4 +227,9 @@ describe('Tabs.Basic', () => {
 
     wrapper.unmount();
   });
+
+  it('tabBarStyle', () => {
+    const wrapper = mount(getTabs({ tabBarStyle: { background: 'red' } }));
+    expect(wrapper.find('.rc-tabs-nav').prop('style').background).toEqual('red');
+  });
 });

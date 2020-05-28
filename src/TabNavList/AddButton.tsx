@@ -29,7 +29,7 @@ function AddButton(
         });
       }}
     >
-      {editable.addIcon || 'Add'}
+      {editable.addIcon || '+'}
     </button>
   );
 }

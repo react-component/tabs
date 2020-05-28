@@ -85,6 +85,7 @@ function Tabs(
     animated,
     tabPosition = 'top',
     tabBarGutter,
+    tabBarStyle,
     tabBarExtraContent,
     locale,
     moreIcon,
@@ -182,6 +183,7 @@ function Tabs(
     tabBarGutter,
     onTabClick: onInternalTabClick,
     extra: tabBarExtraContent,
+    style: tabBarStyle,
   };
 
   if (renderTabBar) {
