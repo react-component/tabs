@@ -101,12 +101,15 @@ function Tabs(
 
   let mergedAnimated: AnimatedConfig | false;
   if (animated === false) {
-    mergedAnimated = {};
+    mergedAnimated = {
+      inkBar: false,
+      tabPane: false,
+    };
   } else {
     mergedAnimated = {
-      ...(animated !== true ? animated : null),
       inkBar: true,
       tabPane: false,
+      ...(animated !== true ? animated : null),
     };
   }
 

@@ -191,4 +191,40 @@ describe('Tabs.Basic', () => {
     const wrapper = mount(getTabs({ tabBarExtraContent: 'Bamboo' }));
     expect(wrapper.find('.rc-tabs-extra-content').text()).toEqual('Bamboo');
   });
+
+  describe('animated', () => {
+    it('false', () => {
+      const wrapper = mount(getTabs({ animated: false }));
+      expect(wrapper.find('TabPanelList').prop('animated')).toEqual({
+        inkBar: false,
+        tabPane: false,
+      });
+    });
+
+    it('true', () => {
+      const wrapper = mount(getTabs({ animated: true }));
+      expect(wrapper.find('TabPanelList').prop('animated')).toEqual({
+        inkBar: true,
+        tabPane: false,
+      });
+    });
+
+    it('customize', () => {
+      const wrapper = mount(getTabs({ animated: { inkBar: false, tabPane: true } }));
+      expect(wrapper.find('TabPanelList').prop('animated')).toEqual({
+        inkBar: false,
+        tabPane: true,
+      });
+    });
+  });
+
+  it('focus to scroll', () => {
+    const wrapper = mount(getTabs(), { attachTo: document.body });
+    wrapper
+      .find('.rc-tabs-tab')
+      .first()
+      .simulate('focus');
+
+    wrapper.unmount();
+  });
 });

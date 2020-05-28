@@ -285,11 +285,8 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
 
   // =================== Link & Operations ===================
   const [inkStyle, setInkStyle] = useState<React.CSSProperties>();
-  // const inkStyle: React.CSSProperties = {};
-  const operationsStyle: React.CSSProperties = {};
 
   const activeTabOffset = tabOffsets.get(activeKey);
-  const lastVisibleTabOffset = tabOffsets.get(tabs[visibleEnd]?.key);
 
   // Delay set ink style to avoid remove tab blink
   const inkBarRafRef = useRef<number>();
@@ -322,19 +319,6 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
 
     return cleanInkBarRaf;
   }, [activeTabOffset, tabPositionTopOrBottom, rtl]);
-
-  if (lastVisibleTabOffset) {
-    const optGutter = tabBarGutter || 0;
-    if (tabPositionTopOrBottom) {
-      if (rtl) {
-        operationsStyle.right = lastVisibleTabOffset.right + lastVisibleTabOffset.width + optGutter;
-      } else {
-        operationsStyle.left = lastVisibleTabOffset.left + lastVisibleTabOffset.width + optGutter;
-      }
-    } else {
-      operationsStyle.top = lastVisibleTabOffset.top + lastVisibleTabOffset.height + optGutter;
-    }
-  }
 
   // ========================= Effect ========================
   useEffect(() => {
