@@ -111,7 +111,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   }
 
   useTouchMove(tabsWrapperRef, (offsetX, offsetY) => {
-    let preventDefault = true;
+    let preventDefault = false;
 
     function doMove(setState: React.Dispatch<React.SetStateAction<number>>, offset: number) {
       setState(value => {
