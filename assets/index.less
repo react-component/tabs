@@ -1,11 +1,104 @@
+@import './dropdown.less';
+@import './panels.less';
+@import './position.less';
+@import './rtl.less';
+
 @tabs-prefix-cls: rc-tabs;
 
 @easing-in-out: cubic-bezier(0.35, 0, 0.25, 1);
 
-@effect-duration: .3s;
+@effect-duration: 0.3s;
 
-@import "index/common";
-@import "index/left";
-@import "index/right";
-@import "index/bottom";
-@import "index/top";
+.@{tabs-prefix-cls} {
+  border: 1px solid gray;
+  font-size: 14px;
+  overflow: hidden;
+
+  // ========================== Navigation ==========================
+  &-nav {
+    display: flex;
+    flex: none;
+    position: relative;
+
+    &-measure,
+    &-wrap {
+      transform: translate(0);
+      position: relative;
+      display: inline-block;
+      flex: auto;
+      white-space: nowrap;
+      overflow: hidden;
+      display: flex;
+    }
+
+    &-list {
+      display: flex;
+      position: relative;
+      transition: transform 0.3s;
+    }
+
+    // >>>>>>>> Operations
+    &-operations {
+      display: flex;
+
+      &-hidden {
+        position: absolute;
+        visibility: hidden;
+        pointer-events: none;
+      }
+    }
+
+    &-more {
+      border: 1px solid blue;
+      background: rgba(255, 0, 0, 0.1);
+    }
+    &-add {
+      border: 1px solid green;
+      background: rgba(0, 255, 0, 0.1);
+    }
+  }
+
+  &-tab {
+    border: 0;
+    font-size: 20px;
+    background: rgba(255, 255, 255, 0.5);
+    margin: 0;
+    padding: 8px 16px;
+    outline: none;
+    cursor: pointer;
+    position: relative;
+
+    &-with-remove {
+      padding-right: 32px;
+    }
+
+    &-remove {
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+
+      &:hover {
+        color: red;
+      }
+    }
+
+    &:focus {
+      background: rgba(0, 0, 255, 0.1);
+    }
+  }
+
+  &-ink-bar {
+    position: absolute;
+    background: red;
+    pointer-events: none;
+
+    &-animated {
+      transition: all 0.3s;
+    }
+  }
+
+  &-extra-content {
+    flex: none;
+  }
+}

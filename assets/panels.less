@@ -1,0 +1,21 @@
+@tabs-prefix-cls: rc-tabs;
+
+.@{tabs-prefix-cls} {
+  &-content {
+    &-holder {
+      flex: auto;
+    }
+
+    display: flex;
+    width: 100%;
+
+    &-animated {
+      transition: margin 0.3s;
+    }
+  }
+
+  &-tabpane {
+    width: 100%;
+    flex: none;
+  }
+}

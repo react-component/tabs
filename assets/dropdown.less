@@ -1,0 +1,32 @@
+@tabs-prefix-cls: rc-tabs;
+
+.@{tabs-prefix-cls}-dropdown {
+  position: absolute;
+  background: #fefefe;
+  border: 1px solid black;
+  max-height: 200px;
+  overflow: auto;
+
+  &-hidden {
+    display: none;
+  }
+
+  &-menu {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    &-item {
+      padding: 4px 8px;
+
+      &-selected {
+        background: red;
+      }
+
+      &-disabled {
+        opacity: 0.3;
+        cursor: not-allowed;
+      }
+    }
+  }
+}
