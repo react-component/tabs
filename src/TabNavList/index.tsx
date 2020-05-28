@@ -20,6 +20,7 @@ import TabContext from '../TabContext';
 import useTouchMove from '../hooks/useTouchMove';
 import useRefs from '../hooks/useRefs';
 import AddButton from './AddButton';
+import useSyncState from '../hooks/useSyncState';
 
 const HIDDEN_STYLE: React.CSSProperties = { visibility: 'hidden' };
 
@@ -64,8 +65,8 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   const innerAddButtonRef = useRef<HTMLButtonElement>();
   const [getBtnRef, removeBtnRef] = useRefs<HTMLButtonElement>();
 
-  const [transformLeft, setTransformLeft] = useState(0);
-  const [transformTop, setTransformTop] = useState(0);
+  const [transformLeft, setTransformLeft] = useSyncState(0);
+  const [transformTop, setTransformTop] = useSyncState(0);
 
   const [wrapperScrollWidth, setWrapperScrollWidth] = useState<number>(0);
   const [wrapperScrollHeight, setWrapperScrollHeight] = useState<number>(0);

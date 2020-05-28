@@ -122,7 +122,6 @@ export default function useTouchMove(
 
     if (onOffset(-mixed, -mixed) || lastWheelPreventRef.current) {
       e.preventDefault();
-      e.stopPropagation();
       lastWheelPreventRef.current = true;
     }
 

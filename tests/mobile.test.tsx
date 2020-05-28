@@ -4,6 +4,7 @@ import { spyElementPrototypes } from 'rc-util/lib/test/domHook';
 import { act } from 'react-dom/test-utils';
 import Tabs, { TabPane } from '../src';
 import { TabsProps } from '../src/Tabs';
+import { getTransformX } from './common/util';
 
 describe('Tabs.Mobile', () => {
   const originAgent = navigator.userAgent;
@@ -144,16 +145,6 @@ describe('Tabs.Mobile', () => {
       });
     }
 
-    function getTransformX(wrapper: ReactWrapper) {
-      const { transform } = wrapper.find('.rc-tabs-nav-list').props().style;
-      const match = transform.match(/\(([-\d.]+)px/);
-      if (!match) {
-        console.log(wrapper.find('.rc-tabs-nav-list').html());
-        throw new Error(`Not find transform: ${transform}`);
-      }
-      return Number(match[1]);
-    }
-
     describe('LTR', () => {
       beforeAll(() => {
         rtl = false;
@@ -218,18 +209,6 @@ describe('Tabs.Mobile', () => {
 
         jest.useRealTimers();
       });
-
-      // it('auto scroll to position', () => {
-      //   jest.useFakeTimers();
-      //   // 3 [2 1] 0
-      //   const wrapper = mount(getTabs({ direction: 'rtl', activeKey: '1' }));
-      //   act(() => {
-      //     jest.runAllTimers();
-      //   });
-      //   wrapper.update();
-      //   expect(getTransformX(wrapper)).toEqual(20);
-      //   jest.useRealTimers();
-      // });
     });
   });
 });
