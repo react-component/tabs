@@ -339,7 +339,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   // Should recalculate when rtl changed
   useEffect(() => {
     onListHolderResize();
-  }, [rtl, tabBarGutter]);
+  }, [rtl, tabBarGutter, activeKey]);
 
   // ========================= Render ========================
   const hasDropdown = !!hiddenTabs.length;
