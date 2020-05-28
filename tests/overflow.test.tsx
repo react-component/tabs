@@ -43,7 +43,7 @@ describe('Tabs.Overflow', () => {
         return 5 * 20;
       }
       if (this.className.includes('rc-tabs-nav-wrap')) {
-        return 50;
+        return 40;
       }
       if (this.className.includes('rc-tabs-nav-operations')) {
         return 10;
