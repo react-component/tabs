@@ -2,7 +2,7 @@ import { mount } from 'enzyme';
 import KeyCode from 'rc-util/lib/KeyCode';
 import { spyElementPrototypes } from 'rc-util/lib/test/domHook';
 import { act } from 'react-dom/test-utils';
-import { getOffsetSize, getTabs, triggerResize, getTransformX } from './common/util';
+import { getOffsetSize, getTabs, triggerResize, getTransformX, getTransformY } from './common/util';
 
 describe('Tabs.Overflow', () => {
   let domSpy: ReturnType<typeof spyElementPrototypes>;
@@ -12,20 +12,28 @@ describe('Tabs.Overflow', () => {
   beforeAll(() => {
     holder = document.createElement('div');
     document.body.appendChild(holder);
+
+    function btnOffsetPosition() {
+      const btn = this as HTMLButtonElement;
+      const btnList = [...btn.parentNode.childNodes].filter(ele =>
+        (ele as HTMLElement).className.includes('rc-tabs-tab'),
+      );
+      const index = btnList.indexOf(btn);
+      return 20 * index;
+    }
+
     buttonSpy = spyElementPrototypes(HTMLButtonElement, {
       offsetWidth: {
         get: () => 20,
       },
+      offsetHeight: {
+        get: () => 20,
+      },
       offsetLeft: {
-        get() {
-          // Mock button offset
-          const btn = this as HTMLButtonElement;
-          const btnList = [...btn.parentNode.childNodes].filter(ele =>
-            (ele as HTMLElement).className.includes('rc-tabs-tab'),
-          );
-          const index = btnList.indexOf(btn);
-          return 20 * index;
-        },
+        get: btnOffsetPosition,
+      },
+      offsetTop: {
+        get: btnOffsetPosition,
       },
     });
 
@@ -36,9 +44,6 @@ describe('Tabs.Overflow', () => {
       },
       offsetHeight: {
         get: getOffsetSize,
-      },
-      scrollWidth: {
-        get: () => 5 * 20,
       },
     });
   });
@@ -203,6 +208,58 @@ describe('Tabs.Overflow', () => {
         wrapper.unmount();
         jest.useRealTimers();
       });
+    });
+  });
+
+  describe('overflow to scroll', () => {
+    it('top', () => {
+      jest.useFakeTimers();
+      // light bamboo [cute disabled] miu
+      const wrapper = mount(getTabs({ activeKey: 'disabled' }));
+
+      triggerResize(wrapper);
+      act(() => {
+        jest.runAllTimers();
+        wrapper.update();
+      });
+      expect(getTransformX(wrapper)).toEqual(-40);
+
+      // light [bamboo cute] disabled miu
+      wrapper.setProps({ activeKey: 'bamboo' });
+      jest.runAllTimers();
+      wrapper.update();
+      expect(getTransformX(wrapper)).toEqual(-20);
+
+      jest.useRealTimers();
+    });
+
+    it('left', () => {
+      jest.useFakeTimers();
+      /**
+       *    light
+       *    bamboo
+       *   --------
+       *     cute
+       *   disabled
+       *   --------
+       *     miu
+       */
+      const wrapper = mount(getTabs({ activeKey: 'disabled', tabPosition: 'left' }));
+
+      triggerResize(wrapper);
+      act(() => {
+        jest.runAllTimers();
+        wrapper.update();
+      });
+      expect(getTransformY(wrapper)).toEqual(-40);
+
+      // light [bamboo cute] disabled miu
+      wrapper.setProps({ activeKey: 'bamboo' });
+      jest.runAllTimers();
+      wrapper.update();
+      expect(getTransformY(wrapper)).toEqual(-20);
+
+      jest.useRealTimers();
     });
   });
 });

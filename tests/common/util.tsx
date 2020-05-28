@@ -25,7 +25,17 @@ export function getTransformX(wrapper: ReactWrapper) {
   const match = transform.match(/\(([-\d.]+)px/);
   if (!match) {
     console.log(wrapper.find('.rc-tabs-nav-list').html());
-    throw new Error(`Not find transform: ${transform}`);
+    throw new Error(`Not find transformX: ${transform}`);
+  }
+  return Number(match[1]);
+}
+
+export function getTransformY(wrapper: ReactWrapper) {
+  const { transform } = wrapper.find('.rc-tabs-nav-list').props().style;
+  const match = transform.match(/,\s*([-\d.]+)px/);
+  if (!match) {
+    console.log(wrapper.find('.rc-tabs-nav-list').html());
+    throw new Error(`Not find transformY: ${transform}`);
   }
   return Number(match[1]);
 }

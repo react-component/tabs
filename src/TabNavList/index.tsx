@@ -250,6 +250,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
           if (!rtl) {
             tabsWrapperRef.current.scrollLeft = 0;
           }
+          tabsWrapperRef.current.scrollTop = 0;
         }}
       />
     );
