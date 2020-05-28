@@ -22,8 +22,6 @@ import useRefs from '../hooks/useRefs';
 import AddButton from './AddButton';
 import useSyncState from '../hooks/useSyncState';
 
-const HIDDEN_STYLE: React.CSSProperties = { visibility: 'hidden' };
-
 export interface TabNavListProps {
   id: string;
   tabPosition: TabPosition;
