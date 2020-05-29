@@ -29,6 +29,38 @@
       white-space: nowrap;
       overflow: hidden;
       display: flex;
+
+      &-ping-left::before,
+      &-ping-right::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        bottom: 0;
+      }
+      &-ping-left::before {
+        left: 0;
+        border-left: 1px solid red;
+      }
+      &-ping-right::after {
+        right: 0;
+        border-right: 1px solid red;
+      }
+
+      &-ping-top::before,
+      &-ping-bottom::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        right: 0;
+      }
+      &-ping-top::before {
+        top: 0;
+        border-top: 1px solid red;
+      }
+      &-ping-bottom::after {
+        bottom: 0;
+        border-top: 1px solid red;
+      }
     }
 
     &-list {

@@ -346,6 +346,24 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
 
   // ========================= Render ========================
   const hasDropdown = !!hiddenTabs.length;
+  const wrapPrefix = `${prefixCls}-nav-wrap`;
+  let pingLeft: boolean;
+  let pingRight: boolean;
+  let pingTop: boolean;
+  let pingBottom: boolean;
+
+  if (tabPositionTopOrBottom) {
+    if (rtl) {
+      pingRight = transformLeft > 0;
+      pingLeft = transformLeft + wrapperWidth < wrapperScrollWidth;
+    } else {
+      pingLeft = transformLeft < 0;
+      pingRight = -transformLeft + wrapperWidth < wrapperScrollWidth;
+    }
+  } else {
+    pingTop = transformTop < 0;
+    pingBottom = -transformTop + wrapperHeight < wrapperScrollHeight;
+  }
 
   /* eslint-disable jsx-a11y/interactive-supports-focus */
   return (
@@ -360,7 +378,15 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
       }}
     >
       <ResizeObserver onResize={onListHolderResize}>
-        <div className={`${prefixCls}-nav-wrap`} ref={tabsWrapperRef}>
+        <div
+          className={classNames(wrapPrefix, {
+            [`${wrapPrefix}-ping-left`]: pingLeft,
+            [`${wrapPrefix}-ping-right`]: pingRight,
+            [`${wrapPrefix}-ping-top`]: pingTop,
+            [`${wrapPrefix}-ping-bottom`]: pingBottom,
+          })}
+          ref={tabsWrapperRef}
+        >
           <ResizeObserver onResize={onListHolderResize}>
             <div
               ref={tabListRef}
