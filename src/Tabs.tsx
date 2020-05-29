@@ -59,6 +59,8 @@ export interface TabsProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'o
 
   // Icons
   moreIcon?: React.ReactNode;
+  /** @private Internal usage. Not promise will rename in future */
+  moreTransitionName?: string;
 }
 
 function parseTabList(children: React.ReactNode): Tab[] {
@@ -89,6 +91,7 @@ function Tabs(
     tabBarExtraContent,
     locale,
     moreIcon,
+    moreTransitionName,
     destroyInactiveTabPane,
     renderTabBar,
     onChange,
@@ -180,6 +183,7 @@ function Tabs(
     editable,
     locale,
     moreIcon,
+    moreTransitionName,
     tabBarGutter,
     onTabClick: onInternalTabClick,
     extra: tabBarExtraContent,

@@ -18,6 +18,7 @@ export interface OperationNodeProps {
   activeKey: string;
   mobile: boolean;
   moreIcon?: React.ReactNode;
+  moreTransitionName?: string;
   editable?: EditableConfig;
   locale?: TabsLocale;
   onTabClick: (key: React.Key, e: React.MouseEvent | React.KeyboardEvent) => void;
@@ -31,6 +32,7 @@ function OperationNode(
     locale,
     mobile,
     moreIcon = 'More',
+    moreTransitionName,
     style,
     className,
     editable,
@@ -152,6 +154,7 @@ function OperationNode(
       overlay={menu}
       trigger={['hover']}
       visible={open}
+      transitionName={moreTransitionName}
       onVisibleChange={setOpen}
     >
       <button
