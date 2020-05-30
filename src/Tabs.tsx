@@ -14,6 +14,7 @@ import {
   TabsLocale,
   EditableConfig,
   AnimatedConfig,
+  OnTabScroll,
 } from './interface';
 import TabContext from './TabContext';
 import { isMobile } from './hooks/useTouchMove';
@@ -51,6 +52,7 @@ export interface TabsProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'o
 
   onChange?: (activeKey: string) => void;
   onTabClick?: (activeKey: string, e: React.KeyboardEvent | React.MouseEvent) => void;
+  onTabScroll?: OnTabScroll;
 
   editable?: EditableConfig;
 
@@ -96,6 +98,7 @@ function Tabs(
     renderTabBar,
     onChange,
     onTabClick,
+    onTabScroll,
     ...restProps
   }: TabsProps,
   ref: React.Ref<HTMLDivElement>,
@@ -186,6 +189,7 @@ function Tabs(
     moreTransitionName,
     tabBarGutter,
     onTabClick: onInternalTabClick,
+    onTabScroll,
     extra: tabBarExtraContent,
     style: tabBarStyle,
   };

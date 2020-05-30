@@ -148,6 +148,9 @@ export default () => {
                 setActiveKey(key);
               }
             }}
+            onTabScroll={info => {
+              console.log('Scroll:', info);
+            }}
             destroyInactiveTabPane={destroyInactiveTabPane}
             animated={{ tabPane: animated }}
             editable={editableConfig}

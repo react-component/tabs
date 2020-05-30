@@ -264,8 +264,9 @@ describe('Tabs.Overflow', () => {
   describe('overflow to scroll', () => {
     it('top', () => {
       jest.useFakeTimers();
+      const onTabScroll = jest.fn();
       // light bamboo [cute disabled] miu
-      const wrapper = mount(getTabs({ activeKey: 'disabled' }));
+      const wrapper = mount(getTabs({ activeKey: 'disabled', onTabScroll }));
 
       triggerResize(wrapper);
       act(() => {
@@ -275,28 +276,31 @@ describe('Tabs.Overflow', () => {
       expect(getTransformX(wrapper)).toEqual(-40);
 
       // light [bamboo cute] disabled miu
+      onTabScroll.mockReset();
       wrapper.setProps({ activeKey: 'bamboo' });
       act(() => {
         jest.runAllTimers();
         wrapper.update();
       });
       expect(getTransformX(wrapper)).toEqual(-20);
+      expect(onTabScroll).toHaveBeenCalledWith({ direction: 'left' });
 
       jest.useRealTimers();
     });
 
     it('left', () => {
       jest.useFakeTimers();
+      const onTabScroll = jest.fn();
       /**
-       *    light
-       *    bamboo
-       *   --------
-       *     cute
-       *   disabled
-       *   --------
-       *     miu
+       *    light        light
+       *    bamboo      --------
+       *   --------      bamboo
+       *     cute         cute
+       *   disabled     --------
+       *   --------     disabled
+       *     miu          miu
        */
-      const wrapper = mount(getTabs({ activeKey: 'disabled', tabPosition: 'left' }));
+      const wrapper = mount(getTabs({ activeKey: 'disabled', tabPosition: 'left', onTabScroll }));
 
       triggerResize(wrapper);
       act(() => {
@@ -306,12 +310,14 @@ describe('Tabs.Overflow', () => {
       expect(getTransformY(wrapper)).toEqual(-40);
 
       // light [bamboo cute] disabled miu
+      onTabScroll.mockReset();
       wrapper.setProps({ activeKey: 'bamboo' });
       act(() => {
         jest.runAllTimers();
         wrapper.update();
       });
       expect(getTransformY(wrapper)).toEqual(-20);
+      expect(onTabScroll).toHaveBeenCalledWith({ direction: 'top' });
 
       jest.useRealTimers();
     });

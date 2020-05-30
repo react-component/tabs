@@ -45,3 +45,5 @@ export interface AnimatedConfig {
   inkBar?: boolean;
   tabPane?: boolean;
 }
+
+export type OnTabScroll = (info: { direction: 'left' | 'right' | 'top' | 'bottom' }) => void;
