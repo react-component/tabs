@@ -86,6 +86,7 @@ React.render(
 | prefixCls | string | `'rc-tabs'` | prefix class name, use to custom style |
 | onChange | (key) => void | - | called when tabPanel is changed |
 | onTabClick | (key) => void | - | called when tab click |
+| onTabScroll | ({ direction }) => void | - | called when tab scroll |
 
 ### TabPane
 

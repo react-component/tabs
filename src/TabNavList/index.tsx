@@ -12,6 +12,7 @@ import {
   TabsLocale,
   EditableConfig,
   AnimatedConfig,
+  OnTabScroll,
 } from '../interface';
 import useOffsets from '../hooks/useOffsets';
 import useVisibleRange from '../hooks/useVisibleRange';
@@ -39,6 +40,7 @@ export interface TabNavListProps {
   style?: React.CSSProperties;
   locale?: TabsLocale;
   onTabClick: (activeKey: React.Key, e: React.MouseEvent | React.KeyboardEvent) => void;
+  onTabScroll?: OnTabScroll;
   children?: (node: React.ReactElement) => React.ReactElement;
 }
 
@@ -58,6 +60,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     tabBarGutter,
     children,
     onTabClick,
+    onTabScroll,
   } = props;
   const tabsWrapperRef = useRef<HTMLDivElement>();
   const tabListRef = useRef<HTMLDivElement>();
@@ -65,15 +68,23 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   const innerAddButtonRef = useRef<HTMLButtonElement>();
   const [getBtnRef, removeBtnRef] = useRefs<HTMLButtonElement>();
 
-  const [transformLeft, setTransformLeft] = useSyncState(0);
-  const [transformTop, setTransformTop] = useSyncState(0);
+  const tabPositionTopOrBottom = tabPosition === 'top' || tabPosition === 'bottom';
+
+  const [transformLeft, setTransformLeft] = useSyncState(0, (next, prev) => {
+    if (tabPositionTopOrBottom && onTabScroll) {
+      onTabScroll({ direction: next > prev ? 'left' : 'right' });
+    }
+  });
+  const [transformTop, setTransformTop] = useSyncState(0, (next, prev) => {
+    if (!tabPositionTopOrBottom && onTabScroll) {
+      onTabScroll({ direction: next > prev ? 'top' : 'bottom' });
+    }
+  });
 
   const [wrapperScrollWidth, setWrapperScrollWidth] = useState<number>(0);
   const [wrapperScrollHeight, setWrapperScrollHeight] = useState<number>(0);
   const [wrapperWidth, setWrapperWidth] = useState<number>(null);
   const [wrapperHeight, setWrapperHeight] = useState<number>(null);
-
-  const tabPositionTopOrBottom = tabPosition === 'top' || tabPosition === 'bottom';
 
   const [tabSizes, setTabSizes] = useRafState<TabSizeMap>(new Map());
   const tabOffsets = useOffsets(tabs, tabSizes, wrapperScrollWidth);
