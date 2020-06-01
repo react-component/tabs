@@ -26,6 +26,7 @@ export default () => {
       <React.StrictMode>
         <div style={{ maxWidth: 550 }}>
           <Tabs
+            direction="rtl"
             tabBarGutter={gutter ? 32 : null}
             tabBarExtraContent="extra"
             defaultActiveKey="8"
