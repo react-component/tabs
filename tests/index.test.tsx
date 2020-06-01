@@ -185,6 +185,22 @@ describe('Tabs.Basic', () => {
         });
       });
     });
+
+    it('customize closeIcon', () => {
+      const onEdit = jest.fn();
+      const wrapper = mount(
+        getTabs({
+          editable: { onEdit },
+          children: [
+            <TabPane tab="light" closeIcon={<span className="close-light" />}>
+              Light
+            </TabPane>,
+          ],
+        }),
+      );
+
+      expect(wrapper.find('.rc-tabs-tab-remove').find('.close-light').length).toBeTruthy();
+    });
   });
 
   it('extra', () => {

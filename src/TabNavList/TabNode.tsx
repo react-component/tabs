@@ -28,7 +28,7 @@ function TabNode(
     id,
     active,
     rtl,
-    tab: { key, tab, disabled },
+    tab: { key, tab, disabled, closeIcon },
     tabBarGutter,
     tabPosition,
     closable,
@@ -99,7 +99,7 @@ function TabNode(
             }
           }}
         >
-          {editable.removeIcon || '×'}
+          {closeIcon || editable.removeIcon || '×'}
         </span>
       )}
     </button>

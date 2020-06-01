@@ -8,6 +8,7 @@ export interface TabPaneProps {
   children?: React.ReactNode;
   forceRender?: boolean;
   closable?: boolean;
+  closeIcon?: React.ReactNode;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
