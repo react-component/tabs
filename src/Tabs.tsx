@@ -128,7 +128,7 @@ function Tabs(
   }, []);
 
   // ====================== Active Key ======================
-  const [mergedActiveKey, setMergedActiveKey] = useMergedState<string>(undefined, {
+  const [mergedActiveKey, setMergedActiveKey] = useMergedState<string>(() => tabs[0]?.key, {
     value: activeKey,
     defaultValue: defaultActiveKey,
   });
