@@ -41,6 +41,7 @@ describe('Tabs.Basic', () => {
         ],
       }),
     );
+    wrapper.update();
 
     expect(wrapper.render()).toMatchSnapshot();
   });
