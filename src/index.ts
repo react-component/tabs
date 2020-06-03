@@ -1,6 +1,6 @@
 import Tabs, { TabsProps } from './Tabs';
-import TabPane from './sugar/TabPane';
+import TabPane, { TabPaneProps } from './TabPanelList/TabPane';
 
-export { TabPane, TabsProps };
+export { TabPane, TabsProps, TabPaneProps };
 
 export default Tabs;

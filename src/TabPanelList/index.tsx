@@ -37,17 +37,14 @@ export default function TabPanelList({
         }
       >
         {tabs.map(tab => {
-          return (
-            <TabPane
-              prefixCls={prefixCls}
-              id={id}
-              animated={tabPaneAnimated}
-              destroyInactiveTabPane={destroyInactiveTabPane}
-              active={tab.key === activeKey}
-              key={tab.key}
-              tab={tab}
-            />
-          );
+          return React.cloneElement(tab.node, {
+            prefixCls,
+            tabKey: tab.key,
+            id,
+            animated: tabPaneAnimated,
+            active: tab.key === activeKey,
+            destroyInactiveTabPane,
+          });
         })}
       </div>
     </div>

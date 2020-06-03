@@ -30,6 +30,21 @@ describe('Tabs.Basic', () => {
     expect(wrapper.render()).toMatchSnapshot();
   });
 
+  it('Skip invalidate children', () => {
+    const wrapper = mount(
+      getTabs({
+        children: [
+          <TabPane tab="light" key="light">
+            Light
+          </TabPane>,
+          'not me',
+        ],
+      }),
+    );
+
+    expect(wrapper.render()).toMatchSnapshot();
+  });
+
   it('nothing for empty tabs', () => {
     mount(getTabs({ children: null }));
   });

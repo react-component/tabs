@@ -16,10 +16,10 @@ exports[`Tabs.Basic Normal 1`] = `
         style="transform: translate(0px, 0px);"
       >
         <button
-          aria-controls="rc-tabs-0-panel-light"
+          aria-controls="rc-tabs-test-panel-light"
           aria-selected="false"
           class="rc-tabs-tab"
-          id="rc-tabs-0-tab-light"
+          id="rc-tabs-test-tab-light"
           role="tab"
           tabindex="0"
           type="button"
@@ -27,10 +27,10 @@ exports[`Tabs.Basic Normal 1`] = `
           light
         </button>
         <button
-          aria-controls="rc-tabs-0-panel-bamboo"
+          aria-controls="rc-tabs-test-panel-bamboo"
           aria-selected="true"
           class="rc-tabs-tab rc-tabs-tab-active"
-          id="rc-tabs-0-tab-bamboo"
+          id="rc-tabs-test-tab-bamboo"
           role="tab"
           tabindex="0"
           type="button"
@@ -38,10 +38,10 @@ exports[`Tabs.Basic Normal 1`] = `
           bamboo
         </button>
         <button
-          aria-controls="rc-tabs-0-panel-cute"
+          aria-controls="rc-tabs-test-panel-cute"
           aria-selected="false"
           class="rc-tabs-tab"
-          id="rc-tabs-0-tab-cute"
+          id="rc-tabs-test-tab-cute"
           role="tab"
           tabindex="0"
           type="button"
@@ -57,12 +57,12 @@ exports[`Tabs.Basic Normal 1`] = `
       class="rc-tabs-nav-operations rc-tabs-nav-operations-hidden"
     >
       <button
-        aria-controls="rc-tabs-0-more-popup"
+        aria-controls="rc-tabs-test-more-popup"
         aria-expanded="false"
         aria-haspopup="listbox"
         aria-hidden="true"
         class="rc-tabs-nav-more"
-        id="rc-tabs-0-more"
+        id="rc-tabs-test-more"
         style="visibility: hidden; order: 1;"
         tabindex="-1"
         type="button"
@@ -79,18 +79,18 @@ exports[`Tabs.Basic Normal 1`] = `
     >
       <div
         aria-hidden="true"
-        aria-labelledby="rc-tabs-0-tab-light"
+        aria-labelledby="rc-tabs-test-tab-light"
         class="rc-tabs-tabpane"
-        id="rc-tabs-0-panel-light"
+        id="rc-tabs-test-panel-light"
         role="tabpanel"
         style="display: none;"
         tabindex="-1"
       />
       <div
         aria-hidden="false"
-        aria-labelledby="rc-tabs-0-tab-bamboo"
+        aria-labelledby="rc-tabs-test-tab-bamboo"
         class="rc-tabs-tabpane rc-tabs-tabpane-active"
-        id="rc-tabs-0-panel-bamboo"
+        id="rc-tabs-test-panel-bamboo"
         role="tabpanel"
         tabindex="0"
       >
@@ -98,13 +98,83 @@ exports[`Tabs.Basic Normal 1`] = `
       </div>
       <div
         aria-hidden="true"
-        aria-labelledby="rc-tabs-0-tab-cute"
+        aria-labelledby="rc-tabs-test-tab-cute"
         class="rc-tabs-tabpane"
-        id="rc-tabs-0-panel-cute"
+        id="rc-tabs-test-panel-cute"
         role="tabpanel"
         style="display: none;"
         tabindex="-1"
       />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Tabs.Basic Skip invalidate children 1`] = `
+<div
+  class="rc-tabs rc-tabs-top"
+>
+  <div
+    class="rc-tabs-nav"
+    role="tablist"
+  >
+    <div
+      class="rc-tabs-nav-wrap"
+    >
+      <div
+        class="rc-tabs-nav-list"
+        style="transform: translate(0px, 0px);"
+      >
+        <button
+          aria-controls="rc-tabs-test-panel-light"
+          aria-selected="true"
+          class="rc-tabs-tab rc-tabs-tab-active"
+          id="rc-tabs-test-tab-light"
+          role="tab"
+          tabindex="0"
+          type="button"
+        >
+          light
+        </button>
+        <div
+          class="rc-tabs-ink-bar rc-tabs-ink-bar-animated"
+        />
+      </div>
+    </div>
+    <div
+      class="rc-tabs-nav-operations rc-tabs-nav-operations-hidden"
+    >
+      <button
+        aria-controls="rc-tabs-test-more-popup"
+        aria-expanded="false"
+        aria-haspopup="listbox"
+        aria-hidden="true"
+        class="rc-tabs-nav-more"
+        id="rc-tabs-test-more"
+        style="visibility: hidden; order: 1;"
+        tabindex="-1"
+        type="button"
+      >
+        More
+      </button>
+    </div>
+  </div>
+  <div
+    class="rc-tabs-content-holder"
+  >
+    <div
+      class="rc-tabs-content rc-tabs-content-top"
+    >
+      <div
+        aria-hidden="false"
+        aria-labelledby="rc-tabs-test-tab-light"
+        class="rc-tabs-tabpane rc-tabs-tabpane-active"
+        id="rc-tabs-test-panel-light"
+        role="tabpanel"
+        tabindex="0"
+      >
+        Light
+      </div>
     </div>
   </div>
 </div>
