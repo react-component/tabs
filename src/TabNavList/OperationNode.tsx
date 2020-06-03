@@ -148,6 +148,10 @@ function OperationNode(
     moreStyle.order = 1;
   }
 
+  const overlayClassName = classNames({
+    [`${dropdownPrefix}-rtl`]: rtl
+  })
+
   const moreNode: React.ReactElement = mobile ? null : (
     <Dropdown
       prefixCls={dropdownPrefix}
@@ -156,6 +160,7 @@ function OperationNode(
       visible={open}
       transitionName={moreTransitionName}
       onVisibleChange={setOpen}
+      overlayClassName={overlayClassName}
     >
       <button
         type="button"
