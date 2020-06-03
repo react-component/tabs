@@ -2,12 +2,12 @@
 
 exports[`Tabs.Overflow should collapse 1`] = `
 <button
-  aria-controls="rc-tabs-0-more-popup"
+  aria-controls="rc-tabs-test-more-popup"
   aria-expanded="false"
   aria-haspopup="listbox"
   aria-hidden="true"
   class="rc-tabs-nav-more"
-  id="rc-tabs-0-more"
+  id="rc-tabs-test-more"
   style=""
   tabindex="-1"
   type="button"

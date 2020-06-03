@@ -4,17 +4,17 @@ import { useEffect, useState } from 'react';
 import classNames from 'classnames';
 import toArray from 'rc-util/lib/Children/toArray';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
-import TabPane, { TabPaneProps } from './sugar/TabPane';
 import TabNavList from './TabNavList';
 import TabPanelList from './TabPanelList';
+import TabPane, { TabPaneProps } from './TabPanelList/TabPane';
 import {
-  Tab,
   TabPosition,
   RenderTabBar,
   TabsLocale,
   EditableConfig,
   AnimatedConfig,
   OnTabScroll,
+  Tab,
 } from './interface';
 import TabContext from './TabContext';
 import { isMobile } from './hooks/useTouchMove';
@@ -66,14 +66,20 @@ export interface TabsProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'o
 }
 
 function parseTabList(children: React.ReactNode): Tab[] {
-  return toArray(children).map((node: React.ReactElement<TabPaneProps>) =>
-    React.isValidElement(node)
-      ? {
-          key: node.key !== undefined ? String(node.key) : undefined,
+  return toArray(children)
+    .map((node: React.ReactElement<TabPaneProps>) => {
+      if (React.isValidElement(node)) {
+        const key = node.key !== undefined ? String(node.key) : undefined;
+        return {
+          key,
           ...node.props,
-        }
-      : null,
-  );
+          node,
+        };
+      }
+
+      return null;
+    })
+    .filter(tab => tab);
 }
 
 function Tabs(
@@ -156,7 +162,7 @@ function Tabs(
   // Async generate id to avoid ssr mapping failed
   useEffect(() => {
     if (!id) {
-      setMergedId(`rc-tabs-${uuid}`);
+      setMergedId(`rc-tabs-${process.env.NODE_ENV === 'test' ? 'test' : uuid}`);
       uuid += 1;
     }
   }, []);
