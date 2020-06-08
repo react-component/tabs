@@ -157,7 +157,10 @@ function Tabs(
     value: id,
   });
 
-  const mergedTabPosition = mobile ? 'top' : tabPosition;
+  let mergedTabPosition = tabPosition;
+  if (mobile && !['left', 'right'].includes(tabPosition)) {
+    mergedTabPosition = 'top';
+  }
 
   // Async generate id to avoid ssr mapping failed
   useEffect(() => {
