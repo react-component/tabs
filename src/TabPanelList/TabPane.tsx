@@ -44,10 +44,11 @@ export default function TabPane({
 
   const mergedStyle: React.CSSProperties = {};
   if (!active) {
-    if (animated) {
-      mergedStyle.visibility = 'hidden';
-    } else {
-      mergedStyle.display = 'none';
+    mergedStyle.visibility = 'hidden';
+
+    if (!animated) {
+      mergedStyle.height = 0;
+      mergedStyle.overflowY = 'hidden';
     }
   }
 

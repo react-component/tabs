@@ -31,9 +31,7 @@ export default function TabPanelList({
         className={classNames(`${prefixCls}-content`, `${prefixCls}-content-${tabPosition}`, {
           [`${prefixCls}-content-animated`]: tabPaneAnimated,
         })}
-        style={
-          tabPaneAnimated ? { [rtl ? 'marginRight' : 'marginLeft']: `-${activeIndex}00%` } : null
-        }
+        style={{ [rtl ? 'marginRight' : 'marginLeft']: `-${activeIndex}00%` }}
       >
         {tabs.map(tab => {
           return React.cloneElement(tab.node, {
