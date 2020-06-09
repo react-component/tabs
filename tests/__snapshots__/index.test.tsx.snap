@@ -165,7 +165,6 @@ exports[`Tabs.Basic Skip invalidate children 1`] = `
   >
     <div
       class="rc-tabs-content rc-tabs-content-top"
-      style="margin-left: -000%;"
     >
       <div
         aria-hidden="false"
