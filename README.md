@@ -73,8 +73,8 @@ React.render(
 | activeKey | string | - | current active tabPanel's key |
 | animated | boolean \| { inkBar: boolean, tabPane: boolean } | true | config animation |
 | defaultActiveKey | string | - | initial active tabPanel's key if activeKey is absent |
-| destroyInactiveTabPane | `'ltr' | 'rlt'` | `'ltr'` | Layout direction of tabs component |
-| direction | boolean | false | whether destroy inactive TabPane when change tab |
+| destroyInactiveTabPane | boolean | false | whether destroy inactive TabPane when change tab |
+| direction | `'ltr' | 'rlt'` | `'ltr'` | Layout direction of tabs component |
 | editable | { onEdit(type: 'add' | 'remove', info: { key, event }), showAdd: boolean, removeIcon: ReactNode, addIcon: ReactNode } | - | config tab editable |
 | locale | { dropdownAriaLabel: string, removeAriaLabel: string, addAriaLabel: string } | - | Accessibility locale help text |
 | moreIcon | ReactNode | - | collapse icon |
