@@ -43,8 +43,6 @@ online example: https://tabs.react-component.now.sh/
 
 ```jsx
 import Tabs, { TabPane } from 'rc-tabs';
-import TabContent from 'rc-tabs/lib/TabContent';
-import ScrollableInkTabBar from 'rc-tabs/lib/ScrollableInkTabBar';
 
 var callback = function(key) {};
 
