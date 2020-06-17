@@ -26,7 +26,7 @@ React Tabs
 
 http://localhost:8000/examples
 
-online example: http://react-component.github.io/tabs/
+online example: https://tabs.react-component.now.sh/
 
 ## install
 
