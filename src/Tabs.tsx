@@ -45,7 +45,7 @@ export interface TabsProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'o
   animated?: boolean | AnimatedConfig;
   renderTabBar?: RenderTabBar;
   tabBarExtraContent?: React.ReactNode;
-  tabBarExtraContentSlot?: 'left' | 'right';
+  tabBarExtraSlot?: 'left' | 'right';
   tabBarGutter?: number;
   tabBarStyle?: React.CSSProperties;
   tabPosition?: TabPosition;
@@ -98,7 +98,7 @@ function Tabs(
     tabBarGutter,
     tabBarStyle,
     tabBarExtraContent,
-    tabBarExtraContentSlot,
+    tabBarExtraSlot,
     locale,
     moreIcon,
     moreTransitionName,
@@ -202,7 +202,7 @@ function Tabs(
     onTabClick: onInternalTabClick,
     onTabScroll,
     extra: tabBarExtraContent,
-    extraSlot: tabBarExtraContentSlot,
+    extraSlot: tabBarExtraSlot,
     style: tabBarStyle,
   };
 
