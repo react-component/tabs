@@ -13,8 +13,15 @@ for (let i = 0; i < 50; i += 1) {
   );
 }
 
+const extraSlotObject = {
+  left: <div>left</div>,
+  right: <div>right</div>,
+};
+
 export default () => {
-  const [extraSlot, setExtraSlot] = React.useState(true);
+  const [toggleExtra, setToggleExtra] = React.useState(false);
+
+  const [extraSlot, setExtraSlot] = React.useState(false);
 
   return (
     <div style={{ height: 2000 }}>
@@ -22,7 +29,7 @@ export default () => {
         <div style={{ maxWidth: 550 }}>
           <Tabs
             tabBarExtraContent="extra"
-            tabBarExtraSlot={extraSlot ? 'right' : 'left'}
+            tabBarExtraSlot={extraSlot ? extraSlotObject : toggleExtra ? 'left' : 'right'}
             defaultActiveKey="8"
             moreIcon="..."
           >
@@ -30,6 +37,15 @@ export default () => {
           </Tabs>
         </div>
       </React.StrictMode>
+
+      <label>
+        <input
+          type="checkbox"
+          checked={toggleExtra}
+          onChange={() => setToggleExtra(!toggleExtra)}
+        />
+        Set `toggleExtra`
+      </label>
 
       <label>
         <input type="checkbox" checked={extraSlot} onChange={() => setExtraSlot(!extraSlot)} />

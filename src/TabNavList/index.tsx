@@ -53,6 +53,10 @@ interface ExtraSlotProps {
 const withExtraSlot = ({ extra, prefixCls, slot }) => {
   return (props: ExtraSlotProps) => {
     const { name } = props;
+    
+    if(typeof slot === 'object') {
+    return <div className={`${prefixCls}-extra-content`}>{slot[name]}</div>;
+    }
    
     if (name === slot) {
       return <div className={`${prefixCls}-extra-content`}>{extra}</div>;

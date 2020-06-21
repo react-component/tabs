@@ -45,3 +45,8 @@ export interface AnimatedConfig {
 }
 
 export type OnTabScroll = (info: { direction: 'left' | 'right' | 'top' | 'bottom' }) => void;
+
+export interface tabBarExtraSlotObject {
+  left?: React.ReactNode;
+  right?: React.ReactNode;
+}
