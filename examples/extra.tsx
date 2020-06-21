@@ -23,13 +23,15 @@ export default () => {
 
   const [extraSlot, setExtraSlot] = React.useState(false);
 
+  const str = toggleExtra ? 'left' : 'right';
+
   return (
     <div style={{ height: 2000 }}>
       <React.StrictMode>
         <div style={{ maxWidth: 550 }}>
           <Tabs
             tabBarExtraContent="extra"
-            tabBarExtraSlot={extraSlot ? extraSlotObject : toggleExtra ? 'left' : 'right'}
+            tabBarExtraSlot={extraSlot ? extraSlotObject : str}
             defaultActiveKey="8"
             moreIcon="..."
           >
@@ -51,6 +53,7 @@ export default () => {
         <input type="checkbox" checked={extraSlot} onChange={() => setExtraSlot(!extraSlot)} />
         Set `extraSlot`
       </label>
+      <div>* 设置了 extraSlot 后, toggleExtra将没有作用</div>
     </div>
   );
 };
