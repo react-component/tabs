@@ -30,6 +30,7 @@ export interface TabNavListProps {
   rtl: boolean;
   animated?: AnimatedConfig;
   extra?: React.ReactNode;
+  extraSlot?: 'left' | 'right';
   editable?: EditableConfig;
   moreIcon?: React.ReactNode;
   moreTransitionName?: string;
@@ -44,6 +45,23 @@ export interface TabNavListProps {
   children?: (node: React.ReactElement) => React.ReactElement;
 }
 
+
+interface ExtraSlotProps {
+  name: 'left' | 'right';
+}
+
+const withExtraSlot = ({ extra, prefixCls, slot="right" }) => {
+  return (props: ExtraSlotProps) => {
+    const { name } = props;
+   
+    if (name === slot) {
+      return <div className={`${prefixCls}-extra-content`}>{extra}</div>;
+    }
+
+    return null;
+  };
+};
+
 function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   const { prefixCls, tabs } = React.useContext(TabContext);
   const {
@@ -54,6 +72,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     activeKey,
     rtl,
     extra,
+    extraSlot,
     editable,
     locale,
     tabPosition,
@@ -377,6 +396,8 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     pingBottom = -transformTop + wrapperHeight < wrapperScrollHeight;
   }
 
+  const ExtraSlot = extra ? withExtraSlot({ extra, prefixCls, slot:extraSlot }) : () => null;
+
   /* eslint-disable jsx-a11y/interactive-supports-focus */
   return (
     <div
@@ -389,6 +410,8 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
         doLockAnimation();
       }}
     >
+      <ExtraSlot name="left"/>
+
       <ResizeObserver onResize={onListHolderResize}>
         <div
           className={classNames(wrapPrefix, {
@@ -437,7 +460,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
         className={!hasDropdown && operationsHiddenClassName}
       />
 
-      {extra && <div className={`${prefixCls}-extra-content`}>{extra}</div>}
+      <ExtraSlot name="right"/>
     </div>
   );
   /* eslint-enable */
