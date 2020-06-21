@@ -50,7 +50,7 @@ interface ExtraSlotProps {
   name: 'left' | 'right';
 }
 
-const withExtraSlot = ({ extra, prefixCls, slot="right" }) => {
+const withExtraSlot = ({ extra, prefixCls, slot }) => {
   return (props: ExtraSlotProps) => {
     const { name } = props;
    

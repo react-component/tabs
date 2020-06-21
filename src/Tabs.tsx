@@ -98,7 +98,7 @@ function Tabs(
     tabBarGutter,
     tabBarStyle,
     tabBarExtraContent,
-    tabBarExtraSlot,
+    tabBarExtraSlot = "right",
     locale,
     moreIcon,
     moreTransitionName,
