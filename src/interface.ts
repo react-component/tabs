@@ -46,7 +46,12 @@ export interface AnimatedConfig {
 
 export type OnTabScroll = (info: { direction: 'left' | 'right' | 'top' | 'bottom' }) => void;
 
-export interface tabBarExtraSlotObject {
-  left?: React.ReactNode;
-  right?: React.ReactNode;
+export type ExtraSlotPosition = 'left' | 'right';
+
+export type ExtraSlotNode = Partial<Record<ExtraSlotPosition, React.ReactNode>>;
+
+export interface ExtraSlotProps {
+  name: ExtraSlotPosition;
 }
+
+export type TabBarExtraSlot = ExtraSlotPosition | ExtraSlotNode;

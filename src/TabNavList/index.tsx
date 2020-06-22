@@ -13,6 +13,8 @@ import {
   EditableConfig,
   AnimatedConfig,
   OnTabScroll,
+  TabBarExtraSlot,
+  ExtraSlotProps
 } from '../interface';
 import useOffsets from '../hooks/useOffsets';
 import useVisibleRange from '../hooks/useVisibleRange';
@@ -30,7 +32,7 @@ export interface TabNavListProps {
   rtl: boolean;
   animated?: AnimatedConfig;
   extra?: React.ReactNode;
-  extraSlot?: 'left' | 'right';
+  extraSlot?: TabBarExtraSlot,
   editable?: EditableConfig;
   moreIcon?: React.ReactNode;
   moreTransitionName?: string;
@@ -43,11 +45,6 @@ export interface TabNavListProps {
   onTabClick: (activeKey: React.Key, e: React.MouseEvent | React.KeyboardEvent) => void;
   onTabScroll?: OnTabScroll;
   children?: (node: React.ReactElement) => React.ReactElement;
-}
-
-
-interface ExtraSlotProps {
-  name: 'left' | 'right';
 }
 
 const withExtraSlot = ({ extra, prefixCls, slot }) => {
