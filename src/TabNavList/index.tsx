@@ -52,7 +52,11 @@ const withExtraSlot = ({ extra, prefixCls, slot }) => {
     const { name } = props;
     
     if(typeof slot === 'object') {
-    return <div className={`${prefixCls}-extra-content`}>{slot[name]}</div>;
+      const slotRender = slot[name]
+      
+      return (
+        slotRender ? <div className={`${prefixCls}-extra-content`}>{slotRender}</ div> : null
+      )
     }
    
     if (name === slot) {
