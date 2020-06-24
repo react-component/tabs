@@ -95,33 +95,32 @@
     font-size: 20px;
     background: rgba(255, 255, 255, 0.5);
     margin: 0;
-    padding: 8px 16px;
+    display: flex;
     outline: none;
     cursor: pointer;
     position: relative;
     font-weight: lighter;
+    align-items: center;
 
-    &-with-remove {
-      padding-right: 32px;
+    &-btn,
+    &-remove {
+      border: 0;
+      background: transparent;
+    }
+
+    &-btn {
+      font-weight: inherit;
+      line-height: 32px;
     }
 
     &-remove {
-      position: absolute;
-      right: 16px;
-      top: 50%;
-      transform: translateY(-50%);
-
       &:hover {
         color: red;
       }
     }
 
-    &:focus {
-      background: rgba(0, 0, 255, 0.1);
-    }
-
     &-active {
-      padding-left: 30px;
+      // padding-left: 30px;
       font-weight: bolder;
     }
   }

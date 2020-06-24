@@ -66,7 +66,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   const tabListRef = useRef<HTMLDivElement>();
   const operationsRef = useRef<HTMLDivElement>();
   const innerAddButtonRef = useRef<HTMLButtonElement>();
-  const [getBtnRef, removeBtnRef] = useRefs<HTMLButtonElement>();
+  const [getBtnRef, removeBtnRef] = useRefs<HTMLDivElement>();
 
   const tabPositionTopOrBottom = tabPosition === 'top' || tabPosition === 'bottom';
 

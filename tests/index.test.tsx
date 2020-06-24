@@ -50,14 +50,47 @@ describe('Tabs.Basic', () => {
     mount(getTabs({ children: null }));
   });
 
-  it('onChange and onTabClick should work', () => {
-    const onChange = jest.fn();
-    const onTabClick = jest.fn();
-    const wrapper = mount(getTabs({ onChange, onTabClick }));
-    const targetTab = wrapper.find('.rc-tabs-tab').at(2);
-    targetTab.simulate('click');
-    expect(onTabClick).toHaveBeenCalledWith('cute', expect.anything());
-    expect(onChange).toHaveBeenCalledWith('cute');
+  describe('onChange and onTabClick should work', () => {
+    const list: { name: string; trigger: (wrapper: ReactWrapper) => void }[] = [
+      {
+        name: 'outer div',
+        trigger: wrapper =>
+          wrapper
+            .find('.rc-tabs-tab')
+            .at(2)
+            .simulate('click'),
+      },
+      {
+        name: 'inner button',
+        trigger: wrapper =>
+          wrapper
+            .find('.rc-tabs-tab .rc-tabs-tab-btn')
+            .at(2)
+            .simulate('click'),
+      },
+      {
+        name: 'inner button key down',
+        trigger: wrapper =>
+          wrapper
+            .find('.rc-tabs-tab .rc-tabs-tab-btn')
+            .at(2)
+            .simulate('keydown', {
+              which: KeyCode.SPACE,
+            }),
+      },
+    ];
+
+    list.forEach(({ name, trigger }) => {
+      it(name, () => {
+        const onChange = jest.fn();
+        const onTabClick = jest.fn();
+        const wrapper = mount(getTabs({ onChange, onTabClick }));
+
+        trigger(wrapper);
+        expect(onTabClick).toHaveBeenCalledWith('cute', expect.anything());
+        expect(onChange).toHaveBeenCalledWith('cute');
+      });
+    });
   });
 
   it('active first tab when children is changed', () => {
@@ -177,14 +210,6 @@ describe('Tabs.Basic', () => {
           node.simulate('click');
         },
       },
-      {
-        name: 'key',
-        trigger: node => {
-          node.simulate('keydown', {
-            which: KeyCode.SPACE,
-          });
-        },
-      },
     ];
 
     list.forEach(({ name, trigger }) => {
@@ -194,6 +219,9 @@ describe('Tabs.Basic', () => {
 
         const first = wrapper.find('.rc-tabs-tab-remove').first();
         trigger(first);
+
+        // Should be button to enable press SPACE key to trigger
+        expect(first.instance() instanceof HTMLButtonElement).toBeTruthy();
 
         expect(onEdit).toHaveBeenCalledWith('remove', {
           key: 'light',
