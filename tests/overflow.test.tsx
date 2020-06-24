@@ -14,7 +14,6 @@ import { TabPane } from '../src';
 
 describe('Tabs.Overflow', () => {
   let domSpy: ReturnType<typeof spyElementPrototypes>;
-  let buttonSpy: ReturnType<typeof spyElementPrototypes>;
   let holder: HTMLDivElement;
 
   const hackOffsetInfo: { list?: number } = {};
@@ -32,21 +31,6 @@ describe('Tabs.Overflow', () => {
       return 20 * index;
     }
 
-    buttonSpy = spyElementPrototypes(HTMLButtonElement, {
-      offsetWidth: {
-        get: () => 20,
-      },
-      offsetHeight: {
-        get: () => 20,
-      },
-      offsetLeft: {
-        get: btnOffsetPosition,
-      },
-      offsetTop: {
-        get: btnOffsetPosition,
-      },
-    });
-
     domSpy = spyElementPrototypes(HTMLElement, {
       scrollIntoView: () => {},
       offsetWidth: {
@@ -55,11 +39,16 @@ describe('Tabs.Overflow', () => {
       offsetHeight: {
         get: getOffsetSizeFunc(hackOffsetInfo),
       },
+      offsetLeft: {
+        get: btnOffsetPosition,
+      },
+      offsetTop: {
+        get: btnOffsetPosition,
+      },
     });
   });
 
   afterAll(() => {
-    buttonSpy.mockRestore();
     domSpy.mockRestore();
     document.body.removeChild(holder);
   });

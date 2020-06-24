@@ -70,6 +70,9 @@ describe('Tabs.Mobile', () => {
       domSpy = spyElementPrototypes(HTMLDivElement, {
         offsetWidth: {
           get() {
+            if (this.className.includes('rc-tabs-tab')) {
+              return 20;
+            }
             if (this.className.includes('rc-tabs-nav-list')) {
               return tabCount * 20;
             }

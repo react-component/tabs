@@ -78,6 +78,7 @@ function TabNode(
         [`${tabPrefix}-active`]: active,
         [`${tabPrefix}-disabled`]: disabled,
       })}
+      style={nodeStyle}
       onClick={onInternalClick}
     >
       {/* Primary Tab Button */}
@@ -100,7 +101,6 @@ function TabNode(
           }
         }}
         onFocus={onFocus}
-        style={nodeStyle}
       >
         {tab}
       </div>

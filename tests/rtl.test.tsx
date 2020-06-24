@@ -7,15 +7,22 @@ import { getOffsetSizeFunc, getTabs, triggerResize, getTransformX } from './comm
 
 describe('Tabs.RTL', () => {
   let domSpy: ReturnType<typeof spyElementPrototypes>;
-  let buttonSpy: ReturnType<typeof spyElementPrototypes>;
   let holder: HTMLDivElement;
 
   beforeAll(() => {
     holder = document.createElement('div');
     document.body.appendChild(holder);
-    buttonSpy = spyElementPrototypes(HTMLButtonElement, {
+
+    domSpy = spyElementPrototypes(HTMLElement, {
+      scrollIntoView: () => {},
       offsetWidth: {
-        get: () => 20,
+        get: getOffsetSizeFunc(),
+      },
+      offsetHeight: {
+        get: getOffsetSizeFunc(),
+      },
+      scrollWidth: {
+        get: () => 5 * 20,
       },
       offsetLeft: {
         get() {
@@ -29,23 +36,9 @@ describe('Tabs.RTL', () => {
         },
       },
     });
-
-    domSpy = spyElementPrototypes(HTMLElement, {
-      scrollIntoView: () => {},
-      offsetWidth: {
-        get: getOffsetSizeFunc(),
-      },
-      offsetHeight: {
-        get: getOffsetSizeFunc(),
-      },
-      scrollWidth: {
-        get: () => 5 * 20,
-      },
-    });
   });
 
   afterAll(() => {
-    buttonSpy.mockRestore();
     domSpy.mockRestore();
     document.body.removeChild(holder);
   });
