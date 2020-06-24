@@ -11,7 +11,7 @@ export interface TabNodeProps {
   rtl: boolean;
   closable?: boolean;
   editable?: EditableConfig;
-  onClick?: React.MouseEventHandler<HTMLButtonElement>;
+  onClick?: React.MouseEventHandler;
   onResize?: (width: number, height: number, left: number, top: number) => void;
   tabBarGutter?: number;
   tabPosition: TabPosition;
@@ -39,7 +39,7 @@ function TabNode(
     onRemove,
     onFocus,
   }: TabNodeProps,
-  ref: React.Ref<HTMLButtonElement>,
+  ref: React.Ref<HTMLDivElement>,
 ) {
   const tabPrefix = `${prefixCls}-tab`;
 
@@ -64,33 +64,45 @@ function TabNode(
   }
 
   let node: React.ReactElement = (
-    <button
+    <div
       key={key}
       ref={ref}
-      type="button"
-      role="tab"
-      aria-selected={active}
-      id={id && `${id}-tab-${key}`}
-      aria-controls={id && `${id}-panel-${key}`}
-      tabIndex={0}
-      disabled={disabled}
       className={classNames(tabPrefix, {
         [`${tabPrefix}-with-remove`]: removable,
         [`${tabPrefix}-active`]: active,
         [`${tabPrefix}-disabled`]: disabled,
       })}
       onClick={onClick}
-      onFocus={onFocus}
-      style={nodeStyle}
     >
-      {tab}
+      {/* Primary Tab Button */}
+      <button
+        type="button"
+        role="tab"
+        aria-selected={active}
+        id={id && `${id}-tab-${key}`}
+        className={`${tabPrefix}-btn`}
+        aria-controls={id && `${id}-panel-${key}`}
+        tabIndex={0}
+        disabled={disabled}
+        onClick={e => {
+          e.stopPropagation();
+          onClick(e);
+        }}
+        onFocus={onFocus}
+        style={nodeStyle}
+      >
+        {tab}
+      </button>
+
+      {/* Remove Button */}
       {removable && (
-        <span
-          role="button"
+        <button
+          type="button"
           aria-label={removeAriaLabel || 'remove'}
           tabIndex={0}
           className={`${tabPrefix}-remove`}
           onClick={e => {
+            e.stopPropagation();
             onRemoveTab(e);
           }}
           onKeyDown={e => {
@@ -100,9 +112,9 @@ function TabNode(
           }}
         >
           {closeIcon || editable.removeIcon || '×'}
-        </span>
+        </button>
       )}
-    </button>
+    </div>
   );
 
   if (renderWrapper) {

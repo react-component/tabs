@@ -15,39 +15,51 @@ exports[`Tabs.Basic Normal 1`] = `
         class="rc-tabs-nav-list"
         style="transform: translate(0px, 0px);"
       >
-        <button
-          aria-controls="rc-tabs-test-panel-light"
-          aria-selected="false"
+        <div
           class="rc-tabs-tab"
-          id="rc-tabs-test-tab-light"
-          role="tab"
-          tabindex="0"
-          type="button"
         >
-          light
-        </button>
-        <button
-          aria-controls="rc-tabs-test-panel-bamboo"
-          aria-selected="true"
+          <button
+            aria-controls="rc-tabs-test-panel-light"
+            aria-selected="false"
+            class="rc-tabs-tab-btn"
+            id="rc-tabs-test-tab-light"
+            role="tab"
+            tabindex="0"
+            type="button"
+          >
+            light
+          </button>
+        </div>
+        <div
           class="rc-tabs-tab rc-tabs-tab-active"
-          id="rc-tabs-test-tab-bamboo"
-          role="tab"
-          tabindex="0"
-          type="button"
         >
-          bamboo
-        </button>
-        <button
-          aria-controls="rc-tabs-test-panel-cute"
-          aria-selected="false"
+          <button
+            aria-controls="rc-tabs-test-panel-bamboo"
+            aria-selected="true"
+            class="rc-tabs-tab-btn"
+            id="rc-tabs-test-tab-bamboo"
+            role="tab"
+            tabindex="0"
+            type="button"
+          >
+            bamboo
+          </button>
+        </div>
+        <div
           class="rc-tabs-tab"
-          id="rc-tabs-test-tab-cute"
-          role="tab"
-          tabindex="0"
-          type="button"
         >
-          cute
-        </button>
+          <button
+            aria-controls="rc-tabs-test-panel-cute"
+            aria-selected="false"
+            class="rc-tabs-tab-btn"
+            id="rc-tabs-test-tab-cute"
+            role="tab"
+            tabindex="0"
+            type="button"
+          >
+            cute
+          </button>
+        </div>
         <div
           class="rc-tabs-ink-bar rc-tabs-ink-bar-animated"
         />
@@ -126,17 +138,21 @@ exports[`Tabs.Basic Skip invalidate children 1`] = `
         class="rc-tabs-nav-list"
         style="transform: translate(0px, 0px);"
       >
-        <button
-          aria-controls="rc-tabs-test-panel-light"
-          aria-selected="true"
+        <div
           class="rc-tabs-tab rc-tabs-tab-active"
-          id="rc-tabs-test-tab-light"
-          role="tab"
-          tabindex="0"
-          type="button"
         >
-          light
-        </button>
+          <button
+            aria-controls="rc-tabs-test-panel-light"
+            aria-selected="true"
+            class="rc-tabs-tab-btn"
+            id="rc-tabs-test-tab-light"
+            role="tab"
+            tabindex="0"
+            type="button"
+          >
+            light
+          </button>
+        </div>
         <div
           class="rc-tabs-ink-bar rc-tabs-ink-bar-animated"
         />
