@@ -11,7 +11,7 @@ export interface TabNodeProps {
   rtl: boolean;
   closable?: boolean;
   editable?: EditableConfig;
-  onClick?: React.MouseEventHandler;
+  onClick?: (e: React.MouseEvent | React.KeyboardEvent) => void;
   onResize?: (width: number, height: number, left: number, top: number) => void;
   tabBarGutter?: number;
   tabPosition: TabPosition;
@@ -54,6 +54,12 @@ function TabNode(
 
   const removable = editable && closable !== false && !disabled;
 
+  function onInternalClick(e: React.MouseEvent | React.KeyboardEvent) {
+    if (disabled) return;
+
+    onClick(e);
+  }
+
   function onRemoveTab(event: React.MouseEvent | React.KeyboardEvent) {
     event.preventDefault();
     event.stopPropagation();
@@ -72,27 +78,32 @@ function TabNode(
         [`${tabPrefix}-active`]: active,
         [`${tabPrefix}-disabled`]: disabled,
       })}
-      onClick={onClick}
+      onClick={onInternalClick}
     >
       {/* Primary Tab Button */}
-      <button
-        type="button"
+      <div
         role="tab"
         aria-selected={active}
         id={id && `${id}-tab-${key}`}
         className={`${tabPrefix}-btn`}
         aria-controls={id && `${id}-panel-${key}`}
-        tabIndex={0}
-        disabled={disabled}
+        aria-disabled={disabled}
+        tabIndex={disabled ? -1 : 0}
         onClick={e => {
           e.stopPropagation();
-          onClick(e);
+          onInternalClick(e);
+        }}
+        onKeyDown={e => {
+          if ([KeyCode.SPACE, KeyCode.ENTER].includes(e.which)) {
+            e.preventDefault();
+            onInternalClick(e);
+          }
         }}
         onFocus={onFocus}
         style={nodeStyle}
       >
         {tab}
-      </button>
+      </div>
 
       {/* Remove Button */}
       {removable && (
@@ -104,11 +115,6 @@ function TabNode(
           onClick={e => {
             e.stopPropagation();
             onRemoveTab(e);
-          }}
-          onKeyDown={e => {
-            if ([KeyCode.SPACE, KeyCode.ENTER].includes(e.which)) {
-              onRemoveTab(e);
-            }
           }}
         >
           {closeIcon || editable.removeIcon || '×'}
