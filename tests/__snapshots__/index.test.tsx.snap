@@ -18,47 +18,44 @@ exports[`Tabs.Basic Normal 1`] = `
         <div
           class="rc-tabs-tab"
         >
-          <button
+          <div
             aria-controls="rc-tabs-test-panel-light"
             aria-selected="false"
             class="rc-tabs-tab-btn"
             id="rc-tabs-test-tab-light"
             role="tab"
             tabindex="0"
-            type="button"
           >
             light
-          </button>
+          </div>
         </div>
         <div
           class="rc-tabs-tab rc-tabs-tab-active"
         >
-          <button
+          <div
             aria-controls="rc-tabs-test-panel-bamboo"
             aria-selected="true"
             class="rc-tabs-tab-btn"
             id="rc-tabs-test-tab-bamboo"
             role="tab"
             tabindex="0"
-            type="button"
           >
             bamboo
-          </button>
+          </div>
         </div>
         <div
           class="rc-tabs-tab"
         >
-          <button
+          <div
             aria-controls="rc-tabs-test-panel-cute"
             aria-selected="false"
             class="rc-tabs-tab-btn"
             id="rc-tabs-test-tab-cute"
             role="tab"
             tabindex="0"
-            type="button"
           >
             cute
-          </button>
+          </div>
         </div>
         <div
           class="rc-tabs-ink-bar rc-tabs-ink-bar-animated"
@@ -141,17 +138,16 @@ exports[`Tabs.Basic Skip invalidate children 1`] = `
         <div
           class="rc-tabs-tab rc-tabs-tab-active"
         >
-          <button
+          <div
             aria-controls="rc-tabs-test-panel-light"
             aria-selected="true"
             class="rc-tabs-tab-btn"
             id="rc-tabs-test-tab-light"
             role="tab"
             tabindex="0"
-            type="button"
           >
             light
-          </button>
+          </div>
         </div>
         <div
           class="rc-tabs-ink-bar rc-tabs-ink-bar-animated"

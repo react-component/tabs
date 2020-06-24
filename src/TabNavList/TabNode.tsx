@@ -88,7 +88,7 @@ function TabNode(
         className={`${tabPrefix}-btn`}
         aria-controls={id && `${id}-panel-${key}`}
         aria-disabled={disabled}
-        tabIndex={disabled ? -1 : 0}
+        tabIndex={disabled ? null : 0}
         onClick={e => {
           e.stopPropagation();
           onInternalClick(e);
