@@ -22,7 +22,7 @@ module.exports = {
       { devDependencies: true, optionalDependencies: false, peerDependencies: false },
     ],
     'brace-style': 0,
-    'no-unused-expressions': 'off',
-    '@typescript-eslint/no-unused-expressions': ['error'],
+    'no-unused-expressions': 0,
+    '@typescript-eslint/no-unused-expressions': 1,
   },
 };
