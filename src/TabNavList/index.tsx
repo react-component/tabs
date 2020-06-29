@@ -28,6 +28,7 @@ export interface TabNavListProps {
   tabPosition: TabPosition;
   activeKey: string;
   rtl: boolean;
+  panes: React.ReactNode;
   animated?: AnimatedConfig;
   extra?: React.ReactNode;
   editable?: EditableConfig;

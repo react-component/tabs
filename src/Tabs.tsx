@@ -201,6 +201,7 @@ function Tabs(
     onTabScroll,
     extra: tabBarExtraContent,
     style: tabBarStyle,
+    panes: children,
   };
 
   if (renderTabBar) {
