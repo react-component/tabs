@@ -139,19 +139,35 @@ describe('Tabs.Basic', () => {
     ).toEqual(33);
   });
 
-  it('tabNavBar', () => {
-    const renderTabBar = jest.fn((props, Component) => {
-      return (
-        <div className="my-wrapper">
-          <Component {...props}>{node => <span className="my-node">{node}</span>}</Component>
-        </div>
-      );
+  describe('renderTabBar', () => {
+    it('works', () => {
+      const renderTabBar = jest.fn((props, Component) => {
+        return (
+          <div className="my-wrapper">
+            <Component {...props}>{node => <span className="my-node">{node}</span>}</Component>
+          </div>
+        );
+      });
+      const wrapper = mount(getTabs({ renderTabBar }));
+      expect(wrapper.find('.my-wrapper').length).toBeTruthy();
+      expect(wrapper.find('.my-node').length).toBeTruthy();
+      expect(renderTabBar).toHaveBeenCalled();
     });
-    const wrapper = mount(getTabs({ renderTabBar }));
-    expect(wrapper.find('.my-wrapper').length).toBeTruthy();
-    expect(wrapper.find('.my-node').length).toBeTruthy();
-    expect(renderTabBar).toHaveBeenCalled();
-  });
+    it('has panes property in props', () => {
+      const renderTabBar = (props) => {
+        return (
+          <div>
+            {props.panes.map(pane => <span key={pane.key} data-key={pane.key}>tab</span>)}
+          </div>
+        );
+      };
+      const wrapper = mount(getTabs({ renderTabBar }));
+      expect(wrapper.find('[data-key="light"]').length).toBeTruthy();
+      expect(wrapper.find('[data-key="bamboo"]').length).toBeTruthy();
+      expect(wrapper.find('[data-key="cute"]').length).toBeTruthy();
+    });
+  })
+  
 
   it('destroyInactiveTabPane', () => {
     const wrapper = mount(
