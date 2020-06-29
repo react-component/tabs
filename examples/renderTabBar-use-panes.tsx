@@ -2,15 +2,13 @@ import React from 'react';
 import Tabs, { TabPane } from '../src';
 import '../assets/index.less';
 
-const renderTabBar = (props) => {
+const renderTabBar = props => {
   return (
     <div>
-      {
-        props.panes.map(pane => {
-          const key = pane.key
-          return <span key={key}>{key}</span>
-        })
-      }
+      {props.panes.map(pane => {
+        const key = pane.key;
+        return <span key={key}>{key}</span>;
+      })}
     </div>
   );
 };

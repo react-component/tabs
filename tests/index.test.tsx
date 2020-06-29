@@ -154,10 +154,14 @@ describe('Tabs.Basic', () => {
       expect(renderTabBar).toHaveBeenCalled();
     });
     it('has panes property in props', () => {
-      const renderTabBar = (props) => {
+      const renderTabBar = props => {
         return (
           <div>
-            {props.panes.map(pane => <span key={pane.key} data-key={pane.key}>tab</span>)}
+            {props.panes.map(pane => (
+              <span key={pane.key} data-key={pane.key}>
+                tab
+              </span>
+            ))}
           </div>
         );
       };
@@ -166,8 +170,7 @@ describe('Tabs.Basic', () => {
       expect(wrapper.find('[data-key="bamboo"]').length).toBeTruthy();
       expect(wrapper.find('[data-key="cute"]').length).toBeTruthy();
     });
-  })
-  
+  });
 
   it('destroyInactiveTabPane', () => {
     const wrapper = mount(
