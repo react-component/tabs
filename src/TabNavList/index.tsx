@@ -13,8 +13,9 @@ import {
   EditableConfig,
   AnimatedConfig,
   OnTabScroll,
-  TabBarExtraSlot,
-  ExtraSlotProps
+  TabBarExtraPosition,
+  TabBarExtraContent,
+  TabBarExtraMap
 } from '../interface';
 import useOffsets from '../hooks/useOffsets';
 import useVisibleRange from '../hooks/useVisibleRange';
@@ -31,8 +32,7 @@ export interface TabNavListProps {
   activeKey: string;
   rtl: boolean;
   animated?: AnimatedConfig;
-  extra?: React.ReactNode;
-  extraSlot?: TabBarExtraSlot,
+  extra?: TabBarExtraContent;
   editable?: EditableConfig;
   moreIcon?: React.ReactNode;
   moreTransitionName?: string;
@@ -47,24 +47,38 @@ export interface TabNavListProps {
   children?: (node: React.ReactElement) => React.ReactElement;
 }
 
-const withExtraSlot = ({ extra, prefixCls, slot }) => {
-  return (props: ExtraSlotProps) => {
-    const { name } = props;
-    
-    if(typeof slot === 'object') {
-      const slotRender = slot[name]
-      
-      return (
-        slotRender ? <div className={`${prefixCls}-extra-content`}>{slotRender}</ div> : null
-      )
-    }
-   
-    if (name === slot) {
-      return <div className={`${prefixCls}-extra-content`}>{extra}</div>;
-    }
 
+interface ExtraContentProps {
+  name: TabBarExtraPosition;
+  prefixCls: string;
+  extra?: TabBarExtraContent;
+}
+
+const ExtraContent = ({ name, prefixCls, extra }: ExtraContentProps) => {
+  if (!extra) {
     return null;
+  }
+
+  const components: TabBarExtraMap = {
+    left: null,
+    right: null,
   };
+
+  const assertExtra = extra as TabBarExtraMap;
+
+  const { left = null, right = null } = assertExtra || {};
+
+  if(left === null && right === null) {
+    // default right
+    components.right = extra;
+  } else {
+    components.left = left;
+    components.right = right;
+  }
+
+  const com = components[name];
+
+  return com ? <div className={`${prefixCls}-extra-content`}>{com}</div> : null;
 };
 
 function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
@@ -77,7 +91,6 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     activeKey,
     rtl,
     extra,
-    extraSlot,
     editable,
     locale,
     tabPosition,
@@ -401,8 +414,6 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     pingBottom = -transformTop + wrapperHeight < wrapperScrollHeight;
   }
 
-  const ExtraSlot = extra ? withExtraSlot({ extra, prefixCls, slot:extraSlot }) : () => null;
-
   /* eslint-disable jsx-a11y/interactive-supports-focus */
   return (
     <div
@@ -415,7 +426,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
         doLockAnimation();
       }}
     >
-      <ExtraSlot name="left"/>
+      <ExtraContent name="left" extra={extra} prefixCls={prefixCls}/>
 
       <ResizeObserver onResize={onListHolderResize}>
         <div
@@ -465,7 +476,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
         className={!hasDropdown && operationsHiddenClassName}
       />
 
-      <ExtraSlot name="right"/>
+    <ExtraContent name="right" extra={extra} prefixCls={prefixCls}/>
     </div>
   );
   /* eslint-enable */

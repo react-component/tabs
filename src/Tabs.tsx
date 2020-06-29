@@ -15,7 +15,7 @@ import {
   AnimatedConfig,
   OnTabScroll,
   Tab,
-  TabBarExtraSlot,
+  TabBarExtraContent,
 } from './interface';
 import TabContext from './TabContext';
 import { isMobile } from './hooks/useTouchMove';
@@ -45,8 +45,7 @@ export interface TabsProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'o
   direction?: 'ltr' | 'rtl';
   animated?: boolean | AnimatedConfig;
   renderTabBar?: RenderTabBar;
-  tabBarExtraContent?: React.ReactNode;
-  tabBarExtraSlot?: TabBarExtraSlot,
+  tabBarExtraContent?: TabBarExtraContent;
   tabBarGutter?: number;
   tabBarStyle?: React.CSSProperties;
   tabPosition?: TabPosition;
@@ -99,7 +98,6 @@ function Tabs(
     tabBarGutter,
     tabBarStyle,
     tabBarExtraContent,
-    tabBarExtraSlot = "right",
     locale,
     moreIcon,
     moreTransitionName,
@@ -203,7 +201,6 @@ function Tabs(
     onTabClick: onInternalTabClick,
     onTabScroll,
     extra: tabBarExtraContent,
-    extraSlot: tabBarExtraSlot,
     style: tabBarStyle,
   };
 

@@ -13,25 +13,22 @@ for (let i = 0; i < 50; i += 1) {
   );
 }
 
-const extraSlotObject = {
+const extraContent = 'extraContent';
+
+const extraContentMap = {
   left: <div>left</div>,
   right: <div>right</div>,
 };
 
 export default () => {
-  const [toggleExtra, setToggleExtra] = React.useState(false);
-
-  const [extraSlot, setExtraSlot] = React.useState(false);
-
-  const str = toggleExtra ? 'left' : 'right';
+  const [toggleExtraMap, setToggleExtraMap] = React.useState(false);
 
   return (
     <div style={{ height: 2000 }}>
       <React.StrictMode>
         <div style={{ maxWidth: 550 }}>
           <Tabs
-            tabBarExtraContent="extra"
-            tabBarExtraSlot={extraSlot ? extraSlotObject : str}
+            tabBarExtraContent={toggleExtraMap ? extraContentMap : extraContent}
             defaultActiveKey="8"
             moreIcon="..."
           >
@@ -43,17 +40,11 @@ export default () => {
       <label>
         <input
           type="checkbox"
-          checked={toggleExtra}
-          onChange={() => setToggleExtra(!toggleExtra)}
+          checked={toggleExtraMap}
+          onChange={() => setToggleExtraMap(!toggleExtraMap)}
         />
-        Set `toggleExtra`
+        Set `extraContentMap`
       </label>
-
-      <label>
-        <input type="checkbox" checked={extraSlot} onChange={() => setExtraSlot(!extraSlot)} />
-        Set `extraSlot`
-      </label>
-      <div>* 设置了 extraSlot 后, toggleExtra将没有作用</div>
     </div>
   );
 };
