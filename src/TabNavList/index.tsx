@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState, useRef, useEffect, useMemo } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import classNames from 'classnames';
 import raf from 'raf';
 import ResizeObserver from 'rc-resize-observer';
@@ -89,10 +89,6 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
 
   const [tabSizes, setTabSizes] = useRafState<TabSizeMap>(new Map());
   const tabOffsets = useOffsets(tabs, tabSizes, wrapperScrollWidth);
-
-  const tabsKeyOrder = useMemo(() => {
-    return tabs.map(tab => tab.key).join('_')
-  }, [tabs])
 
   // ========================== Util =========================
   const operationsHiddenClassName = `${prefixCls}-nav-operations-hidden`;
@@ -359,7 +355,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   // Should recalculate when rtl changed
   useEffect(() => {
     onListHolderResize();
-  }, [rtl, tabBarGutter, activeKey, tabsKeyOrder]);
+  }, [rtl, tabBarGutter, activeKey, tabs.map((tab) => tab.key).join('_')]);
 
   // ========================= Render ========================
   const hasDropdown = !!hiddenTabs.length;
