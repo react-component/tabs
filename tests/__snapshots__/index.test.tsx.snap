@@ -85,7 +85,6 @@ exports[`Tabs.Basic Normal 1`] = `
   >
     <div
       class="rc-tabs-content rc-tabs-content-top"
-      style="margin-left: -100%;"
     >
       <div
         aria-hidden="true"
