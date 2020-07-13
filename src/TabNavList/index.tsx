@@ -49,12 +49,12 @@ export interface TabNavListProps {
 
 
 interface ExtraContentProps {
-  name: TabBarExtraPosition;
+  position: TabBarExtraPosition;
   prefixCls: string;
   extra?: TabBarExtraContent;
 }
 
-const ExtraContent = ({ name, prefixCls, extra }: ExtraContentProps) => {
+const ExtraContent = ({ position, prefixCls, extra }: ExtraContentProps) => {
   if (!extra) {
     return null;
   }
@@ -66,9 +66,9 @@ const ExtraContent = ({ name, prefixCls, extra }: ExtraContentProps) => {
 
   const assertExtra = extra as TabBarExtraMap;
 
-  const { left = null, right = null } = assertExtra || {};
+  const { left = null, right = null } = assertExtra;
 
-  if(left === null && right === null) {
+  if (left === null && right === null) {
     // default right
     components.right = extra;
   } else {
@@ -76,9 +76,9 @@ const ExtraContent = ({ name, prefixCls, extra }: ExtraContentProps) => {
     components.right = right;
   }
 
-  const com = components[name];
+  const content = components[position];
 
-  return com ? <div className={`${prefixCls}-extra-content`}>{com}</div> : null;
+  return content ? <div className={`${prefixCls}-extra-content`}>{content}</div> : null;
 };
 
 function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
@@ -426,7 +426,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
         doLockAnimation();
       }}
     >
-      <ExtraContent name="left" extra={extra} prefixCls={prefixCls}/>
+      <ExtraContent position="left" extra={extra} prefixCls={prefixCls} />
 
       <ResizeObserver onResize={onListHolderResize}>
         <div
@@ -476,7 +476,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
         className={!hasDropdown && operationsHiddenClassName}
       />
 
-    <ExtraContent name="right" extra={extra} prefixCls={prefixCls}/>
+    <ExtraContent position="right" extra={extra} prefixCls={prefixCls} />
     </div>
   );
   /* eslint-enable */
