@@ -48,17 +48,17 @@ export default () => {
   };
 
   const handleCheck = (pos: P) => {
-    const add = position.indexOf(pos) === -1;
+    const nextPos = () => {
+      const add = position.indexOf(pos) === -1;
 
-    let result = position;
+      if (add) {
+        return [...position, pos];
+      } else {
+        return position.filter(item => item !== pos);
+      }
+    };
 
-    if (add) {
-      result = [...position, pos];
-    } else {
-      result = position.filter(item => item !== pos);
-    }
-
-    setPosition(result);
+    setPosition(nextPos());
   };
 
   const overall = React.useMemo(() => {
