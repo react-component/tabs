@@ -31,14 +31,14 @@ export default () => {
   const extra = React.useMemo(() => {
     if (isDefault) {
       return content.default;
-    } else {
-      return position.reduce((acc, cur: P) => {
-        return {
-          ...acc,
-          [cur]: content[cur],
-        };
-      }, {});
     }
+
+    return position.reduce((acc, cur: P) => {
+      return {
+        ...acc,
+        [cur]: content[cur],
+      };
+    }, {});
   }, [isDefault, position]);
 
   const setBothSide = () => {
