@@ -476,7 +476,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
         className={!hasDropdown && operationsHiddenClassName}
       />
 
-    <ExtraContent position="right" extra={extra} prefixCls={prefixCls} />
+      <ExtraContent position="right" extra={extra} prefixCls={prefixCls} />
     </div>
   );
   /* eslint-enable */
