@@ -50,14 +50,47 @@ describe('Tabs.Basic', () => {
     mount(getTabs({ children: null }));
   });
 
-  it('onChange and onTabClick should work', () => {
-    const onChange = jest.fn();
-    const onTabClick = jest.fn();
-    const wrapper = mount(getTabs({ onChange, onTabClick }));
-    const targetTab = wrapper.find('.rc-tabs-tab').at(2);
-    targetTab.simulate('click');
-    expect(onTabClick).toHaveBeenCalledWith('cute', expect.anything());
-    expect(onChange).toHaveBeenCalledWith('cute');
+  describe('onChange and onTabClick should work', () => {
+    const list: { name: string; trigger: (wrapper: ReactWrapper) => void }[] = [
+      {
+        name: 'outer div',
+        trigger: wrapper =>
+          wrapper
+            .find('.rc-tabs-tab')
+            .at(2)
+            .simulate('click'),
+      },
+      {
+        name: 'inner button',
+        trigger: wrapper =>
+          wrapper
+            .find('.rc-tabs-tab .rc-tabs-tab-btn')
+            .at(2)
+            .simulate('click'),
+      },
+      {
+        name: 'inner button key down',
+        trigger: wrapper =>
+          wrapper
+            .find('.rc-tabs-tab .rc-tabs-tab-btn')
+            .at(2)
+            .simulate('keydown', {
+              which: KeyCode.SPACE,
+            }),
+      },
+    ];
+
+    list.forEach(({ name, trigger }) => {
+      it(name, () => {
+        const onChange = jest.fn();
+        const onTabClick = jest.fn();
+        const wrapper = mount(getTabs({ onChange, onTabClick }));
+
+        trigger(wrapper);
+        expect(onTabClick).toHaveBeenCalledWith('cute', expect.anything());
+        expect(onChange).toHaveBeenCalledWith('cute');
+      });
+    });
   });
 
   it('active first tab when children is changed', () => {
@@ -106,18 +139,37 @@ describe('Tabs.Basic', () => {
     ).toEqual(33);
   });
 
-  it('tabNavBar', () => {
-    const renderTabBar = jest.fn((props, Component) => {
-      return (
-        <div className="my-wrapper">
-          <Component {...props}>{node => <span className="my-node">{node}</span>}</Component>
-        </div>
-      );
+  describe('renderTabBar', () => {
+    it('works', () => {
+      const renderTabBar = jest.fn((props, Component) => {
+        return (
+          <div className="my-wrapper">
+            <Component {...props}>{node => <span className="my-node">{node}</span>}</Component>
+          </div>
+        );
+      });
+      const wrapper = mount(getTabs({ renderTabBar }));
+      expect(wrapper.find('.my-wrapper').length).toBeTruthy();
+      expect(wrapper.find('.my-node').length).toBeTruthy();
+      expect(renderTabBar).toHaveBeenCalled();
     });
-    const wrapper = mount(getTabs({ renderTabBar }));
-    expect(wrapper.find('.my-wrapper').length).toBeTruthy();
-    expect(wrapper.find('.my-node').length).toBeTruthy();
-    expect(renderTabBar).toHaveBeenCalled();
+    it('has panes property in props', () => {
+      const renderTabBar = props => {
+        return (
+          <div>
+            {props.panes.map(pane => (
+              <span key={pane.key} data-key={pane.key}>
+                tab
+              </span>
+            ))}
+          </div>
+        );
+      };
+      const wrapper = mount(getTabs({ renderTabBar }));
+      expect(wrapper.find('[data-key="light"]').length).toBeTruthy();
+      expect(wrapper.find('[data-key="bamboo"]').length).toBeTruthy();
+      expect(wrapper.find('[data-key="cute"]').length).toBeTruthy();
+    });
   });
 
   it('destroyInactiveTabPane', () => {
@@ -177,14 +229,6 @@ describe('Tabs.Basic', () => {
           node.simulate('click');
         },
       },
-      {
-        name: 'key',
-        trigger: node => {
-          node.simulate('keydown', {
-            which: KeyCode.SPACE,
-          });
-        },
-      },
     ];
 
     list.forEach(({ name, trigger }) => {
@@ -194,6 +238,9 @@ describe('Tabs.Basic', () => {
 
         const first = wrapper.find('.rc-tabs-tab-remove').first();
         trigger(first);
+
+        // Should be button to enable press SPACE key to trigger
+        expect(first.instance() instanceof HTMLButtonElement).toBeTruthy();
 
         expect(onEdit).toHaveBeenCalledWith('remove', {
           key: 'light',

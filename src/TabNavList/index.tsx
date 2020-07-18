@@ -31,6 +31,7 @@ export interface TabNavListProps {
   tabPosition: TabPosition;
   activeKey: string;
   rtl: boolean;
+  panes: React.ReactNode;
   animated?: AnimatedConfig;
   extra?: TabBarExtraContent;
   editable?: EditableConfig;
@@ -109,7 +110,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   const tabListRef = useRef<HTMLDivElement>();
   const operationsRef = useRef<HTMLDivElement>();
   const innerAddButtonRef = useRef<HTMLButtonElement>();
-  const [getBtnRef, removeBtnRef] = useRefs<HTMLButtonElement>();
+  const [getBtnRef, removeBtnRef] = useRefs<HTMLDivElement>();
 
   const tabPositionTopOrBottom = tabPosition === 'top' || tabPosition === 'bottom';
 
@@ -397,7 +398,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   // Should recalculate when rtl changed
   useEffect(() => {
     onListHolderResize();
-  }, [rtl, tabBarGutter, activeKey]);
+  }, [rtl, tabBarGutter, activeKey, tabs.map((tab) => tab.key).join('_')]);
 
   // ========================= Render ========================
   const hasDropdown = !!hiddenTabs.length;
