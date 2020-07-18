@@ -1,4 +1,4 @@
-/* eslint-disable jsx-a11y/label-has-for, jsx-a11y/label-has-associated-control */
+/* eslint-disable jsx-a11y/label-has-for, jsx-a11y/label-has-associated-control no-console */
 import React from 'react';
 import Tabs, { TabPane } from '../src';
 import '../assets/index.less';
@@ -29,26 +29,26 @@ export default () => {
 
   const editableConfig = editable
     ? {
-        onEdit: (
-          type: string,
-          info: { key?: string; event: React.MouseEvent | React.KeyboardEvent },
-        ) => {
-          if (type === 'remove') {
-            setTabPanes(tabs => tabs.filter(tab => tab.key !== info.key));
-          } else {
-            setTabPanes(tabs => {
-              const lastTab = tabs[tabs.length - 1];
-              const num = Number(lastTab.key) + 1;
-              return [
-                ...tabs,
-                <TabPane key={num} tab={`Tab ${num}`}>
-                  Content of {num}
-                </TabPane>,
-              ];
-            });
-          }
-        },
-      }
+      onEdit: (
+        type: string,
+        info: { key?: string; event: React.MouseEvent | React.KeyboardEvent },
+      ) => {
+        if (type === 'remove') {
+          setTabPanes(tabs => tabs.filter(tab => tab.key !== info.key));
+        } else {
+          setTabPanes(tabs => {
+            const lastTab = tabs[tabs.length - 1];
+            const num = Number(lastTab.key) + 1;
+            return [
+              ...tabs,
+              <TabPane key={num} tab={`Tab ${num}`}>
+                Content of {num}
+              </TabPane>,
+            ];
+          });
+        }
+      },
+    }
     : null;
 
   return (

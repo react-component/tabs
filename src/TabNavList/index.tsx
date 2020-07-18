@@ -74,9 +74,7 @@ const ExtraContent = ({ position, prefixCls, extra }: ExtraContentProps) => {
     try {
       React.Children.count(extra)
       components.right = extra;
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) { }
 
   } else {
     components.left = left;

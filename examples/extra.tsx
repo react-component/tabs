@@ -53,9 +53,9 @@ export default () => {
 
       if (add) {
         return [...position, pos];
-      } else {
-        return position.filter(item => item !== pos);
       }
+
+      return position.filter(item => item !== pos);
     };
 
     setPosition(nextPos());
