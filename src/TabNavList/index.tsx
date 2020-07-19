@@ -63,6 +63,9 @@ const ExtraContent = ({ position, prefixCls, extra }: ExtraContentProps) => {
   const assertExtra = extra as TabBarExtraMap;
 
   const extraHasKey = (key: TabBarExtraPosition): boolean => {
+    // Cannot convert undefined or null to object (from travis-ci)
+    if (assertExtra === null || assertExtra === undefined) return false
+
     return hasOwn.call(assertExtra, key)
   }
 
