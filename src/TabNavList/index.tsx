@@ -55,33 +55,40 @@ interface ExtraContentProps {
   extra?: TabBarExtraContent;
 }
 
-const ExtraContent = ({ position, prefixCls, extra }: ExtraContentProps) => {
-  if (!extra) {
-    return null;
-  }
+const hasOwn = {}.hasOwnProperty;
 
-  const components: TabBarExtraMap = {
-    left: null,
-    right: null,
-  };
+const ExtraContent = ({ position, prefixCls, extra }: ExtraContentProps) => {
+  const components: TabBarExtraMap = {};
 
   const assertExtra = extra as TabBarExtraMap;
 
-  const { left = null, right = null } = assertExtra;
+  const extraHasKey = (key: TabBarExtraPosition): boolean => {
+    return hasOwn.call(assertExtra, key)
+  }
 
-  if (left === null && right === null) {
-    // default right
-    React.Children.count(extra)
-    components.right = extra;
+  if (extraHasKey('left')) {
+    components.left = assertExtra.left
+  }
 
-  } else {
-    components.left = left;
-    components.right = right;
+  if (extraHasKey('right')) {
+    components.right = assertExtra.right
+  }
+
+  if (!extraHasKey('left') && !extraHasKey('right')) {
+    // default
+    components.right = assertExtra
+  }
+
+  try {
+    // allow extra is empty {}, but nothing rendered
+    React.Children.count(components.right)
+  } catch (error) {
+    components.right = null
   }
 
   const content = components[position];
 
-  return content ? <div className={`${prefixCls}-extra-content`}>{content}</div> : null;
+  return <div className={`${prefixCls}-extra-content`}>{content}</div>;
 };
 
 function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
