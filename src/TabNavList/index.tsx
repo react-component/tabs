@@ -58,6 +58,8 @@ interface ExtraContentProps {
 const hasOwn = {}.hasOwnProperty;
 
 const ExtraContent = ({ position, prefixCls, extra }: ExtraContentProps) => {
+  if (extra === undefined) return null;
+
   const components: TabBarExtraMap = {};
 
   const assertExtra = extra as TabBarExtraMap;
@@ -82,16 +84,9 @@ const ExtraContent = ({ position, prefixCls, extra }: ExtraContentProps) => {
     components.right = assertExtra
   }
 
-  try {
-    // allow extra is empty {}, but nothing rendered
-    React.Children.count(components.right)
-  } catch (error) {
-    components.right = null
-  }
-
   const content = components[position];
 
-  return <div className={`${prefixCls}-extra-content`}>{content}</div>;
+  return content !== undefined ? <div className={`${prefixCls}-extra-content`}>{content}</div> : null;
 };
 
 function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
