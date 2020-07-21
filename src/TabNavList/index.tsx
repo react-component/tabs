@@ -279,17 +279,8 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     setAddWidth(newAddWidth);
     setAddHeight(newAddHeight);
 
-    const isOperationHidden = operationsRef.current?.className.includes(operationsHiddenClassName);
-    setWrapperScrollWidth(
-      (tabListRef.current?.offsetWidth || 0) -
-        (isOperationHidden ? operationsRef.current.offsetWidth : 0) -
-        newAddWidth,
-    );
-    setWrapperScrollHeight(
-      (tabListRef.current?.offsetHeight || 0) -
-        (isOperationHidden ? operationsRef.current.offsetHeight : 0) -
-        newAddHeight,
-    );
+    setWrapperScrollWidth((tabListRef.current?.offsetWidth || 0) - newAddWidth);
+    setWrapperScrollHeight((tabListRef.current?.offsetHeight || 0) - newAddHeight);
 
     // Update buttons records
     setTabSizes(() => {
