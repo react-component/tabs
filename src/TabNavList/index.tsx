@@ -86,6 +86,8 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   const [wrapperScrollHeight, setWrapperScrollHeight] = useState<number>(0);
   const [wrapperWidth, setWrapperWidth] = useState<number>(null);
   const [wrapperHeight, setWrapperHeight] = useState<number>(null);
+  const [addWidth, setAddWidth] = useState<number>(0);
+  const [addHeight, setAddHeight] = useState<number>(0);
 
   const [tabSizes, setTabSizes] = useRafState<TabSizeMap>(new Map());
   const tabOffsets = useOffsets(tabs, tabSizes, wrapperScrollWidth);
@@ -229,16 +231,6 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     { ...props, tabs },
   );
 
-  function getAdditionalSpaceSize(type: 'offsetWidth' | 'offsetHeight') {
-    const addBtnSize = innerAddButtonRef.current?.[type] || 0;
-    let optionsSize = 0;
-    if (operationsRef.current?.className.includes(operationsHiddenClassName)) {
-      optionsSize = operationsRef.current[type];
-    }
-
-    return addBtnSize + optionsSize;
-  }
-
   const tabNodes: React.ReactElement[] = tabs.map(tab => {
     const { key } = tab;
     return (
@@ -280,13 +272,23 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     // Update wrapper records
     const offsetWidth = tabsWrapperRef.current?.offsetWidth || 0;
     const offsetHeight = tabsWrapperRef.current?.offsetHeight || 0;
+    const newAddWidth = innerAddButtonRef.current?.offsetWidth || 0;
+    const newAddHeight = innerAddButtonRef.current?.offsetHeight || 0;
     setWrapperWidth(offsetWidth);
     setWrapperHeight(offsetHeight);
+    setAddWidth(newAddWidth);
+    setAddHeight(newAddHeight);
+
+    const isOperationHidden = operationsRef.current?.className.includes(operationsHiddenClassName);
     setWrapperScrollWidth(
-      (tabListRef.current?.offsetWidth || 0) - getAdditionalSpaceSize('offsetWidth'),
+      (tabListRef.current?.offsetWidth || 0) -
+        (isOperationHidden ? operationsRef.current.offsetWidth : 0) -
+        newAddWidth,
     );
     setWrapperScrollHeight(
-      (tabListRef.current?.offsetHeight || 0) - getAdditionalSpaceSize('offsetHeight'),
+      (tabListRef.current?.offsetHeight || 0) -
+        (isOperationHidden ? operationsRef.current.offsetHeight : 0) -
+        newAddHeight,
     );
 
     // Update buttons records
@@ -355,7 +357,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   // Should recalculate when rtl changed
   useEffect(() => {
     onListHolderResize();
-  }, [rtl, tabBarGutter, activeKey, tabs.map((tab) => tab.key).join('_')]);
+  }, [rtl, tabBarGutter, activeKey, tabs.map(tab => tab.key).join('_')]);
 
   // ========================= Render ========================
   const hasDropdown = !!hiddenTabs.length;
@@ -410,14 +412,13 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
               }}
             >
               {tabNodes}
-              {!hasDropdown && (
-                <AddButton
-                  ref={innerAddButtonRef}
-                  prefixCls={prefixCls}
-                  locale={locale}
-                  editable={editable}
-                />
-              )}
+              <AddButton
+                ref={innerAddButtonRef}
+                prefixCls={prefixCls}
+                locale={locale}
+                editable={editable}
+                style={{ visibility: hasDropdown ? 'hidden' : null }}
+              />
 
               <div
                 className={classNames(`${prefixCls}-ink-bar`, {

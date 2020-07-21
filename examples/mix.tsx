@@ -160,7 +160,7 @@ export default () => {
             tabBarExtraContent="extra"
             defaultActiveKey="30"
             moreIcon="..."
-            moreTransitionName="233"
+            // moreTransitionName="233"
             style={{ height: fixHeight ? 300 : null }}
           >
             {tabPanes}
