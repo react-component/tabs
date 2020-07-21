@@ -88,6 +88,8 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   const [wrapperHeight, setWrapperHeight] = useState<number>(null);
   const [addWidth, setAddWidth] = useState<number>(0);
   const [addHeight, setAddHeight] = useState<number>(0);
+  const [operationWidth, setOperationWidth] = useState<number>(0);
+  const [operationHeight, setOperationHeight] = useState<number>(0);
 
   const [tabSizes, setTabSizes] = useRafState<TabSizeMap>(new Map());
   const tabOffsets = useOffsets(tabs, tabSizes, wrapperScrollWidth);
@@ -228,6 +230,14 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
       left: transformLeft,
       top: transformTop,
     },
+    {
+      width: wrapperScrollWidth,
+      height: wrapperScrollHeight,
+    },
+    {
+      width: addWidth,
+      height: addHeight,
+    },
     { ...props, tabs },
   );
 
@@ -274,13 +284,28 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     const offsetHeight = tabsWrapperRef.current?.offsetHeight || 0;
     const newAddWidth = innerAddButtonRef.current?.offsetWidth || 0;
     const newAddHeight = innerAddButtonRef.current?.offsetHeight || 0;
+    const newOperationWidth = operationsRef.current?.offsetWidth || 0;
+    const newOperationHeight = operationsRef.current?.offsetHeight || 0;
+
     setWrapperWidth(offsetWidth);
     setWrapperHeight(offsetHeight);
     setAddWidth(newAddWidth);
     setAddHeight(newAddHeight);
+    setOperationWidth(newOperationWidth);
+    setOperationHeight(newOperationHeight);
 
-    setWrapperScrollWidth((tabListRef.current?.offsetWidth || 0) - newAddWidth);
-    setWrapperScrollHeight((tabListRef.current?.offsetHeight || 0) - newAddHeight);
+    const isOperationHidden = operationsRef.current?.className.includes(operationsHiddenClassName);
+
+    setWrapperScrollWidth(
+      (tabListRef.current?.offsetWidth || 0) -
+        (isOperationHidden ? 0 : newOperationWidth) -
+        newAddWidth,
+    );
+    setWrapperScrollHeight(
+      (tabListRef.current?.offsetHeight || 0) -
+        (isOperationHidden ? 0 : newOperationHeight) -
+        newAddHeight,
+    );
 
     // Update buttons records
     setTabSizes(() => {
