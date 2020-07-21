@@ -86,6 +86,11 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   const [wrapperScrollHeight, setWrapperScrollHeight] = useState<number>(0);
   const [wrapperWidth, setWrapperWidth] = useState<number>(null);
   const [wrapperHeight, setWrapperHeight] = useState<number>(null);
+  const [addWidth, setAddWidth] = useState<number>(0);
+  const [addHeight, setAddHeight] = useState<number>(0);
+
+  const mergedWrapperWidth = wrapperWidth - addWidth;
+  const mergedWrapperHeight = wrapperHeight - addHeight;
 
   const [tabSizes, setTabSizes] = useRafState<TabSizeMap>(new Map());
   const tabOffsets = useOffsets(tabs, tabSizes, wrapperScrollWidth);
@@ -97,13 +102,13 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   let transformMax = 0;
 
   if (!tabPositionTopOrBottom) {
-    transformMin = Math.min(0, wrapperHeight - wrapperScrollHeight);
+    transformMin = Math.min(0, mergedWrapperHeight - wrapperScrollHeight);
     transformMax = 0;
   } else if (rtl) {
     transformMin = 0;
-    transformMax = Math.max(0, wrapperScrollWidth - wrapperWidth);
+    transformMax = Math.max(0, wrapperScrollWidth - mergedWrapperWidth);
   } else {
-    transformMin = Math.min(0, wrapperWidth - wrapperScrollWidth);
+    transformMin = Math.min(0, mergedWrapperWidth - wrapperScrollWidth);
     transformMax = 0;
   }
 
@@ -143,13 +148,13 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
 
     if (tabPositionTopOrBottom) {
       // Skip scroll if place is enough
-      if (wrapperWidth >= wrapperScrollWidth) {
+      if (mergedWrapperWidth >= wrapperScrollWidth) {
         return preventDefault;
       }
 
       doMove(setTransformLeft, offsetX);
     } else {
-      if (wrapperHeight >= wrapperScrollHeight) {
+      if (mergedWrapperHeight >= wrapperScrollHeight) {
         return preventDefault;
       }
 
@@ -187,15 +192,15 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
       if (rtl) {
         if (tabOffset.right < transformLeft) {
           newTransform = tabOffset.right;
-        } else if (tabOffset.right + tabOffset.width > transformLeft + wrapperWidth) {
-          newTransform = tabOffset.right + tabOffset.width - wrapperWidth;
+        } else if (tabOffset.right + tabOffset.width > transformLeft + mergedWrapperWidth) {
+          newTransform = tabOffset.right + tabOffset.width - mergedWrapperWidth;
         }
       }
       // LTR
       else if (tabOffset.left < -transformLeft) {
         newTransform = -tabOffset.left;
-      } else if (tabOffset.left + tabOffset.width > -transformLeft + wrapperWidth) {
-        newTransform = -(tabOffset.left + tabOffset.width - wrapperWidth);
+      } else if (tabOffset.left + tabOffset.width > -transformLeft + mergedWrapperWidth) {
+        newTransform = -(tabOffset.left + tabOffset.width - mergedWrapperWidth);
       }
 
       setTransformTop(0);
@@ -206,8 +211,8 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
 
       if (tabOffset.top < -transformTop) {
         newTransform = -tabOffset.top;
-      } else if (tabOffset.top + tabOffset.height > -transformTop + wrapperHeight) {
-        newTransform = -(tabOffset.top + tabOffset.height - wrapperHeight);
+      } else if (tabOffset.top + tabOffset.height > -transformTop + mergedWrapperHeight) {
+        newTransform = -(tabOffset.top + tabOffset.height - mergedWrapperHeight);
       }
 
       setTransformLeft(0);
@@ -218,19 +223,8 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   // ========================== Tab ==========================
   // Render tab node & collect tab offset
 
-  const [visibleStart, visibleEnd] = useVisibleRange(
-    tabOffsets,
-    {
-      width: wrapperWidth,
-      height: wrapperHeight,
-      left: transformLeft,
-      top: transformTop,
-    },
-    { ...props, tabs },
-  );
-
   function getAdditionalSpaceSize(type: 'offsetWidth' | 'offsetHeight') {
-    const addBtnSize = innerAddButtonRef.current?.[type] || 0;
+    const addBtnSize = type === 'offsetWidth' ? addWidth : addHeight;
     let optionsSize = 0;
     if (operationsRef.current?.className.includes(operationsHiddenClassName)) {
       optionsSize = operationsRef.current[type];
@@ -238,6 +232,17 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
 
     return addBtnSize + optionsSize;
   }
+
+  const [visibleStart, visibleEnd] = useVisibleRange(
+    tabOffsets,
+    {
+      width: mergedWrapperWidth,
+      height: mergedWrapperHeight,
+      left: transformLeft,
+      top: transformTop,
+    },
+    { ...props, tabs },
+  );
 
   const tabNodes: React.ReactElement[] = tabs.map(tab => {
     const { key } = tab;
@@ -305,6 +310,11 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     });
   });
 
+  const onAddResize = useRaf(({ offsetWidth, offsetHeight }) => {
+    setAddWidth(offsetWidth);
+    setAddHeight(offsetHeight);
+  });
+
   // ======================== Dropdown =======================
   const startHiddenTabs = tabs.slice(0, visibleStart);
   const endHiddenTabs = tabs.slice(visibleEnd + 1);
@@ -355,7 +365,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   // Should recalculate when rtl changed
   useEffect(() => {
     onListHolderResize();
-  }, [rtl, tabBarGutter, activeKey, tabs.map((tab) => tab.key).join('_')]);
+  }, [rtl, tabBarGutter, activeKey, tabs.map(tab => tab.key).join('_')]);
 
   // ========================= Render ========================
   const hasDropdown = !!hiddenTabs.length;
@@ -368,14 +378,14 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   if (tabPositionTopOrBottom) {
     if (rtl) {
       pingRight = transformLeft > 0;
-      pingLeft = transformLeft + wrapperWidth < wrapperScrollWidth;
+      pingLeft = transformLeft + mergedWrapperWidth < wrapperScrollWidth;
     } else {
       pingLeft = transformLeft < 0;
-      pingRight = -transformLeft + wrapperWidth < wrapperScrollWidth;
+      pingRight = -transformLeft + mergedWrapperWidth < wrapperScrollWidth;
     }
   } else {
     pingTop = transformTop < 0;
-    pingBottom = -transformTop + wrapperHeight < wrapperScrollHeight;
+    pingBottom = -transformTop + mergedWrapperHeight < wrapperScrollHeight;
   }
 
   /* eslint-disable jsx-a11y/interactive-supports-focus */
@@ -410,14 +420,15 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
               }}
             >
               {tabNodes}
-              {!hasDropdown && (
+              <ResizeObserver onResize={onAddResize}>
                 <AddButton
+                  style={{ visibility: hasDropdown ? 'hidden' : null }}
                   ref={innerAddButtonRef}
                   prefixCls={prefixCls}
                   locale={locale}
                   editable={editable}
                 />
-              )}
+              </ResizeObserver>
 
               <div
                 className={classNames(`${prefixCls}-ink-bar`, {
