@@ -17,6 +17,7 @@ module.exports = {
     'prefer-destructuring': 0,
     'react/no-unused-prop-types': 0,
     'max-len': 0,
+    'max-classes-per-file': 0,
     'import/no-extraneous-dependencies': [
       'error',
       { devDependencies: true, optionalDependencies: false, peerDependencies: false },
