@@ -3,7 +3,9 @@ import { ReactWrapper } from 'enzyme';
 import Tabs, { TabPane } from '../../src';
 import { TabsProps } from '../../src/Tabs';
 
-export function getOffsetSizeFunc(info: any = {}) {
+export function getOffsetSizeFunc(
+  info: { list?: number; wrapper?: number; add?: number; operation?: number } = {},
+) {
   return function getOffsetSize() {
     if (this.className.includes('rc-tabs-tab')) {
       return 20;
@@ -12,10 +14,13 @@ export function getOffsetSizeFunc(info: any = {}) {
       return info.list || 5 * 20;
     }
     if (this.className.includes('rc-tabs-nav-wrap')) {
-      return 40;
+      return info.wrapper || 40;
+    }
+    if (this.className.includes('rc-tabs-nav-add')) {
+      return info.add || 10;
     }
     if (this.className.includes('rc-tabs-nav-operations')) {
-      return 10;
+      return info.operation || 10;
     }
 
     throw new Error(`className not match ${this.className}`);
