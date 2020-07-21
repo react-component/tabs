@@ -84,12 +84,12 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
 
   const [wrapperScrollWidth, setWrapperScrollWidth] = useState<number>(0);
   const [wrapperScrollHeight, setWrapperScrollHeight] = useState<number>(0);
+  const [wrapperContentWidth, setWrapperContentWidth] = useState<number>(0);
+  const [wrapperContentHeight, setWrapperContentHeight] = useState<number>(0);
   const [wrapperWidth, setWrapperWidth] = useState<number>(null);
   const [wrapperHeight, setWrapperHeight] = useState<number>(null);
   const [addWidth, setAddWidth] = useState<number>(0);
   const [addHeight, setAddHeight] = useState<number>(0);
-  const [operationWidth, setOperationWidth] = useState<number>(0);
-  const [operationHeight, setOperationHeight] = useState<number>(0);
 
   const [tabSizes, setTabSizes] = useRafState<TabSizeMap>(new Map());
   const tabOffsets = useOffsets(tabs, tabSizes, wrapperScrollWidth);
@@ -231,8 +231,8 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
       top: transformTop,
     },
     {
-      width: wrapperScrollWidth,
-      height: wrapperScrollHeight,
+      width: wrapperContentWidth,
+      height: wrapperContentHeight,
     },
     {
       width: addWidth,
@@ -291,21 +291,16 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     setWrapperHeight(offsetHeight);
     setAddWidth(newAddWidth);
     setAddHeight(newAddHeight);
-    setOperationWidth(newOperationWidth);
-    setOperationHeight(newOperationHeight);
+
+    const newWrapperScrollWidth = (tabListRef.current?.offsetWidth || 0) - newAddWidth;
+    const newWrapperScrollHeight = (tabListRef.current?.offsetHeight || 0) - newAddHeight;
+
+    setWrapperScrollWidth(newWrapperScrollWidth);
+    setWrapperScrollHeight(newWrapperScrollHeight);
 
     const isOperationHidden = operationsRef.current?.className.includes(operationsHiddenClassName);
-
-    setWrapperScrollWidth(
-      (tabListRef.current?.offsetWidth || 0) -
-        (isOperationHidden ? 0 : newOperationWidth) -
-        newAddWidth,
-    );
-    setWrapperScrollHeight(
-      (tabListRef.current?.offsetHeight || 0) -
-        (isOperationHidden ? 0 : newOperationHeight) -
-        newAddHeight,
-    );
+    setWrapperContentWidth(newWrapperScrollWidth - (isOperationHidden ? 0 : newOperationWidth));
+    setWrapperContentHeight(newWrapperScrollHeight - (isOperationHidden ? 0 : newOperationHeight));
 
     // Update buttons records
     setTabSizes(() => {
