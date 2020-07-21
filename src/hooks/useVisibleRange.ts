@@ -7,6 +7,8 @@ const DEFAULT_SIZE = { width: 0, height: 0, left: 0, top: 0, right: 0 };
 export default function useVisibleRange(
   tabOffsets: TabOffsetMap,
   containerSize: { width: number; height: number; left: number; top: number },
+  tabContentNodeSize: { width: number; height: number },
+  addNodeSize: { width: number; height: number },
   { tabs, tabPosition, rtl }: { tabs: Tab[] } & TabNavListProps,
 ): [number, number] {
   let unit: 'width' | 'height';
@@ -24,6 +26,13 @@ export default function useVisibleRange(
   }
 
   const basicSize = containerSize[unit];
+  const tabContentSize = tabContentNodeSize[unit];
+  const addSize = addNodeSize[unit];
+
+  let mergedBasicSize = basicSize;
+  if (tabContentSize + addSize > basicSize) {
+    mergedBasicSize = basicSize - addSize;
+  }
 
   return useMemo(() => {
     if (!tabs.length) {
@@ -34,7 +43,7 @@ export default function useVisibleRange(
     let endIndex = len;
     for (let i = 0; i < len; i += 1) {
       const offset = tabOffsets.get(tabs[i].key) || DEFAULT_SIZE;
-      if (offset[position] + offset[unit] > transformSize + basicSize) {
+      if (offset[position] + offset[unit] > transformSize + mergedBasicSize) {
         endIndex = i - 1;
         break;
       }
@@ -50,5 +59,12 @@ export default function useVisibleRange(
     }
 
     return [startIndex, endIndex];
-  }, [tabOffsets, transformSize, basicSize, tabPosition, tabs.map(tab => tab.key).join('_'), rtl]);
+  }, [
+    tabOffsets,
+    transformSize,
+    mergedBasicSize,
+    tabPosition,
+    tabs.map(tab => tab.key).join('_'),
+    rtl,
+  ]);
 }

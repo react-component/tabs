@@ -84,8 +84,12 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
 
   const [wrapperScrollWidth, setWrapperScrollWidth] = useState<number>(0);
   const [wrapperScrollHeight, setWrapperScrollHeight] = useState<number>(0);
+  const [wrapperContentWidth, setWrapperContentWidth] = useState<number>(0);
+  const [wrapperContentHeight, setWrapperContentHeight] = useState<number>(0);
   const [wrapperWidth, setWrapperWidth] = useState<number>(null);
   const [wrapperHeight, setWrapperHeight] = useState<number>(null);
+  const [addWidth, setAddWidth] = useState<number>(0);
+  const [addHeight, setAddHeight] = useState<number>(0);
 
   const [tabSizes, setTabSizes] = useRafState<TabSizeMap>(new Map());
   const tabOffsets = useOffsets(tabs, tabSizes, wrapperScrollWidth);
@@ -226,18 +230,16 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
       left: transformLeft,
       top: transformTop,
     },
+    {
+      width: wrapperContentWidth,
+      height: wrapperContentHeight,
+    },
+    {
+      width: addWidth,
+      height: addHeight,
+    },
     { ...props, tabs },
   );
-
-  function getAdditionalSpaceSize(type: 'offsetWidth' | 'offsetHeight') {
-    const addBtnSize = innerAddButtonRef.current?.[type] || 0;
-    let optionsSize = 0;
-    if (operationsRef.current?.className.includes(operationsHiddenClassName)) {
-      optionsSize = operationsRef.current[type];
-    }
-
-    return addBtnSize + optionsSize;
-  }
 
   const tabNodes: React.ReactElement[] = tabs.map(tab => {
     const { key } = tab;
@@ -280,14 +282,25 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     // Update wrapper records
     const offsetWidth = tabsWrapperRef.current?.offsetWidth || 0;
     const offsetHeight = tabsWrapperRef.current?.offsetHeight || 0;
+    const newAddWidth = innerAddButtonRef.current?.offsetWidth || 0;
+    const newAddHeight = innerAddButtonRef.current?.offsetHeight || 0;
+    const newOperationWidth = operationsRef.current?.offsetWidth || 0;
+    const newOperationHeight = operationsRef.current?.offsetHeight || 0;
+
     setWrapperWidth(offsetWidth);
     setWrapperHeight(offsetHeight);
-    setWrapperScrollWidth(
-      (tabListRef.current?.offsetWidth || 0) - getAdditionalSpaceSize('offsetWidth'),
-    );
-    setWrapperScrollHeight(
-      (tabListRef.current?.offsetHeight || 0) - getAdditionalSpaceSize('offsetHeight'),
-    );
+    setAddWidth(newAddWidth);
+    setAddHeight(newAddHeight);
+
+    const newWrapperScrollWidth = (tabListRef.current?.offsetWidth || 0) - newAddWidth;
+    const newWrapperScrollHeight = (tabListRef.current?.offsetHeight || 0) - newAddHeight;
+
+    setWrapperScrollWidth(newWrapperScrollWidth);
+    setWrapperScrollHeight(newWrapperScrollHeight);
+
+    const isOperationHidden = operationsRef.current?.className.includes(operationsHiddenClassName);
+    setWrapperContentWidth(newWrapperScrollWidth - (isOperationHidden ? 0 : newOperationWidth));
+    setWrapperContentHeight(newWrapperScrollHeight - (isOperationHidden ? 0 : newOperationHeight));
 
     // Update buttons records
     setTabSizes(() => {
@@ -355,7 +368,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   // Should recalculate when rtl changed
   useEffect(() => {
     onListHolderResize();
-  }, [rtl, tabBarGutter, activeKey, tabs.map((tab) => tab.key).join('_')]);
+  }, [rtl, tabBarGutter, activeKey, tabs.map(tab => tab.key).join('_')]);
 
   // ========================= Render ========================
   const hasDropdown = !!hiddenTabs.length;
@@ -410,14 +423,13 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
               }}
             >
               {tabNodes}
-              {!hasDropdown && (
-                <AddButton
-                  ref={innerAddButtonRef}
-                  prefixCls={prefixCls}
-                  locale={locale}
-                  editable={editable}
-                />
-              )}
+              <AddButton
+                ref={innerAddButtonRef}
+                prefixCls={prefixCls}
+                locale={locale}
+                editable={editable}
+                style={{ visibility: hasDropdown ? 'hidden' : null }}
+              />
 
               <div
                 className={classNames(`${prefixCls}-ink-bar`, {
