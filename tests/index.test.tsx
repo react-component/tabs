@@ -271,6 +271,25 @@ describe('Tabs.Basic', () => {
     expect(wrapper.find('.rc-tabs-extra-content').text()).toEqual('Bamboo');
   });
 
+  it('extra positon', () => {
+    const wrapper = mount(
+      getTabs({ tabBarExtraContent: { left: 'Left Bamboo', right: 'Right Bamboo' } }),
+    );
+    expect(
+      wrapper
+        .find('.rc-tabs-extra-content')
+        .first()
+        .text(),
+    ).toEqual('Left Bamboo');
+
+    expect(
+      wrapper
+        .find('.rc-tabs-extra-content')
+        .at(1)
+        .text(),
+    ).toEqual('Right Bamboo');
+  });
+
   describe('animated', () => {
     it('false', () => {
       const wrapper = mount(getTabs({ animated: false }));
