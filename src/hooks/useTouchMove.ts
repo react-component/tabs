@@ -92,7 +92,6 @@ export default function useTouchMove(
   }
 
   // >>> Wheel event
-  const lastMixedWheelRef = useRef(0);
   const lastWheelTimestampRef = useRef(0);
   const lastWheelPreventRef = useRef(false);
   const lastWheelDirectionRef = useRef<'x' | 'y'>();
@@ -115,9 +114,8 @@ export default function useTouchMove(
 
     // Optimize mac touch scroll
     const now = Date.now();
-    const absMixed = Math.abs(mixed);
 
-    if (now - lastWheelTimestampRef.current > 100 || absMixed - lastMixedWheelRef.current > 10) {
+    if (now - lastWheelTimestampRef.current > 100) {
       lastWheelPreventRef.current = false;
     }
 
@@ -127,7 +125,6 @@ export default function useTouchMove(
     }
 
     lastWheelTimestampRef.current = now;
-    lastMixedWheelRef.current = absMixed;
   }
 
   // ========================= Effect =========================
