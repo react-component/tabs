@@ -57,8 +57,16 @@ interface ExtraContentProps {
 
 const hasOwn = {}.hasOwnProperty;
 
+const isNullish = (value: any) => value === undefined || value === null
+
+const isReactText = (value: any) => typeof value === 'string' || typeof value === "number"
+
+const isReactElement = (value: any) => React.isValidElement(value)
+
+const isReactChild = (value: any) => isReactText(value) || isReactElement(value)
+
 const ExtraContent = ({ position, prefixCls, extra }: ExtraContentProps) => {
-  if (extra === undefined) return null;
+  if (isNullish(extra)) return null;
 
   const components: TabBarExtraMap = {};
 
@@ -66,7 +74,7 @@ const ExtraContent = ({ position, prefixCls, extra }: ExtraContentProps) => {
 
   const extraHasKey = (key: TabBarExtraPosition): boolean => {
     // Cannot convert undefined or null to object (from travis-ci)
-    if (assertExtra === null || assertExtra === undefined) return false
+    if (isNullish(assertExtra)) return false
 
     return hasOwn.call(assertExtra, key)
   }
@@ -86,7 +94,7 @@ const ExtraContent = ({ position, prefixCls, extra }: ExtraContentProps) => {
 
   const content = components[position];
 
-  return content !== undefined ? <div className={`${prefixCls}-extra-content`}>{content}</div> : null;
+  return isReactChild(content) ? <div className={`${prefixCls}-extra-content`}>{content}</div> : null;
 };
 
 function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
