@@ -33,6 +33,10 @@ export default () => {
       return content.default;
     }
 
+    if (position.length === 0) {
+      return undefined;
+    }
+
     return position.reduce((acc, cur: P) => {
       return {
         ...acc,
