@@ -58,19 +58,17 @@ interface ExtraContentProps {
 const ExtraContent = ({ position, prefixCls, extra }: ExtraContentProps) => {
   if (!extra) return null;
 
-  const components: TabBarExtraMap = {};
+  let content: React.ReactNode;
 
   const assertExtra = extra as TabBarExtraMap;
 
   if (position === 'right') {
-    components.right = assertExtra.right || (!assertExtra.left && assertExtra) || null;
+    content = assertExtra.right || (!assertExtra.left && assertExtra) || null;
   }
 
   if (position === 'left') {
-    components.left = assertExtra.left || null;
+    content = assertExtra.left || null;
   }
-
-  const content = components[position];
 
   return content ? <div className={`${prefixCls}-extra-content`}>{content}</div> : null;
 };
