@@ -55,38 +55,24 @@ interface ExtraContentProps {
   extra?: TabBarExtraContent;
 }
 
-const hasOwn = {}.hasOwnProperty;
-
 const ExtraContent = ({ position, prefixCls, extra }: ExtraContentProps) => {
-  if (extra === undefined) return null;
+  if (!extra) return null;
 
   const components: TabBarExtraMap = {};
 
   const assertExtra = extra as TabBarExtraMap;
 
-  const extraHasKey = (key: TabBarExtraPosition): boolean => {
-    // Cannot convert undefined or null to object (from travis-ci)
-    if (assertExtra === null || assertExtra === undefined) return false
-
-    return hasOwn.call(assertExtra, key)
+  if (position === 'right') {
+    components.right = assertExtra.right || (!assertExtra.left && assertExtra) || null;
   }
 
-  if (extraHasKey('left')) {
-    components.left = assertExtra.left
-  }
-
-  if (extraHasKey('right')) {
-    components.right = assertExtra.right
-  }
-
-  if (!extraHasKey('left') && !extraHasKey('right')) {
-    // default
-    components.right = assertExtra
+  if (position === 'left') {
+    components.left = assertExtra.left || null;
   }
 
   const content = components[position];
 
-  return content !== undefined ? <div className={`${prefixCls}-extra-content`}>{content}</div> : null;
+  return content ? <div className={`${prefixCls}-extra-content`}>{content}</div> : null;
 };
 
 function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
