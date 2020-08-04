@@ -59,7 +59,7 @@
     "immutability-helper": "^3.0.1",
     "less": "^3.11.1",
     "np": "^6.2.0",
-    "preact": "^8.2.1",
+    "preact": "^10.4.6",
     "preact-compat": "^3.16.0",
     "react": "^16.0.0",
     "react-dnd": "^10.0.0",
