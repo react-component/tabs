@@ -13,6 +13,9 @@ import {
   EditableConfig,
   AnimatedConfig,
   OnTabScroll,
+  TabBarExtraPosition,
+  TabBarExtraContent,
+  TabBarExtraMap
 } from '../interface';
 import useOffsets from '../hooks/useOffsets';
 import useVisibleRange from '../hooks/useVisibleRange';
@@ -30,7 +33,7 @@ export interface TabNavListProps {
   rtl: boolean;
   panes: React.ReactNode;
   animated?: AnimatedConfig;
-  extra?: React.ReactNode;
+  extra?: TabBarExtraContent;
   editable?: EditableConfig;
   moreIcon?: React.ReactNode;
   moreTransitionName?: string;
@@ -44,6 +47,31 @@ export interface TabNavListProps {
   onTabScroll?: OnTabScroll;
   children?: (node: React.ReactElement) => React.ReactElement;
 }
+
+
+interface ExtraContentProps {
+  position: TabBarExtraPosition;
+  prefixCls: string;
+  extra?: TabBarExtraContent;
+}
+
+const ExtraContent = ({ position, prefixCls, extra }: ExtraContentProps) => {
+  if (!extra) return null;
+
+  let content: React.ReactNode;
+
+  const assertExtra = extra as TabBarExtraMap;
+
+  if (position === 'right') {
+    content = assertExtra.right || (!assertExtra.left && assertExtra) || null;
+  }
+
+  if (position === 'left') {
+    content = assertExtra.left || null;
+  }
+
+  return content ? <div className={`${prefixCls}-extra-content`}>{content}</div> : null;
+};
 
 function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   const { prefixCls, tabs } = React.useContext(TabContext);
@@ -403,6 +431,8 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
         doLockAnimation();
       }}
     >
+      <ExtraContent position="left" extra={extra} prefixCls={prefixCls} />
+
       <ResizeObserver onResize={onListHolderResize}>
         <div
           className={classNames(wrapPrefix, {
@@ -450,7 +480,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
         className={!hasDropdown && operationsHiddenClassName}
       />
 
-      {extra && <div className={`${prefixCls}-extra-content`}>{extra}</div>}
+      <ExtraContent position="right" extra={extra} prefixCls={prefixCls} />
     </div>
   );
   /* eslint-enable */
