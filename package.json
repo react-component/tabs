@@ -37,7 +37,7 @@
     "now-build": "npm run build",
     "lint": "eslint src/ examples/ --ext .tsx,.ts,.jsx,.js",
     "compile:style": "lessc --js assets/index.less assets/index.css",
-    "prepublishOnly": "npm run lint && npm run test && npm run compile && np --no-cleanup --yolo --no-publish"
+    "prepublishOnly": "npm run lint && npm run test && npm run compile && np --yolo --no-publish"
   },
   "devDependencies": {
     "@types/classnames": "^2.2.10",
@@ -58,7 +58,6 @@
     "history": "^1.17.0",
     "immutability-helper": "^3.0.1",
     "less": "^3.11.1",
-    "less-loader": "^5.0.0",
     "np": "^6.2.0",
     "preact": "^8.2.1",
     "preact-compat": "^3.16.0",
