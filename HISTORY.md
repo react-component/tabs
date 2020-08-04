@@ -1,6 +1,8 @@
 # History
 ----
 
+https://github.com/react-component/tabs/releases
+
 ## 10.1.0 / 2020-03-17
 
 * Add `keyboard` prop.
@@ -10,7 +12,6 @@
 ## 9.6.0 / 2019-01-16
 
 * ScrollableInkTabBar support render props to customize TabNode
-
 
 ## 9.4.0 / 2018-08-13
 

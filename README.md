@@ -79,7 +79,7 @@ React.render(
 | tabBarGutter | number | 0 | config tab bar gutter |
 | tabBarPosition | `'left' | 'right' | 'top' | 'bottom'` | `'top'` | tab nav 's position |
 | tabBarStyle | style | - | tab nav style |
-| tabBarExtraContent | ReactNode | - | config extra content |
+| tabBarExtraContent | ReactNode \| `{ left: ReactNode, right: ReactNode }` | - | config extra content |
 | renderTabBar | (props, TabBarComponent) => ReactElement | - | How to render tab bar |
 | prefixCls | string | `'rc-tabs'` | prefix class name, use to custom style |
 | onChange | (key) => void | - | called when tabPanel is changed |
