@@ -335,12 +335,14 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
       const newSizes: TabSizeMap = new Map();
       tabs.forEach(({ key }) => {
         const btnNode = getBtnRef(key).current;
-        newSizes.set(key, {
-          width: btnNode.offsetWidth,
-          height: btnNode.offsetHeight,
-          left: btnNode.offsetLeft,
-          top: btnNode.offsetTop,
-        });
+        if (btnNode) {
+          newSizes.set(key, {
+            width: btnNode.offsetWidth,
+            height: btnNode.offsetHeight,
+            left: btnNode.offsetLeft,
+            top: btnNode.offsetTop,
+          });
+        }
       });
       return newSizes;
     });
