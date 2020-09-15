@@ -4,7 +4,14 @@ import Tabs, { TabPane } from '../../src';
 import { TabsProps } from '../../src/Tabs';
 
 export function getOffsetSizeFunc(
-  info: { list?: number; wrapper?: number; add?: number; operation?: number } = {},
+  info: {
+    list?: number;
+    wrapper?: number;
+    add?: number;
+    operation?: number;
+    more?: number;
+    dropdown?: number;
+  } = {},
 ) {
   return function getOffsetSize() {
     if (this.className.includes('rc-tabs-tab')) {
@@ -22,6 +29,12 @@ export function getOffsetSizeFunc(
     if (this.className.includes('rc-tabs-nav-operations')) {
       return info.operation || 10;
     }
+    if (this.className.includes('rc-tabs-nav-more')) {
+      return info.more || 10;
+    }
+    if (this.className.includes('rc-tabs-dropdown')) {
+      return info.dropdown || 10;
+    }
 
     throw new Error(`className not match ${this.className}`);
   };
@@ -31,6 +44,7 @@ export function getTransformX(wrapper: ReactWrapper) {
   const { transform } = wrapper.find('.rc-tabs-nav-list').props().style;
   const match = transform.match(/\(([-\d.]+)px/);
   if (!match) {
+    // eslint-disable-next-line no-console
     console.log(wrapper.find('.rc-tabs-nav-list').html());
     throw new Error(`Not find transformX: ${transform}`);
   }
@@ -41,6 +55,7 @@ export function getTransformY(wrapper: ReactWrapper) {
   const { transform } = wrapper.find('.rc-tabs-nav-list').props().style;
   const match = transform.match(/,\s*([-\d.]+)px/);
   if (!match) {
+    // eslint-disable-next-line no-console
     console.log(wrapper.find('.rc-tabs-nav-list').html());
     throw new Error(`Not find transformY: ${transform}`);
   }
