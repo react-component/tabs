@@ -161,6 +161,8 @@ function OperationNode(
       transitionName={moreTransitionName}
       onVisibleChange={setOpen}
       overlayClassName={overlayClassName}
+      mouseEnterDelay={0.15}
+      mouseLeaveDelay={0.1}
     >
       <button
         type="button"
