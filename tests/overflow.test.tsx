@@ -67,6 +67,8 @@ describe('Tabs.Overflow', () => {
 
     // Click to open
     wrapper.find('.rc-tabs-nav-more').simulate('mouseenter');
+    jest.runAllTimers();
+    wrapper.update();
     expect(
       wrapper
         .find('.rc-tabs-dropdown li')
