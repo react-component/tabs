@@ -2,21 +2,33 @@
 
 ---
 
-React Tabs
+React Tabs component.
 
-[![NPM version][npm-image]][npm-url] [![build status][travis-image]][travis-url] [![Test coverage][coveralls-image]][coveralls-url] [![gemnasium deps][gemnasium-image]][gemnasium-url] [![npm download][download-image]][download-url]
+[![NPM version][npm-image]][npm-url]
+[![build status][travis-image]][travis-url]
+[![Test coverage][coveralls-image]][coveralls-url]
+[![Dependencies][david-image]][david-url]
+[![DevDependencies][david-dev-image]][david-dev-url]
+[![npm download][download-image]][download-url]
+[![bundle size][bundlephobia-image]][bundlephobia-url]
 
 [npm-image]: http://img.shields.io/npm/v/rc-tabs.svg?style=flat-square
 [npm-url]: http://npmjs.org/package/rc-tabs
-[travis-image]: https://img.shields.io/travis/react-component/tabs.svg?style=flat-square
+[travis-image]: https://img.shields.io/travis/react-component/tabs/master?style=flat-square
 [travis-url]: https://travis-ci.org/react-component/tabs
+[circleci-image]: https://img.shields.io/circleci/react-component/tabs/master?style=flat-square
+[circleci-url]: https://circleci.com/gh/react-component/tabs
 [coveralls-image]: https://img.shields.io/coveralls/react-component/tabs.svg?style=flat-square
 [coveralls-url]: https://coveralls.io/r/react-component/tabs?branch=master
-[gemnasium-image]: http://img.shields.io/gemnasium/react-component/tabs.svg?style=flat-square
-[gemnasium-url]: https://gemnasium.com/react-component/tabs
-[node-url]: http://nodejs.org/download/
+[david-url]: https://david-dm.org/react-component/tabs
+[david-image]: https://david-dm.org/react-component/tabs/status.svg?style=flat-square
+[david-dev-url]: https://david-dm.org/react-component/tabs?type=dev
+[david-dev-image]: https://david-dm.org/react-component/tabs/dev-status.svg?style=flat-square
 [download-image]: https://img.shields.io/npm/dm/rc-tabs.svg?style=flat-square
 [download-url]: https://npmjs.org/package/rc-tabs
+[bundlephobia-url]: https://bundlephobia.com/result?p=rc-tabs
+[bundlephobia-image]: https://badgen.net/bundlephobia/minzip/rc-tabs
+
 
 ## Screenshot
 
@@ -36,8 +48,8 @@ online example: https://tabs.react-component.now.sh/
 
 ### Keyboard
 
-- left and up: switch to previous tab
-- right and down: switch to next tab
+- left and up: tabs to previous tab
+- right and down: tabs to next tab
 
 ## Usage
 
