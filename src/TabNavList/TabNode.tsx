@@ -42,8 +42,14 @@ function TabNode(
   ref: React.Ref<HTMLDivElement>,
 ) {
   const tabPrefix = `${prefixCls}-tab`;
+  const tabRef: React.Ref<HTMLDivElement> = React.createRef();
 
   React.useEffect(() => onRemove, []);
+  React.useEffect(() => {
+    if (tabRef.current && !active) {
+      tabRef.current.blur();
+    }
+  }, [active]);
 
   const nodeStyle: React.CSSProperties = {};
   if (tabPosition === 'top' || tabPosition === 'bottom') {
@@ -101,6 +107,7 @@ function TabNode(
           }
         }}
         onFocus={onFocus}
+        ref={tabRef}
       >
         {tab}
       </div>
