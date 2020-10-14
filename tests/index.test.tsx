@@ -303,7 +303,7 @@ describe('Tabs.Basic', () => {
       const wrapper = mount(getTabs({ animated: true }));
       expect(wrapper.find('TabPanelList').prop('animated')).toEqual({
         inkBar: true,
-        tabPane: false,
+        tabPane: true,
       });
     });
 

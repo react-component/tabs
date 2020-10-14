@@ -93,7 +93,10 @@ function Tabs(
     activeKey,
     defaultActiveKey,
     editable,
-    animated,
+    animated = {
+      inkBar: true,
+      tabPane: false,
+    },
     tabPosition = 'top',
     tabBarGutter,
     tabBarStyle,
@@ -119,11 +122,16 @@ function Tabs(
       inkBar: false,
       tabPane: false,
     };
+  } else if (animated === true) {
+    mergedAnimated = {
+      inkBar: true,
+      tabPane: true,
+    };
   } else {
     mergedAnimated = {
       inkBar: true,
       tabPane: false,
-      ...(animated !== true ? animated : null),
+      ...(typeof animated === 'object' ? animated : {}),
     };
   }
 

@@ -69,7 +69,7 @@ React.render(
 | name | type | default | description |
 | --- | --- | --- | --- |
 | activeKey | string | - | current active tabPanel's key |
-| animated | boolean \| { inkBar: boolean, tabPane: boolean } | true | config animation |
+| animated | boolean \| { inkBar: boolean, tabPane: boolean } | `{ inkBar: true, tabPane: false }` | config animation |
 | defaultActiveKey | string | - | initial active tabPanel's key if activeKey is absent |
 | destroyInactiveTabPane | boolean | false | whether destroy inactive TabPane when change tab |
 | direction | `'ltr' | 'rlt'` | `'ltr'` | Layout direction of tabs component |
