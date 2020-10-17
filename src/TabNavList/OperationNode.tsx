@@ -22,6 +22,7 @@ export interface OperationNodeProps {
   editable?: EditableConfig;
   locale?: TabsLocale;
   onTabClick: (key: React.Key, e: React.MouseEvent | React.KeyboardEvent) => void;
+  getPopupContainer?: (node: HTMLElement) => HTMLElement
 }
 
 function OperationNode(
@@ -39,6 +40,7 @@ function OperationNode(
     tabBarGutter,
     rtl,
     onTabClick,
+    getPopupContainer,
   }: OperationNodeProps,
   ref: React.Ref<HTMLDivElement>,
 ) {
@@ -163,6 +165,7 @@ function OperationNode(
       overlayClassName={overlayClassName}
       mouseEnterDelay={0.1}
       mouseLeaveDelay={0.1}
+      getPopupContainer={getPopupContainer}
     >
       <button
         type="button"
