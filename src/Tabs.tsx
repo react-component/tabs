@@ -3,6 +3,7 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import classNames from 'classnames';
 import toArray from 'rc-util/lib/Children/toArray';
+import isMobile from 'rc-util/lib/isMobile';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import TabNavList from './TabNavList';
 import TabPanelList from './TabPanelList';
@@ -18,7 +19,6 @@ import {
   TabBarExtraContent,
 } from './interface';
 import TabContext from './TabContext';
-import { isMobile } from './hooks/useTouchMove';
 
 /**
  * Should added antd:

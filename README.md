@@ -5,7 +5,7 @@
 React Tabs component.
 
 [![NPM version][npm-image]][npm-url]
-[![build status][travis-image]][travis-url]
+[![build status][github-actions-image]][github-actions-url]
 [![Test coverage][coveralls-image]][coveralls-url]
 [![Dependencies][david-image]][david-url]
 [![DevDependencies][david-dev-image]][david-dev-url]
@@ -14,8 +14,8 @@ React Tabs component.
 
 [npm-image]: http://img.shields.io/npm/v/rc-tabs.svg?style=flat-square
 [npm-url]: http://npmjs.org/package/rc-tabs
-[travis-image]: https://img.shields.io/travis/react-component/tabs/master?style=flat-square
-[travis-url]: https://travis-ci.org/react-component/tabs
+[github-actions-image]: https://github.com/react-component/tabs/workflows/CI/badge.svg
+[github-actions-url]: https://github.com/react-component/tabs/actions
 [circleci-image]: https://img.shields.io/circleci/react-component/tabs/master?style=flat-square
 [circleci-url]: https://circleci.com/gh/react-component/tabs
 [coveralls-image]: https://img.shields.io/coveralls/react-component/tabs.svg?style=flat-square
