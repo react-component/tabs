@@ -13,6 +13,13 @@ for (let i = 0; i < 50; i += 1) {
   );
 }
 
+// add a tab to demo the menuTab feature
+tabs.push(
+  <TabPane key={50} menuTab='Fancy Tab' tab={(<span><span style={{ 'color': 'red' }}> Fancy </span> Tab </span>)}>
+    Show different tab in the dropdown menu with the menuTab property.
+  </TabPane>,
+);
+
 export default () => {
   const [gutter, setGutter] = React.useState(true);
   const [destroy, setDestroy] = React.useState(false);

@@ -73,7 +73,7 @@ function OperationNode(
           aria-controls={id && `${id}-panel-${tab.key}`}
           disabled={tab.disabled}
         >
-          {tab.tab}
+          {tab.menuTab || tab.tab}
         </MenuItem>
       ))}
     </Menu>

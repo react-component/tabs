@@ -3,6 +3,7 @@ import classNames from 'classnames';
 
 export interface TabPaneProps {
   tab?: React.ReactNode;
+  menuTab?: React.ReactNode;
   className?: string;
   style?: React.CSSProperties;
   disabled?: boolean;
