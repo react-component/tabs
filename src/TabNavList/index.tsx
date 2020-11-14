@@ -207,9 +207,13 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
 
   // ========================= Scroll ========================
   function scrollToTab(key = activeKey) {
-    const tabOffset = tabOffsets.get(key);
-
-    if (!tabOffset) return;
+    const tabOffset = tabOffsets.get(key) || {
+      width: 0,
+      height: 0,
+      left: 0,
+      right: 0,
+      top: 0,
+    };
 
     if (tabPositionTopOrBottom) {
       // ============ Align with top & bottom ============
