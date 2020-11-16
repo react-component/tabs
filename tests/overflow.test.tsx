@@ -276,6 +276,15 @@ describe('Tabs.Overflow', () => {
       expect(getTransformX(wrapper)).toEqual(-20);
       expect(onTabScroll).toHaveBeenCalledWith({ direction: 'left' });
 
+      // scroll to 0 when activeKey is null
+      onTabScroll.mockReset();
+      wrapper.setProps({ activeKey: null });
+      act(() => {
+        jest.runAllTimers();
+        wrapper.update();
+      });
+      expect(getTransformX(wrapper)).toEqual(0);
+
       jest.useRealTimers();
     });
 
