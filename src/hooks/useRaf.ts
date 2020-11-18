@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect } from 'react';
-import raf from 'raf';
+import raf from 'rc-util/lib/raf';
 
 export default function useRaf<Callback extends Function>(callback: Callback) {
   const rafRef = useRef<number>();
