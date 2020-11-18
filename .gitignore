@@ -3,6 +3,7 @@
 *.log
 *.log.*
 .idea/
+.vscode
 .ipr
 .iws
 *~
@@ -29,3 +30,4 @@ lib
 es
 coverage
 yarn.lock
+package-lock.json
