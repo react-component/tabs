@@ -76,12 +76,11 @@ export default function useTouchMove(
   }
 
   // >>> Wheel event
-  const lastWheelTimestampRef = useRef(0);
-  const lastWheelPreventRef = useRef(false);
   const lastWheelDirectionRef = useRef<'x' | 'y'>();
 
   function onWheel(e: WheelEvent) {
     const { deltaX, deltaY } = e;
+
     // Convert both to x & y since wheel only happened on PC
     let mixed: number = 0;
     const absX = Math.abs(deltaX);
@@ -96,19 +95,9 @@ export default function useTouchMove(
       lastWheelDirectionRef.current = 'y';
     }
 
-    // Optimize mac touch scroll
-    const now = Date.now();
-
-    if (now - lastWheelTimestampRef.current > 100) {
-      lastWheelPreventRef.current = false;
-    }
-
-    if (onOffset(-mixed, -mixed) || lastWheelPreventRef.current) {
+    if (onOffset(-mixed, -mixed)) {
       e.preventDefault();
-      lastWheelPreventRef.current = true;
     }
-
-    lastWheelTimestampRef.current = now;
   }
 
   // ========================= Effect =========================
