@@ -62,7 +62,7 @@ export function getTransformY(wrapper: ReactWrapper) {
   return Number(match[1]);
 }
 
-export function getTabs(props: TabsProps = null) {
+export function getTabs(props: TabsProps = null, moreTabs?: React.ReactNode) {
   return (
     <Tabs {...props}>
       <TabPane tab="light" key="light">
@@ -80,6 +80,7 @@ export function getTabs(props: TabsProps = null) {
       <TabPane tab="miu" key="miu">
         Miu
       </TabPane>
+      {moreTabs}
     </Tabs>
   );
 }

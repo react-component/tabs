@@ -88,6 +88,35 @@ describe('Tabs.Overflow', () => {
     jest.useRealTimers();
   });
 
+  it('menuTab', () => {
+    jest.useFakeTimers();
+    const wrapper = mount(
+      getTabs(
+        null,
+        <TabPane key="menu" tab="Menu" menuTab="Tab In Menu">
+          Test
+        </TabPane>,
+      ),
+    );
+
+    triggerResize(wrapper);
+    act(() => {
+      jest.runAllTimers();
+      wrapper.update();
+    });
+
+    // Click to open
+    wrapper.find('.rc-tabs-nav-more').simulate('mouseenter');
+    jest.runAllTimers();
+    wrapper.update();
+    expect(
+      wrapper
+        .find('.rc-tabs-dropdown li')
+        .last()
+        .text(),
+    ).toEqual('Tab In Menu');
+  });
+
   [KeyCode.SPACE, KeyCode.ENTER].forEach(code => {
     it(`keyboard with select keycode: ${code}`, () => {
       jest.useFakeTimers();

@@ -73,7 +73,7 @@ function OperationNode(
           aria-controls={id && `${id}-panel-${tab.key}`}
           disabled={tab.disabled}
         >
-          {tab.tab}
+          {tab.menuTab ?? tab.tab}
         </MenuItem>
       ))}
     </Menu>
@@ -149,8 +149,8 @@ function OperationNode(
   }
 
   const overlayClassName = classNames({
-    [`${dropdownPrefix}-rtl`]: rtl
-  })
+    [`${dropdownPrefix}-rtl`]: rtl,
+  });
 
   const moreNode: React.ReactElement = mobile ? null : (
     <Dropdown

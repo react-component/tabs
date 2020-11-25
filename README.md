@@ -105,6 +105,7 @@ React.render(
 | key | string | - | corresponding to activeKey, should be unique |
 | forceRender | boolean | false | forced render of content in tabs, not lazy render after clicking on tabs |
 | tab | ReactNode | - | current tab's title corresponding to current tabPane |
+| menuTab | ReactNode | - | Tab title in dropdown menu |
 | closeIcon | ReactNode | - | Config close icon |
 
 ## Development
