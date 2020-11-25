@@ -80,7 +80,6 @@ export default function useTouchMove(
 
   function onWheel(e: WheelEvent) {
     const { deltaX, deltaY } = e;
-    e.preventDefault();
 
     // Convert both to x & y since wheel only happened on PC
     let mixed: number = 0;
@@ -96,7 +95,9 @@ export default function useTouchMove(
       lastWheelDirectionRef.current = 'y';
     }
 
-    onOffset(-mixed, -mixed);
+    if (onOffset(-mixed, -mixed)) {
+      e.preventDefault();
+    }
   }
 
   // ========================= Effect =========================

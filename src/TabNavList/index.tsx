@@ -15,7 +15,7 @@ import {
   OnTabScroll,
   TabBarExtraPosition,
   TabBarExtraContent,
-  TabBarExtraMap
+  TabBarExtraMap,
 } from '../interface';
 import useOffsets from '../hooks/useOffsets';
 import useVisibleRange from '../hooks/useVisibleRange';
@@ -47,7 +47,6 @@ export interface TabNavListProps {
   onTabScroll?: OnTabScroll;
   children?: (node: React.ReactElement) => React.ReactElement;
 }
-
 
 interface ExtraContentProps {
   position: TabBarExtraPosition;
@@ -139,14 +138,14 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     transformMax = 0;
   }
 
-  function alignInRange(value: number): [number, boolean] {
+  function alignInRange(value: number): number {
     if (value < transformMin) {
-      return [transformMin, false];
+      return transformMin;
     }
     if (value > transformMax) {
-      return [transformMax, false];
+      return transformMax;
     }
-    return [value, true];
+    return value;
   }
 
   // ========================= Mobile ========================
@@ -162,13 +161,10 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   }
 
   useTouchMove(tabsWrapperRef, (offsetX, offsetY) => {
-    let preventDefault = false;
-
     function doMove(setState: React.Dispatch<React.SetStateAction<number>>, offset: number) {
       setState(value => {
-        const [newValue, needPrevent] = alignInRange(value + offset);
+        const newValue = alignInRange(value + offset);
 
-        preventDefault = needPrevent;
         return newValue;
       });
     }
@@ -176,13 +172,13 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     if (tabPositionTopOrBottom) {
       // Skip scroll if place is enough
       if (wrapperWidth >= wrapperScrollWidth) {
-        return preventDefault;
+        return false;
       }
 
       doMove(setTransformLeft, offsetX);
     } else {
       if (wrapperHeight >= wrapperScrollHeight) {
-        return preventDefault;
+        return false;
       }
 
       doMove(setTransformTop, offsetY);
@@ -191,7 +187,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     clearTouchMoving();
     doLockAnimation();
 
-    return preventDefault;
+    return true;
   });
 
   useEffect(() => {
@@ -235,7 +231,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
       }
 
       setTransformTop(0);
-      setTransformLeft(alignInRange(newTransform)[0]);
+      setTransformLeft(alignInRange(newTransform));
     } else {
       // ============ Align with left & right ============
       let newTransform = transformTop;
@@ -247,7 +243,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
       }
 
       setTransformLeft(0);
-      setTransformTop(alignInRange(newTransform)[0]);
+      setTransformTop(alignInRange(newTransform));
     }
   }
 
