@@ -150,7 +150,7 @@ function OperationNode(
 
   const overlayClassName = classNames({
     [`${dropdownPrefix}-rtl`]: rtl
-  })
+  });
 
   const moreNode: React.ReactElement = mobile ? null : (
     <Dropdown

@@ -421,7 +421,6 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     pingBottom = -transformTop + wrapperHeight < wrapperScrollHeight;
   }
 
-  /* eslint-disable jsx-a11y/interactive-supports-focus */
   return (
     <div
       ref={ref}
