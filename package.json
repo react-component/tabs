@@ -56,7 +56,7 @@
     "father": "^2.29.2",
     "history": "^1.17.0",
     "immutability-helper": "^3.0.1",
-    "less": "^3.11.1",
+    "less": "^4.1.0",
     "np": "^6.2.0",
     "preact": "^8.2.1",
     "preact-compat": "^3.16.0",
