@@ -31,7 +31,7 @@ export default function useTouchMove(
   function onTouchMove(e: TouchEvent) {
     if (!touchPosition) return;
 
-    e.preventDefault();
+    // e.preventDefault();
     const { screenX, screenY } = e.touches[0];
     setTouchPosition({ x: screenX, y: screenY });
     const offsetX = screenX - touchPosition.x;
