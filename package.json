@@ -60,7 +60,7 @@
     "history": "^1.17.0",
     "immutability-helper": "^3.0.1",
     "less": "^3.11.1",
-    "np": "^6.2.0",
+    "np": "^7.4.0",
     "preact": "^8.2.1",
     "preact-compat": "^3.16.0",
     "react": "^16.0.0",
