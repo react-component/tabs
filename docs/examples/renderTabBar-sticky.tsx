@@ -1,7 +1,7 @@
 import React from 'react';
 import { StickyContainer, Sticky } from 'react-sticky';
-import Tabs, { TabPane } from '../src';
-import '../assets/index.less';
+import Tabs, { TabPane } from 'rc-tabs';
+import '../../assets/index.less';
 
 const renderTabBar = (props, DefaultTabBar) => (
   <Sticky bottomOffset={80}>

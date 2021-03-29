@@ -1,5 +1,4 @@
-# History
-----
+# Changelog
 
 https://github.com/react-component/tabs/releases
 

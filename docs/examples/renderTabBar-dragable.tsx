@@ -2,8 +2,8 @@
 import React from 'react';
 import { DndProvider, DragSource, DropTarget } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
-import Tabs from '../src';
-import '../assets/index.less';
+import Tabs from 'rc-tabs';
+import '../../assets/index.less';
 
 const { TabPane } = Tabs;
 

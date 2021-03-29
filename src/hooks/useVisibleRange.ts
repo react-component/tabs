@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
-import { Tab, TabOffsetMap } from '../interface';
-import { TabNavListProps } from '../TabNavList';
+import type { Tab, TabOffsetMap } from '../interface';
+import type { TabNavListProps } from '../TabNavList';
 
 const DEFAULT_SIZE = { width: 0, height: 0, left: 0, top: 0, right: 0 };
 

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import classNames from 'classnames';
 import TabContext from '../TabContext';
-import { TabPosition, AnimatedConfig } from '../interface';
+import type { TabPosition, AnimatedConfig } from '../interface';
 
 export interface TabPanelListProps {
   activeKey: React.Key;

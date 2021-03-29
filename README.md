@@ -4,13 +4,7 @@
 
 React Tabs component.
 
-[![NPM version][npm-image]][npm-url]
-[![build status][github-actions-image]][github-actions-url]
-[![Test coverage][coveralls-image]][coveralls-url]
-[![Dependencies][david-image]][david-url]
-[![DevDependencies][david-dev-image]][david-dev-url]
-[![npm download][download-image]][download-url]
-[![bundle size][bundlephobia-image]][bundlephobia-url]
+[![NPM version][npm-image]][npm-url] [![dumi](https://img.shields.io/badge/docs%20by-dumi-blue?style=flat-square)](https://github.com/umijs/dumi) [![build status][github-actions-image]][github-actions-url] [![Test coverage][coveralls-image]][coveralls-url] [![Dependencies][david-image]][david-url] [![DevDependencies][david-dev-image]][david-dev-url] [![npm download][download-image]][download-url] [![bundle size][bundlephobia-image]][bundlephobia-url]
 
 [npm-image]: http://img.shields.io/npm/v/rc-tabs.svg?style=flat-square
 [npm-url]: http://npmjs.org/package/rc-tabs
@@ -53,7 +47,7 @@ online example: https://tabs.react-component.now.sh/
 
 ## Usage
 
-```jsx
+```js
 import Tabs, { TabPane } from 'rc-tabs';
 
 var callback = function(key) {};

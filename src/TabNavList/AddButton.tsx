@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { EditableConfig, TabsLocale } from '../interface';
+import type { EditableConfig, TabsLocale } from '../interface';
 
 export interface AddButtonProps {
   prefixCls: string;

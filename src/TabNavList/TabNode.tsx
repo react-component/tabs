@@ -1,7 +1,7 @@
 import * as React from 'react';
 import classNames from 'classnames';
 import KeyCode from 'rc-util/lib/KeyCode';
-import { Tab, TabPosition, EditableConfig } from '../interface';
+import type { Tab, TabPosition, EditableConfig } from '../interface';
 
 export interface TabNodeProps {
   id: string;
