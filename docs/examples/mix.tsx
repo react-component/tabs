@@ -1,6 +1,6 @@
 import React from 'react';
-import Tabs, { TabPane } from '../src';
-import '../assets/index.less';
+import Tabs, { TabPane } from 'rc-tabs';
+import '../../assets/index.less';
 
 function getTabPanes(count = 50) {
   const tabs: React.ReactElement[] = [];

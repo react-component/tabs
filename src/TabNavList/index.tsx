@@ -5,7 +5,7 @@ import raf from 'rc-util/lib/raf';
 import ResizeObserver from 'rc-resize-observer';
 import useRaf, { useRafState } from '../hooks/useRaf';
 import TabNode from './TabNode';
-import {
+import type {
   TabSizeMap,
   TabPosition,
   RenderTabBar,

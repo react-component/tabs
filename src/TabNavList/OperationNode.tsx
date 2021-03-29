@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import KeyCode from 'rc-util/lib/KeyCode';
 import Menu, { MenuItem } from 'rc-menu';
 import Dropdown from 'rc-dropdown';
-import { Tab, TabsLocale, EditableConfig } from '../interface';
+import type { Tab, TabsLocale, EditableConfig } from '../interface';
 import AddButton from './AddButton';
 
 export interface OperationNodeProps {

@@ -7,8 +7,9 @@ import isMobile from 'rc-util/lib/isMobile';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import TabNavList from './TabNavList';
 import TabPanelList from './TabPanelList';
-import TabPane, { TabPaneProps } from './TabPanelList/TabPane';
-import {
+import type { TabPaneProps } from './TabPanelList/TabPane';
+import TabPane from './TabPanelList/TabPane';
+import type {
   TabPosition,
   RenderTabBar,
   TabsLocale,

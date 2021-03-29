@@ -1,5 +1,5 @@
 import { createContext } from 'react';
-import { Tab } from './interface';
+import type { Tab } from './interface';
 
 export interface TabContextProps {
   tabs: Tab[];

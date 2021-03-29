@@ -29,13 +29,14 @@
   },
   "license": "MIT",
   "scripts": {
-    "start": "cross-env NODE_ENV=development father doc dev --storybook",
-    "build": "father doc build --storybook",
+    "start": "dumi dev",
+    "build": "dumi build",
+    "docs:deploy": "gh-pages -d .doc",
     "compile": "father build && npm run compile:style",
     "test": "father test",
     "coverage": "father test --coverage",
     "now-build": "npm run build",
-    "lint": "eslint src/ examples/ --ext .tsx,.ts,.jsx,.js",
+    "lint": "eslint src/ docs/examples/ --ext .tsx,.ts,.jsx,.js",
     "compile:style": "lessc --js assets/index.less assets/index.css",
     "prepublishOnly": "npm run lint && npm run test && npm run compile && np --yolo --no-publish"
   },
@@ -48,12 +49,14 @@
     "@umijs/fabric": "^2.3.1",
     "coveralls": "^3.0.6",
     "cross-env": "^7.0.2",
+    "dumi": "^1.1.0",
     "enzyme": "^3.7.0",
     "enzyme-adapter-react-16": "^1.7.0",
     "enzyme-to-json": "^3.3.4",
     "eslint": "^7.0.0",
     "fastclick": "~1.0.6",
     "father": "^2.29.2",
+    "gh-pages": "^3.1.0",
     "history": "^1.17.0",
     "immutability-helper": "^3.0.1",
     "less": "^3.11.1",
@@ -68,7 +71,7 @@
     "react-sticky": "^6.0.3",
     "react-test-renderer": "^16.0.0",
     "sortablejs": "^1.7.0",
-    "typescript": "^4.0.0"
+    "typescript": "^4.0.5"
   },
   "dependencies": {
     "@babel/runtime": "^7.11.2",

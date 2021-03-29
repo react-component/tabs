@@ -1,4 +1,4 @@
-import { TabPaneProps } from './TabPanelList/TabPane';
+import type { TabPaneProps } from './TabPanelList/TabPane';
 
 export type TabSizeMap = Map<
   React.Key,

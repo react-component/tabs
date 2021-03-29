@@ -1,6 +1,10 @@
-import Tabs, { TabsProps } from './Tabs';
-import TabPane, { TabPaneProps } from './TabPanelList/TabPane';
+import Tabs from './Tabs';
+import type { TabsProps } from './Tabs';
+import TabPane from './TabPanelList/TabPane';
+import type { TabPaneProps } from './TabPanelList/TabPane'
 
-export { TabPane, TabsProps, TabPaneProps };
+export type { TabsProps, TabPaneProps };
+
+export { TabPane }
 
 export default Tabs;
