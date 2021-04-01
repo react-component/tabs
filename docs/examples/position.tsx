@@ -51,12 +51,6 @@ export default () => {
         <TabPane key="4444" tab="4444">
           4444
         </TabPane>
-        <TabPane key="55" tab="55">
-          55
-        </TabPane>
-        <TabPane key="66" tab="66">
-          66
-        </TabPane>
       </Tabs>
     </React.StrictMode>
   );
