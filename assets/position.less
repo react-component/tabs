@@ -52,11 +52,8 @@
       flex-direction: column;
       min-width: 50px;
 
-      &-list {
-        flex-direction: column;
-      }
-
-      &-operations {
+      &-list, &-operations {
+        flex: 1 0 auto; // fix safari scroll problem
         flex-direction: column;
       }
     }
