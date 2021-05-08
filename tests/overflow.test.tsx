@@ -23,8 +23,9 @@ describe('Tabs.Overflow', () => {
     document.body.appendChild(holder);
 
     function btnOffsetPosition() {
+      // eslint-disable-next-line @typescript-eslint/no-invalid-this
       const btn = this as HTMLButtonElement;
-      const btnList = [...btn.parentNode.childNodes].filter(ele =>
+      const btnList = Array.from(btn.parentNode.childNodes).filter((ele) =>
         (ele as HTMLElement).className.includes('rc-tabs-tab'),
       );
       const index = btnList.indexOf(btn);
@@ -69,18 +70,10 @@ describe('Tabs.Overflow', () => {
     wrapper.find('.rc-tabs-nav-more').simulate('mouseenter');
     jest.runAllTimers();
     wrapper.update();
-    expect(
-      wrapper
-        .find('.rc-tabs-dropdown li')
-        .first()
-        .text(),
-    ).toEqual('cute');
+    expect(wrapper.find('.rc-tabs-dropdown li').first().text()).toEqual('cute');
 
     // Click to select
-    wrapper
-      .find('.rc-tabs-dropdown-menu-item')
-      .first()
-      .simulate('click');
+    wrapper.find('.rc-tabs-dropdown-menu-item').first().simulate('click');
     expect(onChange).toHaveBeenCalledWith('cute');
 
     wrapper.unmount();
@@ -88,7 +81,7 @@ describe('Tabs.Overflow', () => {
     jest.useRealTimers();
   });
 
-  [KeyCode.SPACE, KeyCode.ENTER].forEach(code => {
+  [KeyCode.SPACE, KeyCode.ENTER].forEach((code) => {
     it(`keyboard with select keycode: ${code}`, () => {
       jest.useFakeTimers();
       const onChange = jest.fn();
@@ -110,7 +103,7 @@ describe('Tabs.Overflow', () => {
         wrapper.find('.rc-tabs-nav-more').simulate('keydown', {
           which,
         });
-        expect(wrapper.find('.rc-tabs-dropdown-menu-item-selected').text()).toEqual(match);
+        expect(wrapper.find('li.rc-tabs-dropdown-menu-item-selected').text()).toEqual(match);
       }
 
       keyMatch(KeyCode.DOWN, 'cute');
@@ -129,10 +122,7 @@ describe('Tabs.Overflow', () => {
       });
       wrapper.update();
       expect(
-        wrapper
-          .find('.rc-tabs-dropdown')
-          .last()
-          .hasClass('rc-tabs-dropdown-hidden'),
+        wrapper.find('.rc-tabs-dropdown').last().hasClass('rc-tabs-dropdown-hidden'),
       ).toBeFalsy();
 
       // ESC
@@ -141,10 +131,7 @@ describe('Tabs.Overflow', () => {
       });
       wrapper.update();
       expect(
-        wrapper
-          .find('.rc-tabs-dropdown')
-          .last()
-          .hasClass('rc-tabs-dropdown-hidden'),
+        wrapper.find('.rc-tabs-dropdown').last().hasClass('rc-tabs-dropdown-hidden'),
       ).toBeTruthy();
 
       wrapper.unmount();
