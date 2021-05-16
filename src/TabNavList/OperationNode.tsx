@@ -141,7 +141,7 @@ function OperationNode(
 
   // ========================= Render =========================
   const moreStyle: React.CSSProperties = {
-    [rtl ? 'marginLeft' : 'marginRight']: tabBarGutter,
+    [rtl ? 'marginRight' : 'marginLeft']: tabBarGutter,
   };
   if (!tabs.length) {
     moreStyle.visibility = 'hidden';

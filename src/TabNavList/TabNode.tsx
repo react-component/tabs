@@ -47,9 +47,9 @@ function TabNode(
 
   const nodeStyle: React.CSSProperties = {};
   if (tabPosition === 'top' || tabPosition === 'bottom') {
-    nodeStyle[rtl ? 'marginLeft' : 'marginRight'] = tabBarGutter;
+    nodeStyle[rtl ? 'marginRight' : 'marginLeft'] = tabBarGutter;
   } else {
-    nodeStyle.marginBottom = tabBarGutter;
+    nodeStyle.marginTop = tabBarGutter;
   }
 
   const removable = editable && closable !== false && !disabled;
