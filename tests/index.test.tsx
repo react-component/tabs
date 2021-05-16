@@ -1,8 +1,9 @@
 import React from 'react';
-import { mount, ReactWrapper } from 'enzyme';
+import type { ReactWrapper } from 'enzyme';
+import { mount } from 'enzyme';
 import KeyCode from 'rc-util/lib/KeyCode';
 import Tabs, { TabPane } from '../src';
-import { TabsProps } from '../src/Tabs';
+import type { TabsProps } from '../src/Tabs';
 
 describe('Tabs.Basic', () => {
   function getTabs(props: TabsProps = null) {
@@ -54,29 +55,18 @@ describe('Tabs.Basic', () => {
     const list: { name: string; trigger: (wrapper: ReactWrapper) => void }[] = [
       {
         name: 'outer div',
-        trigger: wrapper =>
-          wrapper
-            .find('.rc-tabs-tab')
-            .at(2)
-            .simulate('click'),
+        trigger: (wrapper) => wrapper.find('.rc-tabs-tab').at(2).simulate('click'),
       },
       {
         name: 'inner button',
-        trigger: wrapper =>
-          wrapper
-            .find('.rc-tabs-tab .rc-tabs-tab-btn')
-            .at(2)
-            .simulate('click'),
+        trigger: (wrapper) => wrapper.find('.rc-tabs-tab .rc-tabs-tab-btn').at(2).simulate('click'),
       },
       {
         name: 'inner button key down',
-        trigger: wrapper =>
-          wrapper
-            .find('.rc-tabs-tab .rc-tabs-tab-btn')
-            .at(2)
-            .simulate('keydown', {
-              which: KeyCode.SPACE,
-            }),
+        trigger: (wrapper) =>
+          wrapper.find('.rc-tabs-tab .rc-tabs-tab-btn').at(2).simulate('keydown', {
+            which: KeyCode.SPACE,
+          }),
       },
     ];
 
@@ -123,20 +113,10 @@ describe('Tabs.Basic', () => {
 
   it('tabBarGutter should work', () => {
     const topTabs = mount(getTabs({ tabBarGutter: 23 }));
-    expect(
-      topTabs
-        .find('.rc-tabs-tab')
-        .first()
-        .props().style.marginRight,
-    ).toEqual(23);
+    expect(topTabs.find('.rc-tabs-tab').first().props().style.marginLeft).toEqual(23);
 
     const rightTabs = mount(getTabs({ tabBarGutter: 33, tabPosition: 'right' }));
-    expect(
-      rightTabs
-        .find('.rc-tabs-tab')
-        .first()
-        .props().style.marginBottom,
-    ).toEqual(33);
+    expect(rightTabs.find('.rc-tabs-tab').first().props().style.marginTop).toEqual(33);
   });
 
   describe('renderTabBar', () => {
@@ -144,7 +124,7 @@ describe('Tabs.Basic', () => {
       const renderTabBar = jest.fn((props, Component) => {
         return (
           <div className="my-wrapper">
-            <Component {...props}>{node => <span className="my-node">{node}</span>}</Component>
+            <Component {...props}>{(node) => <span className="my-node">{node}</span>}</Component>
           </div>
         );
       });
@@ -154,10 +134,10 @@ describe('Tabs.Basic', () => {
       expect(renderTabBar).toHaveBeenCalled();
     });
     it('has panes property in props', () => {
-      const renderTabBar = props => {
+      const renderTabBar = (props) => {
         return (
           <div>
-            {props.panes.map(pane => (
+            {props.panes.map((pane) => (
               <span key={pane.key} data-key={pane.key}>
                 tab
               </span>
@@ -182,18 +162,8 @@ describe('Tabs.Basic', () => {
     );
 
     function matchText(light: string, bamboo: string) {
-      expect(
-        wrapper
-          .find('.rc-tabs-tabpane')
-          .first()
-          .text(),
-      ).toEqual(light);
-      expect(
-        wrapper
-          .find('.rc-tabs-tabpane')
-          .last()
-          .text(),
-      ).toEqual(bamboo);
+      expect(wrapper.find('.rc-tabs-tabpane').first().text()).toEqual(light);
+      expect(wrapper.find('.rc-tabs-tabpane').last().text()).toEqual(bamboo);
     }
 
     matchText('Light', '');
@@ -212,10 +182,7 @@ describe('Tabs.Basic', () => {
     it('add', () => {
       const onEdit = jest.fn();
       const wrapper = mount(getTabs({ editable: { onEdit } }));
-      wrapper
-        .find('.rc-tabs-nav-add')
-        .first()
-        .simulate('click');
+      wrapper.find('.rc-tabs-nav-add').first().simulate('click');
       expect(onEdit).toHaveBeenCalledWith('add', {
         key: undefined,
         event: expect.anything(),
@@ -225,7 +192,7 @@ describe('Tabs.Basic', () => {
     const list: { name: string; trigger: (node: ReactWrapper) => void }[] = [
       {
         name: 'click',
-        trigger: node => {
+        trigger: (node) => {
           node.simulate('click');
         },
       },
@@ -275,19 +242,9 @@ describe('Tabs.Basic', () => {
     const wrapper = mount(
       getTabs({ tabBarExtraContent: { left: 'Left Bamboo', right: 'Right Bamboo' } }),
     );
-    expect(
-      wrapper
-        .find('.rc-tabs-extra-content')
-        .first()
-        .text(),
-    ).toEqual('Left Bamboo');
+    expect(wrapper.find('.rc-tabs-extra-content').first().text()).toEqual('Left Bamboo');
 
-    expect(
-      wrapper
-        .find('.rc-tabs-extra-content')
-        .at(1)
-        .text(),
-    ).toEqual('Right Bamboo');
+    expect(wrapper.find('.rc-tabs-extra-content').at(1).text()).toEqual('Right Bamboo');
   });
 
   describe('animated', () => {
@@ -318,10 +275,7 @@ describe('Tabs.Basic', () => {
 
   it('focus to scroll', () => {
     const wrapper = mount(getTabs());
-    wrapper
-      .find('.rc-tabs-tab')
-      .first()
-      .simulate('focus');
+    wrapper.find('.rc-tabs-tab').first().simulate('focus');
 
     wrapper.unmount();
   });
