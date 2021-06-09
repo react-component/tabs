@@ -23,7 +23,7 @@ export default function TabPanelList({
   const { prefixCls, tabs } = React.useContext(TabContext);
   const tabPaneAnimated = animated.tabPane;
 
-  const activeIndex = tabs.findIndex(tab => tab.key === activeKey);
+  const activeIndex = tabs.findIndex((tab) => tab.key === activeKey);
 
   return (
     <div className={classNames(`${prefixCls}-content-holder`)}>
@@ -37,12 +37,13 @@ export default function TabPanelList({
             : null
         }
       >
-        {tabs.map(tab => {
+        {tabs.map((tab) => {
           return React.cloneElement(tab.node, {
             key: tab.key,
             prefixCls,
             tabKey: tab.key,
-            id,
+            id: tab.id,
+            parentId: id,
             animated: tabPaneAnimated,
             active: tab.key === activeKey,
             destroyInactiveTabPane,

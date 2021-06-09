@@ -10,11 +10,12 @@ export interface TabPaneProps {
   forceRender?: boolean;
   closable?: boolean;
   closeIcon?: React.ReactNode;
+  id?: string;
 
   // Pass by TabPaneList
   prefixCls?: string;
   tabKey?: string;
-  id?: string;
+  parentId?: string;
   animated?: boolean;
   active?: boolean;
   destroyInactiveTabPane?: boolean;
@@ -26,6 +27,7 @@ export default function TabPane({
   className,
   style,
   id,
+  parentId,
   active,
   animated,
   destroyInactiveTabPane,
@@ -55,10 +57,10 @@ export default function TabPane({
 
   return (
     <div
-      id={id && `${id}-panel-${tabKey}`}
+      id={id || (parentId && `${parentId}-panel-${tabKey}`)}
       role="tabpanel"
       tabIndex={active ? 0 : -1}
-      aria-labelledby={id && `${id}-tab-${tabKey}`}
+      aria-labelledby={parentId && `${parentId}-tab-${tabKey}`}
       aria-hidden={!active}
       style={{ ...mergedStyle, ...style }}
       className={classNames(
