@@ -6,6 +6,7 @@ import Menu, { MenuItem } from 'rc-menu';
 import Dropdown from 'rc-dropdown';
 import type { Tab, TabsLocale, EditableConfig } from '../interface';
 import AddButton from './AddButton';
+import type { DropdownProps } from 'rc-dropdown/lib/Dropdown';
 
 export interface OperationNodeProps {
   prefixCls: string;
@@ -19,6 +20,7 @@ export interface OperationNodeProps {
   mobile: boolean;
   moreIcon?: React.ReactNode;
   moreTransitionName?: string;
+  moreTabsDropdownProps?: Partial<DropdownProps>;
   editable?: EditableConfig;
   locale?: TabsLocale;
   onTabClick: (key: React.Key, e: React.MouseEvent | React.KeyboardEvent) => void;
@@ -39,6 +41,7 @@ function OperationNode(
     tabBarGutter,
     rtl,
     onTabClick,
+    moreTabsDropdownProps,
   }: OperationNodeProps,
   ref: React.Ref<HTMLDivElement>,
 ) {
@@ -163,6 +166,7 @@ function OperationNode(
       overlayClassName={overlayClassName}
       mouseEnterDelay={0.1}
       mouseLeaveDelay={0.1}
+      {...moreTabsDropdownProps}
     >
       <button
         type="button"
