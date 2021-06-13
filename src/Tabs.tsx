@@ -20,6 +20,7 @@ import type {
   TabBarExtraContent,
 } from './interface';
 import TabContext from './TabContext';
+import type { DropdownProps } from 'rc-dropdown/lib/Dropdown';
 
 /**
  * Should added antd:
@@ -51,6 +52,7 @@ export interface TabsProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'o
   tabBarStyle?: React.CSSProperties;
   tabPosition?: TabPosition;
   destroyInactiveTabPane?: boolean;
+  moreTabsDropdownProps?: Partial<DropdownProps>;
 
   onChange?: (activeKey: string) => void;
   onTabClick?: (activeKey: string, e: React.KeyboardEvent | React.MouseEvent) => void;
@@ -81,7 +83,7 @@ function parseTabList(children: React.ReactNode): Tab[] {
 
       return null;
     })
-    .filter(tab => tab);
+    .filter((tab) => tab);
 }
 
 function Tabs(
@@ -106,6 +108,7 @@ function Tabs(
     moreIcon,
     moreTransitionName,
     destroyInactiveTabPane,
+    moreTabsDropdownProps,
     renderTabBar,
     onChange,
     onTabClick,
@@ -149,18 +152,18 @@ function Tabs(
     defaultValue: defaultActiveKey,
   });
   const [activeIndex, setActiveIndex] = useState(() =>
-    tabs.findIndex(tab => tab.key === mergedActiveKey),
+    tabs.findIndex((tab) => tab.key === mergedActiveKey),
   );
 
   // Reset active key if not exist anymore
   useEffect(() => {
-    let newActiveIndex = tabs.findIndex(tab => tab.key === mergedActiveKey);
+    let newActiveIndex = tabs.findIndex((tab) => tab.key === mergedActiveKey);
     if (newActiveIndex === -1) {
       newActiveIndex = Math.max(0, Math.min(activeIndex, tabs.length - 1));
       setMergedActiveKey(tabs[newActiveIndex]?.key);
     }
     setActiveIndex(newActiveIndex);
-  }, [tabs.map(tab => tab.key).join('_'), mergedActiveKey, activeIndex]);
+  }, [tabs.map((tab) => tab.key).join('_'), mergedActiveKey, activeIndex]);
 
   // ===================== Accessibility ====================
   const [mergedId, setMergedId] = useMergedState(null, {
@@ -212,6 +215,7 @@ function Tabs(
     extra: tabBarExtraContent,
     style: tabBarStyle,
     panes: children,
+    moreTabsDropdownProps,
   };
 
   if (renderTabBar) {

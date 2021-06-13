@@ -15,7 +15,7 @@ describe('Tabs.Operation-Overflow', () => {
 
     function btnOffsetPosition() {
       const btn = this as HTMLButtonElement;
-      const btnList = [...btn.parentNode.childNodes].filter(ele =>
+      const btnList = [...btn.parentNode.childNodes].filter((ele) =>
         (ele as HTMLElement).className.includes('rc-tabs-tab'),
       );
       const index = btnList.indexOf(btn);
@@ -57,6 +57,34 @@ describe('Tabs.Operation-Overflow', () => {
     expect(
       wrapper.find('.rc-tabs-nav-operations').hasClass('rc-tabs-nav-operations-hidden'),
     ).toBeFalsy();
+
+    wrapper.unmount();
+
+    jest.useRealTimers();
+  });
+
+  it('moreTabsDropdownProps trigger click', () => {
+    jest.useFakeTimers();
+    const onEdit = jest.fn();
+    const wrapper = mount(
+      getTabs({ editable: { onEdit }, moreTabsDropdownProps: { trigger: 'click' } }),
+    );
+
+    triggerResize(wrapper);
+    act(() => {
+      jest.runAllTimers();
+      wrapper.update();
+    });
+
+    // hover
+    wrapper.find('.rc-tabs-nav-more').simulate('mouseenter');
+    jest.runAllTimers();
+    wrapper.update();
+    expect(wrapper.find('.rc-tabs-dropdown')).toHaveLength(0);
+
+    // click
+    wrapper.find('.rc-tabs-nav-more').simulate('click');
+    expect(wrapper.find('.rc-tabs-dropdown').hasClass('ant-tabs-dropdown-hidden')).toBeFalsy();
 
     wrapper.unmount();
 

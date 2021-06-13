@@ -25,6 +25,7 @@ import useTouchMove from '../hooks/useTouchMove';
 import useRefs from '../hooks/useRefs';
 import AddButton from './AddButton';
 import useSyncState from '../hooks/useSyncState';
+import type { DropdownProps } from 'rc-dropdown/lib/Dropdown';
 
 export interface TabNavListProps {
   id: string;
@@ -36,6 +37,7 @@ export interface TabNavListProps {
   extra?: TabBarExtraContent;
   editable?: EditableConfig;
   moreIcon?: React.ReactNode;
+  moreTabsDropdownProps?: Partial<DropdownProps>;
   moreTransitionName?: string;
   mobile: boolean;
   tabBarGutter?: number;
@@ -89,6 +91,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     children,
     onTabClick,
     onTabScroll,
+    moreTabsDropdownProps,
   } = props;
   const tabsWrapperRef = useRef<HTMLDivElement>();
   const tabListRef = useRef<HTMLDivElement>();
@@ -162,7 +165,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
 
   useTouchMove(tabsWrapperRef, (offsetX, offsetY) => {
     function doMove(setState: React.Dispatch<React.SetStateAction<number>>, offset: number) {
-      setState(value => {
+      setState((value) => {
         const newValue = alignInRange(value + offset);
 
         return newValue;
@@ -269,7 +272,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     { ...props, tabs },
   );
 
-  const tabNodes: React.ReactElement[] = tabs.map(tab => {
+  const tabNodes: React.ReactElement[] = tabs.map((tab) => {
     const { key } = tab;
     return (
       <TabNode
@@ -286,7 +289,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
         renderWrapper={children}
         removeAriaLabel={locale?.removeAriaLabel}
         ref={getBtnRef(key)}
-        onClick={e => {
+        onClick={(e) => {
           onTabClick(key, e);
         }}
         onRemove={() => {
@@ -398,7 +401,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   // Should recalculate when rtl changed
   useEffect(() => {
     onListHolderResize();
-  }, [rtl, tabBarGutter, activeKey, tabs.map(tab => tab.key).join('_')]);
+  }, [rtl, tabBarGutter, activeKey, tabs.map((tab) => tab.key).join('_')]);
 
   // ========================= Render ========================
   const hasDropdown = !!hiddenTabs.length;
@@ -478,6 +481,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
         ref={operationsRef}
         prefixCls={prefixCls}
         tabs={hiddenTabs}
+        moreTabsDropdownProps={moreTabsDropdownProps}
         className={!hasDropdown && operationsHiddenClassName}
       />
 
