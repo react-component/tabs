@@ -162,7 +162,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
 
   useTouchMove(tabsWrapperRef, (offsetX, offsetY) => {
     function doMove(setState: React.Dispatch<React.SetStateAction<number>>, offset: number) {
-      setState(value => {
+      setState((value) => {
         const newValue = alignInRange(value + offset);
 
         return newValue;
@@ -269,24 +269,30 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     { ...props, tabs },
   );
 
-  const tabNodes: React.ReactElement[] = tabs.map(tab => {
+  const tabNodeStyle: React.CSSProperties = {};
+  if (tabPosition === 'top' || tabPosition === 'bottom') {
+    tabNodeStyle[rtl ? 'marginRight' : 'marginLeft'] = tabBarGutter;
+  } else {
+    tabNodeStyle.marginTop = tabBarGutter;
+  }
+
+  const tabNodes: React.ReactElement[] = tabs.map((tab, i) => {
     const { key } = tab;
     return (
       <TabNode
         id={id}
         prefixCls={prefixCls}
         key={key}
-        rtl={rtl}
         tab={tab}
+        /* first node should not have margin left */
+        style={i === 0 ? undefined : tabNodeStyle}
         closable={tab.closable}
         editable={editable}
         active={key === activeKey}
-        tabPosition={tabPosition}
-        tabBarGutter={tabBarGutter}
         renderWrapper={children}
         removeAriaLabel={locale?.removeAriaLabel}
         ref={getBtnRef(key)}
-        onClick={e => {
+        onClick={(e) => {
           onTabClick(key, e);
         }}
         onRemove={() => {
@@ -295,14 +301,14 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
         onFocus={() => {
           scrollToTab(key);
           doLockAnimation();
-          
-          if (tabsWrapperRef.current) {
-            // Focus element will make scrollLeft change which we should reset back
-            if (!rtl) {
-              tabsWrapperRef.current.scrollLeft = 0;
-            }
-            tabsWrapperRef.current.scrollTop = 0;
+          if (!tabsWrapperRef.current) {
+            return;
           }
+          // Focus element will make scrollLeft change which we should reset back
+          if (!rtl) {
+            tabsWrapperRef.current.scrollLeft = 0;
+          }
+          tabsWrapperRef.current.scrollTop = 0;
         }}
       />
     );
@@ -400,7 +406,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   // Should recalculate when rtl changed
   useEffect(() => {
     onListHolderResize();
-  }, [rtl, tabBarGutter, activeKey, tabs.map(tab => tab.key).join('_')]);
+  }, [rtl, tabBarGutter, activeKey, tabs.map((tab) => tab.key).join('_')]);
 
   // ========================= Render ========================
   const hasDropdown = !!hiddenTabs.length;
@@ -461,7 +467,10 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
                 prefixCls={prefixCls}
                 locale={locale}
                 editable={editable}
-                style={{ visibility: hasDropdown ? 'hidden' : null }}
+                style={{
+                  ...(tabNodes.length === 0 ? undefined : tabNodeStyle),
+                  visibility: hasDropdown ? 'hidden' : null,
+                }}
               />
 
               <div

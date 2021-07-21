@@ -1,25 +1,23 @@
 import * as React from 'react';
 import classNames from 'classnames';
 import KeyCode from 'rc-util/lib/KeyCode';
-import type { Tab, TabPosition, EditableConfig } from '../interface';
+import type { Tab, EditableConfig } from '../interface';
 
 export interface TabNodeProps {
   id: string;
   prefixCls: string;
   tab: Tab;
   active: boolean;
-  rtl: boolean;
   closable?: boolean;
   editable?: EditableConfig;
   onClick?: (e: React.MouseEvent | React.KeyboardEvent) => void;
   onResize?: (width: number, height: number, left: number, top: number) => void;
-  tabBarGutter?: number;
-  tabPosition: TabPosition;
   renderWrapper?: (node: React.ReactElement) => React.ReactElement;
   removeAriaLabel?: string;
   removeIcon?: React.ReactNode;
   onRemove: () => void;
   onFocus: React.FocusEventHandler;
+  style?: React.CSSProperties;
 }
 
 function TabNode(
@@ -27,10 +25,7 @@ function TabNode(
     prefixCls,
     id,
     active,
-    rtl,
     tab: { key, tab, disabled, closeIcon },
-    tabBarGutter,
-    tabPosition,
     closable,
     renderWrapper,
     removeAriaLabel,
@@ -38,19 +33,13 @@ function TabNode(
     onClick,
     onRemove,
     onFocus,
+    style,
   }: TabNodeProps,
   ref: React.Ref<HTMLDivElement>,
 ) {
   const tabPrefix = `${prefixCls}-tab`;
 
   React.useEffect(() => onRemove, []);
-
-  const nodeStyle: React.CSSProperties = {};
-  if (tabPosition === 'top' || tabPosition === 'bottom') {
-    nodeStyle[rtl ? 'marginRight' : 'marginLeft'] = tabBarGutter;
-  } else {
-    nodeStyle.marginTop = tabBarGutter;
-  }
 
   const removable = editable && closable !== false && !disabled;
 
@@ -79,7 +68,7 @@ function TabNode(
         [`${tabPrefix}-active`]: active,
         [`${tabPrefix}-disabled`]: disabled,
       })}
-      style={nodeStyle}
+      style={style}
       onClick={onInternalClick}
     >
       {/* Primary Tab Button */}
