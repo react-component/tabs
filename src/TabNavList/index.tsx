@@ -284,6 +284,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
         prefixCls={prefixCls}
         key={key}
         tab={tab}
+        /* first node should not have margin left */
         style={i === 0 ? undefined : tabNodeStyle}
         closable={tab.closable}
         editable={editable}
