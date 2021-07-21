@@ -113,10 +113,12 @@ describe('Tabs.Basic', () => {
 
   it('tabBarGutter should work', () => {
     const topTabs = mount(getTabs({ tabBarGutter: 23 }));
-    expect(topTabs.find('.rc-tabs-tab').first().props().style.marginLeft).toEqual(23);
+    expect(topTabs.find('.rc-tabs-tab').at(0).props().style?.marginLeft).toBe(undefined);
+    expect(topTabs.find('.rc-tabs-tab').at(1).props().style?.marginLeft).toBe(23);
 
     const rightTabs = mount(getTabs({ tabBarGutter: 33, tabPosition: 'right' }));
-    expect(rightTabs.find('.rc-tabs-tab').first().props().style.marginTop).toEqual(33);
+    expect(rightTabs.find('.rc-tabs-tab').at(0).props().style?.marginTop).toEqual(undefined);
+    expect(rightTabs.find('.rc-tabs-tab').at(1).props().style?.marginTop).toEqual(33);
   });
 
   describe('renderTabBar', () => {
