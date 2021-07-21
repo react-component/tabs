@@ -55,8 +55,9 @@ function TabNode(
   const removable = editable && closable !== false && !disabled;
 
   function onInternalClick(e: React.MouseEvent | React.KeyboardEvent) {
-    if (disabled) return;
-
+    if (disabled) {
+      return;
+    }
     onClick(e);
   }
 
@@ -69,7 +70,7 @@ function TabNode(
     });
   }
 
-  let node: React.ReactElement = (
+  const node: React.ReactElement = (
     <div
       key={key}
       ref={ref}
@@ -90,11 +91,11 @@ function TabNode(
         aria-controls={id && `${id}-panel-${key}`}
         aria-disabled={disabled}
         tabIndex={disabled ? null : 0}
-        onClick={e => {
+        onClick={(e) => {
           e.stopPropagation();
           onInternalClick(e);
         }}
-        onKeyDown={e => {
+        onKeyDown={(e) => {
           if ([KeyCode.SPACE, KeyCode.ENTER].includes(e.which)) {
             e.preventDefault();
             onInternalClick(e);
@@ -112,7 +113,7 @@ function TabNode(
           aria-label={removeAriaLabel || 'remove'}
           tabIndex={0}
           className={`${tabPrefix}-remove`}
-          onClick={e => {
+          onClick={(e) => {
             e.stopPropagation();
             onRemoveTab(e);
           }}
@@ -123,11 +124,7 @@ function TabNode(
     </div>
   );
 
-  if (renderWrapper) {
-    node = renderWrapper(node);
-  }
-
-  return node;
+  return renderWrapper ? renderWrapper(node) : node;
 }
 
 export default React.forwardRef(TabNode);
