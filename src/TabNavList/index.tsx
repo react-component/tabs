@@ -276,7 +276,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     tabNodeStyle.marginTop = tabBarGutter;
   }
 
-  const tabNodes: React.ReactElement[] = tabs.map((tab) => {
+  const tabNodes: React.ReactElement[] = tabs.map((tab, i) => {
     const { key } = tab;
     return (
       <TabNode
@@ -284,7 +284,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
         prefixCls={prefixCls}
         key={key}
         tab={tab}
-        style={tabNodeStyle}
+        style={i === 0 ? undefined : tabNodeStyle}
         closable={tab.closable}
         editable={editable}
         active={key === activeKey}
@@ -467,7 +467,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
                 locale={locale}
                 editable={editable}
                 style={{
-                  ...tabNodeStyle,
+                  ...(tabNodes.length === 0 ? undefined : tabNodeStyle),
                   visibility: hasDropdown ? 'hidden' : null,
                 }}
               />
