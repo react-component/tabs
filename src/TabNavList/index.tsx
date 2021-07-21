@@ -301,14 +301,14 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
         onFocus={() => {
           scrollToTab(key);
           doLockAnimation();
-          
-          if (tabsWrapperRef.current) {
-            // Focus element will make scrollLeft change which we should reset back
-            if (!rtl) {
-              tabsWrapperRef.current.scrollLeft = 0;
-            }
-            tabsWrapperRef.current.scrollTop = 0;
+          if (!tabsWrapperRef.current) {
+            return;
           }
+          // Focus element will make scrollLeft change which we should reset back
+          if (!rtl) {
+            tabsWrapperRef.current.scrollLeft = 0;
+          }
+          tabsWrapperRef.current.scrollTop = 0;
         }}
       />
     );
