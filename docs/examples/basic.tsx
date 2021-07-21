@@ -22,7 +22,9 @@ export default () => {
 
   return (
     <React.StrictMode>
-      <Tabs tabBarExtraContent="extra">{children}</Tabs>
+      <Tabs tabBarExtraContent="extra">
+        {children}
+      </Tabs>
       <button
         type="button"
         onClick={() => {
