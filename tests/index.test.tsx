@@ -277,8 +277,7 @@ describe('Tabs.Basic', () => {
 
   it('focus to scroll', () => {
     const wrapper = mount(getTabs());
-    wrapper.find('.rc-tabs-tab').first().simulate('focus');
-
+    wrapper.find('.rc-tabs-tab-btn').first().simulate('focus');
     wrapper.unmount();
   });
 
