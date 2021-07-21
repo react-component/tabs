@@ -296,7 +296,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
           scrollToTab(key);
           doLockAnimation();
           
-          if(tabsWrapperRef.current) {
+          if (tabsWrapperRef.current) {
             // Focus element will make scrollLeft change which we should reset back
             if (!rtl) {
               tabsWrapperRef.current.scrollLeft = 0;
