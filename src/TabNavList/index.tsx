@@ -59,14 +59,20 @@ const ExtraContent = ({ position, prefixCls, extra }: ExtraContentProps) => {
 
   let content: React.ReactNode;
 
-  const assertExtra = extra as TabBarExtraMap;
+  // Parse extra
+  let assertExtra: TabBarExtraMap = {};
+  if (extra && typeof extra === 'object' && !React.isValidElement(extra)) {
+    assertExtra = extra as TabBarExtraMap;
+  } else {
+    assertExtra.right = extra;
+  }
 
   if (position === 'right') {
-    content = assertExtra.right || (!assertExtra.left && assertExtra) || null;
+    content = assertExtra.right;
   }
 
   if (position === 'left') {
-    content = assertExtra.left || null;
+    content = assertExtra.left;
   }
 
   return content ? <div className={`${prefixCls}-extra-content`}>{content}</div> : null;

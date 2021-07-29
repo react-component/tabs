@@ -240,13 +240,17 @@ describe('Tabs.Basic', () => {
     expect(wrapper.find('.rc-tabs-extra-content').text()).toEqual('Bamboo');
   });
 
-  it('extra positon', () => {
+  it('extra position', () => {
     const wrapper = mount(
       getTabs({ tabBarExtraContent: { left: 'Left Bamboo', right: 'Right Bamboo' } }),
     );
     expect(wrapper.find('.rc-tabs-extra-content').first().text()).toEqual('Left Bamboo');
 
     expect(wrapper.find('.rc-tabs-extra-content').at(1).text()).toEqual('Right Bamboo');
+  });
+
+  it('no break of empty object', () => {
+    mount(getTabs({ tabBarExtraContent: {} }));
   });
 
   describe('animated', () => {
