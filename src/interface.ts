@@ -21,7 +21,26 @@ export interface Tab extends TabPaneProps {
   node: React.ReactElement;
 }
 
-export type RenderTabBar = (props: any, DefaultTabBar: React.ComponentType) => React.ReactElement;
+type RenderTabBarProps = {
+  id: string;
+  activeKey: string;
+  animated: AnimatedConfig;
+  tabPosition: TabPosition;
+  rtl: boolean;
+  mobile: boolean;
+  editable: EditableConfig;
+  locale: TabsLocale;
+  moreIcon: React.ReactNode;
+  moreTransitionName: string;
+  tabBarGutter: number;
+  onTabClick: (key: string, e: React.MouseEvent | React.KeyboardEvent) => void;
+  onTabScroll: OnTabScroll;
+  extra: TabBarExtraContent;
+  style: React.CSSProperties;
+  panes: React.ReactNode;
+}
+
+export type RenderTabBar = (props: RenderTabBarProps, DefaultTabBar: React.ComponentType) => React.ReactElement;
 
 export interface TabsLocale {
   dropdownAriaLabel?: string;
