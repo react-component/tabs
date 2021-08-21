@@ -9,7 +9,6 @@ export interface TabPanelListProps {
   rtl: boolean;
   animated?: AnimatedConfig;
   tabPosition?: TabPosition;
-  destroyInactiveTabPane?: boolean;
 }
 
 export default function TabPanelList({
@@ -18,12 +17,11 @@ export default function TabPanelList({
   animated,
   tabPosition,
   rtl,
-  destroyInactiveTabPane,
 }: TabPanelListProps) {
   const { prefixCls, tabs } = React.useContext(TabContext);
   const tabPaneAnimated = animated.tabPane;
 
-  const activeIndex = tabs.findIndex(tab => tab.key === activeKey);
+  const activeIndex = tabs.findIndex((tab) => tab.key === activeKey);
 
   return (
     <div className={classNames(`${prefixCls}-content-holder`)}>
@@ -37,7 +35,7 @@ export default function TabPanelList({
             : null
         }
       >
-        {tabs.map(tab => {
+        {tabs.map((tab) => {
           return React.cloneElement(tab.node, {
             key: tab.key,
             prefixCls,
@@ -45,7 +43,6 @@ export default function TabPanelList({
             id,
             animated: tabPaneAnimated,
             active: tab.key === activeKey,
-            destroyInactiveTabPane,
           });
         })}
       </div>

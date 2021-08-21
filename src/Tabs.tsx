@@ -50,7 +50,6 @@ export interface TabsProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'o
   tabBarGutter?: number;
   tabBarStyle?: React.CSSProperties;
   tabPosition?: TabPosition;
-  destroyInactiveTabPane?: boolean;
 
   onChange?: (activeKey: string) => void;
   onTabClick?: (activeKey: string, e: React.KeyboardEvent | React.MouseEvent) => void;
@@ -81,7 +80,7 @@ function parseTabList(children: React.ReactNode): Tab[] {
 
       return null;
     })
-    .filter(tab => tab);
+    .filter((tab) => tab);
 }
 
 function Tabs(
@@ -105,7 +104,6 @@ function Tabs(
     locale,
     moreIcon,
     moreTransitionName,
-    destroyInactiveTabPane,
     renderTabBar,
     onChange,
     onTabClick,
@@ -149,18 +147,18 @@ function Tabs(
     defaultValue: defaultActiveKey,
   });
   const [activeIndex, setActiveIndex] = useState(() =>
-    tabs.findIndex(tab => tab.key === mergedActiveKey),
+    tabs.findIndex((tab) => tab.key === mergedActiveKey),
   );
 
   // Reset active key if not exist anymore
   useEffect(() => {
-    let newActiveIndex = tabs.findIndex(tab => tab.key === mergedActiveKey);
+    let newActiveIndex = tabs.findIndex((tab) => tab.key === mergedActiveKey);
     if (newActiveIndex === -1) {
       newActiveIndex = Math.max(0, Math.min(activeIndex, tabs.length - 1));
       setMergedActiveKey(tabs[newActiveIndex]?.key);
     }
     setActiveIndex(newActiveIndex);
-  }, [tabs.map(tab => tab.key).join('_'), mergedActiveKey, activeIndex]);
+  }, [tabs.map((tab) => tab.key).join('_'), mergedActiveKey, activeIndex]);
 
   // ===================== Accessibility ====================
   const [mergedId, setMergedId] = useMergedState(null, {
@@ -238,11 +236,7 @@ function Tabs(
         {...restProps}
       >
         {tabNavBar}
-        <TabPanelList
-          destroyInactiveTabPane={destroyInactiveTabPane}
-          {...sharedProps}
-          animated={mergedAnimated}
-        />
+        <TabPanelList {...sharedProps} animated={mergedAnimated} />
       </div>
     </TabContext.Provider>
   );

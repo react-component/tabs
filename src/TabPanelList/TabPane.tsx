@@ -10,6 +10,7 @@ export interface TabPaneProps {
   forceRender?: boolean;
   closable?: boolean;
   closeIcon?: React.ReactNode;
+  destroyInactiveTabPane?: boolean;
 
   // Pass by TabPaneList
   prefixCls?: string;
@@ -17,7 +18,6 @@ export interface TabPaneProps {
   id?: string;
   animated?: boolean;
   active?: boolean;
-  destroyInactiveTabPane?: boolean;
 }
 
 export default function TabPane({
