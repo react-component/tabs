@@ -283,7 +283,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   }
 
   const tabNodes: React.ReactElement[] = tabs.map((tab, i) => {
-    const { key } = tab;
+    const { key, className: tabClassName } = tab;
     return (
       <TabNode
         id={id}
@@ -292,6 +292,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
         tab={tab}
         /* first node should not have margin left */
         style={i === 0 ? undefined : tabNodeStyle}
+        className={tabClassName}
         closable={tab.closable}
         editable={editable}
         active={key === activeKey}

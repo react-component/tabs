@@ -12,7 +12,7 @@ describe('Tabs.Basic', () => {
         <TabPane tab="light" key="light">
           Light
         </TabPane>,
-        <TabPane tab="bamboo" key="bamboo">
+        <TabPane tab="bamboo" className="panda" key="bamboo">
           Bamboo
         </TabPane>,
         <TabPane tab="cute" key="cute">
