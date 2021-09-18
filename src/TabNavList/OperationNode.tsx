@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import KeyCode from 'rc-util/lib/KeyCode';
 import Menu, { MenuItem } from 'rc-menu';
 import Dropdown from 'rc-dropdown';
+import toString from 'react-to-string';
 import type { Tab, TabsLocale, EditableConfig } from '../interface';
 import AddButton from './AddButton';
 
@@ -21,6 +22,7 @@ export interface OperationNodeProps {
   moreTransitionName?: string;
   editable?: EditableConfig;
   locale?: TabsLocale;
+  showSearch?: boolean;
   onTabClick: (key: React.Key, e: React.MouseEvent | React.KeyboardEvent) => void;
 }
 
@@ -38,6 +40,7 @@ function OperationNode(
     editable,
     tabBarGutter,
     rtl,
+    showSearch = true,
     onTabClick,
   }: OperationNodeProps,
   ref: React.Ref<HTMLDivElement>,
@@ -45,6 +48,7 @@ function OperationNode(
   // ======================== Dropdown ========================
   const [open, setOpen] = useState(false);
   const [selectedKey, setSelectedKey] = useState<string>(null);
+  const [searchText, setSearchText] = useState('');
 
   const popupId = `${id}-more-popup`;
   const dropdownPrefix = `${prefixCls}-dropdown`;
@@ -53,30 +57,38 @@ function OperationNode(
   const dropdownAriaLabel = locale?.dropdownAriaLabel;
 
   const menu = (
-    <Menu
-      onClick={({ key, domEvent }) => {
-        onTabClick(key, domEvent);
-        setOpen(false);
-      }}
-      id={popupId}
-      tabIndex={-1}
-      role="listbox"
-      aria-activedescendant={selectedItemId}
-      selectedKeys={[selectedKey]}
-      aria-label={dropdownAriaLabel !== undefined ? dropdownAriaLabel : 'expanded dropdown'}
-    >
-      {tabs.map(tab => (
-        <MenuItem
-          key={tab.key}
-          id={`${popupId}-${tab.key}`}
-          role="option"
-          aria-controls={id && `${id}-panel-${tab.key}`}
-          disabled={tab.disabled}
-        >
-          {tab.tab}
-        </MenuItem>
-      ))}
-    </Menu>
+    <>
+      {showSearch && <input
+        className={`${prefixCls}-search-input`}
+        type='search'
+        onChange={onSearchChange} />
+      }
+      <Menu
+        onClick={({ key, domEvent }) => {
+          onTabClick(key, domEvent);
+          setOpen(false);
+        }}
+        id={popupId}
+        tabIndex={-1}
+        role='listbox'
+        aria-activedescendant={selectedItemId}
+        selectedKeys={[selectedKey]}
+        aria-label={dropdownAriaLabel !== undefined ? dropdownAriaLabel : 'expanded dropdown'}
+      >
+        {filterTabs(searchText, tabs).map(tab => (
+          <MenuItem
+            key={tab.key}
+            id={`${popupId}-${tab.key}`}
+            role='option'
+            aria-controls={id && `${id}-panel-${tab.key}`}
+            disabled={tab.disabled}
+          >
+            {tab.tab}
+          </MenuItem>
+        ))}
+      </Menu>
+    </>
+
   );
 
   function selectOffset(offset: -1 | 1) {
@@ -122,6 +134,16 @@ function OperationNode(
         if (selectedKey !== null) onTabClick(selectedKey, e);
         break;
     }
+  }
+
+  function onSearchChange(e) {
+    setSearchText(e?.target?.value || '');
+  }
+
+  function filterTabs(searchTxt: string, originalTabs: Tab[]) {
+    return searchTxt
+      ? originalTabs.filter(({ tab }) => toString(tab).toLowerCase().includes(searchTxt.toLowerCase()))
+      : originalTabs;
   }
 
   // ========================= Effect =========================

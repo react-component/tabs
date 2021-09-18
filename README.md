@@ -82,6 +82,7 @@ React.render(
 | editable | { onEdit(type: 'add' | 'remove', info: { key, event }), showAdd: boolean, removeIcon: ReactNode, addIcon: ReactNode } | - | config tab editable |
 | locale | { dropdownAriaLabel: string, removeAriaLabel: string, addAriaLabel: string } | - | Accessibility locale help text |
 | moreIcon | ReactNode | - | collapse icon |
+| showSearch | whether show search input when has too many tabs | bool | true |
 | tabBarGutter | number | 0 | config tab bar gutter |
 | tabBarPosition | `'left' | 'right' | 'top' | 'bottom'` | `'top'` | tab nav 's position |
 | tabBarStyle | style | - | tab nav style |
