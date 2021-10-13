@@ -493,6 +493,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
 
       <OperationNode
         {...props}
+        removeAriaLabel={locale?.removeAriaLabel}
         ref={operationsRef}
         prefixCls={prefixCls}
         tabs={hiddenTabs}

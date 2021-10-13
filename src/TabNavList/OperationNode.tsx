@@ -21,6 +21,7 @@ export interface OperationNodeProps {
   moreTransitionName?: string;
   editable?: EditableConfig;
   locale?: TabsLocale;
+  removeAriaLabel?: string;
   onTabClick: (key: React.Key, e: React.MouseEvent | React.KeyboardEvent) => void;
 }
 
@@ -38,6 +39,7 @@ function OperationNode(
     editable,
     tabBarGutter,
     rtl,
+    removeAriaLabel,
     onTabClick,
   }: OperationNodeProps,
   ref: React.Ref<HTMLDivElement>,
@@ -52,6 +54,15 @@ function OperationNode(
 
   const dropdownAriaLabel = locale?.dropdownAriaLabel;
 
+  function onRemoveTab(event: React.MouseEvent | React.KeyboardEvent, key: string) {
+    event.preventDefault();
+    event.stopPropagation();
+    editable.onEdit('remove', {
+      key,
+      event,
+    });
+  }
+
   const menu = (
     <Menu
       onClick={({ key, domEvent }) => {
@@ -65,17 +76,35 @@ function OperationNode(
       selectedKeys={[selectedKey]}
       aria-label={dropdownAriaLabel !== undefined ? dropdownAriaLabel : 'expanded dropdown'}
     >
-      {tabs.map(tab => (
-        <MenuItem
-          key={tab.key}
-          id={`${popupId}-${tab.key}`}
-          role="option"
-          aria-controls={id && `${id}-panel-${tab.key}`}
-          disabled={tab.disabled}
-        >
-          {tab.tab}
-        </MenuItem>
-      ))}
+      {tabs.map(tab => {
+        const removable = editable && tab.closable !== false && !tab.disabled;
+        return (
+          <MenuItem
+            key={tab.key}
+            id={`${popupId}-${tab.key}`}
+            role="option"
+            aria-controls={id && `${id}-panel-${tab.key}`}
+            disabled={tab.disabled}
+          >
+            {/* {tab.tab} */}
+            <span>{tab.tab}</span>
+            {
+              removable && <button
+                type="button"
+                aria-label={removeAriaLabel || 'remove'}
+                tabIndex={0}
+                className={`${dropdownPrefix}-menu-item-remove`}
+                onClick={e => {
+                  e.stopPropagation();
+                  onRemoveTab(e, tab.key);
+                }}
+              >
+              {tab.closeIcon || editable.removeIcon || '×'}
+              </button>
+            }
+          </MenuItem>
+        )
+      })}
     </Menu>
   );
 

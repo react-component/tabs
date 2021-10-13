@@ -1,5 +1,5 @@
 import React from 'react';
-import { mount } from 'enzyme';
+import { mount, ReactWrapper } from 'enzyme';
 import KeyCode from 'rc-util/lib/KeyCode';
 import { spyElementPrototypes } from 'rc-util/lib/test/domHook';
 import { act } from 'react-dom/test-utils';
@@ -309,4 +309,49 @@ describe('Tabs.Overflow', () => {
       jest.useRealTimers();
     });
   });
+
+  describe('editable dropdown menu', () => {
+    const list: { name: string; trigger: (node: ReactWrapper) => void }[] = [
+      {
+        name: 'click',
+        trigger: node => {
+          node.simulate('click');
+        },
+      },
+    ];
+
+    list.forEach(({ name, trigger }) => {
+      it(`remove by ${name} in dropdown menu`, () => {
+        console.log('run here')
+        jest.useFakeTimers();
+        const onEdit = jest.fn();
+        const wrapper = mount(getTabs({ editable: { onEdit } }));
+
+        triggerResize(wrapper);
+        act(() => {
+          jest.runAllTimers();
+          wrapper.update();
+        });
+
+        // Click to open
+        wrapper.find('.rc-tabs-nav-more').simulate('mouseenter');
+        jest.runAllTimers();
+        wrapper.update();
+
+        const first = wrapper.find('.rc-tabs-dropdown-menu-item-remove').first();
+        trigger(first);
+
+        // Should be button to enable press SPACE key to trigger
+        expect(first.instance() instanceof HTMLButtonElement).toBeTruthy();
+        
+        expect(onEdit).toHaveBeenCalledWith('remove', {
+          key: 'bamboo',
+          event: expect.anything(),
+        });
+
+        wrapper.unmount();
+        jest.useRealTimers();
+      });
+    });
+  })
 });
