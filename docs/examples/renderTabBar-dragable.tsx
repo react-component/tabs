@@ -1,4 +1,3 @@
-/* eslint-disable import/no-named-as-default-member */
 import React from 'react';
 import { DndProvider, DragSource, DropTarget } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
