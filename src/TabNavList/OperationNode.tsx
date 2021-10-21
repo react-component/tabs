@@ -23,6 +23,7 @@ export interface OperationNodeProps {
   locale?: TabsLocale;
   removeAriaLabel?: string;
   onTabClick: (key: React.Key, e: React.MouseEvent | React.KeyboardEvent) => void;
+  tabMoving?: boolean;
 }
 
 function OperationNode(
@@ -76,7 +77,7 @@ function OperationNode(
       selectedKeys={[selectedKey]}
       aria-label={dropdownAriaLabel !== undefined ? dropdownAriaLabel : 'expanded dropdown'}
     >
-      {tabs.map(tab => {
+      {tabs.map((tab) => {
         const removable = editable && tab.closable !== false && !tab.disabled;
         return (
           <MenuItem
@@ -88,29 +89,29 @@ function OperationNode(
           >
             {/* {tab.tab} */}
             <span>{tab.tab}</span>
-            {
-              removable && <button
+            {removable && (
+              <button
                 type="button"
                 aria-label={removeAriaLabel || 'remove'}
                 tabIndex={0}
                 className={`${dropdownPrefix}-menu-item-remove`}
-                onClick={e => {
+                onClick={(e) => {
                   e.stopPropagation();
                   onRemoveTab(e, tab.key);
                 }}
               >
-              {tab.closeIcon || editable.removeIcon || '×'}
+                {tab.closeIcon || editable.removeIcon || '×'}
               </button>
-            }
+            )}
           </MenuItem>
-        )
+        );
       })}
     </Menu>
   );
 
   function selectOffset(offset: -1 | 1) {
-    const enabledTabs = tabs.filter(tab => !tab.disabled);
-    let selectedIndex = enabledTabs.findIndex(tab => tab.key === selectedKey) || 0;
+    const enabledTabs = tabs.filter((tab) => !tab.disabled);
+    let selectedIndex = enabledTabs.findIndex((tab) => tab.key === selectedKey) || 0;
     const len = enabledTabs.length;
 
     for (let i = 0; i < len; i += 1) {
@@ -178,7 +179,7 @@ function OperationNode(
   }
 
   const overlayClassName = classNames({
-    [`${dropdownPrefix}-rtl`]: rtl
+    [`${dropdownPrefix}-rtl`]: rtl,
   });
 
   const moreNode: React.ReactElement = mobile ? null : (
@@ -218,4 +219,10 @@ function OperationNode(
   );
 }
 
-export default React.forwardRef(OperationNode);
+export default React.memo(
+  React.forwardRef(OperationNode),
+  (_, next) =>
+    // https://github.com/ant-design/ant-design/issues/32544
+    // We'd better remove syntactic sugar in `rc-menu` since this has perf issue
+    next.tabMoving,
+);
