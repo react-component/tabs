@@ -168,7 +168,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
 
   useTouchMove(tabsWrapperRef, (offsetX, offsetY) => {
     function doMove(setState: React.Dispatch<React.SetStateAction<number>>, offset: number) {
-      setState((value) => {
+      setState(value => {
         const newValue = alignInRange(value + offset);
 
         return newValue;
@@ -299,7 +299,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
         renderWrapper={children}
         removeAriaLabel={locale?.removeAriaLabel}
         ref={getBtnRef(key)}
-        onClick={(e) => {
+        onClick={e => {
           onTabClick(key, e);
         }}
         onRemove={() => {
@@ -413,7 +413,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   // Should recalculate when rtl changed
   useEffect(() => {
     onListHolderResize();
-  }, [rtl, tabBarGutter, activeKey, tabs.map((tab) => tab.key).join('_')]);
+  }, [rtl, tabBarGutter, activeKey, tabs.map(tab => tab.key).join('_')]);
 
   // ========================= Render ========================
   const hasDropdown = !!hiddenTabs.length;

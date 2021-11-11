@@ -1,3 +1,4 @@
+import type { TabNavListProps } from './TabNavList';
 import type { TabPaneProps } from './TabPanelList/TabPane';
 
 export type TabSizeMap = Map<
@@ -38,9 +39,12 @@ type RenderTabBarProps = {
   extra: TabBarExtraContent;
   style: React.CSSProperties;
   panes: React.ReactNode;
-}
+};
 
-export type RenderTabBar = (props: RenderTabBarProps, DefaultTabBar: React.ComponentType) => React.ReactElement;
+export type RenderTabBar = (
+  props: RenderTabBarProps,
+  DefaultTabBar: React.ComponentType<TabNavListProps>,
+) => React.ReactElement;
 
 export interface TabsLocale {
   dropdownAriaLabel?: string;
