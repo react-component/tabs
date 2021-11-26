@@ -43,7 +43,7 @@ export interface TabNavListProps {
   className?: string;
   style?: React.CSSProperties;
   locale?: TabsLocale;
-  onTabClick: (activeKey: React.Key, e: React.MouseEvent | React.KeyboardEvent) => void;
+  onTabClick: (activeKey: string, e: React.MouseEvent | React.KeyboardEvent) => void;
   onTabScroll?: OnTabScroll;
   children?: (node: React.ReactElement) => React.ReactElement;
 }
