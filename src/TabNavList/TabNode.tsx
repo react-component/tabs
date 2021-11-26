@@ -18,7 +18,6 @@ export interface TabNodeProps {
   onRemove: () => void;
   onFocus: React.FocusEventHandler;
   style?: React.CSSProperties;
-  className?: string;
 }
 
 function TabNode(
@@ -35,7 +34,6 @@ function TabNode(
     onRemove,
     onFocus,
     style,
-    className,
   }: TabNodeProps,
   ref: React.Ref<HTMLDivElement>,
 ) {
@@ -65,7 +63,7 @@ function TabNode(
     <div
       key={key}
       ref={ref}
-      className={classNames(tabPrefix, className, {
+      className={classNames(tabPrefix, {
         [`${tabPrefix}-with-remove`]: removable,
         [`${tabPrefix}-active`]: active,
         [`${tabPrefix}-disabled`]: disabled,
