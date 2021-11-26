@@ -30,7 +30,7 @@ exports[`Tabs.Basic Normal 1`] = `
           </div>
         </div>
         <div
-          class="rc-tabs-tab panda rc-tabs-tab-active"
+          class="rc-tabs-tab rc-tabs-tab-active"
         >
           <div
             aria-controls="rc-tabs-test-panel-bamboo"
@@ -98,7 +98,7 @@ exports[`Tabs.Basic Normal 1`] = `
       <div
         aria-hidden="false"
         aria-labelledby="rc-tabs-test-tab-bamboo"
-        class="rc-tabs-tabpane rc-tabs-tabpane-active panda"
+        class="rc-tabs-tabpane rc-tabs-tabpane-active"
         id="rc-tabs-test-panel-bamboo"
         role="tabpanel"
         tabindex="0"
