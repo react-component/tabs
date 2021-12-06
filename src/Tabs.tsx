@@ -183,9 +183,11 @@ function Tabs(
   // ======================== Events ========================
   function onInternalTabClick(key: string, e: React.MouseEvent | React.KeyboardEvent) {
     onTabClick?.(key, e);
-
+    const isActiveChanged = key !== mergedActiveKey;
     setMergedActiveKey(key);
-    onChange?.(key);
+    if (isActiveChanged) {
+      onChange?.(key);
+    }
   }
 
   // ======================== Render ========================

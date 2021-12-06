@@ -55,15 +55,15 @@ describe('Tabs.Basic', () => {
     const list: { name: string; trigger: (wrapper: ReactWrapper) => void }[] = [
       {
         name: 'outer div',
-        trigger: (wrapper) => wrapper.find('.rc-tabs-tab').at(2).simulate('click'),
+        trigger: wrapper => wrapper.find('.rc-tabs-tab').at(2).simulate('click'),
       },
       {
         name: 'inner button',
-        trigger: (wrapper) => wrapper.find('.rc-tabs-tab .rc-tabs-tab-btn').at(2).simulate('click'),
+        trigger: wrapper => wrapper.find('.rc-tabs-tab .rc-tabs-tab-btn').at(2).simulate('click'),
       },
       {
         name: 'inner button key down',
-        trigger: (wrapper) =>
+        trigger: wrapper =>
           wrapper.find('.rc-tabs-tab .rc-tabs-tab-btn').at(2).simulate('keydown', {
             which: KeyCode.SPACE,
           }),
@@ -81,6 +81,17 @@ describe('Tabs.Basic', () => {
         expect(onChange).toHaveBeenCalledWith('cute');
       });
     });
+
+    // https://github.com/ant-design/ant-design/issues/33032
+    it('should not trigger onChange when click current tab', () => {
+      const onChange = jest.fn();
+      const onTabClick = jest.fn();
+      const wrapper = mount(getTabs({ onChange, onTabClick }));
+
+      wrapper.find('.rc-tabs-tab').at(0).simulate('click');
+      expect(onTabClick).toHaveBeenCalledWith('light', expect.anything());
+      expect(onChange).not.toHaveBeenCalled();
+    });
   });
 
   it('active first tab when children is changed', () => {
@@ -93,7 +104,6 @@ describe('Tabs.Basic', () => {
       ),
     });
     wrapper.update();
-
     expect(wrapper.find('.rc-tabs-tab-active').text()).toEqual('Yo');
   });
 
@@ -126,7 +136,7 @@ describe('Tabs.Basic', () => {
       const renderTabBar = jest.fn((props, Component) => {
         return (
           <div className="my-wrapper">
-            <Component {...props}>{(node) => <span className="my-node">{node}</span>}</Component>
+            <Component {...props}>{node => <span className="my-node">{node}</span>}</Component>
           </div>
         );
       });
@@ -136,10 +146,10 @@ describe('Tabs.Basic', () => {
       expect(renderTabBar).toHaveBeenCalled();
     });
     it('has panes property in props', () => {
-      const renderTabBar = (props) => {
+      const renderTabBar = props => {
         return (
           <div>
-            {props.panes.map((pane) => (
+            {props.panes.map(pane => (
               <span key={pane.key} data-key={pane.key}>
                 tab
               </span>
@@ -194,7 +204,7 @@ describe('Tabs.Basic', () => {
     const list: { name: string; trigger: (node: ReactWrapper) => void }[] = [
       {
         name: 'click',
-        trigger: (node) => {
+        trigger: node => {
           node.simulate('click');
         },
       },
