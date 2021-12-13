@@ -57,7 +57,10 @@ export default function useVisibleRange(
         break;
       }
     }
-
+    if (startIndex > endIndex) {
+      endIndex = startIndex;
+    }
+    
     return [startIndex, endIndex];
   }, [
     tabOffsets,
