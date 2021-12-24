@@ -24,6 +24,7 @@ export interface OperationNodeProps {
   removeAriaLabel?: string;
   onTabClick: (key: React.Key, e: React.MouseEvent | React.KeyboardEvent) => void;
   tabMoving?: boolean;
+  hiddenDropdown?: boolean;
 }
 
 function OperationNode(
@@ -41,6 +42,7 @@ function OperationNode(
     tabBarGutter,
     rtl,
     removeAriaLabel,
+    hiddenDropdown,
     onTabClick,
   }: OperationNodeProps,
   ref: React.Ref<HTMLDivElement>,
@@ -77,7 +79,7 @@ function OperationNode(
       selectedKeys={[selectedKey]}
       aria-label={dropdownAriaLabel !== undefined ? dropdownAriaLabel : 'expanded dropdown'}
     >
-      {tabs.map((tab) => {
+      {tabs.map(tab => {
         const removable = editable && tab.closable !== false && !tab.disabled;
         return (
           <MenuItem
@@ -95,7 +97,7 @@ function OperationNode(
                 aria-label={removeAriaLabel || 'remove'}
                 tabIndex={0}
                 className={`${dropdownPrefix}-menu-item-remove`}
-                onClick={(e) => {
+                onClick={e => {
                   e.stopPropagation();
                   onRemoveTab(e, tab.key);
                 }}
@@ -110,8 +112,8 @@ function OperationNode(
   );
 
   function selectOffset(offset: -1 | 1) {
-    const enabledTabs = tabs.filter((tab) => !tab.disabled);
-    let selectedIndex = enabledTabs.findIndex((tab) => tab.key === selectedKey) || 0;
+    const enabledTabs = tabs.filter(tab => !tab.disabled);
+    let selectedIndex = enabledTabs.findIndex(tab => tab.key === selectedKey) || 0;
     const len = enabledTabs.length;
 
     for (let i = 0; i < len; i += 1) {
@@ -182,34 +184,35 @@ function OperationNode(
     [`${dropdownPrefix}-rtl`]: rtl,
   });
 
-  const moreNode: React.ReactElement = mobile ? null : (
-    <Dropdown
-      prefixCls={dropdownPrefix}
-      overlay={menu}
-      trigger={['hover']}
-      visible={open}
-      transitionName={moreTransitionName}
-      onVisibleChange={setOpen}
-      overlayClassName={overlayClassName}
-      mouseEnterDelay={0.1}
-      mouseLeaveDelay={0.1}
-    >
-      <button
-        type="button"
-        className={`${prefixCls}-nav-more`}
-        style={moreStyle}
-        tabIndex={-1}
-        aria-hidden="true"
-        aria-haspopup="listbox"
-        aria-controls={popupId}
-        id={`${id}-more`}
-        aria-expanded={open}
-        onKeyDown={onKeyDown}
+  const moreNode: React.ReactElement =
+    mobile || hiddenDropdown ? null : (
+      <Dropdown
+        prefixCls={dropdownPrefix}
+        overlay={menu}
+        trigger={['hover']}
+        visible={open}
+        transitionName={moreTransitionName}
+        onVisibleChange={setOpen}
+        overlayClassName={overlayClassName}
+        mouseEnterDelay={0.1}
+        mouseLeaveDelay={0.1}
       >
-        {moreIcon}
-      </button>
-    </Dropdown>
-  );
+        <button
+          type="button"
+          className={`${prefixCls}-nav-more`}
+          style={moreStyle}
+          tabIndex={-1}
+          aria-hidden="true"
+          aria-haspopup="listbox"
+          aria-controls={popupId}
+          id={`${id}-more`}
+          aria-expanded={open}
+          onKeyDown={onKeyDown}
+        >
+          {moreIcon}
+        </button>
+      </Dropdown>
+    );
 
   return (
     <div className={classNames(`${prefixCls}-nav-operations`, className)} style={style} ref={ref}>
