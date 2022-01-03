@@ -78,12 +78,12 @@ React.render(
 | animated | boolean \| { inkBar: boolean, tabPane: boolean } | `{ inkBar: true, tabPane: false }` | config animation |
 | defaultActiveKey | string | - | initial active tabPanel's key if activeKey is absent |
 | destroyInactiveTabPane | boolean | false | whether destroy inactive TabPane when change tab |
-| direction | `'ltr' | 'rlt'` | `'ltr'` | Layout direction of tabs component |
-| editable | { onEdit(type: 'add' | 'remove', info: { key, event }), showAdd: boolean, removeIcon: ReactNode, addIcon: ReactNode } | - | config tab editable |
+| direction | `'ltr' \| 'rlt'` | `'ltr'` | Layout direction of tabs component |
+| editable | { onEdit(type: 'add' \| 'remove', info: { key, event }), showAdd: boolean, removeIcon: ReactNode, addIcon: ReactNode } | - | config tab editable |
 | locale | { dropdownAriaLabel: string, removeAriaLabel: string, addAriaLabel: string } | - | Accessibility locale help text |
 | moreIcon | ReactNode | - | collapse icon |
 | tabBarGutter | number | 0 | config tab bar gutter |
-| tabBarPosition | `'left' | 'right' | 'top' | 'bottom'` | `'top'` | tab nav 's position |
+| tabBarPosition | `'left' \| 'right' \| 'top' \| 'bottom'` | `'top'` | tab nav 's position |
 | tabBarStyle | style | - | tab nav style |
 | tabBarExtraContent | ReactNode \| `{ left: ReactNode, right: ReactNode }` | - | config extra content |
 | renderTabBar | (props, TabBarComponent) => ReactElement | - | How to render tab bar |
