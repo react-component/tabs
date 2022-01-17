@@ -1,5 +1,6 @@
 import React from 'react';
-import { mount, ReactWrapper } from 'enzyme';
+import type { ReactWrapper } from 'enzyme';
+import { mount } from 'enzyme';
 import KeyCode from 'rc-util/lib/KeyCode';
 import { spyElementPrototypes } from 'rc-util/lib/test/domHook';
 import { act } from 'react-dom/test-utils';
@@ -10,7 +11,7 @@ import {
   getTransformX,
   getTransformY,
 } from './common/util';
-import { TabPane } from '../src';
+import Tabs, { TabPane } from '../src';
 
 describe('Tabs.Overflow', () => {
   let domSpy: ReturnType<typeof spyElementPrototypes>;
@@ -25,7 +26,7 @@ describe('Tabs.Overflow', () => {
     function btnOffsetPosition() {
       // eslint-disable-next-line @typescript-eslint/no-invalid-this
       const btn = this as HTMLButtonElement;
-      const btnList = Array.from(btn.parentNode.childNodes).filter((ele) =>
+      const btnList = Array.from(btn.parentNode.childNodes).filter(ele =>
         (ele as HTMLElement).className.includes('rc-tabs-tab'),
       );
       const index = btnList.indexOf(btn);
@@ -81,7 +82,7 @@ describe('Tabs.Overflow', () => {
     jest.useRealTimers();
   });
 
-  [KeyCode.SPACE, KeyCode.ENTER].forEach((code) => {
+  [KeyCode.SPACE, KeyCode.ENTER].forEach(code => {
     it(`keyboard with select keycode: ${code}`, () => {
       jest.useFakeTimers();
       const onChange = jest.fn();
@@ -171,7 +172,7 @@ describe('Tabs.Overflow', () => {
           });
 
           // Wheel to move
-          const node = (wrapper.find('.rc-tabs-nav-wrap').instance() as unknown) as HTMLElement;
+          const node = wrapper.find('.rc-tabs-nav-wrap').instance() as unknown as HTMLElement;
 
           act(() => {
             const touchStart = new WheelEvent('wheel', {
@@ -218,7 +219,7 @@ describe('Tabs.Overflow', () => {
         });
 
         // Wheel to move
-        const node = (wrapper.find('.rc-tabs-nav-wrap').instance() as unknown) as HTMLElement;
+        const node = wrapper.find('.rc-tabs-nav-wrap').instance() as unknown as HTMLElement;
         const touchStart = new WheelEvent('wheel', {
           deltaX: 20,
           deltaY: 20,
@@ -322,7 +323,7 @@ describe('Tabs.Overflow', () => {
 
     list.forEach(({ name, trigger }) => {
       it(`remove by ${name} in dropdown menu`, () => {
-        console.log('run here')
+        console.log('run here');
         jest.useFakeTimers();
         const onEdit = jest.fn();
         const wrapper = mount(getTabs({ editable: { onEdit } }));
@@ -343,7 +344,7 @@ describe('Tabs.Overflow', () => {
 
         // Should be button to enable press SPACE key to trigger
         expect(first.instance() instanceof HTMLButtonElement).toBeTruthy();
-        
+
         expect(onEdit).toHaveBeenCalledWith('remove', {
           key: 'bamboo',
           event: expect.anything(),
@@ -353,5 +354,68 @@ describe('Tabs.Overflow', () => {
         jest.useRealTimers();
       });
     });
-  })
+
+    it('auto hidden Dropdown', () => {
+      console.log('run here');
+      jest.useFakeTimers();
+
+      let children = new Array(8).fill(0).map((_, index) => {
+        return (
+          <TabPane key={index} tab={`Tab ${index + 1}`}>
+            {`Tab Content${index + 1}`}
+          </TabPane>
+        );
+      });
+
+      const wrapper = mount(
+        <Tabs
+          editable={{
+            onEdit(type, { key }) {
+              if (type === 'remove') {
+                children = children.filter(ele => {
+                  return ele.key !== key.toString();
+                });
+                wrapper.setProps({
+                  children,
+                });
+              }
+            },
+          }}
+        >
+          {children}
+        </Tabs>,
+      );
+
+      triggerResize(wrapper);
+
+      act(() => {
+        jest.runAllTimers();
+        wrapper.update();
+      });
+
+      // Click to open
+      wrapper.find('.rc-tabs-nav-more').simulate('mouseenter');
+      jest.runAllTimers();
+      wrapper.update();
+
+      act(() => {
+        while (true) {
+          const first = wrapper.find('.rc-tabs-dropdown-menu-item-remove').first();
+          act(() => {
+            first.simulate('click');
+          });
+          jest.runAllTimers();
+          wrapper.update();
+          const moreExists = wrapper.find('.rc-tabs-nav-more').exists();
+          if (!moreExists) {
+            return;
+          }
+        }
+      });
+
+      expect(wrapper.find('.rc-tabs-dropdown').exists()).toBeFalsy();
+
+      wrapper.unmount();
+    });
+  });
 });
