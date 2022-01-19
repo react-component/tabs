@@ -184,35 +184,34 @@ function OperationNode(
     [`${dropdownPrefix}-rtl`]: rtl,
   });
 
-  const moreNode: React.ReactElement =
-    mobile || hiddenDropdown ? null : (
-      <Dropdown
-        prefixCls={dropdownPrefix}
-        overlay={menu}
-        trigger={['hover']}
-        visible={open}
-        transitionName={moreTransitionName}
-        onVisibleChange={setOpen}
-        overlayClassName={overlayClassName}
-        mouseEnterDelay={0.1}
-        mouseLeaveDelay={0.1}
+  const moreNode: React.ReactElement = mobile ? null : (
+    <Dropdown
+      prefixCls={dropdownPrefix}
+      overlay={menu}
+      trigger={['hover']}
+      visible={hiddenDropdown === true ? false : open}
+      transitionName={moreTransitionName}
+      onVisibleChange={setOpen}
+      overlayClassName={overlayClassName}
+      mouseEnterDelay={0.1}
+      mouseLeaveDelay={0.1}
+    >
+      <button
+        type="button"
+        className={`${prefixCls}-nav-more`}
+        style={moreStyle}
+        tabIndex={-1}
+        aria-hidden="true"
+        aria-haspopup="listbox"
+        aria-controls={popupId}
+        id={`${id}-more`}
+        aria-expanded={open}
+        onKeyDown={onKeyDown}
       >
-        <button
-          type="button"
-          className={`${prefixCls}-nav-more`}
-          style={moreStyle}
-          tabIndex={-1}
-          aria-hidden="true"
-          aria-haspopup="listbox"
-          aria-controls={popupId}
-          id={`${id}-more`}
-          aria-expanded={open}
-          onKeyDown={onKeyDown}
-        >
-          {moreIcon}
-        </button>
-      </Dropdown>
-    );
+        {moreIcon}
+      </button>
+    </Dropdown>
+  );
 
   return (
     <div className={classNames(`${prefixCls}-nav-operations`, className)} style={style} ref={ref}>

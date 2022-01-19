@@ -400,20 +400,17 @@ describe('Tabs.Overflow', () => {
 
       act(() => {
         while (true) {
-          const first = wrapper.find('.rc-tabs-dropdown-menu-item-remove').first();
+          const remove = wrapper.find('.rc-tabs-dropdown-menu-item-remove');
+          if (!remove.exists()) return;
           act(() => {
-            first.simulate('click');
+            remove.first().simulate('click');
           });
           jest.runAllTimers();
           wrapper.update();
-          const moreExists = wrapper.find('.rc-tabs-nav-more').exists();
-          if (!moreExists) {
-            return;
-          }
         }
       });
 
-      expect(wrapper.find('.rc-tabs-dropdown').exists()).toBeFalsy();
+      expect(wrapper.find('.rc-tabs-dropdown-hidden').exists()).toBeTruthy();
 
       wrapper.unmount();
     });
