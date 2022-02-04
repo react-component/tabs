@@ -65,7 +65,7 @@
     "preact-compat": "^3.16.0",
     "react": "^16.0.0",
     "react-dnd": "^10.0.0",
-    "react-dnd-html5-backend": "^10.0.0",
+    "react-dnd-html5-backend": "^15.0.1",
     "react-dom": "^16.0.0",
     "react-router": "^3.0.0",
     "react-sticky": "^6.0.3",
