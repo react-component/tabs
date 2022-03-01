@@ -1,5 +1,6 @@
 import React from 'react';
-import { mount, ReactWrapper } from 'enzyme';
+import type { ReactWrapper } from 'enzyme';
+import { mount } from 'enzyme';
 import KeyCode from 'rc-util/lib/KeyCode';
 import { spyElementPrototypes } from 'rc-util/lib/test/domHook';
 import { act } from 'react-dom/test-utils';
@@ -25,7 +26,7 @@ describe('Tabs.Overflow', () => {
     function btnOffsetPosition() {
       // eslint-disable-next-line @typescript-eslint/no-invalid-this
       const btn = this as HTMLButtonElement;
-      const btnList = Array.from(btn.parentNode.childNodes).filter((ele) =>
+      const btnList = Array.from(btn.parentNode.childNodes).filter(ele =>
         (ele as HTMLElement).className.includes('rc-tabs-tab'),
       );
       const index = btnList.indexOf(btn);
@@ -81,7 +82,7 @@ describe('Tabs.Overflow', () => {
     jest.useRealTimers();
   });
 
-  [KeyCode.SPACE, KeyCode.ENTER].forEach((code) => {
+  [KeyCode.SPACE, KeyCode.ENTER].forEach(code => {
     it(`keyboard with select keycode: ${code}`, () => {
       jest.useFakeTimers();
       const onChange = jest.fn();
@@ -171,7 +172,7 @@ describe('Tabs.Overflow', () => {
           });
 
           // Wheel to move
-          const node = (wrapper.find('.rc-tabs-nav-wrap').instance() as unknown) as HTMLElement;
+          const node = wrapper.find('.rc-tabs-nav-wrap').instance() as unknown as HTMLElement;
 
           act(() => {
             const touchStart = new WheelEvent('wheel', {
@@ -218,7 +219,7 @@ describe('Tabs.Overflow', () => {
         });
 
         // Wheel to move
-        const node = (wrapper.find('.rc-tabs-nav-wrap').instance() as unknown) as HTMLElement;
+        const node = wrapper.find('.rc-tabs-nav-wrap').instance() as unknown as HTMLElement;
         const touchStart = new WheelEvent('wheel', {
           deltaX: 20,
           deltaY: 20,
@@ -322,7 +323,7 @@ describe('Tabs.Overflow', () => {
 
     list.forEach(({ name, trigger }) => {
       it(`remove by ${name} in dropdown menu`, () => {
-        console.log('run here')
+        console.log('run here');
         jest.useFakeTimers();
         const onEdit = jest.fn();
         const wrapper = mount(getTabs({ editable: { onEdit } }));
@@ -343,9 +344,9 @@ describe('Tabs.Overflow', () => {
 
         // Should be button to enable press SPACE key to trigger
         expect(first.instance() instanceof HTMLButtonElement).toBeTruthy();
-        
+
         expect(onEdit).toHaveBeenCalledWith('remove', {
-          key: 'bamboo',
+          key: 'cute',
           event: expect.anything(),
         });
 
@@ -353,5 +354,24 @@ describe('Tabs.Overflow', () => {
         jest.useRealTimers();
       });
     });
-  })
+  });
+
+  it('should calculate hidden tabs correctly', () => {
+    jest.useFakeTimers();
+    const onEdit = jest.fn();
+    const wrapper = mount(getTabs({ editable: { onEdit }, activeKey: 'miu' }));
+
+    triggerResize(wrapper);
+    act(() => {
+      jest.runAllTimers();
+      wrapper.update();
+    });
+
+    wrapper.find('.rc-tabs-nav-more').simulate('mouseenter');
+    act(() => {
+      jest.runAllTimers();
+      wrapper.update();
+    });
+    expect(wrapper.find('.rc-tabs-dropdown-menu').first().text()).not.toContain('miu');
+  });
 });

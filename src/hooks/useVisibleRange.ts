@@ -30,7 +30,7 @@ export default function useVisibleRange(
   const addSize = addNodeSize[unit];
 
   let mergedBasicSize = basicSize;
-  if (tabContentSize + addSize > basicSize) {
+  if (tabContentSize + addSize > basicSize && tabContentSize < basicSize) {
     mergedBasicSize = basicSize - addSize;
   }
 
