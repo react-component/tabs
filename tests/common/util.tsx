@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-invalid-this */
 import React from 'react';
-import { ReactWrapper } from 'enzyme';
+import type { ReactWrapper } from 'enzyme';
 import Tabs, { TabPane } from '../../src';
-import { TabsProps } from '../../src/Tabs';
+import type { TabsProps } from '../../src/Tabs';
 
 export function getOffsetSizeFunc(
   info: {
@@ -18,7 +19,7 @@ export function getOffsetSizeFunc(
       return 20;
     }
     if (this.className.includes('rc-tabs-nav-list')) {
-      return info.list || 5 * 20;
+      return info.list || 5 * 20 + 10;
     }
     if (this.className.includes('rc-tabs-nav-wrap')) {
       return info.wrapper || 40;
@@ -85,9 +86,5 @@ export function getTabs(props: TabsProps = null) {
 }
 
 export function triggerResize(wrapper: ReactWrapper) {
-  (wrapper
-    .find('.rc-tabs-nav')
-    .find('ResizeObserver')
-    .first()
-    .props() as any).onResize();
+  (wrapper.find('.rc-tabs-nav').find('ResizeObserver').first().props() as any).onResize();
 }
