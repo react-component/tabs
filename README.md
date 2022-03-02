@@ -126,3 +126,15 @@ open coverage/ dir
 ## License
 
 rc-tabs is released under the MIT license.
+
+## FAQ
+
+### Resposive Tabs
+
+There are 3 cases when handling resposive tabs:
+![image](https://user-images.githubusercontent.com/27722486/156315099-7e6eda9d-ab77-4b16-9b49-1727c5ec8b26.png)
+
+We get hidden tabs through [useVisibleRange.ts](https://github.com/react-component/tabs/blob/master/src/hooks/useVisibleRange.ts).
+If enconter the third case, in order to make tabs responsive, some tabs should be hidden. 
+So we minus `addSize` when calculating `basicSize` manully, even though there's no addNode in container.
+In this way, case 3 turns to case 2, tabs become stable again.
