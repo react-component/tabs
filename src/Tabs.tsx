@@ -57,6 +57,7 @@ export interface TabsProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'o
   onTabScroll?: OnTabScroll;
 
   editable?: EditableConfig;
+  getPopupContainer?: (node: HTMLElement) => HTMLElement;
 
   // Accessibility
   locale?: TabsLocale;
@@ -110,6 +111,7 @@ function Tabs(
     onChange,
     onTabClick,
     onTabScroll,
+    getPopupContainer,
     ...restProps
   }: TabsProps,
   ref: React.Ref<HTMLDivElement>,
@@ -214,6 +216,7 @@ function Tabs(
     extra: tabBarExtraContent,
     style: tabBarStyle,
     panes: children,
+    getPopupContainer,
   };
 
   if (renderTabBar) {

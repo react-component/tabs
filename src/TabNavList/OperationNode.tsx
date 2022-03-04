@@ -24,6 +24,7 @@ export interface OperationNodeProps {
   removeAriaLabel?: string;
   onTabClick: (key: React.Key, e: React.MouseEvent | React.KeyboardEvent) => void;
   tabMoving?: boolean;
+  getPopupContainer?: (node: HTMLElement) => HTMLElement;
 }
 
 function OperationNode(
@@ -42,6 +43,7 @@ function OperationNode(
     rtl,
     removeAriaLabel,
     onTabClick,
+    getPopupContainer,
   }: OperationNodeProps,
   ref: React.Ref<HTMLDivElement>,
 ) {
@@ -77,7 +79,7 @@ function OperationNode(
       selectedKeys={[selectedKey]}
       aria-label={dropdownAriaLabel !== undefined ? dropdownAriaLabel : 'expanded dropdown'}
     >
-      {tabs.map((tab) => {
+      {tabs.map(tab => {
         const removable = editable && tab.closable !== false && !tab.disabled;
         return (
           <MenuItem
@@ -95,7 +97,7 @@ function OperationNode(
                 aria-label={removeAriaLabel || 'remove'}
                 tabIndex={0}
                 className={`${dropdownPrefix}-menu-item-remove`}
-                onClick={(e) => {
+                onClick={e => {
                   e.stopPropagation();
                   onRemoveTab(e, tab.key);
                 }}
@@ -110,8 +112,8 @@ function OperationNode(
   );
 
   function selectOffset(offset: -1 | 1) {
-    const enabledTabs = tabs.filter((tab) => !tab.disabled);
-    let selectedIndex = enabledTabs.findIndex((tab) => tab.key === selectedKey) || 0;
+    const enabledTabs = tabs.filter(tab => !tab.disabled);
+    let selectedIndex = enabledTabs.findIndex(tab => tab.key === selectedKey) || 0;
     const len = enabledTabs.length;
 
     for (let i = 0; i < len; i += 1) {
@@ -193,6 +195,7 @@ function OperationNode(
       overlayClassName={overlayClassName}
       mouseEnterDelay={0.1}
       mouseLeaveDelay={0.1}
+      getPopupContainer={getPopupContainer}
     >
       <button
         type="button"
