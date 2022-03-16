@@ -10,8 +10,8 @@ React Tabs component.
 [npm-url]: http://npmjs.org/package/rc-tabs
 [github-actions-image]: https://github.com/react-component/tabs/workflows/CI/badge.svg
 [github-actions-url]: https://github.com/react-component/tabs/actions
-[circleci-image]: https://img.shields.io/circleci/react-component/tabs/master?style=flat-square
-[circleci-url]: https://circleci.com/gh/react-component/tabs
+[codecov-image]: https://img.shields.io/codecov/c/github/react-component/tabs/master.svg?style=flat-square
+[codecov-url]: https://codecov.io/gh/react-component/tabs/branch/master
 [download-image]: https://img.shields.io/npm/dm/rc-tabs.svg?style=flat-square
 [download-url]: https://npmjs.org/package/rc-tabs
 [bundlephobia-url]: https://bundlephobia.com/result?p=rc-tabs
