@@ -43,7 +43,7 @@ export default function useVisibleRange(
     let endIndex = len;
     for (let i = 0; i < len; i += 1) {
       const offset = tabOffsets.get(tabs[i].key) || DEFAULT_SIZE;
-      if (offset[position] + offset[unit] > transformSize + mergedBasicSize) {
+      if (offset[position] + offset[unit] > transformSize + mergedBasicSize + 2) {
         endIndex = i - 1;
         break;
       }
