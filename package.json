@@ -1,6 +1,6 @@
 {
   "name": "rc-tabs",
-  "version": "11.10.7",
+  "version": "11.10.8",
   "description": "tabs ui component for react",
   "engines": {
     "node": ">=8.x"
@@ -77,7 +77,7 @@
     "@babel/runtime": "^7.11.2",
     "classnames": "2.x",
     "rc-dropdown": "^3.2.0",
-    "rc-menu": "^9.0.0",
+    "rc-menu": "~9.3.2",
     "rc-resize-observer": "^1.0.0",
     "rc-util": "^5.5.0"
   },
