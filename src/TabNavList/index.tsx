@@ -40,6 +40,7 @@ export interface TabNavListProps {
   mobile: boolean;
   tabBarGutter?: number;
   renderTabBar?: RenderTabBar;
+  resizeScrollToTab?: boolean;
   className?: string;
   style?: React.CSSProperties;
   locale?: TabsLocale;
@@ -86,6 +87,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     id,
     animated,
     activeKey,
+    resizeScrollToTab = true,
     rtl,
     extra,
     editable,
@@ -397,9 +399,14 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   }, [activeTabOffset, tabPositionTopOrBottom, rtl]);
 
   // ========================= Effect ========================
+
+  // if resizeScrollToTab false only activeKey or tabPositionTopOrBottom change to scrollToTab
+  const scrollToTabListener = resizeScrollToTab
+    ? [activeKey, activeTabOffset, tabOffsets, tabPositionTopOrBottom]
+    : [activeKey, tabPositionTopOrBottom];
   useEffect(() => {
     scrollToTab();
-  }, [activeKey, activeTabOffset, tabOffsets, tabPositionTopOrBottom]);
+  }, scrollToTabListener);
 
   // Should recalculate when rtl changed
   useEffect(() => {

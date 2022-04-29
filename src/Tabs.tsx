@@ -51,6 +51,7 @@ export interface TabsProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'o
   tabBarStyle?: React.CSSProperties;
   tabPosition?: TabPosition;
   destroyInactiveTabPane?: boolean;
+  resizeScrollToTab?: boolean;
 
   onChange?: (activeKey: string) => void;
   onTabClick?: (activeKey: string, e: React.KeyboardEvent | React.MouseEvent) => void;
@@ -110,6 +111,7 @@ function Tabs(
     onChange,
     onTabClick,
     onTabScroll,
+    resizeScrollToTab,
     ...restProps
   }: TabsProps,
   ref: React.Ref<HTMLDivElement>,
@@ -211,6 +213,7 @@ function Tabs(
     tabBarGutter,
     onTabClick: onInternalTabClick,
     onTabScroll,
+    resizeScrollToTab,
     extra: tabBarExtraContent,
     style: tabBarStyle,
     panes: children,
