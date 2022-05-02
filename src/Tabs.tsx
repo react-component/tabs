@@ -65,6 +65,8 @@ export interface TabsProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'o
   moreIcon?: React.ReactNode;
   /** @private Internal usage. Not promise will rename in future */
   moreTransitionName?: string;
+
+  allowScrollCrossTabOnTouchMove?: boolean;
 }
 
 function parseTabList(children: React.ReactNode): Tab[] {
@@ -110,6 +112,7 @@ function Tabs(
     onChange,
     onTabClick,
     onTabScroll,
+    allowScrollCrossTabOnTouchMove,
     ...restProps
   }: TabsProps,
   ref: React.Ref<HTMLDivElement>,
@@ -215,12 +218,24 @@ function Tabs(
     style: tabBarStyle,
     panes: children,
   };
-
+  
   if (renderTabBar) {
     tabNavBar = renderTabBar(tabNavBarProps, TabNavList);
   } else {
     tabNavBar = <TabNavList {...tabNavBarProps} />;
   }
+  
+  useEffect(() => {
+    if(allowScrollCrossTabOnTouchMove){
+      const rcTabsNav : Element | undefined = document.getElementsByClassName('rc-tabs-nav')[0];
+      if(rcTabsNav){
+        rcTabsNav.addEventListener('touchmove', function(ev){
+          ev.stopPropagation();
+        })
+      }
+    }
+      
+  }, []);
 
   return (
     <TabContext.Provider value={{ tabs, prefixCls }}>
