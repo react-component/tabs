@@ -15,6 +15,9 @@ export default function useRaf<Callback extends Function>(callback: Callback) {
   }
 
   useEffect(() => {
+    //be compatible with react 18 StrictMode in dev
+    removedRef.current = false;
+
     return () => {
       removedRef.current = true;
       raf.cancel(rafRef.current);
