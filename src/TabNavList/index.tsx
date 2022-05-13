@@ -117,8 +117,6 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
 
   const [wrapperScrollWidth, setWrapperScrollWidth] = useState<number>(0);
   const [wrapperScrollHeight, setWrapperScrollHeight] = useState<number>(0);
-  const [wrapperContentWidth, setWrapperContentWidth] = useState<number>(0);
-  const [wrapperContentHeight, setWrapperContentHeight] = useState<number>(0);
   const [wrapperWidth, setWrapperWidth] = useState<number>(null);
   const [wrapperHeight, setWrapperHeight] = useState<number>(null);
   const [addWidth, setAddWidth] = useState<number>(0);
@@ -265,8 +263,8 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
       top: transformTop,
     },
     {
-      width: wrapperContentWidth,
-      height: wrapperContentHeight,
+      width: wrapperScrollWidth,
+      height: wrapperScrollHeight,
     },
     {
       width: addWidth,
@@ -326,8 +324,6 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     const offsetHeight = tabsWrapperRef.current?.offsetHeight || 0;
     const newAddWidth = innerAddButtonRef.current?.offsetWidth || 0;
     const newAddHeight = innerAddButtonRef.current?.offsetHeight || 0;
-    const newOperationWidth = operationsRef.current?.offsetWidth || 0;
-    const newOperationHeight = operationsRef.current?.offsetHeight || 0;
 
     setWrapperWidth(offsetWidth);
     setWrapperHeight(offsetHeight);
@@ -339,10 +335,6 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
 
     setWrapperScrollWidth(newWrapperScrollWidth);
     setWrapperScrollHeight(newWrapperScrollHeight);
-
-    const isOperationHidden = operationsRef.current?.className.includes(operationsHiddenClassName);
-    setWrapperContentWidth(newWrapperScrollWidth - (isOperationHidden ? 0 : newOperationWidth));
-    setWrapperContentHeight(newWrapperScrollHeight - (isOperationHidden ? 0 : newOperationHeight));
 
     // Update buttons records
     setTabSizes(() => {

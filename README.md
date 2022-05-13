@@ -4,20 +4,14 @@
 
 React Tabs component.
 
-[![NPM version][npm-image]][npm-url] [![dumi](https://img.shields.io/badge/docs%20by-dumi-blue?style=flat-square)](https://github.com/umijs/dumi) [![build status][github-actions-image]][github-actions-url] [![Test coverage][coveralls-image]][coveralls-url] [![Dependencies][david-image]][david-url] [![DevDependencies][david-dev-image]][david-dev-url] [![npm download][download-image]][download-url] [![bundle size][bundlephobia-image]][bundlephobia-url]
+[![NPM version][npm-image]][npm-url] [![dumi](https://img.shields.io/badge/docs%20by-dumi-blue?style=flat-square)](https://github.com/umijs/dumi) [![build status][github-actions-image]][github-actions-url] [![Test coverage][codecov-image]][codecov-url] [![npm download][download-image]][download-url] [![bundle size][bundlephobia-image]][bundlephobia-url]
 
 [npm-image]: http://img.shields.io/npm/v/rc-tabs.svg?style=flat-square
 [npm-url]: http://npmjs.org/package/rc-tabs
 [github-actions-image]: https://github.com/react-component/tabs/workflows/CI/badge.svg
 [github-actions-url]: https://github.com/react-component/tabs/actions
-[circleci-image]: https://img.shields.io/circleci/react-component/tabs/master?style=flat-square
-[circleci-url]: https://circleci.com/gh/react-component/tabs
-[coveralls-image]: https://img.shields.io/coveralls/react-component/tabs.svg?style=flat-square
-[coveralls-url]: https://coveralls.io/r/react-component/tabs?branch=master
-[david-url]: https://david-dm.org/react-component/tabs
-[david-image]: https://david-dm.org/react-component/tabs/status.svg?style=flat-square
-[david-dev-url]: https://david-dm.org/react-component/tabs?type=dev
-[david-dev-image]: https://david-dm.org/react-component/tabs/dev-status.svg?style=flat-square
+[codecov-image]: https://img.shields.io/codecov/c/github/react-component/tabs/master.svg?style=flat-square
+[codecov-url]: https://codecov.io/gh/react-component/tabs/branch/master
 [download-image]: https://img.shields.io/npm/dm/rc-tabs.svg?style=flat-square
 [download-url]: https://npmjs.org/package/rc-tabs
 [bundlephobia-url]: https://bundlephobia.com/result?p=rc-tabs
@@ -126,3 +120,15 @@ open coverage/ dir
 ## License
 
 rc-tabs is released under the MIT license.
+
+## FAQ
+
+### Resposive Tabs
+
+There are 3 cases when handling resposive tabs:
+![image](https://user-images.githubusercontent.com/27722486/156315099-7e6eda9d-ab77-4b16-9b49-1727c5ec8b26.png)
+
+We get hidden tabs through [useVisibleRange.ts](https://github.com/react-component/tabs/blob/master/src/hooks/useVisibleRange.ts).
+If enconter the third case, in order to make tabs responsive, some tabs should be hidden. 
+So we minus `addSize` when calculating `basicSize` manully, even though there's no addNode in container.
+In this way, case 3 turns to case 2, tabs become stable again.

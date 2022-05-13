@@ -346,7 +346,7 @@ describe('Tabs.Overflow', () => {
         expect(first.instance() instanceof HTMLButtonElement).toBeTruthy();
 
         expect(onEdit).toHaveBeenCalledWith('remove', {
-          key: 'bamboo',
+          key: 'cute',
           event: expect.anything(),
         });
 
@@ -414,5 +414,24 @@ describe('Tabs.Overflow', () => {
 
       wrapper.unmount();
     });
+  });
+
+  it('should calculate hidden tabs correctly', () => {
+    jest.useFakeTimers();
+    const onEdit = jest.fn();
+    const wrapper = mount(getTabs({ editable: { onEdit }, activeKey: 'miu' }));
+
+    triggerResize(wrapper);
+    act(() => {
+      jest.runAllTimers();
+      wrapper.update();
+    });
+
+    wrapper.find('.rc-tabs-nav-more').simulate('mouseenter');
+    act(() => {
+      jest.runAllTimers();
+      wrapper.update();
+    });
+    expect(wrapper.find('.rc-tabs-dropdown-menu').first().text()).not.toContain('miu');
   });
 });
