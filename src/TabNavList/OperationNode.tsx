@@ -24,7 +24,6 @@ export interface OperationNodeProps {
   removeAriaLabel?: string;
   onTabClick: (key: React.Key, e: React.MouseEvent | React.KeyboardEvent) => void;
   tabMoving?: boolean;
-  hiddenDropdown?: boolean;
 }
 
 function OperationNode(
@@ -42,7 +41,6 @@ function OperationNode(
     tabBarGutter,
     rtl,
     removeAriaLabel,
-    hiddenDropdown,
     onTabClick,
   }: OperationNodeProps,
   ref: React.Ref<HTMLDivElement>,
@@ -189,7 +187,7 @@ function OperationNode(
       prefixCls={dropdownPrefix}
       overlay={menu}
       trigger={['hover']}
-      visible={hiddenDropdown === true ? false : open}
+      visible={tabs.length ? open : false}
       transitionName={moreTransitionName}
       onVisibleChange={setOpen}
       overlayClassName={overlayClassName}

@@ -488,7 +488,6 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
         ref={operationsRef}
         prefixCls={prefixCls}
         tabs={hiddenTabs}
-        hiddenDropdown={!hasDropdown}
         className={!hasDropdown && operationsHiddenClassName}
         tabMoving={!!lockAnimation}
       />
