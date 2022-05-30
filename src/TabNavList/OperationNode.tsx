@@ -70,6 +70,7 @@ function OperationNode(
         onTabClick(key, domEvent);
         setOpen(false);
       }}
+      prefixCls={`${dropdownPrefix}-menu`}
       id={popupId}
       tabIndex={-1}
       role="listbox"
@@ -77,7 +78,7 @@ function OperationNode(
       selectedKeys={[selectedKey]}
       aria-label={dropdownAriaLabel !== undefined ? dropdownAriaLabel : 'expanded dropdown'}
     >
-      {tabs.map((tab) => {
+      {tabs.map(tab => {
         const removable = editable && tab.closable !== false && !tab.disabled;
         return (
           <MenuItem
@@ -95,7 +96,7 @@ function OperationNode(
                 aria-label={removeAriaLabel || 'remove'}
                 tabIndex={0}
                 className={`${dropdownPrefix}-menu-item-remove`}
-                onClick={(e) => {
+                onClick={e => {
                   e.stopPropagation();
                   onRemoveTab(e, tab.key);
                 }}
@@ -110,8 +111,8 @@ function OperationNode(
   );
 
   function selectOffset(offset: -1 | 1) {
-    const enabledTabs = tabs.filter((tab) => !tab.disabled);
-    let selectedIndex = enabledTabs.findIndex((tab) => tab.key === selectedKey) || 0;
+    const enabledTabs = tabs.filter(tab => !tab.disabled);
+    let selectedIndex = enabledTabs.findIndex(tab => tab.key === selectedKey) || 0;
     const len = enabledTabs.length;
 
     for (let i = 0; i < len; i += 1) {
