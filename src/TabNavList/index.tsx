@@ -25,6 +25,7 @@ import useTouchMove from '../hooks/useTouchMove';
 import useRefs from '../hooks/useRefs';
 import AddButton from './AddButton';
 import useSyncState from '../hooks/useSyncState';
+import type { DropdownProps } from 'rc-dropdown/lib/Dropdown';
 
 export interface TabNavListProps {
   id: string;
@@ -36,6 +37,7 @@ export interface TabNavListProps {
   extra?: TabBarExtraContent;
   editable?: EditableConfig;
   moreIcon?: React.ReactNode;
+  moreTabsDropdownProps?: Partial<DropdownProps>;
   moreTransitionName?: string;
   mobile: boolean;
   tabBarGutter?: number;
@@ -95,6 +97,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     children,
     onTabClick,
     onTabScroll,
+    moreTabsDropdownProps,
   } = props;
   const tabsWrapperRef = useRef<HTMLDivElement>();
   const tabListRef = useRef<HTMLDivElement>();
@@ -488,6 +491,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
         ref={operationsRef}
         prefixCls={prefixCls}
         tabs={hiddenTabs}
+        moreTabsDropdownProps={moreTabsDropdownProps}
         className={!hasDropdown && operationsHiddenClassName}
         tabMoving={!!lockAnimation}
       />

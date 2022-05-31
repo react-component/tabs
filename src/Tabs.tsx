@@ -20,6 +20,7 @@ import type {
   TabBarExtraContent,
 } from './interface';
 import TabContext from './TabContext';
+import type { DropdownProps } from 'rc-dropdown/lib/Dropdown';
 
 /**
  * Should added antd:
@@ -51,6 +52,7 @@ export interface TabsProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'o
   tabBarStyle?: React.CSSProperties;
   tabPosition?: TabPosition;
   destroyInactiveTabPane?: boolean;
+  moreTabsDropdownProps?: Partial<DropdownProps>;
 
   onChange?: (activeKey: string) => void;
   onTabClick?: (activeKey: string, e: React.KeyboardEvent | React.MouseEvent) => void;
@@ -106,6 +108,7 @@ function Tabs(
     moreIcon,
     moreTransitionName,
     destroyInactiveTabPane,
+    moreTabsDropdownProps,
     renderTabBar,
     onChange,
     onTabClick,
@@ -214,6 +217,7 @@ function Tabs(
     extra: tabBarExtraContent,
     style: tabBarStyle,
     panes: children,
+    moreTabsDropdownProps,
   };
 
   if (renderTabBar) {
