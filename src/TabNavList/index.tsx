@@ -46,6 +46,7 @@ export interface TabNavListProps {
   onTabClick: (activeKey: string, e: React.MouseEvent | React.KeyboardEvent) => void;
   onTabScroll?: OnTabScroll;
   children?: (node: React.ReactElement) => React.ReactElement;
+  popupClassName?: string;
 }
 
 interface ExtraContentProps {
