@@ -24,6 +24,7 @@ export interface OperationNodeProps {
   removeAriaLabel?: string;
   onTabClick: (key: React.Key, e: React.MouseEvent | React.KeyboardEvent) => void;
   tabMoving?: boolean;
+  popupClassName?: string;
 }
 
 function OperationNode(
@@ -42,6 +43,7 @@ function OperationNode(
     rtl,
     removeAriaLabel,
     onTabClick,
+    popupClassName,
   }: OperationNodeProps,
   ref: React.Ref<HTMLDivElement>,
 ) {
@@ -191,7 +193,7 @@ function OperationNode(
       visible={open}
       transitionName={moreTransitionName}
       onVisibleChange={setOpen}
-      overlayClassName={overlayClassName}
+      overlayClassName={classNames(overlayClassName, popupClassName)}
       mouseEnterDelay={0.1}
       mouseLeaveDelay={0.1}
     >
