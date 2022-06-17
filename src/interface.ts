@@ -1,3 +1,4 @@
+import React from 'react';
 import type { TabNavListProps } from './TabNavList';
 import type { TabPaneProps } from './TabPanelList/TabPane';
 
@@ -18,13 +19,13 @@ export type TabOffsetMap = Map<React.Key, TabOffset>;
 export type TabPosition = 'left' | 'right' | 'top' | 'bottom';
 
 export interface Tab extends TabPaneProps {
-  key: string;
+  key: React.Key;
   node: React.ReactElement;
 }
 
 type RenderTabBarProps = {
   id: string;
-  activeKey: string;
+  activeKey: React.Key;
   animated: AnimatedConfig;
   tabPosition: TabPosition;
   rtl: boolean;
@@ -55,7 +56,7 @@ export interface TabsLocale {
 export interface EditableConfig {
   onEdit: (
     type: 'add' | 'remove',
-    info: { key?: string; event: React.MouseEvent | React.KeyboardEvent },
+    info: { key?: React.Key; event: React.MouseEvent | React.KeyboardEvent },
   ) => void;
   showAdd?: boolean;
   removeIcon?: React.ReactNode;

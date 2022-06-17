@@ -42,7 +42,7 @@ export interface TabsProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'o
   id?: string;
 
   activeKey?: string;
-  defaultActiveKey?: string;
+  defaultActiveKey?: React.Key;
   direction?: 'ltr' | 'rtl';
   animated?: boolean | AnimatedConfig;
   renderTabBar?: RenderTabBar;
@@ -147,7 +147,7 @@ function Tabs(
   }, []);
 
   // ====================== Active Key ======================
-  const [mergedActiveKey, setMergedActiveKey] = useMergedState<string>(() => tabs[0]?.key, {
+  const [mergedActiveKey, setMergedActiveKey] = useMergedState<React.Key>(() => tabs[0]?.key, {
     value: activeKey,
     defaultValue: defaultActiveKey,
   });

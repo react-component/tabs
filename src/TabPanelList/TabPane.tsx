@@ -13,7 +13,7 @@ export interface TabPaneProps {
 
   // Pass by TabPaneList
   prefixCls?: string;
-  tabKey?: string;
+  tabKey?: React.Key;
   id?: string;
   animated?: boolean;
   active?: boolean;

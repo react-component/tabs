@@ -15,7 +15,7 @@ export interface OperationNodeProps {
   tabs: Tab[];
   rtl: boolean;
   tabBarGutter?: number;
-  activeKey: string;
+  activeKey: React.Key;
   mobile: boolean;
   moreIcon?: React.ReactNode;
   moreTransitionName?: string;
@@ -49,7 +49,7 @@ function OperationNode(
 ) {
   // ======================== Dropdown ========================
   const [open, setOpen] = useState(false);
-  const [selectedKey, setSelectedKey] = useState<string>(null);
+  const [selectedKey, setSelectedKey] = useState<React.Key>(null);
 
   const popupId = `${id}-more-popup`;
   const dropdownPrefix = `${prefixCls}-dropdown`;
@@ -57,7 +57,7 @@ function OperationNode(
 
   const dropdownAriaLabel = locale?.dropdownAriaLabel;
 
-  function onRemoveTab(event: React.MouseEvent | React.KeyboardEvent, key: string) {
+  function onRemoveTab(event: React.MouseEvent | React.KeyboardEvent, key: React.Key) {
     event.preventDefault();
     event.stopPropagation();
     editable.onEdit('remove', {
