@@ -374,4 +374,24 @@ describe('Tabs.Overflow', () => {
     });
     expect(wrapper.find('.rc-tabs-dropdown-menu').first().text()).not.toContain('miu');
   });
+
+  it('should support popupClassName', () => {
+    jest.useFakeTimers();
+    const wrapper = mount(getTabs({ popupClassName: 'custom-popup' }));
+
+    triggerResize(wrapper);
+    act(() => {
+      jest.runAllTimers();
+      wrapper.update();
+    });
+
+    wrapper.find('.rc-tabs-nav-more').simulate('mouseenter');
+    act(() => {
+      jest.runAllTimers();
+      wrapper.update();
+    });
+    expect(wrapper.find('.rc-tabs-dropdown').first().getDOMNode().className).toContain(
+      'custom-popup',
+    );
+  });
 });

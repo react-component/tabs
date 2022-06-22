@@ -47,6 +47,7 @@ export interface TabNavListProps {
   onTabScroll?: OnTabScroll;
   children?: (node: React.ReactElement) => React.ReactElement;
   getPopupContainer?: (node: HTMLElement) => HTMLElement;
+  popupClassName?: string;
 }
 
 interface ExtraContentProps {

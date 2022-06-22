@@ -66,6 +66,8 @@ export interface TabsProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'o
   moreIcon?: React.ReactNode;
   /** @private Internal usage. Not promise will rename in future */
   moreTransitionName?: string;
+
+  popupClassName?: string;
 }
 
 function parseTabList(children: React.ReactNode): Tab[] {
@@ -112,6 +114,7 @@ function Tabs(
     onTabClick,
     onTabScroll,
     getPopupContainer,
+    popupClassName,
     ...restProps
   }: TabsProps,
   ref: React.Ref<HTMLDivElement>,
@@ -217,6 +220,7 @@ function Tabs(
     style: tabBarStyle,
     panes: children,
     getPopupContainer,
+    popupClassName,
   };
 
   if (renderTabBar) {
