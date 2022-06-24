@@ -1,17 +1,16 @@
-import React from 'react';
 import type { ReactWrapper } from 'enzyme';
 import { mount } from 'enzyme';
 import KeyCode from 'rc-util/lib/KeyCode';
 import { spyElementPrototypes } from 'rc-util/lib/test/domHook';
 import { act } from 'react-dom/test-utils';
+import { TabPane } from '../src';
 import {
   getOffsetSizeFunc,
   getTabs,
-  triggerResize,
   getTransformX,
   getTransformY,
+  triggerResize,
 } from './common/util';
-import { TabPane } from '../src';
 
 describe('Tabs.Overflow', () => {
   let domSpy: ReturnType<typeof spyElementPrototypes>;
@@ -373,6 +372,12 @@ describe('Tabs.Overflow', () => {
       wrapper.update();
     });
     expect(wrapper.find('.rc-tabs-dropdown-menu').first().text()).not.toContain('miu');
+  });
+
+  it('should support getPopupContainer', () => {
+    const getPopupContainer = trigger => trigger.parentNode;
+    const wrapper = mount(getTabs({ getPopupContainer }));
+    expect(wrapper.find('Trigger').first().props().getPopupContainer).toBe(getPopupContainer);
   });
 
   it('should support popupClassName', () => {

@@ -24,6 +24,7 @@ export interface OperationNodeProps {
   removeAriaLabel?: string;
   onTabClick: (key: React.Key, e: React.MouseEvent | React.KeyboardEvent) => void;
   tabMoving?: boolean;
+  getPopupContainer?: (node: HTMLElement) => HTMLElement;
   popupClassName?: string;
 }
 
@@ -43,6 +44,7 @@ function OperationNode(
     rtl,
     removeAriaLabel,
     onTabClick,
+    getPopupContainer,
     popupClassName,
   }: OperationNodeProps,
   ref: React.Ref<HTMLDivElement>,
@@ -196,6 +198,7 @@ function OperationNode(
       overlayClassName={classNames(overlayClassName, popupClassName)}
       mouseEnterDelay={0.1}
       mouseLeaveDelay={0.1}
+      getPopupContainer={getPopupContainer}
     >
       <button
         type="button"
