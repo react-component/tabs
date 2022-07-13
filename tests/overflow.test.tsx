@@ -3,7 +3,6 @@ import { mount } from 'enzyme';
 import KeyCode from 'rc-util/lib/KeyCode';
 import { spyElementPrototypes } from 'rc-util/lib/test/domHook';
 import { act } from 'react-dom/test-utils';
-import { TabPane } from '../src';
 import {
   getOffsetSizeFunc,
   getTabs,
@@ -11,6 +10,7 @@ import {
   getTransformY,
   triggerResize,
 } from './common/util';
+import Tabs, { TabPane } from '../src';
 
 describe('Tabs.Overflow', () => {
   let domSpy: ReturnType<typeof spyElementPrototypes>;
@@ -352,6 +352,66 @@ describe('Tabs.Overflow', () => {
         wrapper.unmount();
         jest.useRealTimers();
       });
+    });
+
+    it('auto hidden Dropdown', () => {
+      console.log('run here');
+      jest.useFakeTimers();
+
+      let children = new Array(8).fill(0).map((_, index) => {
+        return (
+          <TabPane key={index} tab={`Tab ${index + 1}`}>
+            {`Tab Content${index + 1}`}
+          </TabPane>
+        );
+      });
+
+      const wrapper = mount(
+        <Tabs
+          editable={{
+            onEdit(type, { key }) {
+              if (type === 'remove') {
+                children = children.filter(ele => {
+                  return ele.key !== key.toString();
+                });
+                wrapper.setProps({
+                  children,
+                });
+              }
+            },
+          }}
+        >
+          {children}
+        </Tabs>,
+      );
+
+      triggerResize(wrapper);
+
+      act(() => {
+        jest.runAllTimers();
+        wrapper.update();
+      });
+
+      // Click to open
+      wrapper.find('.rc-tabs-nav-more').simulate('mouseenter');
+      jest.runAllTimers();
+      wrapper.update();
+
+      act(() => {
+        while (true) {
+          const remove = wrapper.find('.rc-tabs-dropdown-menu-item-remove');
+          if (!remove.exists()) return;
+          act(() => {
+            remove.first().simulate('click');
+          });
+          jest.runAllTimers();
+          wrapper.update();
+        }
+      });
+
+      expect(wrapper.find('.rc-tabs-dropdown-hidden').exists()).toBeTruthy();
+
+      wrapper.unmount();
     });
   });
 

@@ -192,7 +192,7 @@ function OperationNode(
       prefixCls={dropdownPrefix}
       overlay={menu}
       trigger={['hover']}
-      visible={open}
+      visible={tabs.length ? open : false}
       transitionName={moreTransitionName}
       onVisibleChange={setOpen}
       overlayClassName={classNames(overlayClassName, popupClassName)}
