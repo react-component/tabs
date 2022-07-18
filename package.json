@@ -53,7 +53,7 @@
     "enzyme": "^3.7.0",
     "enzyme-adapter-react-16": "^1.7.0",
     "enzyme-to-json": "^3.3.4",
-    "eslint": "^7.0.0",
+    "eslint": "^8.20.0",
     "fastclick": "~1.0.6",
     "father": "^2.29.2",
     "gh-pages": "^3.1.0",
