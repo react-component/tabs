@@ -123,7 +123,7 @@ function Tabs(
   const rtl = direction === 'rtl';
 
   let mergedAnimated: AnimatedConfig | false;
-  if (animated === false) {
+  if (animated === false || ['left', 'right'].includes(tabPosition)) {
     mergedAnimated = {
       inkBar: false,
       tabPane: false,
