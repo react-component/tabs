@@ -168,8 +168,12 @@ describe('Tabs.Basic', () => {
     const wrapper = mount(
       getTabs({
         activeKey: 'light',
-        destroyInactiveTabPane: true,
-        children: [<TabPane key="light">Light</TabPane>, <TabPane key="bamboo">Bamboo</TabPane>],
+        children: [
+          <TabPane key="light" destroyInactiveTabPane={true}>
+            Light
+          </TabPane>,
+          <TabPane key="bamboo">Bamboo</TabPane>,
+        ],
       }),
     );
 
@@ -182,6 +186,9 @@ describe('Tabs.Basic', () => {
 
     wrapper.setProps({ activeKey: 'bamboo' });
     matchText('', 'Bamboo');
+
+    wrapper.setProps({ activeKey: 'light' });
+    matchText('Light', 'Bamboo');
   });
 
   describe('editable', () => {

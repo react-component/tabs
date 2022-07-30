@@ -71,7 +71,6 @@ React.render(
 | activeKey | string | - | current active tabPanel's key |
 | animated | boolean \| { inkBar: boolean, tabPane: boolean } | `{ inkBar: true, tabPane: false }` | config animation |
 | defaultActiveKey | string | - | initial active tabPanel's key if activeKey is absent |
-| destroyInactiveTabPane | boolean | false | whether destroy inactive TabPane when change tab |
 | direction | `'ltr' | 'rlt'` | `'ltr'` | Layout direction of tabs component |
 | editable | { onEdit(type: 'add' | 'remove', info: { key, event }), showAdd: boolean, removeIcon: ReactNode, addIcon: ReactNode } | - | config tab editable |
 | locale | { dropdownAriaLabel: string, removeAriaLabel: string, addAriaLabel: string } | - | Accessibility locale help text |
@@ -94,6 +93,7 @@ React.render(
 | forceRender | boolean | false | forced render of content in tabs, not lazy render after clicking on tabs |
 | tab | ReactNode | - | current tab's title corresponding to current tabPane |
 | closeIcon | ReactNode | - | Config close icon |
+| destroyInactiveTabPane | boolean | false | whether destroy inactive TabPane when change tab |
 
 ## Development
 

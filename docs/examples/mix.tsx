@@ -82,7 +82,17 @@ export default () => {
           <input
             type="checkbox"
             checked={destroyInactiveTabPane}
-            onChange={() => setDestroyInactiveTabPane(val => !val)}
+            onChange={() => {
+              setTabPanes(tabs =>
+                tabs.map(tab =>
+                  React.cloneElement(tab, {
+                    ...tab.props,
+                    destroyInactiveTabPane: !tab.props.destroyInactiveTabPane,
+                  }),
+                ),
+              );
+              setDestroyInactiveTabPane(val => !val);
+            }}
           />
           Destroy Inactive TabPane
         </label>
@@ -150,7 +160,6 @@ export default () => {
             onTabScroll={info => {
               console.log('Scroll:', info);
             }}
-            destroyInactiveTabPane={destroyInactiveTabPane}
             animated={{ tabPane: animated }}
             editable={editableConfig}
             direction={rtl ? 'rtl' : null}
