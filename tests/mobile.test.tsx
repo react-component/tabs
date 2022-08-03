@@ -1,9 +1,10 @@
 import React from 'react';
-import { mount, ReactWrapper } from 'enzyme';
+import { mount } from 'enzyme';
+import type { ReactWrapper } from 'enzyme';
 import { spyElementPrototypes } from 'rc-util/lib/test/domHook';
 import { act } from 'react-dom/test-utils';
-import Tabs, { TabPane } from '../src';
-import { TabsProps } from '../src/Tabs';
+import Tabs from '../src';
+import type { TabsProps } from '../src';
 import { getTransformX } from './common/util';
 
 describe('Tabs.Mobile', () => {
@@ -25,16 +26,16 @@ describe('Tabs.Mobile', () => {
   const tabCount = 100;
 
   function getTabs(props: TabsProps = null) {
-    const children: React.ReactElement[] = [];
+    const items: TabsProps['items'] = [];
     for (let i = 0; i < tabCount; i += 1) {
-      children.push(
-        <TabPane tab={i} key={i}>
-          {i}
-        </TabPane>,
-      );
+      items.push({
+        label: i,
+        key: String(i),
+        children: i,
+      });
     }
 
-    return <Tabs {...props}>{children}</Tabs>;
+    return <Tabs {...props} items={items} />;
   }
 
   describe('mobile is scrollable', () => {
@@ -55,7 +56,7 @@ describe('Tabs.Mobile', () => {
           get() {
             // Mock button offset
             const btn = this as HTMLButtonElement;
-            const btnList = [...btn.parentNode.childNodes].filter(ele =>
+            const btnList = Array.from(btn.parentNode.childNodes).filter(ele =>
               (ele as HTMLElement).className.includes('rc-tabs-tab'),
             );
             const index = btnList.indexOf(btn);
@@ -101,7 +102,7 @@ describe('Tabs.Mobile', () => {
       });
 
       // Touch to move
-      const node = (wrapper.find('.rc-tabs-nav-wrap').instance() as unknown) as HTMLElement;
+      const node = wrapper.find('.rc-tabs-nav-wrap').instance() as unknown as HTMLElement;
 
       act(() => {
         const touchStart = new TouchEvent('touchstart', {

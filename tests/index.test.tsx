@@ -2,22 +2,28 @@ import React from 'react';
 import type { ReactWrapper } from 'enzyme';
 import { mount } from 'enzyme';
 import KeyCode from 'rc-util/lib/KeyCode';
-import Tabs, { TabPane } from '../src';
+import Tabs from '../src';
 import type { TabsProps } from '../src/Tabs';
 
 describe('Tabs.Basic', () => {
   function getTabs(props: TabsProps = null) {
     const mergedProps = {
-      children: [
-        <TabPane tab="light" key="light">
-          Light
-        </TabPane>,
-        <TabPane tab="bamboo" key="bamboo">
-          Bamboo
-        </TabPane>,
-        <TabPane tab="cute" key="cute">
-          Cute
-        </TabPane>,
+      items: [
+        {
+          label: 'light',
+          key: 'light',
+          children: 'Light',
+        },
+        {
+          label: 'bamboo',
+          key: 'bamboo',
+          children: 'Bamboo',
+        },
+        {
+          label: 'cute',
+          key: 'cute',
+          children: 'Cute',
+        },
       ],
       ...props,
     };
@@ -34,11 +40,13 @@ describe('Tabs.Basic', () => {
   it('Skip invalidate children', () => {
     const wrapper = mount(
       getTabs({
-        children: [
-          <TabPane tab="light" key="light">
-            Light
-          </TabPane>,
-          'not me',
+        items: [
+          {
+            label: 'light',
+            key: 'light',
+            children: 'Light',
+          },
+          'not me' as any,
         ],
       }),
     );
@@ -48,7 +56,7 @@ describe('Tabs.Basic', () => {
   });
 
   it('nothing for empty tabs', () => {
-    mount(getTabs({ children: null }));
+    mount(getTabs({ items: null }));
   });
 
   describe('onChange and onTabClick should work', () => {
@@ -97,11 +105,13 @@ describe('Tabs.Basic', () => {
   it('active first tab when children is changed', () => {
     const wrapper = mount(getTabs());
     wrapper.setProps({
-      children: (
-        <TabPane tab="Yo" key="2333">
-          New
-        </TabPane>
-      ),
+      items: [
+        {
+          label: 'Yo',
+          key: '2333',
+          children: 'New',
+        },
+      ],
     });
     wrapper.update();
     expect(wrapper.find('.rc-tabs-tab-active').text()).toEqual('Yo');
@@ -112,11 +122,13 @@ describe('Tabs.Basic', () => {
     expect(wrapper.find('.rc-tabs-tab-active').text()).toEqual('light');
 
     wrapper.setProps({
-      children: (
-        <TabPane tab="Yo" key="2333">
-          New
-        </TabPane>
-      ),
+      items: [
+        {
+          label: 'Yo',
+          key: '2333',
+          children: 'New',
+        },
+      ],
     });
     expect(wrapper.find('.rc-tabs-tab-active')).toHaveLength(0);
   });
@@ -169,7 +181,16 @@ describe('Tabs.Basic', () => {
       getTabs({
         activeKey: 'light',
         destroyInactiveTabPane: true,
-        children: [<TabPane key="light">Light</TabPane>, <TabPane key="bamboo">Bamboo</TabPane>],
+        items: [
+          {
+            key: 'light',
+            children: 'Light',
+          },
+          {
+            key: 'bamboo',
+            children: 'Bamboo',
+          },
+        ] as any,
       }),
     );
 
@@ -233,11 +254,13 @@ describe('Tabs.Basic', () => {
       const wrapper = mount(
         getTabs({
           editable: { onEdit },
-          children: [
-            <TabPane tab="light" closeIcon={<span className="close-light" />}>
-              Light
-            </TabPane>,
-          ],
+          items: [
+            {
+              key: 'light',
+              closeIcon: <span className="close-light" />,
+              children: 'Light',
+            },
+          ] as any,
         }),
       );
 

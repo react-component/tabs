@@ -10,7 +10,8 @@ import {
   getTransformY,
   triggerResize,
 } from './common/util';
-import Tabs, { TabPane } from '../src';
+import type { TabsProps } from '../src';
+import Tabs from '../src';
 
 describe('Tabs.Overflow', () => {
   let domSpy: ReturnType<typeof spyElementPrototypes>;
@@ -209,7 +210,17 @@ describe('Tabs.Overflow', () => {
         hackOffsetInfo.list = 20;
 
         jest.useFakeTimers();
-        const wrapper = mount(getTabs({ children: [<TabPane key="yo">Yo</TabPane>], tabPosition }));
+        const wrapper = mount(
+          getTabs({
+            items: [
+              {
+                key: 'yo',
+                children: 'Yo',
+              } as any,
+            ],
+            tabPosition,
+          }),
+        );
 
         triggerResize(wrapper);
         act(() => {
@@ -358,31 +369,28 @@ describe('Tabs.Overflow', () => {
       console.log('run here');
       jest.useFakeTimers();
 
-      let children = new Array(8).fill(0).map((_, index) => {
-        return (
-          <TabPane key={index} tab={`Tab ${index + 1}`}>
-            {`Tab Content${index + 1}`}
-          </TabPane>
-        );
-      });
+      let items: TabsProps['items'] = new Array(8).fill(0).map((_, index) => ({
+        key: `${index}`,
+        label: `Tab ${index + 1}`,
+        children: `Tab Content${index + 1}`,
+      }));
 
       const wrapper = mount(
         <Tabs
           editable={{
             onEdit(type, { key }) {
               if (type === 'remove') {
-                children = children.filter(ele => {
+                items = items.filter(ele => {
                   return ele.key !== key.toString();
                 });
                 wrapper.setProps({
-                  children,
+                  items,
                 });
               }
             },
           }}
-        >
-          {children}
-        </Tabs>,
+          items={items}
+        />,
       );
 
       triggerResize(wrapper);
@@ -437,7 +445,7 @@ describe('Tabs.Overflow', () => {
   it('should support getPopupContainer', () => {
     const getPopupContainer = trigger => trigger.parentNode;
     const wrapper = mount(getTabs({ getPopupContainer }));
-    expect(wrapper.find('Trigger').first().props().getPopupContainer).toBe(getPopupContainer);
+    expect(wrapper.find('Trigger').first().prop('getPopupContainer')).toBe(getPopupContainer);
   });
 
   it('should support popupClassName', () => {

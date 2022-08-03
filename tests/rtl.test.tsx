@@ -28,7 +28,7 @@ describe('Tabs.RTL', () => {
         get() {
           // Mock button offset
           const btn = this as HTMLButtonElement;
-          const btnList = [...btn.parentNode.childNodes].filter(ele =>
+          const btnList = Array.from(btn.parentNode.childNodes).filter(ele =>
             (ele as HTMLElement).className.includes('rc-tabs-tab'),
           );
           const index = btnList.indexOf(btn);

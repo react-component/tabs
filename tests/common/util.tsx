@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-invalid-this */
 import React from 'react';
 import type { ReactWrapper } from 'enzyme';
-import Tabs, { TabPane } from '../../src';
+import Tabs from '../../src';
 import type { TabsProps } from '../../src/Tabs';
 
 export function getOffsetSizeFunc(
@@ -65,23 +65,37 @@ export function getTransformY(wrapper: ReactWrapper) {
 
 export function getTabs(props: TabsProps = null) {
   return (
-    <Tabs {...props}>
-      <TabPane tab="light" key="light">
-        Light
-      </TabPane>
-      <TabPane tab="bamboo" key="bamboo">
-        Bamboo
-      </TabPane>
-      <TabPane tab="cute" key="cute">
-        Cute
-      </TabPane>
-      <TabPane tab="disabled" key="disabled" disabled>
-        Disabled
-      </TabPane>
-      <TabPane tab="miu" key="miu">
-        Miu
-      </TabPane>
-    </Tabs>
+    <Tabs
+      {...props}
+      items={[
+        {
+          label: 'light',
+          key: 'light',
+          children: 'Light',
+        },
+        {
+          label: 'bamboo',
+          key: 'bamboo',
+          children: 'Bamboo',
+        },
+        {
+          label: 'cute',
+          key: 'cute',
+          children: 'Cute',
+        },
+        {
+          label: 'disabled',
+          key: 'disabled',
+          children: 'Disabled',
+          disabled: true,
+        },
+        {
+          label: 'miu',
+          key: 'miu',
+          children: 'Miu',
+        },
+      ]}
+    />
   );
 }
 

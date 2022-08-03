@@ -5,7 +5,6 @@ import classNames from 'classnames';
 import isMobile from 'rc-util/lib/isMobile';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import TabPanelList from './TabPanelList';
-import TabPane from './TabPanelList/TabPane';
 import type {
   TabPosition,
   RenderTabBar,
@@ -75,7 +74,7 @@ function Tabs(
     id,
     prefixCls = 'rc-tabs',
     className,
-    items: tabs = [],
+    items,
     direction,
     activeKey,
     defaultActiveKey,
@@ -102,6 +101,10 @@ function Tabs(
   }: TabsProps,
   ref: React.Ref<HTMLDivElement>,
 ) {
+  const tabs = React.useMemo(
+    () => (items || []).filter(item => item && typeof item === 'object' && 'key' in item),
+    [items],
+  );
   const rtl = direction === 'rtl';
 
   let mergedAnimated: AnimatedConfig | false;
@@ -235,9 +238,8 @@ function Tabs(
 }
 
 const ForwardTabs = React.forwardRef(Tabs);
+if (process.env.NODE_ENV !== 'production') {
+  ForwardTabs.displayName = 'Tabs';
+}
 
-export type ForwardTabsType = typeof ForwardTabs & { TabPane: typeof TabPane };
-
-(ForwardTabs as ForwardTabsType).TabPane = TabPane;
-
-export default ForwardTabs as ForwardTabsType;
+export default ForwardTabs;
