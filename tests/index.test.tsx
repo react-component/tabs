@@ -37,6 +37,32 @@ describe('Tabs.Basic', () => {
     expect(wrapper.render()).toMatchSnapshot();
   });
 
+  it('disabled not change', () => {
+    const onChange = jest.fn();
+
+    const wrapper = mount(
+      getTabs({
+        defaultActiveKey: 'light',
+        items: [
+          {
+            label: 'light',
+            key: 'light',
+            children: 'Light',
+          },
+          {
+            label: 'disabled',
+            key: 'disabled',
+            children: 'Disabled',
+            disabled: true,
+          },
+        ],
+      }),
+    );
+
+    wrapper.find('.rc-tabs-tab-disabled').simulate('click');
+    expect(onChange).not.toHaveBeenCalled();
+  });
+
   it('Skip invalidate children', () => {
     const wrapper = mount(
       getTabs({
