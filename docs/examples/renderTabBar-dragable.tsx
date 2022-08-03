@@ -2,9 +2,8 @@ import React from 'react';
 import { DndProvider, DragSource, DropTarget } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import Tabs from 'rc-tabs';
+import type { TabsProps } from 'rc-tabs';
 import '../../assets/index.less';
-
-const { TabPane } = Tabs;
 
 // Drag & Drop node
 class TabNode extends React.Component<any, any> {
@@ -47,18 +46,18 @@ const WrapTabNode = DropTarget('DND_NODE', cardTarget, connect => ({
   }))(TabNode),
 );
 
-class DraggableTabs extends React.Component {
+class DraggableTabs extends React.Component<TabsProps> {
   state = {
     order: [],
   };
 
   moveTabNode = (dragKey, hoverKey) => {
     const newOrder = this.state.order.slice();
-    const { children } = this.props;
+    const { items } = this.props;
 
-    React.Children.forEach(children, (c: React.ReactElement) => {
-      if (newOrder.indexOf(c.key) === -1) {
-        newOrder.push(c.key);
+    items.forEach(item => {
+      if (newOrder.indexOf(item.key) === -1) {
+        newOrder.push(item.key);
       }
     });
 
@@ -87,12 +86,9 @@ class DraggableTabs extends React.Component {
 
   render() {
     const { order } = this.state;
-    const { children } = this.props;
+    const { items } = this.props;
 
-    const tabs = [];
-    React.Children.forEach(children, c => {
-      tabs.push(c);
-    });
+    const tabs = [...items];
 
     const orderTabs = tabs.slice().sort((a, b) => {
       const orderA = order.indexOf(a.key);
@@ -116,24 +112,30 @@ class DraggableTabs extends React.Component {
 
     return (
       <DndProvider backend={HTML5Backend}>
-        <Tabs renderTabBar={this.renderTabBar} {...this.props}>
-          {orderTabs}
-        </Tabs>
+        <Tabs renderTabBar={this.renderTabBar} {...this.props} items={orderTabs} />
       </DndProvider>
     );
   }
 }
 
 export default () => (
-  <DraggableTabs>
-    <TabPane tab="tab 1" key="1">
-      Content of Tab Pane 1
-    </TabPane>
-    <TabPane tab="tab 2" key="2">
-      Content of Tab Pane 2
-    </TabPane>
-    <TabPane tab="tab 3" key="3">
-      Content of Tab Pane 3
-    </TabPane>
-  </DraggableTabs>
+  <DraggableTabs
+    items={[
+      {
+        key: '1',
+        label: 'tab 1',
+        children: 'Content of Tab Pane 1',
+      },
+      {
+        key: '2',
+        label: 'tab 2',
+        children: 'Content of Tab Pane 2',
+      },
+      {
+        key: '3',
+        label: 'tab 3',
+        children: 'Content of Tab Pane 3',
+      },
+    ]}
+  />
 );

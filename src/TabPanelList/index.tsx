@@ -38,21 +38,18 @@ export default function TabPanelList({
             : null
         }
       >
-        {tabs.map(tab => {
-          return (
-            <TabPane
-              key={tab.key}
-              prefixCls={prefixCls}
-              tabKey={tab.key}
-              id={id}
-              animated={tabPaneAnimated}
-              active={tab.key === activeKey}
-              destroyInactiveTabPane={destroyInactiveTabPane}
-            >
-              {tab.children}
-            </TabPane>
-          );
-        })}
+        {tabs.map(tab => (
+          <TabPane
+            {...tab}
+            prefixCls={prefixCls}
+            id={id}
+            tabKey={tab.key}
+            animated={tabPaneAnimated}
+            active={tab.key === activeKey}
+            destroyInactiveTabPane={destroyInactiveTabPane}
+            key={tab.key}
+          />
+        ))}
       </div>
     </div>
   );
