@@ -2,12 +2,10 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import classNames from 'classnames';
-import toArray from 'rc-util/lib/Children/toArray';
 import isMobile from 'rc-util/lib/isMobile';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import TabNavList from './TabNavList';
 import TabPanelList from './TabPanelList';
-import type { TabPaneProps } from './TabPanelList/TabPane';
 import TabPane from './TabPanelList/TabPane';
 import type {
   TabPosition,
@@ -34,12 +32,14 @@ import TabContext from './TabContext';
 // Used for accessibility
 let uuid = 0;
 
-export interface TabsProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
+export interface TabsProps
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange' | 'children'> {
   prefixCls?: string;
   className?: string;
   style?: React.CSSProperties;
-  children?: React.ReactNode;
   id?: string;
+
+  items?: Tab[];
 
   activeKey?: string;
   defaultActiveKey?: string;
@@ -70,29 +70,12 @@ export interface TabsProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'o
   popupClassName?: string;
 }
 
-function parseTabList(children: React.ReactNode): Tab[] {
-  return toArray(children)
-    .map((node: React.ReactElement<TabPaneProps>) => {
-      if (React.isValidElement(node)) {
-        const key = node.key !== undefined ? String(node.key) : undefined;
-        return {
-          key,
-          ...node.props,
-          node,
-        };
-      }
-
-      return null;
-    })
-    .filter(tab => tab);
-}
-
 function Tabs(
   {
     id,
     prefixCls = 'rc-tabs',
     className,
-    children,
+    items: tabs = [],
     direction,
     activeKey,
     defaultActiveKey,
@@ -119,7 +102,6 @@ function Tabs(
   }: TabsProps,
   ref: React.Ref<HTMLDivElement>,
 ) {
-  const tabs = parseTabList(children);
   const rtl = direction === 'rtl';
 
   let mergedAnimated: AnimatedConfig | false;
@@ -218,7 +200,7 @@ function Tabs(
     onTabScroll,
     extra: tabBarExtraContent,
     style: tabBarStyle,
-    panes: children,
+    panes: null,
     getPopupContainer,
     popupClassName,
   };
