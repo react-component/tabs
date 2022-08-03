@@ -18,8 +18,9 @@ export type TabOffsetMap = Map<React.Key, TabOffset>;
 
 export type TabPosition = 'left' | 'right' | 'top' | 'bottom';
 
-export interface Tab extends TabPaneProps {
+export interface Tab extends Omit<TabPaneProps, 'tab'> {
   key: string;
+  label: React.ReactNode;
 }
 
 type RenderTabBarProps = {
@@ -38,6 +39,7 @@ type RenderTabBarProps = {
   onTabScroll: OnTabScroll;
   extra: TabBarExtraContent;
   style: React.CSSProperties;
+  /** @deprecated It do not pass real TabPane node. Only for compatible usage.  */
   panes: React.ReactNode;
 };
 

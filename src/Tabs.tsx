@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import classNames from 'classnames';
 import isMobile from 'rc-util/lib/isMobile';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
-import TabNavList from './TabNavList';
 import TabPanelList from './TabPanelList';
 import TabPane from './TabPanelList/TabPane';
 import type {
@@ -18,6 +17,7 @@ import type {
   TabBarExtraContent,
 } from './interface';
 import TabContext from './TabContext';
+import TabNavListWrapper from './TabNavList/Wrapper';
 
 /**
  * Should added antd:
@@ -205,12 +205,6 @@ function Tabs(
     popupClassName,
   };
 
-  if (renderTabBar) {
-    tabNavBar = renderTabBar(tabNavBarProps, TabNavList);
-  } else {
-    tabNavBar = <TabNavList {...tabNavBarProps} />;
-  }
-
   return (
     <TabContext.Provider value={{ tabs, prefixCls }}>
       <div
@@ -229,6 +223,7 @@ function Tabs(
         {...restProps}
       >
         {tabNavBar}
+        <TabNavListWrapper {...tabNavBarProps} renderTabBar={renderTabBar} />
         <TabPanelList
           destroyInactiveTabPane={destroyInactiveTabPane}
           {...sharedProps}

@@ -2,7 +2,7 @@ import * as React from 'react';
 import classNames from 'classnames';
 
 export interface TabPaneProps {
-  label?: React.ReactNode;
+  tab?: React.ReactNode;
   className?: string;
   style?: React.CSSProperties;
   disabled?: boolean;

@@ -29,9 +29,8 @@ import useSyncState from '../hooks/useSyncState';
 export interface TabNavListProps {
   id: string;
   tabPosition: TabPosition;
-  activeKey: React.Key;
+  activeKey: string;
   rtl: boolean;
-  panes: React.ReactNode;
   animated?: AnimatedConfig;
   extra?: TabBarExtraContent;
   editable?: EditableConfig;
