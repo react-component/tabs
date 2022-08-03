@@ -29,7 +29,7 @@ import useSyncState from '../hooks/useSyncState';
 export interface TabNavListProps {
   id: string;
   tabPosition: TabPosition;
-  activeKey: string;
+  activeKey: React.Key;
   rtl: boolean;
   panes: React.ReactNode;
   animated?: AnimatedConfig;
@@ -43,7 +43,7 @@ export interface TabNavListProps {
   className?: string;
   style?: React.CSSProperties;
   locale?: TabsLocale;
-  onTabClick: (activeKey: string, e: React.MouseEvent | React.KeyboardEvent) => void;
+  onTabClick: (activeKey: React.Key, e: React.MouseEvent | React.KeyboardEvent) => void;
   onTabScroll?: OnTabScroll;
   children?: (node: React.ReactElement) => React.ReactElement;
   getPopupContainer?: (node: HTMLElement) => HTMLElement;
