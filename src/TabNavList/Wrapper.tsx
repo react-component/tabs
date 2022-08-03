@@ -4,7 +4,7 @@ import TabNavList from '.';
 import type { TabNavListProps } from '.';
 import { useContext } from 'react';
 import TabContext from '../TabContext';
-import { TabPane } from '..';
+import TabPane from '../TabPanelList/TabPane';
 
 export type TabNavListWrapperProps = Required<Omit<TabNavListProps, 'children' | 'className'>> &
   TabNavListProps;
