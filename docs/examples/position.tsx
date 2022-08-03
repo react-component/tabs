@@ -1,5 +1,5 @@
 import React from 'react';
-import Tabs, { TabPane } from 'rc-tabs';
+import Tabs from 'rc-tabs';
 import '../../assets/index.less';
 
 export default () => {
@@ -32,26 +32,39 @@ export default () => {
         tabPosition={position}
         style={{ height: fixedHeight ? 180 : undefined }}
         tabBarGutter={gutter ? 16 : null}
-      >
-        <TabPane key="light" tab="light">
-          Light
-        </TabPane>
-        <TabPane key="bamboo" tab="bamboo">
-          Bamboo
-        </TabPane>
-        <TabPane key="cat" tab="cat">
-          Cat
-        </TabPane>
-        <TabPane key="miu" tab="miu">
-          Miu
-        </TabPane>
-        <TabPane key="333" tab="333">
-          3333
-        </TabPane>
-        <TabPane key="4444" tab="4444">
-          4444
-        </TabPane>
-      </Tabs>
+        items={[
+          {
+            key: 'light',
+            label: 'Light',
+            children: 'Light!',
+          },
+          {
+            key: 'bamboo',
+            label: 'Bamboo',
+            children: 'Bamboo!',
+          },
+          {
+            key: 'cat',
+            label: 'Cat',
+            children: 'Cat!',
+          },
+          {
+            key: 'miu',
+            label: 'Miu',
+            children: 'Miu!',
+          },
+          {
+            key: '333',
+            label: '333',
+            children: '333!',
+          },
+          {
+            key: '444',
+            label: '444',
+            children: '444!',
+          },
+        ]}
+      />
     </React.StrictMode>
   );
 };
