@@ -15,14 +15,14 @@ export interface OperationNodeProps {
   tabs: Tab[];
   rtl: boolean;
   tabBarGutter?: number;
-  activeKey: React.Key;
+  activeKey: string;
   mobile: boolean;
   moreIcon?: React.ReactNode;
   moreTransitionName?: string;
   editable?: EditableConfig;
   locale?: TabsLocale;
   removeAriaLabel?: string;
-  onTabClick: (key: React.Key, e: React.MouseEvent | React.KeyboardEvent) => void;
+  onTabClick: (key: string, e: React.MouseEvent | React.KeyboardEvent) => void;
   tabMoving?: boolean;
   getPopupContainer?: (node: HTMLElement) => HTMLElement;
   popupClassName?: string;
@@ -59,7 +59,7 @@ function OperationNode(
 
   const dropdownAriaLabel = locale?.dropdownAriaLabel;
 
-  function onRemoveTab(event: React.MouseEvent | React.KeyboardEvent, key: React.Key) {
+  function onRemoveTab(event: React.MouseEvent | React.KeyboardEvent, key: string) {
     event.preventDefault();
     event.stopPropagation();
     editable.onEdit('remove', {

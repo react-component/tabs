@@ -5,7 +5,7 @@ import type { TabPosition, AnimatedConfig } from '../interface';
 import TabPane from './TabPane';
 
 export interface TabPanelListProps {
-  activeKey: React.Key;
+  activeKey: string;
   id: string;
   rtl: boolean;
   animated?: AnimatedConfig;

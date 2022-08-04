@@ -57,7 +57,7 @@ export interface TabsLocale {
 export interface EditableConfig {
   onEdit: (
     type: 'add' | 'remove',
-    info: { key?: React.Key; event: React.MouseEvent | React.KeyboardEvent },
+    info: { key?: string; event: React.MouseEvent | React.KeyboardEvent },
   ) => void;
   showAdd?: boolean;
   removeIcon?: React.ReactNode;
