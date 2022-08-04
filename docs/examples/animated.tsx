@@ -11,11 +11,17 @@ export default () => (
           label: 'Light',
           key: 'light',
           children: 'Light!',
+          style: {
+            height: 200,
+          },
         },
         {
           label: 'Bamboo',
           key: 'bamboo',
           children: 'Bamboo!',
+          style: {
+            height: 100,
+          },
         },
         {
           label: 'Cute',
