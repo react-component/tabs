@@ -1,15 +1,12 @@
 import React from 'react';
-import Tabs, { TabPane } from 'rc-tabs';
+import Tabs from 'rc-tabs';
+import type { TabsProps } from 'rc-tabs';
 import '../../assets/index.less';
 
-const tabs: React.ReactElement[] = [];
+const items: TabsProps['items'] = [];
 
 for (let i = 0; i < 200; i += 1) {
-  tabs.push(
-    <TabPane key={i} tab={`Tab ${i}`}>
-      Content of {i}
-    </TabPane>,
-  );
+  items.push({ key: String(i), label: `Tab ${i}`, children: `Content of ${i}` });
 }
 
 export default () => {
@@ -29,9 +26,8 @@ export default () => {
             tabBarExtraContent="extra"
             defaultActiveKey="8"
             moreIcon="..."
-          >
-            {tabs}
-          </Tabs>
+            items={items}
+          />
         </div>
       </React.StrictMode>
 

@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import Tabs, { TabPane } from 'rc-tabs';
+import Tabs from 'rc-tabs';
 import '../../assets/index.less';
 
 export default () => {
@@ -37,15 +37,16 @@ export default () => {
 
   return (
     <div style={{ maxWidth: 550 }}>
-      <Tabs editable={editable} defaultActiveKey="8" moreIcon="...">
-        {tabs.map(({ key, content }) => {
-          return (
-            <TabPane key={key} tab={`Tab ${key}`}>
-              {content}
-            </TabPane>
-          );
-        })}
-      </Tabs>
+      <Tabs
+        editable={editable}
+        defaultActiveKey="8"
+        moreIcon="..."
+        items={tabs.map(({ key, content }) => ({
+          key,
+          label: `tab ${key}`,
+          children: content,
+        }))}
+      />
     </div>
   );
 };

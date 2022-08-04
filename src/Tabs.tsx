@@ -2,13 +2,9 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import classNames from 'classnames';
-import toArray from 'rc-util/lib/Children/toArray';
 import isMobile from 'rc-util/lib/isMobile';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
-import TabNavList from './TabNavList';
 import TabPanelList from './TabPanelList';
-import type { TabPaneProps } from './TabPanelList/TabPane';
-import TabPane from './TabPanelList/TabPane';
 import type {
   TabPosition,
   RenderTabBar,
@@ -20,6 +16,7 @@ import type {
   TabBarExtraContent,
 } from './interface';
 import TabContext from './TabContext';
+import TabNavListWrapper from './TabNavList/Wrapper';
 
 /**
  * Should added antd:
@@ -34,12 +31,14 @@ import TabContext from './TabContext';
 // Used for accessibility
 let uuid = 0;
 
-export interface TabsProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
+export interface TabsProps
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange' | 'children'> {
   prefixCls?: string;
   className?: string;
   style?: React.CSSProperties;
-  children?: React.ReactNode;
   id?: string;
+
+  items?: Tab[];
 
   activeKey?: string;
   defaultActiveKey?: string;
@@ -70,29 +69,12 @@ export interface TabsProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'o
   popupClassName?: string;
 }
 
-function parseTabList(children: React.ReactNode): Tab[] {
-  return toArray(children)
-    .map((node: React.ReactElement<TabPaneProps>) => {
-      if (React.isValidElement(node)) {
-        const key = node.key !== undefined ? String(node.key) : undefined;
-        return {
-          key,
-          ...node.props,
-          node,
-        };
-      }
-
-      return null;
-    })
-    .filter(tab => tab);
-}
-
 function Tabs(
   {
     id,
     prefixCls = 'rc-tabs',
     className,
-    children,
+    items,
     direction,
     activeKey,
     defaultActiveKey,
@@ -119,7 +101,10 @@ function Tabs(
   }: TabsProps,
   ref: React.Ref<HTMLDivElement>,
 ) {
-  const tabs = parseTabList(children);
+  const tabs = React.useMemo(
+    () => (items || []).filter(item => item && typeof item === 'object' && 'key' in item),
+    [items],
+  );
   const rtl = direction === 'rtl';
 
   let mergedAnimated: AnimatedConfig | false;
@@ -218,16 +203,10 @@ function Tabs(
     onTabScroll,
     extra: tabBarExtraContent,
     style: tabBarStyle,
-    panes: children,
+    panes: null,
     getPopupContainer,
     popupClassName,
   };
-
-  if (renderTabBar) {
-    tabNavBar = renderTabBar(tabNavBarProps, TabNavList);
-  } else {
-    tabNavBar = <TabNavList {...tabNavBarProps} />;
-  }
 
   return (
     <TabContext.Provider value={{ tabs, prefixCls }}>
@@ -247,6 +226,7 @@ function Tabs(
         {...restProps}
       >
         {tabNavBar}
+        <TabNavListWrapper {...tabNavBarProps} renderTabBar={renderTabBar} />
         <TabPanelList
           destroyInactiveTabPane={destroyInactiveTabPane}
           {...sharedProps}
@@ -258,9 +238,8 @@ function Tabs(
 }
 
 const ForwardTabs = React.forwardRef(Tabs);
+if (process.env.NODE_ENV !== 'production') {
+  ForwardTabs.displayName = 'Tabs';
+}
 
-export type ForwardTabsType = typeof ForwardTabs & { TabPane: typeof TabPane };
-
-(ForwardTabs as ForwardTabsType).TabPane = TabPane;
-
-export default ForwardTabs as ForwardTabsType;
+export default ForwardTabs;

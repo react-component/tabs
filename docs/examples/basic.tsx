@@ -1,19 +1,26 @@
 import React from 'react';
-import Tabs, { TabPane } from 'rc-tabs';
+import Tabs from 'rc-tabs';
 import '../../assets/index.less';
 
 export default () => {
   const [destroy, setDestroy] = React.useState(false);
-  const [children, setChildren] = React.useState([
-    <TabPane key="light" tab="light">
-      Light
-    </TabPane>,
-    <TabPane key="bamboo" tab="bamboo">
-      Bamboo
-    </TabPane>,
-    <TabPane key="cute" tab="cute" disabled>
-      Cute
-    </TabPane>,
+  const [items, setItems] = React.useState([
+    {
+      label: 'Light',
+      key: 'light',
+      children: 'Light!',
+    },
+    {
+      label: 'Bamboo',
+      key: 'bamboo',
+      children: 'Bamboo!',
+    },
+    {
+      label: 'Cute',
+      key: 'cute',
+      children: 'Cute!',
+      disabled: true,
+    },
   ]);
 
   if (destroy) {
@@ -22,16 +29,16 @@ export default () => {
 
   return (
     <React.StrictMode>
-      <Tabs tabBarExtraContent="extra">
-        {children}
-      </Tabs>
+      <Tabs tabBarExtraContent="extra" items={items} />
       <button
         type="button"
         onClick={() => {
-          setChildren([
-            <TabPane key="Yo" tab="yo">
-              Yo!
-            </TabPane>,
+          setItems([
+            {
+              key: 'yo',
+              label: 'Yo',
+              children: 'Yo!',
+            },
           ]);
         }}
       >

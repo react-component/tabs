@@ -25,7 +25,7 @@ function TabNode(
     prefixCls,
     id,
     active,
-    tab: { key, tab, disabled, closeIcon },
+    tab: { key, label, disabled, closeIcon },
     closable,
     renderWrapper,
     removeAriaLabel,
@@ -80,11 +80,11 @@ function TabNode(
         aria-controls={id && `${id}-panel-${key}`}
         aria-disabled={disabled}
         tabIndex={disabled ? null : 0}
-        onClick={(e) => {
+        onClick={e => {
           e.stopPropagation();
           onInternalClick(e);
         }}
-        onKeyDown={(e) => {
+        onKeyDown={e => {
           if ([KeyCode.SPACE, KeyCode.ENTER].includes(e.which)) {
             e.preventDefault();
             onInternalClick(e);
@@ -92,7 +92,7 @@ function TabNode(
         }}
         onFocus={onFocus}
       >
-        {tab}
+        {label}
       </div>
 
       {/* Remove Button */}
@@ -102,7 +102,7 @@ function TabNode(
           aria-label={removeAriaLabel || 'remove'}
           tabIndex={0}
           className={`${tabPrefix}-remove`}
-          onClick={(e) => {
+          onClick={e => {
             e.stopPropagation();
             onRemoveTab(e);
           }}

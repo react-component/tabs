@@ -1,15 +1,16 @@
 import React from 'react';
-import Tabs, { TabPane } from 'rc-tabs';
+import Tabs from 'rc-tabs';
+import type { TabsProps } from 'rc-tabs';
 import '../../assets/index.less';
 
-const tabs: React.ReactElement[] = [];
+const items: TabsProps['items'] = [];
 
 for (let i = 0; i < 50; i += 1) {
-  tabs.push(
-    <TabPane key={i} tab={`Tab ${i}`}>
-      Content of {i}
-    </TabPane>,
-  );
+  items.push({
+    key: String(i),
+    label: `Tab ${i}`,
+    children: `Content of ${i}`,
+  });
 }
 
 type P = 'default' | 'left' | 'right';
@@ -103,9 +104,7 @@ export default () => {
 
   return (
     <div style={{ maxWidth: 550 }}>
-      <Tabs tabBarExtraContent={extra} defaultActiveKey="8" moreIcon="...">
-        {tabs}
-      </Tabs>
+      <Tabs tabBarExtraContent={extra} defaultActiveKey="8" moreIcon="..." items={items} />
       <div style={{ display: 'flex' }}>
         <div>
           <input

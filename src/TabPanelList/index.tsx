@@ -2,6 +2,7 @@ import * as React from 'react';
 import classNames from 'classnames';
 import TabContext from '../TabContext';
 import type { TabPosition, AnimatedConfig } from '../interface';
+import TabPane from './TabPane';
 
 export interface TabPanelListProps {
   activeKey: React.Key;
@@ -37,17 +38,18 @@ export default function TabPanelList({
             : null
         }
       >
-        {tabs.map(tab => {
-          return React.cloneElement(tab.node, {
-            key: tab.key,
-            prefixCls,
-            tabKey: tab.key,
-            id,
-            animated: tabPaneAnimated,
-            active: tab.key === activeKey,
-            destroyInactiveTabPane,
-          });
-        })}
+        {tabs.map(tab => (
+          <TabPane
+            {...tab}
+            prefixCls={prefixCls}
+            id={id}
+            tabKey={tab.key}
+            animated={tabPaneAnimated}
+            active={tab.key === activeKey}
+            destroyInactiveTabPane={destroyInactiveTabPane}
+            key={tab.key}
+          />
+        ))}
       </div>
     </div>
   );

@@ -1,17 +1,20 @@
 import React from 'react';
-import Tabs, { TabPane } from 'rc-tabs';
+import Tabs from 'rc-tabs';
+import type { TabsProps } from 'rc-tabs';
 import '../../assets/index.less';
 
 function getTabPanes(count = 50) {
-  const tabs: React.ReactElement[] = [];
+  const items: TabsProps['items'] = [];
   for (let i = 0; i < count; i += 1) {
-    tabs.push(
-      <TabPane key={i} tab={`Tab ${i}`} disabled={i === 3} closable={i === 5 ? false : undefined}>
-        Content of {i}
-      </TabPane>,
-    );
+    items.push({
+      key: String(i),
+      label: `Tab ${i}`,
+      disabled: i === 3,
+      closable: i === 5 ? false : undefined,
+      children: `Content of ${i}`,
+    });
   }
-  return tabs;
+  return items;
 }
 
 export default () => {
@@ -40,9 +43,11 @@ export default () => {
               const num = Number(lastTab.key) + 1;
               return [
                 ...tabs,
-                <TabPane key={num} tab={`Tab ${num}`}>
-                  Content of {num}
-                </TabPane>,
+                {
+                  key: String(num),
+                  label: `Tab ${num}`,
+                  children: `Content of ${num}`,
+                },
               ];
             });
           }
@@ -161,9 +166,8 @@ export default () => {
             moreIcon="..."
             // moreTransitionName="233"
             style={{ height: fixHeight ? 300 : null }}
-          >
-            {tabPanes}
-          </Tabs>
+            items={tabPanes}
+          />
         </React.StrictMode>
       )}
     </div>

@@ -1,3 +1,4 @@
+import type React from 'react';
 import type { TabNavListProps } from './TabNavList';
 import type { TabPaneProps } from './TabPanelList/TabPane';
 
@@ -17,9 +18,9 @@ export type TabOffsetMap = Map<React.Key, TabOffset>;
 
 export type TabPosition = 'left' | 'right' | 'top' | 'bottom';
 
-export interface Tab extends TabPaneProps {
+export interface Tab extends Omit<TabPaneProps, 'tab'> {
   key: string;
-  node: React.ReactElement;
+  label: React.ReactNode;
 }
 
 type RenderTabBarProps = {
@@ -38,6 +39,7 @@ type RenderTabBarProps = {
   onTabScroll: OnTabScroll;
   extra: TabBarExtraContent;
   style: React.CSSProperties;
+  /** @deprecated It do not pass real TabPane node. Only for compatible usage.  */
   panes: React.ReactNode;
 };
 
@@ -55,7 +57,7 @@ export interface TabsLocale {
 export interface EditableConfig {
   onEdit: (
     type: 'add' | 'remove',
-    info: { key?: string; event: React.MouseEvent | React.KeyboardEvent },
+    info: { key?: React.Key; event: React.MouseEvent | React.KeyboardEvent },
   ) => void;
   showAdd?: boolean;
   removeIcon?: React.ReactNode;
