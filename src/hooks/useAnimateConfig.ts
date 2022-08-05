@@ -1,3 +1,4 @@
+import warning from 'rc-util/lib/warning';
 import type { TabsProps } from '..';
 import type { AnimatedConfig } from '../interface';
 
@@ -29,6 +30,16 @@ export default function useAnimateConfig(
   // Enable tabPane animation if provide motion
   if (mergedAnimated.tabPaneMotion && mergedAnimated.tabPane === undefined) {
     mergedAnimated.tabPane = true;
+  }
+
+  if (!mergedAnimated.tabPaneMotion && mergedAnimated.tabPane) {
+    if (process.env.NODE_ENV !== 'production') {
+      warning(
+        false,
+        '`animated.tabPane` is true but `animated.tabPaneMotion` is not provided. Motion will not work.',
+      );
+    }
+    mergedAnimated.tabPane = false;
   }
 
   return mergedAnimated;

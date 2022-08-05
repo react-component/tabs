@@ -8,7 +8,6 @@ import TabPane from './TabPane';
 export interface TabPanelListProps {
   activeKey: string;
   id: string;
-  rtl: boolean;
   animated?: AnimatedConfig;
   tabPosition?: TabPosition;
   destroyInactiveTabPane?: boolean;
@@ -19,13 +18,10 @@ export default function TabPanelList({
   activeKey,
   animated,
   tabPosition,
-  // rtl,
   destroyInactiveTabPane,
 }: TabPanelListProps) {
   const { prefixCls, tabs } = React.useContext(TabContext);
   const tabPaneAnimated = animated.tabPane;
-
-  // const activeIndex = tabs.findIndex(tab => tab.key === activeKey);
 
   const tabPanePrefixCls = `${prefixCls}-tabpane`;
 
@@ -35,11 +31,6 @@ export default function TabPanelList({
         className={classNames(`${prefixCls}-content`, `${prefixCls}-content-${tabPosition}`, {
           [`${prefixCls}-content-animated`]: tabPaneAnimated,
         })}
-        // style={
-        //   activeIndex && tabPaneAnimated
-        //     ? { [rtl ? 'marginRight' : 'marginLeft']: `-${activeIndex}00%` }
-        //     : null
-        // }
       >
         {tabs.map(
           ({ key, forceRender, style: paneStyle, className: paneClassName, ...restTabProps }) => {
@@ -76,18 +67,6 @@ export default function TabPanelList({
             );
           },
         )}
-        {/* {tabs.map(tab => (
-          <TabPane
-            {...tab}
-            prefixCls={prefixCls}
-            id={id}
-            tabKey={tab.key}
-            animated={tabPaneAnimated}
-            active={tab.key === activeKey}
-            destroyInactiveTabPane={destroyInactiveTabPane}
-            key={tab.key}
-          />
-        ))} */}
       </div>
     </div>
   );
