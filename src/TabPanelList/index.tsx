@@ -45,8 +45,6 @@ export default function TabPanelList({
           ({ key, forceRender, style: paneStyle, className: paneClassName, ...restTabProps }) => {
             const active = key === activeKey;
 
-            console.log('>>>>', key, active);
-
             return (
               <CSSMotion
                 key={key}
@@ -90,12 +88,6 @@ export default function TabPanelList({
             key={tab.key}
           />
         ))} */}
-        {/* <CSSMotionList keys={tabs} removeOnLeave={destroyInactiveTabPane}>
-          {({ key, ...rest }) => {
-            console.log('Props:', key, rest);
-            return <div>{key}</div>;
-          }}
-        </CSSMotionList> */}
       </div>
     </div>
   );
