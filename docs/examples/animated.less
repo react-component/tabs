@@ -1,0 +1,32 @@
+@duration: 0.3s;
+
+.switch {
+  &-appear,
+  &-enter {
+    transition: none;
+
+    &-start {
+      opacity: 0;
+    }
+
+    &-active {
+      opacity: 1;
+      transition: all @duration;
+    }
+  }
+
+  &-leave {
+    position: absolute;
+    transition: none;
+    inset: 0;
+
+    &-start {
+      opacity: 1;
+    }
+
+    &-active {
+      opacity: 0;
+      transition: all @duration;
+    }
+  }
+}

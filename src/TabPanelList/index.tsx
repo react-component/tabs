@@ -1,5 +1,6 @@
 import * as React from 'react';
 import classNames from 'classnames';
+import CSSMotion from 'rc-motion';
 import TabContext from '../TabContext';
 import type { TabPosition, AnimatedConfig } from '../interface';
 import TabPane from './TabPane';
@@ -18,13 +19,15 @@ export default function TabPanelList({
   activeKey,
   animated,
   tabPosition,
-  rtl,
+  // rtl,
   destroyInactiveTabPane,
 }: TabPanelListProps) {
   const { prefixCls, tabs } = React.useContext(TabContext);
   const tabPaneAnimated = animated.tabPane;
 
-  const activeIndex = tabs.findIndex(tab => tab.key === activeKey);
+  // const activeIndex = tabs.findIndex(tab => tab.key === activeKey);
+
+  const tabPanePrefixCls = `${prefixCls}-tabpane`;
 
   return (
     <div className={classNames(`${prefixCls}-content-holder`)}>
@@ -32,13 +35,50 @@ export default function TabPanelList({
         className={classNames(`${prefixCls}-content`, `${prefixCls}-content-${tabPosition}`, {
           [`${prefixCls}-content-animated`]: tabPaneAnimated,
         })}
-        style={
-          activeIndex && tabPaneAnimated
-            ? { [rtl ? 'marginRight' : 'marginLeft']: `-${activeIndex}00%` }
-            : null
-        }
+        // style={
+        //   activeIndex && tabPaneAnimated
+        //     ? { [rtl ? 'marginRight' : 'marginLeft']: `-${activeIndex}00%` }
+        //     : null
+        // }
       >
-        {tabs.map(tab => (
+        {tabs.map(
+          ({ key, forceRender, style: paneStyle, className: paneClassName, ...restTabProps }) => {
+            const active = key === activeKey;
+
+            console.log('>>>>', key, active);
+
+            return (
+              <CSSMotion
+                key={key}
+                visible={active}
+                forceRender={forceRender}
+                removeOnLeave={!!destroyInactiveTabPane}
+                leavedClassName={`${tabPanePrefixCls}-hidden`}
+                {...animated.tabPaneMotion}
+              >
+                {({ style: motionStyle, className: motionClassName }, ref) => {
+                  return (
+                    <TabPane
+                      {...restTabProps}
+                      prefixCls={tabPanePrefixCls}
+                      id={id}
+                      tabKey={key}
+                      animated={tabPaneAnimated}
+                      active={active}
+                      style={{
+                        ...paneStyle,
+                        ...motionStyle,
+                      }}
+                      className={classNames(paneClassName, motionClassName)}
+                      ref={ref}
+                    />
+                  );
+                }}
+              </CSSMotion>
+            );
+          },
+        )}
+        {/* {tabs.map(tab => (
           <TabPane
             {...tab}
             prefixCls={prefixCls}
@@ -49,7 +89,13 @@ export default function TabPanelList({
             destroyInactiveTabPane={destroyInactiveTabPane}
             key={tab.key}
           />
-        ))}
+        ))} */}
+        {/* <CSSMotionList keys={tabs} removeOnLeave={destroyInactiveTabPane}>
+          {({ key, ...rest }) => {
+            console.log('Props:', key, rest);
+            return <div>{key}</div>;
+          }}
+        </CSSMotionList> */}
       </div>
     </div>
   );

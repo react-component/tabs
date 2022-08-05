@@ -20,54 +20,27 @@ export interface TabPaneProps {
   destroyInactiveTabPane?: boolean;
 }
 
-export default function TabPane({
-  prefixCls,
-  forceRender,
-  className,
-  style,
-  id,
-  active,
-  animated,
-  destroyInactiveTabPane,
-  tabKey,
-  children,
-}: TabPaneProps) {
-  const [visited, setVisited] = React.useState(forceRender);
+const TabPane = React.forwardRef<HTMLDivElement, TabPaneProps>(
+  ({ prefixCls, className, style, id, active, tabKey, children }, ref) => {
+    return (
+      <div
+        id={id && `${id}-panel-${tabKey}`}
+        role="tabpanel"
+        tabIndex={active ? 0 : -1}
+        aria-labelledby={id && `${id}-tab-${tabKey}`}
+        aria-hidden={!active}
+        style={style}
+        className={classNames(prefixCls, active && `${prefixCls}-active`, className)}
+        ref={ref}
+      >
+        {children}
+      </div>
+    );
+  },
+);
 
-  React.useEffect(() => {
-    if (active) {
-      setVisited(true);
-    } else if (destroyInactiveTabPane) {
-      setVisited(false);
-    }
-  }, [active, destroyInactiveTabPane]);
-
-  const mergedStyle: React.CSSProperties = {};
-  if (!active) {
-    if (animated) {
-      mergedStyle.visibility = 'hidden';
-      mergedStyle.height = 0;
-      mergedStyle.overflowY = 'hidden';
-    } else {
-      mergedStyle.display = 'none';
-    }
-  }
-
-  return (
-    <div
-      id={id && `${id}-panel-${tabKey}`}
-      role="tabpanel"
-      tabIndex={active ? 0 : -1}
-      aria-labelledby={id && `${id}-tab-${tabKey}`}
-      aria-hidden={!active}
-      style={{ ...mergedStyle, ...style }}
-      className={classNames(
-        `${prefixCls}-tabpane`,
-        active && `${prefixCls}-tabpane-active`,
-        className,
-      )}
-    >
-      {(active || visited || forceRender) && children}
-    </div>
-  );
+if (process.env.NODE_ENV !== 'production') {
+  TabPane.displayName = 'TabPane';
 }
+
+export default TabPane;
