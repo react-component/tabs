@@ -1,6 +1,6 @@
 {
   "name": "rc-tabs",
-  "version": "12.0.0-alpha.1",
+  "version": "12.1.0-alpha.0",
   "description": "tabs ui component for react",
   "engines": {
     "node": ">=8.x"
