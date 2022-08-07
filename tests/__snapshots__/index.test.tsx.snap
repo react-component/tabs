@@ -87,15 +87,6 @@ exports[`Tabs.Basic Normal 1`] = `
       class="rc-tabs-content rc-tabs-content-top"
     >
       <div
-        aria-hidden="true"
-        aria-labelledby="rc-tabs-test-tab-light"
-        class="rc-tabs-tabpane"
-        id="rc-tabs-test-panel-light"
-        role="tabpanel"
-        style="display: none;"
-        tabindex="-1"
-      />
-      <div
         aria-hidden="false"
         aria-labelledby="rc-tabs-test-tab-bamboo"
         class="rc-tabs-tabpane rc-tabs-tabpane-active"
@@ -105,15 +96,6 @@ exports[`Tabs.Basic Normal 1`] = `
       >
         Bamboo
       </div>
-      <div
-        aria-hidden="true"
-        aria-labelledby="rc-tabs-test-tab-cute"
-        class="rc-tabs-tabpane"
-        id="rc-tabs-test-panel-cute"
-        role="tabpanel"
-        style="display: none;"
-        tabindex="-1"
-      />
     </div>
   </div>
 </div>

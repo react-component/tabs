@@ -17,6 +17,7 @@ import type {
 } from './interface';
 import TabContext from './TabContext';
 import TabNavListWrapper from './TabNavList/Wrapper';
+import useAnimateConfig from './hooks/useAnimateConfig';
 
 /**
  * Should added antd:
@@ -79,10 +80,7 @@ function Tabs(
     activeKey,
     defaultActiveKey,
     editable,
-    animated = {
-      inkBar: true,
-      tabPane: false,
-    },
+    animated,
     tabPosition = 'top',
     tabBarGutter,
     tabBarStyle,
@@ -107,24 +105,7 @@ function Tabs(
   );
   const rtl = direction === 'rtl';
 
-  let mergedAnimated: AnimatedConfig | false;
-  if (animated === false) {
-    mergedAnimated = {
-      inkBar: false,
-      tabPane: false,
-    };
-  } else if (animated === true) {
-    mergedAnimated = {
-      inkBar: true,
-      tabPane: true,
-    };
-  } else {
-    mergedAnimated = {
-      inkBar: true,
-      tabPane: false,
-      ...(typeof animated === 'object' ? animated : {}),
-    };
-  }
+  const mergedAnimated = useAnimateConfig(animated);
 
   // ======================== Mobile ========================
   const [mobile, setMobile] = useState(false);
