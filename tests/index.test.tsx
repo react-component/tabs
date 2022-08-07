@@ -1,5 +1,6 @@
 import React from 'react';
 import type { ReactWrapper } from 'enzyme';
+import { render } from '@testing-library/react';
 import { mount } from 'enzyme';
 import KeyCode from 'rc-util/lib/KeyCode';
 import Tabs from '../src';
@@ -203,32 +204,37 @@ describe('Tabs.Basic', () => {
   });
 
   it('destroyInactiveTabPane', () => {
-    const wrapper = mount(
-      getTabs({
-        activeKey: 'light',
-        destroyInactiveTabPane: true,
-        items: [
-          {
-            key: 'light',
-            children: 'Light',
-          },
-          {
-            key: 'bamboo',
-            children: 'Bamboo',
-          },
-        ] as any,
-      }),
-    );
+    const props = {
+      activeKey: 'light',
+      destroyInactiveTabPane: true,
+      items: [
+        {
+          key: 'light',
+          children: 'Light',
+        },
+        {
+          key: 'bamboo',
+          children: 'Bamboo',
+        },
+      ] as any,
+    };
 
-    function matchText(light: string, bamboo: string) {
-      expect(wrapper.find('.rc-tabs-tabpane').first().text()).toEqual(light);
-      expect(wrapper.find('.rc-tabs-tabpane').last().text()).toEqual(bamboo);
+    const { container, rerender } = render(getTabs(props));
+
+    function matchText(text: string) {
+      expect(container.querySelectorAll('.rc-tabs-tabpane')).toHaveLength(1);
+      expect(container.querySelector('.rc-tabs-tabpane-active').textContent).toEqual(text);
     }
 
-    matchText('Light', '');
+    matchText('Light');
 
-    wrapper.setProps({ activeKey: 'bamboo' });
-    matchText('', 'Bamboo');
+    rerender(
+      getTabs({
+        ...props,
+        activeKey: 'bamboo',
+      }),
+    );
+    matchText('Bamboo');
   });
 
   describe('editable', () => {
@@ -325,16 +331,35 @@ describe('Tabs.Basic', () => {
       const wrapper = mount(getTabs({ animated: true }));
       expect(wrapper.find('TabPanelList').prop('animated')).toEqual({
         inkBar: true,
-        tabPane: true,
+        tabPane: false,
       });
     });
 
-    it('customize', () => {
+    it('customize but !tabPaneMotion', () => {
+      const errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+
       const wrapper = mount(getTabs({ animated: { inkBar: false, tabPane: true } }));
       expect(wrapper.find('TabPanelList').prop('animated')).toEqual({
         inkBar: false,
-        tabPane: true,
+        tabPane: false,
       });
+
+      expect(errorSpy).toHaveBeenCalledWith(
+        'Warning: `animated.tabPane` is true but `animated.tabPaneMotion` is not provided. Motion will not work.',
+      );
+      errorSpy.mockRestore();
+    });
+
+    it('customize', () => {
+      const wrapper = mount(
+        getTabs({ animated: { inkBar: true, tabPane: true, tabPaneMotion: {} } }),
+      );
+      expect(wrapper.find('TabPanelList').prop('animated')).toEqual(
+        expect.objectContaining({
+          inkBar: true,
+          tabPane: true,
+        }),
+      );
     });
   });
 
