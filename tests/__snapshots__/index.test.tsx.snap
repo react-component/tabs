@@ -57,27 +57,17 @@ exports[`Tabs.Basic Normal 1`] = `
             cute
           </div>
         </div>
+        <button
+          aria-label="Add tab"
+          class="rc-tabs-nav-add"
+          type="button"
+        >
+          +
+        </button>
         <div
           class="rc-tabs-ink-bar rc-tabs-ink-bar-animated"
         />
       </div>
-    </div>
-    <div
-      class="rc-tabs-nav-operations rc-tabs-nav-operations-hidden"
-    >
-      <button
-        aria-controls="rc-tabs-test-more-popup"
-        aria-expanded="false"
-        aria-haspopup="listbox"
-        aria-hidden="true"
-        class="rc-tabs-nav-more"
-        id="rc-tabs-test-more"
-        style="visibility: hidden; order: 1;"
-        tabindex="-1"
-        type="button"
-      >
-        More
-      </button>
     </div>
   </div>
   <div
@@ -130,27 +120,17 @@ exports[`Tabs.Basic Skip invalidate children 1`] = `
             light
           </div>
         </div>
+        <button
+          aria-label="Add tab"
+          class="rc-tabs-nav-add"
+          type="button"
+        >
+          +
+        </button>
         <div
           class="rc-tabs-ink-bar rc-tabs-ink-bar-animated"
         />
       </div>
-    </div>
-    <div
-      class="rc-tabs-nav-operations rc-tabs-nav-operations-hidden"
-    >
-      <button
-        aria-controls="rc-tabs-test-more-popup"
-        aria-expanded="false"
-        aria-haspopup="listbox"
-        aria-hidden="true"
-        class="rc-tabs-nav-more"
-        id="rc-tabs-test-more"
-        style="visibility: hidden; order: 1;"
-        tabindex="-1"
-        type="button"
-      >
-        More
-      </button>
     </div>
   </div>
   <div

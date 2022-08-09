@@ -26,6 +26,7 @@ export interface OperationNodeProps {
   tabMoving?: boolean;
   getPopupContainer?: (node: HTMLElement) => HTMLElement;
   popupClassName?: string;
+  hasDropdown: boolean;
 }
 
 function OperationNode(
@@ -46,6 +47,7 @@ function OperationNode(
     onTabClick,
     getPopupContainer,
     popupClassName,
+    hasDropdown,
   }: OperationNodeProps,
   ref: React.Ref<HTMLDivElement>,
 ) {
@@ -216,6 +218,8 @@ function OperationNode(
       </button>
     </Dropdown>
   );
+
+  if (!hasDropdown) return null;
 
   return (
     <div className={classNames(`${prefixCls}-nav-operations`, className)} style={style} ref={ref}>

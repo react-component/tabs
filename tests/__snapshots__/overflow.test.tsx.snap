@@ -8,7 +8,6 @@ exports[`Tabs.Overflow should collapse 1`] = `
   aria-hidden="true"
   class="rc-tabs-nav-more"
   id="rc-tabs-test-more"
-  style=""
   tabindex="-1"
   type="button"
 >

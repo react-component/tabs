@@ -465,10 +465,9 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
                 ref={innerAddButtonRef}
                 prefixCls={prefixCls}
                 locale={locale}
-                editable={editable}
+                editable={{ ...editable, showAdd: !hasDropdown }}
                 style={{
                   ...(tabNodes.length === 0 ? undefined : tabNodeStyle),
-                  visibility: hasDropdown ? 'hidden' : null,
                 }}
               />
 
@@ -489,6 +488,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
         ref={operationsRef}
         prefixCls={prefixCls}
         tabs={hiddenTabs}
+        hasDropdown={hasDropdown}
         className={!hasDropdown && operationsHiddenClassName}
         tabMoving={!!lockAnimation}
       />
