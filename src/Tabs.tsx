@@ -138,11 +138,6 @@ function Tabs(
     value: id,
   });
 
-  let mergedTabPosition = tabPosition;
-  if (mobile && !['left', 'right'].includes(tabPosition)) {
-    mergedTabPosition = 'top';
-  }
-
   // Async generate id to avoid ssr mapping failed
   useEffect(() => {
     if (!id) {
@@ -166,7 +161,7 @@ function Tabs(
     id: mergedId,
     activeKey: mergedActiveKey,
     animated: mergedAnimated,
-    tabPosition: mergedTabPosition,
+    tabPosition,
     rtl,
     mobile,
   };
@@ -196,7 +191,7 @@ function Tabs(
         id={id}
         className={classNames(
           prefixCls,
-          `${prefixCls}-${mergedTabPosition}`,
+          `${prefixCls}-${tabPosition}`,
           {
             [`${prefixCls}-mobile`]: mobile,
             [`${prefixCls}-editable`]: editable,
