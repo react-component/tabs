@@ -209,56 +209,13 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     return clearTouchMoving;
   }, [lockAnimation]);
 
-  // ========================= Scroll ========================
-  function scrollToTab(key = activeKey) {
-    const tabOffset = tabOffsets.get(key) || {
-      width: 0,
-      height: 0,
-      left: 0,
-      right: 0,
-      top: 0,
-    };
-
-    if (tabPositionTopOrBottom) {
-      // ============ Align with top & bottom ============
-      let newTransform = transformLeft;
-
-      // RTL
-      if (rtl) {
-        if (tabOffset.right < transformLeft) {
-          newTransform = tabOffset.right;
-        } else if (tabOffset.right + tabOffset.width > transformLeft + wrapperWidth) {
-          newTransform = tabOffset.right + tabOffset.width - wrapperWidth;
-        }
-      }
-      // LTR
-      else if (tabOffset.left < -transformLeft) {
-        newTransform = -tabOffset.left;
-      } else if (tabOffset.left + tabOffset.width > -transformLeft + wrapperWidth) {
-        newTransform = -(tabOffset.left + tabOffset.width - wrapperWidth);
-      }
-
-      setTransformTop(0);
-      setTransformLeft(alignInRange(newTransform));
-    } else {
-      // ============ Align with left & right ============
-      let newTransform = transformTop;
-
-      if (tabOffset.top < -transformTop) {
-        newTransform = -tabOffset.top;
-      } else if (tabOffset.top + tabOffset.height > -transformTop + wrapperHeight) {
-        newTransform = -(tabOffset.top + tabOffset.height - wrapperHeight);
-      }
-
-      setTransformLeft(0);
-      setTransformTop(alignInRange(newTransform));
-    }
-  }
-
   // ========================== Tab ==========================
   // Render tab node & collect tab offset
 
-  const [visibleStart, visibleEnd] = useVisibleRange(
+  // eslint-disable-next-line prefer-const
+  let scrollToTab: (key?: React.Key) => void;
+
+  const [visibleStart, visibleEnd, visibleTabSize] = useVisibleRange(
     tabOffsets,
     // Container
     [wrapperWidth, wrapperHeight, transformLeft, transformTop],
@@ -301,7 +258,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
           removeBtnRef(key);
         }}
         onFocus={() => {
-          scrollToTab(key);
+          // scrollToTab(key);
           doLockAnimation();
           if (!tabsWrapperRef.current) {
             return;
@@ -360,6 +317,53 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   const startHiddenTabs = tabs.slice(0, visibleStart);
   const endHiddenTabs = tabs.slice(visibleEnd + 1);
   const hiddenTabs = [...startHiddenTabs, ...endHiddenTabs];
+
+  // ========================= Scroll ========================
+  // eslint-disable-next-line prefer-const
+  scrollToTab = (key = activeKey) => {
+    const tabOffset = tabOffsets.get(key) || {
+      width: 0,
+      height: 0,
+      left: 0,
+      right: 0,
+      top: 0,
+    };
+
+    if (tabPositionTopOrBottom) {
+      // ============ Align with top & bottom ============
+      let newTransform = transformLeft;
+
+      // RTL
+      if (rtl) {
+        if (tabOffset.right < transformLeft) {
+          newTransform = tabOffset.right;
+        } else if (tabOffset.right + tabOffset.width > transformLeft + visibleTabSize) {
+          newTransform = tabOffset.right + tabOffset.width - visibleTabSize;
+        }
+      }
+      // LTR
+      else if (tabOffset.left < -transformLeft) {
+        newTransform = -tabOffset.left;
+      } else if (tabOffset.left + tabOffset.width > -transformLeft + visibleTabSize) {
+        newTransform = -(tabOffset.left + tabOffset.width - visibleTabSize);
+      }
+
+      setTransformTop(0);
+      setTransformLeft(alignInRange(newTransform));
+    } else {
+      // ============ Align with left & right ============
+      let newTransform = transformTop;
+
+      if (tabOffset.top < -transformTop) {
+        newTransform = -tabOffset.top;
+      } else if (tabOffset.top + tabOffset.height > -transformTop + visibleTabSize) {
+        newTransform = -(tabOffset.top + tabOffset.height - visibleTabSize);
+      }
+
+      setTransformLeft(0);
+      setTransformTop(alignInRange(newTransform));
+    }
+  };
 
   // =================== Link & Operations ===================
   const [inkStyle, setInkStyle] = useState<React.CSSProperties>();
@@ -442,47 +446,45 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     >
       <ExtraContent position="left" extra={extra} prefixCls={prefixCls} />
 
-      <ResizeObserver onResize={onListHolderResize}>
-        <div
-          className={classNames(wrapPrefix, {
-            [`${wrapPrefix}-ping-left`]: pingLeft,
-            [`${wrapPrefix}-ping-right`]: pingRight,
-            [`${wrapPrefix}-ping-top`]: pingTop,
-            [`${wrapPrefix}-ping-bottom`]: pingBottom,
-          })}
-          ref={tabsWrapperRef}
-        >
-          <ResizeObserver onResize={onListHolderResize}>
-            <div
-              ref={tabListRef}
-              className={`${prefixCls}-nav-list`}
+      <div
+        className={classNames(wrapPrefix, {
+          [`${wrapPrefix}-ping-left`]: pingLeft,
+          [`${wrapPrefix}-ping-right`]: pingRight,
+          [`${wrapPrefix}-ping-top`]: pingTop,
+          [`${wrapPrefix}-ping-bottom`]: pingBottom,
+        })}
+        ref={tabsWrapperRef}
+      >
+        <ResizeObserver onResize={onListHolderResize}>
+          <div
+            ref={tabListRef}
+            className={`${prefixCls}-nav-list`}
+            style={{
+              transform: `translate(${transformLeft}px, ${transformTop}px)`,
+              transition: lockAnimation ? 'none' : undefined,
+            }}
+          >
+            {tabNodes}
+            <AddButton
+              ref={innerAddButtonRef}
+              prefixCls={prefixCls}
+              locale={locale}
+              editable={editable}
               style={{
-                transform: `translate(${transformLeft}px, ${transformTop}px)`,
-                transition: lockAnimation ? 'none' : undefined,
+                ...(tabNodes.length === 0 ? undefined : tabNodeStyle),
+                visibility: hasDropdown ? 'hidden' : null,
               }}
-            >
-              {tabNodes}
-              <AddButton
-                ref={innerAddButtonRef}
-                prefixCls={prefixCls}
-                locale={locale}
-                editable={editable}
-                style={{
-                  ...(tabNodes.length === 0 ? undefined : tabNodeStyle),
-                  visibility: hasDropdown ? 'hidden' : null,
-                }}
-              />
+            />
 
-              <div
-                className={classNames(`${prefixCls}-ink-bar`, {
-                  [`${prefixCls}-ink-bar-animated`]: animated.inkBar,
-                })}
-                style={inkStyle}
-              />
-            </div>
-          </ResizeObserver>
-        </div>
-      </ResizeObserver>
+            <div
+              className={classNames(`${prefixCls}-ink-bar`, {
+                [`${prefixCls}-ink-bar-animated`]: animated.inkBar,
+              })}
+              style={inkStyle}
+            />
+          </div>
+        </ResizeObserver>
+      </div>
 
       <OperationNode
         {...props}

@@ -24,7 +24,7 @@ export default function useVisibleRange(
   addNodeSizeInfo: SizeInfo,
   operationNodeSizeInfo: SizeInfo,
   { tabs, tabPosition, rtl }: { tabs: Tab[] } & TabNavListProps,
-): [number, number] {
+): [visibleStart: number, visibleEnd: number, visibleTabContentSize: number] {
   let unit: 0 | 1;
   let charUnit: 'width' | 'height';
   let position: 'left' | 'top' | 'right';
@@ -49,7 +49,7 @@ export default function useVisibleRange(
 
   return useMemo(() => {
     if (!tabs.length) {
-      return [0, 0];
+      return [0, 0, containerSize];
     }
 
     // Check if we can put all without scrollable
@@ -78,7 +78,7 @@ export default function useVisibleRange(
       }
     }
 
-    return [startIndex, endIndex];
+    return [startIndex, endIndex, visibleTabContentSize];
   }, [
     tabOffsets,
     containerSize,
