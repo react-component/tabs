@@ -1,11 +1,10 @@
 import { useMemo } from 'react';
-import type { Tab, TabOffsetMap } from '../interface';
+import type { SizeInfo, Tab, TabOffsetMap } from '../interface';
 import type { TabNavListProps } from '../TabNavList';
 
 const DEFAULT_SIZE = { width: 0, height: 0, left: 0, top: 0, right: 0 };
 
 export type ContainerSizeInfo = [width: number, height: number, left: number, top: number];
-export type SizeInfo = [width: number, height: number];
 
 /**
  * Calculate what range of tabs is fully visible

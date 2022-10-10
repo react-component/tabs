@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useState, useRef, useEffect } from 'react';
 import classNames from 'classnames';
 import raf from 'rc-util/lib/raf';
+import { useComposeRef } from 'rc-util/lib/ref';
 import ResizeObserver from 'rc-resize-observer';
 import useRaf, { useRafState } from '../hooks/useRaf';
 import TabNode from './TabNode';
@@ -13,9 +14,8 @@ import type {
   EditableConfig,
   AnimatedConfig,
   OnTabScroll,
-  TabBarExtraPosition,
   TabBarExtraContent,
-  TabBarExtraMap,
+  SizeInfo,
 } from '../interface';
 import useOffsets from '../hooks/useOffsets';
 import useVisibleRange from '../hooks/useVisibleRange';
@@ -26,6 +26,7 @@ import useRefs from '../hooks/useRefs';
 import AddButton from './AddButton';
 import useSyncState from '../hooks/useSyncState';
 import { stringify } from '../util';
+import ExtraContent from './ExtraContent';
 
 export interface TabNavListProps {
   id: string;
@@ -50,36 +51,6 @@ export interface TabNavListProps {
   popupClassName?: string;
 }
 
-interface ExtraContentProps {
-  position: TabBarExtraPosition;
-  prefixCls: string;
-  extra?: TabBarExtraContent;
-}
-
-const ExtraContent = ({ position, prefixCls, extra }: ExtraContentProps) => {
-  if (!extra) return null;
-
-  let content: React.ReactNode;
-
-  // Parse extra
-  let assertExtra: TabBarExtraMap = {};
-  if (extra && typeof extra === 'object' && !React.isValidElement(extra)) {
-    assertExtra = extra as TabBarExtraMap;
-  } else {
-    assertExtra.right = extra;
-  }
-
-  if (position === 'right') {
-    content = assertExtra.right;
-  }
-
-  if (position === 'left') {
-    content = assertExtra.left;
-  }
-
-  return content ? <div className={`${prefixCls}-extra-content`}>{content}</div> : null;
-};
-
 function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   const { prefixCls, tabs } = React.useContext(TabContext);
   const {
@@ -98,6 +69,9 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     onTabClick,
     onTabScroll,
   } = props;
+  const containerRef = useRef<HTMLDivElement>();
+  const extraLeftRef = useRef<HTMLDivElement>();
+  const extraRightRef = useRef<HTMLDivElement>();
   const tabsWrapperRef = useRef<HTMLDivElement>();
   const tabListRef = useRef<HTMLDivElement>();
   const operationsRef = useRef<HTMLDivElement>();
@@ -117,17 +91,13 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     }
   });
 
-  const [wrapperScrollWidth, setWrapperScrollWidth] = useState<number>(0);
-  const [wrapperScrollHeight, setWrapperScrollHeight] = useState<number>(0);
-  const [wrapperWidth, setWrapperWidth] = useState<number>(null);
-  const [wrapperHeight, setWrapperHeight] = useState<number>(null);
-  const [addWidth, setAddWidth] = useState<number>(0);
-  const [addHeight, setAddHeight] = useState<number>(0);
-  const [operationWidth, setOperationWidth] = useState<number>(0);
-  const [operationHeight, setOperationHeight] = useState<number>(0);
+  const [wrapperScrollSize, setWrapperScrollSize] = useState<SizeInfo>([0, 0]);
+  const [wrapperSize, setWrapperSize] = useState<SizeInfo>([null, null]);
+  const [addSize, setAddSize] = useState<SizeInfo>([0, 0]);
+  const [operationSize, setOperationSize] = useState<SizeInfo>([0, 0]);
 
   const [tabSizes, setTabSizes] = useRafState<TabSizeMap>(new Map());
-  const tabOffsets = useOffsets(tabs, tabSizes, wrapperScrollWidth);
+  const tabOffsets = useOffsets(tabs, tabSizes, wrapperScrollSize[0]);
 
   // ========================== Util =========================
   const operationsHiddenClassName = `${prefixCls}-nav-operations-hidden`;
@@ -136,13 +106,13 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   let transformMax = 0;
 
   if (!tabPositionTopOrBottom) {
-    transformMin = Math.min(0, wrapperHeight - wrapperScrollHeight);
+    transformMin = Math.min(0, wrapperSize[1] - wrapperScrollSize[1]);
     transformMax = 0;
   } else if (rtl) {
     transformMin = 0;
-    transformMax = Math.max(0, wrapperScrollWidth - wrapperWidth);
+    transformMax = Math.max(0, wrapperScrollSize[0] - wrapperSize[0]);
   } else {
-    transformMin = Math.min(0, wrapperWidth - wrapperScrollWidth);
+    transformMin = Math.min(0, wrapperSize[0] - wrapperScrollSize[0]);
     transformMax = 0;
   }
 
@@ -179,13 +149,13 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
 
     if (tabPositionTopOrBottom) {
       // Skip scroll if place is enough
-      if (wrapperWidth >= wrapperScrollWidth) {
+      if (wrapperSize[0] >= wrapperScrollSize[0]) {
         return false;
       }
 
       doMove(setTransformLeft, offsetX);
     } else {
-      if (wrapperHeight >= wrapperScrollHeight) {
+      if (wrapperSize[1] >= wrapperScrollSize[1]) {
         return false;
       }
 
@@ -218,13 +188,13 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   const [visibleStart, visibleEnd, visibleTabSize] = useVisibleRange(
     tabOffsets,
     // Container
-    [wrapperWidth, wrapperHeight, transformLeft, transformTop],
+    [...wrapperSize, transformLeft, transformTop],
     // Tabs
-    [wrapperScrollWidth, wrapperScrollHeight],
+    wrapperScrollSize,
     // Add
-    [addWidth, addHeight],
+    addSize,
     // Operation
-    [operationWidth, operationHeight],
+    operationSize,
     { ...props, tabs },
   );
 
@@ -282,18 +252,14 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     const newOperationWidth = operationsRef.current?.offsetWidth || 0;
     const newOperationHeight = operationsRef.current?.offsetHeight || 0;
 
-    setWrapperWidth(offsetWidth);
-    setWrapperHeight(offsetHeight);
-    setAddWidth(newAddWidth);
-    setAddHeight(newAddHeight);
-    setOperationWidth(newOperationWidth);
-    setOperationHeight(newOperationHeight);
+    setWrapperSize([offsetWidth, offsetHeight]);
+    setAddSize([newAddWidth, newAddHeight]);
+    setOperationSize([newOperationWidth, newOperationHeight]);
 
     const newWrapperScrollWidth = (tabListRef.current?.offsetWidth || 0) - newAddWidth;
     const newWrapperScrollHeight = (tabListRef.current?.offsetHeight || 0) - newAddHeight;
 
-    setWrapperScrollWidth(newWrapperScrollWidth);
-    setWrapperScrollHeight(newWrapperScrollHeight);
+    setWrapperScrollSize([newWrapperScrollWidth, newWrapperScrollHeight]);
 
     // Update buttons records
     setTabSizes(() => {
@@ -410,7 +376,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   // Should recalculate when rtl changed
   useEffect(() => {
     onListHolderResize();
-  }, [rtl, tabBarGutter, activeKey, tabs.map(tab => tab.key).join('_')]);
+  }, [rtl]);
 
   // ========================= Render ========================
   const hasDropdown = !!hiddenTabs.length;
@@ -423,81 +389,83 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   if (tabPositionTopOrBottom) {
     if (rtl) {
       pingRight = transformLeft > 0;
-      pingLeft = transformLeft + wrapperWidth < wrapperScrollWidth;
+      pingLeft = transformLeft + wrapperSize[0] < wrapperScrollSize[0];
     } else {
       pingLeft = transformLeft < 0;
-      pingRight = -transformLeft + wrapperWidth < wrapperScrollWidth;
+      pingRight = -transformLeft + wrapperSize[0] < wrapperScrollSize[0];
     }
   } else {
     pingTop = transformTop < 0;
-    pingBottom = -transformTop + wrapperHeight < wrapperScrollHeight;
+    pingBottom = -transformTop + wrapperSize[1] < wrapperScrollSize[1];
   }
 
   return (
-    <div
-      ref={ref}
-      role="tablist"
-      className={classNames(`${prefixCls}-nav`, className)}
-      style={style}
-      onKeyDown={() => {
-        // No need animation when use keyboard
-        doLockAnimation();
-      }}
-    >
-      <ExtraContent position="left" extra={extra} prefixCls={prefixCls} />
-
+    <ResizeObserver onResize={onListHolderResize}>
       <div
-        className={classNames(wrapPrefix, {
-          [`${wrapPrefix}-ping-left`]: pingLeft,
-          [`${wrapPrefix}-ping-right`]: pingRight,
-          [`${wrapPrefix}-ping-top`]: pingTop,
-          [`${wrapPrefix}-ping-bottom`]: pingBottom,
-        })}
-        ref={tabsWrapperRef}
+        ref={useComposeRef(ref, containerRef)}
+        role="tablist"
+        className={classNames(`${prefixCls}-nav`, className)}
+        style={style}
+        onKeyDown={() => {
+          // No need animation when use keyboard
+          doLockAnimation();
+        }}
       >
-        <ResizeObserver onResize={onListHolderResize}>
-          <div
-            ref={tabListRef}
-            className={`${prefixCls}-nav-list`}
-            style={{
-              transform: `translate(${transformLeft}px, ${transformTop}px)`,
-              transition: lockAnimation ? 'none' : undefined,
-            }}
-          >
-            {tabNodes}
-            <AddButton
-              ref={innerAddButtonRef}
-              prefixCls={prefixCls}
-              locale={locale}
-              editable={editable}
-              style={{
-                ...(tabNodes.length === 0 ? undefined : tabNodeStyle),
-                visibility: hasDropdown ? 'hidden' : null,
-              }}
-            />
+        <ExtraContent ref={extraLeftRef} position="left" extra={extra} prefixCls={prefixCls} />
 
+        <div
+          className={classNames(wrapPrefix, {
+            [`${wrapPrefix}-ping-left`]: pingLeft,
+            [`${wrapPrefix}-ping-right`]: pingRight,
+            [`${wrapPrefix}-ping-top`]: pingTop,
+            [`${wrapPrefix}-ping-bottom`]: pingBottom,
+          })}
+          ref={tabsWrapperRef}
+        >
+          <ResizeObserver onResize={onListHolderResize}>
             <div
-              className={classNames(`${prefixCls}-ink-bar`, {
-                [`${prefixCls}-ink-bar-animated`]: animated.inkBar,
-              })}
-              style={inkStyle}
-            />
-          </div>
-        </ResizeObserver>
+              ref={tabListRef}
+              className={`${prefixCls}-nav-list`}
+              style={{
+                transform: `translate(${transformLeft}px, ${transformTop}px)`,
+                transition: lockAnimation ? 'none' : undefined,
+              }}
+            >
+              {tabNodes}
+              <AddButton
+                ref={innerAddButtonRef}
+                prefixCls={prefixCls}
+                locale={locale}
+                editable={editable}
+                style={{
+                  ...(tabNodes.length === 0 ? undefined : tabNodeStyle),
+                  visibility: hasDropdown ? 'hidden' : null,
+                }}
+              />
+
+              <div
+                className={classNames(`${prefixCls}-ink-bar`, {
+                  [`${prefixCls}-ink-bar-animated`]: animated.inkBar,
+                })}
+                style={inkStyle}
+              />
+            </div>
+          </ResizeObserver>
+        </div>
+
+        <OperationNode
+          {...props}
+          removeAriaLabel={locale?.removeAriaLabel}
+          ref={operationsRef}
+          prefixCls={prefixCls}
+          tabs={hiddenTabs}
+          className={!hasDropdown && operationsHiddenClassName}
+          tabMoving={!!lockAnimation}
+        />
+
+        <ExtraContent ref={extraRightRef} position="right" extra={extra} prefixCls={prefixCls} />
       </div>
-
-      <OperationNode
-        {...props}
-        removeAriaLabel={locale?.removeAriaLabel}
-        ref={operationsRef}
-        prefixCls={prefixCls}
-        tabs={hiddenTabs}
-        className={!hasDropdown && operationsHiddenClassName}
-        tabMoving={!!lockAnimation}
-      />
-
-      <ExtraContent position="right" extra={extra} prefixCls={prefixCls} />
-    </div>
+    </ResizeObserver>
   );
   /* eslint-enable */
 }
