@@ -216,13 +216,15 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   const [visibleStart, visibleEnd, visibleTabSize] = useVisibleRange(
     tabOffsets,
     // Container
-    [...containerExcludeExtraSize, transformLeft, transformTop],
+    containerExcludeExtraSizeValue,
+    // Transform
+    tabPositionTopOrBottom ? transformLeft : transformTop,
     // Tabs
-    tabContentSize,
+    tabContentSizeValue,
     // Add
-    addSize,
+    addSizeValue,
     // Operation
-    operationSize,
+    operationSizeValue,
     { ...props, tabs },
   );
 

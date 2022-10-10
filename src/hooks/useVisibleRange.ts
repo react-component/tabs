@@ -1,62 +1,45 @@
 import { useMemo } from 'react';
-import type { SizeInfo, Tab, TabOffsetMap } from '../interface';
+import type { Tab, TabOffsetMap } from '../interface';
 import type { TabNavListProps } from '../TabNavList';
 
 const DEFAULT_SIZE = { width: 0, height: 0, left: 0, top: 0, right: 0 };
 
 export type ContainerSizeInfo = [width: number, height: number, left: number, top: number];
 
-/**
- * Calculate what range of tabs is fully visible
- * @param tabOffsets Each Tab bounding rect info
- * @param containerSizeInfo Full outer container size (includes tabs, extra, operation, etc.)
- * @param tabContentNodeSizeInfo Size of full tabs
- * @param addNodeSizeInfo Size of addNode only
- * @param operationNodeSizeInfo Size of operation node (includes addNode & dropdown)
- * @param tabInfo
- * @returns
- */
 export default function useVisibleRange(
   tabOffsets: TabOffsetMap,
-  containerSizeInfo: ContainerSizeInfo,
-  tabContentNodeSizeInfo: SizeInfo,
-  addNodeSizeInfo: SizeInfo,
-  operationNodeSizeInfo: SizeInfo,
+  containerExcludeExtraSizeValue: number,
+  transform: number,
+  tabContentSizeValue: number,
+  addNodeSizeValue: number,
+  operationNodeSizeValue: number,
   { tabs, tabPosition, rtl }: { tabs: Tab[] } & TabNavListProps,
 ): [visibleStart: number, visibleEnd: number, visibleTabContentSize: number] {
-  let unit: 0 | 1;
   let charUnit: 'width' | 'height';
   let position: 'left' | 'top' | 'right';
   let transformSize: number;
 
   if (['top', 'bottom'].includes(tabPosition)) {
-    unit = 0;
     charUnit = 'width';
     position = rtl ? 'right' : 'left';
-    transformSize = Math.abs(containerSizeInfo[2]);
+    transformSize = Math.abs(transform);
   } else {
-    unit = 1;
     charUnit = 'height';
     position = 'top';
-    transformSize = -containerSizeInfo[3];
+    transformSize = -transform;
   }
-
-  const containerSize = containerSizeInfo[unit];
-  const tabContentSize = tabContentNodeSizeInfo[unit];
-  const addNodeSize = addNodeSizeInfo[unit];
-  const operationNodeSize = operationNodeSizeInfo[unit];
 
   return useMemo(() => {
     if (!tabs.length) {
-      return [0, 0, containerSize];
+      return [0, 0, containerExcludeExtraSizeValue];
     }
 
     // Check if we can put all without scrollable
-    const needScroll = containerSize < tabContentSize + addNodeSize;
+    const needScroll = containerExcludeExtraSizeValue < tabContentSizeValue + addNodeSizeValue;
 
     const visibleTabContentSize = needScroll
-      ? containerSize - operationNodeSize
-      : containerSize - addNodeSize;
+      ? containerExcludeExtraSizeValue - operationNodeSizeValue
+      : containerExcludeExtraSizeValue - addNodeSizeValue;
 
     const len = tabs.length;
     let endIndex = len;
@@ -80,10 +63,10 @@ export default function useVisibleRange(
     return [startIndex, endIndex, visibleTabContentSize];
   }, [
     tabOffsets,
-    containerSize,
-    tabContentSize,
-    addNodeSize,
-    operationNodeSize,
+    containerExcludeExtraSizeValue,
+    tabContentSizeValue,
+    addNodeSizeValue,
+    operationNodeSizeValue,
     transformSize,
     tabPosition,
     tabs.map(tab => tab.key).join('_'),
