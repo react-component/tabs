@@ -51,6 +51,11 @@ export interface TabNavListProps {
   popupClassName?: string;
 }
 
+const getSize = (refObj: React.RefObject<HTMLElement>): SizeInfo => {
+  const { offsetWidth = 0, offsetHeight = 0 } = refObj.current || {};
+  return [offsetWidth, offsetHeight];
+};
+
 function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   const { prefixCls, tabs } = React.useContext(TabContext);
   const {
@@ -91,13 +96,16 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     }
   });
 
-  const [wrapperScrollSize, setWrapperScrollSize] = useState<SizeInfo>([0, 0]);
-  const [wrapperSize, setWrapperSize] = useState<SizeInfo>([null, null]);
+  const [containerExcludeExtraSize, setContainerExcludeExtraSize] = useState<SizeInfo>([0, 0]);
+  const [tabContentSize, setTabContentSize] = useState<SizeInfo>([0, 0]);
+  // const [wrapperSize, setWrapperSize] = useState<SizeInfo>([null, null]);
   const [addSize, setAddSize] = useState<SizeInfo>([0, 0]);
   const [operationSize, setOperationSize] = useState<SizeInfo>([0, 0]);
 
   const [tabSizes, setTabSizes] = useRafState<TabSizeMap>(new Map());
-  const tabOffsets = useOffsets(tabs, tabSizes, wrapperScrollSize[0]);
+  const tabOffsets = useOffsets(tabs, tabSizes, tabContentSize[0]);
+
+  const wrapperSize = containerExcludeExtraSize;
 
   // ========================== Util =========================
   const operationsHiddenClassName = `${prefixCls}-nav-operations-hidden`;
@@ -106,13 +114,13 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   let transformMax = 0;
 
   if (!tabPositionTopOrBottom) {
-    transformMin = Math.min(0, wrapperSize[1] - wrapperScrollSize[1]);
+    transformMin = Math.min(0, wrapperSize[1] - tabContentSize[1]);
     transformMax = 0;
   } else if (rtl) {
     transformMin = 0;
-    transformMax = Math.max(0, wrapperScrollSize[0] - wrapperSize[0]);
+    transformMax = Math.max(0, tabContentSize[0] - wrapperSize[0]);
   } else {
-    transformMin = Math.min(0, wrapperSize[0] - wrapperScrollSize[0]);
+    transformMin = Math.min(0, wrapperSize[0] - tabContentSize[0]);
     transformMax = 0;
   }
 
@@ -149,13 +157,13 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
 
     if (tabPositionTopOrBottom) {
       // Skip scroll if place is enough
-      if (wrapperSize[0] >= wrapperScrollSize[0]) {
+      if (wrapperSize[0] >= tabContentSize[0]) {
         return false;
       }
 
       doMove(setTransformLeft, offsetX);
     } else {
-      if (wrapperSize[1] >= wrapperScrollSize[1]) {
+      if (wrapperSize[1] >= tabContentSize[1]) {
         return false;
       }
 
@@ -188,9 +196,9 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   const [visibleStart, visibleEnd, visibleTabSize] = useVisibleRange(
     tabOffsets,
     // Container
-    [...wrapperSize, transformLeft, transformTop],
+    [...containerExcludeExtraSize, transformLeft, transformTop],
     // Tabs
-    wrapperScrollSize,
+    tabContentSize,
     // Add
     addSize,
     // Operation
@@ -245,21 +253,29 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
 
   const onListHolderResize = useRaf(() => {
     // Update wrapper records
-    const offsetWidth = tabsWrapperRef.current?.offsetWidth || 0;
-    const offsetHeight = tabsWrapperRef.current?.offsetHeight || 0;
-    const newAddWidth = innerAddButtonRef.current?.offsetWidth || 0;
-    const newAddHeight = innerAddButtonRef.current?.offsetHeight || 0;
-    const newOperationWidth = operationsRef.current?.offsetWidth || 0;
-    const newOperationHeight = operationsRef.current?.offsetHeight || 0;
+    const containerSize = getSize(containerRef);
+    const extraLeftSize = getSize(extraLeftRef);
+    const extraRightSize = getSize(extraRightRef);
+    setContainerExcludeExtraSize([
+      containerSize[0] - extraLeftSize[0] - extraRightSize[0],
+      containerSize[1] - extraLeftSize[1] - extraRightSize[1],
+    ]);
 
-    setWrapperSize([offsetWidth, offsetHeight]);
-    setAddSize([newAddWidth, newAddHeight]);
-    setOperationSize([newOperationWidth, newOperationHeight]);
+    // const offsetSize = getSize(tabsWrapperRef);
+    // setWrapperSize(offsetSize);
 
-    const newWrapperScrollWidth = (tabListRef.current?.offsetWidth || 0) - newAddWidth;
-    const newWrapperScrollHeight = (tabListRef.current?.offsetHeight || 0) - newAddHeight;
+    const newAddSize = getSize(innerAddButtonRef);
+    setAddSize(newAddSize);
 
-    setWrapperScrollSize([newWrapperScrollWidth, newWrapperScrollHeight]);
+    const newOperationSize = getSize(operationsRef);
+    setOperationSize(newOperationSize);
+
+    // Which includes add button size
+    const tabContentFullSize = getSize(tabListRef);
+    setTabContentSize([
+      tabContentFullSize[0] - newAddSize[0],
+      tabContentFullSize[1] - newAddSize[1],
+    ]);
 
     // Update buttons records
     setTabSizes(() => {
@@ -389,14 +405,14 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   if (tabPositionTopOrBottom) {
     if (rtl) {
       pingRight = transformLeft > 0;
-      pingLeft = transformLeft + wrapperSize[0] < wrapperScrollSize[0];
+      pingLeft = transformLeft + wrapperSize[0] < tabContentSize[0];
     } else {
       pingLeft = transformLeft < 0;
-      pingRight = -transformLeft + wrapperSize[0] < wrapperScrollSize[0];
+      pingRight = -transformLeft + wrapperSize[0] < tabContentSize[0];
     }
   } else {
     pingTop = transformTop < 0;
-    pingBottom = -transformTop + wrapperSize[1] < wrapperScrollSize[1];
+    pingBottom = -transformTop + wrapperSize[1] < tabContentSize[1];
   }
 
   return (

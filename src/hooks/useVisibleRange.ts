@@ -84,6 +84,7 @@ export default function useVisibleRange(
     tabContentSize,
     addNodeSize,
     operationNodeSize,
+    transformSize,
     tabPosition,
     tabs.map(tab => tab.key).join('_'),
     rtl,
