@@ -1,6 +1,6 @@
 import React from 'react';
 import { StickyContainer, Sticky } from 'react-sticky';
-import Tabs from 'rc-tabs';
+import Tabs from '../../src';
 import '../../assets/index.less';
 
 const renderTabBar = (props, DefaultTabBar) => (
