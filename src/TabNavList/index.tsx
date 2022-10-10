@@ -111,8 +111,6 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   const [tabSizes, setTabSizes] = useRafState<TabSizeMap>(new Map());
   const tabOffsets = useOffsets(tabs, tabSizes, tabContentSize[0]);
 
-  const wrapperSize = containerExcludeExtraSize;
-
   // ========================== Unit =========================
   const containerExcludeExtraSizeValue = getUnitValue(
     containerExcludeExtraSize,
@@ -175,18 +173,14 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
       });
     }
 
-    if (tabPositionTopOrBottom) {
-      // Skip scroll if place is enough
-      if (wrapperSize[0] >= tabContentSize[0]) {
-        return false;
-      }
+    // Skip scroll if place is enough
+    if (containerExcludeExtraSizeValue >= tabContentSizeValue) {
+      return false;
+    }
 
+    if (tabPositionTopOrBottom) {
       doMove(setTransformLeft, offsetX);
     } else {
-      if (wrapperSize[1] >= tabContentSize[1]) {
-        return false;
-      }
-
       doMove(setTransformTop, offsetY);
     }
 
@@ -406,11 +400,13 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   // ========================= Effect ========================
   useEffect(() => {
     scrollToTab();
+    // eslint-disable-next-line
   }, [activeKey, stringify(activeTabOffset), stringify(tabOffsets), tabPositionTopOrBottom]);
 
   // Should recalculate when rtl changed
   useEffect(() => {
     onListHolderResize();
+    // eslint-disable-next-line
   }, [rtl]);
 
   // ========================= Render ========================
@@ -424,14 +420,14 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   if (tabPositionTopOrBottom) {
     if (rtl) {
       pingRight = transformLeft > 0;
-      pingLeft = transformLeft + wrapperSize[0] < tabContentSize[0];
+      pingLeft = transformLeft + containerExcludeExtraSizeValue < tabContentSizeValue;
     } else {
       pingLeft = transformLeft < 0;
-      pingRight = -transformLeft + wrapperSize[0] < tabContentSize[0];
+      pingRight = -transformLeft + containerExcludeExtraSizeValue < tabContentSizeValue;
     }
   } else {
     pingTop = transformTop < 0;
-    pingBottom = -transformTop + wrapperSize[1] < tabContentSize[1];
+    pingBottom = -transformTop + containerExcludeExtraSizeValue < tabContentSizeValue;
   }
 
   return (
