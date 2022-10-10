@@ -4,11 +4,22 @@ import type { TabNavListProps } from '../TabNavList';
 
 const DEFAULT_SIZE = { width: 0, height: 0, left: 0, top: 0, right: 0 };
 
+/**
+ * Calculate what range of tabs is fully visible
+ * @param tabOffsets Each Tab bounding rect info
+ * @param containerSize Full outer container size (includes tabs, extra, operation, etc.)
+ * @param tabContentNodeSize Size of full tabs
+ * @param addNodeSize Size of addNode only
+ * @param operationNodeSize Size of operation node (includes addNode & dropdown)
+ * @param tabInfo
+ * @returns
+ */
 export default function useVisibleRange(
   tabOffsets: TabOffsetMap,
   containerSize: { width: number; height: number; left: number; top: number },
   tabContentNodeSize: { width: number; height: number },
   addNodeSize: { width: number; height: number },
+  operationNodeSize: { width: number; height: number },
   { tabs, tabPosition, rtl }: { tabs: Tab[] } & TabNavListProps,
 ): [number, number] {
   let unit: 'width' | 'height';

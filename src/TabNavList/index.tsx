@@ -122,6 +122,8 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   const [wrapperHeight, setWrapperHeight] = useState<number>(null);
   const [addWidth, setAddWidth] = useState<number>(0);
   const [addHeight, setAddHeight] = useState<number>(0);
+  const [operationWidth, setOperationWidth] = useState<number>(0);
+  const [operationHeight, setOperationHeight] = useState<number>(0);
 
   const [tabSizes, setTabSizes] = useRafState<TabSizeMap>(new Map());
   const tabOffsets = useOffsets(tabs, tabSizes, wrapperScrollWidth);
@@ -271,6 +273,10 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
       width: addWidth,
       height: addHeight,
     },
+    {
+      width: operationWidth,
+      height: operationHeight,
+    },
     { ...props, tabs },
   );
 
@@ -325,11 +331,15 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     const offsetHeight = tabsWrapperRef.current?.offsetHeight || 0;
     const newAddWidth = innerAddButtonRef.current?.offsetWidth || 0;
     const newAddHeight = innerAddButtonRef.current?.offsetHeight || 0;
+    const newOperationWidth = operationsRef.current?.offsetWidth || 0;
+    const newOperationHeight = operationsRef.current?.offsetHeight || 0;
 
     setWrapperWidth(offsetWidth);
     setWrapperHeight(offsetHeight);
     setAddWidth(newAddWidth);
     setAddHeight(newAddHeight);
+    setOperationWidth(newOperationWidth);
+    setOperationHeight(newOperationHeight);
 
     const newWrapperScrollWidth = (tabListRef.current?.offsetWidth || 0) - newAddWidth;
     const newWrapperScrollHeight = (tabListRef.current?.offsetHeight || 0) - newAddHeight;
