@@ -56,6 +56,13 @@ const getSize = (refObj: React.RefObject<HTMLElement>): SizeInfo => {
   return [offsetWidth, offsetHeight];
 };
 
+/**
+ * Convert `SizeInfo` to unit value. Such as [123, 456] with `top` position get `123`
+ */
+const getUnitValue = (size: SizeInfo, tabPositionTopOrBottom: boolean) => {
+  return size[tabPositionTopOrBottom ? 0 : 1];
+};
+
 function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   const { prefixCls, tabs } = React.useContext(TabContext);
   const {
@@ -98,7 +105,6 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
 
   const [containerExcludeExtraSize, setContainerExcludeExtraSize] = useState<SizeInfo>([0, 0]);
   const [tabContentSize, setTabContentSize] = useState<SizeInfo>([0, 0]);
-  // const [wrapperSize, setWrapperSize] = useState<SizeInfo>([null, null]);
   const [addSize, setAddSize] = useState<SizeInfo>([0, 0]);
   const [operationSize, setOperationSize] = useState<SizeInfo>([0, 0]);
 
@@ -107,6 +113,20 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
 
   const wrapperSize = containerExcludeExtraSize;
 
+  // ========================== Unit =========================
+  const containerExcludeExtraSizeValue = getUnitValue(
+    containerExcludeExtraSize,
+    tabPositionTopOrBottom,
+  );
+  const tabContentSizeValue = getUnitValue(tabContentSize, tabPositionTopOrBottom);
+  const addSizeValue = getUnitValue(addSize, tabPositionTopOrBottom);
+  const operationSizeValue = getUnitValue(operationSize, tabPositionTopOrBottom);
+
+  const needScroll = containerExcludeExtraSizeValue < tabContentSizeValue + addSizeValue;
+  const visibleTabContentValue = needScroll
+    ? containerExcludeExtraSizeValue - operationSizeValue
+    : containerExcludeExtraSizeValue - addSizeValue;
+
   // ========================== Util =========================
   const operationsHiddenClassName = `${prefixCls}-nav-operations-hidden`;
 
@@ -114,13 +134,13 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   let transformMax = 0;
 
   if (!tabPositionTopOrBottom) {
-    transformMin = Math.min(0, wrapperSize[1] - tabContentSize[1]);
+    transformMin = Math.min(0, visibleTabContentValue - tabContentSizeValue);
     transformMax = 0;
   } else if (rtl) {
     transformMin = 0;
-    transformMax = Math.max(0, tabContentSize[0] - wrapperSize[0]);
+    transformMax = Math.max(0, tabContentSizeValue - visibleTabContentValue);
   } else {
-    transformMin = Math.min(0, wrapperSize[0] - tabContentSize[0]);
+    transformMin = Math.min(0, visibleTabContentValue - tabContentSizeValue);
     transformMax = 0;
   }
 
@@ -260,9 +280,6 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
       containerSize[0] - extraLeftSize[0] - extraRightSize[0],
       containerSize[1] - extraLeftSize[1] - extraRightSize[1],
     ]);
-
-    // const offsetSize = getSize(tabsWrapperRef);
-    // setWrapperSize(offsetSize);
 
     const newAddSize = getSize(innerAddButtonRef);
     setAddSize(newAddSize);
