@@ -71,6 +71,16 @@ export function getOffsetSizeFunc(info: HackInfo = {}) {
   };
 }
 
+export function btnOffsetPosition() {
+  // eslint-disable-next-line @typescript-eslint/no-invalid-this
+  const btn = this as HTMLButtonElement;
+  const btnList = Array.from(btn.parentNode.childNodes).filter(ele =>
+    (ele as HTMLElement).className.includes('rc-tabs-tab'),
+  );
+  const index = btnList.indexOf(btn);
+  return 20 * index;
+}
+
 export function getTransformX(wrapper: ReactWrapper) {
   const { transform } = wrapper.find('.rc-tabs-nav-list').props().style;
   const match = transform.match(/\(([-\d.]+)px/);

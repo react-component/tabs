@@ -4,6 +4,7 @@ import KeyCode from 'rc-util/lib/KeyCode';
 import { spyElementPrototypes } from 'rc-util/lib/test/domHook';
 import { act } from 'react-dom/test-utils';
 import {
+  btnOffsetPosition,
   getOffsetSizeFunc,
   getTabs,
   getTransformX,
@@ -29,16 +30,6 @@ describe('Tabs.Overflow', () => {
   beforeAll(() => {
     holder = document.createElement('div');
     document.body.appendChild(holder);
-
-    function btnOffsetPosition() {
-      // eslint-disable-next-line @typescript-eslint/no-invalid-this
-      const btn = this as HTMLButtonElement;
-      const btnList = Array.from(btn.parentNode.childNodes).filter(ele =>
-        (ele as HTMLElement).className.includes('rc-tabs-tab'),
-      );
-      const index = btnList.indexOf(btn);
-      return 20 * index;
-    }
 
     domSpy = spyElementPrototypes(HTMLElement, {
       scrollIntoView: () => {},
