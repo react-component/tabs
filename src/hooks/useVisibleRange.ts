@@ -10,19 +10,19 @@ export type SizeInfo = [width: number, height: number];
 /**
  * Calculate what range of tabs is fully visible
  * @param tabOffsets Each Tab bounding rect info
- * @param containerSize Full outer container size (includes tabs, extra, operation, etc.)
- * @param tabContentNodeSize Size of full tabs
- * @param addNodeSize Size of addNode only
- * @param operationNodeSize Size of operation node (includes addNode & dropdown)
+ * @param containerSizeInfo Full outer container size (includes tabs, extra, operation, etc.)
+ * @param tabContentNodeSizeInfo Size of full tabs
+ * @param addNodeSizeInfo Size of addNode only
+ * @param operationNodeSizeInfo Size of operation node (includes addNode & dropdown)
  * @param tabInfo
  * @returns
  */
 export default function useVisibleRange(
   tabOffsets: TabOffsetMap,
-  containerSize: ContainerSizeInfo,
-  tabContentNodeSize: SizeInfo,
-  addNodeSize: SizeInfo,
-  operationNodeSize: SizeInfo,
+  containerSizeInfo: ContainerSizeInfo,
+  tabContentNodeSizeInfo: SizeInfo,
+  addNodeSizeInfo: SizeInfo,
+  operationNodeSizeInfo: SizeInfo,
   { tabs, tabPosition, rtl }: { tabs: Tab[] } & TabNavListProps,
 ): [number, number] {
   let unit: 0 | 1;
@@ -34,33 +34,36 @@ export default function useVisibleRange(
     unit = 0;
     charUnit = 'width';
     position = rtl ? 'right' : 'left';
-    transformSize = Math.abs(containerSize[2]);
+    transformSize = Math.abs(containerSizeInfo[2]);
   } else {
     unit = 1;
     charUnit = 'height';
     position = 'top';
-    transformSize = -containerSize[3];
+    transformSize = -containerSizeInfo[3];
   }
 
-  const basicSize = containerSize[unit];
-  const tabContentSize = tabContentNodeSize[unit];
-  const addSize = addNodeSize[unit];
-
-  let mergedBasicSize = basicSize;
-  if (tabContentSize + addSize > basicSize && tabContentSize < basicSize) {
-    mergedBasicSize = basicSize - addSize;
-  }
+  const containerSize = containerSizeInfo[unit];
+  const tabContentSize = tabContentNodeSizeInfo[unit];
+  const addNodeSize = addNodeSizeInfo[unit];
+  const operationNodeSize = operationNodeSizeInfo[unit];
 
   return useMemo(() => {
     if (!tabs.length) {
       return [0, 0];
     }
 
+    // Check if we can put all without scrollable
+    const needScroll = containerSize < tabContentSize + addNodeSize;
+
+    const visibleTabContentSize = needScroll
+      ? containerSize - operationNodeSize
+      : containerSize - addNodeSize;
+
     const len = tabs.length;
     let endIndex = len;
     for (let i = 0; i < len; i += 1) {
       const offset = tabOffsets.get(tabs[i].key) || DEFAULT_SIZE;
-      if (offset[position] + offset[charUnit] > transformSize + mergedBasicSize) {
+      if (offset[position] + offset[charUnit] > transformSize + visibleTabContentSize) {
         endIndex = i - 1;
         break;
       }
@@ -78,8 +81,10 @@ export default function useVisibleRange(
     return [startIndex, endIndex];
   }, [
     tabOffsets,
-    transformSize,
-    mergedBasicSize,
+    containerSize,
+    tabContentSize,
+    addNodeSize,
+    operationNodeSize,
     tabPosition,
     tabs.map(tab => tab.key).join('_'),
     rtl,
