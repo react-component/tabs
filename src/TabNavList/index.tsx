@@ -203,10 +203,10 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
 
   // ===================== Visible Range =====================
   // Render tab node & collect tab offset
-  const [visibleStart, visibleEnd, visibleTabSize] = useVisibleRange(
+  const [visibleStart, visibleEnd] = useVisibleRange(
     tabOffsets,
     // Container
-    containerExcludeExtraSizeValue,
+    visibleTabContentValue,
     // Transform
     tabPositionTopOrBottom ? transformLeft : transformTop,
     // Tabs
@@ -236,15 +236,15 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
       if (rtl) {
         if (tabOffset.right < transformLeft) {
           newTransform = tabOffset.right;
-        } else if (tabOffset.right + tabOffset.width > transformLeft + visibleTabSize) {
-          newTransform = tabOffset.right + tabOffset.width - visibleTabSize;
+        } else if (tabOffset.right + tabOffset.width > transformLeft + visibleTabContentValue) {
+          newTransform = tabOffset.right + tabOffset.width - visibleTabContentValue;
         }
       }
       // LTR
       else if (tabOffset.left < -transformLeft) {
         newTransform = -tabOffset.left;
-      } else if (tabOffset.left + tabOffset.width > -transformLeft + visibleTabSize) {
-        newTransform = -(tabOffset.left + tabOffset.width - visibleTabSize);
+      } else if (tabOffset.left + tabOffset.width > -transformLeft + visibleTabContentValue) {
+        newTransform = -(tabOffset.left + tabOffset.width - visibleTabContentValue);
       }
 
       setTransformTop(0);
@@ -255,8 +255,8 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
 
       if (tabOffset.top < -transformTop) {
         newTransform = -tabOffset.top;
-      } else if (tabOffset.top + tabOffset.height > -transformTop + visibleTabSize) {
-        newTransform = -(tabOffset.top + tabOffset.height - visibleTabSize);
+      } else if (tabOffset.top + tabOffset.height > -transformTop + visibleTabContentValue) {
+        newTransform = -(tabOffset.top + tabOffset.height - visibleTabContentValue);
       }
 
       setTransformLeft(0);

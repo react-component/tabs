@@ -8,13 +8,13 @@ export type ContainerSizeInfo = [width: number, height: number, left: number, to
 
 export default function useVisibleRange(
   tabOffsets: TabOffsetMap,
-  containerExcludeExtraSizeValue: number,
+  visibleTabContentValue: number,
   transform: number,
   tabContentSizeValue: number,
   addNodeSizeValue: number,
   operationNodeSizeValue: number,
   { tabs, tabPosition, rtl }: { tabs: Tab[] } & TabNavListProps,
-): [visibleStart: number, visibleEnd: number, visibleTabContentSize: number] {
+): [visibleStart: number, visibleEnd: number] {
   let charUnit: 'width' | 'height';
   let position: 'left' | 'top' | 'right';
   let transformSize: number;
@@ -31,21 +31,14 @@ export default function useVisibleRange(
 
   return useMemo(() => {
     if (!tabs.length) {
-      return [0, 0, containerExcludeExtraSizeValue];
+      return [0, 0];
     }
-
-    // Check if we can put all without scrollable
-    const needScroll = containerExcludeExtraSizeValue < tabContentSizeValue + addNodeSizeValue;
-
-    const visibleTabContentSize = needScroll
-      ? containerExcludeExtraSizeValue - operationNodeSizeValue
-      : containerExcludeExtraSizeValue - addNodeSizeValue;
 
     const len = tabs.length;
     let endIndex = len;
     for (let i = 0; i < len; i += 1) {
       const offset = tabOffsets.get(tabs[i].key) || DEFAULT_SIZE;
-      if (offset[position] + offset[charUnit] > transformSize + visibleTabContentSize) {
+      if (offset[position] + offset[charUnit] > transformSize + visibleTabContentValue) {
         endIndex = i - 1;
         break;
       }
@@ -60,10 +53,10 @@ export default function useVisibleRange(
       }
     }
 
-    return [startIndex, endIndex, visibleTabContentSize];
+    return [startIndex, endIndex];
   }, [
     tabOffsets,
-    containerExcludeExtraSizeValue,
+    visibleTabContentValue,
     tabContentSizeValue,
     addNodeSizeValue,
     operationNodeSizeValue,
