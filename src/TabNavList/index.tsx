@@ -295,7 +295,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
           removeBtnRef(key);
         }}
         onFocus={() => {
-          // scrollToTab(key);
+          scrollToTab(key);
           doLockAnimation();
           if (!tabsWrapperRef.current) {
             return;
