@@ -15,7 +15,7 @@ const ExtraContent = React.forwardRef<HTMLDivElement, ExtraContentProps>(
 
     // Parse extra
     let assertExtra: TabBarExtraMap = {};
-    if (extra && typeof extra === 'object' && !React.isValidElement(extra)) {
+    if (typeof extra === 'object' && !React.isValidElement(extra)) {
       assertExtra = extra as TabBarExtraMap;
     } else {
       assertExtra.right = extra;
