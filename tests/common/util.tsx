@@ -4,38 +4,68 @@ import type { ReactWrapper } from 'enzyme';
 import Tabs from '../../src';
 import type { TabsProps } from '../../src/Tabs';
 
-export function getOffsetSizeFunc(
-  info: {
-    list?: number;
-    wrapper?: number;
-    add?: number;
-    operation?: number;
-    more?: number;
-    dropdown?: number;
-  } = {},
-) {
+/**
+ * |                            container                            |
+ * |  extra left  |                      | operation |  extra right  |
+ * |              |                             list                              |
+ * |              |                       tab content                       | add |
+ */
+
+export interface HackInfo {
+  container?: number;
+  tabNode?: number;
+  add?: number;
+  more?: number;
+  extra?: number;
+}
+
+export function getOffsetSizeFunc(info: HackInfo = {}) {
   return function getOffsetSize() {
-    if (this.className.includes('rc-tabs-tab')) {
-      return 20;
+    const { container = 50, extra = 10, tabNode = 20, add = 10, more = 10 } = info;
+
+    if (this.classList.contains('rc-tabs-nav')) {
+      return container;
     }
-    if (this.className.includes('rc-tabs-nav-list')) {
-      return info.list || 5 * 20 + 10;
+
+    if (this.classList.contains('rc-tabs-extra-content')) {
+      return extra;
     }
-    if (this.className.includes('rc-tabs-nav-wrap')) {
-      return info.wrapper || 40;
+
+    if (this.classList.contains('rc-tabs-nav-list')) {
+      return this.querySelectorAll('.rc-tabs-tab').length * tabNode + add;
     }
-    if (this.className.includes('rc-tabs-nav-add')) {
-      return info.add || 10;
+
+    if (this.classList.contains('rc-tabs-tab')) {
+      return tabNode;
     }
-    if (this.className.includes('rc-tabs-nav-operations')) {
-      return info.operation || 10;
+
+    if (this.classList.contains('rc-tabs-nav-add')) {
+      return more;
     }
-    if (this.className.includes('rc-tabs-nav-more')) {
-      return info.more || 10;
+
+    if (this.classList.contains('rc-tabs-nav-more')) {
+      return more;
     }
-    if (this.className.includes('rc-tabs-dropdown')) {
-      return info.dropdown || 10;
+
+    if (this.classList.contains('rc-tabs-nav-operations')) {
+      return this.querySelector('.rc-tabs-nav-add') ? more + add : more;
     }
+
+    // if (this.className.includes('rc-tabs-nav-list')) {
+    //   return info.list || 5 * 20 + 10;
+    // }
+    // if (this.className.includes('rc-tabs-nav-add')) {
+    //   return info.add || 10;
+    // }
+    // if (this.className.includes('rc-tabs-nav-operations')) {
+    //   return info.operation || 10;
+    // }
+    // if (this.className.includes('rc-tabs-nav-more')) {
+    //   return info.more || 10;
+    // }
+    // if (this.className.includes('rc-tabs-dropdown')) {
+    //   return info.dropdown || 10;
+    // }
 
     throw new Error(`className not match ${this.className}`);
   };
@@ -66,7 +96,6 @@ export function getTransformY(wrapper: ReactWrapper) {
 export function getTabs(props: TabsProps = null) {
   return (
     <Tabs
-      {...props}
       items={[
         {
           label: 'light',
@@ -95,6 +124,7 @@ export function getTabs(props: TabsProps = null) {
           children: 'Miu',
         },
       ]}
+      {...props}
     />
   );
 }

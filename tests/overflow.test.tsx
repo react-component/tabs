@@ -10,6 +10,7 @@ import {
   getTransformY,
   triggerResize,
 } from './common/util';
+import type { HackInfo } from './common/util';
 import type { TabsProps } from '../src';
 import Tabs from '../src';
 
@@ -17,7 +18,13 @@ describe('Tabs.Overflow', () => {
   let domSpy: ReturnType<typeof spyElementPrototypes>;
   let holder: HTMLDivElement;
 
-  const hackOffsetInfo: { list?: number } = {};
+  const hackOffsetInfo: HackInfo = {};
+
+  beforeEach(() => {
+    Object.keys(hackOffsetInfo).forEach(key => {
+      delete hackOffsetInfo[key];
+    });
+  });
 
   beforeAll(() => {
     holder = document.createElement('div');
@@ -161,7 +168,7 @@ describe('Tabs.Overflow', () => {
 
     ['top', 'left'].forEach((tabPosition: any) => {
       list.forEach(({ name, x1, y1, x2, y2 }) => {
-        it(`should ${tabPosition} work for ${name}`, () => {
+        it(`should tab pos '${tabPosition}' work for ${name}`, () => {
           jest.useFakeTimers();
           const wrapper = mount(getTabs({ tabPosition }), { attachTo: holder });
 
@@ -175,20 +182,20 @@ describe('Tabs.Overflow', () => {
           const node = wrapper.find('.rc-tabs-nav-wrap').instance() as unknown as HTMLElement;
 
           act(() => {
-            const touchStart = new WheelEvent('wheel', {
+            const wheel = new WheelEvent('wheel', {
               deltaX: x1,
               deltaY: y1,
             });
-            node.dispatchEvent(touchStart);
+            node.dispatchEvent(wheel);
             jest.runAllTimers();
           });
 
           act(() => {
-            const touchStart = new WheelEvent('wheel', {
+            const wheel = new WheelEvent('wheel', {
               deltaX: x2,
               deltaY: y2,
             });
-            node.dispatchEvent(touchStart);
+            node.dispatchEvent(wheel);
             jest.runAllTimers();
           });
 
@@ -207,8 +214,6 @@ describe('Tabs.Overflow', () => {
 
     ['top', 'left'].forEach((tabPosition: any) => {
       it(`no need if place is enough: ${tabPosition}`, () => {
-        hackOffsetInfo.list = 20;
-
         jest.useFakeTimers();
         const wrapper = mount(
           getTabs({
@@ -230,22 +235,21 @@ describe('Tabs.Overflow', () => {
 
         // Wheel to move
         const node = wrapper.find('.rc-tabs-nav-wrap').instance() as unknown as HTMLElement;
-        const touchStart = new WheelEvent('wheel', {
+        const wheel = new WheelEvent('wheel', {
           deltaX: 20,
           deltaY: 20,
         });
-        touchStart.preventDefault = jest.fn();
+        wheel.preventDefault = jest.fn();
 
         act(() => {
-          node.dispatchEvent(touchStart);
+          node.dispatchEvent(wheel);
           jest.runAllTimers();
         });
 
-        expect(touchStart.preventDefault).not.toHaveBeenCalled();
+        expect(wheel.preventDefault).not.toHaveBeenCalled();
         expect(getTransformX(wrapper)).toEqual(0);
 
         jest.useRealTimers();
-        hackOffsetInfo.list = undefined;
       });
     });
   });
@@ -333,7 +337,6 @@ describe('Tabs.Overflow', () => {
 
     list.forEach(({ name, trigger }) => {
       it(`remove by ${name} in dropdown menu`, () => {
-        console.log('run here');
         jest.useFakeTimers();
         const onEdit = jest.fn();
         const wrapper = mount(getTabs({ editable: { onEdit } }));
@@ -346,8 +349,10 @@ describe('Tabs.Overflow', () => {
 
         // Click to open
         wrapper.find('.rc-tabs-nav-more').simulate('mouseenter');
-        jest.runAllTimers();
-        wrapper.update();
+        act(() => {
+          jest.runAllTimers();
+          wrapper.update();
+        });
 
         const first = wrapper.find('.rc-tabs-dropdown-menu-item-remove').first();
         trigger(first);
@@ -355,10 +360,12 @@ describe('Tabs.Overflow', () => {
         // Should be button to enable press SPACE key to trigger
         expect(first.instance() instanceof HTMLButtonElement).toBeTruthy();
 
-        expect(onEdit).toHaveBeenCalledWith('remove', {
-          key: 'cute',
-          event: expect.anything(),
-        });
+        expect(onEdit).toHaveBeenCalledWith(
+          'remove',
+          expect.objectContaining({
+            key: 'bamboo',
+          }),
+        );
 
         wrapper.unmount();
         jest.useRealTimers();
