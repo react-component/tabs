@@ -25,6 +25,7 @@ import useTouchMove from '../hooks/useTouchMove';
 import useRefs from '../hooks/useRefs';
 import AddButton from './AddButton';
 import useSyncState from '../hooks/useSyncState';
+import { stringify } from '../util';
 
 export interface TabNavListProps {
   id: string;
@@ -259,24 +260,14 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
 
   const [visibleStart, visibleEnd] = useVisibleRange(
     tabOffsets,
-    {
-      width: wrapperWidth,
-      height: wrapperHeight,
-      left: transformLeft,
-      top: transformTop,
-    },
-    {
-      width: wrapperScrollWidth,
-      height: wrapperScrollHeight,
-    },
-    {
-      width: addWidth,
-      height: addHeight,
-    },
-    {
-      width: operationWidth,
-      height: operationHeight,
-    },
+    // Container
+    [wrapperWidth, wrapperHeight, transformLeft, transformTop],
+    // Tabs
+    [wrapperScrollWidth, wrapperScrollHeight],
+    // Add
+    [addWidth, addHeight],
+    // Operation
+    [operationWidth, operationHeight],
     { ...props, tabs },
   );
 
@@ -410,7 +401,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   // ========================= Effect ========================
   useEffect(() => {
     scrollToTab();
-  }, [activeKey, activeTabOffset, tabOffsets, tabPositionTopOrBottom]);
+  }, [activeKey, stringify(activeTabOffset), stringify(tabOffsets), tabPositionTopOrBottom]);
 
   // Should recalculate when rtl changed
   useEffect(() => {

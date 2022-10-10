@@ -4,6 +4,9 @@ import type { TabNavListProps } from '../TabNavList';
 
 const DEFAULT_SIZE = { width: 0, height: 0, left: 0, top: 0, right: 0 };
 
+export type ContainerSizeInfo = [width: number, height: number, left: number, top: number];
+export type SizeInfo = [width: number, height: number];
+
 /**
  * Calculate what range of tabs is fully visible
  * @param tabOffsets Each Tab bounding rect info
@@ -16,24 +19,24 @@ const DEFAULT_SIZE = { width: 0, height: 0, left: 0, top: 0, right: 0 };
  */
 export default function useVisibleRange(
   tabOffsets: TabOffsetMap,
-  containerSize: { width: number; height: number; left: number; top: number },
-  tabContentNodeSize: { width: number; height: number },
-  addNodeSize: { width: number; height: number },
-  operationNodeSize: { width: number; height: number },
+  containerSize: ContainerSizeInfo,
+  tabContentNodeSize: SizeInfo,
+  addNodeSize: SizeInfo,
+  operationNodeSize: SizeInfo,
   { tabs, tabPosition, rtl }: { tabs: Tab[] } & TabNavListProps,
 ): [number, number] {
-  let unit: 'width' | 'height';
+  let unit: 0 | 1;
   let position: 'left' | 'top' | 'right';
   let transformSize: number;
 
   if (['top', 'bottom'].includes(tabPosition)) {
-    unit = 'width';
+    unit = 0;
     position = rtl ? 'right' : 'left';
-    transformSize = Math.abs(containerSize.left);
+    transformSize = Math.abs(containerSize[2]);
   } else {
-    unit = 'height';
+    unit = 1;
     position = 'top';
-    transformSize = -containerSize.top;
+    transformSize = -containerSize[3];
   }
 
   const basicSize = containerSize[unit];
