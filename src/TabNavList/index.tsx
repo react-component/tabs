@@ -201,12 +201,8 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     return clearTouchMoving;
   }, [lockAnimation]);
 
-  // ========================== Tab ==========================
+  // ===================== Visible Range =====================
   // Render tab node & collect tab offset
-
-  // eslint-disable-next-line prefer-const
-  let scrollToTab: (key?: React.Key) => void;
-
   const [visibleStart, visibleEnd, visibleTabSize] = useVisibleRange(
     tabOffsets,
     // Container
@@ -222,6 +218,53 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     { ...props, tabs },
   );
 
+  // ========================= Scroll ========================
+  const scrollToTab = (key = activeKey) => {
+    const tabOffset = tabOffsets.get(key) || {
+      width: 0,
+      height: 0,
+      left: 0,
+      right: 0,
+      top: 0,
+    };
+
+    if (tabPositionTopOrBottom) {
+      // ============ Align with top & bottom ============
+      let newTransform = transformLeft;
+
+      // RTL
+      if (rtl) {
+        if (tabOffset.right < transformLeft) {
+          newTransform = tabOffset.right;
+        } else if (tabOffset.right + tabOffset.width > transformLeft + visibleTabSize) {
+          newTransform = tabOffset.right + tabOffset.width - visibleTabSize;
+        }
+      }
+      // LTR
+      else if (tabOffset.left < -transformLeft) {
+        newTransform = -tabOffset.left;
+      } else if (tabOffset.left + tabOffset.width > -transformLeft + visibleTabSize) {
+        newTransform = -(tabOffset.left + tabOffset.width - visibleTabSize);
+      }
+
+      setTransformTop(0);
+      setTransformLeft(alignInRange(newTransform));
+    } else {
+      // ============ Align with left & right ============
+      let newTransform = transformTop;
+
+      if (tabOffset.top < -transformTop) {
+        newTransform = -tabOffset.top;
+      } else if (tabOffset.top + tabOffset.height > -transformTop + visibleTabSize) {
+        newTransform = -(tabOffset.top + tabOffset.height - visibleTabSize);
+      }
+
+      setTransformLeft(0);
+      setTransformTop(alignInRange(newTransform));
+    }
+  };
+
+  // ========================== Tab ==========================
   const tabNodeStyle: React.CSSProperties = {};
   if (tabPosition === 'top' || tabPosition === 'bottom') {
     tabNodeStyle[rtl ? 'marginRight' : 'marginLeft'] = tabBarGutter;
@@ -312,53 +355,6 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   const startHiddenTabs = tabs.slice(0, visibleStart);
   const endHiddenTabs = tabs.slice(visibleEnd + 1);
   const hiddenTabs = [...startHiddenTabs, ...endHiddenTabs];
-
-  // ========================= Scroll ========================
-  // eslint-disable-next-line prefer-const
-  scrollToTab = (key = activeKey) => {
-    const tabOffset = tabOffsets.get(key) || {
-      width: 0,
-      height: 0,
-      left: 0,
-      right: 0,
-      top: 0,
-    };
-
-    if (tabPositionTopOrBottom) {
-      // ============ Align with top & bottom ============
-      let newTransform = transformLeft;
-
-      // RTL
-      if (rtl) {
-        if (tabOffset.right < transformLeft) {
-          newTransform = tabOffset.right;
-        } else if (tabOffset.right + tabOffset.width > transformLeft + visibleTabSize) {
-          newTransform = tabOffset.right + tabOffset.width - visibleTabSize;
-        }
-      }
-      // LTR
-      else if (tabOffset.left < -transformLeft) {
-        newTransform = -tabOffset.left;
-      } else if (tabOffset.left + tabOffset.width > -transformLeft + visibleTabSize) {
-        newTransform = -(tabOffset.left + tabOffset.width - visibleTabSize);
-      }
-
-      setTransformTop(0);
-      setTransformLeft(alignInRange(newTransform));
-    } else {
-      // ============ Align with left & right ============
-      let newTransform = transformTop;
-
-      if (tabOffset.top < -transformTop) {
-        newTransform = -tabOffset.top;
-      } else if (tabOffset.top + tabOffset.height > -transformTop + visibleTabSize) {
-        newTransform = -(tabOffset.top + tabOffset.height - visibleTabSize);
-      }
-
-      setTransformLeft(0);
-      setTransformTop(alignInRange(newTransform));
-    }
-  };
 
   // =================== Link & Operations ===================
   const [inkStyle, setInkStyle] = useState<React.CSSProperties>();
