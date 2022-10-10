@@ -26,15 +26,18 @@ export default function useVisibleRange(
   { tabs, tabPosition, rtl }: { tabs: Tab[] } & TabNavListProps,
 ): [number, number] {
   let unit: 0 | 1;
+  let charUnit: 'width' | 'height';
   let position: 'left' | 'top' | 'right';
   let transformSize: number;
 
   if (['top', 'bottom'].includes(tabPosition)) {
     unit = 0;
+    charUnit = 'width';
     position = rtl ? 'right' : 'left';
     transformSize = Math.abs(containerSize[2]);
   } else {
     unit = 1;
+    charUnit = 'height';
     position = 'top';
     transformSize = -containerSize[3];
   }
@@ -57,7 +60,7 @@ export default function useVisibleRange(
     let endIndex = len;
     for (let i = 0; i < len; i += 1) {
       const offset = tabOffsets.get(tabs[i].key) || DEFAULT_SIZE;
-      if (offset[position] + offset[unit] > transformSize + mergedBasicSize) {
+      if (offset[position] + offset[charUnit] > transformSize + mergedBasicSize) {
         endIndex = i - 1;
         break;
       }
