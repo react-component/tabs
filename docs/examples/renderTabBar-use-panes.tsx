@@ -1,5 +1,5 @@
 import React from 'react';
-import Tabs from 'rc-tabs';
+import Tabs from '../../src';
 import '../../assets/index.less';
 
 const renderTabBar = props => {

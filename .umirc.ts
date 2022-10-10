@@ -14,4 +14,9 @@ export default defineConfig({
       }
     `,
   ],
+
+  chainWebpack(memo) {
+    memo.resolve.alias.delete('rc-tabs');
+    return memo;
+  },
 });

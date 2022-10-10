@@ -1,5 +1,5 @@
 import React from 'react';
-import Tabs from 'rc-tabs';
+import Tabs from '../../src';
 import type { CSSMotionProps } from 'rc-motion';
 import '../../assets/index.less';
 import './animated.less';

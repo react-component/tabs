@@ -1,6 +1,6 @@
 import React from 'react';
-import Tabs from 'rc-tabs';
-import type { TabsProps } from 'rc-tabs';
+import Tabs from '../../src';
+import type { TabsProps } from '../../src';
 import '../../assets/index.less';
 
 function getTabPanes(count = 50) {
