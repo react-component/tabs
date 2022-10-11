@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useState, useRef, useEffect } from 'react';
 import classNames from 'classnames';
 import raf from 'rc-util/lib/raf';
+import { useComposeRef } from 'rc-util/lib/ref';
 import ResizeObserver from 'rc-resize-observer';
 import useRaf, { useRafState } from '../hooks/useRaf';
 import TabNode from './TabNode';
@@ -13,9 +14,8 @@ import type {
   EditableConfig,
   AnimatedConfig,
   OnTabScroll,
-  TabBarExtraPosition,
   TabBarExtraContent,
-  TabBarExtraMap,
+  SizeInfo,
 } from '../interface';
 import useOffsets from '../hooks/useOffsets';
 import useVisibleRange from '../hooks/useVisibleRange';
@@ -25,6 +25,8 @@ import useTouchMove from '../hooks/useTouchMove';
 import useRefs from '../hooks/useRefs';
 import AddButton from './AddButton';
 import useSyncState from '../hooks/useSyncState';
+import { stringify } from '../util';
+import ExtraContent from './ExtraContent';
 
 export interface TabNavListProps {
   id: string;
@@ -49,34 +51,16 @@ export interface TabNavListProps {
   popupClassName?: string;
 }
 
-interface ExtraContentProps {
-  position: TabBarExtraPosition;
-  prefixCls: string;
-  extra?: TabBarExtraContent;
-}
+const getSize = (refObj: React.RefObject<HTMLElement>): SizeInfo => {
+  const { offsetWidth = 0, offsetHeight = 0 } = refObj.current || {};
+  return [offsetWidth, offsetHeight];
+};
 
-const ExtraContent = ({ position, prefixCls, extra }: ExtraContentProps) => {
-  if (!extra) return null;
-
-  let content: React.ReactNode;
-
-  // Parse extra
-  let assertExtra: TabBarExtraMap = {};
-  if (extra && typeof extra === 'object' && !React.isValidElement(extra)) {
-    assertExtra = extra as TabBarExtraMap;
-  } else {
-    assertExtra.right = extra;
-  }
-
-  if (position === 'right') {
-    content = assertExtra.right;
-  }
-
-  if (position === 'left') {
-    content = assertExtra.left;
-  }
-
-  return content ? <div className={`${prefixCls}-extra-content`}>{content}</div> : null;
+/**
+ * Convert `SizeInfo` to unit value. Such as [123, 456] with `top` position get `123`
+ */
+const getUnitValue = (size: SizeInfo, tabPositionTopOrBottom: boolean) => {
+  return size[tabPositionTopOrBottom ? 0 : 1];
 };
 
 function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
@@ -97,6 +81,9 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     onTabClick,
     onTabScroll,
   } = props;
+  const containerRef = useRef<HTMLDivElement>();
+  const extraLeftRef = useRef<HTMLDivElement>();
+  const extraRightRef = useRef<HTMLDivElement>();
   const tabsWrapperRef = useRef<HTMLDivElement>();
   const tabListRef = useRef<HTMLDivElement>();
   const operationsRef = useRef<HTMLDivElement>();
@@ -116,15 +103,27 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     }
   });
 
-  const [wrapperScrollWidth, setWrapperScrollWidth] = useState<number>(0);
-  const [wrapperScrollHeight, setWrapperScrollHeight] = useState<number>(0);
-  const [wrapperWidth, setWrapperWidth] = useState<number>(null);
-  const [wrapperHeight, setWrapperHeight] = useState<number>(null);
-  const [addWidth, setAddWidth] = useState<number>(0);
-  const [addHeight, setAddHeight] = useState<number>(0);
+  const [containerExcludeExtraSize, setContainerExcludeExtraSize] = useState<SizeInfo>([0, 0]);
+  const [tabContentSize, setTabContentSize] = useState<SizeInfo>([0, 0]);
+  const [addSize, setAddSize] = useState<SizeInfo>([0, 0]);
+  const [operationSize, setOperationSize] = useState<SizeInfo>([0, 0]);
 
   const [tabSizes, setTabSizes] = useRafState<TabSizeMap>(new Map());
-  const tabOffsets = useOffsets(tabs, tabSizes, wrapperScrollWidth);
+  const tabOffsets = useOffsets(tabs, tabSizes, tabContentSize[0]);
+
+  // ========================== Unit =========================
+  const containerExcludeExtraSizeValue = getUnitValue(
+    containerExcludeExtraSize,
+    tabPositionTopOrBottom,
+  );
+  const tabContentSizeValue = getUnitValue(tabContentSize, tabPositionTopOrBottom);
+  const addSizeValue = getUnitValue(addSize, tabPositionTopOrBottom);
+  const operationSizeValue = getUnitValue(operationSize, tabPositionTopOrBottom);
+
+  const needScroll = containerExcludeExtraSizeValue < tabContentSizeValue + addSizeValue;
+  const visibleTabContentValue = needScroll
+    ? containerExcludeExtraSizeValue - operationSizeValue
+    : containerExcludeExtraSizeValue - addSizeValue;
 
   // ========================== Util =========================
   const operationsHiddenClassName = `${prefixCls}-nav-operations-hidden`;
@@ -133,13 +132,13 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   let transformMax = 0;
 
   if (!tabPositionTopOrBottom) {
-    transformMin = Math.min(0, wrapperHeight - wrapperScrollHeight);
+    transformMin = Math.min(0, visibleTabContentValue - tabContentSizeValue);
     transformMax = 0;
   } else if (rtl) {
     transformMin = 0;
-    transformMax = Math.max(0, wrapperScrollWidth - wrapperWidth);
+    transformMax = Math.max(0, tabContentSizeValue - visibleTabContentValue);
   } else {
-    transformMin = Math.min(0, wrapperWidth - wrapperScrollWidth);
+    transformMin = Math.min(0, visibleTabContentValue - tabContentSizeValue);
     transformMax = 0;
   }
 
@@ -174,18 +173,14 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
       });
     }
 
-    if (tabPositionTopOrBottom) {
-      // Skip scroll if place is enough
-      if (wrapperWidth >= wrapperScrollWidth) {
-        return false;
-      }
+    // Skip scroll if place is enough
+    if (containerExcludeExtraSizeValue >= tabContentSizeValue) {
+      return false;
+    }
 
+    if (tabPositionTopOrBottom) {
       doMove(setTransformLeft, offsetX);
     } else {
-      if (wrapperHeight >= wrapperScrollHeight) {
-        return false;
-      }
-
       doMove(setTransformTop, offsetY);
     }
 
@@ -206,8 +201,25 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     return clearTouchMoving;
   }, [lockAnimation]);
 
+  // ===================== Visible Range =====================
+  // Render tab node & collect tab offset
+  const [visibleStart, visibleEnd] = useVisibleRange(
+    tabOffsets,
+    // Container
+    visibleTabContentValue,
+    // Transform
+    tabPositionTopOrBottom ? transformLeft : transformTop,
+    // Tabs
+    tabContentSizeValue,
+    // Add
+    addSizeValue,
+    // Operation
+    operationSizeValue,
+    { ...props, tabs },
+  );
+
   // ========================= Scroll ========================
-  function scrollToTab(key = activeKey) {
+  const scrollToTab = (key = activeKey) => {
     const tabOffset = tabOffsets.get(key) || {
       width: 0,
       height: 0,
@@ -224,15 +236,15 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
       if (rtl) {
         if (tabOffset.right < transformLeft) {
           newTransform = tabOffset.right;
-        } else if (tabOffset.right + tabOffset.width > transformLeft + wrapperWidth) {
-          newTransform = tabOffset.right + tabOffset.width - wrapperWidth;
+        } else if (tabOffset.right + tabOffset.width > transformLeft + visibleTabContentValue) {
+          newTransform = tabOffset.right + tabOffset.width - visibleTabContentValue;
         }
       }
       // LTR
       else if (tabOffset.left < -transformLeft) {
         newTransform = -tabOffset.left;
-      } else if (tabOffset.left + tabOffset.width > -transformLeft + wrapperWidth) {
-        newTransform = -(tabOffset.left + tabOffset.width - wrapperWidth);
+      } else if (tabOffset.left + tabOffset.width > -transformLeft + visibleTabContentValue) {
+        newTransform = -(tabOffset.left + tabOffset.width - visibleTabContentValue);
       }
 
       setTransformTop(0);
@@ -243,37 +255,16 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
 
       if (tabOffset.top < -transformTop) {
         newTransform = -tabOffset.top;
-      } else if (tabOffset.top + tabOffset.height > -transformTop + wrapperHeight) {
-        newTransform = -(tabOffset.top + tabOffset.height - wrapperHeight);
+      } else if (tabOffset.top + tabOffset.height > -transformTop + visibleTabContentValue) {
+        newTransform = -(tabOffset.top + tabOffset.height - visibleTabContentValue);
       }
 
       setTransformLeft(0);
       setTransformTop(alignInRange(newTransform));
     }
-  }
+  };
 
   // ========================== Tab ==========================
-  // Render tab node & collect tab offset
-
-  const [visibleStart, visibleEnd] = useVisibleRange(
-    tabOffsets,
-    {
-      width: wrapperWidth,
-      height: wrapperHeight,
-      left: transformLeft,
-      top: transformTop,
-    },
-    {
-      width: wrapperScrollWidth,
-      height: wrapperScrollHeight,
-    },
-    {
-      width: addWidth,
-      height: addHeight,
-    },
-    { ...props, tabs },
-  );
-
   const tabNodeStyle: React.CSSProperties = {};
   if (tabPosition === 'top' || tabPosition === 'bottom') {
     tabNodeStyle[rtl ? 'marginRight' : 'marginLeft'] = tabBarGutter;
@@ -321,21 +312,26 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
 
   const onListHolderResize = useRaf(() => {
     // Update wrapper records
-    const offsetWidth = tabsWrapperRef.current?.offsetWidth || 0;
-    const offsetHeight = tabsWrapperRef.current?.offsetHeight || 0;
-    const newAddWidth = innerAddButtonRef.current?.offsetWidth || 0;
-    const newAddHeight = innerAddButtonRef.current?.offsetHeight || 0;
+    const containerSize = getSize(containerRef);
+    const extraLeftSize = getSize(extraLeftRef);
+    const extraRightSize = getSize(extraRightRef);
+    setContainerExcludeExtraSize([
+      containerSize[0] - extraLeftSize[0] - extraRightSize[0],
+      containerSize[1] - extraLeftSize[1] - extraRightSize[1],
+    ]);
 
-    setWrapperWidth(offsetWidth);
-    setWrapperHeight(offsetHeight);
-    setAddWidth(newAddWidth);
-    setAddHeight(newAddHeight);
+    const newAddSize = getSize(innerAddButtonRef);
+    setAddSize(newAddSize);
 
-    const newWrapperScrollWidth = (tabListRef.current?.offsetWidth || 0) - newAddWidth;
-    const newWrapperScrollHeight = (tabListRef.current?.offsetHeight || 0) - newAddHeight;
+    const newOperationSize = getSize(operationsRef);
+    setOperationSize(newOperationSize);
 
-    setWrapperScrollWidth(newWrapperScrollWidth);
-    setWrapperScrollHeight(newWrapperScrollHeight);
+    // Which includes add button size
+    const tabContentFullSize = getSize(tabListRef);
+    setTabContentSize([
+      tabContentFullSize[0] - newAddSize[0],
+      tabContentFullSize[1] - newAddSize[1],
+    ]);
 
     // Update buttons records
     setTabSizes(() => {
@@ -400,12 +396,14 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   // ========================= Effect ========================
   useEffect(() => {
     scrollToTab();
-  }, [activeKey, activeTabOffset, tabOffsets, tabPositionTopOrBottom]);
+    // eslint-disable-next-line
+  }, [activeKey, stringify(activeTabOffset), stringify(tabOffsets), tabPositionTopOrBottom]);
 
   // Should recalculate when rtl changed
   useEffect(() => {
     onListHolderResize();
-  }, [rtl, tabBarGutter, activeKey, tabs.map(tab => tab.key).join('_')]);
+    // eslint-disable-next-line
+  }, [rtl]);
 
   // ========================= Render ========================
   const hasDropdown = !!hiddenTabs.length;
@@ -418,30 +416,30 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   if (tabPositionTopOrBottom) {
     if (rtl) {
       pingRight = transformLeft > 0;
-      pingLeft = transformLeft + wrapperWidth < wrapperScrollWidth;
+      pingLeft = transformLeft + containerExcludeExtraSizeValue < tabContentSizeValue;
     } else {
       pingLeft = transformLeft < 0;
-      pingRight = -transformLeft + wrapperWidth < wrapperScrollWidth;
+      pingRight = -transformLeft + containerExcludeExtraSizeValue < tabContentSizeValue;
     }
   } else {
     pingTop = transformTop < 0;
-    pingBottom = -transformTop + wrapperHeight < wrapperScrollHeight;
+    pingBottom = -transformTop + containerExcludeExtraSizeValue < tabContentSizeValue;
   }
 
   return (
-    <div
-      ref={ref}
-      role="tablist"
-      className={classNames(`${prefixCls}-nav`, className)}
-      style={style}
-      onKeyDown={() => {
-        // No need animation when use keyboard
-        doLockAnimation();
-      }}
-    >
-      <ExtraContent position="left" extra={extra} prefixCls={prefixCls} />
+    <ResizeObserver onResize={onListHolderResize}>
+      <div
+        ref={useComposeRef(ref, containerRef)}
+        role="tablist"
+        className={classNames(`${prefixCls}-nav`, className)}
+        style={style}
+        onKeyDown={() => {
+          // No need animation when use keyboard
+          doLockAnimation();
+        }}
+      >
+        <ExtraContent ref={extraLeftRef} position="left" extra={extra} prefixCls={prefixCls} />
 
-      <ResizeObserver onResize={onListHolderResize}>
         <div
           className={classNames(wrapPrefix, {
             [`${wrapPrefix}-ping-left`]: pingLeft,
@@ -481,20 +479,20 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
             </div>
           </ResizeObserver>
         </div>
-      </ResizeObserver>
 
-      <OperationNode
-        {...props}
-        removeAriaLabel={locale?.removeAriaLabel}
-        ref={operationsRef}
-        prefixCls={prefixCls}
-        tabs={hiddenTabs}
-        className={!hasDropdown && operationsHiddenClassName}
-        tabMoving={!!lockAnimation}
-      />
+        <OperationNode
+          {...props}
+          removeAriaLabel={locale?.removeAriaLabel}
+          ref={operationsRef}
+          prefixCls={prefixCls}
+          tabs={hiddenTabs}
+          className={!hasDropdown && operationsHiddenClassName}
+          tabMoving={!!lockAnimation}
+        />
 
-      <ExtraContent position="right" extra={extra} prefixCls={prefixCls} />
-    </div>
+        <ExtraContent ref={extraRightRef} position="right" extra={extra} prefixCls={prefixCls} />
+      </div>
+    </ResizeObserver>
   );
   /* eslint-enable */
 }

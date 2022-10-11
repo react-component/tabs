@@ -3,6 +3,8 @@ import type { CSSMotionProps } from 'rc-motion';
 import type { TabNavListProps } from './TabNavList';
 import type { TabPaneProps } from './TabPanelList/TabPane';
 
+export type SizeInfo = [width: number, height: number];
+
 export type TabSizeMap = Map<
   React.Key,
   { width: number; height: number; left: number; top: number }

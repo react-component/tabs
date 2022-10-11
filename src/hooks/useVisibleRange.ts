@@ -4,34 +4,29 @@ import type { TabNavListProps } from '../TabNavList';
 
 const DEFAULT_SIZE = { width: 0, height: 0, left: 0, top: 0, right: 0 };
 
+export type ContainerSizeInfo = [width: number, height: number, left: number, top: number];
+
 export default function useVisibleRange(
   tabOffsets: TabOffsetMap,
-  containerSize: { width: number; height: number; left: number; top: number },
-  tabContentNodeSize: { width: number; height: number },
-  addNodeSize: { width: number; height: number },
+  visibleTabContentValue: number,
+  transform: number,
+  tabContentSizeValue: number,
+  addNodeSizeValue: number,
+  operationNodeSizeValue: number,
   { tabs, tabPosition, rtl }: { tabs: Tab[] } & TabNavListProps,
-): [number, number] {
-  let unit: 'width' | 'height';
+): [visibleStart: number, visibleEnd: number] {
+  let charUnit: 'width' | 'height';
   let position: 'left' | 'top' | 'right';
   let transformSize: number;
 
   if (['top', 'bottom'].includes(tabPosition)) {
-    unit = 'width';
+    charUnit = 'width';
     position = rtl ? 'right' : 'left';
-    transformSize = Math.abs(containerSize.left);
+    transformSize = Math.abs(transform);
   } else {
-    unit = 'height';
+    charUnit = 'height';
     position = 'top';
-    transformSize = -containerSize.top;
-  }
-
-  const basicSize = containerSize[unit];
-  const tabContentSize = tabContentNodeSize[unit];
-  const addSize = addNodeSize[unit];
-
-  let mergedBasicSize = basicSize;
-  if (tabContentSize + addSize > basicSize && tabContentSize < basicSize) {
-    mergedBasicSize = basicSize - addSize;
+    transformSize = -transform;
   }
 
   return useMemo(() => {
@@ -43,7 +38,7 @@ export default function useVisibleRange(
     let endIndex = len;
     for (let i = 0; i < len; i += 1) {
       const offset = tabOffsets.get(tabs[i].key) || DEFAULT_SIZE;
-      if (offset[position] + offset[unit] > transformSize + mergedBasicSize) {
+      if (offset[position] + offset[charUnit] > transformSize + visibleTabContentValue) {
         endIndex = i - 1;
         break;
       }
@@ -61,8 +56,11 @@ export default function useVisibleRange(
     return [startIndex, endIndex];
   }, [
     tabOffsets,
+    visibleTabContentValue,
+    tabContentSizeValue,
+    addNodeSizeValue,
+    operationNodeSizeValue,
     transformSize,
-    mergedBasicSize,
     tabPosition,
     tabs.map(tab => tab.key).join('_'),
     rtl,

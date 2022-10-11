@@ -5,7 +5,7 @@ import { spyElementPrototypes } from 'rc-util/lib/test/domHook';
 import { act } from 'react-dom/test-utils';
 import Tabs from '../src';
 import type { TabsProps } from '../src';
-import { getTransformX } from './common/util';
+import { btnOffsetPosition, getOffsetSizeFunc, getTransformX } from './common/util';
 
 describe('Tabs.Mobile', () => {
   const originAgent = navigator.userAgent;
@@ -43,48 +43,23 @@ describe('Tabs.Mobile', () => {
     let btnSpy: ReturnType<typeof spyElementPrototypes>;
     let dateSpy: ReturnType<typeof jest.spyOn>;
     let timestamp: number = 0;
-    let rtl = false;
 
     beforeAll(() => {
       dateSpy = jest.spyOn(Date, 'now').mockImplementation(() => timestamp);
 
-      btnSpy = spyElementPrototypes(HTMLButtonElement, {
+      domSpy = spyElementPrototypes(HTMLElement, {
+        scrollIntoView: () => {},
         offsetWidth: {
-          get: () => 20,
+          get: getOffsetSizeFunc(),
+        },
+        offsetHeight: {
+          get: getOffsetSizeFunc(),
         },
         offsetLeft: {
-          get() {
-            // Mock button offset
-            const btn = this as HTMLButtonElement;
-            const btnList = Array.from(btn.parentNode.childNodes).filter(ele =>
-              (ele as HTMLElement).className.includes('rc-tabs-tab'),
-            );
-            const index = btnList.indexOf(btn);
-            if (rtl) {
-              return 20 * (btnList.length - index - 1);
-            }
-            return 20 * index;
-          },
+          get: btnOffsetPosition,
         },
-      });
-
-      domSpy = spyElementPrototypes(HTMLDivElement, {
-        offsetWidth: {
-          get() {
-            if (this.className.includes('rc-tabs-tab')) {
-              return 20;
-            }
-            if (this.className.includes('rc-tabs-nav-list')) {
-              return tabCount * 20;
-            }
-            if (this.className.includes('rc-tabs-nav-wrap')) {
-              return 40;
-            }
-            if (this.className.includes('rc-tabs-nav-operations')) {
-              return 5;
-            }
-            throw new Error(`className not match ${this.className}`);
-          },
+        offsetTop: {
+          get: btnOffsetPosition,
         },
       });
     });
@@ -153,10 +128,6 @@ describe('Tabs.Mobile', () => {
     }
 
     describe('LTR', () => {
-      beforeAll(() => {
-        rtl = false;
-      });
-
       it('slow move', () => {
         jest.useFakeTimers();
         const wrapper = mount(getTabs({ tabPosition: 'top' }));
@@ -201,10 +172,6 @@ describe('Tabs.Mobile', () => {
     });
 
     describe('RTL', () => {
-      beforeAll(() => {
-        rtl = true;
-      });
-
       it('not out of the edge', () => {
         jest.useFakeTimers();
         const wrapper = mount(getTabs({ direction: 'rtl' }));
