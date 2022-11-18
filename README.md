@@ -77,7 +77,7 @@ React.render(
 | locale | { dropdownAriaLabel: string, removeAriaLabel: string, addAriaLabel: string } | - | Accessibility locale help text |
 | moreIcon | ReactNode | - | collapse icon |
 | tabBarGutter | number | 0 | config tab bar gutter |
-| tabBarPosition | `'left' | 'right' | 'top' | 'bottom'` | `'top'` | tab nav 's position |
+| tabBarPosition | `'left' \| 'right' \| 'top' \| 'bottom'` | `'top'` | tab nav 's position |
 | tabBarStyle | style | - | tab nav style |
 | tabBarExtraContent | ReactNode \| `{ left: ReactNode, right: ReactNode }` | - | config extra content |
 | renderTabBar | (props, TabBarComponent) => ReactElement | - | How to render tab bar |
