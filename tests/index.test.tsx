@@ -86,6 +86,60 @@ describe('Tabs.Basic', () => {
     mount(getTabs({ items: null }));
   });
 
+  it('same width in windows call resize ', () => {
+    const App = () => {
+      const [list, setList] = React.useState([
+        {
+          label: `Tab 1`,
+          key: '1',
+          children: `Content of Tab Pane 1`,
+        },
+        {
+          label: `Tab 2`,
+          key: '2',
+          children: `Content of Tab Pane 2`,
+        },
+        {
+          label: `Tab 3`,
+          key: '3',
+          children: `Content of Tab Pane 3`,
+        },
+      ]);
+      const changeItems = () => {
+        const listCp = [
+          {
+            label: `Tab 4`,
+            key: '4',
+            children: `Content of Tab Pane 4`,
+          },
+          {
+            label: `Tab 5`,
+            key: '5',
+            children: `Content of Tab Pane 5`,
+          },
+          {
+            label: `Tab 6`,
+            key: '6',
+            children: `Content of Tab Pane 6`,
+          },
+        ];
+        setList(listCp);
+      };
+      return (
+        <div className="App">
+          <button id="changeItems" onClick={changeItems}>
+            change
+          </button>
+          <Tabs items={list} />
+        </div>
+      );
+    };
+
+    const wrapper = mount(<App />);
+    wrapper.find('#changeItems').simulate('click');
+    expect(wrapper.find('.rc-tabs-ink-bar').props().style?.width).toBe(23);
+  });
+
   describe('onChange and onTabClick should work', () => {
     const list: { name: string; trigger: (wrapper: ReactWrapper) => void }[] = [
       {

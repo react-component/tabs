@@ -403,7 +403,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   useEffect(() => {
     onListHolderResize();
     // eslint-disable-next-line
-  }, [rtl]);
+  }, [rtl, tabs]);
 
   // ========================= Render ========================
   const hasDropdown = !!hiddenTabs.length;
