@@ -1,12 +1,44 @@
 import React from 'react';
 import type { ReactWrapper } from 'enzyme';
-import { render } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
+import '@testing-library/dom';
 import { mount } from 'enzyme';
+import { spyElementPrototypes } from 'rc-util/lib/test/domHook';
 import KeyCode from 'rc-util/lib/KeyCode';
 import Tabs from '../src';
 import type { TabsProps } from '../src/Tabs';
+import type { HackInfo } from './common/util';
+import { getOffsetSizeFunc } from './common/util';
 
 describe('Tabs.Basic', () => {
+  let domSpy: ReturnType<typeof spyElementPrototypes>;
+  let holder: HTMLDivElement;
+
+  const hackOffsetInfo: HackInfo = {};
+
+  beforeEach(() => {
+    Object.keys(hackOffsetInfo).forEach(key => {
+      delete hackOffsetInfo[key];
+    });
+  });
+
+  beforeAll(() => {
+    holder = document.createElement('div');
+    document.body.appendChild(holder);
+
+    domSpy = spyElementPrototypes(HTMLElement, {
+      scrollIntoView: () => {},
+      offsetWidth: {
+        get: getOffsetSizeFunc(hackOffsetInfo),
+      },
+    });
+  });
+
+  afterAll(() => {
+    domSpy.mockRestore();
+    document.body.removeChild(holder);
+  });
+
   function getTabs(props: TabsProps = null) {
     const mergedProps = {
       items: [
@@ -86,7 +118,7 @@ describe('Tabs.Basic', () => {
     mount(getTabs({ items: null }));
   });
 
-  it('same width in windows call resize ', () => {
+  it('same width in windows call resize', async () => {
     const App = () => {
       const [list, setList] = React.useState([
         {
@@ -135,9 +167,9 @@ describe('Tabs.Basic', () => {
       );
     };
 
-    const wrapper = mount(<App />);
-    wrapper.find('#changeItems').simulate('click');
-    expect(wrapper.find('.rc-tabs-ink-bar').props().style?.width).toBe(23);
+    const { container } = render(<App />);
+    fireEvent.click(screen.getByRole('button', { name: 'change' }));
+    expect(container.querySelector<HTMLElement>('.rc-tabs-ink-bar').offsetWidth).toBe(50);
   });
 
   describe('onChange and onTabClick should work', () => {
