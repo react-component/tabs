@@ -310,6 +310,23 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     );
   });
 
+  // Update buttons records
+  const getTabSizes = () => {
+    const newSizes: TabSizeMap = new Map();
+    tabs.forEach(({ key }) => {
+      const btnNode = getBtnRef(key).current;
+      if (btnNode) {
+        newSizes.set(key, {
+          width: btnNode.offsetWidth,
+          height: btnNode.offsetHeight,
+          left: btnNode.offsetLeft,
+          top: btnNode.offsetTop,
+        });
+      }
+    });
+    return newSizes;
+  }
+
   const onListHolderResize = useRaf(() => {
     // Update wrapper records
     const containerSize = getSize(containerRef);
@@ -333,22 +350,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
       tabContentFullSize[1] - newAddSize[1],
     ]);
 
-    // Update buttons records
-    setTabSizes(() => {
-      const newSizes: TabSizeMap = new Map();
-      tabs.forEach(({ key }) => {
-        const btnNode = getBtnRef(key).current;
-        if (btnNode) {
-          newSizes.set(key, {
-            width: btnNode.offsetWidth,
-            height: btnNode.offsetHeight,
-            left: btnNode.offsetLeft,
-            top: btnNode.offsetTop,
-          });
-        }
-      });
-      return newSizes;
-    });
+    setTabSizes(getTabSizes)
   });
 
   // ======================== Dropdown =======================
@@ -386,12 +388,14 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     }
 
     cleanInkBarRaf();
+    setTabSizes(getTabSizes);
+
     inkBarRafRef.current = raf(() => {
       setInkStyle(newInkStyle);
     });
 
     return cleanInkBarRaf;
-  }, [activeTabOffset, tabPositionTopOrBottom, rtl]);
+  }, [activeTabOffset, tabPositionTopOrBottom, rtl, tabs]);
 
   // ========================= Effect ========================
   useEffect(() => {
@@ -403,7 +407,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   useEffect(() => {
     onListHolderResize();
     // eslint-disable-next-line
-  }, [rtl, tabs]);
+  }, [rtl]);
 
   // ========================= Render ========================
   const hasDropdown = !!hiddenTabs.length;
