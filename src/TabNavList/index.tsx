@@ -142,6 +142,25 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     transformMax = 0;
   }
 
+  // Update buttons records
+  function updateTabSizes() {
+    setTabSizes(() => {
+      const newSizes: TabSizeMap = new Map();
+      tabs.forEach(({ key }) => {
+        const btnNode = getBtnRef(key).current;
+        if (btnNode) {
+          newSizes.set(key, {
+            width: btnNode.offsetWidth,
+            height: btnNode.offsetHeight,
+            left: btnNode.offsetLeft,
+            top: btnNode.offsetTop,
+          });
+        }
+      });
+      return newSizes;
+    });
+  }
+
   function alignInRange(value: number): number {
     if (value < transformMin) {
       return transformMin;
@@ -166,11 +185,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
 
   useTouchMove(tabsWrapperRef, (offsetX, offsetY) => {
     function doMove(setState: React.Dispatch<React.SetStateAction<number>>, offset: number) {
-      setState(value => {
-        const newValue = alignInRange(value + offset);
-
-        return newValue;
-      });
+      setState(value => alignInRange(value + offset));
     }
 
     // Skip scroll if place is enough
@@ -333,22 +348,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
       tabContentFullSize[1] - newAddSize[1],
     ]);
 
-    // Update buttons records
-    setTabSizes(() => {
-      const newSizes: TabSizeMap = new Map();
-      tabs.forEach(({ key }) => {
-        const btnNode = getBtnRef(key).current;
-        if (btnNode) {
-          newSizes.set(key, {
-            width: btnNode.offsetWidth,
-            height: btnNode.offsetHeight,
-            left: btnNode.offsetLeft,
-            top: btnNode.offsetTop,
-          });
-        }
-      });
-      return newSizes;
-    });
+    updateTabSizes();
   });
 
   // ======================== Dropdown =======================
@@ -384,14 +384,14 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
         newInkStyle.height = activeTabOffset.height;
       }
     }
-
+    updateTabSizes();
     cleanInkBarRaf();
     inkBarRafRef.current = raf(() => {
       setInkStyle(newInkStyle);
     });
 
     return cleanInkBarRaf;
-  }, [activeTabOffset, tabPositionTopOrBottom, rtl]);
+  }, [activeTabOffset, tabPositionTopOrBottom, rtl, tabs]);
 
   // ========================= Effect ========================
   useEffect(() => {
@@ -403,7 +403,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   useEffect(() => {
     onListHolderResize();
     // eslint-disable-next-line
-  }, [rtl, tabs]);
+  }, [rtl]);
 
   // ========================= Render ========================
   const hasDropdown = !!hiddenTabs.length;
