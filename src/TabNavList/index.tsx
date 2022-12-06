@@ -391,7 +391,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     });
 
     return cleanInkBarRaf;
-  }, [activeTabOffset, tabPositionTopOrBottom, rtl, updateTabSizes]);
+  }, [activeTabOffset, tabPositionTopOrBottom, rtl, tabs.map(tab => tab.key).join('_')]);
 
   // ========================= Effect ========================
   useEffect(() => {
