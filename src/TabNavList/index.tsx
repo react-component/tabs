@@ -143,7 +143,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   }
 
   // Update buttons records
-  function updateTabSizes() {
+  const updateTabSizes = React.useCallback(() => {
     setTabSizes(() => {
       const newSizes: TabSizeMap = new Map();
       tabs.forEach(({ key }) => {
@@ -159,7 +159,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
       });
       return newSizes;
     });
-  }
+  }, [tabs, getBtnRef, setTabSizes]);
 
   function alignInRange(value: number): number {
     if (value < transformMin) {
@@ -391,7 +391,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     });
 
     return cleanInkBarRaf;
-  }, [activeTabOffset, tabPositionTopOrBottom, rtl, tabs]);
+  }, [activeTabOffset, tabPositionTopOrBottom, rtl, updateTabSizes]);
 
   // ========================= Effect ========================
   useEffect(() => {
