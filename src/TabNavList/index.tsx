@@ -142,25 +142,6 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     transformMax = 0;
   }
 
-  // Update buttons records
-  const updateTabSizes = React.useCallback(() => {
-    setTabSizes(() => {
-      const newSizes: TabSizeMap = new Map();
-      tabs.forEach(({ key }) => {
-        const btnNode = getBtnRef(key).current;
-        if (btnNode) {
-          newSizes.set(key, {
-            width: btnNode.offsetWidth,
-            height: btnNode.offsetHeight,
-            left: btnNode.offsetLeft,
-            top: btnNode.offsetTop,
-          });
-        }
-      });
-      return newSizes;
-    });
-  }, [tabs, getBtnRef, setTabSizes]);
-
   function alignInRange(value: number): number {
     if (value < transformMin) {
       return transformMin;
@@ -185,7 +166,11 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
 
   useTouchMove(tabsWrapperRef, (offsetX, offsetY) => {
     function doMove(setState: React.Dispatch<React.SetStateAction<number>>, offset: number) {
-      setState(value => alignInRange(value + offset));
+      setState(value => {
+        const newValue = alignInRange(value + offset);
+
+        return newValue;
+      });
     }
 
     // Skip scroll if place is enough
@@ -325,6 +310,28 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     );
   });
 
+  // Update buttons records
+  const updateTabSizes = () =>
+    setTabSizes(() => {
+      const newSizes: TabSizeMap = new Map();
+      tabs.forEach(({ key }) => {
+        const btnNode = getBtnRef(key).current;
+        if (btnNode) {
+          newSizes.set(key, {
+            width: btnNode.offsetWidth,
+            height: btnNode.offsetHeight,
+            left: btnNode.offsetLeft,
+            top: btnNode.offsetTop,
+          });
+        }
+      });
+      return newSizes;
+    });
+
+  useEffect(() => {
+    updateTabSizes();
+  }, [tabs.map(tab => tab.key).join('_')]);
+
   const onListHolderResize = useRaf(() => {
     // Update wrapper records
     const containerSize = getSize(containerRef);
@@ -347,8 +354,6 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
       tabContentFullSize[0] - newAddSize[0],
       tabContentFullSize[1] - newAddSize[1],
     ]);
-
-    updateTabSizes();
   });
 
   // ======================== Dropdown =======================
@@ -384,14 +389,14 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
         newInkStyle.height = activeTabOffset.height;
       }
     }
-    updateTabSizes();
+
     cleanInkBarRaf();
     inkBarRafRef.current = raf(() => {
       setInkStyle(newInkStyle);
     });
 
     return cleanInkBarRaf;
-  }, [activeTabOffset, tabPositionTopOrBottom, rtl, tabs.map(tab => tab.key).join('_')]);
+  }, [activeTabOffset, tabPositionTopOrBottom, rtl]);
 
   // ========================= Effect ========================
   useEffect(() => {
