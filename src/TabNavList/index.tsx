@@ -310,6 +310,28 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     );
   });
 
+  // Update buttons records
+  const updateTabSizes = () =>
+    setTabSizes(() => {
+      const newSizes: TabSizeMap = new Map();
+      tabs.forEach(({ key }) => {
+        const btnNode = getBtnRef(key).current;
+        if (btnNode) {
+          newSizes.set(key, {
+            width: btnNode.offsetWidth,
+            height: btnNode.offsetHeight,
+            left: btnNode.offsetLeft,
+            top: btnNode.offsetTop,
+          });
+        }
+      });
+      return newSizes;
+    });
+
+  useEffect(() => {
+    updateTabSizes();
+  }, [tabs.map(tab => tab.key).join('_')]);
+
   const onListHolderResize = useRaf(() => {
     // Update wrapper records
     const containerSize = getSize(containerRef);
@@ -332,23 +354,6 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
       tabContentFullSize[0] - newAddSize[0],
       tabContentFullSize[1] - newAddSize[1],
     ]);
-
-    // Update buttons records
-    setTabSizes(() => {
-      const newSizes: TabSizeMap = new Map();
-      tabs.forEach(({ key }) => {
-        const btnNode = getBtnRef(key).current;
-        if (btnNode) {
-          newSizes.set(key, {
-            width: btnNode.offsetWidth,
-            height: btnNode.offsetHeight,
-            left: btnNode.offsetLeft,
-            top: btnNode.offsetTop,
-          });
-        }
-      });
-      return newSizes;
-    });
   });
 
   // ======================== Dropdown =======================

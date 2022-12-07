@@ -1,12 +1,44 @@
 import React from 'react';
 import type { ReactWrapper } from 'enzyme';
-import { render } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
+import '@testing-library/dom';
 import { mount } from 'enzyme';
+import { spyElementPrototypes } from 'rc-util/lib/test/domHook';
 import KeyCode from 'rc-util/lib/KeyCode';
 import Tabs from '../src';
 import type { TabsProps } from '../src/Tabs';
+import type { HackInfo } from './common/util';
+import { getOffsetSizeFunc } from './common/util';
 
 describe('Tabs.Basic', () => {
+  let domSpy: ReturnType<typeof spyElementPrototypes>;
+  let holder: HTMLDivElement;
+
+  const hackOffsetInfo: HackInfo = {};
+
+  beforeEach(() => {
+    Object.keys(hackOffsetInfo).forEach(key => {
+      delete hackOffsetInfo[key];
+    });
+  });
+
+  beforeAll(() => {
+    holder = document.createElement('div');
+    document.body.appendChild(holder);
+
+    domSpy = spyElementPrototypes(HTMLElement, {
+      scrollIntoView: () => {},
+      offsetWidth: {
+        get: getOffsetSizeFunc(hackOffsetInfo),
+      },
+    });
+  });
+
+  afterAll(() => {
+    domSpy.mockRestore();
+    document.body.removeChild(holder);
+  });
+
   function getTabs(props: TabsProps = null) {
     const mergedProps = {
       items: [
@@ -84,6 +116,60 @@ describe('Tabs.Basic', () => {
 
   it('nothing for empty tabs', () => {
     mount(getTabs({ items: null }));
+  });
+
+  it('same width in windows call resize', async () => {
+    const App = () => {
+      const [list, setList] = React.useState([
+        {
+          label: `Tab 1`,
+          key: '1',
+          children: `Content of Tab Pane 1`,
+        },
+        {
+          label: `Tab 2`,
+          key: '2',
+          children: `Content of Tab Pane 2`,
+        },
+        {
+          label: `Tab 3`,
+          key: '3',
+          children: `Content of Tab Pane 3`,
+        },
+      ]);
+      const changeItems = () => {
+        const listCp = [
+          {
+            label: `Tab 4`,
+            key: '4',
+            children: `Content of Tab Pane 4`,
+          },
+          {
+            label: `Tab 5`,
+            key: '5',
+            children: `Content of Tab Pane 5`,
+          },
+          {
+            label: `Tab 6`,
+            key: '6',
+            children: `Content of Tab Pane 6`,
+          },
+        ];
+        setList(listCp);
+      };
+      return (
+        <div className="App">
+          <button id="changeItems" onClick={changeItems}>
+            change
+          </button>
+          <Tabs items={list} />
+        </div>
+      );
+    };
+
+    const { container } = render(<App />);
+    fireEvent.click(screen.getByRole('button', { name: 'change' }));
+    expect(container.querySelector<HTMLElement>('.rc-tabs-ink-bar').offsetWidth).toBe(50);
   });
 
   describe('onChange and onTabClick should work', () => {

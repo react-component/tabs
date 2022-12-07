@@ -47,6 +47,10 @@ export function getOffsetSizeFunc(info: HackInfo = {}) {
       return more;
     }
 
+    if (this.classList.contains('rc-tabs-ink-bar')) {
+      return container;
+    }
+
     if (this.classList.contains('rc-tabs-nav-operations')) {
       return this.querySelector('.rc-tabs-nav-add') ? more + add : more;
     }
