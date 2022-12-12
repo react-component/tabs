@@ -354,6 +354,8 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
       tabContentFullSize[0] - newAddSize[0],
       tabContentFullSize[1] - newAddSize[1],
     ]);
+
+    updateTabSizes();
   });
 
   // ======================== Dropdown =======================
