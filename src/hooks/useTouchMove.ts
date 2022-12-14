@@ -128,7 +128,7 @@ export default function useTouchMove(
 
     // No need to clean up since element removed
     ref.current.addEventListener('touchstart', onProxyTouchStart, { passive: false });
-    ref.current.addEventListener('wheel', onProxyWheel);
+    ref.current.addEventListener('wheel', onProxyWheel, { passive: true });
 
     return () => {
       document.removeEventListener('touchmove', onProxyTouchMove);
