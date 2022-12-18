@@ -38,8 +38,14 @@ function TabNode(
   ref: React.Ref<HTMLDivElement>,
 ) {
   const tabPrefix = `${prefixCls}-tab`;
+  const tabRef: React.Ref<HTMLDivElement> = React.createRef();
 
   React.useEffect(() => onRemove, []);
+  React.useEffect(() => {
+    if (tabRef.current && !active) {
+      tabRef.current.blur();
+    }
+  }, [active]);
 
   const removable = editable && closable !== false && !disabled;
 
@@ -91,6 +97,7 @@ function TabNode(
           }
         }}
         onFocus={onFocus}
+        ref={tabRef}
       >
         {label}
       </div>
