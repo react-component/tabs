@@ -99,12 +99,12 @@ export function getTransformX(container: Element) {
   return Number(match[1]);
 }
 
-export function getTransformY(wrapper: ReactWrapper) {
-  const { transform } = wrapper.find('.rc-tabs-nav-list').props().style;
+export function getTransformY(container: Element) {
+  const { transform } = container.querySelector<HTMLElement>('.rc-tabs-nav-list').style;
   const match = transform.match(/,\s*([-\d.]+)px/);
   if (!match) {
     // eslint-disable-next-line no-console
-    console.log(wrapper.find('.rc-tabs-nav-list').html());
+    // console.log(wrapper.find('.rc-tabs-nav-list').html());
     throw new Error(`Not find transformY: ${transform}`);
   }
   return Number(match[1]);

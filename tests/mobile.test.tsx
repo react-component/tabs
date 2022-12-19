@@ -1,26 +1,16 @@
-import React from 'react';
-import { mount } from 'enzyme';
-import type { ReactWrapper } from 'enzyme';
+import { render } from '@testing-library/react';
 import { spyElementPrototypes } from 'rc-util/lib/test/domHook';
+import React from 'react';
 import { act } from 'react-dom/test-utils';
-import Tabs from '../src';
 import type { TabsProps } from '../src';
+import Tabs from '../src';
 import { btnOffsetPosition, getOffsetSizeFunc, getTransformX } from './common/util';
 
 describe('Tabs.Mobile', () => {
-  const originAgent = navigator.userAgent;
-
   beforeAll(() => {
-    Object.defineProperty(window.navigator, 'userAgent', {
-      value:
-        'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.138 Mobile Safari/537.36',
-    });
-  });
-
-  afterAll(() => {
-    Object.defineProperty(window.navigator, 'userAgent', {
-      value: originAgent,
-    });
+    const mockAgent =
+      'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.138 Mobile Safari/537.36';
+    (window.navigator as any) = { userAgent: mockAgent };
   });
 
   const tabCount = 100;
@@ -40,7 +30,6 @@ describe('Tabs.Mobile', () => {
 
   describe('mobile is scrollable', () => {
     let domSpy: ReturnType<typeof spyElementPrototypes>;
-    let btnSpy: ReturnType<typeof spyElementPrototypes>;
     let dateSpy: ReturnType<typeof jest.spyOn>;
     let timestamp: number = 0;
 
@@ -65,19 +54,17 @@ describe('Tabs.Mobile', () => {
     });
 
     afterAll(() => {
-      btnSpy.mockRestore();
       domSpy.mockRestore();
       dateSpy.mockRestore();
     });
 
-    function touchMove(wrapper: ReactWrapper, jest: any, offsetX: number[] | number) {
+    function touchMove(container: HTMLElement, jest: any, offsetX: number[] | number) {
       act(() => {
         jest.runAllTimers();
-        wrapper.update();
       });
 
       // Touch to move
-      const node = wrapper.find('.rc-tabs-nav-wrap').instance() as unknown as HTMLElement;
+      const node = container.querySelector('.rc-tabs-nav-wrap');
 
       act(() => {
         const touchStart = new TouchEvent('touchstart', {
@@ -122,50 +109,46 @@ describe('Tabs.Mobile', () => {
 
       // Execution swipe
       act(() => {
-        jest.runAllTimers();
-        wrapper.update();
+        jest.advanceTimersByTime(1000);
       });
     }
 
     describe('LTR', () => {
       it('slow move', () => {
         jest.useFakeTimers();
-        const wrapper = mount(getTabs({ tabPosition: 'top' }));
+        const { container } = render(getTabs({ tabPosition: 'top' }));
 
         // Last touch is slow move
-        touchMove(wrapper, jest, [-100, 0.05]);
+        touchMove(container, jest, [-100, 0.05]);
 
-        expect(getTransformX(wrapper)).toEqual(-99.95);
+        expect(getTransformX(container)).toEqual(-99.95);
 
         jest.useRealTimers();
       });
 
       it('swipe', () => {
         jest.useFakeTimers();
-        const wrapper = mount(getTabs({ tabPosition: 'top' }));
+        const { container } = render(getTabs({ tabPosition: 'top' }));
 
         act(() => {
           jest.runAllTimers();
-          wrapper.update();
         });
-        expect(wrapper.find('.rc-tabs-nav-more')).toHaveLength(0);
+        expect(container.querySelectorAll('.rc-tabs-nav-more')).toHaveLength(0);
 
-        touchMove(wrapper, jest, -200);
+        touchMove(container, jest, -200);
 
-        wrapper.update();
-        expect(getTransformX(wrapper) < -200).toBeTruthy();
+        expect(getTransformX(container) < -200).toBeTruthy();
 
         jest.useRealTimers();
       });
 
       it('not out of the edge', () => {
         jest.useFakeTimers();
-        const wrapper = mount(getTabs({ tabPosition: 'top' }));
+        const { container } = render(getTabs({ tabPosition: 'top' }));
 
-        touchMove(wrapper, jest, 100);
+        touchMove(container, jest, 100);
 
-        wrapper.update();
-        expect(getTransformX(wrapper)).toEqual(0);
+        expect(getTransformX(container)).toEqual(0);
 
         jest.useRealTimers();
       });
@@ -174,12 +157,11 @@ describe('Tabs.Mobile', () => {
     describe('RTL', () => {
       it('not out of the edge', () => {
         jest.useFakeTimers();
-        const wrapper = mount(getTabs({ direction: 'rtl' }));
+        const { container } = render(getTabs({ direction: 'rtl' }));
 
-        touchMove(wrapper, jest, -100);
+        touchMove(container, jest, -100);
 
-        wrapper.update();
-        expect(getTransformX(wrapper)).toEqual(0);
+        expect(getTransformX(container)).toEqual(0);
 
         jest.useRealTimers();
       });

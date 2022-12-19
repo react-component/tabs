@@ -1,8 +1,10 @@
-import type { ReactWrapper } from 'enzyme';
-import { mount } from 'enzyme';
+import { act, fireEvent, render } from '@testing-library/react';
 import KeyCode from 'rc-util/lib/KeyCode';
 import { spyElementPrototypes } from 'rc-util/lib/test/domHook';
-import { act } from 'react-dom/test-utils';
+import React from 'react';
+import type { TabsProps } from '../src';
+import Tabs from '../src';
+import type { HackInfo } from './common/util';
 import {
   btnOffsetPosition,
   getOffsetSizeFunc,
@@ -11,13 +13,9 @@ import {
   getTransformY,
   triggerResize,
 } from './common/util';
-import type { HackInfo } from './common/util';
-import type { TabsProps } from '../src';
-import Tabs from '../src';
 
 describe('Tabs.Overflow', () => {
   let domSpy: ReturnType<typeof spyElementPrototypes>;
-  let holder: HTMLDivElement;
 
   const hackOffsetInfo: HackInfo = {};
 
@@ -28,9 +26,6 @@ describe('Tabs.Overflow', () => {
   });
 
   beforeAll(() => {
-    holder = document.createElement('div');
-    document.body.appendChild(holder);
-
     domSpy = spyElementPrototypes(HTMLElement, {
       scrollIntoView: () => {},
       offsetWidth: {
@@ -50,32 +45,33 @@ describe('Tabs.Overflow', () => {
 
   afterAll(() => {
     domSpy.mockRestore();
-    document.body.removeChild(holder);
   });
 
   it('should collapse', () => {
     jest.useFakeTimers();
     const onChange = jest.fn();
-    const wrapper = mount(getTabs({ onChange }));
+    const { container, unmount } = render(getTabs({ onChange }));
 
-    triggerResize(wrapper);
+    triggerResize(container);
     act(() => {
       jest.runAllTimers();
-      wrapper.update();
     });
-    expect(wrapper.find('.rc-tabs-nav-more').render()).toMatchSnapshot();
+    expect(container.querySelector('.rc-tabs-nav-more')).toMatchSnapshot();
 
     // Click to open
-    wrapper.find('.rc-tabs-nav-more').simulate('mouseenter');
-    jest.runAllTimers();
-    wrapper.update();
-    expect(wrapper.find('.rc-tabs-dropdown li').first().text()).toEqual('cute');
+    fireEvent.mouseEnter(container.querySelector('.rc-tabs-nav-more'));
+
+    act(() => {
+      jest.runAllTimers();
+    });
+
+    expect(document.querySelector('.rc-tabs-dropdown li').textContent).toEqual('cute');
 
     // Click to select
-    wrapper.find('.rc-tabs-dropdown-menu-item').first().simulate('click');
+    fireEvent.click(document.querySelector('.rc-tabs-dropdown-menu-item'));
     expect(onChange).toHaveBeenCalledWith('cute');
 
-    wrapper.unmount();
+    unmount();
 
     jest.useRealTimers();
   });
@@ -84,25 +80,31 @@ describe('Tabs.Overflow', () => {
     it(`keyboard with select keycode: ${code}`, () => {
       jest.useFakeTimers();
       const onChange = jest.fn();
-      const wrapper = mount(getTabs({ onChange }), { attachTo: holder });
+      const { container, unmount } = render(getTabs({ onChange }));
 
-      triggerResize(wrapper);
+      triggerResize(container);
       act(() => {
         jest.runAllTimers();
-        wrapper.update();
       });
 
       // Open
-      wrapper.find('.rc-tabs-nav-more').simulate('keydown', {
+      fireEvent.keyDown(container.querySelector('.rc-tabs-nav-more'), {
         which: KeyCode.DOWN,
+        keyCode: KeyCode.DOWN,
+        charCode: KeyCode.DOWN,
       });
 
       // key selection
       function keyMatch(which: number, match: string) {
-        wrapper.find('.rc-tabs-nav-more').simulate('keydown', {
+        fireEvent.keyDown(container.querySelector('.rc-tabs-nav-more'), {
           which,
+          keyCode: which,
+          charCode: which,
         });
-        expect(wrapper.find('li.rc-tabs-dropdown-menu-item-selected').text()).toEqual(match);
+
+        expect(
+          document.querySelector('li.rc-tabs-dropdown-menu-item-selected').textContent,
+        ).toEqual(match);
       }
 
       keyMatch(KeyCode.DOWN, 'cute');
@@ -110,30 +112,34 @@ describe('Tabs.Overflow', () => {
       keyMatch(KeyCode.UP, 'cute');
 
       // Select
-      wrapper.find('.rc-tabs-nav-more').simulate('keydown', {
+      fireEvent.keyDown(container.querySelector('.rc-tabs-nav-more'), {
         which: code,
+        keyCode: code,
+        charCode: code,
       });
       expect(onChange).toHaveBeenCalledWith('cute');
 
       // Open
-      wrapper.find('.rc-tabs-nav-more').simulate('keydown', {
+      fireEvent.keyDown(container.querySelector('.rc-tabs-nav-more'), {
         which: KeyCode.DOWN,
+        keyCode: KeyCode.DOWN,
+        charCode: KeyCode.DOWN,
       });
-      wrapper.update();
-      expect(
-        wrapper.find('.rc-tabs-dropdown').last().hasClass('rc-tabs-dropdown-hidden'),
-      ).toBeFalsy();
+
+      expect(document.querySelector('.rc-tabs-dropdown')).not.toHaveClass(
+        'rc-tabs-dropdown-hidden',
+      );
 
       // ESC
-      wrapper.find('.rc-tabs-nav-more').simulate('keydown', {
+      fireEvent.keyDown(container.querySelector('.rc-tabs-nav-more'), {
         which: KeyCode.ESC,
+        keyCode: KeyCode.ESC,
+        charCode: KeyCode.ESC,
       });
-      wrapper.update();
-      expect(
-        wrapper.find('.rc-tabs-dropdown').last().hasClass('rc-tabs-dropdown-hidden'),
-      ).toBeTruthy();
 
-      wrapper.unmount();
+      expect(document.querySelector('.rc-tabs-dropdown')).toHaveClass('rc-tabs-dropdown-hidden');
+
+      unmount();
 
       jest.useRealTimers();
     });
@@ -161,16 +167,15 @@ describe('Tabs.Overflow', () => {
       list.forEach(({ name, x1, y1, x2, y2 }) => {
         it(`should tab pos '${tabPosition}' work for ${name}`, () => {
           jest.useFakeTimers();
-          const wrapper = mount(getTabs({ tabPosition }), { attachTo: holder });
+          const { container, unmount } = render(getTabs({ tabPosition }));
 
-          triggerResize(wrapper);
+          triggerResize(container);
           act(() => {
             jest.runAllTimers();
-            wrapper.update();
           });
 
           // Wheel to move
-          const node = wrapper.find('.rc-tabs-nav-wrap').instance() as unknown as HTMLElement;
+          const node = container.querySelector('.rc-tabs-nav-wrap');
 
           act(() => {
             const wheel = new WheelEvent('wheel', {
@@ -190,14 +195,13 @@ describe('Tabs.Overflow', () => {
             jest.runAllTimers();
           });
 
-          wrapper.update();
           if (tabPosition === 'top') {
-            expect(getTransformX(wrapper)).toEqual(-23);
+            expect(getTransformX(container)).toEqual(-23);
           } else {
-            expect(getTransformY(wrapper)).toEqual(-23);
+            expect(getTransformY(container)).toEqual(-23);
           }
 
-          wrapper.unmount();
+          unmount();
           jest.useRealTimers();
         });
       });
@@ -206,7 +210,7 @@ describe('Tabs.Overflow', () => {
     ['top', 'left'].forEach((tabPosition: any) => {
       it(`no need if place is enough: ${tabPosition}`, () => {
         jest.useFakeTimers();
-        const wrapper = mount(
+        const { container } = render(
           getTabs({
             items: [
               {
@@ -218,14 +222,13 @@ describe('Tabs.Overflow', () => {
           }),
         );
 
-        triggerResize(wrapper);
+        triggerResize(container);
         act(() => {
           jest.runAllTimers();
-          wrapper.update();
         });
 
         // Wheel to move
-        const node = wrapper.find('.rc-tabs-nav-wrap').instance() as unknown as HTMLElement;
+        const node = container.querySelector('.rc-tabs-nav-wrap');
         const wheel = new WheelEvent('wheel', {
           deltaX: 20,
           deltaY: 20,
@@ -238,7 +241,7 @@ describe('Tabs.Overflow', () => {
         });
 
         expect(wheel.preventDefault).not.toHaveBeenCalled();
-        expect(getTransformX(wrapper)).toEqual(0);
+        expect(getTransformX(container)).toEqual(0);
 
         jest.useRealTimers();
       });
@@ -250,33 +253,32 @@ describe('Tabs.Overflow', () => {
       jest.useFakeTimers();
       const onTabScroll = jest.fn();
       // light bamboo [cute disabled] miu
-      const wrapper = mount(getTabs({ activeKey: 'disabled', onTabScroll }));
+      const { container, rerender } = render(getTabs({ activeKey: 'disabled', onTabScroll }));
 
-      triggerResize(wrapper);
+      triggerResize(container);
       act(() => {
         jest.runAllTimers();
-        wrapper.update();
       });
-      expect(getTransformX(wrapper)).toEqual(-40);
+      expect(getTransformX(container)).toEqual(-40);
 
       // light [bamboo cute] disabled miu
       onTabScroll.mockReset();
-      wrapper.setProps({ activeKey: 'bamboo' });
+      // wrapper.setProps({ activeKey: 'bamboo' });
+      rerender(getTabs({ activeKey: 'bamboo', onTabScroll }));
       act(() => {
         jest.runAllTimers();
-        wrapper.update();
       });
-      expect(getTransformX(wrapper)).toEqual(-20);
+      expect(getTransformX(container)).toEqual(-20);
       expect(onTabScroll).toHaveBeenCalledWith({ direction: 'left' });
 
       // scroll to 0 when activeKey is null
       onTabScroll.mockReset();
-      wrapper.setProps({ activeKey: null });
+      // wrapper.setProps({ activeKey: null });
+      rerender(getTabs({ activeKey: null, onTabScroll }));
       act(() => {
         jest.runAllTimers();
-        wrapper.update();
       });
-      expect(getTransformX(wrapper)).toEqual(0);
+      expect(getTransformX(container)).toEqual(0);
 
       jest.useRealTimers();
     });
@@ -293,23 +295,23 @@ describe('Tabs.Overflow', () => {
        *   --------     disabled
        *     miu          miu
        */
-      const wrapper = mount(getTabs({ activeKey: 'disabled', tabPosition: 'left', onTabScroll }));
+      const { container, rerender } = render(
+        getTabs({ activeKey: 'disabled', tabPosition: 'left', onTabScroll }),
+      );
 
-      triggerResize(wrapper);
+      triggerResize(container);
       act(() => {
         jest.runAllTimers();
-        wrapper.update();
       });
-      expect(getTransformY(wrapper)).toEqual(-40);
+      expect(getTransformY(container)).toEqual(-40);
 
       // light [bamboo cute] disabled miu
       onTabScroll.mockReset();
-      wrapper.setProps({ activeKey: 'bamboo' });
+      rerender(getTabs({ activeKey: 'bamboo', tabPosition: 'left', onTabScroll }));
       act(() => {
         jest.runAllTimers();
-        wrapper.update();
       });
-      expect(getTransformY(wrapper)).toEqual(-20);
+      expect(getTransformY(container)).toEqual(-20);
       expect(onTabScroll).toHaveBeenCalledWith({ direction: 'top' });
 
       jest.useRealTimers();
@@ -317,11 +319,11 @@ describe('Tabs.Overflow', () => {
   });
 
   describe('editable dropdown menu', () => {
-    const list: { name: string; trigger: (node: ReactWrapper) => void }[] = [
+    const list: { name: string; trigger: (node: HTMLElement) => void }[] = [
       {
         name: 'click',
         trigger: node => {
-          node.simulate('click');
+          fireEvent.click(node);
         },
       },
     ];
@@ -330,26 +332,24 @@ describe('Tabs.Overflow', () => {
       it(`remove by ${name} in dropdown menu`, () => {
         jest.useFakeTimers();
         const onEdit = jest.fn();
-        const wrapper = mount(getTabs({ editable: { onEdit } }));
+        const { container, unmount } = render(getTabs({ editable: { onEdit } }));
 
-        triggerResize(wrapper);
+        triggerResize(container);
         act(() => {
           jest.runAllTimers();
-          wrapper.update();
         });
 
         // Click to open
-        wrapper.find('.rc-tabs-nav-more').simulate('mouseenter');
+        fireEvent.mouseEnter(container.querySelector('.rc-tabs-nav-more'));
         act(() => {
           jest.runAllTimers();
-          wrapper.update();
         });
 
-        const first = wrapper.find('.rc-tabs-dropdown-menu-item-remove').first();
+        const first = document.querySelector<HTMLElement>('.rc-tabs-dropdown-menu-item-remove');
         trigger(first);
 
         // Should be button to enable press SPACE key to trigger
-        expect(first.instance() instanceof HTMLButtonElement).toBeTruthy();
+        expect(first instanceof HTMLButtonElement).toBeTruthy();
 
         expect(onEdit).toHaveBeenCalledWith(
           'remove',
@@ -358,111 +358,122 @@ describe('Tabs.Overflow', () => {
           }),
         );
 
-        wrapper.unmount();
+        unmount();
         jest.useRealTimers();
       });
     });
 
     it('auto hidden Dropdown', () => {
-      console.log('run here');
       jest.useFakeTimers();
 
-      let items: TabsProps['items'] = new Array(8).fill(0).map((_, index) => ({
+      const originItems: TabsProps['items'] = new Array(8).fill(0).map((_, index) => ({
         key: `${index}`,
         label: `Tab ${index + 1}`,
         children: `Tab Content${index + 1}`,
       }));
 
-      const wrapper = mount(
-        <Tabs
-          editable={{
-            onEdit(type, { key }) {
-              if (type === 'remove') {
-                items = items.filter(ele => {
-                  return ele.key !== key.toString();
-                });
-                wrapper.setProps({
-                  items,
-                });
-              }
-            },
-          }}
-          items={items}
-        />,
-      );
+      const Demo = () => {
+        const [items, setItems] = React.useState(originItems);
 
-      triggerResize(wrapper);
+        return (
+          <Tabs
+            editable={{
+              onEdit(type, { key }) {
+                if (type === 'remove') {
+                  const nextItems = items.filter(ele => {
+                    return ele.key !== key.toString();
+                  });
+                  setItems(nextItems);
+                }
+              },
+            }}
+            items={items}
+          />
+        );
+      };
+
+      const { container, unmount } = render(<Demo />);
+
+      triggerResize(container);
 
       act(() => {
         jest.runAllTimers();
-        wrapper.update();
       });
 
       // Click to open
-      wrapper.find('.rc-tabs-nav-more').simulate('mouseenter');
-      jest.runAllTimers();
-      wrapper.update();
-
+      fireEvent.mouseEnter(container.querySelector('.rc-tabs-nav-more'));
       act(() => {
-        while (true) {
-          const remove = wrapper.find('.rc-tabs-dropdown-menu-item-remove');
-          if (!remove.exists()) return;
-          act(() => {
-            remove.first().simulate('click');
-          });
-          jest.runAllTimers();
-          wrapper.update();
-        }
+        jest.runAllTimers();
       });
 
-      expect(wrapper.find('.rc-tabs-dropdown-hidden').exists()).toBeTruthy();
+      while (true) {
+        const remove = document.querySelector('.rc-tabs-dropdown-menu-item-remove');
+        if (!remove) {
+          break;
+        }
 
-      wrapper.unmount();
+        act(() => {
+          fireEvent.click(remove);
+        });
+
+        act(() => {
+          jest.runAllTimers();
+        });
+      }
+
+      expect(document.querySelector('.rc-tabs-dropdown-hidden')).toBeTruthy();
+
+      unmount();
     });
   });
 
   it('should calculate hidden tabs correctly', () => {
     jest.useFakeTimers();
     const onEdit = jest.fn();
-    const wrapper = mount(getTabs({ editable: { onEdit }, activeKey: 'miu' }));
+    const { container } = render(getTabs({ editable: { onEdit }, activeKey: 'miu' }));
 
-    triggerResize(wrapper);
+    triggerResize(container);
     act(() => {
       jest.runAllTimers();
-      wrapper.update();
     });
 
-    wrapper.find('.rc-tabs-nav-more').simulate('mouseenter');
+    fireEvent.mouseEnter(container.querySelector('.rc-tabs-nav-more'));
     act(() => {
       jest.runAllTimers();
-      wrapper.update();
     });
-    expect(wrapper.find('.rc-tabs-dropdown-menu').first().text()).not.toContain('miu');
+    expect(document.querySelector('.rc-tabs-dropdown-menu').textContent).not.toContain('miu');
   });
 
   it('should support getPopupContainer', () => {
-    const getPopupContainer = trigger => trigger.parentNode;
-    const wrapper = mount(getTabs({ getPopupContainer }));
-    expect(wrapper.find('Trigger').first().prop('getPopupContainer')).toBe(getPopupContainer);
+    const div = document.createElement('div');
+    document.body.appendChild(div);
+    expect(div.childNodes.length).toBeFalsy();
+
+    const getPopupContainer = () => div;
+    const { container } = render(getTabs({ getPopupContainer }));
+    fireEvent.mouseEnter(container.querySelector('.rc-tabs-nav-more'));
+    act(() => {
+      jest.runAllTimers();
+    });
+
+    expect(div.childNodes.length).toBeTruthy();
+
+    document.body.removeChild(div);
   });
 
   it('should support popupClassName', () => {
     jest.useFakeTimers();
-    const wrapper = mount(getTabs({ popupClassName: 'custom-popup' }));
+    const { container } = render(getTabs({ popupClassName: 'custom-popup' }));
 
-    triggerResize(wrapper);
+    triggerResize(container);
     act(() => {
       jest.runAllTimers();
-      wrapper.update();
     });
 
-    wrapper.find('.rc-tabs-nav-more').simulate('mouseenter');
+    fireEvent.mouseEnter(container.querySelector('.rc-tabs-nav-more'));
     act(() => {
       jest.runAllTimers();
-      wrapper.update();
     });
-    expect(wrapper.find('.rc-tabs-dropdown').first().getDOMNode().className).toContain(
-      'custom-popup',
-    );
+    expect(document.querySelector('.rc-tabs-dropdown')).toHaveClass('custom-popup');
   });
 });
