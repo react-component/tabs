@@ -3,15 +3,24 @@
     "target": "esnext",
     "moduleResolution": "node",
     "baseUrl": "./",
-    "lib": ["dom", "es2017"],
-    "jsx": "preserve",
+    "lib": [
+      "dom",
+      "es2017"
+    ],
+    "jsx": "react",
     "declaration": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
     "paths": {
-      "@/*": ["src/*"],
-      "@@/*": ["src/.umi/*"],
-      "rc-tabs": ["src/"]
+      "@/*": [
+        "src/*"
+      ],
+      "@@/*": [
+        "src/.umi/*"
+      ],
+      "rc-tabs": [
+        "src/"
+      ]
     }
   }
 }

@@ -1,6 +1,9 @@
 /* eslint-disable @typescript-eslint/no-invalid-this */
-import React from 'react';
+import { act } from '@testing-library/react';
 import type { ReactWrapper } from 'enzyme';
+import { _rs as onEsResize } from 'rc-resize-observer/es/utils/observerUtil';
+import { _rs as onLibResize } from 'rc-resize-observer/lib/utils/observerUtil';
+import React from 'react';
 import Tabs from '../../src';
 import type { TabsProps } from '../../src/Tabs';
 
@@ -85,23 +88,23 @@ export function btnOffsetPosition() {
   return 20 * index;
 }
 
-export function getTransformX(wrapper: ReactWrapper) {
-  const { transform } = wrapper.find('.rc-tabs-nav-list').props().style;
+export function getTransformX(container: Element) {
+  const { transform } = container.querySelector<HTMLElement>('.rc-tabs-nav-list').style;
   const match = transform.match(/\(([-\d.]+)px/);
   if (!match) {
     // eslint-disable-next-line no-console
-    console.log(wrapper.find('.rc-tabs-nav-list').html());
+    // console.log(container.querySelector('.rc-tabs-nav-list').innerHTML);
     throw new Error(`Not find transformX: ${transform}`);
   }
   return Number(match[1]);
 }
 
-export function getTransformY(wrapper: ReactWrapper) {
-  const { transform } = wrapper.find('.rc-tabs-nav-list').props().style;
+export function getTransformY(container: Element) {
+  const { transform } = container.querySelector<HTMLElement>('.rc-tabs-nav-list').style;
   const match = transform.match(/,\s*([-\d.]+)px/);
   if (!match) {
     // eslint-disable-next-line no-console
-    console.log(wrapper.find('.rc-tabs-nav-list').html());
+    // console.log(wrapper.find('.rc-tabs-nav-list').html());
     throw new Error(`Not find transformY: ${transform}`);
   }
   return Number(match[1]);
@@ -143,6 +146,15 @@ export function getTabs(props: TabsProps = null) {
   );
 }
 
-export function triggerResize(wrapper: ReactWrapper) {
-  (wrapper.find('.rc-tabs-nav').find('ResizeObserver').first().props() as any).onResize();
-}
+// export function triggerResize(wrapper: ReactWrapper) {
+//   (wrapper.find('.rc-tabs-nav').find('ResizeObserver').first().props() as any).onResize();
+// }
+
+export const triggerResize = (container: Element) => {
+  const target = container.querySelector('.rc-tabs-nav');
+
+  act(() => {
+    onLibResize([{ target } as ResizeObserverEntry]);
+    onEsResize([{ target } as ResizeObserverEntry]);
+  });
+};

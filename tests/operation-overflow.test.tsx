@@ -1,4 +1,4 @@
-import { mount } from 'enzyme';
+import { render } from '@testing-library/react';
 import { spyElementPrototypes } from 'rc-util/lib/test/domHook';
 import { act } from 'react-dom/test-utils';
 import { getOffsetSizeFunc, getTabs, triggerResize } from './common/util';
@@ -47,18 +47,17 @@ describe('Tabs.Operation-Overflow', () => {
   it('should collapse', () => {
     jest.useFakeTimers();
     const onEdit = jest.fn();
-    const wrapper = mount(getTabs({ editable: { onEdit } }));
+    const { container, unmount } = render(getTabs({ editable: { onEdit } }));
 
-    triggerResize(wrapper);
+    triggerResize(container);
     act(() => {
       jest.runAllTimers();
-      wrapper.update();
     });
     expect(
-      wrapper.find('.rc-tabs-nav-operations').hasClass('rc-tabs-nav-operations-hidden'),
-    ).toBeFalsy();
+      container.querySelector('.rc-tabs-nav-operations'),
+    ).not.toHaveClass('rc-tabs-nav-operations-hidden');
 
-    wrapper.unmount();
+    unmount();
 
     jest.useRealTimers();
   });
