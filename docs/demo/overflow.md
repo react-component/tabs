@@ -1,3 +1,8 @@
-## overflow
+---
+title: Overflow
+nav:
+  title: Demo
+  path: /demo
+---
 
-<code src="../examples/overflow.tsx">
+<code src="../examples/overflow.tsx"></code>

@@ -1,10 +1,10 @@
-import * as React from 'react';
 import classNames from 'classnames';
-import { useState, useEffect } from 'react';
-import KeyCode from 'rc-util/lib/KeyCode';
-import Menu, { MenuItem } from 'rc-menu';
 import Dropdown from 'rc-dropdown';
-import type { Tab, TabsLocale, EditableConfig } from '../interface';
+import Menu, { MenuItem } from 'rc-menu';
+import KeyCode from 'rc-util/lib/KeyCode';
+import * as React from 'react';
+import { useEffect, useState } from 'react';
+import type { EditableConfig, Tab, TabsLocale } from '../interface';
 import AddButton from './AddButton';
 
 export interface OperationNodeProps {

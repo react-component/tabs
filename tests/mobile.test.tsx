@@ -6,13 +6,9 @@ import type { TabsProps } from '../src';
 import Tabs from '../src';
 import { btnOffsetPosition, getOffsetSizeFunc, getTransformX } from './common/util';
 
-describe('Tabs.Mobile', () => {
-  beforeAll(() => {
-    const mockAgent =
-      'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.138 Mobile Safari/537.36';
-    (window.navigator as any) = { userAgent: mockAgent };
-  });
+jest.mock('rc-util/lib/isMobile', () => () => true);
 
+describe('Tabs.Mobile', () => {
   const tabCount = 100;
 
   function getTabs(props: TabsProps = null) {
@@ -30,12 +26,8 @@ describe('Tabs.Mobile', () => {
 
   describe('mobile is scrollable', () => {
     let domSpy: ReturnType<typeof spyElementPrototypes>;
-    let dateSpy: ReturnType<typeof jest.spyOn>;
-    let timestamp: number = 0;
 
     beforeAll(() => {
-      dateSpy = jest.spyOn(Date, 'now').mockImplementation(() => timestamp);
-
       domSpy = spyElementPrototypes(HTMLElement, {
         scrollIntoView: () => {},
         offsetWidth: {
@@ -55,7 +47,6 @@ describe('Tabs.Mobile', () => {
 
     afterAll(() => {
       domSpy.mockRestore();
-      dateSpy.mockRestore();
     });
 
     function touchMove(container: HTMLElement, jest: any, offsetX: number[] | number) {
@@ -88,11 +79,10 @@ describe('Tabs.Mobile', () => {
           document.dispatchEvent(moveEvent1);
         });
 
-        timestamp += 10;
+        act(() => {
+          jest.advanceTimersByTime(10);
+        });
       }
-
-      // Init
-      timestamp = 0;
 
       // First move
       trigger();
@@ -109,7 +99,7 @@ describe('Tabs.Mobile', () => {
 
       // Execution swipe
       act(() => {
-        jest.advanceTimersByTime(1000);
+        jest.runAllTimers();
       });
     }
 
@@ -133,7 +123,7 @@ describe('Tabs.Mobile', () => {
         act(() => {
           jest.runAllTimers();
         });
-        expect(container.querySelectorAll('.rc-tabs-nav-more')).toHaveLength(0);
+        expect(container.querySelector('.rc-tabs-nav-more')).toBeFalsy();
 
         touchMove(container, jest, -200);
 
