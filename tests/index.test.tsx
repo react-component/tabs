@@ -1,18 +1,26 @@
-import React from 'react';
-import type { ReactWrapper } from 'enzyme';
-import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/dom';
-import { mount } from 'enzyme';
-import { spyElementPrototypes } from 'rc-util/lib/test/domHook';
+import { fireEvent, render, screen } from '@testing-library/react';
 import KeyCode from 'rc-util/lib/KeyCode';
+import { spyElementPrototypes } from 'rc-util/lib/test/domHook';
+import React from 'react';
 import Tabs from '../src';
 import type { TabsProps } from '../src/Tabs';
 import type { HackInfo } from './common/util';
 import { getOffsetSizeFunc } from './common/util';
 
+global.animated = null;
+
+jest.mock('../src/TabPanelList', () => {
+  const Origin = jest.requireActual('../src/TabPanelList').default;
+
+  return (props: any) => {
+    global.animated = props.animated;
+    return <Origin {...props} />;
+  };
+});
+
 describe('Tabs.Basic', () => {
   let domSpy: ReturnType<typeof spyElementPrototypes>;
-  let holder: HTMLDivElement;
 
   const hackOffsetInfo: HackInfo = {};
 
@@ -20,12 +28,11 @@ describe('Tabs.Basic', () => {
     Object.keys(hackOffsetInfo).forEach(key => {
       delete hackOffsetInfo[key];
     });
+
+    global.animated = null;
   });
 
   beforeAll(() => {
-    holder = document.createElement('div');
-    document.body.appendChild(holder);
-
     domSpy = spyElementPrototypes(HTMLElement, {
       scrollIntoView: () => {},
       offsetWidth: {
@@ -36,7 +43,6 @@ describe('Tabs.Basic', () => {
 
   afterAll(() => {
     domSpy.mockRestore();
-    document.body.removeChild(holder);
   });
 
   function getTabs(props: TabsProps = null) {
@@ -65,15 +71,15 @@ describe('Tabs.Basic', () => {
   }
 
   it('Normal', () => {
-    const wrapper = mount(getTabs({ defaultActiveKey: 'bamboo' }));
+    const { container } = render(getTabs({ defaultActiveKey: 'bamboo' }));
 
-    expect(wrapper.render()).toMatchSnapshot();
+    expect(container.firstChild).toMatchSnapshot();
   });
 
   it('disabled not change', () => {
     const onChange = jest.fn();
 
-    const wrapper = mount(
+    const { container } = render(
       getTabs({
         defaultActiveKey: 'light',
         items: [
@@ -92,12 +98,12 @@ describe('Tabs.Basic', () => {
       }),
     );
 
-    wrapper.find('.rc-tabs-tab-disabled').simulate('click');
+    fireEvent.click(container.querySelector('.rc-tabs-tab-disabled'));
     expect(onChange).not.toHaveBeenCalled();
   });
 
   it('Skip invalidate children', () => {
-    const wrapper = mount(
+    const { container } = render(
       getTabs({
         items: [
           {
@@ -109,13 +115,12 @@ describe('Tabs.Basic', () => {
         ],
       }),
     );
-    wrapper.update();
 
-    expect(wrapper.render()).toMatchSnapshot();
+    expect(container.firstChild).toMatchSnapshot();
   });
 
   it('nothing for empty tabs', () => {
-    mount(getTabs({ items: null }));
+    render(getTabs({ items: null }));
   });
 
   it('same width in windows call resize', async () => {
@@ -173,20 +178,23 @@ describe('Tabs.Basic', () => {
   });
 
   describe('onChange and onTabClick should work', () => {
-    const list: { name: string; trigger: (wrapper: ReactWrapper) => void }[] = [
+    const list: { name: string; trigger: (container: HTMLElement) => void }[] = [
       {
         name: 'outer div',
-        trigger: wrapper => wrapper.find('.rc-tabs-tab').at(2).simulate('click'),
+        trigger: container => fireEvent.click(container.querySelectorAll('.rc-tabs-tab')[2]),
       },
       {
         name: 'inner button',
-        trigger: wrapper => wrapper.find('.rc-tabs-tab .rc-tabs-tab-btn').at(2).simulate('click'),
+        trigger: container =>
+          fireEvent.click(container.querySelectorAll('.rc-tabs-tab .rc-tabs-tab-btn')[2]),
       },
       {
         name: 'inner button key down',
-        trigger: wrapper =>
-          wrapper.find('.rc-tabs-tab .rc-tabs-tab-btn').at(2).simulate('keydown', {
+        trigger: container =>
+          fireEvent.keyDown(container.querySelectorAll('.rc-tabs-tab .rc-tabs-tab-btn')[2], {
             which: KeyCode.SPACE,
+            keyCode: KeyCode.SPACE,
+            charCode: KeyCode.SPACE,
           }),
       },
     ];
@@ -195,9 +203,9 @@ describe('Tabs.Basic', () => {
       it(name, () => {
         const onChange = jest.fn();
         const onTabClick = jest.fn();
-        const wrapper = mount(getTabs({ onChange, onTabClick }));
+        const { container } = render(getTabs({ onChange, onTabClick }));
 
-        trigger(wrapper);
+        trigger(container);
         expect(onTabClick).toHaveBeenCalledWith('cute', expect.anything());
         expect(onChange).toHaveBeenCalledWith('cute');
       });
@@ -207,53 +215,66 @@ describe('Tabs.Basic', () => {
     it('should not trigger onChange when click current tab', () => {
       const onChange = jest.fn();
       const onTabClick = jest.fn();
-      const wrapper = mount(getTabs({ onChange, onTabClick }));
+      const { container } = render(getTabs({ onChange, onTabClick }));
 
-      wrapper.find('.rc-tabs-tab').at(0).simulate('click');
+      fireEvent.click(container.querySelector('.rc-tabs-tab'));
       expect(onTabClick).toHaveBeenCalledWith('light', expect.anything());
       expect(onChange).not.toHaveBeenCalled();
     });
   });
 
   it('active first tab when children is changed', () => {
-    const wrapper = mount(getTabs());
-    wrapper.setProps({
-      items: [
-        {
-          label: 'Yo',
-          key: '2333',
-          children: 'New',
-        },
-      ],
-    });
-    wrapper.update();
-    expect(wrapper.find('.rc-tabs-tab-active').text()).toEqual('Yo');
+    const { container, rerender } = render(getTabs());
+    rerender(
+      getTabs({
+        items: [
+          {
+            label: 'Yo',
+            key: '2333',
+            children: 'New',
+          },
+        ],
+      }),
+    );
+
+    expect(container.querySelector('.rc-tabs-tab-active').textContent).toEqual('Yo');
   });
 
   it('active first tab when children is not changed at controlled mode', () => {
-    const wrapper = mount(getTabs({ activeKey: 'light' }));
-    expect(wrapper.find('.rc-tabs-tab-active').text()).toEqual('light');
+    const { container, rerender } = render(getTabs({ activeKey: 'light' }));
+    expect(container.querySelector('.rc-tabs-tab-active').textContent).toEqual('light');
 
-    wrapper.setProps({
-      items: [
-        {
-          label: 'Yo',
-          key: '2333',
-          children: 'New',
-        },
-      ],
-    });
-    expect(wrapper.find('.rc-tabs-tab-active')).toHaveLength(0);
+    rerender(
+      getTabs({
+        activeKey: 'light',
+        items: [
+          {
+            label: 'Yo',
+            key: '2333',
+            children: 'New',
+          },
+        ],
+      }),
+    );
+    expect(container.querySelector('.rc-tabs-tab-active')).toBeFalsy();
   });
 
   it('tabBarGutter should work', () => {
-    const topTabs = mount(getTabs({ tabBarGutter: 23 }));
-    expect(topTabs.find('.rc-tabs-tab').at(0).props().style?.marginLeft).toBe(undefined);
-    expect(topTabs.find('.rc-tabs-tab').at(1).props().style?.marginLeft).toBe(23);
+    const topTabs = render(getTabs({ tabBarGutter: 23 }));
+    expect(topTabs.container.querySelectorAll('.rc-tabs-tab')[0]).toHaveStyle({
+      marginLeft: undefined,
+    });
+    expect(topTabs.container.querySelectorAll('.rc-tabs-tab')[1]).toHaveStyle({
+      marginLeft: '23px',
+    });
 
-    const rightTabs = mount(getTabs({ tabBarGutter: 33, tabPosition: 'right' }));
-    expect(rightTabs.find('.rc-tabs-tab').at(0).props().style?.marginTop).toEqual(undefined);
-    expect(rightTabs.find('.rc-tabs-tab').at(1).props().style?.marginTop).toEqual(33);
+    const rightTabs = render(getTabs({ tabBarGutter: 33, tabPosition: 'right' }));
+    expect(rightTabs.container.querySelectorAll('.rc-tabs-tab')[0]).toHaveStyle({
+      marginTop: undefined,
+    });
+    expect(rightTabs.container.querySelectorAll('.rc-tabs-tab')[1]).toHaveStyle({
+      marginTop: '33px',
+    });
   });
 
   describe('renderTabBar', () => {
@@ -265,9 +286,9 @@ describe('Tabs.Basic', () => {
           </div>
         );
       });
-      const wrapper = mount(getTabs({ renderTabBar }));
-      expect(wrapper.find('.my-wrapper').length).toBeTruthy();
-      expect(wrapper.find('.my-node').length).toBeTruthy();
+      const { container } = render(getTabs({ renderTabBar }));
+      expect(container.querySelector('.my-wrapper')).toBeTruthy();
+      expect(container.querySelector('.my-node')).toBeTruthy();
       expect(renderTabBar).toHaveBeenCalled();
     });
     it('has panes property in props', () => {
@@ -282,10 +303,10 @@ describe('Tabs.Basic', () => {
           </div>
         );
       };
-      const wrapper = mount(getTabs({ renderTabBar }));
-      expect(wrapper.find('[data-key="light"]').length).toBeTruthy();
-      expect(wrapper.find('[data-key="bamboo"]').length).toBeTruthy();
-      expect(wrapper.find('[data-key="cute"]').length).toBeTruthy();
+      const { container } = render(getTabs({ renderTabBar }));
+      expect(container.querySelector('[data-key="light"]')).toBeTruthy();
+      expect(container.querySelector('[data-key="bamboo"]')).toBeTruthy();
+      expect(container.querySelector('[data-key="cute"]')).toBeTruthy();
     });
   });
 
@@ -326,25 +347,25 @@ describe('Tabs.Basic', () => {
   describe('editable', () => {
     it('no and', () => {
       const onEdit = jest.fn();
-      const wrapper = mount(getTabs({ editable: { onEdit, showAdd: false } }));
-      expect(wrapper.find('.rc-tabs-nav-add')).toHaveLength(0);
+      const { container } = render(getTabs({ editable: { onEdit, showAdd: false } }));
+      expect(container.querySelector('.rc-tabs-nav-add')).toBeFalsy();
     });
 
     it('add', () => {
       const onEdit = jest.fn();
-      const wrapper = mount(getTabs({ editable: { onEdit } }));
-      wrapper.find('.rc-tabs-nav-add').first().simulate('click');
+      const { container } = render(getTabs({ editable: { onEdit } }));
+      fireEvent.click(container.querySelector('.rc-tabs-nav-add'));
       expect(onEdit).toHaveBeenCalledWith('add', {
         key: undefined,
         event: expect.anything(),
       });
     });
 
-    const list: { name: string; trigger: (node: ReactWrapper) => void }[] = [
+    const list: { name: string; trigger: (node: Element) => void }[] = [
       {
         name: 'click',
         trigger: node => {
-          node.simulate('click');
+          fireEvent.click(node);
         },
       },
     ];
@@ -352,13 +373,13 @@ describe('Tabs.Basic', () => {
     list.forEach(({ name, trigger }) => {
       it(`remove by ${name}`, () => {
         const onEdit = jest.fn();
-        const wrapper = mount(getTabs({ editable: { onEdit } }));
+        const { container } = render(getTabs({ editable: { onEdit } }));
 
-        const first = wrapper.find('.rc-tabs-tab-remove').first();
+        const first = container.querySelector('.rc-tabs-tab-remove');
         trigger(first);
 
         // Should be button to enable press SPACE key to trigger
-        expect(first.instance() instanceof HTMLButtonElement).toBeTruthy();
+        expect(first instanceof HTMLButtonElement).toBeTruthy();
 
         expect(onEdit).toHaveBeenCalledWith('remove', {
           key: 'light',
@@ -369,7 +390,7 @@ describe('Tabs.Basic', () => {
 
     it('customize closeIcon', () => {
       const onEdit = jest.fn();
-      const wrapper = mount(
+      const { container } = render(
         getTabs({
           editable: { onEdit },
           items: [
@@ -382,40 +403,44 @@ describe('Tabs.Basic', () => {
         }),
       );
 
-      expect(wrapper.find('.rc-tabs-tab-remove').find('.close-light').length).toBeTruthy();
+      expect(
+        container.querySelector('.rc-tabs-tab-remove').querySelector('.close-light'),
+      ).toBeTruthy();
     });
   });
 
   it('extra', () => {
-    const wrapper = mount(getTabs({ tabBarExtraContent: 'Bamboo' }));
-    expect(wrapper.find('.rc-tabs-extra-content').text()).toEqual('Bamboo');
+    const { container } = render(getTabs({ tabBarExtraContent: 'Bamboo' }));
+    expect(container.querySelector('.rc-tabs-extra-content').textContent).toEqual('Bamboo');
   });
 
   it('extra position', () => {
-    const wrapper = mount(
+    const { container } = render(
       getTabs({ tabBarExtraContent: { left: 'Left Bamboo', right: 'Right Bamboo' } }),
     );
-    expect(wrapper.find('.rc-tabs-extra-content').first().text()).toEqual('Left Bamboo');
+    expect(container.querySelector('.rc-tabs-extra-content').textContent).toEqual('Left Bamboo');
 
-    expect(wrapper.find('.rc-tabs-extra-content').at(1).text()).toEqual('Right Bamboo');
+    expect(container.querySelectorAll('.rc-tabs-extra-content')[1].textContent).toEqual(
+      'Right Bamboo',
+    );
   });
 
   it('no break of empty object', () => {
-    mount(getTabs({ tabBarExtraContent: {} }));
+    render(getTabs({ tabBarExtraContent: {} }));
   });
 
   describe('animated', () => {
     it('false', () => {
-      const wrapper = mount(getTabs({ animated: false }));
-      expect(wrapper.find('TabPanelList').prop('animated')).toEqual({
+      render(getTabs({ animated: false }));
+      expect(global.animated).toEqual({
         inkBar: false,
         tabPane: false,
       });
     });
 
     it('true', () => {
-      const wrapper = mount(getTabs({ animated: true }));
-      expect(wrapper.find('TabPanelList').prop('animated')).toEqual({
+      render(getTabs({ animated: true }));
+      expect(global.animated).toEqual({
         inkBar: true,
         tabPane: false,
       });
@@ -424,8 +449,8 @@ describe('Tabs.Basic', () => {
     it('customize but !tabPaneMotion', () => {
       const errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
 
-      const wrapper = mount(getTabs({ animated: { inkBar: false, tabPane: true } }));
-      expect(wrapper.find('TabPanelList').prop('animated')).toEqual({
+      render(getTabs({ animated: { inkBar: false, tabPane: true } }));
+      expect(global.animated).toEqual({
         inkBar: false,
         tabPane: false,
       });
@@ -437,10 +462,8 @@ describe('Tabs.Basic', () => {
     });
 
     it('customize', () => {
-      const wrapper = mount(
-        getTabs({ animated: { inkBar: true, tabPane: true, tabPaneMotion: {} } }),
-      );
-      expect(wrapper.find('TabPanelList').prop('animated')).toEqual(
+      render(getTabs({ animated: { inkBar: true, tabPane: true, tabPaneMotion: {} } }));
+      expect(global.animated).toEqual(
         expect.objectContaining({
           inkBar: true,
           tabPane: true,
@@ -450,13 +473,13 @@ describe('Tabs.Basic', () => {
   });
 
   it('focus to scroll', () => {
-    const wrapper = mount(getTabs());
-    wrapper.find('.rc-tabs-tab-btn').first().simulate('focus');
-    wrapper.unmount();
+    const { container, unmount } = render(getTabs());
+    fireEvent.focus(container.querySelector('.rc-tabs-tab'));
+    unmount();
   });
 
   it('tabBarStyle', () => {
-    const wrapper = mount(getTabs({ tabBarStyle: { background: 'red' } }));
-    expect(wrapper.find('.rc-tabs-nav').prop('style').background).toEqual('red');
+    const { container } = render(getTabs({ tabBarStyle: { background: 'red' } }));
+    expect(container.querySelector('.rc-tabs-nav')).toHaveStyle({ background: 'red' });
   });
 });
