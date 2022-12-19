@@ -1,8 +1,8 @@
 // zombieJ: To compatible with `renderTabBar` usage.
 
-import TabNavList from '.';
+import * as React from 'react';
 import type { TabNavListProps } from '.';
-import { useContext } from 'react';
+import TabNavList from '.';
 import TabContext from '../TabContext';
 import TabPane from '../TabPanelList/TabPane';
 
@@ -11,7 +11,7 @@ export type TabNavListWrapperProps = Required<Omit<TabNavListProps, 'children' |
 
 // We have to create a TabNavList components.
 export default function TabNavListWrapper({ renderTabBar, ...restProps }: TabNavListWrapperProps) {
-  const { tabs } = useContext(TabContext);
+  const { tabs } = React.useContext(TabContext);
 
   if (renderTabBar) {
     const tabNavBarProps = {
