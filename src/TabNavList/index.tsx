@@ -308,7 +308,6 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   // Update buttons records
   const updateTabSizes = () =>
     setTabSizes(() => {
-      console.log(tabListRef.current.childNodes);
       const newSizes: TabSizeMap = new Map();
       tabs.forEach(({ key }) => {
         const btnNode = tabListRef.current.querySelector<HTMLElement>(`[data-node-key="${key}"]`);
