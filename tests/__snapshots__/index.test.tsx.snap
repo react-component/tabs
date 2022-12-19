@@ -17,6 +17,7 @@ exports[`Tabs.Basic Normal 1`] = `
       >
         <div
           class="rc-tabs-tab"
+          data-node-key="light"
         >
           <div
             aria-controls="rc-tabs-test-panel-light"
@@ -31,6 +32,7 @@ exports[`Tabs.Basic Normal 1`] = `
         </div>
         <div
           class="rc-tabs-tab rc-tabs-tab-active"
+          data-node-key="bamboo"
         >
           <div
             aria-controls="rc-tabs-test-panel-bamboo"
@@ -45,6 +47,7 @@ exports[`Tabs.Basic Normal 1`] = `
         </div>
         <div
           class="rc-tabs-tab"
+          data-node-key="cute"
         >
           <div
             aria-controls="rc-tabs-test-panel-cute"
@@ -118,6 +121,7 @@ exports[`Tabs.Basic Skip invalidate children 1`] = `
       >
         <div
           class="rc-tabs-tab rc-tabs-tab-active"
+          data-node-key="light"
         >
           <div
             aria-controls="rc-tabs-test-panel-light"
