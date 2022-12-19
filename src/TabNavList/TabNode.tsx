@@ -1,7 +1,7 @@
-import * as React from 'react';
 import classNames from 'classnames';
 import KeyCode from 'rc-util/lib/KeyCode';
-import type { Tab, EditableConfig } from '../interface';
+import * as React from 'react';
+import type { EditableConfig, Tab } from '../interface';
 
 export interface TabNodeProps {
   id: string;
@@ -15,31 +15,24 @@ export interface TabNodeProps {
   renderWrapper?: (node: React.ReactElement) => React.ReactElement;
   removeAriaLabel?: string;
   removeIcon?: React.ReactNode;
-  onRemove: () => void;
   onFocus: React.FocusEventHandler;
   style?: React.CSSProperties;
 }
 
-function TabNode(
-  {
-    prefixCls,
-    id,
-    active,
-    tab: { key, label, disabled, closeIcon },
-    closable,
-    renderWrapper,
-    removeAriaLabel,
-    editable,
-    onClick,
-    onRemove,
-    onFocus,
-    style,
-  }: TabNodeProps,
-  ref: React.Ref<HTMLDivElement>,
-) {
+function TabNode({
+  prefixCls,
+  id,
+  active,
+  tab: { key, label, disabled, closeIcon },
+  closable,
+  renderWrapper,
+  removeAriaLabel,
+  editable,
+  onClick,
+  onFocus,
+  style,
+}: TabNodeProps) {
   const tabPrefix = `${prefixCls}-tab`;
-
-  React.useEffect(() => onRemove, []);
 
   const removable = editable && closable !== false && !disabled;
 
@@ -62,7 +55,8 @@ function TabNode(
   const node: React.ReactElement = (
     <div
       key={key}
-      ref={ref}
+      // ref={ref}
+      data-node-key={key}
       className={classNames(tabPrefix, {
         [`${tabPrefix}-with-remove`]: removable,
         [`${tabPrefix}-active`]: active,
@@ -116,4 +110,4 @@ function TabNode(
   return renderWrapper ? renderWrapper(node) : node;
 }
 
-export default React.forwardRef(TabNode);
+export default TabNode;

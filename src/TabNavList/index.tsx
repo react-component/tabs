@@ -1,32 +1,31 @@
-import * as React from 'react';
-import { useState, useRef, useEffect } from 'react';
 import classNames from 'classnames';
+import ResizeObserver from 'rc-resize-observer';
 import raf from 'rc-util/lib/raf';
 import { useComposeRef } from 'rc-util/lib/ref';
-import ResizeObserver from 'rc-resize-observer';
-import useRaf, { useRafState } from '../hooks/useRaf';
-import TabNode from './TabNode';
-import type {
-  TabSizeMap,
-  TabPosition,
-  RenderTabBar,
-  TabsLocale,
-  EditableConfig,
-  AnimatedConfig,
-  OnTabScroll,
-  TabBarExtraContent,
-  SizeInfo,
-} from '../interface';
+import * as React from 'react';
+import { useEffect, useRef, useState } from 'react';
 import useOffsets from '../hooks/useOffsets';
-import useVisibleRange from '../hooks/useVisibleRange';
-import OperationNode from './OperationNode';
-import TabContext from '../TabContext';
-import useTouchMove from '../hooks/useTouchMove';
-import useRefs from '../hooks/useRefs';
-import AddButton from './AddButton';
+import useRaf, { useRafState } from '../hooks/useRaf';
 import useSyncState from '../hooks/useSyncState';
+import useTouchMove from '../hooks/useTouchMove';
+import useVisibleRange from '../hooks/useVisibleRange';
+import type {
+  AnimatedConfig,
+  EditableConfig,
+  OnTabScroll,
+  RenderTabBar,
+  SizeInfo,
+  TabBarExtraContent,
+  TabPosition,
+  TabSizeMap,
+  TabsLocale,
+} from '../interface';
+import TabContext from '../TabContext';
 import { stringify } from '../util';
+import AddButton from './AddButton';
 import ExtraContent from './ExtraContent';
+import OperationNode from './OperationNode';
+import TabNode from './TabNode';
 
 export interface TabNavListProps {
   id: string;
@@ -88,7 +87,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   const tabListRef = useRef<HTMLDivElement>();
   const operationsRef = useRef<HTMLDivElement>();
   const innerAddButtonRef = useRef<HTMLButtonElement>();
-  const [getBtnRef, removeBtnRef] = useRefs<HTMLDivElement>();
+  // const [getBtnRef, removeBtnRef] = useRefs<HTMLDivElement>();
 
   const tabPositionTopOrBottom = tabPosition === 'top' || tabPosition === 'bottom';
 
@@ -287,12 +286,8 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
         active={key === activeKey}
         renderWrapper={children}
         removeAriaLabel={locale?.removeAriaLabel}
-        ref={getBtnRef(key)}
         onClick={e => {
           onTabClick(key, e);
-        }}
-        onRemove={() => {
-          removeBtnRef(key);
         }}
         onFocus={() => {
           scrollToTab(key);
@@ -313,9 +308,10 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   // Update buttons records
   const updateTabSizes = () =>
     setTabSizes(() => {
+      console.log(tabListRef.current.childNodes);
       const newSizes: TabSizeMap = new Map();
       tabs.forEach(({ key }) => {
-        const btnNode = getBtnRef(key).current;
+        const btnNode = tabListRef.current.querySelector<HTMLElement>(`[data-node-key="${key}"]`);
         if (btnNode) {
           newSizes.set(key, {
             width: btnNode.offsetWidth,
