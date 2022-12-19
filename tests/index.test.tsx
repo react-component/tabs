@@ -1,5 +1,5 @@
 import '@testing-library/dom';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { act, fireEvent, render, screen } from '@testing-library/react';
 import KeyCode from 'rc-util/lib/KeyCode';
 import { spyElementPrototypes } from 'rc-util/lib/test/domHook';
 import React from 'react';
@@ -121,6 +121,34 @@ describe('Tabs.Basic', () => {
 
   it('nothing for empty tabs', () => {
     render(getTabs({ items: null }));
+  });
+
+  it('strictMode should show correct ink bar', () => {
+    jest.useFakeTimers();
+
+    const { container } = render(
+      <React.StrictMode>
+        <Tabs
+          items={new Array(2).fill(0).map((_, index) => ({
+            label: `Tab ${index}`,
+            key: `${index}`,
+            children: `Content of Tab Pane ${index}`,
+          }))}
+          activeKey="0"
+        />
+      </React.StrictMode>,
+    );
+
+    for (let i = 0; i < 10; i += 1) {
+      act(() => {
+        jest.runAllTimers();
+      });
+    }
+
+    expect(container.querySelector<HTMLElement>('.rc-tabs-ink-bar')).toHaveStyle({
+      width: '20px',
+    });
+    jest.useRealTimers();
   });
 
   it('same width in windows call resize', async () => {
