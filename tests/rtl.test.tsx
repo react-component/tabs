@@ -1,7 +1,7 @@
-import { mount } from 'enzyme';
+import { render } from '@testing-library/react';
 import { spyElementPrototypes } from 'rc-util/lib/test/domHook';
 import { act } from 'react-dom/test-utils';
-import { getOffsetSizeFunc, getTabs, triggerResize, getTransformX } from './common/util';
+import { getOffsetSizeFunc, getTabs, getTransformX, triggerResize } from './common/util';
 
 // Same as `overflow.test.tsx` but use in RTL
 
@@ -46,23 +46,23 @@ describe('Tabs.RTL', () => {
   it('overflow to scroll', () => {
     // Miu [Disabled Cute] Bamboo Light
     jest.useFakeTimers();
-    const wrapper = mount(getTabs({ direction: 'rtl', defaultActiveKey: 'disabled' }));
+    const { container, rerender } = render(
+      getTabs({ direction: 'rtl', defaultActiveKey: 'disabled' }),
+    );
 
-    triggerResize(wrapper);
+    triggerResize(container);
     act(() => {
       jest.runAllTimers();
-      wrapper.update();
     });
-    expect(getTransformX(wrapper)).toEqual(40);
+    expect(getTransformX(container)).toEqual(40);
 
     // Miu Disabled [Cute Bamboo] Light
-    wrapper.setProps({ activeKey: 'bamboo' });
+    rerender(getTabs({ direction: 'rtl', defaultActiveKey: 'disabled', activeKey: 'bamboo' }));
     act(() => {
       jest.runAllTimers();
-      wrapper.update();
     });
 
-    expect(getTransformX(wrapper)).toEqual(20);
+    expect(getTransformX(container)).toEqual(20);
 
     jest.useRealTimers();
   });
