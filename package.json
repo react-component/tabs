@@ -13,7 +13,6 @@
   "files": [
     "lib",
     "es",
-    "dist",
     "assets/index.css"
   ],
   "main": "./lib/index",
