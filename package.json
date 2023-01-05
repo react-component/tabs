@@ -40,6 +40,7 @@
     "prepublishOnly": "npm run lint && npm run test && npm run compile && np --yolo --no-publish"
   },
   "devDependencies": {
+    "@rc-component/father-plugin": "^1.0.0",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.0.0",
     "@types/classnames": "^2.2.10",
@@ -68,8 +69,7 @@
     "react-dom": "^18.0.0",
     "react-sticky": "^6.0.3",
     "sortablejs": "^1.7.0",
-    "typescript": "^4.0.5",
-    "@rc-component/father-plugin": "^1.0.0"
+    "typescript": "^4.0.5"
   },
   "dependencies": {
     "@babel/runtime": "^7.11.2",
