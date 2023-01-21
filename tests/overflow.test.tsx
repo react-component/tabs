@@ -427,6 +427,52 @@ describe('Tabs.Overflow', () => {
     });
   });
 
+  describe('editable', () => {
+    it('add tab and setActive immediately', async () => {
+      jest.useFakeTimers();
+
+      const onEdit = jest.fn();
+      const {container, rerender} = render(getTabs({
+        activeKey: '20', editable: { onEdit }, items: Array.from({ length: 20 }).map((_, idx) => {
+          return {
+            key: String(idx + 1),
+            label: String(idx + 1),
+            children: String(idx + 1),
+          };
+        }),
+      }));
+
+      await triggerResize(container);
+      act(() => {
+        jest.runAllTimers();
+      });
+      expect(getTransformX(container)).toEqual(-370);
+
+      fireEvent.click(container.querySelector('.rc-tabs-nav-operations .rc-tabs-nav-add'));
+      expect(onEdit).toHaveBeenCalledWith('add', {
+        key: undefined,
+        event: expect.anything(),
+      });
+      rerender(getTabs({
+        activeKey: '21', editable: { onEdit }, items: Array.from({ length: 21 }).map((_, idx) => {
+          return {
+            key: String(idx + 1),
+            label: String(idx + 1),
+            children: String(idx + 1),
+          };
+        }),
+      }));
+
+      await triggerResize(container);
+      act(() => {
+        jest.runAllTimers();
+      });
+      expect(getTransformX(container)).toEqual(-390);
+
+      jest.useRealTimers();
+    });
+  });
+
   it('should calculate hidden tabs correctly', () => {
     jest.useFakeTimers();
     const onEdit = jest.fn();
