@@ -427,14 +427,14 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   if (tabPositionTopOrBottom) {
     if (rtl) {
       pingRight = transformLeft > 0;
-      pingLeft = transformLeft + containerExcludeExtraSizeValue < tabContentSizeValue;
+      pingLeft = transformLeft !== transformMax;
     } else {
       pingLeft = transformLeft < 0;
-      pingRight = -transformLeft + containerExcludeExtraSizeValue < tabContentSizeValue;
+      pingRight = transformLeft !== transformMin;
     }
   } else {
     pingTop = transformTop < 0;
-    pingBottom = -transformTop + containerExcludeExtraSizeValue < tabContentSizeValue;
+    pingBottom = transformTop !== transformMin;
   }
 
   return (
