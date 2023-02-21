@@ -173,7 +173,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     }
 
     // Skip scroll if place is enough
-    if (containerExcludeExtraSizeValue >= tabContentSizeValue) {
+    if (!needScroll) {
       return false;
     }
 
