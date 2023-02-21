@@ -3,7 +3,7 @@ import Tabs from '../../src';
 import '../../assets/index.less';
 
 export default () => {
-  const countRef = useRef(10);
+  const countRef = useRef(8);
   const [tabs, setTabs] = React.useState(
     new Array(countRef.current).fill(0).map((_, index) => {
       return {

@@ -1,13 +1,14 @@
 import classNames from 'classnames';
 import ResizeObserver from 'rc-resize-observer';
+import useEvent from 'rc-util/lib/hooks/useEvent';
 import raf from 'rc-util/lib/raf';
 import { useComposeRef } from 'rc-util/lib/ref';
 import * as React from 'react';
 import { useEffect, useRef, useState } from 'react';
 import useOffsets from '../hooks/useOffsets';
-import useRaf, { useRafState } from '../hooks/useRaf';
 import useSyncState from '../hooks/useSyncState';
 import useTouchMove from '../hooks/useTouchMove';
+import useUpdate, { useUpdateState } from '../hooks/useUpdate';
 import useVisibleRange from '../hooks/useVisibleRange';
 import type {
   AnimatedConfig,
@@ -107,7 +108,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   const [addSize, setAddSize] = useState<SizeInfo>([0, 0]);
   const [operationSize, setOperationSize] = useState<SizeInfo>([0, 0]);
 
-  const [tabSizes, setTabSizes] = useRafState<TabSizeMap>(new Map());
+  const [tabSizes, setTabSizes] = useUpdateState<TabSizeMap>(new Map());
   const tabOffsets = useOffsets(tabs, tabSizes, tabContentSize[0]);
 
   // ========================== Unit =========================
@@ -173,7 +174,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     }
 
     // Skip scroll if place is enough
-    if (containerExcludeExtraSizeValue >= tabContentSizeValue) {
+    if (!needScroll) {
       return false;
     }
 
@@ -218,7 +219,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   );
 
   // ========================= Scroll ========================
-  const scrollToTab = (key = activeKey) => {
+  const scrollToTab = useEvent((key = activeKey) => {
     const tabOffset = tabOffsets.get(key) || {
       width: 0,
       height: 0,
@@ -261,7 +262,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
       setTransformLeft(0);
       setTransformTop(alignInRange(newTransform));
     }
-  };
+  });
 
   // ========================== Tab ==========================
   const tabNodeStyle: React.CSSProperties = {};
@@ -327,7 +328,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     updateTabSizes();
   }, [tabs.map(tab => tab.key).join('_')]);
 
-  const onListHolderResize = useRaf(() => {
+  const onListHolderResize = useUpdate(() => {
     // Update wrapper records
     const containerSize = getSize(containerRef);
     const extraLeftSize = getSize(extraLeftRef);
@@ -400,7 +401,14 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   useEffect(() => {
     scrollToTab();
     // eslint-disable-next-line
-  }, [activeKey, stringify(activeTabOffset), stringify(tabOffsets), tabPositionTopOrBottom]);
+  }, [
+    activeKey,
+    transformMin,
+    transformMax,
+    stringify(activeTabOffset),
+    stringify(tabOffsets),
+    tabPositionTopOrBottom,
+  ]);
 
   // Should recalculate when rtl changed
   useEffect(() => {
@@ -419,14 +427,14 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   if (tabPositionTopOrBottom) {
     if (rtl) {
       pingRight = transformLeft > 0;
-      pingLeft = transformLeft + containerExcludeExtraSizeValue < tabContentSizeValue;
+      pingLeft = transformLeft !== transformMax;
     } else {
       pingLeft = transformLeft < 0;
-      pingRight = -transformLeft + containerExcludeExtraSizeValue < tabContentSizeValue;
+      pingRight = transformLeft !== transformMin;
     }
   } else {
     pingTop = transformTop < 0;
-    pingBottom = -transformTop + containerExcludeExtraSizeValue < tabContentSizeValue;
+    pingBottom = transformTop !== transformMin;
   }
 
   return (
