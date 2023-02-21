@@ -401,7 +401,14 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   useEffect(() => {
     scrollToTab();
     // eslint-disable-next-line
-  }, [activeKey, stringify(activeTabOffset), stringify(tabOffsets), tabPositionTopOrBottom]);
+  }, [
+    activeKey,
+    transformMin,
+    transformMax,
+    stringify(activeTabOffset),
+    stringify(tabOffsets),
+    tabPositionTopOrBottom,
+  ]);
 
   // Should recalculate when rtl changed
   useEffect(() => {
