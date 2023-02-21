@@ -5,9 +5,9 @@ import { useComposeRef } from 'rc-util/lib/ref';
 import * as React from 'react';
 import { useEffect, useRef, useState } from 'react';
 import useOffsets from '../hooks/useOffsets';
-import useRaf, { useRafState } from '../hooks/useRaf';
 import useSyncState from '../hooks/useSyncState';
 import useTouchMove from '../hooks/useTouchMove';
+import useUpdate, { useUpdateState } from '../hooks/useUpdate';
 import useVisibleRange from '../hooks/useVisibleRange';
 import type {
   AnimatedConfig,
@@ -107,7 +107,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   const [addSize, setAddSize] = useState<SizeInfo>([0, 0]);
   const [operationSize, setOperationSize] = useState<SizeInfo>([0, 0]);
 
-  const [tabSizes, setTabSizes] = useRafState<TabSizeMap>(new Map());
+  const [tabSizes, setTabSizes] = useUpdateState<TabSizeMap>(new Map());
   const tabOffsets = useOffsets(tabs, tabSizes, tabContentSize[0]);
 
   // ========================== Unit =========================
@@ -327,7 +327,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     updateTabSizes();
   }, [tabs.map(tab => tab.key).join('_')]);
 
-  const onListHolderResize = useRaf(() => {
+  const onListHolderResize = useUpdate(() => {
     // Update wrapper records
     const containerSize = getSize(containerRef);
     const extraLeftSize = getSize(extraLeftRef);
