@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import ResizeObserver from 'rc-resize-observer';
+import useEvent from 'rc-util/lib/hooks/useEvent';
 import raf from 'rc-util/lib/raf';
 import { useComposeRef } from 'rc-util/lib/ref';
 import * as React from 'react';
@@ -218,7 +219,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   );
 
   // ========================= Scroll ========================
-  const scrollToTab = (key = activeKey) => {
+  const scrollToTab = useEvent((key = activeKey) => {
     const tabOffset = tabOffsets.get(key) || {
       width: 0,
       height: 0,
@@ -261,7 +262,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
       setTransformLeft(0);
       setTransformTop(alignInRange(newTransform));
     }
-  };
+  });
 
   // ========================== Tab ==========================
   const tabNodeStyle: React.CSSProperties = {};
