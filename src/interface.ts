@@ -22,7 +22,7 @@ export type TabOffsetMap = Map<React.Key, TabOffset>;
 export type TabPosition = 'left' | 'right' | 'top' | 'bottom';
 
 export interface Tab extends Omit<TabPaneProps, 'tab'> {
-  key: string;
+  key: React.Key;
   label: React.ReactNode;
 }
 
