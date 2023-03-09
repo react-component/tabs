@@ -513,5 +513,9 @@ describe('Tabs.Basic', () => {
 
   it('key contains double quote should not crash', () => {
     render(<Tabs items={[{key: '"key"', label: 'test'}]} />)
+  });
+
+  it('key could be number', () => {
+    render(<Tabs items={[{key: 1 as any, label: 'test'}]} />)
   })
 });
