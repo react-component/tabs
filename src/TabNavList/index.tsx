@@ -22,7 +22,7 @@ import type {
   TabsLocale,
 } from '../interface';
 import TabContext from '../TabContext';
-import { genDataNodeKey, stringify } from '../util';
+import { stringify } from '../util';
 import AddButton from './AddButton';
 import ExtraContent from './ExtraContent';
 import OperationNode from './OperationNode';
@@ -311,7 +311,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     setTabSizes(() => {
       const newSizes: TabSizeMap = new Map();
       tabs.forEach(({ key }) => {
-        const btnNode = tabListRef.current?.querySelector<HTMLElement>(`[data-node-key="${genDataNodeKey(key)}"]`);
+        const btnNode = tabListRef.current?.querySelector<HTMLElement>(`[data-node-key="${key}"]`);
         if (btnNode) {
           newSizes.set(key, {
             width: btnNode.offsetWidth,

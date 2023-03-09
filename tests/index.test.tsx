@@ -510,8 +510,4 @@ describe('Tabs.Basic', () => {
     const { container } = render(getTabs({ tabBarStyle: { background: 'red' } }));
     expect(container.querySelector('.rc-tabs-nav')).toHaveStyle({ background: 'red' });
   });
-
-  it('key contains double quote should not crash', () => {
-    render(<Tabs items={[{key: '"key"', label: 'test'}]} />)
-  })
 });

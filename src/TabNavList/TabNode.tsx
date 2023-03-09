@@ -2,7 +2,6 @@ import classNames from 'classnames';
 import KeyCode from 'rc-util/lib/KeyCode';
 import * as React from 'react';
 import type { EditableConfig, Tab } from '../interface';
-import { genDataNodeKey } from '../util';
 
 export interface TabNodeProps {
   id: string;
@@ -57,7 +56,7 @@ function TabNode({
     <div
       key={key}
       // ref={ref}
-      data-node-key={genDataNodeKey(key)}
+      data-node-key={key}
       className={classNames(tabPrefix, {
         [`${tabPrefix}-with-remove`]: removable,
         [`${tabPrefix}-active`]: active,
