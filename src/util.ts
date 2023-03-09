@@ -1,3 +1,5 @@
+import React from 'react';
+
 /**
  * We trade Map as deps which may change with same value but different ref object.
  * We should make it as hash for deps
@@ -15,4 +17,9 @@ export function stringify<K extends string | number | symbol, V>(obj: Record<K, 
   }
 
   return JSON.stringify(tgt);
+}
+
+const RC_TABS_DOUBLE_QUOTE = 'TABS_DQ';
+export function genDataNodeKey(key: React.Key): string {
+  return String(key).replace(/"/g, RC_TABS_DOUBLE_QUOTE);
 }
