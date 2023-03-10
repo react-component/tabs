@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useState, useRef } from 'react';
+import { getWheelDeltaOfPx } from '../util';
 
 type TouchEventHandler = (e: TouchEvent) => void;
 type WheelEventHandler = (e: WheelEvent) => void;
@@ -79,7 +80,7 @@ export default function useTouchMove(
   const lastWheelDirectionRef = useRef<'x' | 'y'>();
 
   function onWheel(e: WheelEvent) {
-    const { deltaX, deltaY } = e;
+    const [deltaX, deltaY] = getWheelDeltaOfPx(e);
 
     // Convert both to x & y since wheel only happened on PC
     let mixed: number = 0;
