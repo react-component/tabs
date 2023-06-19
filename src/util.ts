@@ -23,3 +23,19 @@ const RC_TABS_DOUBLE_QUOTE = 'TABS_DQ';
 export function genDataNodeKey(key: React.Key): string {
   return String(key).replace(/"/g, RC_TABS_DOUBLE_QUOTE);
 }
+
+import type { EditableConfig } from '@/interface';
+import type { ReactNode } from 'react';
+
+export function getRemovable(
+  closable: boolean,
+  closeIcon?: ReactNode,
+  editable?: EditableConfig,
+  disabled?: boolean,
+) {
+  // If closable is not explicitly set to true, the remove button should be hidden when closeIcon is null or false
+  if (closable !== true && (closeIcon === false || closeIcon === null)) {
+    return false;
+  }
+  return editable && closable !== false && !disabled;
+};
