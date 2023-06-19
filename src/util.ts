@@ -37,8 +37,10 @@ export function getRemovable(
     !editable ||
     // Tabs cannot be removed when disabled
     disabled ||
-    // If closable is not explicitly set to true, the remove button should be hidden when closeIcon is null or false
-    (closable !== true && (closeIcon === false || closeIcon === null))
+    // closable is false
+    closable === false ||
+    // If closable is undefined, the remove button should be hidden when closeIcon is null or false
+    (closable === undefined && (closeIcon === false || closeIcon === null))
   ) {
     return false;
   }

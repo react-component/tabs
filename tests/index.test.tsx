@@ -482,6 +482,11 @@ describe('Tabs.Basic', () => {
               closable: true,
               children: 'Light',
             },
+            {
+              key: 'light5',
+              closable: false,
+              children: 'Light',
+            },
           ] as any,
         }),
       );
@@ -492,6 +497,7 @@ describe('Tabs.Basic', () => {
       expect(container.querySelector('[data-node-key="light2"]').querySelector('.rc-tabs-tab-remove')).toBeFalsy();
       expect(container.querySelector('[data-node-key="light3"]').querySelector('.rc-tabs-tab-remove')).toBeTruthy();
       expect(container.querySelector('[data-node-key="light4"]').querySelector('.rc-tabs-tab-remove')).toBeTruthy();
+      expect(container.querySelector('[data-node-key="light5"]').querySelector('.rc-tabs-tab-remove')).toBeFalsy();
       
     });
   });
