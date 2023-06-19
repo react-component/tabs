@@ -39,8 +39,8 @@ export function getRemovable(
     disabled ||
     // closable is false
     closable === false ||
-    // If closable is undefined, the remove button should be hidden when closeIcon is null or false
-    (closable === undefined && (closeIcon === false || closeIcon === null))
+    // If closable is not explicitly set to true, the remove button should be hidden when closeIcon is null or false
+    (closable !== true && (closeIcon === false || closeIcon === null))
   ) {
     return false;
   }
