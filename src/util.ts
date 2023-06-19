@@ -1,6 +1,6 @@
-import type { EditableConfig } from './interface';
 import type React from 'react';
 import type { ReactNode } from 'react';
+import type { EditableConfig } from './interface';
 
 /**
  * We trade Map as deps which may change with same value but different ref object.
@@ -33,8 +33,8 @@ export function getRemovable(
   disabled?: boolean,
 ) {
   // If closable is not explicitly set to true, the remove button should be hidden when closeIcon is null or false
-  if (closable !== true && (closeIcon === false || closeIcon === null)) {
+  if ((closable !== true && (closeIcon === false || closeIcon === null)) || !editable || disabled) {
     return false;
   }
-  return editable && closable !== false && !disabled;
+  return true;
 }
