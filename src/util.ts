@@ -27,7 +27,7 @@ export function genDataNodeKey(key: React.Key): string {
 }
 
 export function getRemovable(
-  closable: boolean,
+  closable?: boolean,
   closeIcon?: ReactNode,
   editable?: EditableConfig,
   disabled?: boolean,
