@@ -35,7 +35,13 @@ function TabNode({
 }: TabNodeProps) {
   const tabPrefix = `${prefixCls}-tab`;
 
-  const removable = editable && closable !== false && !disabled;
+  const removable = React.useMemo(() => {
+    // If closable is not explicitly set to true, the remove button should be hidden when closeIcon is null or false
+    if (closable !== true && (closeIcon === false || closeIcon === null)) {
+      return false;
+    }
+    return (editable && closable !== false && !disabled);
+  }, [closable, closeIcon, editable, disabled]);
 
   function onInternalClick(e: React.MouseEvent | React.KeyboardEvent) {
     if (disabled) {

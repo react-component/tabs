@@ -83,7 +83,14 @@ function OperationNode(
       aria-label={dropdownAriaLabel !== undefined ? dropdownAriaLabel : 'expanded dropdown'}
     >
       {tabs.map(tab => {
-        const removable = editable && tab.closable !== false && !tab.disabled;
+        const { closable, disabled, closeIcon } = tab;
+        let removable = false;
+        // If closable is not explicitly set to true, the remove button should be hidden when closeIcon is null or false
+        if (closable !== true && (closeIcon === false || closeIcon === null)) {
+          removable = false;
+        } else {
+          removable = editable && closable !== false && !disabled;
+        }
         return (
           <MenuItem
             key={tab.key}
