@@ -1,4 +1,6 @@
-import React from 'react';
+import type { EditableConfig } from './interface';
+import type React from 'react';
+import type { ReactNode } from 'react';
 
 /**
  * We trade Map as deps which may change with same value but different ref object.
@@ -24,9 +26,6 @@ export function genDataNodeKey(key: React.Key): string {
   return String(key).replace(/"/g, RC_TABS_DOUBLE_QUOTE);
 }
 
-import type { EditableConfig } from '@/interface';
-import type { ReactNode } from 'react';
-
 export function getRemovable(
   closable: boolean,
   closeIcon?: ReactNode,
@@ -38,4 +37,4 @@ export function getRemovable(
     return false;
   }
   return editable && closable !== false && !disabled;
-};
+}
