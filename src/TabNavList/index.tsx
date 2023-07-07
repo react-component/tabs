@@ -52,8 +52,8 @@ export interface TabNavListProps {
 }
 
 const getSize = (refObj: React.RefObject<HTMLElement>): SizeInfo => {
-  const { offsetWidth = 0, offsetHeight = 0 } = refObj.current || {};
-  return [offsetWidth, offsetHeight];
+  const { width = 0, height = 0 } = refObj?.current?.getBoundingClientRect() || {};
+  return [width, height];
 };
 
 /**
@@ -311,19 +311,28 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     setTabSizes(() => {
       const newSizes: TabSizeMap = new Map();
       tabs.forEach(({ key }) => {
-        const btnNode = tabListRef.current?.querySelector<HTMLElement>(`[data-node-key="${genDataNodeKey(key)}"]`);
+        const btnNode = tabListRef.current?.querySelector<HTMLElement>(
+          `[data-node-key="${genDataNodeKey(key)}"]`,
+        );
         if (btnNode) {
+          const {
+            width = 0,
+            height = 0,
+            left = 0,
+            top = 0,
+          } = btnNode.getBoundingClientRect() || {};
+          const { left: parentLeft = 0, top: parentTop = 0 } =
+            tabListRef?.current?.getBoundingClientRect() || {};
           newSizes.set(key, {
-            width: btnNode.offsetWidth,
-            height: btnNode.offsetHeight,
-            left: btnNode.offsetLeft,
-            top: btnNode.offsetTop,
+            width,
+            height,
+            left: left - parentLeft,
+            top: top - parentTop,
           });
         }
       });
       return newSizes;
     });
-
   useEffect(() => {
     updateTabSizes();
   }, [tabs.map(tab => tab.key).join('_')]);
@@ -350,7 +359,6 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
       tabContentFullSize[0] - newAddSize[0],
       tabContentFullSize[1] - newAddSize[1],
     ]);
-
     // Update buttons records
     updateTabSizes();
   });
