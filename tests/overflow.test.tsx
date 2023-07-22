@@ -11,7 +11,7 @@ import {
   getTabs,
   getTransformX,
   getTransformY,
-  triggerResize,
+  triggerResize, waitFakeTimer,
 } from './common/util';
 
 describe('Tabs.Overflow', () => {
@@ -25,7 +25,7 @@ describe('Tabs.Overflow', () => {
     });
   });
 
-  beforeAll(() => {
+  beforeEach(() => {
     domSpy = spyElementPrototypes(HTMLElement, {
       scrollIntoView: () => {},
       offsetWidth: {
@@ -43,7 +43,7 @@ describe('Tabs.Overflow', () => {
     });
   });
 
-  afterAll(() => {
+  afterEach(() => {
     domSpy.mockRestore();
   });
 
@@ -363,10 +363,26 @@ describe('Tabs.Overflow', () => {
       });
     });
 
-    it('auto hidden Dropdown', () => {
+    it('auto hidden Dropdown', async () => {
       jest.useFakeTimers();
 
-      const originItems: TabsProps['items'] = new Array(8).fill(0).map((_, index) => ({
+      domSpy = spyElementPrototypes(HTMLElement, {
+        scrollIntoView: () => {},
+        offsetWidth: {
+          get: getOffsetSizeFunc({ ...hackOffsetInfo, container: 45 }),
+        },
+        offsetHeight: {
+          get: getOffsetSizeFunc(hackOffsetInfo),
+        },
+        offsetLeft: {
+          get: btnOffsetPosition,
+        },
+        offsetTop: {
+          get: btnOffsetPosition,
+        },
+      });
+
+      const originItems: TabsProps['items'] = new Array(2).fill(0).map((_, index) => ({
         key: `${index}`,
         label: `Tab ${index + 1}`,
         children: `Tab Content${index + 1}`,
@@ -406,20 +422,11 @@ describe('Tabs.Overflow', () => {
         jest.runAllTimers();
       });
 
-      while (true) {
-        const remove = document.querySelector('.rc-tabs-dropdown-menu-item-remove');
-        if (!remove) {
-          break;
-        }
+      const remove = document.querySelector('.rc-tabs-dropdown-menu-item-remove');
 
-        act(() => {
-          fireEvent.click(remove);
-        });
-
-        act(() => {
-          jest.runAllTimers();
-        });
-      }
+      act(() => {
+        fireEvent.click(remove);
+      });
 
       expect(document.querySelector('.rc-tabs-dropdown-hidden')).toBeTruthy();
 
