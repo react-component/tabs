@@ -1,7 +1,6 @@
 import classNames from 'classnames';
 import ResizeObserver from 'rc-resize-observer';
 import useEvent from 'rc-util/lib/hooks/useEvent';
-import raf from 'rc-util/lib/raf';
 import { useComposeRef } from 'rc-util/lib/ref';
 import * as React from 'react';
 import { useEffect, useRef, useState } from 'react';
@@ -27,6 +26,8 @@ import AddButton from './AddButton';
 import ExtraContent from './ExtraContent';
 import OperationNode from './OperationNode';
 import TabNode from './TabNode';
+import useIndicator from '../hooks/useIndicator';
+import type { GetIndicatorLength } from '../hooks/useIndicator';
 
 export interface TabNavListProps {
   id: string;
@@ -49,6 +50,7 @@ export interface TabNavListProps {
   children?: (node: React.ReactElement) => React.ReactElement;
   getPopupContainer?: (node: HTMLElement) => HTMLElement;
   popupClassName?: string;
+  getIndicatorLength?: GetIndicatorLength;
 }
 
 const getSize = (refObj: React.RefObject<HTMLElement>): SizeInfo => {
@@ -80,6 +82,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     children,
     onTabClick,
     onTabScroll,
+    getIndicatorLength,
   } = props;
   const containerRef = useRef<HTMLDivElement>();
   const extraLeftRef = useRef<HTMLDivElement>();
@@ -361,41 +364,13 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   const hiddenTabs = [...startHiddenTabs, ...endHiddenTabs];
 
   // =================== Link & Operations ===================
-  const [inkStyle, setInkStyle] = useState<React.CSSProperties>();
-
   const activeTabOffset = tabOffsets.get(activeKey);
-
-  // Delay set ink style to avoid remove tab blink
-  const inkBarRafRef = useRef<number>();
-  function cleanInkBarRaf() {
-    raf.cancel(inkBarRafRef.current);
-  }
-
-  useEffect(() => {
-    const newInkStyle: React.CSSProperties = {};
-
-    if (activeTabOffset) {
-      if (tabPositionTopOrBottom) {
-        if (rtl) {
-          newInkStyle.right = activeTabOffset.right;
-        } else {
-          newInkStyle.left = activeTabOffset.left;
-        }
-
-        newInkStyle.width = activeTabOffset.width;
-      } else {
-        newInkStyle.top = activeTabOffset.top;
-        newInkStyle.height = activeTabOffset.height;
-      }
-    }
-
-    cleanInkBarRaf();
-    inkBarRafRef.current = raf(() => {
-      setInkStyle(newInkStyle);
-    });
-
-    return cleanInkBarRaf;
-  }, [activeTabOffset, tabPositionTopOrBottom, rtl]);
+  const { style: indicatorStyle } = useIndicator({
+    activeTabOffset,
+    horizontal: tabPositionTopOrBottom,
+    rtl,
+    getIndicatorLength,
+  })
 
   // ========================= Effect ========================
   useEffect(() => {
@@ -485,7 +460,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
                 className={classNames(`${prefixCls}-ink-bar`, {
                   [`${prefixCls}-ink-bar-animated`]: animated.inkBar,
                 })}
-                style={inkStyle}
+                style={indicatorStyle}
               />
             </div>
           </ResizeObserver>
