@@ -38,9 +38,7 @@ const useIndicator: UseIndicator = ({
   }
 
   useEffect(() => {
-    const newInkStyle: React.CSSProperties = {
-      // transformOrigin: '50% 50%',
-    };
+    const newInkStyle: React.CSSProperties = {};
 
     if (activeTabOffset) {
       if (horizontal) {
@@ -65,7 +63,7 @@ const useIndicator: UseIndicator = ({
     });
 
     return cleanInkBarRaf;
-  }, [activeTabOffset, horizontal, rtl]);
+  }, [activeTabOffset, horizontal, rtl, getIndicatorLength]);
 
   return {
     style: inkStyle,
