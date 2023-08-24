@@ -8,7 +8,7 @@ export type UseIndicator = (options: {
   activeTabOffset: TabOffset,
   horizontal: boolean;
   rtl: boolean;
-  getIndicatorLength: GetIndicatorLength;
+  indicatorLength: GetIndicatorLength;
 }) => {
   style: React.CSSProperties;
 }
@@ -17,17 +17,17 @@ const useIndicator: UseIndicator = ({
   activeTabOffset,
   horizontal,
   rtl,
-  getIndicatorLength,
+                                      indicatorLength,
                                     }) => {
   const [inkStyle, setInkStyle] = useState<React.CSSProperties>();
   const inkBarRafRef = useRef<number>();
 
   const getLength = (origin: number) => {
-    if (typeof getIndicatorLength === 'function') {
-      return getIndicatorLength(origin);
+    if (typeof indicatorLength === 'function') {
+      return indicatorLength(origin);
     }
-    if (typeof getIndicatorLength === 'number') {
-      return getIndicatorLength;
+    if (typeof indicatorLength === 'number') {
+      return indicatorLength;
     }
     return origin;
   }
@@ -63,7 +63,7 @@ const useIndicator: UseIndicator = ({
     });
 
     return cleanInkBarRaf;
-  }, [activeTabOffset, horizontal, rtl, getIndicatorLength]);
+  }, [activeTabOffset, horizontal, rtl, indicatorLength]);
 
   return {
     style: inkStyle,

@@ -71,7 +71,7 @@ export interface TabsProps
   popupClassName?: string;
 
   // Indicator
-  getIndicatorLength?: GetIndicatorLength;
+  indicatorLength?: GetIndicatorLength;
 }
 
 function Tabs(
@@ -99,7 +99,7 @@ function Tabs(
     onTabScroll,
     getPopupContainer,
     popupClassName,
-    getIndicatorLength,
+    indicatorLength,
     ...restProps
   }: TabsProps,
   ref: React.Ref<HTMLDivElement>,
@@ -185,7 +185,7 @@ function Tabs(
     panes: null,
     getPopupContainer,
     popupClassName,
-    getIndicatorLength,
+    indicatorLength,
   };
 
   return (

@@ -50,7 +50,7 @@ export interface TabNavListProps {
   children?: (node: React.ReactElement) => React.ReactElement;
   getPopupContainer?: (node: HTMLElement) => HTMLElement;
   popupClassName?: string;
-  getIndicatorLength?: GetIndicatorLength;
+  indicatorLength?: GetIndicatorLength;
 }
 
 const getSize = (refObj: React.RefObject<HTMLElement>): SizeInfo => {
@@ -82,7 +82,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     children,
     onTabClick,
     onTabScroll,
-    getIndicatorLength,
+    indicatorLength,
   } = props;
   const containerRef = useRef<HTMLDivElement>();
   const extraLeftRef = useRef<HTMLDivElement>();
@@ -369,7 +369,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     activeTabOffset,
     horizontal: tabPositionTopOrBottom,
     rtl,
-    getIndicatorLength,
+    indicatorLength,
   })
 
   // ========================= Effect ========================
