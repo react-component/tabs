@@ -6,7 +6,7 @@ import React from 'react';
 import Tabs from '../src';
 import type { TabsProps } from '../src/Tabs';
 import type { HackInfo } from './common/util';
-import { getOffsetSizeFunc } from './common/util';
+import { getOffsetSizeFunc, waitFakeTimer } from './common/util';
 
 global.animated = null;
 
@@ -582,5 +582,15 @@ describe('Tabs.Basic', () => {
 
   it('key could be number', () => {
     render(<Tabs items={[{key: 1 as any, label: 'test'}]} />)
+  })
+
+  it('support getIndicatorLength',  async () => {
+    const { container, rerender } = render(getTabs({ indicatorLength: 10 }));
+    await waitFakeTimer();
+    expect(container.querySelector('.rc-tabs-ink-bar')).toHaveStyle({ width: '10px' });
+
+    rerender(getTabs({ indicatorLength: (origin) => origin - 2 }));
+    await waitFakeTimer();
+    expect(container.querySelector('.rc-tabs-ink-bar')).toHaveStyle({ width: '18px' });
   })
 });
