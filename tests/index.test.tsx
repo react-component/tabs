@@ -585,11 +585,11 @@ describe('Tabs.Basic', () => {
   })
 
   it('support getIndicatorLength',  async () => {
-    const { container, rerender } = render(getTabs({ getIndicatorLength: 10 }));
+    const { container, rerender } = render(getTabs({ indicatorLength: 10 }));
     await waitFakeTimer();
     expect(container.querySelector('.rc-tabs-ink-bar')).toHaveStyle({ width: '10px' });
 
-    rerender(getTabs({ getIndicatorLength: (origin) => origin - 2 }));
+    rerender(getTabs({ indicatorLength: (origin) => origin - 2 }));
     await waitFakeTimer();
     expect(container.querySelector('.rc-tabs-ink-bar')).toHaveStyle({ width: '18px' });
   })
