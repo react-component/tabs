@@ -18,7 +18,7 @@ import type {
 import TabContext from './TabContext';
 import TabNavListWrapper from './TabNavList/Wrapper';
 import useAnimateConfig from './hooks/useAnimateConfig';
-import type { GetIndicatorLength } from './hooks/useIndicator';
+import type { GetIndicatorSize } from './hooks/useIndicator';
 
 /**
  * Should added antd:
@@ -71,7 +71,7 @@ export interface TabsProps
   popupClassName?: string;
 
   // Indicator
-  indicatorLength?: GetIndicatorLength;
+  indicatorSize?: GetIndicatorSize;
 }
 
 function Tabs(
@@ -99,7 +99,7 @@ function Tabs(
     onTabScroll,
     getPopupContainer,
     popupClassName,
-    indicatorLength,
+    indicatorSize,
     ...restProps
   }: TabsProps,
   ref: React.Ref<HTMLDivElement>,
@@ -185,7 +185,7 @@ function Tabs(
     panes: null,
     getPopupContainer,
     popupClassName,
-    indicatorLength,
+    indicatorSize,
   };
 
   return (

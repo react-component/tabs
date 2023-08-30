@@ -29,7 +29,7 @@ export default () => {
 
   return (
     <React.StrictMode>
-      <Tabs tabBarExtraContent="extra" items={items} getIndicatorLength={(origin) => origin - 16} />
+      <Tabs tabBarExtraContent="extra" items={items} indicatorSize={(origin) => origin - 16} />
     </React.StrictMode>
   );
 };

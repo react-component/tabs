@@ -27,7 +27,7 @@ import ExtraContent from './ExtraContent';
 import OperationNode from './OperationNode';
 import TabNode from './TabNode';
 import useIndicator from '../hooks/useIndicator';
-import type { GetIndicatorLength } from '../hooks/useIndicator';
+import type { GetIndicatorSize } from '../hooks/useIndicator';
 
 export interface TabNavListProps {
   id: string;
@@ -50,7 +50,7 @@ export interface TabNavListProps {
   children?: (node: React.ReactElement) => React.ReactElement;
   getPopupContainer?: (node: HTMLElement) => HTMLElement;
   popupClassName?: string;
-  indicatorLength?: GetIndicatorLength;
+  indicatorSize?: GetIndicatorSize;
 }
 
 const getSize = (refObj: React.RefObject<HTMLElement>): SizeInfo => {
@@ -82,7 +82,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     children,
     onTabClick,
     onTabScroll,
-    indicatorLength,
+    indicatorSize,
   } = props;
   const containerRef = useRef<HTMLDivElement>();
   const extraLeftRef = useRef<HTMLDivElement>();
@@ -369,7 +369,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     activeTabOffset,
     horizontal: tabPositionTopOrBottom,
     rtl,
-    indicatorLength,
+    indicatorSize,
   })
 
   // ========================= Effect ========================

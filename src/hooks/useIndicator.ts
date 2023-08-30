@@ -1,14 +1,15 @@
-import React, { useEffect, useRef, useState } from 'react';
+import type React from 'react';
+import { useEffect, useRef, useState } from 'react';
 import raf from 'rc-util/lib/raf';
-import { TabOffset } from '../interface';
+import type { TabOffset } from '../interface';
 
-export type GetIndicatorLength = number | ((origin: number) => number);
+export type GetIndicatorSize = number | ((origin: number) => number);
 
 export type UseIndicator = (options: {
   activeTabOffset: TabOffset,
   horizontal: boolean;
   rtl: boolean;
-  indicatorLength: GetIndicatorLength;
+  indicatorSize: GetIndicatorSize;
 }) => {
   style: React.CSSProperties;
 }
@@ -17,17 +18,17 @@ const useIndicator: UseIndicator = ({
   activeTabOffset,
   horizontal,
   rtl,
-                                      indicatorLength,
+                                      indicatorSize,
                                     }) => {
   const [inkStyle, setInkStyle] = useState<React.CSSProperties>();
   const inkBarRafRef = useRef<number>();
 
   const getLength = (origin: number) => {
-    if (typeof indicatorLength === 'function') {
-      return indicatorLength(origin);
+    if (typeof indicatorSize === 'function') {
+      return indicatorSize(origin);
     }
-    if (typeof indicatorLength === 'number') {
-      return indicatorLength;
+    if (typeof indicatorSize === 'number') {
+      return indicatorSize;
     }
     return origin;
   }
@@ -63,7 +64,7 @@ const useIndicator: UseIndicator = ({
     });
 
     return cleanInkBarRaf;
-  }, [activeTabOffset, horizontal, rtl, indicatorLength]);
+  }, [activeTabOffset, horizontal, rtl, indicatorSize]);
 
   return {
     style: inkStyle,
