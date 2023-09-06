@@ -436,6 +436,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
             })}
             ref={tabsWrapperRef}
           >
+            <ResizeObserver onResize={onListHolderResize}>
             <div
               ref={tabListRef}
               className={`${prefixCls}-nav-list`}
@@ -463,6 +464,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
                 style={indicatorStyle}
               />
             </div>
+            </ResizeObserver>
           </div>
         </ResizeObserver>
 
