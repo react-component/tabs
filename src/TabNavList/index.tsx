@@ -426,16 +426,17 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
       >
         <ExtraContent ref={extraLeftRef} position="left" extra={extra} prefixCls={prefixCls} />
 
-        <div
-          className={classNames(wrapPrefix, {
-            [`${wrapPrefix}-ping-left`]: pingLeft,
-            [`${wrapPrefix}-ping-right`]: pingRight,
-            [`${wrapPrefix}-ping-top`]: pingTop,
-            [`${wrapPrefix}-ping-bottom`]: pingBottom,
-          })}
-          ref={tabsWrapperRef}
-        >
-          <ResizeObserver onResize={onListHolderResize}>
+        <ResizeObserver onResize={onListHolderResize}>
+          <div
+            className={classNames(wrapPrefix, {
+              [`${wrapPrefix}-ping-left`]: pingLeft,
+              [`${wrapPrefix}-ping-right`]: pingRight,
+              [`${wrapPrefix}-ping-top`]: pingTop,
+              [`${wrapPrefix}-ping-bottom`]: pingBottom,
+            })}
+            ref={tabsWrapperRef}
+          >
+            <ResizeObserver onResize={onListHolderResize}>
             <div
               ref={tabListRef}
               className={`${prefixCls}-nav-list`}
@@ -463,8 +464,9 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
                 style={indicatorStyle}
               />
             </div>
-          </ResizeObserver>
-        </div>
+            </ResizeObserver>
+          </div>
+        </ResizeObserver>
 
         <OperationNode
           {...props}
