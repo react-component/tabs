@@ -218,6 +218,8 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     addSizeValue,
     // Operation
     operationSizeValue,
+    // NeedScroll
+    needScroll,
     { ...props, tabs },
   );
 

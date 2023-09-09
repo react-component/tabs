@@ -13,6 +13,7 @@ export default function useVisibleRange(
   tabContentSizeValue: number,
   addNodeSizeValue: number,
   operationNodeSizeValue: number,
+  needScroll: boolean,
   { tabs, tabPosition, rtl }: { tabs: Tab[] } & TabNavListProps,
 ): [visibleStart: number, visibleEnd: number] {
   let charUnit: 'width' | 'height';
@@ -36,9 +37,13 @@ export default function useVisibleRange(
 
     const len = tabs.length;
     let endIndex = len;
+    let contentValue = visibleTabContentValue;
+    if (!needScroll) {
+      contentValue += operationNodeSizeValue;
+    }
     for (let i = 0; i < len; i += 1) {
       const offset = tabOffsets.get(tabs[i].key) || DEFAULT_SIZE;
-      if (offset[position] + offset[charUnit] > transformSize + visibleTabContentValue) {
+      if (offset[position] + offset[charUnit] > transformSize + contentValue) {
         endIndex = i - 1;
         break;
       }
