@@ -33,7 +33,7 @@ export default function TabPanelList({
         })}
       >
         {tabs.map(
-          ({ key, forceRender, style: paneStyle, className: paneClassName, destroyInactiveTabPane: itemDestroyInactiveTabPane ...restTabProps }) => {
+          ({ key, forceRender, style: paneStyle, className: paneClassName, destroyInactiveTabPane: itemDestroyInactiveTabPane, ...restTabProps }) => {
             const active = key === activeKey;
 
             return (
