@@ -11,7 +11,7 @@ import {
   getTabs,
   getTransformX,
   getTransformY,
-  triggerResize, waitFakeTimer,
+  triggerResize,
 } from './common/util';
 
 describe('Tabs.Overflow', () => {
@@ -19,7 +19,13 @@ describe('Tabs.Overflow', () => {
 
   const hackOffsetInfo: HackInfo = {};
 
+  let mockGetBoundingClientRect: (
+    ele: HTMLElement,
+  ) => { x: number; y: number; width: number; height: number } | void = null;
+
   beforeEach(() => {
+    mockGetBoundingClientRect = null;
+
     Object.keys(hackOffsetInfo).forEach(key => {
       delete hackOffsetInfo[key];
     });
@@ -39,6 +45,16 @@ describe('Tabs.Overflow', () => {
       },
       offsetTop: {
         get: btnOffsetPosition,
+      },
+      getBoundingClientRect() {
+        return (
+          mockGetBoundingClientRect?.(this) || {
+            x: 0,
+            y: 0,
+            width: 0,
+            height: 0,
+          }
+        );
       },
     });
   });
@@ -482,5 +498,62 @@ describe('Tabs.Overflow', () => {
       jest.runAllTimers();
     });
     expect(document.querySelector('.rc-tabs-dropdown')).toHaveClass('custom-popup');
+  });
+
+  it('correct handle decimal', () => {
+    hackOffsetInfo.container = 29;
+    hackOffsetInfo.tabNodeList = 29;
+    hackOffsetInfo.tabNode = 15;
+
+    mockGetBoundingClientRect = ele => {
+      if (ele.classList.contains('rc-tabs-tab')) {
+        const sharedRect = {
+          x: 0,
+          y: 0,
+          width: 14.5,
+          height: 14.5,
+        };
+
+        return ele.getAttribute('data-node-key') === 'bamboo'
+          ? {
+              ...sharedRect,
+            }
+          : {
+              ...sharedRect,
+              x: 14.5,
+            };
+      }
+      // console.log('ele!!!', ele.className);
+    };
+
+    jest.useFakeTimers();
+    const { container } = render(
+      getTabs({
+        defaultActiveKey: 'little',
+        items: [
+          {
+            label: 'bamboo',
+            key: 'bamboo',
+            children: 'Bamboo',
+          },
+          {
+            label: 'little',
+            key: 'little',
+            children: 'Little',
+          },
+        ],
+      }),
+    );
+
+    act(() => {
+      jest.runAllTimers();
+    });
+
+    expect(container.querySelector('.rc-tabs-nav-operations-hidden')).toBeTruthy();
+    expect(container.querySelector('.rc-tabs-ink-bar')).toHaveStyle({
+      left: '21.75px',
+    });
+
+    jest.useRealTimers();
   });
 });

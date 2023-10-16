@@ -4,6 +4,8 @@ import useEvent from 'rc-util/lib/hooks/useEvent';
 import { useComposeRef } from 'rc-util/lib/ref';
 import * as React from 'react';
 import { useEffect, useRef, useState } from 'react';
+import type { GetIndicatorSize } from '../hooks/useIndicator';
+import useIndicator from '../hooks/useIndicator';
 import useOffsets from '../hooks/useOffsets';
 import useSyncState from '../hooks/useSyncState';
 import useTouchMove from '../hooks/useTouchMove';
@@ -26,8 +28,6 @@ import AddButton from './AddButton';
 import ExtraContent from './ExtraContent';
 import OperationNode from './OperationNode';
 import TabNode from './TabNode';
-import useIndicator from '../hooks/useIndicator';
-import type { GetIndicatorSize } from '../hooks/useIndicator';
 
 export interface TabNavListProps {
   id: string;
@@ -53,8 +53,31 @@ export interface TabNavListProps {
   indicatorSize?: GetIndicatorSize;
 }
 
+const getTabSize = (tab: HTMLElement, containerRect: { x: number; y: number }) => {
+  // tabListRef
+  const { offsetWidth, offsetHeight, offsetTop, offsetLeft } = tab;
+  const { width, height, x, y } = tab.getBoundingClientRect();
+
+  // Use getBoundingClientRect to avoid decimal inaccuracy
+  if (Math.abs(width - offsetWidth) < 1) {
+    return [width, height, x - containerRect.x, y - containerRect.y];
+  }
+
+  return [offsetWidth, offsetHeight, offsetLeft, offsetTop];
+};
+
 const getSize = (refObj: React.RefObject<HTMLElement>): SizeInfo => {
   const { offsetWidth = 0, offsetHeight = 0 } = refObj.current || {};
+
+  // Use getBoundingClientRect to avoid decimal inaccuracy
+  if (refObj.current) {
+    const { width, height } = refObj.current.getBoundingClientRect();
+
+    if (Math.abs(width - offsetWidth) < 1) {
+      return [width, height];
+    }
+  }
+
   return [offsetWidth, offsetHeight];
 };
 
@@ -313,14 +336,20 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   const updateTabSizes = () =>
     setTabSizes(() => {
       const newSizes: TabSizeMap = new Map();
+      const listRect = tabListRef.current?.getBoundingClientRect();
+
       tabs.forEach(({ key }) => {
-        const btnNode = tabListRef.current?.querySelector<HTMLElement>(`[data-node-key="${genDataNodeKey(key)}"]`);
+        const btnNode = tabListRef.current?.querySelector<HTMLElement>(
+          `[data-node-key="${genDataNodeKey(key)}"]`,
+        );
         if (btnNode) {
+          const [width, height, left, top] = getTabSize(btnNode, listRect);
+
           newSizes.set(key, {
-            width: btnNode.offsetWidth,
-            height: btnNode.offsetHeight,
-            left: btnNode.offsetLeft,
-            top: btnNode.offsetTop,
+            width,
+            height,
+            left,
+            top,
           });
         }
       });
@@ -370,7 +399,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     horizontal: tabPositionTopOrBottom,
     rtl,
     indicatorSize,
-  })
+  });
 
   // ========================= Effect ========================
   useEffect(() => {
@@ -437,33 +466,33 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
             ref={tabsWrapperRef}
           >
             <ResizeObserver onResize={onListHolderResize}>
-            <div
-              ref={tabListRef}
-              className={`${prefixCls}-nav-list`}
-              style={{
-                transform: `translate(${transformLeft}px, ${transformTop}px)`,
-                transition: lockAnimation ? 'none' : undefined,
-              }}
-            >
-              {tabNodes}
-              <AddButton
-                ref={innerAddButtonRef}
-                prefixCls={prefixCls}
-                locale={locale}
-                editable={editable}
-                style={{
-                  ...(tabNodes.length === 0 ? undefined : tabNodeStyle),
-                  visibility: hasDropdown ? 'hidden' : null,
-                }}
-              />
-
               <div
-                className={classNames(`${prefixCls}-ink-bar`, {
-                  [`${prefixCls}-ink-bar-animated`]: animated.inkBar,
-                })}
-                style={indicatorStyle}
-              />
-            </div>
+                ref={tabListRef}
+                className={`${prefixCls}-nav-list`}
+                style={{
+                  transform: `translate(${transformLeft}px, ${transformTop}px)`,
+                  transition: lockAnimation ? 'none' : undefined,
+                }}
+              >
+                {tabNodes}
+                <AddButton
+                  ref={innerAddButtonRef}
+                  prefixCls={prefixCls}
+                  locale={locale}
+                  editable={editable}
+                  style={{
+                    ...(tabNodes.length === 0 ? undefined : tabNodeStyle),
+                    visibility: hasDropdown ? 'hidden' : null,
+                  }}
+                />
+
+                <div
+                  className={classNames(`${prefixCls}-ink-bar`, {
+                    [`${prefixCls}-ink-bar-animated`]: animated.inkBar,
+                  })}
+                  style={indicatorStyle}
+                />
+              </div>
             </ResizeObserver>
           </div>
         </ResizeObserver>
