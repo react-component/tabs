@@ -58,6 +58,7 @@ const getTabSize = (tab: HTMLElement, containerRect: { x: number; y: number }) =
   const { offsetWidth, offsetHeight, offsetTop, offsetLeft } = tab;
   const { width, height, x, y } = tab.getBoundingClientRect();
 
+  // Use getBoundingClientRect to avoid decimal inaccuracy
   if (Math.abs(width - offsetWidth) < 1) {
     return [width, height, x - containerRect.x, y - containerRect.y];
   }
@@ -67,6 +68,16 @@ const getTabSize = (tab: HTMLElement, containerRect: { x: number; y: number }) =
 
 const getSize = (refObj: React.RefObject<HTMLElement>): SizeInfo => {
   const { offsetWidth = 0, offsetHeight = 0 } = refObj.current || {};
+
+  // Use getBoundingClientRect to avoid decimal inaccuracy
+  if (refObj.current) {
+    const { width, height } = refObj.current.getBoundingClientRect();
+
+    if (Math.abs(width - offsetWidth) < 1) {
+      return [width, height];
+    }
+  }
+
   return [offsetWidth, offsetHeight];
 };
 
