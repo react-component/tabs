@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-invalid-this */
 import { act } from '@testing-library/react';
-import type { ReactWrapper } from 'enzyme';
 import { _rs as onEsResize } from 'rc-resize-observer/es/utils/observerUtil';
 import { _rs as onLibResize } from 'rc-resize-observer/lib/utils/observerUtil';
 import React from 'react';
@@ -17,6 +16,7 @@ import type { TabsProps } from '../../src/Tabs';
 export interface HackInfo {
   container?: number;
   tabNode?: number;
+  tabNodeList?: number;
   add?: number;
   more?: number;
   extra?: number;
@@ -25,7 +25,15 @@ export interface HackInfo {
 
 export function getOffsetSizeFunc(info: HackInfo = {}) {
   return function getOffsetSize() {
-    const { container = 50, extra = 10, tabNode = 20, add = 10, more = 10, dropdown = 10 } = info;
+    const {
+      container = 50,
+      extra = 10,
+      tabNodeList,
+      tabNode = 20,
+      add = 10,
+      more = 10,
+      dropdown = 10,
+    } = info;
 
     if (this.classList.contains('rc-tabs-nav')) {
       return container;
@@ -36,7 +44,7 @@ export function getOffsetSizeFunc(info: HackInfo = {}) {
     }
 
     if (this.classList.contains('rc-tabs-nav-list')) {
-      return this.querySelectorAll('.rc-tabs-tab').length * tabNode + add;
+      return tabNodeList || this.querySelectorAll('.rc-tabs-tab').length * tabNode + add;
     }
 
     if (this.classList.contains('rc-tabs-tab')) {
