@@ -33,7 +33,7 @@ export default function TabPanelList({
         })}
       >
         {tabs.map(
-          ({ key, forceRender, style: paneStyle, className: paneClassName, ...restTabProps }) => {
+          ({ key, forceRender, style: paneStyle, className: paneClassName, destroyInactiveTabPane: itemDestroyInactiveTabPane, ...restTabProps }) => {
             const active = key === activeKey;
 
             return (
@@ -41,7 +41,7 @@ export default function TabPanelList({
                 key={key}
                 visible={active}
                 forceRender={forceRender}
-                removeOnLeave={!!destroyInactiveTabPane}
+                removeOnLeave={!!(destroyInactiveTabPane || itemDestroyInactiveTabPane)}
                 leavedClassName={`${tabPanePrefixCls}-hidden`}
                 {...animated.tabPaneMotion}
               >
