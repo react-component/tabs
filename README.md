@@ -124,9 +124,9 @@ rc-tabs is released under the MIT license.
 
 ## FAQ
 
-### Resposive Tabs
+### Responsive Tabs
 
-There are 3 cases when handling resposive tabs:
+There are 3 cases when handling responsive tabs:
 ![image](https://user-images.githubusercontent.com/27722486/156315099-7e6eda9d-ab77-4b16-9b49-1727c5ec8b26.png)
 
 We get hidden tabs through [useVisibleRange.ts](https://github.com/react-component/tabs/blob/master/src/hooks/useVisibleRange.ts).
