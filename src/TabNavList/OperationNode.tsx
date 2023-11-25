@@ -6,6 +6,7 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import type { EditableConfig, Tab, TabsLocale } from '../interface';
 import AddButton from './AddButton';
+import { getRemovable } from '../util';
 
 export interface OperationNodeProps {
   prefixCls: string;
@@ -83,17 +84,18 @@ function OperationNode(
       aria-label={dropdownAriaLabel !== undefined ? dropdownAriaLabel : 'expanded dropdown'}
     >
       {tabs.map(tab => {
-        const removable = editable && tab.closable !== false && !tab.disabled;
+        const { closable, disabled, closeIcon, key, label } = tab;
+        const removable = getRemovable(closable, closeIcon, editable, disabled);
         return (
           <MenuItem
-            key={tab.key}
-            id={`${popupId}-${tab.key}`}
+            key={key}
+            id={`${popupId}-${key}`}
             role="option"
-            aria-controls={id && `${id}-panel-${tab.key}`}
-            disabled={tab.disabled}
+            aria-controls={id && `${id}-panel-${key}`}
+            disabled={disabled}
           >
             {/* {tab.tab} */}
-            <span>{tab.label}</span>
+            <span>{label}</span>
             {removable && (
               <button
                 type="button"
@@ -102,10 +104,10 @@ function OperationNode(
                 className={`${dropdownPrefix}-menu-item-remove`}
                 onClick={e => {
                   e.stopPropagation();
-                  onRemoveTab(e, tab.key);
+                  onRemoveTab(e, key);
                 }}
               >
-                {tab.closeIcon || editable.removeIcon || '×'}
+                {closeIcon || editable.removeIcon || '×'}
               </button>
             )}
           </MenuItem>

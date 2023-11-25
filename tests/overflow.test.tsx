@@ -19,13 +19,19 @@ describe('Tabs.Overflow', () => {
 
   const hackOffsetInfo: HackInfo = {};
 
+  let mockGetBoundingClientRect: (
+    ele: HTMLElement,
+  ) => { x: number; y: number; width: number; height: number } | void = null;
+
   beforeEach(() => {
+    mockGetBoundingClientRect = null;
+
     Object.keys(hackOffsetInfo).forEach(key => {
       delete hackOffsetInfo[key];
     });
   });
 
-  beforeAll(() => {
+  beforeEach(() => {
     domSpy = spyElementPrototypes(HTMLElement, {
       scrollIntoView: () => {},
       offsetWidth: {
@@ -40,10 +46,20 @@ describe('Tabs.Overflow', () => {
       offsetTop: {
         get: btnOffsetPosition,
       },
+      getBoundingClientRect() {
+        return (
+          mockGetBoundingClientRect?.(this) || {
+            x: 0,
+            y: 0,
+            width: 0,
+            height: 0,
+          }
+        );
+      },
     });
   });
 
-  afterAll(() => {
+  afterEach(() => {
     domSpy.mockRestore();
   });
 
@@ -363,10 +379,26 @@ describe('Tabs.Overflow', () => {
       });
     });
 
-    it('auto hidden Dropdown', () => {
+    it('auto hidden Dropdown', async () => {
       jest.useFakeTimers();
 
-      const originItems: TabsProps['items'] = new Array(8).fill(0).map((_, index) => ({
+      domSpy = spyElementPrototypes(HTMLElement, {
+        scrollIntoView: () => {},
+        offsetWidth: {
+          get: getOffsetSizeFunc({ ...hackOffsetInfo, container: 45 }),
+        },
+        offsetHeight: {
+          get: getOffsetSizeFunc(hackOffsetInfo),
+        },
+        offsetLeft: {
+          get: btnOffsetPosition,
+        },
+        offsetTop: {
+          get: btnOffsetPosition,
+        },
+      });
+
+      const originItems: TabsProps['items'] = new Array(2).fill(0).map((_, index) => ({
         key: `${index}`,
         label: `Tab ${index + 1}`,
         children: `Tab Content${index + 1}`,
@@ -406,20 +438,11 @@ describe('Tabs.Overflow', () => {
         jest.runAllTimers();
       });
 
-      while (true) {
-        const remove = document.querySelector('.rc-tabs-dropdown-menu-item-remove');
-        if (!remove) {
-          break;
-        }
+      const remove = document.querySelector('.rc-tabs-dropdown-menu-item-remove');
 
-        act(() => {
-          fireEvent.click(remove);
-        });
-
-        act(() => {
-          jest.runAllTimers();
-        });
-      }
+      act(() => {
+        fireEvent.click(remove);
+      });
 
       expect(document.querySelector('.rc-tabs-dropdown-hidden')).toBeTruthy();
 
@@ -475,5 +498,62 @@ describe('Tabs.Overflow', () => {
       jest.runAllTimers();
     });
     expect(document.querySelector('.rc-tabs-dropdown')).toHaveClass('custom-popup');
+  });
+
+  it('correct handle decimal', () => {
+    hackOffsetInfo.container = 29;
+    hackOffsetInfo.tabNodeList = 29;
+    hackOffsetInfo.tabNode = 15;
+
+    mockGetBoundingClientRect = ele => {
+      if (ele.classList.contains('rc-tabs-tab')) {
+        const sharedRect = {
+          x: 0,
+          y: 0,
+          width: 14.5,
+          height: 14.5,
+        };
+
+        return ele.getAttribute('data-node-key') === 'bamboo'
+          ? {
+              ...sharedRect,
+            }
+          : {
+              ...sharedRect,
+              x: 14.5,
+            };
+      }
+      // console.log('ele!!!', ele.className);
+    };
+
+    jest.useFakeTimers();
+    const { container } = render(
+      getTabs({
+        defaultActiveKey: 'little',
+        items: [
+          {
+            label: 'bamboo',
+            key: 'bamboo',
+            children: 'Bamboo',
+          },
+          {
+            label: 'little',
+            key: 'little',
+            children: 'Little',
+          },
+        ],
+      }),
+    );
+
+    act(() => {
+      jest.runAllTimers();
+    });
+
+    expect(container.querySelector('.rc-tabs-nav-operations-hidden')).toBeTruthy();
+    expect(container.querySelector('.rc-tabs-ink-bar')).toHaveStyle({
+      left: '21.75px',
+    });
+
+    jest.useRealTimers();
   });
 });

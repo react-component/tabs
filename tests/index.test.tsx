@@ -6,7 +6,7 @@ import React from 'react';
 import Tabs from '../src';
 import type { TabsProps } from '../src/Tabs';
 import type { HackInfo } from './common/util';
-import { getOffsetSizeFunc } from './common/util';
+import { getOffsetSizeFunc, waitFakeTimer } from './common/util';
 
 global.animated = null;
 
@@ -372,6 +372,42 @@ describe('Tabs.Basic', () => {
     matchText('Bamboo');
   });
 
+  it('destroyInactiveTabPane from TabPane', () => {
+    const props = {
+      activeKey: 'light',
+
+      items: [
+        {
+          key: 'light',
+          children: 'Light',
+          destroyInactiveTabPane: true,
+        },
+        {
+          key: 'bamboo',
+          children: 'Bamboo',
+          destroyInactiveTabPane: true,
+        },
+      ] as any,
+    };
+
+    const { container, rerender } = render(getTabs(props));
+
+    function matchText(text: string) {
+      expect(container.querySelectorAll('.rc-tabs-tabpane')).toHaveLength(1);
+      expect(container.querySelector('.rc-tabs-tabpane-active').textContent).toEqual(text);
+    }
+
+    matchText('Light');
+
+    rerender(
+      getTabs({
+        ...props,
+        activeKey: 'bamboo',
+      }),
+    );
+    matchText('Bamboo');
+  });
+
   describe('editable', () => {
     it('no and', () => {
       const onEdit = jest.fn();
@@ -434,6 +470,80 @@ describe('Tabs.Basic', () => {
       expect(
         container.querySelector('.rc-tabs-tab-remove').querySelector('.close-light'),
       ).toBeTruthy();
+    });
+    it('customize closeIcon', () => {
+      const onEdit = jest.fn();
+      const { container } = render(
+        getTabs({
+          editable: { onEdit },
+          items: [
+            {
+              key: 'light',
+              closeIcon: <span className="close-light" />,
+              children: 'Light',
+            },
+          ] as any,
+        }),
+      );
+
+      expect(
+        container.querySelector('.rc-tabs-tab-remove').querySelector('.close-light'),
+      ).toBeTruthy();
+    });
+    it('should hide closeIcon when closeIcon is set to null or false', () => {
+      const onEdit = jest.fn();
+      const { container } = render(
+        getTabs({
+          editable: { onEdit },
+          items: [
+            {
+              key: 'light1',
+              closeIcon: null,
+              children: 'Light',
+            },
+            {
+              key: 'light2',
+              closeIcon: false,
+              children: 'Light',
+            },
+            {
+              key: 'light3',
+              closeIcon: null,
+              closable: true,
+              children: 'Light',
+            },
+            {
+              key: 'light4',
+              closeIcon: false,
+              closable: true,
+              children: 'Light',
+            },
+            {
+              key: 'light5',
+              closable: false,
+              children: 'Light',
+            },
+          ] as any,
+        }),
+      );
+
+      const removes = container.querySelectorAll('.rc-tabs-tab-remove');
+      expect(removes.length).toBe(2);
+      expect(
+        container.querySelector('[data-node-key="light1"]').querySelector('.rc-tabs-tab-remove'),
+      ).toBeFalsy();
+      expect(
+        container.querySelector('[data-node-key="light2"]').querySelector('.rc-tabs-tab-remove'),
+      ).toBeFalsy();
+      expect(
+        container.querySelector('[data-node-key="light3"]').querySelector('.rc-tabs-tab-remove'),
+      ).toBeTruthy();
+      expect(
+        container.querySelector('[data-node-key="light4"]').querySelector('.rc-tabs-tab-remove'),
+      ).toBeTruthy();
+      expect(
+        container.querySelector('[data-node-key="light5"]').querySelector('.rc-tabs-tab-remove'),
+      ).toBeFalsy();
     });
   });
 
@@ -509,5 +619,23 @@ describe('Tabs.Basic', () => {
   it('tabBarStyle', () => {
     const { container } = render(getTabs({ tabBarStyle: { background: 'red' } }));
     expect(container.querySelector('.rc-tabs-nav')).toHaveStyle({ background: 'red' });
+  });
+
+  it('key contains double quote should not crash', () => {
+    render(<Tabs items={[{ key: '"key"', label: 'test' }]} />);
+  });
+
+  it('key could be number', () => {
+    render(<Tabs items={[{ key: 1 as any, label: 'test' }]} />);
+  });
+
+  it('support indicatorSize', async () => {
+    const { container, rerender } = render(getTabs({ indicatorSize: 10 }));
+    await waitFakeTimer();
+    expect(container.querySelector('.rc-tabs-ink-bar')).toHaveStyle({ width: '10px' });
+
+    rerender(getTabs({ indicatorSize: origin => origin - 2 }));
+    await waitFakeTimer();
+    expect(container.querySelector('.rc-tabs-ink-bar')).toHaveStyle({ width: '18px' });
   });
 });
