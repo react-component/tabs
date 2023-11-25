@@ -16,11 +16,12 @@
         "src/*"
       ],
       "@@/*": [
-        "src/.umi/*"
+        ".dumi/tmp/*"
       ],
       "rc-tabs": [
         "src/"
       ]
     }
-  }
+  },
+  "include": [".dumi/**/*", ".dumirc.ts", "**/*.ts", "**/*.tsx"]
 }

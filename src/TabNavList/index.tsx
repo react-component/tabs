@@ -1,13 +1,15 @@
 import classNames from 'classnames';
 import ResizeObserver from 'rc-resize-observer';
-import raf from 'rc-util/lib/raf';
+import useEvent from 'rc-util/lib/hooks/useEvent';
 import { useComposeRef } from 'rc-util/lib/ref';
 import * as React from 'react';
 import { useEffect, useRef, useState } from 'react';
+import type { GetIndicatorSize } from '../hooks/useIndicator';
+import useIndicator from '../hooks/useIndicator';
 import useOffsets from '../hooks/useOffsets';
-import useRaf, { useRafState } from '../hooks/useRaf';
 import useSyncState from '../hooks/useSyncState';
 import useTouchMove from '../hooks/useTouchMove';
+import useUpdate, { useUpdateState } from '../hooks/useUpdate';
 import useVisibleRange from '../hooks/useVisibleRange';
 import type {
   AnimatedConfig,
@@ -21,7 +23,7 @@ import type {
   TabsLocale,
 } from '../interface';
 import TabContext from '../TabContext';
-import { stringify } from '../util';
+import { genDataNodeKey, stringify } from '../util';
 import AddButton from './AddButton';
 import ExtraContent from './ExtraContent';
 import OperationNode from './OperationNode';
@@ -48,10 +50,34 @@ export interface TabNavListProps {
   children?: (node: React.ReactElement) => React.ReactElement;
   getPopupContainer?: (node: HTMLElement) => HTMLElement;
   popupClassName?: string;
+  indicatorSize?: GetIndicatorSize;
 }
+
+const getTabSize = (tab: HTMLElement, containerRect: { x: number; y: number }) => {
+  // tabListRef
+  const { offsetWidth, offsetHeight, offsetTop, offsetLeft } = tab;
+  const { width, height, x, y } = tab.getBoundingClientRect();
+
+  // Use getBoundingClientRect to avoid decimal inaccuracy
+  if (Math.abs(width - offsetWidth) < 1) {
+    return [width, height, x - containerRect.x, y - containerRect.y];
+  }
+
+  return [offsetWidth, offsetHeight, offsetLeft, offsetTop];
+};
 
 const getSize = (refObj: React.RefObject<HTMLElement>): SizeInfo => {
   const { offsetWidth = 0, offsetHeight = 0 } = refObj.current || {};
+
+  // Use getBoundingClientRect to avoid decimal inaccuracy
+  if (refObj.current) {
+    const { width, height } = refObj.current.getBoundingClientRect();
+
+    if (Math.abs(width - offsetWidth) < 1) {
+      return [width, height];
+    }
+  }
+
   return [offsetWidth, offsetHeight];
 };
 
@@ -79,6 +105,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     children,
     onTabClick,
     onTabScroll,
+    indicatorSize,
   } = props;
   const containerRef = useRef<HTMLDivElement>();
   const extraLeftRef = useRef<HTMLDivElement>();
@@ -107,7 +134,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   const [addSize, setAddSize] = useState<SizeInfo>([0, 0]);
   const [operationSize, setOperationSize] = useState<SizeInfo>([0, 0]);
 
-  const [tabSizes, setTabSizes] = useRafState<TabSizeMap>(new Map());
+  const [tabSizes, setTabSizes] = useUpdateState<TabSizeMap>(new Map());
   const tabOffsets = useOffsets(tabs, tabSizes, tabContentSize[0]);
 
   // ========================== Unit =========================
@@ -173,7 +200,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     }
 
     // Skip scroll if place is enough
-    if (containerExcludeExtraSizeValue >= tabContentSizeValue) {
+    if (!needScroll) {
       return false;
     }
 
@@ -218,7 +245,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   );
 
   // ========================= Scroll ========================
-  const scrollToTab = (key = activeKey) => {
+  const scrollToTab = useEvent((key = activeKey) => {
     const tabOffset = tabOffsets.get(key) || {
       width: 0,
       height: 0,
@@ -261,7 +288,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
       setTransformLeft(0);
       setTransformTop(alignInRange(newTransform));
     }
-  };
+  });
 
   // ========================== Tab ==========================
   const tabNodeStyle: React.CSSProperties = {};
@@ -309,14 +336,20 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   const updateTabSizes = () =>
     setTabSizes(() => {
       const newSizes: TabSizeMap = new Map();
+      const listRect = tabListRef.current?.getBoundingClientRect();
+
       tabs.forEach(({ key }) => {
-        const btnNode = tabListRef.current.querySelector<HTMLElement>(`[data-node-key="${key}"]`);
+        const btnNode = tabListRef.current?.querySelector<HTMLElement>(
+          `[data-node-key="${genDataNodeKey(key)}"]`,
+        );
         if (btnNode) {
+          const [width, height, left, top] = getTabSize(btnNode, listRect);
+
           newSizes.set(key, {
-            width: btnNode.offsetWidth,
-            height: btnNode.offsetHeight,
-            left: btnNode.offsetLeft,
-            top: btnNode.offsetTop,
+            width,
+            height,
+            left,
+            top,
           });
         }
       });
@@ -327,7 +360,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     updateTabSizes();
   }, [tabs.map(tab => tab.key).join('_')]);
 
-  const onListHolderResize = useRaf(() => {
+  const onListHolderResize = useUpdate(() => {
     // Update wrapper records
     const containerSize = getSize(containerRef);
     const extraLeftSize = getSize(extraLeftRef);
@@ -349,6 +382,9 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
       tabContentFullSize[0] - newAddSize[0],
       tabContentFullSize[1] - newAddSize[1],
     ]);
+
+    // Update buttons records
+    updateTabSizes();
   });
 
   // ======================== Dropdown =======================
@@ -357,47 +393,26 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   const hiddenTabs = [...startHiddenTabs, ...endHiddenTabs];
 
   // =================== Link & Operations ===================
-  const [inkStyle, setInkStyle] = useState<React.CSSProperties>();
-
   const activeTabOffset = tabOffsets.get(activeKey);
-
-  // Delay set ink style to avoid remove tab blink
-  const inkBarRafRef = useRef<number>();
-  function cleanInkBarRaf() {
-    raf.cancel(inkBarRafRef.current);
-  }
-
-  useEffect(() => {
-    const newInkStyle: React.CSSProperties = {};
-
-    if (activeTabOffset) {
-      if (tabPositionTopOrBottom) {
-        if (rtl) {
-          newInkStyle.right = activeTabOffset.right;
-        } else {
-          newInkStyle.left = activeTabOffset.left;
-        }
-
-        newInkStyle.width = activeTabOffset.width;
-      } else {
-        newInkStyle.top = activeTabOffset.top;
-        newInkStyle.height = activeTabOffset.height;
-      }
-    }
-
-    cleanInkBarRaf();
-    inkBarRafRef.current = raf(() => {
-      setInkStyle(newInkStyle);
-    });
-
-    return cleanInkBarRaf;
-  }, [activeTabOffset, tabPositionTopOrBottom, rtl]);
+  const { style: indicatorStyle } = useIndicator({
+    activeTabOffset,
+    horizontal: tabPositionTopOrBottom,
+    rtl,
+    indicatorSize,
+  });
 
   // ========================= Effect ========================
   useEffect(() => {
     scrollToTab();
     // eslint-disable-next-line
-  }, [activeKey, stringify(activeTabOffset), stringify(tabOffsets), tabPositionTopOrBottom]);
+  }, [
+    activeKey,
+    transformMin,
+    transformMax,
+    stringify(activeTabOffset),
+    stringify(tabOffsets),
+    tabPositionTopOrBottom,
+  ]);
 
   // Should recalculate when rtl changed
   useEffect(() => {
@@ -416,14 +431,14 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   if (tabPositionTopOrBottom) {
     if (rtl) {
       pingRight = transformLeft > 0;
-      pingLeft = transformLeft + containerExcludeExtraSizeValue < tabContentSizeValue;
+      pingLeft = transformLeft !== transformMax;
     } else {
       pingLeft = transformLeft < 0;
-      pingRight = -transformLeft + containerExcludeExtraSizeValue < tabContentSizeValue;
+      pingRight = transformLeft !== transformMin;
     }
   } else {
     pingTop = transformTop < 0;
-    pingBottom = -transformTop + containerExcludeExtraSizeValue < tabContentSizeValue;
+    pingBottom = transformTop !== transformMin;
   }
 
   return (
@@ -440,45 +455,47 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
       >
         <ExtraContent ref={extraLeftRef} position="left" extra={extra} prefixCls={prefixCls} />
 
-        <div
-          className={classNames(wrapPrefix, {
-            [`${wrapPrefix}-ping-left`]: pingLeft,
-            [`${wrapPrefix}-ping-right`]: pingRight,
-            [`${wrapPrefix}-ping-top`]: pingTop,
-            [`${wrapPrefix}-ping-bottom`]: pingBottom,
-          })}
-          ref={tabsWrapperRef}
-        >
-          <ResizeObserver onResize={onListHolderResize}>
-            <div
-              ref={tabListRef}
-              className={`${prefixCls}-nav-list`}
-              style={{
-                transform: `translate(${transformLeft}px, ${transformTop}px)`,
-                transition: lockAnimation ? 'none' : undefined,
-              }}
-            >
-              {tabNodes}
-              <AddButton
-                ref={innerAddButtonRef}
-                prefixCls={prefixCls}
-                locale={locale}
-                editable={editable}
-                style={{
-                  ...(tabNodes.length === 0 ? undefined : tabNodeStyle),
-                  visibility: hasDropdown ? 'hidden' : null,
-                }}
-              />
-
+        <ResizeObserver onResize={onListHolderResize}>
+          <div
+            className={classNames(wrapPrefix, {
+              [`${wrapPrefix}-ping-left`]: pingLeft,
+              [`${wrapPrefix}-ping-right`]: pingRight,
+              [`${wrapPrefix}-ping-top`]: pingTop,
+              [`${wrapPrefix}-ping-bottom`]: pingBottom,
+            })}
+            ref={tabsWrapperRef}
+          >
+            <ResizeObserver onResize={onListHolderResize}>
               <div
-                className={classNames(`${prefixCls}-ink-bar`, {
-                  [`${prefixCls}-ink-bar-animated`]: animated.inkBar,
-                })}
-                style={inkStyle}
-              />
-            </div>
-          </ResizeObserver>
-        </div>
+                ref={tabListRef}
+                className={`${prefixCls}-nav-list`}
+                style={{
+                  transform: `translate(${transformLeft}px, ${transformTop}px)`,
+                  transition: lockAnimation ? 'none' : undefined,
+                }}
+              >
+                {tabNodes}
+                <AddButton
+                  ref={innerAddButtonRef}
+                  prefixCls={prefixCls}
+                  locale={locale}
+                  editable={editable}
+                  style={{
+                    ...(tabNodes.length === 0 ? undefined : tabNodeStyle),
+                    visibility: hasDropdown ? 'hidden' : null,
+                  }}
+                />
+
+                <div
+                  className={classNames(`${prefixCls}-ink-bar`, {
+                    [`${prefixCls}-ink-bar-animated`]: animated.inkBar,
+                  })}
+                  style={indicatorStyle}
+                />
+              </div>
+            </ResizeObserver>
+          </div>
+        </ResizeObserver>
 
         <OperationNode
           {...props}
