@@ -87,7 +87,7 @@ function TabNode({
         }}
         onFocus={onFocus}
       >
-        {icon}
+        <span className={`${tabPrefix}-btn-icon`}>{icon}</span>
         {label}
       </div>
 
