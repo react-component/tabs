@@ -9,7 +9,7 @@ exports[`Tabs.Basic Normal 1`] = `
     role="tablist"
   >
     <div
-      class="rc-tabs-nav-wrap"
+      class="rc-tabs-nav-wrap rc-tabs-nav-wrap-ping-right"
     >
       <div
         class="rc-tabs-nav-list"

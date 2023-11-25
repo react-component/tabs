@@ -6,18 +6,19 @@ import isMobile from 'rc-util/lib/isMobile';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import TabPanelList from './TabPanelList';
 import type {
-  TabPosition,
-  RenderTabBar,
-  TabsLocale,
-  EditableConfig,
   AnimatedConfig,
+  EditableConfig,
   OnTabScroll,
+  RenderTabBar,
   Tab,
   TabBarExtraContent,
+  TabPosition,
+  TabsLocale,
 } from './interface';
 import TabContext from './TabContext';
 import TabNavListWrapper from './TabNavList/Wrapper';
 import useAnimateConfig from './hooks/useAnimateConfig';
+import type { GetIndicatorSize } from './hooks/useIndicator';
 
 /**
  * Should added antd:
@@ -68,6 +69,9 @@ export interface TabsProps
   moreTransitionName?: string;
 
   popupClassName?: string;
+
+  // Indicator
+  indicatorSize?: GetIndicatorSize;
 }
 
 function Tabs(
@@ -95,6 +99,7 @@ function Tabs(
     onTabScroll,
     getPopupContainer,
     popupClassName,
+    indicatorSize,
     ...restProps
   }: TabsProps,
   ref: React.Ref<HTMLDivElement>,
@@ -166,8 +171,6 @@ function Tabs(
     mobile,
   };
 
-  let tabNavBar: React.ReactElement;
-
   const tabNavBarProps = {
     ...sharedProps,
     editable,
@@ -182,6 +185,7 @@ function Tabs(
     panes: null,
     getPopupContainer,
     popupClassName,
+    indicatorSize,
   };
 
   return (
@@ -201,7 +205,6 @@ function Tabs(
         )}
         {...restProps}
       >
-        {tabNavBar}
         <TabNavListWrapper {...tabNavBarProps} renderTabBar={renderTabBar} />
         <TabPanelList
           destroyInactiveTabPane={destroyInactiveTabPane}

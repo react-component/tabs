@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-invalid-this */
 import { act } from '@testing-library/react';
-import type { ReactWrapper } from 'enzyme';
 import { _rs as onEsResize } from 'rc-resize-observer/es/utils/observerUtil';
 import { _rs as onLibResize } from 'rc-resize-observer/lib/utils/observerUtil';
 import React from 'react';
@@ -17,14 +16,24 @@ import type { TabsProps } from '../../src/Tabs';
 export interface HackInfo {
   container?: number;
   tabNode?: number;
+  tabNodeList?: number;
   add?: number;
   more?: number;
   extra?: number;
+  dropdown?: number;
 }
 
 export function getOffsetSizeFunc(info: HackInfo = {}) {
   return function getOffsetSize() {
-    const { container = 50, extra = 10, tabNode = 20, add = 10, more = 10 } = info;
+    const {
+      container = 50,
+      extra = 10,
+      tabNodeList,
+      tabNode = 20,
+      add = 10,
+      more = 10,
+      dropdown = 10,
+    } = info;
 
     if (this.classList.contains('rc-tabs-nav')) {
       return container;
@@ -35,7 +44,7 @@ export function getOffsetSizeFunc(info: HackInfo = {}) {
     }
 
     if (this.classList.contains('rc-tabs-nav-list')) {
-      return this.querySelectorAll('.rc-tabs-tab').length * tabNode + add;
+      return tabNodeList || this.querySelectorAll('.rc-tabs-tab').length * tabNode + add;
     }
 
     if (this.classList.contains('rc-tabs-tab')) {
@@ -70,9 +79,9 @@ export function getOffsetSizeFunc(info: HackInfo = {}) {
     // if (this.className.includes('rc-tabs-nav-more')) {
     //   return info.more || 10;
     // }
-    // if (this.className.includes('rc-tabs-dropdown')) {
-    //   return info.dropdown || 10;
-    // }
+    if (this.className.includes('rc-tabs-dropdown')) {
+      return dropdown;
+    }
 
     throw new Error(`className not match ${this.className}`);
   };
@@ -81,6 +90,9 @@ export function getOffsetSizeFunc(info: HackInfo = {}) {
 export function btnOffsetPosition() {
   // eslint-disable-next-line @typescript-eslint/no-invalid-this
   const btn = this as HTMLButtonElement;
+  if (!btn.parentNode) {
+    return 0;
+  }
   const btnList = Array.from(btn.parentNode.childNodes).filter(ele =>
     (ele as HTMLElement).className.includes('rc-tabs-tab'),
   );
@@ -158,3 +170,24 @@ export const triggerResize = (container: Element) => {
     onEsResize([{ target } as ResizeObserverEntry]);
   });
 };
+
+/**
+ * Wait for a time delay. Will wait `advanceTime * times` ms.
+ *
+ * @param advanceTime Default 1000
+ * @param times Default 20
+ */
+export async function waitFakeTimer(advanceTime = 1000, times = 20) {
+  for (let i = 0; i < times; i += 1) {
+    // eslint-disable-next-line no-await-in-loop
+    await act(async () => {
+      await Promise.resolve();
+
+      if (advanceTime > 0) {
+        jest.advanceTimersByTime(advanceTime);
+      } else {
+        jest.runAllTimers();
+      }
+    });
+  }
+}
