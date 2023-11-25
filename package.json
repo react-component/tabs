@@ -58,7 +58,7 @@
     "eslint": "^7.0.0",
     "fastclick": "~1.0.6",
     "father": "^4.0.0",
-    "gh-pages": "^3.1.0",
+    "gh-pages": "^5.0.0",
     "history": "^5.3.0",
     "immutability-helper": "^3.0.1",
     "less": "^4.1.3",
