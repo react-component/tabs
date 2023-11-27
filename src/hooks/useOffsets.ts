@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import type { TabSizeMap, TabOffsetMap, Tab, TabOffset } from '../interface';
+import type { Tab, TabOffset, TabOffsetMap, TabSizeMap } from '../interface';
 
 const DEFAULT_SIZE = { width: 0, height: 0, left: 0, top: 0 };
 

@@ -1,10 +1,11 @@
 // Accessibility https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/Tab_Role
+import classNames from 'classnames';
+import useMergedState from 'rc-util/lib/hooks/useMergedState';
+import isMobile from 'rc-util/lib/isMobile';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import classNames from 'classnames';
-import isMobile from 'rc-util/lib/isMobile';
-import useMergedState from 'rc-util/lib/hooks/useMergedState';
-import TabPanelList from './TabPanelList';
+import useAnimateConfig from './hooks/useAnimateConfig';
+import type { GetIndicatorSize } from './hooks/useIndicator';
 import type {
   AnimatedConfig,
   EditableConfig,
@@ -17,8 +18,7 @@ import type {
 } from './interface';
 import TabContext from './TabContext';
 import TabNavListWrapper from './TabNavList/Wrapper';
-import useAnimateConfig from './hooks/useAnimateConfig';
-import type { GetIndicatorSize } from './hooks/useIndicator';
+import TabPanelList from './TabPanelList';
 
 /**
  * Should added antd:
@@ -74,8 +74,8 @@ export interface TabsProps
   indicatorSize?: GetIndicatorSize;
 }
 
-function Tabs(
-  {
+const Tabs = React.forwardRef<HTMLDivElement, TabsProps>((props, ref) => {
+  const {
     id,
     prefixCls = 'rc-tabs',
     className,
@@ -101,9 +101,7 @@ function Tabs(
     popupClassName,
     indicatorSize,
     ...restProps
-  }: TabsProps,
-  ref: React.Ref<HTMLDivElement>,
-) {
+  } = props;
   const tabs = React.useMemo(
     () => (items || []).filter(item => item && typeof item === 'object' && 'key' in item),
     [items],
@@ -214,11 +212,10 @@ function Tabs(
       </div>
     </TabContext.Provider>
   );
-}
+});
 
-const ForwardTabs = React.forwardRef(Tabs);
 if (process.env.NODE_ENV !== 'production') {
-  ForwardTabs.displayName = 'Tabs';
+  Tabs.displayName = 'Tabs';
 }
 
-export default ForwardTabs;
+export default Tabs;
