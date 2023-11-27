@@ -53,13 +53,11 @@ function TabNode({
     });
   }
 
-  const labelNode = React.useMemo<React.ReactNode>(() => {
-    if (icon && typeof label === 'string') {
-      return <span>{label}</span>;
-    } else {
-      return label;
-    }
-  }, [label, icon]);
+  // for compatibility https://developer.mozilla.org/zh-CN/docs/Web/CSS/:only-child
+  const labelNode = React.useMemo<React.ReactNode>(
+    () => (icon && typeof label === 'string' ? <span>{label}</span> : label),
+    [label, icon],
+  );
 
   const node: React.ReactElement = (
     <div
