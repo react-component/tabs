@@ -53,6 +53,14 @@ function TabNode({
     });
   }
 
+  const lableNode = React.useMemo<React.ReactNode>(() => {
+    if (typeof label === 'string') {
+      return <span>{label}</span>;
+    } else {
+      return label;
+    }
+  }, [label]);
+
   const node: React.ReactElement = (
     <div
       key={key}
@@ -88,7 +96,7 @@ function TabNode({
         onFocus={onFocus}
       >
         {icon && <span className={`${tabPrefix}-icon`}>{icon}</span>}
-        {label}
+        {label && lableNode}
       </div>
 
       {/* Remove Button */}
