@@ -10,15 +10,14 @@ export type TabNavListWrapperProps = Required<Omit<TabNavListProps, 'children' |
   TabNavListProps;
 
 // We have to create a TabNavList components.
-export default function TabNavListWrapper({ renderTabBar, ...restProps }: TabNavListWrapperProps) {
+const TabNavListWrapper: React.FC<TabNavListWrapperProps> = ({ renderTabBar, ...restProps }) => {
   const { tabs } = React.useContext(TabContext);
-
   if (renderTabBar) {
     const tabNavBarProps = {
       ...restProps,
 
       // Legacy support. We do not use this actually
-      panes: tabs.map(({ label, key, ...restTabProps }) => (
+      panes: tabs.map<React.ReactNode>(({ label, key, ...restTabProps }) => (
         <TabPane tab={label} key={key} tabKey={key} {...restTabProps} />
       )),
     };
@@ -27,4 +26,10 @@ export default function TabNavListWrapper({ renderTabBar, ...restProps }: TabNav
   }
 
   return <TabNavList {...restProps} />;
+};
+
+if (process.env.NODE_ENV !== 'production') {
+  TabNavListWrapper.displayName = 'TabNavListWrapper';
 }
+
+export default TabNavListWrapper;

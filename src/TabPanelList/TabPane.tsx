@@ -21,24 +21,23 @@ export interface TabPaneProps {
   destroyInactiveTabPane?: boolean;
 }
 
-const TabPane = React.forwardRef<HTMLDivElement, TabPaneProps>(
-  ({ prefixCls, className, style, id, active, tabKey, children }, ref) => {
-    return (
-      <div
-        id={id && `${id}-panel-${tabKey}`}
-        role="tabpanel"
-        tabIndex={active ? 0 : -1}
-        aria-labelledby={id && `${id}-tab-${tabKey}`}
-        aria-hidden={!active}
-        style={style}
-        className={classNames(prefixCls, active && `${prefixCls}-active`, className)}
-        ref={ref}
-      >
-        {children}
-      </div>
-    );
-  },
-);
+const TabPane = React.forwardRef<HTMLDivElement, TabPaneProps>((props, ref) => {
+  const { prefixCls, className, style, id, active, tabKey, children } = props;
+  return (
+    <div
+      id={id && `${id}-panel-${tabKey}`}
+      role="tabpanel"
+      tabIndex={active ? 0 : -1}
+      aria-labelledby={id && `${id}-tab-${tabKey}`}
+      aria-hidden={!active}
+      style={style}
+      className={classNames(prefixCls, active && `${prefixCls}-active`, className)}
+      ref={ref}
+    >
+      {children}
+    </div>
+  );
+});
 
 if (process.env.NODE_ENV !== 'production') {
   TabPane.displayName = 'TabPane';

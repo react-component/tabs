@@ -5,8 +5,8 @@ import KeyCode from 'rc-util/lib/KeyCode';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import type { EditableConfig, Tab, TabsLocale } from '../interface';
-import AddButton from './AddButton';
 import { getRemovable } from '../util';
+import AddButton from './AddButton';
 
 export interface OperationNodeProps {
   prefixCls: string;
@@ -29,8 +29,8 @@ export interface OperationNodeProps {
   popupClassName?: string;
 }
 
-function OperationNode(
-  {
+const OperationNode = React.forwardRef<HTMLDivElement, OperationNodeProps>((props, ref) => {
+  const {
     prefixCls,
     id,
     tabs,
@@ -47,9 +47,7 @@ function OperationNode(
     onTabClick,
     getPopupContainer,
     popupClassName,
-  }: OperationNodeProps,
-  ref: React.Ref<HTMLDivElement>,
-) {
+  } = props;
   // ======================== Dropdown ========================
   const [open, setOpen] = useState(false);
   const [selectedKey, setSelectedKey] = useState<string>(null);
@@ -63,10 +61,7 @@ function OperationNode(
   function onRemoveTab(event: React.MouseEvent | React.KeyboardEvent, key: string) {
     event.preventDefault();
     event.stopPropagation();
-    editable.onEdit('remove', {
-      key,
-      event,
-    });
+    editable.onEdit('remove', { key, event });
   }
 
   const menu = (
@@ -83,7 +78,7 @@ function OperationNode(
       selectedKeys={[selectedKey]}
       aria-label={dropdownAriaLabel !== undefined ? dropdownAriaLabel : 'expanded dropdown'}
     >
-      {tabs.map(tab => {
+      {tabs.map<React.ReactNode>(tab => {
         const { closable, disabled, closeIcon, key, label } = tab;
         const removable = getRemovable(closable, closeIcon, editable, disabled);
         return (
@@ -156,7 +151,9 @@ function OperationNode(
         break;
       case KeyCode.SPACE:
       case KeyCode.ENTER:
-        if (selectedKey !== null) onTabClick(selectedKey, e);
+        if (selectedKey !== null) {
+          onTabClick(selectedKey, e);
+        }
         break;
     }
   }
@@ -189,7 +186,7 @@ function OperationNode(
     [`${dropdownPrefix}-rtl`]: rtl,
   });
 
-  const moreNode: React.ReactElement = mobile ? null : (
+  const moreNode: React.ReactNode = mobile ? null : (
     <Dropdown
       prefixCls={dropdownPrefix}
       overlay={menu}
@@ -225,10 +222,10 @@ function OperationNode(
       <AddButton prefixCls={prefixCls} locale={locale} editable={editable} />
     </div>
   );
-}
+});
 
 export default React.memo(
-  React.forwardRef(OperationNode),
+  OperationNode,
   (_, next) =>
     // https://github.com/ant-design/ant-design/issues/32544
     // We'd better remove syntactic sugar in `rc-menu` since this has perf issue
