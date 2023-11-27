@@ -27,9 +27,7 @@ exports[`Tabs.Basic Normal 1`] = `
             role="tab"
             tabindex="0"
           >
-            <span>
-              light
-            </span>
+            light
           </div>
         </div>
         <div
@@ -44,9 +42,7 @@ exports[`Tabs.Basic Normal 1`] = `
             role="tab"
             tabindex="0"
           >
-            <span>
-              bamboo
-            </span>
+            bamboo
           </div>
         </div>
         <div
@@ -61,9 +57,7 @@ exports[`Tabs.Basic Normal 1`] = `
             role="tab"
             tabindex="0"
           >
-            <span>
-              cute
-            </span>
+            cute
           </div>
         </div>
         <div
@@ -137,9 +131,7 @@ exports[`Tabs.Basic Skip invalidate children 1`] = `
             role="tab"
             tabindex="0"
           >
-            <span>
-              light
-            </span>
+            light
           </div>
         </div>
         <div
