@@ -1,6 +1,6 @@
 {
   "name": "rc-tabs",
-  "version": "12.13.1",
+  "version": "12.14.0",
   "description": "tabs ui component for react",
   "engines": {
     "node": ">=8.x"
@@ -46,9 +46,8 @@
     "@testing-library/react": "^13.0.0",
     "@types/classnames": "^2.2.10",
     "@types/enzyme": "^3.10.5",
-    "@types/jest": "^25.2.3",
-    "@types/keyv": "4.2.0",
     "@types/jest": "^29.4.0",
+    "@types/keyv": "4.2.0",
     "@types/react": "^17.0.14",
     "@types/react-dom": "^18.0.11",
     "@umijs/fabric": "^2.3.1",
