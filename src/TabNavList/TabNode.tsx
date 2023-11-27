@@ -24,7 +24,7 @@ function TabNode({
   prefixCls,
   id,
   active,
-  tab: { key, label, disabled, closeIcon },
+  tab: { key, label, disabled, closeIcon, icon },
   closable,
   renderWrapper,
   removeAriaLabel,
@@ -87,6 +87,7 @@ function TabNode({
         }}
         onFocus={onFocus}
       >
+        {icon && <span className={`${tabPrefix}-icon`}>{icon}</span>}
         {label}
       </div>
 

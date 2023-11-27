@@ -1,5 +1,5 @@
-import * as React from 'react';
 import classNames from 'classnames';
+import * as React from 'react';
 
 export interface TabPaneProps {
   tab?: React.ReactNode;
@@ -10,6 +10,7 @@ export interface TabPaneProps {
   forceRender?: boolean;
   closable?: boolean;
   closeIcon?: React.ReactNode;
+  icon?: React.ReactNode;
 
   // Pass by TabPaneList
   prefixCls?: string;

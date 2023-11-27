@@ -1,6 +1,6 @@
 import React from 'react';
-import Tabs from'../../src';
 import '../../assets/index.less';
+import Tabs from '../../src';
 
 export default () => {
   const [destroy, setDestroy] = React.useState(false);
@@ -9,17 +9,20 @@ export default () => {
       label: 'Light',
       key: 'light',
       children: 'Light!',
+      icon: <span>🌞</span>,
     },
     {
       label: 'Bamboo',
       key: 'bamboo',
       children: 'Bamboo!',
+      icon: <span>🎋</span>,
     },
     {
       label: 'Cute',
       key: 'cute',
       children: 'Cute!',
       disabled: true,
+      icon: <span>🐼</span>,
     },
   ]);
 
@@ -38,6 +41,7 @@ export default () => {
               key: 'yo',
               label: 'Yo',
               children: 'Yo!',
+              icon: <span>👋</span>,
             },
           ]);
         }}
