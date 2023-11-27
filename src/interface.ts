@@ -1,5 +1,5 @@
-import type React from 'react';
 import type { CSSMotionProps } from 'rc-motion';
+import type React from 'react';
 import type { TabNavListProps } from './TabNavList';
 import type { TabPaneProps } from './TabPanelList/TabPane';
 

@@ -1,25 +1,20 @@
+import raf from 'rc-util/lib/raf';
 import type React from 'react';
 import { useEffect, useRef, useState } from 'react';
-import raf from 'rc-util/lib/raf';
 import type { TabOffset } from '../interface';
 
 export type GetIndicatorSize = number | ((origin: number) => number);
 
 export type UseIndicator = (options: {
-  activeTabOffset: TabOffset,
+  activeTabOffset: TabOffset;
   horizontal: boolean;
   rtl: boolean;
   indicatorSize: GetIndicatorSize;
 }) => {
   style: React.CSSProperties;
-}
+};
 
-const useIndicator: UseIndicator = ({
-  activeTabOffset,
-  horizontal,
-  rtl,
-                                      indicatorSize,
-                                    }) => {
+const useIndicator: UseIndicator = ({ activeTabOffset, horizontal, rtl, indicatorSize }) => {
   const [inkStyle, setInkStyle] = useState<React.CSSProperties>();
   const inkBarRafRef = useRef<number>();
 
@@ -31,7 +26,7 @@ const useIndicator: UseIndicator = ({
       return indicatorSize;
     }
     return origin;
-  }
+  };
 
   // Delay set ink style to avoid remove tab blink
   function cleanInkBarRaf() {
@@ -68,7 +63,7 @@ const useIndicator: UseIndicator = ({
 
   return {
     style: inkStyle,
-  }
-}
+  };
+};
 
 export default useIndicator;

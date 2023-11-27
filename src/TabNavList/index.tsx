@@ -88,8 +88,7 @@ const getUnitValue = (size: SizeInfo, tabPositionTopOrBottom: boolean) => {
   return size[tabPositionTopOrBottom ? 0 : 1];
 };
 
-function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
-  const { prefixCls, tabs } = React.useContext(TabContext);
+const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref) => {
   const {
     className,
     style,
@@ -107,14 +106,14 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     onTabScroll,
     indicatorSize,
   } = props;
-  const containerRef = useRef<HTMLDivElement>();
-  const extraLeftRef = useRef<HTMLDivElement>();
-  const extraRightRef = useRef<HTMLDivElement>();
-  const tabsWrapperRef = useRef<HTMLDivElement>();
-  const tabListRef = useRef<HTMLDivElement>();
-  const operationsRef = useRef<HTMLDivElement>();
-  const innerAddButtonRef = useRef<HTMLButtonElement>();
-  // const [getBtnRef, removeBtnRef] = useRefs<HTMLDivElement>();
+  const { prefixCls, tabs } = React.useContext(TabContext);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const extraLeftRef = useRef<HTMLDivElement>(null);
+  const extraRightRef = useRef<HTMLDivElement>(null);
+  const tabsWrapperRef = useRef<HTMLDivElement>(null);
+  const tabListRef = useRef<HTMLDivElement>(null);
+  const operationsRef = useRef<HTMLDivElement>(null);
+  const innerAddButtonRef = useRef<HTMLButtonElement>(null);
 
   const tabPositionTopOrBottom = tabPosition === 'top' || tabPosition === 'bottom';
 
@@ -179,7 +178,8 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   }
 
   // ========================= Mobile ========================
-  const touchMovingRef = useRef<number>();
+  const touchMovingRef = useRef<ReturnType<typeof setTimeout>>(null);
+
   const [lockAnimation, setLockAnimation] = useState<number>();
 
   function doLockAnimation() {
@@ -187,14 +187,15 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   }
 
   function clearTouchMoving() {
-    window.clearTimeout(touchMovingRef.current);
+    if (touchMovingRef.current) {
+      clearTimeout(touchMovingRef.current);
+    }
   }
 
   useTouchMove(tabsWrapperRef, (offsetX, offsetY) => {
     function doMove(setState: React.Dispatch<React.SetStateAction<number>>, offset: number) {
       setState(value => {
         const newValue = alignInRange(value + offset);
-
         return newValue;
       });
     }
@@ -219,7 +220,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   useEffect(() => {
     clearTouchMoving();
     if (lockAnimation) {
-      touchMovingRef.current = window.setTimeout(() => {
+      touchMovingRef.current = setTimeout(() => {
         setLockAnimation(0);
       }, 100);
     }
@@ -298,7 +299,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     tabNodeStyle.marginTop = tabBarGutter;
   }
 
-  const tabNodes: React.ReactElement[] = tabs.map((tab, i) => {
+  const tabNodes = tabs.map<React.ReactNode>((tab, i) => {
     const { key } = tab;
     return (
       <TabNode
@@ -344,13 +345,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
         );
         if (btnNode) {
           const [width, height, left, top] = getTabSize(btnNode, listRect);
-
-          newSizes.set(key, {
-            width,
-            height,
-            left,
-            top,
-          });
+          newSizes.set(key, { width, height, left, top });
         }
       });
       return newSizes;
@@ -512,6 +507,6 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     </ResizeObserver>
   );
   /* eslint-enable */
-}
+});
 
-export default React.forwardRef(TabNavList);
+export default TabNavList;

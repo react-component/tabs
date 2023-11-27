@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState, useRef } from 'react';
+import { useRef, useState } from 'react';
 
 type TouchEventHandler = (e: TouchEvent) => void;
 type WheelEventHandler = (e: WheelEvent) => void;
