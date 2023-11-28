@@ -51,6 +51,11 @@ const TabNode: React.FC<TabNodeProps> = props => {
     editable.onEdit('remove', { key, event });
   }
 
+  const labelNode = React.useMemo<React.ReactNode>(
+    () => (icon && typeof label === 'string' ? <span>{label}</span> : label),
+    [label, icon],
+  );
+
   const node: React.ReactElement = (
     <div
       key={key}
@@ -86,7 +91,7 @@ const TabNode: React.FC<TabNodeProps> = props => {
         onFocus={onFocus}
       >
         {icon && <span className={`${tabPrefix}-icon`}>{icon}</span>}
-        {label}
+        {label && labelNode}
       </div>
 
       {/* Remove Button */}

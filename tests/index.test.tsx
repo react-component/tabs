@@ -638,4 +638,14 @@ describe('Tabs.Basic', () => {
     await waitFakeTimer();
     expect(container.querySelector('.rc-tabs-ink-bar')).toHaveStyle({ width: '18px' });
   });
+
+  it('Add span to text label when have icon', () => {
+    const selectors = '.rc-tabs-tab .rc-tabs-tab-btn span';
+    const { container, rerender } = render(
+      <Tabs items={[{ key: 'key', label: 'test', icon: 'test' }]} />,
+    );
+    expect(container.querySelectorAll<HTMLSpanElement>(selectors).length).toBe(2);
+    rerender(<Tabs items={[{ key: 'key', label: <div>test</div>, icon: 'test' }]} />);
+    expect(container.querySelectorAll<HTMLSpanElement>(selectors).length).toBe(1);
+  });
 });
