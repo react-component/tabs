@@ -639,7 +639,7 @@ describe('Tabs.Basic', () => {
     expect(container.querySelector('.rc-tabs-ink-bar')).toHaveStyle({ width: '18px' });
   });
 
-  it('support only-child', () => {
+  it('Add span to text label when have icon', () => {
     const selectors = '.rc-tabs-tab .rc-tabs-tab-btn span';
     const { container, rerender } = render(
       <Tabs items={[{ key: 'key', label: 'test', icon: 'test' }]} />,
