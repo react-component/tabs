@@ -51,7 +51,6 @@ const TabNode: React.FC<TabNodeProps> = props => {
     editable.onEdit('remove', { key, event });
   }
 
-  // for compatibility https://developer.mozilla.org/zh-CN/docs/Web/CSS/:only-child
   const labelNode = React.useMemo<React.ReactNode>(
     () => (icon && typeof label === 'string' ? <span>{label}</span> : label),
     [label, icon],
