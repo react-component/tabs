@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import classNames from 'classnames';
 import ResizeObserver from 'rc-resize-observer';
 import useEvent from 'rc-util/lib/hooks/useEvent';
@@ -399,13 +400,12 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
   // ========================= Effect ========================
   useEffect(() => {
     scrollToTab();
-    // eslint-disable-next-line
   }, [
     activeKey,
     transformMin,
     transformMax,
     stringify(activeTabOffset),
-    stringify(tabOffsets),
+    stringify(tabOffsets as any),
     tabPositionTopOrBottom,
   ]);
 
