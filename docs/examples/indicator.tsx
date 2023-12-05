@@ -1,10 +1,10 @@
 import React from 'react';
-import Tabs from'../../src';
 import '../../assets/index.less';
+import Tabs from '../../src';
 
 export default () => {
-  const [destroy, setDestroy] = React.useState(false);
-  const [items, setItems] = React.useState([
+  const [destroy] = React.useState(false);
+  const [items] = React.useState([
     {
       label: 'Light',
       key: 'light',
@@ -29,7 +29,7 @@ export default () => {
 
   return (
     <React.StrictMode>
-      <Tabs tabBarExtraContent="extra" items={items} indicatorSize={(origin) => origin - 16} />
+      <Tabs tabBarExtraContent="extra" items={items} indicatorSize={origin => origin - 16} />
     </React.StrictMode>
   );
 };
