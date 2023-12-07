@@ -23,8 +23,41 @@ const items: TabsProps['items'] = [
 
 export default () => (
   <>
-    <Tabs items={items} indicatorSize={origin => origin - 20} indicatorPosition="start" />
-    <Tabs items={items} indicatorSize={origin => origin - 20} indicatorPosition="center" />
-    <Tabs items={items} indicatorSize={origin => origin - 20} indicatorPosition="end" />
+    <Tabs
+      tabPosition="top"
+      items={items}
+      indicatorSize={origin => origin - 20}
+      indicatorPosition="start"
+    />
+    <Tabs
+      tabPosition="top"
+      items={items}
+      indicatorSize={origin => origin - 20}
+      indicatorPosition="center"
+    />
+    <Tabs
+      tabPosition="top"
+      items={items}
+      indicatorSize={origin => origin - 20}
+      indicatorPosition="end"
+    />
+    <Tabs
+      tabPosition="left"
+      items={items}
+      indicatorSize={origin => origin - 20}
+      indicatorPosition="start"
+    />
+    <Tabs
+      tabPosition="left"
+      items={items}
+      indicatorSize={origin => origin - 20}
+      indicatorPosition="center"
+    />
+    <Tabs
+      tabPosition="left"
+      items={items}
+      indicatorSize={origin => origin - 20}
+      indicatorPosition="end"
+    />
   </>
 );
