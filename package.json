@@ -1,6 +1,6 @@
 {
   "name": "rc-tabs",
-  "version": "12.14.1",
+  "version": "12.15.0",
   "description": "tabs ui component for react",
   "keywords": [
     "react",
@@ -48,8 +48,8 @@
   "devDependencies": {
     "@rc-component/father-plugin": "^1.0.0",
     "@rc-component/trigger": "^1.10.0",
-    "@testing-library/react": "^14.1.2",
     "@testing-library/jest-dom": "^6.1.4",
+    "@testing-library/react": "^14.1.2",
     "@types/classnames": "^2.2.10",
     "@types/enzyme": "^3.10.5",
     "@types/jest": "^29.4.0",
