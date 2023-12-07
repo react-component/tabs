@@ -31,9 +31,9 @@ const useIndicator = (options: UseIndicatorOptions) => {
   );
 
   // Delay set ink style to avoid remove tab blink
-  function cleanInkBarRaf() {
+  const cleanInkBarRaf = () => {
     raf.cancel(inkBarRafRef.current);
-  }
+  };
 
   useEffect(() => {
     const newInkStyle: React.CSSProperties = {};

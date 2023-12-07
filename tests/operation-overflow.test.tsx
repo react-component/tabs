@@ -53,9 +53,9 @@ describe('Tabs.Operation-Overflow', () => {
     act(() => {
       jest.runAllTimers();
     });
-    expect(
-      container.querySelector('.rc-tabs-nav-operations'),
-    ).not.toHaveClass('rc-tabs-nav-operations-hidden');
+    expect(container.querySelector('.rc-tabs-nav-operations')).not.toHaveClass(
+      'rc-tabs-nav-operations-hidden',
+    );
 
     unmount();
 

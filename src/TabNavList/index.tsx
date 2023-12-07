@@ -137,7 +137,7 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
   const [operationSize, setOperationSize] = useState<SizeInfo>([0, 0]);
 
   const [tabSizes, setTabSizes] = useUpdateState<TabSizeMap>(new Map());
-  const tabOffsets = useOffsets(tabs, tabSizes, tabContentSize[0]);
+  const tabOffsets = useOffsets(tabs, tabSizes);
 
   // ========================== Unit =========================
   const containerExcludeExtraSizeValue = getUnitValue(
