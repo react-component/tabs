@@ -3,7 +3,7 @@ import type { Tab, TabOffset, TabOffsetMap, TabSizeMap } from '../interface';
 
 const DEFAULT_SIZE = { width: 0, height: 0, left: 0, top: 0 };
 
-function useOffsets(tabs: Tab[], tabSizes: TabSizeMap) {
+export default function useOffsets(tabs: Tab[], tabSizes: TabSizeMap, holderScrollWidth: number) {
   return React.useMemo<TabOffsetMap>(() => {
     const map = new Map<React.Key, TabOffset>();
     const lastOffset = tabSizes.get(tabs[0]?.key) || DEFAULT_SIZE;
@@ -28,7 +28,5 @@ function useOffsets(tabs: Tab[], tabSizes: TabSizeMap) {
     }
 
     return map;
-  }, [tabSizes, tabs]);
+  }, [tabs.map(tab => tab.key).join('_'), tabSizes, holderScrollWidth]);
 }
-
-export default useOffsets;

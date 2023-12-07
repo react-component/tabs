@@ -649,26 +649,26 @@ describe('Tabs.Basic', () => {
     expect(container.querySelectorAll<HTMLSpanElement>(selectors).length).toBe(1);
   });
 
-  it('support indicatorPosition', async () => {
+  it('support indicatorAlign', async () => {
     const { container: startContainer } = render(
       <Tabs
         items={[{ key: 'test', label: 'test', icon: 'test' }]}
         indicatorSize={origin => origin - 10}
-        indicatorPosition="start"
+        indicatorAlign="start"
       />,
     );
     const { container: centerContainer } = render(
       <Tabs
         items={[{ key: 'test', label: 'test', icon: 'test' }]}
         indicatorSize={origin => origin - 10}
-        indicatorPosition="center"
+        indicatorAlign="center"
       />,
     );
     const { container: endContainer } = render(
       <Tabs
         items={[{ key: 'test', label: 'test', icon: 'test' }]}
         indicatorSize={origin => origin - 10}
-        indicatorPosition="end"
+        indicatorAlign="end"
       />,
     );
 
@@ -684,13 +684,13 @@ describe('Tabs.Basic', () => {
     expect(parseInt(centerBar.style.left)).toBeLessThanOrEqual(parseInt(endBar.style.left));
   });
 
-  it('support indicatorPosition when tabPosition=left', async () => {
+  it('support indicatorAlign when tabPosition=left', async () => {
     const { container: startContainer } = render(
       <Tabs
         tabPosition="left"
         items={[{ key: 'test', label: 'test', icon: 'test' }]}
         indicatorSize={origin => origin - 10}
-        indicatorPosition="start"
+        indicatorAlign="start"
       />,
     );
     const { container: centerContainer } = render(
@@ -698,7 +698,7 @@ describe('Tabs.Basic', () => {
         tabPosition="left"
         items={[{ key: 'test', label: 'test', icon: 'test' }]}
         indicatorSize={origin => origin - 10}
-        indicatorPosition="center"
+        indicatorAlign="center"
       />,
     );
     const { container: endContainer } = render(
@@ -706,7 +706,7 @@ describe('Tabs.Basic', () => {
         tabPosition="left"
         items={[{ key: 'test', label: 'test', icon: 'test' }]}
         indicatorSize={origin => origin - 10}
-        indicatorPosition="end"
+        indicatorAlign="end"
       />,
     );
 

@@ -72,7 +72,7 @@ export interface TabsProps
 
   // Indicator
   indicatorSize?: GetIndicatorSize;
-  indicatorPosition?: 'start' | 'center' | 'end';
+  indicatorAlign?: 'start' | 'center' | 'end';
 }
 
 const Tabs = React.forwardRef<HTMLDivElement, TabsProps>((props, ref) => {
@@ -101,7 +101,7 @@ const Tabs = React.forwardRef<HTMLDivElement, TabsProps>((props, ref) => {
     getPopupContainer,
     popupClassName,
     indicatorSize,
-    indicatorPosition = 'center',
+    indicatorAlign = 'center',
     ...restProps
   } = props;
   const tabs = React.useMemo<Tab[]>(
@@ -186,7 +186,7 @@ const Tabs = React.forwardRef<HTMLDivElement, TabsProps>((props, ref) => {
     getPopupContainer,
     popupClassName,
     indicatorSize,
-    indicatorPosition,
+    indicatorAlign,
   };
 
   return (

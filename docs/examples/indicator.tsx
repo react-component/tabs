@@ -27,37 +27,37 @@ export default () => (
       tabPosition="top"
       items={items}
       indicatorSize={origin => origin - 20}
-      indicatorPosition="start"
+      indicatorAlign="start"
     />
     <Tabs
       tabPosition="top"
       items={items}
       indicatorSize={origin => origin - 20}
-      indicatorPosition="center"
+      indicatorAlign="center"
     />
     <Tabs
       tabPosition="top"
       items={items}
       indicatorSize={origin => origin - 20}
-      indicatorPosition="end"
+      indicatorAlign="end"
     />
     <Tabs
       tabPosition="left"
       items={items}
       indicatorSize={origin => origin - 20}
-      indicatorPosition="start"
+      indicatorAlign="start"
     />
     <Tabs
       tabPosition="left"
       items={items}
       indicatorSize={origin => origin - 20}
-      indicatorPosition="center"
+      indicatorAlign="center"
     />
     <Tabs
       tabPosition="left"
       items={items}
       indicatorSize={origin => origin - 20}
-      indicatorPosition="end"
+      indicatorAlign="end"
     />
   </>
 );
