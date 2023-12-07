@@ -1,35 +1,63 @@
 import React from 'react';
 import '../../assets/index.less';
+import type { TabsProps } from '../../src';
 import Tabs from '../../src';
 
-export default () => {
-  const [destroy] = React.useState(false);
-  const [items] = React.useState([
-    {
-      label: 'Light',
-      key: 'light',
-      children: 'Light!',
-    },
-    {
-      label: 'Bamboo',
-      key: 'bamboo',
-      children: 'Bamboo!',
-    },
-    {
-      label: 'Cute',
-      key: 'cute',
-      children: 'Cute!',
-      disabled: true,
-    },
-  ]);
+const items: TabsProps['items'] = [
+  {
+    label: 'Light',
+    key: 'light',
+    children: 'Light!',
+  },
+  {
+    label: 'Bamboo',
+    key: 'bamboo',
+    children: 'Bamboo!',
+  },
+  {
+    label: 'Cute',
+    key: 'cute',
+    children: 'Cute!',
+  },
+];
 
-  if (destroy) {
-    return null;
-  }
-
-  return (
-    <React.StrictMode>
-      <Tabs tabBarExtraContent="extra" items={items} indicatorSize={origin => origin - 16} />
-    </React.StrictMode>
-  );
-};
+export default () => (
+  <>
+    <Tabs
+      tabPosition="top"
+      items={items}
+      indicatorSize={origin => origin - 20}
+      indicatorAlign="start"
+    />
+    <Tabs
+      tabPosition="top"
+      items={items}
+      indicatorSize={origin => origin - 20}
+      indicatorAlign="center"
+    />
+    <Tabs
+      tabPosition="top"
+      items={items}
+      indicatorSize={origin => origin - 20}
+      indicatorAlign="end"
+    />
+    <Tabs
+      tabPosition="left"
+      items={items}
+      indicatorSize={origin => origin - 20}
+      indicatorAlign="start"
+    />
+    <Tabs
+      tabPosition="left"
+      items={items}
+      indicatorSize={origin => origin - 20}
+      indicatorAlign="center"
+    />
+    <Tabs
+      tabPosition="left"
+      items={items}
+      indicatorSize={origin => origin - 20}
+      indicatorAlign="end"
+    />
+  </>
+);

@@ -15,7 +15,6 @@ const TabNavListWrapper: React.FC<TabNavListWrapperProps> = ({ renderTabBar, ...
   if (renderTabBar) {
     const tabNavBarProps = {
       ...restProps,
-
       // Legacy support. We do not use this actually
       panes: tabs.map<React.ReactNode>(({ label, key, ...restTabProps }) => (
         <TabPane tab={label} key={key} tabKey={key} {...restTabProps} />

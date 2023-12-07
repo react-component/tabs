@@ -648,4 +648,77 @@ describe('Tabs.Basic', () => {
     rerender(<Tabs items={[{ key: 'key', label: <div>test</div>, icon: 'test' }]} />);
     expect(container.querySelectorAll<HTMLSpanElement>(selectors).length).toBe(1);
   });
+
+  it('support indicatorAlign', async () => {
+    const { container: startContainer } = render(
+      <Tabs
+        items={[{ key: 'test', label: 'test', icon: 'test' }]}
+        indicatorSize={origin => origin - 10}
+        indicatorAlign="start"
+      />,
+    );
+    const { container: centerContainer } = render(
+      <Tabs
+        items={[{ key: 'test', label: 'test', icon: 'test' }]}
+        indicatorSize={origin => origin - 10}
+        indicatorAlign="center"
+      />,
+    );
+    const { container: endContainer } = render(
+      <Tabs
+        items={[{ key: 'test', label: 'test', icon: 'test' }]}
+        indicatorSize={origin => origin - 10}
+        indicatorAlign="end"
+      />,
+    );
+
+    await waitFakeTimer();
+
+    const selectors = '.rc-tabs .rc-tabs-nav .rc-tabs-nav-list .rc-tabs-ink-bar';
+
+    const startBar = startContainer.querySelector<HTMLDivElement>(selectors);
+    const centerBar = centerContainer.querySelector<HTMLDivElement>(selectors);
+    const endBar = endContainer.querySelector<HTMLDivElement>(selectors);
+
+    expect(parseInt(startBar.style.left)).toBeLessThanOrEqual(parseInt(centerBar.style.left));
+    expect(parseInt(centerBar.style.left)).toBeLessThanOrEqual(parseInt(endBar.style.left));
+  });
+
+  it('support indicatorAlign when tabPosition=left', async () => {
+    const { container: startContainer } = render(
+      <Tabs
+        tabPosition="left"
+        items={[{ key: 'test', label: 'test', icon: 'test' }]}
+        indicatorSize={origin => origin - 10}
+        indicatorAlign="start"
+      />,
+    );
+    const { container: centerContainer } = render(
+      <Tabs
+        tabPosition="left"
+        items={[{ key: 'test', label: 'test', icon: 'test' }]}
+        indicatorSize={origin => origin - 10}
+        indicatorAlign="center"
+      />,
+    );
+    const { container: endContainer } = render(
+      <Tabs
+        tabPosition="left"
+        items={[{ key: 'test', label: 'test', icon: 'test' }]}
+        indicatorSize={origin => origin - 10}
+        indicatorAlign="end"
+      />,
+    );
+
+    await waitFakeTimer();
+
+    const selectors = '.rc-tabs .rc-tabs-nav .rc-tabs-nav-list .rc-tabs-ink-bar';
+
+    const startBar = startContainer.querySelector<HTMLDivElement>(selectors);
+    const centerBar = centerContainer.querySelector<HTMLDivElement>(selectors);
+    const endBar = endContainer.querySelector<HTMLDivElement>(selectors);
+
+    expect(parseInt(startBar.style.top)).toBeLessThanOrEqual(parseInt(centerBar.style.top));
+    expect(parseInt(centerBar.style.top)).toBeLessThanOrEqual(parseInt(endBar.style.top));
+  });
 });

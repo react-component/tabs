@@ -5,6 +5,7 @@ import useEvent from 'rc-util/lib/hooks/useEvent';
 import { useComposeRef } from 'rc-util/lib/ref';
 import * as React from 'react';
 import { useEffect, useRef, useState } from 'react';
+import TabContext from '../TabContext';
 import type { GetIndicatorSize } from '../hooks/useIndicator';
 import useIndicator from '../hooks/useIndicator';
 import useOffsets from '../hooks/useOffsets';
@@ -23,7 +24,6 @@ import type {
   TabSizeMap,
   TabsLocale,
 } from '../interface';
-import TabContext from '../TabContext';
 import { genDataNodeKey, stringify } from '../util';
 import AddButton from './AddButton';
 import ExtraContent from './ExtraContent';
@@ -52,6 +52,7 @@ export interface TabNavListProps {
   getPopupContainer?: (node: HTMLElement) => HTMLElement;
   popupClassName?: string;
   indicatorSize?: GetIndicatorSize;
+  indicatorAlign?: 'start' | 'center' | 'end';
 }
 
 const getTabSize = (tab: HTMLElement, containerRect: { x: number; y: number }) => {
@@ -106,6 +107,7 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
     onTabClick,
     onTabScroll,
     indicatorSize,
+    indicatorAlign,
   } = props;
   const { prefixCls, tabs } = React.useContext(TabContext);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -395,6 +397,7 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
     horizontal: tabPositionTopOrBottom,
     rtl,
     indicatorSize,
+    indicatorAlign,
   });
 
   // ========================= Effect ========================
@@ -480,7 +483,6 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
                     visibility: hasDropdown ? 'hidden' : null,
                   }}
                 />
-
                 <div
                   className={classNames(`${prefixCls}-ink-bar`, {
                     [`${prefixCls}-ink-bar-animated`]: animated.inkBar,

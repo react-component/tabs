@@ -4,6 +4,9 @@ import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import isMobile from 'rc-util/lib/isMobile';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
+import TabContext from './TabContext';
+import TabNavListWrapper from './TabNavList/Wrapper';
+import TabPanelList from './TabPanelList';
 import useAnimateConfig from './hooks/useAnimateConfig';
 import type { GetIndicatorSize } from './hooks/useIndicator';
 import type {
@@ -16,9 +19,6 @@ import type {
   TabPosition,
   TabsLocale,
 } from './interface';
-import TabContext from './TabContext';
-import TabNavListWrapper from './TabNavList/Wrapper';
-import TabPanelList from './TabPanelList';
 
 /**
  * Should added antd:
@@ -72,6 +72,7 @@ export interface TabsProps
 
   // Indicator
   indicatorSize?: GetIndicatorSize;
+  indicatorAlign?: 'start' | 'center' | 'end';
 }
 
 const Tabs = React.forwardRef<HTMLDivElement, TabsProps>((props, ref) => {
@@ -100,9 +101,10 @@ const Tabs = React.forwardRef<HTMLDivElement, TabsProps>((props, ref) => {
     getPopupContainer,
     popupClassName,
     indicatorSize,
+    indicatorAlign = 'center',
     ...restProps
   } = props;
-  const tabs = React.useMemo(
+  const tabs = React.useMemo<Tab[]>(
     () => (items || []).filter(item => item && typeof item === 'object' && 'key' in item),
     [items],
   );
@@ -184,6 +186,7 @@ const Tabs = React.forwardRef<HTMLDivElement, TabsProps>((props, ref) => {
     getPopupContainer,
     popupClassName,
     indicatorSize,
+    indicatorAlign,
   };
 
   return (

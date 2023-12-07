@@ -17,6 +17,7 @@ export interface TabOffset {
   right: number;
   top: number;
 }
+
 export type TabOffsetMap = Map<React.Key, TabOffset>;
 
 export type TabPosition = 'left' | 'right' | 'top' | 'bottom';
