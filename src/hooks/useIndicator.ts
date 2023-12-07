@@ -9,7 +9,7 @@ interface UseIndicatorOptions {
   horizontal: boolean;
   rtl: boolean;
   indicatorSize: GetIndicatorSize;
-  indicatorPosition: 'start' | 'center' | 'end';
+  indicatorAlign: 'start' | 'center' | 'end';
 }
 
 const useIndicator = (options: UseIndicatorOptions) => {
