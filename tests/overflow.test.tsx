@@ -21,7 +21,7 @@ describe('Tabs.Overflow', () => {
 
   let mockGetBoundingClientRect: (
     ele: HTMLElement,
-  ) => { x: number; y: number; width: number; height: number } | void = null;
+  ) => { left: number; top: number; width: number; height: number } | void = null;
 
   beforeEach(() => {
     mockGetBoundingClientRect = null;
@@ -49,8 +49,8 @@ describe('Tabs.Overflow', () => {
       getBoundingClientRect() {
         return (
           mockGetBoundingClientRect?.(this) || {
-            x: 0,
-            y: 0,
+            left: 0,
+            top: 0,
             width: 0,
             height: 0,
           }
@@ -508,8 +508,8 @@ describe('Tabs.Overflow', () => {
     mockGetBoundingClientRect = ele => {
       if (ele.classList.contains('rc-tabs-tab')) {
         const sharedRect = {
-          x: 0,
-          y: 0,
+          left: 0,
+          top: 0,
           width: 14.5,
           height: 14.5,
         };
@@ -520,7 +520,7 @@ describe('Tabs.Overflow', () => {
             }
           : {
               ...sharedRect,
-              x: 14.5,
+              left: 14.5,
             };
       }
       // console.log('ele!!!', ele.className);

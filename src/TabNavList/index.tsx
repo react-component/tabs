@@ -55,14 +55,14 @@ export interface TabNavListProps {
   indicatorAlign?: 'start' | 'center' | 'end';
 }
 
-const getTabSize = (tab: HTMLElement, containerRect: { x: number; y: number }) => {
+const getTabSize = (tab: HTMLElement, containerRect: { left: number; top: number }) => {
   // tabListRef
   const { offsetWidth, offsetHeight, offsetTop, offsetLeft } = tab;
-  const { width, height, x, y } = tab.getBoundingClientRect();
+  const { width, height, left, top } = tab.getBoundingClientRect();
 
   // Use getBoundingClientRect to avoid decimal inaccuracy
   if (Math.abs(width - offsetWidth) < 1) {
-    return [width, height, x - containerRect.x, y - containerRect.y];
+    return [width, height, left - containerRect.left, top - containerRect.top];
   }
 
   return [offsetWidth, offsetHeight, offsetLeft, offsetTop];
