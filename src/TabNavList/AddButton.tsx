@@ -8,10 +8,8 @@ export interface AddButtonProps {
   style?: React.CSSProperties;
 }
 
-function AddButton(
-  { prefixCls, editable, locale, style }: AddButtonProps,
-  ref: React.Ref<HTMLButtonElement>,
-) {
+const AddButton = React.forwardRef<HTMLButtonElement, AddButtonProps>((props, ref) => {
+  const { prefixCls, editable, locale, style } = props;
   if (!editable || editable.showAdd === false) {
     return null;
   }
@@ -24,14 +22,12 @@ function AddButton(
       style={style}
       aria-label={locale?.addAriaLabel || 'Add tab'}
       onClick={event => {
-        editable.onEdit('add', {
-          event,
-        });
+        editable.onEdit('add', { event });
       }}
     >
       {editable.addIcon || '+'}
     </button>
   );
-}
+});
 
-export default React.forwardRef(AddButton);
+export default AddButton;

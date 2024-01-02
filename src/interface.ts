@@ -1,5 +1,5 @@
-import type React from 'react';
 import type { CSSMotionProps } from 'rc-motion';
+import type React from 'react';
 import type { TabNavListProps } from './TabNavList';
 import type { TabPaneProps } from './TabPanelList/TabPane';
 
@@ -17,6 +17,7 @@ export interface TabOffset {
   right: number;
   top: number;
 }
+
 export type TabOffsetMap = Map<React.Key, TabOffset>;
 
 export type TabPosition = 'left' | 'right' | 'top' | 'bottom';

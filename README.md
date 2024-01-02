@@ -41,17 +41,18 @@ online example: https://tabs.react-component.now.sh/
 
 ## Usage
 
-```js
+```tsx
 import Tabs from 'rc-tabs';
+import ReactDom from 'react-dom';
 
-var callback = function(key) {
-console.log(key);
+const callback = (key) => {
+  console.log(key);
 };
 
-const z = [
+const items = [
   {
-    key: "1",
-    label: "Google",
+    key: '1',
+    label: 'Google',
     children: (
       <div className="text-xl">
         <p>Lorem Ipsum is simply dummy text of the printing and typesetting</p>
@@ -59,33 +60,34 @@ const z = [
     ),
   },
   {
-    key: "2",
+    key: '2',
     label: <p>Amazon</p>,
     children:
-      "Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...",
-    disabled: true
+      'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...',
+    disabled: true,
   },
   {
-    key: "3",
+    key: '3',
     label: <p>Twitter</p>,
     children: (
       <div>
-        "There is no one who loves pain itself, who seeks after it and wants to
-        have it, simply because it is pain..."
+        "There is no one who loves pain itself, who seeks after it and wants to have it, simply
+        because it is pain..."
       </div>
     ),
   },
 ];
 
-React.render(
-    <Tabs
-      tabPosition="bottom"
-      items={z}
-      defaultActiveKey="1"
-      className="md:w-[70%] w-full mx-auto p-2 border-0"
-      onChange={callback}
-      style={{color:"yellow"}}
-    />
+ReactDom.render(
+  <Tabs
+    tabPosition="bottom"
+    items={items}
+    defaultActiveKey="1"
+    className="md:w-[70%] w-full mx-auto p-2 border-0"
+    onChange={callback}
+    style={{ color: 'yellow' }}
+  />,
+  root,
 );
 ```
 
@@ -107,6 +109,7 @@ React.render(
 | renderTabBar | (props, TabBarComponent) => ReactElement | - | How to render tab bar |
 | tabBarExtraContent | ReactNode \| `{ left: ReactNode, right: ReactNode }` | - | config extra content |
 | tabBarGutter | number | 0 | config tab bar gutter |
+| tabBarPosition | `'left' \| 'right' \| 'top' \| 'bottom'` | `'top'` | tab nav 's position |
 | tabBarStyle | style | - | tab nav style |
 | tabPosition | `'left' or 'right' or 'top' or 'bottom'` | `'top'` | tab nav 's position |
 | destroyInactiveTabPane | boolean | false | whether destroy inactive TabPane when change tab |
@@ -143,6 +146,7 @@ React.render(
 
 | name | type | default | description |
 | --- | --- | --- | --- |
+| destroyInactiveTabPane | boolean | false | whether destroy inactive TabPane when change tab |
 | key | string | - | corresponding to activeKey, should be unique |
 | forceRender | boolean | false | forced render of content in tabs, not lazy render after clicking on tabs |
 | tab | ReactNode | - | current tab's title corresponding to current tabPane |
@@ -176,9 +180,9 @@ rc-tabs is released under the MIT license.
 
 ## FAQ
 
-### Resposive Tabs
+### Responsive Tabs
 
-There are 3 cases when handling resposive tabs:
+There are 3 cases when handling responsive tabs:
 ![image](https://user-images.githubusercontent.com/27722486/156315099-7e6eda9d-ab77-4b16-9b49-1727c5ec8b26.png)
 
 We get hidden tabs through [useVisibleRange.ts](https://github.com/react-component/tabs/blob/master/src/hooks/useVisibleRange.ts).
