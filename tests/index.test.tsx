@@ -653,22 +653,19 @@ describe('Tabs.Basic', () => {
     const { container: startContainer } = render(
       <Tabs
         items={[{ key: 'test', label: 'test', icon: 'test' }]}
-        indicatorSize={origin => origin - 10}
-        indicatorAlign="start"
+        indicator={{ size: origin => origin - 20, align: 'start' }}
       />,
     );
     const { container: centerContainer } = render(
       <Tabs
         items={[{ key: 'test', label: 'test', icon: 'test' }]}
-        indicatorSize={origin => origin - 10}
-        indicatorAlign="center"
+        indicator={{ size: origin => origin - 20, align: 'center' }}
       />,
     );
     const { container: endContainer } = render(
       <Tabs
         items={[{ key: 'test', label: 'test', icon: 'test' }]}
-        indicatorSize={origin => origin - 10}
-        indicatorAlign="end"
+        indicator={{ size: origin => origin - 20, align: 'end' }}
       />,
     );
 
@@ -689,24 +686,21 @@ describe('Tabs.Basic', () => {
       <Tabs
         tabPosition="left"
         items={[{ key: 'test', label: 'test', icon: 'test' }]}
-        indicatorSize={origin => origin - 10}
-        indicatorAlign="start"
+        indicator={{ size: origin => origin - 20, align: 'start' }}
       />,
     );
     const { container: centerContainer } = render(
       <Tabs
         tabPosition="left"
         items={[{ key: 'test', label: 'test', icon: 'test' }]}
-        indicatorSize={origin => origin - 10}
-        indicatorAlign="center"
+        indicator={{ size: origin => origin - 20, align: 'center' }}
       />,
     );
     const { container: endContainer } = render(
       <Tabs
         tabPosition="left"
         items={[{ key: 'test', label: 'test', icon: 'test' }]}
-        indicatorSize={origin => origin - 10}
-        indicatorAlign="end"
+        indicator={{ size: origin => origin - 20, align: 'end' }}
       />,
     );
 
