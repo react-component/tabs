@@ -70,9 +70,12 @@ export interface TabsProps
 
   popupClassName?: string;
 
-  // Indicator
+  /** @deprecated Use `indicator={ size: ... }` instead */
   indicatorSize?: GetIndicatorSize;
-  indicatorAlign?: 'start' | 'center' | 'end';
+  indicator?: {
+    size?: GetIndicatorSize;
+    align?: 'start' | 'center' | 'end';
+  };
 }
 
 const Tabs = React.forwardRef<HTMLDivElement, TabsProps>((props, ref) => {
@@ -101,7 +104,7 @@ const Tabs = React.forwardRef<HTMLDivElement, TabsProps>((props, ref) => {
     getPopupContainer,
     popupClassName,
     indicatorSize,
-    indicatorAlign = 'center',
+    indicator,
     ...restProps
   } = props;
   const tabs = React.useMemo<Tab[]>(
@@ -186,7 +189,7 @@ const Tabs = React.forwardRef<HTMLDivElement, TabsProps>((props, ref) => {
     getPopupContainer,
     popupClassName,
     indicatorSize,
-    indicatorAlign,
+    indicator,
   };
 
   return (
