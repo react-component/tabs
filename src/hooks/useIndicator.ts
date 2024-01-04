@@ -8,26 +8,28 @@ interface UseIndicatorOptions {
   activeTabOffset: TabOffset;
   horizontal: boolean;
   rtl: boolean;
-  indicatorSize: GetIndicatorSize;
-  indicatorAlign: 'start' | 'center' | 'end';
+  indicator?: {
+    size?: GetIndicatorSize;
+    align?: 'start' | 'center' | 'end';
+  };
 }
 
 const useIndicator = (options: UseIndicatorOptions) => {
-  const { activeTabOffset, horizontal, rtl, indicatorSize, indicatorAlign } = options;
+  const { activeTabOffset, horizontal, rtl, indicator } = options;
   const [inkStyle, setInkStyle] = useState<React.CSSProperties>();
   const inkBarRafRef = useRef<number>();
 
   const getLength = React.useCallback(
     (origin: number) => {
-      if (typeof indicatorSize === 'function') {
-        return indicatorSize(origin);
+      if (typeof indicator?.size === 'function') {
+        return indicator?.size(origin);
       }
-      if (typeof indicatorSize === 'number') {
-        return indicatorSize;
+      if (typeof indicator?.size === 'number') {
+        return indicator?.size;
       }
       return origin;
     },
-    [indicatorSize],
+    [indicator],
   );
 
   // Delay set ink style to avoid remove tab blink
@@ -42,27 +44,27 @@ const useIndicator = (options: UseIndicatorOptions) => {
       if (horizontal) {
         newInkStyle.width = getLength(activeTabOffset.width);
         const key = rtl ? 'right' : 'left';
-        if (indicatorAlign === 'start') {
+        if (indicator?.align === 'start') {
           newInkStyle[key] = activeTabOffset[key];
         }
-        if (indicatorAlign === 'center') {
+        if (indicator?.align === 'center') {
           newInkStyle[key] = activeTabOffset[key] + activeTabOffset.width / 2;
           newInkStyle.transform = rtl ? 'translateX(50%)' : 'translateX(-50%)';
         }
-        if (indicatorAlign === 'end') {
+        if (indicator?.align === 'end') {
           newInkStyle[key] = activeTabOffset[key] + activeTabOffset.width;
           newInkStyle.transform = 'translateX(-100%)';
         }
       } else {
         newInkStyle.height = getLength(activeTabOffset.height);
-        if (indicatorAlign === 'start') {
+        if (indicator?.align === 'start') {
           newInkStyle.top = activeTabOffset.top;
         }
-        if (indicatorAlign === 'center') {
+        if (indicator?.align === 'center') {
           newInkStyle.top = activeTabOffset.top + activeTabOffset.height / 2;
           newInkStyle.transform = 'translateY(-50%)';
         }
-        if (indicatorAlign === 'end') {
+        if (indicator?.align === 'end') {
           newInkStyle.top = activeTabOffset.top + activeTabOffset.height;
           newInkStyle.transform = 'translateY(-100%)';
         }
@@ -75,7 +77,7 @@ const useIndicator = (options: UseIndicatorOptions) => {
     });
 
     return cleanInkBarRaf;
-  }, [activeTabOffset, horizontal, rtl, indicatorSize, indicatorAlign, getLength]);
+  }, [activeTabOffset, horizontal, rtl, indicator?.align, getLength]);
 
   return { style: inkStyle };
 };
