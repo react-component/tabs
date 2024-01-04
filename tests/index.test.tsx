@@ -630,11 +630,11 @@ describe('Tabs.Basic', () => {
   });
 
   it('support indicatorSize', async () => {
-    const { container, rerender } = render(getTabs({ indicatorSize: 10 }));
+    const { container, rerender } = render(getTabs({ indicator: { size: 10 } }));
     await waitFakeTimer();
     expect(container.querySelector('.rc-tabs-ink-bar')).toHaveStyle({ width: '10px' });
 
-    rerender(getTabs({ indicatorSize: origin => origin - 2 }));
+    rerender(getTabs({ indicator: { size: origin => origin - 2 } }));
     await waitFakeTimer();
     expect(container.querySelector('.rc-tabs-ink-bar')).toHaveStyle({ width: '18px' });
   });

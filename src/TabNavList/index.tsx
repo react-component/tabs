@@ -51,9 +51,6 @@ export interface TabNavListProps {
   children?: (node: React.ReactElement) => React.ReactElement;
   getPopupContainer?: (node: HTMLElement) => HTMLElement;
   popupClassName?: string;
-
-  /** @deprecated Use `indicator={ size: ... }` instead */
-  indicatorSize?: GetIndicatorSize;
   indicator?: {
     size?: GetIndicatorSize;
     align?: 'start' | 'center' | 'end';
@@ -111,13 +108,8 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
     children,
     onTabClick,
     onTabScroll,
-    indicatorSize,
     indicator,
   } = props;
-
-  const mergedIndicatorSize = indicator?.size || indicatorSize;
-
-  const mergedIndicatorAlign = indicator?.align || 'center';
 
   const { prefixCls, tabs } = React.useContext(TabContext);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -405,11 +397,8 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
   const { style: indicatorStyle } = useIndicator({
     activeTabOffset,
     horizontal: tabPositionTopOrBottom,
+    indicator,
     rtl,
-    indicator: {
-      size: mergedIndicatorSize,
-      align: mergedIndicatorAlign,
-    },
   });
 
   // ========================= Effect ========================

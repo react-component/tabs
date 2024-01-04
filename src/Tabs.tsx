@@ -67,11 +67,7 @@ export interface TabsProps
   moreIcon?: React.ReactNode;
   /** @private Internal usage. Not promise will rename in future */
   moreTransitionName?: string;
-
   popupClassName?: string;
-
-  /** @deprecated Use `indicator={ size: ... }` instead */
-  indicatorSize?: GetIndicatorSize;
   indicator?: {
     size?: GetIndicatorSize;
     align?: 'start' | 'center' | 'end';
@@ -103,7 +99,6 @@ const Tabs = React.forwardRef<HTMLDivElement, TabsProps>((props, ref) => {
     onTabScroll,
     getPopupContainer,
     popupClassName,
-    indicatorSize,
     indicator,
     ...restProps
   } = props;
@@ -188,7 +183,6 @@ const Tabs = React.forwardRef<HTMLDivElement, TabsProps>((props, ref) => {
     panes: null,
     getPopupContainer,
     popupClassName,
-    indicatorSize,
     indicator,
   };
 
