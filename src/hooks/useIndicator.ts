@@ -15,21 +15,24 @@ interface UseIndicatorOptions {
 }
 
 const useIndicator = (options: UseIndicatorOptions) => {
-  const { activeTabOffset, horizontal, rtl, indicator } = options;
+  const { activeTabOffset, horizontal, rtl, indicator = {} } = options;
+
+  const { size, align = 'center' } = indicator;
+
   const [inkStyle, setInkStyle] = useState<React.CSSProperties>();
   const inkBarRafRef = useRef<number>();
 
   const getLength = React.useCallback(
     (origin: number) => {
-      if (typeof indicator?.size === 'function') {
-        return indicator?.size(origin);
+      if (typeof size === 'function') {
+        return size(origin);
       }
-      if (typeof indicator?.size === 'number') {
-        return indicator?.size;
+      if (typeof size === 'number') {
+        return size;
       }
       return origin;
     },
-    [indicator],
+    [size],
   );
 
   // Delay set ink style to avoid remove tab blink
@@ -44,27 +47,27 @@ const useIndicator = (options: UseIndicatorOptions) => {
       if (horizontal) {
         newInkStyle.width = getLength(activeTabOffset.width);
         const key = rtl ? 'right' : 'left';
-        if (indicator?.align === 'start') {
+        if (align === 'start') {
           newInkStyle[key] = activeTabOffset[key];
         }
-        if (indicator?.align === 'center') {
+        if (align === 'center') {
           newInkStyle[key] = activeTabOffset[key] + activeTabOffset.width / 2;
           newInkStyle.transform = rtl ? 'translateX(50%)' : 'translateX(-50%)';
         }
-        if (indicator?.align === 'end') {
+        if (align === 'end') {
           newInkStyle[key] = activeTabOffset[key] + activeTabOffset.width;
           newInkStyle.transform = 'translateX(-100%)';
         }
       } else {
         newInkStyle.height = getLength(activeTabOffset.height);
-        if (indicator?.align === 'start') {
+        if (align === 'start') {
           newInkStyle.top = activeTabOffset.top;
         }
-        if (indicator?.align === 'center') {
+        if (align === 'center') {
           newInkStyle.top = activeTabOffset.top + activeTabOffset.height / 2;
           newInkStyle.transform = 'translateY(-50%)';
         }
-        if (indicator?.align === 'end') {
+        if (align === 'end') {
           newInkStyle.top = activeTabOffset.top + activeTabOffset.height;
           newInkStyle.transform = 'translateY(-100%)';
         }
@@ -77,7 +80,7 @@ const useIndicator = (options: UseIndicatorOptions) => {
     });
 
     return cleanInkBarRaf;
-  }, [activeTabOffset, horizontal, rtl, indicator?.align, getLength]);
+  }, [activeTabOffset, horizontal, rtl, align, getLength]);
 
   return { style: inkStyle };
 };
