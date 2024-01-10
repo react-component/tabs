@@ -13,6 +13,8 @@ export default function useVisibleRange(
   tabContentSizeValue: number,
   addNodeSizeValue: number,
   operationNodeSizeValue: number,
+  containerExcludeExtraSizeValue: number,
+  activeKey: string,
   { tabs, tabPosition, rtl }: { tabs: Tab[] } & TabNavListProps,
 ): [visibleStart: number, visibleEnd: number] {
   let charUnit: 'width' | 'height';
@@ -32,6 +34,16 @@ export default function useVisibleRange(
   return useMemo(() => {
     if (!tabs.length) {
       return [0, 0];
+    }
+
+    if (containerExcludeExtraSizeValue < tabContentSizeValue) {
+      let filterIndex
+      tabs.forEach((item, index) => {
+        if ((item.tabKey || item.key) === activeKey) {
+          filterIndex = index
+        }
+      })
+      return [filterIndex, filterIndex]
     }
 
     const len = tabs.length;
