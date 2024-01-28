@@ -37,12 +37,7 @@ export default function useVisibleRange(
     }
 
     if (containerExcludeExtraSizeValue < tabContentSizeValue) {
-      let filterIndex
-      tabs.forEach((item, index) => {
-        if ((item.tabKey || item.key) === activeKey) {
-          filterIndex = index
-        }
-      })
+      const filterIndex = tabs.findIndex(item => (item.tabKey || item.key) === activeKey);
       return [filterIndex, filterIndex]
     }
 
