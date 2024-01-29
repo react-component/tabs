@@ -451,6 +451,41 @@ describe('Tabs.Overflow', () => {
     expect(document.querySelector('.rc-tabs-dropdown-menu').textContent).not.toContain('miu');
   });
 
+  it('should be displayed in the minimum width dropdown menu', () => {
+    const items = [
+      {
+        key: '1',
+        label: 'Tab 1',
+        children: 'Tab 1',
+      },
+      {
+        key: '2',
+        label: 'Tab 2',
+        children: 'Tab 2',
+      },
+      {
+        key: '3',
+        label: 'Tab 3',
+        children: 'Tab 3',
+      },
+    ]
+    jest.useFakeTimers();
+    
+    const { container } = render(getTabs({ items, activeKey: items[0].key, style: { width: '70px' } }));
+
+    act(() => {
+      jest.runAllTimers();
+    });
+    fireEvent.click(container.querySelectorAll('.rc-tabs-tab')[1])
+
+    fireEvent.mouseEnter(container.querySelector('.rc-tabs-nav-more'));
+    act(() => {
+      jest.runAllTimers();
+    });
+    
+    expect(document.querySelector('.rc-tabs-dropdown-menu').textContent).not.toContain(items[1].key);
+  });
+
   it('should support getPopupContainer', () => {
     const div = document.createElement('div');
     document.body.appendChild(div);
