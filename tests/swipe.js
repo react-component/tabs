@@ -37,7 +37,7 @@ class NormalTabs extends Component {
             this.root = root;
           }}
           defaultActiveKey="8"
-          renderTabBar={() => (
+          tabBarRender={() => (
             <SwipeableInkTabBar
               ref={tabBar => {
                 this.tabBar = tabBar;
@@ -81,7 +81,7 @@ describe('rc-swipeable-tabs', () => {
     const wrapper = mount(
       <Tabs
         defaultActiveKey="8"
-        renderTabBar={() => <SwipeableInkTabBar onTabClick={handleTabClick} />}
+        tabBarRender={() => <SwipeableInkTabBar onTabClick={handleTabClick} />}
         renderTabContent={() => <SwipeableTabContent />}
         onChange={handleChange}
       >
