@@ -39,7 +39,7 @@
   "dependencies": {
     "@babel/runtime": "^7.11.2",
     "classnames": "2.x",
-    "rc-dropdown": "~4.1.0",
+    "rc-dropdown": "~4.2.0",
     "rc-menu": "~9.13.0",
     "rc-motion": "^2.6.2",
     "rc-resize-observer": "^1.0.0",
@@ -47,7 +47,7 @@
   },
   "devDependencies": {
     "@rc-component/father-plugin": "^1.0.0",
-    "@rc-component/trigger": "^1.10.0",
+    "@rc-component/trigger": "^2.0.0",
     "@testing-library/jest-dom": "^6.1.4",
     "@testing-library/react": "^14.1.2",
     "@types/classnames": "^2.2.10",
