@@ -2,7 +2,7 @@ import React from 'react';
 import Tabs from '../../src';
 import '../../assets/index.less';
 
-const renderTabBar = props => {
+const tabBarRender = props => {
   return (
     <div>
       {props.panes.map(pane => {
@@ -18,7 +18,7 @@ export default () => {
     <div style={{ height: 2000 }}>
       <Tabs
         defaultActiveKey="1"
-        renderTabBar={renderTabBar}
+        tabBarRender={tabBarRender}
         items={[
           {
             key: '1',

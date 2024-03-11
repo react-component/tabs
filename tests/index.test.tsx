@@ -305,22 +305,22 @@ describe('Tabs.Basic', () => {
     });
   });
 
-  describe('renderTabBar', () => {
+  describe('tabBarRender', () => {
     it('works', () => {
-      const renderTabBar = jest.fn((props, Component) => {
+      const tabBarRender = jest.fn((props, Component) => {
         return (
           <div className="my-wrapper">
             <Component {...props}>{node => <span className="my-node">{node}</span>}</Component>
           </div>
         );
       });
-      const { container } = render(getTabs({ renderTabBar }));
+      const { container } = render(getTabs({ tabBarRender }));
       expect(container.querySelector('.my-wrapper')).toBeTruthy();
       expect(container.querySelector('.my-node')).toBeTruthy();
-      expect(renderTabBar).toHaveBeenCalled();
+      expect(tabBarRender).toHaveBeenCalled();
     });
     it('has panes property in props', () => {
-      const renderTabBar = props => {
+      const tabBarRender = props => {
         return (
           <div>
             {props.panes.map(pane => (
@@ -331,7 +331,7 @@ describe('Tabs.Basic', () => {
           </div>
         );
       };
-      const { container } = render(getTabs({ renderTabBar }));
+      const { container } = render(getTabs({ tabBarRender }));
       expect(container.querySelector('[data-key="light"]')).toBeTruthy();
       expect(container.querySelector('[data-key="bamboo"]')).toBeTruthy();
       expect(container.querySelector('[data-key="cute"]')).toBeTruthy();

@@ -106,7 +106,8 @@ ReactDom.render(
 | activeKey | string | - | current active tabPanel's key |
 | direction | `'ltr' or 'rtl'` | `'ltr'` | Layout direction of tabs component |
 | animated | boolean \| { inkBar: boolean, tabPane: boolean } | `{ inkBar: true, tabPane: false }` | config animation |
-| renderTabBar | (props, TabBarComponent) => ReactElement | - | How to render tab bar |
+| renderTabBar | (props, TabBarComponent) => ReactElement | - | deprecated, use `tabBarRender` instead |
+| tabBarRender | (props, TabBarComponent) => ReactElement | - | How to render tab bar |
 | tabBarExtraContent | ReactNode \| `{ left: ReactNode, right: ReactNode }` | - | config extra content |
 | tabBarGutter | number | 0 | config tab bar gutter |
 | tabBarPosition | `'left' \| 'right' \| 'top' \| 'bottom'` | `'top'` | tab nav 's position |
