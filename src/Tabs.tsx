@@ -18,7 +18,7 @@ import type {
   TabBarExtraContent,
   TabPosition,
   TabsLocale,
-  moreTrigger,
+  more,
 } from './interface';
 
 /**
@@ -65,8 +65,7 @@ export interface TabsProps
   locale?: TabsLocale;
 
   // Icons
-  moreIcon?: React.ReactNode;
-  moreTrigger?: moreTrigger;
+  more?: more;
   /** @private Internal usage. Not promise will rename in future */
   moreTransitionName?: string;
   popupClassName?: string;
@@ -92,8 +91,7 @@ const Tabs = React.forwardRef<HTMLDivElement, TabsProps>((props, ref) => {
     tabBarStyle,
     tabBarExtraContent,
     locale,
-    moreIcon,
-    moreTrigger,
+    more,
     moreTransitionName,
     destroyInactiveTabPane,
     renderTabBar,
@@ -176,8 +174,7 @@ const Tabs = React.forwardRef<HTMLDivElement, TabsProps>((props, ref) => {
     ...sharedProps,
     editable,
     locale,
-    moreIcon,
-    moreTrigger,
+    more,
     moreTransitionName,
     tabBarGutter,
     onTabClick: onInternalTabClick,
