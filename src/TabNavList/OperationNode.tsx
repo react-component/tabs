@@ -4,7 +4,7 @@ import Menu, { MenuItem } from 'rc-menu';
 import KeyCode from 'rc-util/lib/KeyCode';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import type { EditableConfig, Tab, TabsLocale } from '../interface';
+import type { EditableConfig, Tab, TabsLocale, moreTrigger } from '../interface';
 import { getRemovable } from '../util';
 import AddButton from './AddButton';
 
@@ -19,6 +19,7 @@ export interface OperationNodeProps {
   activeKey: string;
   mobile: boolean;
   moreIcon?: React.ReactNode;
+  moreTrigger?: moreTrigger;
   moreTransitionName?: string;
   editable?: EditableConfig;
   locale?: TabsLocale;
@@ -37,6 +38,7 @@ const OperationNode = React.forwardRef<HTMLDivElement, OperationNodeProps>((prop
     locale,
     mobile,
     moreIcon = 'More',
+    moreTrigger = 'hover',
     moreTransitionName,
     style,
     className,
@@ -190,7 +192,7 @@ const OperationNode = React.forwardRef<HTMLDivElement, OperationNodeProps>((prop
     <Dropdown
       prefixCls={dropdownPrefix}
       overlay={menu}
-      trigger={['hover']}
+      trigger={[`${moreTrigger}`]}
       visible={tabs.length ? open : false}
       transitionName={moreTransitionName}
       onVisibleChange={setOpen}

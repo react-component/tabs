@@ -23,6 +23,7 @@ import type {
   TabPosition,
   TabSizeMap,
   TabsLocale,
+  moreTrigger
 } from '../interface';
 import { genDataNodeKey, stringify } from '../util';
 import AddButton from './AddButton';
@@ -39,6 +40,7 @@ export interface TabNavListProps {
   extra?: TabBarExtraContent;
   editable?: EditableConfig;
   moreIcon?: React.ReactNode;
+  moreTrigger?: moreTrigger;
   moreTransitionName?: string;
   mobile: boolean;
   tabBarGutter?: number;

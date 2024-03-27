@@ -3,6 +3,8 @@ import type React from 'react';
 import type { TabNavListProps } from './TabNavList';
 import type { TabPaneProps } from './TabPanelList/TabPane';
 
+export type moreTrigger = 'click' | 'hover';
+
 export type SizeInfo = [width: number, height: number];
 
 export type TabSizeMap = Map<
