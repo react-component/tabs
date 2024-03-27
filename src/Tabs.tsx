@@ -12,13 +12,13 @@ import type { GetIndicatorSize } from './hooks/useIndicator';
 import type {
   AnimatedConfig,
   EditableConfig,
+  MoreProps,
   OnTabScroll,
   RenderTabBar,
   Tab,
   TabBarExtraContent,
   TabPosition,
   TabsLocale,
-  more,
 } from './interface';
 
 /**
@@ -65,7 +65,7 @@ export interface TabsProps
   locale?: TabsLocale;
 
   // Icons
-  more?: more;
+  more?: MoreProps;
   /** @private Internal usage. Not promise will rename in future */
   moreTransitionName?: string;
   popupClassName?: string;

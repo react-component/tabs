@@ -3,12 +3,13 @@ import type React from 'react';
 import type { TabNavListProps } from './TabNavList';
 import type { TabPaneProps } from './TabPanelList/TabPane';
 
-export type moreTrigger = 'click' | 'hover';
-export type moreIcon = React.ReactNode;
-export type more = {
-  moreTrigger?: moreTrigger,
-  moreIcon?: moreIcon,
+export type TriggerProps = {
+  trigger?: 'hover' | 'click';
 }
+export type moreIcon = React.ReactNode;
+export type MoreProps = {
+  icon?: moreIcon,
+} & TriggerProps ;
 
 export type SizeInfo = [width: number, height: number];
 

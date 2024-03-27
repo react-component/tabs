@@ -16,6 +16,7 @@ import useVisibleRange from '../hooks/useVisibleRange';
 import type {
   AnimatedConfig,
   EditableConfig,
+  MoreProps,
   OnTabScroll,
   RenderTabBar,
   SizeInfo,
@@ -23,7 +24,6 @@ import type {
   TabPosition,
   TabSizeMap,
   TabsLocale,
-  more,
 } from '../interface';
 import { genDataNodeKey, stringify } from '../util';
 import AddButton from './AddButton';
@@ -39,7 +39,7 @@ export interface TabNavListProps {
   animated?: AnimatedConfig;
   extra?: TabBarExtraContent;
   editable?: EditableConfig;
-  more?: more;
+  more?: MoreProps;
   moreTransitionName?: string;
   mobile: boolean;
   tabBarGutter?: number;

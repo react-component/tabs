@@ -94,8 +94,9 @@ describe('Tabs.Overflow', () => {
 
   it('should open dropdown on click when moreTrigger is set to click', () => {
     jest.useFakeTimers();
+    const more = { icon: 'xxx', trigger: 'click' };
     const onChange = jest.fn();
-    const { container, unmount } = render(getTabs({ onChange, more: { moreTrigger: 'click' } }));
+    const { container, unmount } = render(getTabs({ onChange, more: { icon: 'xxx', trigger: 'click' } }));
     triggerResize(container);
     act(() => {
       jest.runAllTimers();
