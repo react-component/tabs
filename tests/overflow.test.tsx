@@ -92,6 +92,24 @@ describe('Tabs.Overflow', () => {
     jest.useRealTimers();
   });
 
+  it('should open dropdown on click when moreTrigger is set to click', () => {
+    jest.useFakeTimers();
+    const onChange = jest.fn();
+    const { container, unmount } = render(getTabs({ onChange, more: {icon: '...', trigger: 'click'} }));
+    triggerResize(container);
+    act(() => {
+      jest.runAllTimers();
+    });
+    const button = container.querySelector('.rc-tabs-nav-more')
+    fireEvent.click(button);
+    act(() => {
+      jest.runAllTimers();
+    });
+    const dropdownOpen = container.querySelector('.rc-tabs-dropdown-open');
+    expect(dropdownOpen).not.toBeNull();
+    unmount();
+  });
+
   [KeyCode.SPACE, KeyCode.ENTER].forEach(code => {
     it(`keyboard with select keycode: ${code}`, () => {
       jest.useFakeTimers();
