@@ -2,6 +2,7 @@ import type { CSSMotionProps } from 'rc-motion';
 import type React from 'react';
 import type { TabNavListProps } from './TabNavList';
 import type { TabPaneProps } from './TabPanelList/TabPane';
+import { DropdownProps } from 'rc-dropdown/lib/Dropdown';
 
 export type TriggerProps = {
   trigger?: 'hover' | 'click';
@@ -9,7 +10,7 @@ export type TriggerProps = {
 export type moreIcon = React.ReactNode;
 export type MoreProps = {
   icon?: moreIcon,
-} & TriggerProps ;
+} & Omit<DropdownProps, 'children'>;
 
 export type SizeInfo = [width: number, height: number];
 

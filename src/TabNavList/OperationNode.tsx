@@ -36,7 +36,7 @@ const OperationNode = React.forwardRef<HTMLDivElement, OperationNodeProps>((prop
     tabs,
     locale,
     mobile,
-    more: moreProp = {},
+    more: moreProps = {},
     moreTransitionName,
     style,
     className,
@@ -52,7 +52,7 @@ const OperationNode = React.forwardRef<HTMLDivElement, OperationNodeProps>((prop
   const [open, setOpen] = useState(false);
   const [selectedKey, setSelectedKey] = useState<string>(null);
 
-  const { icon: moreIcon = 'More', trigger = 'hover' } = moreProp;
+  const { icon: moreIcon = 'More', trigger = 'hover' } = moreProps;
 
   const popupId = `${id}-more-popup`;
   const dropdownPrefix = `${prefixCls}-dropdown`;
@@ -192,7 +192,6 @@ const OperationNode = React.forwardRef<HTMLDivElement, OperationNodeProps>((prop
     <Dropdown
       prefixCls={dropdownPrefix}
       overlay={menu}
-      trigger={[`${trigger}`]}
       visible={tabs.length ? open : false}
       transitionName={moreTransitionName}
       onVisibleChange={setOpen}
@@ -200,6 +199,7 @@ const OperationNode = React.forwardRef<HTMLDivElement, OperationNodeProps>((prop
       mouseEnterDelay={0.1}
       mouseLeaveDelay={0.1}
       getPopupContainer={getPopupContainer}
+      {...moreProps}
     >
       <button
         type="button"
