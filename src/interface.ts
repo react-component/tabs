@@ -10,7 +10,6 @@ export type TriggerProps = {
 export type moreIcon = React.ReactNode;
 export type MoreProps = {
   icon?: moreIcon,
-  transitionName?: string,
 } & Omit<DropdownProps, 'children'>;
 
 export type SizeInfo = [width: number, height: number];
