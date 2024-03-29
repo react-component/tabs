@@ -19,7 +19,6 @@ export interface OperationNodeProps {
   activeKey: string;
   mobile: boolean;
   more?: MoreProps
-  moreTransitionName?: string;
   editable?: EditableConfig;
   locale?: TabsLocale;
   removeAriaLabel?: string;
@@ -37,7 +36,6 @@ const OperationNode = React.forwardRef<HTMLDivElement, OperationNodeProps>((prop
     locale,
     mobile,
     more: moreProps = {},
-    moreTransitionName,
     style,
     className,
     editable,
@@ -193,7 +191,6 @@ const OperationNode = React.forwardRef<HTMLDivElement, OperationNodeProps>((prop
       prefixCls={dropdownPrefix}
       overlay={menu}
       visible={tabs.length ? open : false}
-      transitionName={moreTransitionName}
       onVisibleChange={setOpen}
       overlayClassName={classNames(overlayClassName, popupClassName)}
       mouseEnterDelay={0.1}
