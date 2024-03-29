@@ -18,7 +18,7 @@ export interface OperationNodeProps {
   tabBarGutter?: number;
   activeKey: string;
   mobile: boolean;
-  more?: MoreProps
+  more?: MoreProps;
   editable?: EditableConfig;
   locale?: TabsLocale;
   removeAriaLabel?: string;
