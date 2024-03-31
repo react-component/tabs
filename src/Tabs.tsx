@@ -67,7 +67,6 @@ export interface TabsProps
   // Icons
   more?: MoreProps;
   /** @private Internal usage. Not promise will rename in future */
-  moreTransitionName?: string;
   popupClassName?: string;
   indicator?: {
     size?: GetIndicatorSize;
@@ -92,7 +91,6 @@ const Tabs = React.forwardRef<HTMLDivElement, TabsProps>((props, ref) => {
     tabBarExtraContent,
     locale,
     more,
-    moreTransitionName,
     destroyInactiveTabPane,
     renderTabBar,
     onChange,
@@ -175,7 +173,6 @@ const Tabs = React.forwardRef<HTMLDivElement, TabsProps>((props, ref) => {
     editable,
     locale,
     more,
-    moreTransitionName,
     tabBarGutter,
     onTabClick: onInternalTabClick,
     onTabScroll,

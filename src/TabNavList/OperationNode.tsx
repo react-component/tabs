@@ -50,7 +50,7 @@ const OperationNode = React.forwardRef<HTMLDivElement, OperationNodeProps>((prop
   const [open, setOpen] = useState(false);
   const [selectedKey, setSelectedKey] = useState<string>(null);
 
-  const { icon: moreIcon = 'More', trigger = 'hover' } = moreProps;
+  const { icon: moreIcon = 'More' } = moreProps;
 
   const popupId = `${id}-more-popup`;
   const dropdownPrefix = `${prefixCls}-dropdown`;

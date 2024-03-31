@@ -45,8 +45,7 @@ type RenderTabBarProps = {
   mobile: boolean;
   editable: EditableConfig;
   locale: TabsLocale;
-  moreIcon: React.ReactNode;
-  moreTransitionName: string;
+  more: MoreProps,
   tabBarGutter: number;
   onTabClick: (key: string, e: React.MouseEvent | React.KeyboardEvent) => void;
   onTabScroll: OnTabScroll;

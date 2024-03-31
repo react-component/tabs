@@ -40,7 +40,6 @@ export interface TabNavListProps {
   extra?: TabBarExtraContent;
   editable?: EditableConfig;
   more?: MoreProps;
-  moreTransitionName?: string;
   mobile: boolean;
   tabBarGutter?: number;
   renderTabBar?: RenderTabBar;
