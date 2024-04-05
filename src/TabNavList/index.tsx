@@ -16,6 +16,7 @@ import useVisibleRange from '../hooks/useVisibleRange';
 import type {
   AnimatedConfig,
   EditableConfig,
+  MoreProps,
   OnTabScroll,
   RenderTabBar,
   SizeInfo,
@@ -38,8 +39,7 @@ export interface TabNavListProps {
   animated?: AnimatedConfig;
   extra?: TabBarExtraContent;
   editable?: EditableConfig;
-  moreIcon?: React.ReactNode;
-  moreTransitionName?: string;
+  more?: MoreProps;
   mobile: boolean;
   tabBarGutter?: number;
   renderTabBar?: RenderTabBar;
