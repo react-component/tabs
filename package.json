@@ -1,6 +1,6 @@
 {
   "name": "rc-tabs",
-  "version": "14.1.1",
+  "version": "15.0.0",
   "description": "tabs ui component for react",
   "keywords": [
     "react",
@@ -49,7 +49,7 @@
     "@rc-component/father-plugin": "^1.0.0",
     "@rc-component/trigger": "^2.0.0",
     "@testing-library/jest-dom": "^6.1.4",
-    "@testing-library/react": "^14.1.2",
+    "@testing-library/react": "^15.0.2",
     "@types/classnames": "^2.2.10",
     "@types/enzyme": "^3.10.5",
     "@types/jest": "^29.4.0",
@@ -61,7 +61,7 @@
     "cross-env": "^7.0.2",
     "dumi": "^2.0.0",
     "eslint": "^8.54.0",
-    "eslint-plugin-jest": "^27.6.0",
+    "eslint-plugin-jest": "^28.2.0",
     "eslint-plugin-unicorn": "^52.0.0",
     "fastclick": "~1.0.6",
     "father": "^4.0.0",

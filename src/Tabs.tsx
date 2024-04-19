@@ -12,6 +12,7 @@ import type { GetIndicatorSize } from './hooks/useIndicator';
 import type {
   AnimatedConfig,
   EditableConfig,
+  MoreProps,
   OnTabScroll,
   RenderTabBar,
   Tab,
@@ -64,9 +65,8 @@ export interface TabsProps
   locale?: TabsLocale;
 
   // Icons
-  moreIcon?: React.ReactNode;
+  more?: MoreProps;
   /** @private Internal usage. Not promise will rename in future */
-  moreTransitionName?: string;
   popupClassName?: string;
   indicator?: {
     size?: GetIndicatorSize;
@@ -90,8 +90,7 @@ const Tabs = React.forwardRef<HTMLDivElement, TabsProps>((props, ref) => {
     tabBarStyle,
     tabBarExtraContent,
     locale,
-    moreIcon,
-    moreTransitionName,
+    more,
     destroyInactiveTabPane,
     renderTabBar,
     onChange,
@@ -173,8 +172,7 @@ const Tabs = React.forwardRef<HTMLDivElement, TabsProps>((props, ref) => {
     ...sharedProps,
     editable,
     locale,
-    moreIcon,
-    moreTransitionName,
+    more,
     tabBarGutter,
     onTabClick: onInternalTabClick,
     onTabScroll,
