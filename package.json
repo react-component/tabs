@@ -40,7 +40,7 @@
     "@babel/runtime": "^7.11.2",
     "classnames": "2.x",
     "rc-dropdown": "~4.2.0",
-    "rc-menu": "~9.13.0",
+    "rc-menu": "~9.14.0",
     "rc-motion": "^2.6.2",
     "rc-resize-observer": "^1.0.0",
     "rc-util": "^5.34.1"
