@@ -116,7 +116,7 @@ ReactDom.render(
 | onChange | (key) => void | - | called when tabPanel is changed |
 | onTabClick | (key) => void | - | called when tab click |
 | onTabScroll | ({ direction }) => void | - | called when tab scroll |
-| editable | { onEdit(type: 'add' | 'remove', info: { key, event }), showAdd: boolean, removeIcon: ReactNode, addIcon: ReactNode } | - | config tab editable |
+| editable | { onEdit(type: 'add' \| 'remove', info: { key, event }), showAdd: boolean, removeIcon: ReactNode, addIcon: ReactNode } | - | config tab editable |
 | locale | { dropdownAriaLabel: string, removeAriaLabel: string, addAriaLabel: string } | - | Accessibility locale help text |
 | moreIcon | ReactNode | - | collapse icon |
 
