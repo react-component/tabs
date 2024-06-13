@@ -18,7 +18,7 @@ import type {
   EditableConfig,
   MoreProps,
   OnTabScroll,
-  RenderTabBar,
+  TabBarRender,
   SizeInfo,
   TabBarExtraContent,
   TabPosition,
@@ -42,7 +42,7 @@ export interface TabNavListProps {
   more?: MoreProps;
   mobile: boolean;
   tabBarGutter?: number;
-  renderTabBar?: RenderTabBar;
+  tabBarRender?: TabBarRender;
   className?: string;
   style?: React.CSSProperties;
   locale?: TabsLocale;

@@ -72,7 +72,7 @@ class DraggableTabs extends React.Component<TabsProps> {
     });
   };
 
-  renderTabBar = (props, DefaultTabBar) => (
+  tabBarRender = (props, DefaultTabBar) => (
     <DefaultTabBar {...props}>
       {node => {
         return (
@@ -112,7 +112,7 @@ class DraggableTabs extends React.Component<TabsProps> {
 
     return (
       <DndProvider backend={HTML5Backend}>
-        <Tabs renderTabBar={this.renderTabBar} {...this.props} items={orderTabs} />
+        <Tabs tabBarRender={this.tabBarRender} {...this.props} items={orderTabs} />
       </DndProvider>
     );
   }

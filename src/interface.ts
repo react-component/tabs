@@ -36,7 +36,7 @@ export interface Tab extends Omit<TabPaneProps, 'tab'> {
   label: React.ReactNode;
 }
 
-type RenderTabBarProps = {
+type TabBarRenderProps = {
   id: string;
   activeKey: string;
   animated: AnimatedConfig;
@@ -55,8 +55,8 @@ type RenderTabBarProps = {
   panes: React.ReactNode;
 };
 
-export type RenderTabBar = (
-  props: RenderTabBarProps,
+export type TabBarRender = (
+  props: TabBarRenderProps,
   DefaultTabBar: React.ComponentType<TabNavListProps>,
 ) => React.ReactElement;
 

@@ -14,7 +14,7 @@ import type {
   EditableConfig,
   MoreProps,
   OnTabScroll,
-  RenderTabBar,
+  TabBarRender,
   Tab,
   TabBarExtraContent,
   TabPosition,
@@ -47,7 +47,9 @@ export interface TabsProps
   defaultActiveKey?: string;
   direction?: 'ltr' | 'rtl';
   animated?: boolean | AnimatedConfig;
-  renderTabBar?: RenderTabBar;
+  /** @deprecated Please use `tabBarRender` instead */
+  renderTabBar?: TabBarRender;
+  tabBarRender?: TabBarRender;
   tabBarExtraContent?: TabBarExtraContent;
   tabBarGutter?: number;
   tabBarStyle?: React.CSSProperties;
@@ -93,6 +95,7 @@ const Tabs = React.forwardRef<HTMLDivElement, TabsProps>((props, ref) => {
     more,
     destroyInactiveTabPane,
     renderTabBar,
+    tabBarRender: customizeTabBarRender,
     onChange,
     onTabClick,
     onTabScroll,
@@ -184,6 +187,8 @@ const Tabs = React.forwardRef<HTMLDivElement, TabsProps>((props, ref) => {
     indicator,
   };
 
+  const tabBarRender = customizeTabBarRender ?? renderTabBar
+
   return (
     <TabContext.Provider value={{ tabs, prefixCls }}>
       <div
@@ -201,7 +206,7 @@ const Tabs = React.forwardRef<HTMLDivElement, TabsProps>((props, ref) => {
         )}
         {...restProps}
       >
-        <TabNavListWrapper {...tabNavBarProps} renderTabBar={renderTabBar} />
+        <TabNavListWrapper {...tabNavBarProps} tabBarRender={tabBarRender} />
         <TabPanelList
           destroyInactiveTabPane={destroyInactiveTabPane}
           {...sharedProps}

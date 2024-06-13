@@ -3,7 +3,7 @@ import { StickyContainer, Sticky } from 'react-sticky';
 import Tabs from '../../src';
 import '../../assets/index.less';
 
-const renderTabBar = (props, DefaultTabBar) => (
+const tabBarRender = (props, DefaultTabBar) => (
   <Sticky bottomOffset={80}>
     {({ style }) => (
       <DefaultTabBar
@@ -21,7 +21,7 @@ export default () => {
       <StickyContainer>
         <Tabs
           defaultActiveKey="1"
-          renderTabBar={renderTabBar}
+          tabBarRender={tabBarRender}
           items={[
             {
               key: '1',
