@@ -25,7 +25,6 @@ export default () => {
             tabBarGutter={gutter ? 32 : null}
             tabBarExtraContent="extra"
             defaultActiveKey="8"
-            moreIcon="..."
             items={items}
           />
         </div>

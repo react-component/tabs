@@ -30,7 +30,6 @@ export default () => {
         onChange={(curKey) => setKey(curKey)}
         tabBarExtraContent={extra} 
         defaultActiveKey="8" 
-        moreIcon="..." 
         items={items} 
       />
     </div>

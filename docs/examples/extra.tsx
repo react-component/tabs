@@ -104,7 +104,7 @@ export default () => {
 
   return (
     <div style={{ maxWidth: 550 }}>
-      <Tabs tabBarExtraContent={extra} defaultActiveKey="8" moreIcon="..." items={items} />
+      <Tabs tabBarExtraContent={extra} defaultActiveKey="8" items={items} />
       <div style={{ display: 'flex' }}>
         <div>
           <input
