@@ -7,7 +7,7 @@ export default () => {
   const [tabs, setTabs] = React.useState(
     new Array(countRef.current).fill(0).map((_, index) => {
       return {
-        key: index,
+        key: `${index}`,
         content: `tab content ${index + 1}`,
       };
     }),
@@ -25,7 +25,7 @@ export default () => {
             return [
               ...lastTabs,
               {
-                key: ++countRef.current,
+                key: `${++countRef.current}`,
                 content: `tab content ${countRef.current}`,
               },
             ];
@@ -40,7 +40,6 @@ export default () => {
       <Tabs
         editable={editable}
         defaultActiveKey="8"
-        moreIcon="..."
         items={tabs.map(({ key, content }) => ({
           key,
           label: `tab ${key}`,
