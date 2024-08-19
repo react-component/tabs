@@ -111,6 +111,7 @@ class DraggableTabs extends React.Component<TabsProps> {
     });
 
     return (
+      // @ts-ignore https://github.com/react-dnd/react-dnd/issues/3636 需要升级 15.0.0 类型支持 children 但是写法需要重新调整验证
       <DndProvider backend={HTML5Backend}>
         <Tabs renderTabBar={this.renderTabBar} {...this.props} items={orderTabs} />
       </DndProvider>
