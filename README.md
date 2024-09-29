@@ -41,24 +41,53 @@ online example: https://tabs.react-component.now.sh/
 
 ## Usage
 
-```js
-import Tabs, { TabPane } from 'rc-tabs';
+```tsx | pure
+import Tabs from 'rc-tabs';
+import ReactDom from 'react-dom';
 
-var callback = function(key) {};
+const callback = (key) => {
+  console.log(key);
+};
 
-React.render(
-  <Tabs defaultActiveKey="2" onChange={callback}>
-    <TabPane tab="tab 1" key="1">
-      first
-    </TabPane>
-    <TabPane tab="tab 2" key="2">
-      second
-    </TabPane>
-    <TabPane tab="tab 3" key="3">
-      third
-    </TabPane>
-  </Tabs>,
-  document.getElementById('t2'),
+const items = [
+  {
+    key: '1',
+    label: 'Google',
+    children: (
+      <div className="text-xl">
+        <p>Lorem Ipsum is simply dummy text of the printing and typesetting</p>
+      </div>
+    ),
+  },
+  {
+    key: '2',
+    label: <p>Amazon</p>,
+    children:
+      'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...',
+    disabled: true,
+  },
+  {
+    key: '3',
+    label: <p>Twitter</p>,
+    children: (
+      <div>
+        "There is no one who loves pain itself, who seeks after it and wants to have it, simply
+        because it is pain..."
+      </div>
+    ),
+  },
+];
+
+ReactDom.render(
+  <Tabs
+    tabPosition="bottom"
+    items={items}
+    defaultActiveKey="1"
+    className="md:w-[70%] w-full mx-auto p-2 border-0"
+    onChange={callback}
+    style={{ color: 'yellow' }}
+  />,
+  root,
 );
 ```
 
@@ -68,28 +97,56 @@ React.render(
 
 | name | type | default | description |
 | --- | --- | --- | --- |
-| activeKey | string | - | current active tabPanel's key |
-| animated | boolean \| { inkBar: boolean, tabPane: boolean } | `{ inkBar: true, tabPane: false }` | config animation |
-| defaultActiveKey | string | - | initial active tabPanel's key if activeKey is absent |
-| destroyInactiveTabPane | boolean | false | whether destroy inactive TabPane when change tab |
-| direction | `'ltr' | 'rlt'` | `'ltr'` | Layout direction of tabs component |
-| editable | { onEdit(type: 'add' | 'remove', info: { key, event }), showAdd: boolean, removeIcon: ReactNode, addIcon: ReactNode } | - | config tab editable |
-| locale | { dropdownAriaLabel: string, removeAriaLabel: string, addAriaLabel: string } | - | Accessibility locale help text |
-| moreIcon | ReactNode | - | collapse icon |
-| tabBarGutter | number | 0 | config tab bar gutter |
-| tabBarPosition | `'left' | 'right' | 'top' | 'bottom'` | `'top'` | tab nav 's position |
-| tabBarStyle | style | - | tab nav style |
-| tabBarExtraContent | ReactNode \| `{ left: ReactNode, right: ReactNode }` | - | config extra content |
-| renderTabBar | (props, TabBarComponent) => ReactElement | - | How to render tab bar |
 | prefixCls | string | `'rc-tabs'` | prefix class name, use to custom style |
+| className | string | - | to define a class name for an element |
+| style | CSS properties | - | object with css properties for styling |
+| items | TabItem[] | [] | configure tab content |
+| id | string | - | unique identifier |
+| defaultActiveKey | string | - | initial active tabPanel's key if activeKey is absent |
+| activeKey | string | - | current active tabPanel's key |
+| direction | `'ltr' or 'rtl'` | `'ltr'` | Layout direction of tabs component |
+| animated | boolean \| { inkBar: boolean, tabPane: boolean } | `{ inkBar: true, tabPane: false }` | config animation |
+| renderTabBar | (props, TabBarComponent) => ReactElement | - | How to render tab bar |
+| tabBarExtraContent | ReactNode \| `{ left: ReactNode, right: ReactNode }` | - | config extra content |
+| tabBarGutter | number | 0 | config tab bar gutter |
+| tabBarPosition | `'left' \| 'right' \| 'top' \| 'bottom'` | `'top'` | tab nav 's position |
+| tabBarStyle | style | - | tab nav style |
+| tabPosition | `'left' or 'right' or 'top' or 'bottom'` | `'top'` | tab nav 's position |
+| destroyInactiveTabPane | boolean | false | whether destroy inactive TabPane when change tab |
 | onChange | (key) => void | - | called when tabPanel is changed |
 | onTabClick | (key) => void | - | called when tab click |
 | onTabScroll | ({ direction }) => void | - | called when tab scroll |
+| editable | { onEdit(type: 'add' \| 'remove', info: { key, event }), showAdd: boolean, removeIcon: ReactNode, addIcon: ReactNode } | - | config tab editable |
+| locale | { dropdownAriaLabel: string, removeAriaLabel: string, addAriaLabel: string } | - | Accessibility locale help text |
+| moreIcon | ReactNode | - | collapse icon |
 
-### TabPane
+### TabItem
 
 | name | type | default | description |
 | --- | --- | --- | --- |
+| key | string | - | corresponding to activeKey, should be unique |
+| label | string | - | TabPane's head display text |
+| tab | ReactNode | - | current tab's title corresponding to current tabPane |
+| className | string | - | to define a class name for an element |
+| style | CSS properties | - | object with css properties for styling |
+| disabled | boolean | false | set TabPane disabled |
+| children | ReactNode | - | TabPane's head display content |
+| forceRender | boolean | false | forced render of content in tabs, not lazy render after clicking on tabs |
+| closable | boolean | false | closable feature of tab item |
+| closeIcon | ReactNode | - | Config close icon |
+| prefixCls | string | `'rc-tabs-tab'` | prefix class name, use to custom style |
+| id | string | - | unique identifier |
+| animated | boolean \| { inkBar: boolean, tabPane: boolean } | `{ inkBar: true, tabPane: false }` | config animation |
+| destroyInactiveTabPane | boolean | false | whether destroy inactive TabPane when change tab |
+| active | boolean | false | active feature of tab item |
+| tabKey | string | - | key linked to tab |
+
+
+### TabPane(support in older versions)
+
+| name | type | default | description |
+| --- | --- | --- | --- |
+| destroyInactiveTabPane | boolean | false | whether destroy inactive TabPane when change tab |
 | key | string | - | corresponding to activeKey, should be unique |
 | forceRender | boolean | false | forced render of content in tabs, not lazy render after clicking on tabs |
 | tab | ReactNode | - | current tab's title corresponding to current tabPane |
@@ -123,9 +180,9 @@ rc-tabs is released under the MIT license.
 
 ## FAQ
 
-### Resposive Tabs
+### Responsive Tabs
 
-There are 3 cases when handling resposive tabs:
+There are 3 cases when handling responsive tabs:
 ![image](https://user-images.githubusercontent.com/27722486/156315099-7e6eda9d-ab77-4b16-9b49-1727c5ec8b26.png)
 
 We get hidden tabs through [useVisibleRange.ts](https://github.com/react-component/tabs/blob/master/src/hooks/useVisibleRange.ts).

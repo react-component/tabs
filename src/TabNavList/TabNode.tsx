@@ -20,19 +20,20 @@ export interface TabNodeProps {
   style?: React.CSSProperties;
 }
 
-function TabNode({
-  prefixCls,
-  id,
-  active,
-  tab: { key, label, disabled, closeIcon },
-  closable,
-  renderWrapper,
-  removeAriaLabel,
-  editable,
-  onClick,
-  onFocus,
-  style,
-}: TabNodeProps) {
+const TabNode: React.FC<TabNodeProps> = props => {
+  const {
+    prefixCls,
+    id,
+    active,
+    tab: { key, label, disabled, closeIcon, icon },
+    closable,
+    renderWrapper,
+    removeAriaLabel,
+    editable,
+    onClick,
+    onFocus,
+    style,
+  } = props;
   const tabPrefix = `${prefixCls}-tab`;
 
   const removable = getRemovable(closable, closeIcon, editable, disabled);
@@ -47,11 +48,13 @@ function TabNode({
   function onRemoveTab(event: React.MouseEvent | React.KeyboardEvent) {
     event.preventDefault();
     event.stopPropagation();
-    editable.onEdit('remove', {
-      key,
-      event,
-    });
+    editable.onEdit('remove', { key, event });
   }
+
+  const labelNode = React.useMemo<React.ReactNode>(
+    () => (icon && typeof label === 'string' ? <span>{label}</span> : label),
+    [label, icon],
+  );
 
   const node: React.ReactElement = (
     <div
@@ -87,7 +90,8 @@ function TabNode({
         }}
         onFocus={onFocus}
       >
-        {label}
+        {icon && <span className={`${tabPrefix}-icon`}>{icon}</span>}
+        {label && labelNode}
       </div>
 
       {/* Remove Button */}
@@ -109,6 +113,6 @@ function TabNode({
   );
 
   return renderWrapper ? renderWrapper(node) : node;
-}
+};
 
 export default TabNode;

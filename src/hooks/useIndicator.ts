@@ -1,37 +1,39 @@
-import type React from 'react';
-import { useEffect, useRef, useState } from 'react';
 import raf from 'rc-util/lib/raf';
+import React, { useEffect, useRef, useState } from 'react';
 import type { TabOffset } from '../interface';
 
 export type GetIndicatorSize = number | ((origin: number) => number);
 
-export type UseIndicator = (options: {
-  activeTabOffset: TabOffset,
+interface UseIndicatorOptions {
+  activeTabOffset: TabOffset;
   horizontal: boolean;
   rtl: boolean;
-  indicatorSize: GetIndicatorSize;
-}) => {
-  style: React.CSSProperties;
+  indicator?: {
+    size?: GetIndicatorSize;
+    align?: 'start' | 'center' | 'end';
+  };
 }
 
-const useIndicator: UseIndicator = ({
-  activeTabOffset,
-  horizontal,
-  rtl,
-                                      indicatorSize,
-                                    }) => {
+const useIndicator = (options: UseIndicatorOptions) => {
+  const { activeTabOffset, horizontal, rtl, indicator = {} } = options;
+
+  const { size, align = 'center' } = indicator;
+
   const [inkStyle, setInkStyle] = useState<React.CSSProperties>();
   const inkBarRafRef = useRef<number>();
 
-  const getLength = (origin: number) => {
-    if (typeof indicatorSize === 'function') {
-      return indicatorSize(origin);
-    }
-    if (typeof indicatorSize === 'number') {
-      return indicatorSize;
-    }
-    return origin;
-  }
+  const getLength = React.useCallback(
+    (origin: number) => {
+      if (typeof size === 'function') {
+        return size(origin);
+      }
+      if (typeof size === 'number') {
+        return size;
+      }
+      return origin;
+    },
+    [size],
+  );
 
   // Delay set ink style to avoid remove tab blink
   function cleanInkBarRaf() {
@@ -43,18 +45,32 @@ const useIndicator: UseIndicator = ({
 
     if (activeTabOffset) {
       if (horizontal) {
-        if (rtl) {
-          newInkStyle.right = activeTabOffset.right + activeTabOffset.width / 2;
-          newInkStyle.transform = 'translateX(50%)';
-        } else {
-          newInkStyle.left = activeTabOffset.left + activeTabOffset.width / 2;
-          newInkStyle.transform = 'translateX(-50%)';
-        }
         newInkStyle.width = getLength(activeTabOffset.width);
+        const key = rtl ? 'right' : 'left';
+        if (align === 'start') {
+          newInkStyle[key] = activeTabOffset[key];
+        }
+        if (align === 'center') {
+          newInkStyle[key] = activeTabOffset[key] + activeTabOffset.width / 2;
+          newInkStyle.transform = rtl ? 'translateX(50%)' : 'translateX(-50%)';
+        }
+        if (align === 'end') {
+          newInkStyle[key] = activeTabOffset[key] + activeTabOffset.width;
+          newInkStyle.transform = 'translateX(-100%)';
+        }
       } else {
-        newInkStyle.top = activeTabOffset.top + activeTabOffset.height / 2;
-        newInkStyle.transform = 'translateY(-50%)';
         newInkStyle.height = getLength(activeTabOffset.height);
+        if (align === 'start') {
+          newInkStyle.top = activeTabOffset.top;
+        }
+        if (align === 'center') {
+          newInkStyle.top = activeTabOffset.top + activeTabOffset.height / 2;
+          newInkStyle.transform = 'translateY(-50%)';
+        }
+        if (align === 'end') {
+          newInkStyle.top = activeTabOffset.top + activeTabOffset.height;
+          newInkStyle.transform = 'translateY(-100%)';
+        }
       }
     }
 
@@ -64,11 +80,9 @@ const useIndicator: UseIndicator = ({
     });
 
     return cleanInkBarRaf;
-  }, [activeTabOffset, horizontal, rtl, indicatorSize]);
+  }, [activeTabOffset, horizontal, rtl, align, getLength]);
 
-  return {
-    style: inkStyle,
-  }
-}
+  return { style: inkStyle };
+};
 
 export default useIndicator;

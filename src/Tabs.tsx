@@ -1,13 +1,18 @@
 // Accessibility https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/Tab_Role
+import classNames from 'classnames';
+import useMergedState from 'rc-util/lib/hooks/useMergedState';
+import isMobile from 'rc-util/lib/isMobile';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import classNames from 'classnames';
-import isMobile from 'rc-util/lib/isMobile';
-import useMergedState from 'rc-util/lib/hooks/useMergedState';
+import TabContext from './TabContext';
+import TabNavListWrapper from './TabNavList/Wrapper';
 import TabPanelList from './TabPanelList';
+import useAnimateConfig from './hooks/useAnimateConfig';
+import type { GetIndicatorSize } from './hooks/useIndicator';
 import type {
   AnimatedConfig,
   EditableConfig,
+  MoreProps,
   OnTabScroll,
   RenderTabBar,
   Tab,
@@ -15,10 +20,6 @@ import type {
   TabPosition,
   TabsLocale,
 } from './interface';
-import TabContext from './TabContext';
-import TabNavListWrapper from './TabNavList/Wrapper';
-import useAnimateConfig from './hooks/useAnimateConfig';
-import type { GetIndicatorSize } from './hooks/useIndicator';
 
 /**
  * Should added antd:
@@ -64,18 +65,17 @@ export interface TabsProps
   locale?: TabsLocale;
 
   // Icons
-  moreIcon?: React.ReactNode;
+  more?: MoreProps;
   /** @private Internal usage. Not promise will rename in future */
-  moreTransitionName?: string;
-
   popupClassName?: string;
-
-  // Indicator
-  indicatorSize?: GetIndicatorSize;
+  indicator?: {
+    size?: GetIndicatorSize;
+    align?: 'start' | 'center' | 'end';
+  };
 }
 
-function Tabs(
-  {
+const Tabs = React.forwardRef<HTMLDivElement, TabsProps>((props, ref) => {
+  const {
     id,
     prefixCls = 'rc-tabs',
     className,
@@ -90,8 +90,7 @@ function Tabs(
     tabBarStyle,
     tabBarExtraContent,
     locale,
-    moreIcon,
-    moreTransitionName,
+    more,
     destroyInactiveTabPane,
     renderTabBar,
     onChange,
@@ -99,12 +98,10 @@ function Tabs(
     onTabScroll,
     getPopupContainer,
     popupClassName,
-    indicatorSize,
+    indicator,
     ...restProps
-  }: TabsProps,
-  ref: React.Ref<HTMLDivElement>,
-) {
-  const tabs = React.useMemo(
+  } = props;
+  const tabs = React.useMemo<Tab[]>(
     () => (items || []).filter(item => item && typeof item === 'object' && 'key' in item),
     [items],
   );
@@ -175,8 +172,7 @@ function Tabs(
     ...sharedProps,
     editable,
     locale,
-    moreIcon,
-    moreTransitionName,
+    more,
     tabBarGutter,
     onTabClick: onInternalTabClick,
     onTabScroll,
@@ -185,7 +181,7 @@ function Tabs(
     panes: null,
     getPopupContainer,
     popupClassName,
-    indicatorSize,
+    indicator,
   };
 
   return (
@@ -214,11 +210,10 @@ function Tabs(
       </div>
     </TabContext.Provider>
   );
-}
+});
 
-const ForwardTabs = React.forwardRef(Tabs);
 if (process.env.NODE_ENV !== 'production') {
-  ForwardTabs.displayName = 'Tabs';
+  Tabs.displayName = 'Tabs';
 }
 
-export default ForwardTabs;
+export default Tabs;

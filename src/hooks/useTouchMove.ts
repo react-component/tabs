@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState, useRef } from 'react';
+import { useRef, useState } from 'react';
 
 type TouchEventHandler = (e: TouchEvent) => void;
 type WheelEventHandler = (e: WheelEvent) => void;
@@ -31,7 +31,7 @@ export default function useTouchMove(
   function onTouchMove(e: TouchEvent) {
     if (!touchPosition) return;
 
-    e.preventDefault();
+    // e.preventDefault();
     const { screenX, screenY } = e.touches[0];
     setTouchPosition({ x: screenX, y: screenY });
     const offsetX = screenX - touchPosition.x;
@@ -124,11 +124,11 @@ export default function useTouchMove(
     }
 
     document.addEventListener('touchmove', onProxyTouchMove, { passive: false });
-    document.addEventListener('touchend', onProxyTouchEnd, { passive: false });
+    document.addEventListener('touchend', onProxyTouchEnd, { passive: true });
 
     // No need to clean up since element removed
-    ref.current.addEventListener('touchstart', onProxyTouchStart, { passive: false });
-    ref.current.addEventListener('wheel', onProxyWheel);
+    ref.current.addEventListener('touchstart', onProxyTouchStart, { passive: true });
+    ref.current.addEventListener('wheel', onProxyWheel, { passive: false });
 
     return () => {
       document.removeEventListener('touchmove', onProxyTouchMove);
