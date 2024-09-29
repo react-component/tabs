@@ -1,10 +1,13 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import classNames from 'classnames';
 import ResizeObserver from 'rc-resize-observer';
 import useEvent from 'rc-util/lib/hooks/useEvent';
-import raf from 'rc-util/lib/raf';
 import { useComposeRef } from 'rc-util/lib/ref';
 import * as React from 'react';
 import { useEffect, useRef, useState } from 'react';
+import TabContext from '../TabContext';
+import type { GetIndicatorSize } from '../hooks/useIndicator';
+import useIndicator from '../hooks/useIndicator';
 import useOffsets from '../hooks/useOffsets';
 import useSyncState from '../hooks/useSyncState';
 import useTouchMove from '../hooks/useTouchMove';
@@ -13,6 +16,7 @@ import useVisibleRange from '../hooks/useVisibleRange';
 import type {
   AnimatedConfig,
   EditableConfig,
+  MoreProps,
   OnTabScroll,
   RenderTabBar,
   SizeInfo,
@@ -21,7 +25,6 @@ import type {
   TabSizeMap,
   TabsLocale,
 } from '../interface';
-import TabContext from '../TabContext';
 import { genDataNodeKey, stringify } from '../util';
 import AddButton from './AddButton';
 import ExtraContent from './ExtraContent';
@@ -36,8 +39,7 @@ export interface TabNavListProps {
   animated?: AnimatedConfig;
   extra?: TabBarExtraContent;
   editable?: EditableConfig;
-  moreIcon?: React.ReactNode;
-  moreTransitionName?: string;
+  more?: MoreProps;
   mobile: boolean;
   tabBarGutter?: number;
   renderTabBar?: RenderTabBar;
@@ -49,10 +51,37 @@ export interface TabNavListProps {
   children?: (node: React.ReactElement) => React.ReactElement;
   getPopupContainer?: (node: HTMLElement) => HTMLElement;
   popupClassName?: string;
+  indicator?: {
+    size?: GetIndicatorSize;
+    align?: 'start' | 'center' | 'end';
+  };
 }
+
+const getTabSize = (tab: HTMLElement, containerRect: { left: number; top: number }) => {
+  // tabListRef
+  const { offsetWidth, offsetHeight, offsetTop, offsetLeft } = tab;
+  const { width, height, left, top } = tab.getBoundingClientRect();
+
+  // Use getBoundingClientRect to avoid decimal inaccuracy
+  if (Math.abs(width - offsetWidth) < 1) {
+    return [width, height, left - containerRect.left, top - containerRect.top];
+  }
+
+  return [offsetWidth, offsetHeight, offsetLeft, offsetTop];
+};
 
 const getSize = (refObj: React.RefObject<HTMLElement>): SizeInfo => {
   const { offsetWidth = 0, offsetHeight = 0 } = refObj.current || {};
+
+  // Use getBoundingClientRect to avoid decimal inaccuracy
+  if (refObj.current) {
+    const { width, height } = refObj.current.getBoundingClientRect();
+
+    if (Math.abs(width - offsetWidth) < 1) {
+      return [width, height];
+    }
+  }
+
   return [offsetWidth, offsetHeight];
 };
 
@@ -63,8 +92,7 @@ const getUnitValue = (size: SizeInfo, tabPositionTopOrBottom: boolean) => {
   return size[tabPositionTopOrBottom ? 0 : 1];
 };
 
-function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
-  const { prefixCls, tabs } = React.useContext(TabContext);
+const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref) => {
   const {
     className,
     style,
@@ -80,15 +108,17 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     children,
     onTabClick,
     onTabScroll,
+    indicator,
   } = props;
-  const containerRef = useRef<HTMLDivElement>();
-  const extraLeftRef = useRef<HTMLDivElement>();
-  const extraRightRef = useRef<HTMLDivElement>();
-  const tabsWrapperRef = useRef<HTMLDivElement>();
-  const tabListRef = useRef<HTMLDivElement>();
-  const operationsRef = useRef<HTMLDivElement>();
-  const innerAddButtonRef = useRef<HTMLButtonElement>();
-  // const [getBtnRef, removeBtnRef] = useRefs<HTMLDivElement>();
+
+  const { prefixCls, tabs } = React.useContext(TabContext);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const extraLeftRef = useRef<HTMLDivElement>(null);
+  const extraRightRef = useRef<HTMLDivElement>(null);
+  const tabsWrapperRef = useRef<HTMLDivElement>(null);
+  const tabListRef = useRef<HTMLDivElement>(null);
+  const operationsRef = useRef<HTMLDivElement>(null);
+  const innerAddButtonRef = useRef<HTMLButtonElement>(null);
 
   const tabPositionTopOrBottom = tabPosition === 'top' || tabPosition === 'bottom';
 
@@ -120,7 +150,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   const addSizeValue = getUnitValue(addSize, tabPositionTopOrBottom);
   const operationSizeValue = getUnitValue(operationSize, tabPositionTopOrBottom);
 
-  const needScroll = containerExcludeExtraSizeValue < tabContentSizeValue + addSizeValue;
+  const needScroll = Math.floor(containerExcludeExtraSizeValue) < Math.floor(tabContentSizeValue + addSizeValue);
   const visibleTabContentValue = needScroll
     ? containerExcludeExtraSizeValue - operationSizeValue
     : containerExcludeExtraSizeValue - addSizeValue;
@@ -153,7 +183,8 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   }
 
   // ========================= Mobile ========================
-  const touchMovingRef = useRef<number>();
+  const touchMovingRef = useRef<ReturnType<typeof setTimeout>>(null);
+
   const [lockAnimation, setLockAnimation] = useState<number>();
 
   function doLockAnimation() {
@@ -161,14 +192,15 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   }
 
   function clearTouchMoving() {
-    window.clearTimeout(touchMovingRef.current);
+    if (touchMovingRef.current) {
+      clearTimeout(touchMovingRef.current);
+    }
   }
 
   useTouchMove(tabsWrapperRef, (offsetX, offsetY) => {
     function doMove(setState: React.Dispatch<React.SetStateAction<number>>, offset: number) {
       setState(value => {
         const newValue = alignInRange(value + offset);
-
         return newValue;
       });
     }
@@ -193,7 +225,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   useEffect(() => {
     clearTouchMoving();
     if (lockAnimation) {
-      touchMovingRef.current = window.setTimeout(() => {
+      touchMovingRef.current = setTimeout(() => {
         setLockAnimation(0);
       }, 100);
     }
@@ -272,7 +304,7 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     tabNodeStyle.marginTop = tabBarGutter;
   }
 
-  const tabNodes: React.ReactElement[] = tabs.map((tab, i) => {
+  const tabNodes = tabs.map<React.ReactNode>((tab, i) => {
     const { key } = tab;
     return (
       <TabNode
@@ -310,15 +342,15 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   const updateTabSizes = () =>
     setTabSizes(() => {
       const newSizes: TabSizeMap = new Map();
+      const listRect = tabListRef.current?.getBoundingClientRect();
+
       tabs.forEach(({ key }) => {
-        const btnNode = tabListRef.current?.querySelector<HTMLElement>(`[data-node-key="${genDataNodeKey(key)}"]`);
+        const btnNode = tabListRef.current?.querySelector<HTMLElement>(
+          `[data-node-key="${genDataNodeKey(key)}"]`,
+        );
         if (btnNode) {
-          newSizes.set(key, {
-            width: btnNode.offsetWidth,
-            height: btnNode.offsetHeight,
-            left: btnNode.offsetLeft,
-            top: btnNode.offsetTop,
-          });
+          const [width, height, left, top] = getTabSize(btnNode, listRect);
+          newSizes.set(key, { width, height, left, top });
         }
       });
       return newSizes;
@@ -361,52 +393,23 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
   const hiddenTabs = [...startHiddenTabs, ...endHiddenTabs];
 
   // =================== Link & Operations ===================
-  const [inkStyle, setInkStyle] = useState<React.CSSProperties>();
-
   const activeTabOffset = tabOffsets.get(activeKey);
-
-  // Delay set ink style to avoid remove tab blink
-  const inkBarRafRef = useRef<number>();
-  function cleanInkBarRaf() {
-    raf.cancel(inkBarRafRef.current);
-  }
-
-  useEffect(() => {
-    const newInkStyle: React.CSSProperties = {};
-
-    if (activeTabOffset) {
-      if (tabPositionTopOrBottom) {
-        if (rtl) {
-          newInkStyle.right = activeTabOffset.right;
-        } else {
-          newInkStyle.left = activeTabOffset.left;
-        }
-
-        newInkStyle.width = activeTabOffset.width;
-      } else {
-        newInkStyle.top = activeTabOffset.top;
-        newInkStyle.height = activeTabOffset.height;
-      }
-    }
-
-    cleanInkBarRaf();
-    inkBarRafRef.current = raf(() => {
-      setInkStyle(newInkStyle);
-    });
-
-    return cleanInkBarRaf;
-  }, [activeTabOffset, tabPositionTopOrBottom, rtl]);
+  const { style: indicatorStyle } = useIndicator({
+    activeTabOffset,
+    horizontal: tabPositionTopOrBottom,
+    indicator,
+    rtl,
+  });
 
   // ========================= Effect ========================
   useEffect(() => {
     scrollToTab();
-    // eslint-disable-next-line
   }, [
     activeKey,
     transformMin,
     transformMax,
     stringify(activeTabOffset),
-    stringify(tabOffsets),
+    stringify(tabOffsets as any),
     tabPositionTopOrBottom,
   ]);
 
@@ -451,45 +454,46 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
       >
         <ExtraContent ref={extraLeftRef} position="left" extra={extra} prefixCls={prefixCls} />
 
-        <div
-          className={classNames(wrapPrefix, {
-            [`${wrapPrefix}-ping-left`]: pingLeft,
-            [`${wrapPrefix}-ping-right`]: pingRight,
-            [`${wrapPrefix}-ping-top`]: pingTop,
-            [`${wrapPrefix}-ping-bottom`]: pingBottom,
-          })}
-          ref={tabsWrapperRef}
-        >
-          <ResizeObserver onResize={onListHolderResize}>
-            <div
-              ref={tabListRef}
-              className={`${prefixCls}-nav-list`}
-              style={{
-                transform: `translate(${transformLeft}px, ${transformTop}px)`,
-                transition: lockAnimation ? 'none' : undefined,
-              }}
-            >
-              {tabNodes}
-              <AddButton
-                ref={innerAddButtonRef}
-                prefixCls={prefixCls}
-                locale={locale}
-                editable={editable}
-                style={{
-                  ...(tabNodes.length === 0 ? undefined : tabNodeStyle),
-                  visibility: hasDropdown ? 'hidden' : null,
-                }}
-              />
-
+        <ResizeObserver onResize={onListHolderResize}>
+          <div
+            className={classNames(wrapPrefix, {
+              [`${wrapPrefix}-ping-left`]: pingLeft,
+              [`${wrapPrefix}-ping-right`]: pingRight,
+              [`${wrapPrefix}-ping-top`]: pingTop,
+              [`${wrapPrefix}-ping-bottom`]: pingBottom,
+            })}
+            ref={tabsWrapperRef}
+          >
+            <ResizeObserver onResize={onListHolderResize}>
               <div
-                className={classNames(`${prefixCls}-ink-bar`, {
-                  [`${prefixCls}-ink-bar-animated`]: animated.inkBar,
-                })}
-                style={inkStyle}
-              />
-            </div>
-          </ResizeObserver>
-        </div>
+                ref={tabListRef}
+                className={`${prefixCls}-nav-list`}
+                style={{
+                  transform: `translate(${transformLeft}px, ${transformTop}px)`,
+                  transition: lockAnimation ? 'none' : undefined,
+                }}
+              >
+                {tabNodes}
+                <AddButton
+                  ref={innerAddButtonRef}
+                  prefixCls={prefixCls}
+                  locale={locale}
+                  editable={editable}
+                  style={{
+                    ...(tabNodes.length === 0 ? undefined : tabNodeStyle),
+                    visibility: hasDropdown ? 'hidden' : null,
+                  }}
+                />
+                <div
+                  className={classNames(`${prefixCls}-ink-bar`, {
+                    [`${prefixCls}-ink-bar-animated`]: animated.inkBar,
+                  })}
+                  style={indicatorStyle}
+                />
+              </div>
+            </ResizeObserver>
+          </div>
+        </ResizeObserver>
 
         <OperationNode
           {...props}
@@ -506,6 +510,6 @@ function TabNavList(props: TabNavListProps, ref: React.Ref<HTMLDivElement>) {
     </ResizeObserver>
   );
   /* eslint-enable */
-}
+});
 
-export default React.forwardRef(TabNavList);
+export default TabNavList;

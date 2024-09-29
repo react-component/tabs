@@ -163,7 +163,6 @@ export default () => {
             tabBarGutter={gutter ? 32 : null}
             tabBarExtraContent="extra"
             defaultActiveKey="30"
-            moreIcon="..."
             // moreTransitionName="233"
             style={{ height: fixHeight ? 300 : null }}
             items={tabPanes}

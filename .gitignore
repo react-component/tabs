@@ -31,6 +31,7 @@ es
 coverage
 yarn.lock
 package-lock.json
+pnpm-lock.yaml
 
 # umi
 .umi
@@ -38,3 +39,5 @@ package-lock.json
 .umi-test
 .env.local
 .dumi
+
+bun.lockb

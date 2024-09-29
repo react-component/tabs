@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-invalid-this */
 import { render } from '@testing-library/react';
 import { spyElementPrototypes } from 'rc-util/lib/test/domHook';
 import { act } from 'react-dom/test-utils';
@@ -53,9 +54,9 @@ describe('Tabs.Operation-Overflow', () => {
     act(() => {
       jest.runAllTimers();
     });
-    expect(
-      container.querySelector('.rc-tabs-nav-operations'),
-    ).not.toHaveClass('rc-tabs-nav-operations-hidden');
+    expect(container.querySelector('.rc-tabs-nav-operations')).not.toHaveClass(
+      'rc-tabs-nav-operations-hidden',
+    );
 
     unmount();
 
