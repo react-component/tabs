@@ -6,7 +6,7 @@ import type { EditableConfig } from './interface';
  * We trade Map as deps which may change with same value but different ref object.
  * We should make it as hash for deps
  * */
-export function stringify<K extends string | number | symbol, V>(obj: Record<K, V> | Map<K, V>) {
+export function stringify<K extends PropertyKey, V>(obj: Record<K, V> | Map<K, V>) {
   let tgt: Record<K, V>;
 
   if (obj instanceof Map) {
