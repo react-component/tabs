@@ -41,7 +41,7 @@ online example: https://tabs.react-component.now.sh/
 
 ## Usage
 
-```tsx
+```tsx | pure
 import Tabs from 'rc-tabs';
 import ReactDom from 'react-dom';
 
