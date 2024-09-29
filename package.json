@@ -49,7 +49,7 @@
     "@rc-component/father-plugin": "^1.0.0",
     "@rc-component/trigger": "^2.0.0",
     "@testing-library/jest-dom": "^6.1.4",
-    "@testing-library/react": "^15.0.2",
+    "@testing-library/react": "^16.0.1",
     "@types/classnames": "^2.2.10",
     "@types/enzyme": "^3.10.5",
     "@types/jest": "^29.4.0",
