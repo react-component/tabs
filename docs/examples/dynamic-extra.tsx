@@ -29,7 +29,6 @@ export default () => {
         tabBarExtraContent={extra}
         defaultActiveKey="8"
         items={items}
-        scrollPosition="end"
       />
     </div>
   );
