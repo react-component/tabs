@@ -59,6 +59,18 @@ export default () => {
           scrollPosition={scrollPosition}
         />
       </div>
+
+      <div style={{ maxHeight: 550 }}>
+        <Tabs
+          style={{ height: 550 }}
+          activeKey={key}
+          onChange={curKey => setKey(curKey)}
+          defaultActiveKey="8"
+          items={items}
+          scrollPosition={scrollPosition}
+          tabPosition="left"
+        />
+      </div>
     </>
   );
 };
