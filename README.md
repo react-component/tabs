@@ -140,6 +140,7 @@ ReactDom.render(
 | destroyInactiveTabPane | boolean | false | whether destroy inactive TabPane when change tab |
 | active | boolean | false | active feature of tab item |
 | tabKey | string | - | key linked to tab |
+| scrollPosition | `'start' \| 'end' \| 'center' \| 'auto'` | `'auto'` | scroll position |
 
 
 ### TabPane(support in older versions)

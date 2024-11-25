@@ -49,6 +49,16 @@ export default () => {
             onChange={e => setScrollPosition(e.target.value as ScrollPosition)}
           />
         </label>
+        <label>
+          Auto
+          <input
+            type="radio"
+            name="scrollPosition"
+            value="auto"
+            checked={scrollPosition === 'auto'}
+            onChange={e => setScrollPosition(e.target.value as ScrollPosition)}
+          />
+        </label>
       </div>
       <div style={{ maxWidth: 550 }}>
         <Tabs
