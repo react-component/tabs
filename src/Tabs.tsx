@@ -15,6 +15,7 @@ import type {
   MoreProps,
   OnTabScroll,
   RenderTabBar,
+  ScrollPosition,
   Tab,
   TabBarExtraContent,
   TabPosition,
@@ -72,6 +73,8 @@ export interface TabsProps
     size?: GetIndicatorSize;
     align?: 'start' | 'center' | 'end';
   };
+
+  scrollPosition?: ScrollPosition;
 }
 
 const Tabs = React.forwardRef<HTMLDivElement, TabsProps>((props, ref) => {
@@ -99,6 +102,7 @@ const Tabs = React.forwardRef<HTMLDivElement, TabsProps>((props, ref) => {
     getPopupContainer,
     popupClassName,
     indicator,
+    scrollPosition = 'auto',
     ...restProps
   } = props;
   const tabs = React.useMemo<Tab[]>(
@@ -182,6 +186,7 @@ const Tabs = React.forwardRef<HTMLDivElement, TabsProps>((props, ref) => {
     getPopupContainer,
     popupClassName,
     indicator,
+    scrollPosition,
   };
 
   return (
