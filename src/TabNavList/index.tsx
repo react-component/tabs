@@ -352,9 +352,8 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
           onTabClick(key, e);
         }}
         onFocus={() => {
-          console.log('onFocus', key);
           scrollToTab(key);
-          // doLockAnimation();
+          doLockAnimation();
           if (!tabsWrapperRef.current) {
             return;
           }
@@ -441,6 +440,7 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
     stringify(activeTabOffset),
     stringify(tabOffsets as any),
     tabPositionTopOrBottom,
+    scrollPosition,
   ]);
 
   // Should recalculate when rtl changed
