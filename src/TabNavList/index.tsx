@@ -352,7 +352,6 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
           onTabClick(key, e);
         }}
         onFocus={() => {
-          scrollToTab(key);
           doLockAnimation();
           if (!tabsWrapperRef.current) {
             return;

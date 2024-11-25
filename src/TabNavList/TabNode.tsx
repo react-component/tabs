@@ -88,12 +88,7 @@ const TabNode: React.FC<TabNodeProps> = props => {
             onInternalClick(e);
           }
         }}
-        onFocus={e => {
-          // without setTimeout, the onClick won't trigger
-          setTimeout(() => {
-            onFocus(e);
-          }, 100);
-        }}
+        onFocus={onFocus}
       >
         {icon && <span className={`${tabPrefix}-icon`}>{icon}</span>}
         {label && labelNode}
