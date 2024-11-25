@@ -19,6 +19,7 @@ import type {
   MoreProps,
   OnTabScroll,
   RenderTabBar,
+  ScrollPosition,
   SizeInfo,
   TabBarExtraContent,
   TabPosition,
@@ -55,6 +56,7 @@ export interface TabNavListProps {
     size?: GetIndicatorSize;
     align?: 'start' | 'center' | 'end';
   };
+  scrollPosition?: ScrollPosition;
 }
 
 const getTabSize = (tab: HTMLElement, containerRect: { left: number; top: number }) => {
@@ -104,6 +106,7 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
     editable,
     locale,
     tabPosition,
+    scrollPosition,
     tabBarGutter,
     children,
     onTabClick,
@@ -150,7 +153,8 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
   const addSizeValue = getUnitValue(addSize, tabPositionTopOrBottom);
   const operationSizeValue = getUnitValue(operationSize, tabPositionTopOrBottom);
 
-  const needScroll = Math.floor(containerExcludeExtraSizeValue) < Math.floor(tabContentSizeValue + addSizeValue);
+  const needScroll =
+    Math.floor(containerExcludeExtraSizeValue) < Math.floor(tabContentSizeValue + addSizeValue);
   const visibleTabContentValue = needScroll
     ? containerExcludeExtraSizeValue - operationSizeValue
     : containerExcludeExtraSizeValue - addSizeValue;
@@ -264,19 +268,36 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
       // ============ Align with top & bottom ============
       let newTransform = transformLeft;
 
-      // RTL
       if (rtl) {
-        if (tabOffset.right < transformLeft) {
+        // RTL logic
+        if (scrollPosition === 'auto') {
+          if (tabOffset.right < transformLeft) {
+            newTransform = tabOffset.right;
+          } else if (tabOffset.right + tabOffset.width > transformLeft + visibleTabContentValue) {
+            newTransform = tabOffset.right + tabOffset.width - visibleTabContentValue;
+          }
+        } else if (scrollPosition === 'start') {
           newTransform = tabOffset.right;
-        } else if (tabOffset.right + tabOffset.width > transformLeft + visibleTabContentValue) {
+        } else if (scrollPosition === 'end') {
           newTransform = tabOffset.right + tabOffset.width - visibleTabContentValue;
+        } else if (scrollPosition === 'center') {
+          newTransform = tabOffset.right + tabOffset.width / 2 - visibleTabContentValue / 2;
         }
-      }
-      // LTR
-      else if (tabOffset.left < -transformLeft) {
-        newTransform = -tabOffset.left;
-      } else if (tabOffset.left + tabOffset.width > -transformLeft + visibleTabContentValue) {
-        newTransform = -(tabOffset.left + tabOffset.width - visibleTabContentValue);
+      } else {
+        // LTR logic
+        if (scrollPosition === 'auto') {
+          if (tabOffset.left < -transformLeft) {
+            newTransform = -tabOffset.left;
+          } else if (tabOffset.left + tabOffset.width > -transformLeft + visibleTabContentValue) {
+            newTransform = -(tabOffset.left + tabOffset.width - visibleTabContentValue);
+          }
+        } else if (scrollPosition === 'start') {
+          newTransform = -tabOffset.left;
+        } else if (scrollPosition === 'end') {
+          newTransform = -(tabOffset.left + tabOffset.width - visibleTabContentValue);
+        } else if (scrollPosition === 'center') {
+          newTransform = -(tabOffset.left + tabOffset.width / 2 - visibleTabContentValue / 2);
+        }
       }
 
       setTransformTop(0);
@@ -285,10 +306,18 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
       // ============ Align with left & right ============
       let newTransform = transformTop;
 
-      if (tabOffset.top < -transformTop) {
+      if (scrollPosition === 'auto') {
+        if (tabOffset.top < -transformTop) {
+          newTransform = -tabOffset.top;
+        } else if (tabOffset.top + tabOffset.height > -transformTop + visibleTabContentValue) {
+          newTransform = -(tabOffset.top + tabOffset.height - visibleTabContentValue);
+        }
+      } else if (scrollPosition === 'start') {
         newTransform = -tabOffset.top;
-      } else if (tabOffset.top + tabOffset.height > -transformTop + visibleTabContentValue) {
+      } else if (scrollPosition === 'end') {
         newTransform = -(tabOffset.top + tabOffset.height - visibleTabContentValue);
+      } else if (scrollPosition === 'center') {
+        newTransform = -(tabOffset.top + tabOffset.height / 2 - visibleTabContentValue / 2);
       }
 
       setTransformLeft(0);
@@ -323,8 +352,9 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
           onTabClick(key, e);
         }}
         onFocus={() => {
+          console.log('onFocus', key);
           scrollToTab(key);
-          doLockAnimation();
+          // doLockAnimation();
           if (!tabsWrapperRef.current) {
             return;
           }

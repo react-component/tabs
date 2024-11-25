@@ -80,6 +80,7 @@ const TabNode: React.FC<TabNodeProps> = props => {
         tabIndex={disabled ? null : 0}
         onClick={e => {
           e.stopPropagation();
+          console.log('onClick', key);
           onInternalClick(e);
         }}
         onKeyDown={e => {
