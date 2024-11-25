@@ -13,7 +13,6 @@ for (let i = 0; i < 50; i += 1) {
   });
 }
 export default () => {
-  const [key, setKey] = React.useState('0');
   const [scrollPosition, setScrollPosition] = React.useState<ScrollPosition>('end');
 
   return (
@@ -61,21 +60,12 @@ export default () => {
         </label>
       </div>
       <div style={{ maxWidth: 550 }}>
-        <Tabs
-          activeKey={key}
-          onChange={curKey => setKey(curKey)}
-          defaultActiveKey="8"
-          items={items}
-          scrollPosition={scrollPosition}
-        />
+        <Tabs items={items} scrollPosition={scrollPosition} />
       </div>
 
       <div style={{ maxHeight: 550 }}>
         <Tabs
           style={{ height: 550 }}
-          activeKey={key}
-          onChange={curKey => setKey(curKey)}
-          defaultActiveKey="8"
           items={items}
           scrollPosition={scrollPosition}
           tabPosition="left"
