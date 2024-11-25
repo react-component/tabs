@@ -80,7 +80,6 @@ const TabNode: React.FC<TabNodeProps> = props => {
         tabIndex={disabled ? null : 0}
         onClick={e => {
           e.stopPropagation();
-          console.log('onClick', key);
           onInternalClick(e);
         }}
         onKeyDown={e => {
@@ -89,7 +88,12 @@ const TabNode: React.FC<TabNodeProps> = props => {
             onInternalClick(e);
           }
         }}
-        onFocus={onFocus}
+        onFocus={e => {
+          // without setTimeout, the onClick won't trigger
+          setTimeout(() => {
+            onFocus(e);
+          }, 50);
+        }}
       >
         {icon && <span className={`${tabPrefix}-icon`}>{icon}</span>}
         {label && labelNode}
