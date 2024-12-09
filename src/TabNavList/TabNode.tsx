@@ -1,5 +1,4 @@
 import classNames from 'classnames';
-import KeyCode from 'rc-util/lib/KeyCode';
 import * as React from 'react';
 import type { EditableConfig, Tab } from '../interface';
 import { genDataNodeKey, getRemovable } from '../util';
@@ -9,6 +8,7 @@ export interface TabNodeProps {
   prefixCls: string;
   tab: Tab;
   active: boolean;
+  focus: boolean;
   closable?: boolean;
   editable?: EditableConfig;
   onClick?: (e: React.MouseEvent | React.KeyboardEvent) => void;
@@ -16,7 +16,10 @@ export interface TabNodeProps {
   renderWrapper?: (node: React.ReactElement) => React.ReactElement;
   removeAriaLabel?: string;
   removeIcon?: React.ReactNode;
+  onKeyDown: React.KeyboardEventHandler;
+  onMouseDown: React.MouseEventHandler;
   onFocus: React.FocusEventHandler;
+  onBlur: React.FocusEventHandler;
   style?: React.CSSProperties;
 }
 
@@ -25,6 +28,7 @@ const TabNode: React.FC<TabNodeProps> = props => {
     prefixCls,
     id,
     active,
+    focus,
     tab: { key, label, disabled, closeIcon, icon },
     closable,
     renderWrapper,
@@ -32,6 +36,9 @@ const TabNode: React.FC<TabNodeProps> = props => {
     editable,
     onClick,
     onFocus,
+    onBlur,
+    onKeyDown,
+    onMouseDown,
     style,
   } = props;
   const tabPrefix = `${prefixCls}-tab`;
@@ -59,12 +66,12 @@ const TabNode: React.FC<TabNodeProps> = props => {
   const node: React.ReactElement = (
     <div
       key={key}
-      // ref={ref}
       data-node-key={genDataNodeKey(key)}
       className={classNames(tabPrefix, {
         [`${tabPrefix}-with-remove`]: removable,
         [`${tabPrefix}-active`]: active,
         [`${tabPrefix}-disabled`]: disabled,
+        [`${tabPrefix}-focus`]: focus,
       })}
       style={style}
       onClick={onInternalClick}
@@ -77,18 +84,15 @@ const TabNode: React.FC<TabNodeProps> = props => {
         className={`${tabPrefix}-btn`}
         aria-controls={id && `${id}-panel-${key}`}
         aria-disabled={disabled}
-        tabIndex={disabled ? null : 0}
+        tabIndex={disabled ? null : active ? 0 : -1}
         onClick={e => {
           e.stopPropagation();
           onInternalClick(e);
         }}
-        onKeyDown={e => {
-          if ([KeyCode.SPACE, KeyCode.ENTER].includes(e.which)) {
-            e.preventDefault();
-            onInternalClick(e);
-          }
-        }}
+        onKeyDown={onKeyDown}
+        onMouseDown={onMouseDown}
         onFocus={onFocus}
+        onBlur={onBlur}
       >
         {icon && <span className={`${tabPrefix}-icon`}>{icon}</span>}
         {label && labelNode}

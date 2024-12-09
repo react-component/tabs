@@ -10,32 +10,32 @@
 @effect-duration: 0.3s;
 
 .@{tabs-prefix-cls} {
-  border: 1px solid gray;
-  font-size: 14px;
   overflow: hidden;
+  font-size: 14px;
+  border: 1px solid gray;
 
   // ========================== Navigation ==========================
   &-nav {
+    position: relative;
     display: flex;
     flex: none;
-    position: relative;
 
     &-measure,
     &-wrap {
-      transform: translate(0);
       position: relative;
       display: inline-block;
-      flex: auto;
-      white-space: nowrap;
-      overflow: hidden;
       display: flex;
+      flex: auto;
+      overflow: hidden;
+      white-space: nowrap;
+      transform: translate(0);
 
       &-ping-left::before,
       &-ping-right::after {
-        content: '';
         position: absolute;
         top: 0;
         bottom: 0;
+        content: '';
       }
       &-ping-left::before {
         left: 0;
@@ -48,10 +48,10 @@
 
       &-ping-top::before,
       &-ping-bottom::after {
-        content: '';
         position: absolute;
-        left: 0;
         right: 0;
+        left: 0;
+        content: '';
       }
       &-ping-top::before {
         top: 0;
@@ -64,8 +64,8 @@
     }
 
     &-list {
-      display: flex;
       position: relative;
+      display: flex;
       transition: transform 0.3s;
     }
 
@@ -81,36 +81,39 @@
     }
 
     &-more {
-      border: 1px solid blue;
       background: rgba(255, 0, 0, 0.1);
+      border: 1px solid blue;
     }
     &-add {
-      border: 1px solid green;
       background: rgba(0, 255, 0, 0.1);
+      border: 1px solid green;
     }
   }
 
   &-tab {
-    border: 0;
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin: 0;
+    font-weight: lighter;
     font-size: 20px;
     background: rgba(255, 255, 255, 0.5);
-    margin: 0;
-    display: flex;
+    border: 0;
     outline: none;
     cursor: pointer;
-    position: relative;
-    font-weight: lighter;
-    align-items: center;
 
     &-btn,
     &-remove {
-      border: 0;
       background: transparent;
+      border: 0;
     }
 
     &-btn {
       font-weight: inherit;
       line-height: 32px;
+      &:focus {
+        outline: none;
+      }
     }
 
     &-remove {
@@ -120,8 +123,11 @@
     }
 
     &-active {
-      // padding-left: 30px;
       font-weight: bolder;
+    }
+
+    &-focus {
+      outline: 1px auto #1677ff;
     }
   }
 
