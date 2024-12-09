@@ -24,7 +24,14 @@ export default () => {
       disabled: true,
       icon: <span>🐼</span>,
     },
+    {
+      label: 'Yo',
+      key: 'yo',
+      children: 'Yo!',
+      icon: <span>👋</span>,
+    },
   ]);
+  const [direction, setDirection] = React.useState<'ltr' | 'rtl'>('ltr');
 
   if (destroy) {
     return null;
@@ -32,7 +39,7 @@ export default () => {
 
   return (
     <React.StrictMode>
-      <Tabs tabBarExtraContent="extra" items={items} />
+      <Tabs tabBarExtraContent="extra" direction={direction} items={items} />
       <button
         type="button"
         onClick={() => {
@@ -55,6 +62,14 @@ export default () => {
         }}
       >
         Destroy
+      </button>
+      <button
+        type="button"
+        onClick={() => {
+          setDirection(direction === 'ltr' ? 'rtl' : 'ltr');
+        }}
+      >
+        {direction}
       </button>
     </React.StrictMode>
   );

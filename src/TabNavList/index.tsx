@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import classNames from 'classnames';
 import ResizeObserver from 'rc-resize-observer';
+import KeyCode from 'rc-util/lib/KeyCode';
 import useEvent from 'rc-util/lib/hooks/useEvent';
 import { useComposeRef } from 'rc-util/lib/ref';
 import * as React from 'react';
@@ -88,8 +89,8 @@ const getSize = (refObj: React.RefObject<HTMLElement>): SizeInfo => {
 /**
  * Convert `SizeInfo` to unit value. Such as [123, 456] with `top` position get `123`
  */
-const getUnitValue = (size: SizeInfo, tabPositionTopOrBottom: boolean) => {
-  return size[tabPositionTopOrBottom ? 0 : 1];
+const getUnitValue = (size: SizeInfo, isHorizontal: boolean) => {
+  return size[isHorizontal ? 0 : 1];
 };
 
 const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref) => {
@@ -120,15 +121,15 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
   const operationsRef = useRef<HTMLDivElement>(null);
   const innerAddButtonRef = useRef<HTMLButtonElement>(null);
 
-  const tabPositionTopOrBottom = tabPosition === 'top' || tabPosition === 'bottom';
+  const isHorizontal = tabPosition === 'top' || tabPosition === 'bottom';
 
   const [transformLeft, setTransformLeft] = useSyncState(0, (next, prev) => {
-    if (tabPositionTopOrBottom && onTabScroll) {
+    if (isHorizontal && onTabScroll) {
       onTabScroll({ direction: next > prev ? 'left' : 'right' });
     }
   });
   const [transformTop, setTransformTop] = useSyncState(0, (next, prev) => {
-    if (!tabPositionTopOrBottom && onTabScroll) {
+    if (!isHorizontal && onTabScroll) {
       onTabScroll({ direction: next > prev ? 'top' : 'bottom' });
     }
   });
@@ -142,15 +143,13 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
   const tabOffsets = useOffsets(tabs, tabSizes, tabContentSize[0]);
 
   // ========================== Unit =========================
-  const containerExcludeExtraSizeValue = getUnitValue(
-    containerExcludeExtraSize,
-    tabPositionTopOrBottom,
-  );
-  const tabContentSizeValue = getUnitValue(tabContentSize, tabPositionTopOrBottom);
-  const addSizeValue = getUnitValue(addSize, tabPositionTopOrBottom);
-  const operationSizeValue = getUnitValue(operationSize, tabPositionTopOrBottom);
+  const containerExcludeExtraSizeValue = getUnitValue(containerExcludeExtraSize, isHorizontal);
+  const tabContentSizeValue = getUnitValue(tabContentSize, isHorizontal);
+  const addSizeValue = getUnitValue(addSize, isHorizontal);
+  const operationSizeValue = getUnitValue(operationSize, isHorizontal);
 
-  const needScroll = Math.floor(containerExcludeExtraSizeValue) < Math.floor(tabContentSizeValue + addSizeValue);
+  const needScroll =
+    Math.floor(containerExcludeExtraSizeValue) < Math.floor(tabContentSizeValue + addSizeValue);
   const visibleTabContentValue = needScroll
     ? containerExcludeExtraSizeValue - operationSizeValue
     : containerExcludeExtraSizeValue - addSizeValue;
@@ -161,7 +160,7 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
   let transformMin = 0;
   let transformMax = 0;
 
-  if (!tabPositionTopOrBottom) {
+  if (!isHorizontal) {
     transformMin = Math.min(0, visibleTabContentValue - tabContentSizeValue);
     transformMax = 0;
   } else if (rtl) {
@@ -210,7 +209,7 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
       return false;
     }
 
-    if (tabPositionTopOrBottom) {
+    if (isHorizontal) {
       doMove(setTransformLeft, offsetX);
     } else {
       doMove(setTransformTop, offsetY);
@@ -240,7 +239,7 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
     // Container
     visibleTabContentValue,
     // Transform
-    tabPositionTopOrBottom ? transformLeft : transformTop,
+    isHorizontal ? transformLeft : transformTop,
     // Tabs
     tabContentSizeValue,
     // Add
@@ -260,7 +259,7 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
       top: 0,
     };
 
-    if (tabPositionTopOrBottom) {
+    if (isHorizontal) {
       // ============ Align with top & bottom ============
       let newTransform = transformLeft;
 
@@ -296,9 +295,112 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
     }
   });
 
+  // ========================= Focus =========================
+  const [focusKey, setFocusKey] = useState<string>();
+  const [isKeyboard, setIsKeyboard] = useState(false);
+
+  useEffect(() => {
+    const captureTabKey = (e: KeyboardEvent) => {
+      if (e.key === 'Tab') {
+        setIsKeyboard(true);
+      }
+    };
+
+    window.addEventListener('keydown', captureTabKey);
+    return () => {
+      window.removeEventListener('keydown', captureTabKey);
+    };
+  }, []);
+
+  const onOffset = (offset: number) => {
+    const enabledTabs = tabs.filter(tab => !tab.disabled).map(tab => tab.key);
+    const currentIndex = enabledTabs.indexOf(focusKey || activeKey);
+
+    let newIndex = currentIndex + offset;
+
+    if (newIndex < 0) {
+      newIndex = enabledTabs.length - 1;
+    } else if (newIndex >= enabledTabs.length) {
+      newIndex = 0;
+    }
+
+    const newKey = enabledTabs[newIndex];
+    setFocusKey(newKey);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    const { which } = e;
+
+    const isRTL = rtl && isHorizontal;
+
+    switch (which) {
+      // LEFT
+      case KeyCode.LEFT: {
+        e.preventDefault();
+        if (isHorizontal) {
+          onOffset(isRTL ? 1 : -1);
+        }
+        break;
+      }
+
+      // RIGHT
+      case KeyCode.RIGHT: {
+        e.preventDefault();
+        if (isHorizontal) {
+          onOffset(isRTL ? -1 : 1);
+        }
+        break;
+      }
+
+      // UP
+      case KeyCode.UP: {
+        e.preventDefault();
+        if (!isHorizontal) {
+          onOffset(-1);
+        }
+        break;
+      }
+
+      // DOWN
+      case KeyCode.DOWN: {
+        e.preventDefault();
+        if (!isHorizontal) {
+          onOffset(1);
+        }
+        break;
+      }
+
+      // HOME
+      case KeyCode.HOME: {
+        e.preventDefault();
+        const enabledTabs = tabs.filter(tab => !tab.disabled).map(tab => tab.key);
+        const newKey = enabledTabs[0];
+        setFocusKey(newKey);
+        break;
+      }
+
+      // END
+      case KeyCode.END: {
+        e.preventDefault();
+        const enabledTabs = tabs.filter(tab => !tab.disabled).map(tab => tab.key);
+        const newKey = enabledTabs[enabledTabs.length - 1];
+        setFocusKey(newKey);
+        break;
+      }
+
+      // Enter & Space
+      case KeyCode.ENTER:
+      case KeyCode.SPACE: {
+        e.preventDefault();
+        onTabClick(focusKey, e);
+        break;
+      }
+    }
+  };
+
   // ========================== Tab ==========================
   const tabNodeStyle: React.CSSProperties = {};
-  if (tabPosition === 'top' || tabPosition === 'bottom') {
+  if (isHorizontal) {
     tabNodeStyle[rtl ? 'marginRight' : 'marginLeft'] = tabBarGutter;
   } else {
     tabNodeStyle.marginTop = tabBarGutter;
@@ -317,12 +419,17 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
         closable={tab.closable}
         editable={editable}
         active={key === activeKey}
+        focus={key === focusKey}
         renderWrapper={children}
         removeAriaLabel={locale?.removeAriaLabel}
         onClick={e => {
           onTabClick(key, e);
         }}
+        onKeyDown={handleKeyDown}
         onFocus={() => {
+          if (isKeyboard) {
+            setFocusKey(key);
+          }
           scrollToTab(key);
           doLockAnimation();
           if (!tabsWrapperRef.current) {
@@ -333,6 +440,12 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
             tabsWrapperRef.current.scrollLeft = 0;
           }
           tabsWrapperRef.current.scrollTop = 0;
+        }}
+        onBlur={() => {
+          setFocusKey(undefined);
+        }}
+        onMouseDown={() => {
+          setIsKeyboard(false);
         }}
       />
     );
@@ -396,7 +509,7 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
   const activeTabOffset = tabOffsets.get(activeKey);
   const { style: indicatorStyle } = useIndicator({
     activeTabOffset,
-    horizontal: tabPositionTopOrBottom,
+    horizontal: isHorizontal,
     indicator,
     rtl,
   });
@@ -410,7 +523,7 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
     transformMax,
     stringify(activeTabOffset),
     stringify(tabOffsets as any),
-    tabPositionTopOrBottom,
+    isHorizontal,
   ]);
 
   // Should recalculate when rtl changed
@@ -427,7 +540,7 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
   let pingTop: boolean;
   let pingBottom: boolean;
 
-  if (tabPositionTopOrBottom) {
+  if (isHorizontal) {
     if (rtl) {
       pingRight = transformLeft > 0;
       pingLeft = transformLeft !== transformMax;
