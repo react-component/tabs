@@ -299,6 +299,8 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
   const [focusKey, setFocusKey] = useState<string>();
   const [isKeyboard, setIsKeyboard] = useState(false);
 
+  const enabledTabs = tabs.filter(tab => !tab.disabled).map(tab => tab.key);
+
   useEffect(() => {
     const captureTabKey = (e: KeyboardEvent) => {
       if (e.key === 'Tab') {
@@ -313,7 +315,6 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
   }, []);
 
   const onOffset = (offset: number) => {
-    const enabledTabs = tabs.filter(tab => !tab.disabled).map(tab => tab.key);
     const currentIndex = enabledTabs.indexOf(focusKey || activeKey);
 
     let newIndex = currentIndex + offset;
@@ -332,6 +333,8 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
     const { which } = e;
 
     const isRTL = rtl && isHorizontal;
+    const firstEnabledTab = enabledTabs[0];
+    const lastEnabledTab = enabledTabs[enabledTabs.length - 1];
 
     switch (which) {
       // LEFT
@@ -371,18 +374,14 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
       // HOME
       case KeyCode.HOME: {
         e.preventDefault();
-        const enabledTabs = tabs.filter(tab => !tab.disabled).map(tab => tab.key);
-        const newKey = enabledTabs[0];
-        setFocusKey(newKey);
+        setFocusKey(firstEnabledTab);
         break;
       }
 
       // END
       case KeyCode.END: {
         e.preventDefault();
-        const enabledTabs = tabs.filter(tab => !tab.disabled).map(tab => tab.key);
-        const newKey = enabledTabs[enabledTabs.length - 1];
-        setFocusKey(newKey);
+        setFocusKey(lastEnabledTab);
         break;
       }
 
