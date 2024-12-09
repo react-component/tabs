@@ -1,5 +1,4 @@
 import classNames from 'classnames';
-import KeyCode from 'rc-util/lib/KeyCode';
 import * as React from 'react';
 import type { EditableConfig, Tab } from '../interface';
 import { genDataNodeKey, getRemovable } from '../util';
@@ -64,14 +63,6 @@ const TabNode: React.FC<TabNodeProps> = props => {
     [label, icon],
   );
 
-  function onInternalKeyDown(e: React.KeyboardEvent) {
-    onKeyDown(e);
-    if (e.which === KeyCode.SPACE || e.which === KeyCode.ENTER) {
-      e.preventDefault();
-      onInternalClick(e);
-    }
-  }
-
   const node: React.ReactElement = (
     <div
       key={key}
@@ -98,7 +89,7 @@ const TabNode: React.FC<TabNodeProps> = props => {
           e.stopPropagation();
           onInternalClick(e);
         }}
-        onKeyDown={onInternalKeyDown}
+        onKeyDown={onKeyDown}
         onMouseDown={onMouseDown}
         onFocus={onFocus}
         onBlur={onBlur}

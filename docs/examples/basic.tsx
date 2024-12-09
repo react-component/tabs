@@ -37,9 +37,18 @@ export default () => {
     return null;
   }
 
+  const onTabClick = (key: string) => {
+    console.log('key', key);
+  };
+
   return (
     <React.StrictMode>
-      <Tabs tabBarExtraContent="extra" direction={direction} items={items} />
+      <Tabs
+        tabBarExtraContent="extra"
+        onTabClick={onTabClick}
+        direction={direction}
+        items={items}
+      />
       <button
         type="button"
         onClick={() => {

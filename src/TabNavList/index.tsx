@@ -336,7 +336,6 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
     switch (which) {
       // LEFT
       case KeyCode.LEFT: {
-        e.preventDefault();
         if (isHorizontal) {
           onOffset(isRTL ? 1 : -1);
         }
@@ -345,7 +344,6 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
 
       // RIGHT
       case KeyCode.RIGHT: {
-        e.preventDefault();
         if (isHorizontal) {
           onOffset(isRTL ? -1 : 1);
         }
