@@ -1,7 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import classNames from 'classnames';
 import ResizeObserver from 'rc-resize-observer';
-import KeyCode from 'rc-util/lib/KeyCode';
 import useEvent from 'rc-util/lib/hooks/useEvent';
 import { useComposeRef } from 'rc-util/lib/ref';
 import * as React from 'react';
@@ -330,15 +329,15 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    const { which } = e;
+    const { key } = e;
 
     const isRTL = rtl && isHorizontal;
     const firstEnabledTab = enabledTabs[0];
     const lastEnabledTab = enabledTabs[enabledTabs.length - 1];
 
-    switch (which) {
+    switch (key) {
       // LEFT
-      case KeyCode.LEFT: {
+      case 'ArrowLeft': {
         if (isHorizontal) {
           onOffset(isRTL ? 1 : -1);
         }
@@ -346,7 +345,7 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
       }
 
       // RIGHT
-      case KeyCode.RIGHT: {
+      case 'ArrowRight': {
         if (isHorizontal) {
           onOffset(isRTL ? -1 : 1);
         }
@@ -354,7 +353,7 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
       }
 
       // UP
-      case KeyCode.UP: {
+      case 'ArrowUp': {
         e.preventDefault();
         if (!isHorizontal) {
           onOffset(-1);
@@ -363,7 +362,7 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
       }
 
       // DOWN
-      case KeyCode.DOWN: {
+      case 'ArrowDown': {
         e.preventDefault();
         if (!isHorizontal) {
           onOffset(1);
@@ -372,22 +371,22 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
       }
 
       // HOME
-      case KeyCode.HOME: {
+      case 'Home': {
         e.preventDefault();
         setFocusKey(firstEnabledTab);
         break;
       }
 
       // END
-      case KeyCode.END: {
+      case 'End': {
         e.preventDefault();
         setFocusKey(lastEnabledTab);
         break;
       }
 
       // Enter & Space
-      case KeyCode.ENTER:
-      case KeyCode.SPACE: {
+      case 'Enter':
+      case 'Space': {
         e.preventDefault();
         onTabClick(focusKey, e);
         break;
