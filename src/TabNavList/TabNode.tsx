@@ -65,6 +65,7 @@ const TabNode: React.FC<TabNodeProps> = props => {
 
   const node: React.ReactElement = (
     <div
+      role="tab"
       key={key}
       data-node-key={genDataNodeKey(key)}
       className={classNames(tabPrefix, {
@@ -78,7 +79,6 @@ const TabNode: React.FC<TabNodeProps> = props => {
     >
       {/* Primary Tab Button */}
       <div
-        role="tab"
         aria-selected={active}
         id={id && `${id}-tab-${key}`}
         className={`${tabPrefix}-btn`}

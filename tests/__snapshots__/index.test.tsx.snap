@@ -18,13 +18,13 @@ exports[`Tabs.Basic Normal 1`] = `
         <div
           class="rc-tabs-tab"
           data-node-key="light"
+          role="tab"
         >
           <div
             aria-controls="rc-tabs-test-panel-light"
             aria-selected="false"
             class="rc-tabs-tab-btn"
             id="rc-tabs-test-tab-light"
-            role="tab"
             tabindex="-1"
           >
             light
@@ -33,13 +33,13 @@ exports[`Tabs.Basic Normal 1`] = `
         <div
           class="rc-tabs-tab rc-tabs-tab-active"
           data-node-key="bamboo"
+          role="tab"
         >
           <div
             aria-controls="rc-tabs-test-panel-bamboo"
             aria-selected="true"
             class="rc-tabs-tab-btn"
             id="rc-tabs-test-tab-bamboo"
-            role="tab"
             tabindex="0"
           >
             bamboo
@@ -48,13 +48,13 @@ exports[`Tabs.Basic Normal 1`] = `
         <div
           class="rc-tabs-tab"
           data-node-key="cute"
+          role="tab"
         >
           <div
             aria-controls="rc-tabs-test-panel-cute"
             aria-selected="false"
             class="rc-tabs-tab-btn"
             id="rc-tabs-test-tab-cute"
-            role="tab"
             tabindex="-1"
           >
             cute
@@ -122,13 +122,13 @@ exports[`Tabs.Basic Skip invalidate children 1`] = `
         <div
           class="rc-tabs-tab rc-tabs-tab-active"
           data-node-key="light"
+          role="tab"
         >
           <div
             aria-controls="rc-tabs-test-panel-light"
             aria-selected="true"
             class="rc-tabs-tab-btn"
             id="rc-tabs-test-tab-light"
-            role="tab"
             tabindex="0"
           >
             light
