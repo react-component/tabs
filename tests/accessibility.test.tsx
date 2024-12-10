@@ -99,7 +99,7 @@ describe('Tabs.Accessibility', () => {
     await user.tab();
 
     // activate tab
-    await user.keyboard('{Space}');
+    await user.keyboard(' ');
     expect(onTabClick).toHaveBeenCalledTimes(1);
 
     // move focus to second tab

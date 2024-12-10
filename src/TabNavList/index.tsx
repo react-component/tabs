@@ -329,13 +329,13 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    const { key } = e;
+    const { code } = e;
 
     const isRTL = rtl && isHorizontal;
     const firstEnabledTab = enabledTabs[0];
     const lastEnabledTab = enabledTabs[enabledTabs.length - 1];
 
-    switch (key) {
+    switch (code) {
       // LEFT
       case 'ArrowLeft': {
         if (isHorizontal) {
