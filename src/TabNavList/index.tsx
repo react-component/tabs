@@ -88,8 +88,8 @@ const getSize = (refObj: React.RefObject<HTMLElement>): SizeInfo => {
 /**
  * Convert `SizeInfo` to unit value. Such as [123, 456] with `top` position get `123`
  */
-const getUnitValue = (size: SizeInfo, isHorizontal: boolean) => {
-  return size[isHorizontal ? 0 : 1];
+const getUnitValue = (size: SizeInfo, tabPositionTopOrBottom: boolean) => {
+  return size[tabPositionTopOrBottom ? 0 : 1];
 };
 
 const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref) => {
@@ -120,15 +120,15 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
   const operationsRef = useRef<HTMLDivElement>(null);
   const innerAddButtonRef = useRef<HTMLButtonElement>(null);
 
-  const isHorizontal = tabPosition === 'top' || tabPosition === 'bottom';
+  const tabPositionTopOrBottom = tabPosition === 'top' || tabPosition === 'bottom';
 
   const [transformLeft, setTransformLeft] = useSyncState(0, (next, prev) => {
-    if (isHorizontal && onTabScroll) {
+    if (tabPositionTopOrBottom && onTabScroll) {
       onTabScroll({ direction: next > prev ? 'left' : 'right' });
     }
   });
   const [transformTop, setTransformTop] = useSyncState(0, (next, prev) => {
-    if (!isHorizontal && onTabScroll) {
+    if (!tabPositionTopOrBottom && onTabScroll) {
       onTabScroll({ direction: next > prev ? 'top' : 'bottom' });
     }
   });
@@ -142,10 +142,13 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
   const tabOffsets = useOffsets(tabs, tabSizes, tabContentSize[0]);
 
   // ========================== Unit =========================
-  const containerExcludeExtraSizeValue = getUnitValue(containerExcludeExtraSize, isHorizontal);
-  const tabContentSizeValue = getUnitValue(tabContentSize, isHorizontal);
-  const addSizeValue = getUnitValue(addSize, isHorizontal);
-  const operationSizeValue = getUnitValue(operationSize, isHorizontal);
+  const containerExcludeExtraSizeValue = getUnitValue(
+    containerExcludeExtraSize,
+    tabPositionTopOrBottom,
+  );
+  const tabContentSizeValue = getUnitValue(tabContentSize, tabPositionTopOrBottom);
+  const addSizeValue = getUnitValue(addSize, tabPositionTopOrBottom);
+  const operationSizeValue = getUnitValue(operationSize, tabPositionTopOrBottom);
 
   const needScroll =
     Math.floor(containerExcludeExtraSizeValue) < Math.floor(tabContentSizeValue + addSizeValue);
@@ -159,7 +162,7 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
   let transformMin = 0;
   let transformMax = 0;
 
-  if (!isHorizontal) {
+  if (!tabPositionTopOrBottom) {
     transformMin = Math.min(0, visibleTabContentValue - tabContentSizeValue);
     transformMax = 0;
   } else if (rtl) {
@@ -208,7 +211,7 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
       return false;
     }
 
-    if (isHorizontal) {
+    if (tabPositionTopOrBottom) {
       doMove(setTransformLeft, offsetX);
     } else {
       doMove(setTransformTop, offsetY);
@@ -238,7 +241,7 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
     // Container
     visibleTabContentValue,
     // Transform
-    isHorizontal ? transformLeft : transformTop,
+    tabPositionTopOrBottom ? transformLeft : transformTop,
     // Tabs
     tabContentSizeValue,
     // Add
@@ -258,7 +261,7 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
       top: 0,
     };
 
-    if (isHorizontal) {
+    if (tabPositionTopOrBottom) {
       // ============ Align with top & bottom ============
       let newTransform = transformLeft;
 
@@ -331,14 +334,14 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
   const handleKeyDown = (e: React.KeyboardEvent) => {
     const { code } = e;
 
-    const isRTL = rtl && isHorizontal;
+    const isRTL = rtl && tabPositionTopOrBottom;
     const firstEnabledTab = enabledTabs[0];
     const lastEnabledTab = enabledTabs[enabledTabs.length - 1];
 
     switch (code) {
       // LEFT
       case 'ArrowLeft': {
-        if (isHorizontal) {
+        if (tabPositionTopOrBottom) {
           onOffset(isRTL ? 1 : -1);
         }
         break;
@@ -346,7 +349,7 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
 
       // RIGHT
       case 'ArrowRight': {
-        if (isHorizontal) {
+        if (tabPositionTopOrBottom) {
           onOffset(isRTL ? -1 : 1);
         }
         break;
@@ -355,7 +358,7 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
       // UP
       case 'ArrowUp': {
         e.preventDefault();
-        if (!isHorizontal) {
+        if (!tabPositionTopOrBottom) {
           onOffset(-1);
         }
         break;
@@ -364,7 +367,7 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
       // DOWN
       case 'ArrowDown': {
         e.preventDefault();
-        if (!isHorizontal) {
+        if (!tabPositionTopOrBottom) {
           onOffset(1);
         }
         break;
@@ -396,7 +399,7 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
 
   // ========================== Tab ==========================
   const tabNodeStyle: React.CSSProperties = {};
-  if (isHorizontal) {
+  if (tabPositionTopOrBottom) {
     tabNodeStyle[rtl ? 'marginRight' : 'marginLeft'] = tabBarGutter;
   } else {
     tabNodeStyle.marginTop = tabBarGutter;
@@ -505,7 +508,7 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
   const activeTabOffset = tabOffsets.get(activeKey);
   const { style: indicatorStyle } = useIndicator({
     activeTabOffset,
-    horizontal: isHorizontal,
+    horizontal: tabPositionTopOrBottom,
     indicator,
     rtl,
   });
@@ -519,7 +522,7 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
     transformMax,
     stringify(activeTabOffset),
     stringify(tabOffsets as any),
-    isHorizontal,
+    tabPositionTopOrBottom,
   ]);
 
   // Should recalculate when rtl changed
@@ -536,7 +539,7 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
   let pingTop: boolean;
   let pingBottom: boolean;
 
-  if (isHorizontal) {
+  if (tabPositionTopOrBottom) {
     if (rtl) {
       pingRight = transformLeft > 0;
       pingLeft = transformLeft !== transformMax;

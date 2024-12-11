@@ -78,7 +78,7 @@ export default () => {
           setDirection(direction === 'ltr' ? 'rtl' : 'ltr');
         }}
       >
-        {direction}
+        {direction === 'ltr' ? 'rtl' : 'ltr'}
       </button>
     </React.StrictMode>
   );
