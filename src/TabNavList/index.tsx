@@ -381,6 +381,17 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
         onTabClick(focusKey, e);
         break;
       }
+      // Backspace
+      case 'Backspace': {
+        if (editable) {
+          e.preventDefault();
+          e.stopPropagation();
+          editable.onEdit('remove', { key: focusKey, event: e });
+          // should focus next tab after remove
+          onOffset(1);
+        }
+        break;
+      }
     }
   };
 

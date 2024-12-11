@@ -106,7 +106,7 @@ const TabNode: React.FC<TabNodeProps> = props => {
         <button
           type="button"
           aria-label={removeAriaLabel || 'remove'}
-          tabIndex={0}
+          tabIndex={-1}
           className={`${tabPrefix}-remove`}
           onClick={e => {
             e.stopPropagation();
