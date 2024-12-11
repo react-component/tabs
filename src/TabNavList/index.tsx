@@ -299,7 +299,7 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
 
   // ========================= Focus =========================
   const [focusKey, setFocusKey] = useState<string>();
-  const [isKeyboard, setIsKeyboard] = useState(false);
+  const [isKeyboard, setIsKeyboard] = useState(true);
 
   const enabledTabs = tabs.filter(tab => !tab.disabled).map(tab => tab.key);
 
