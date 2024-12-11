@@ -18,6 +18,7 @@ export interface TabNodeProps {
   removeIcon?: React.ReactNode;
   onKeyDown: React.KeyboardEventHandler;
   onMouseDown: React.MouseEventHandler;
+  onMouseUp: React.MouseEventHandler;
   onFocus: React.FocusEventHandler;
   onBlur: React.FocusEventHandler;
   style?: React.CSSProperties;
@@ -39,6 +40,7 @@ const TabNode: React.FC<TabNodeProps> = props => {
     onBlur,
     onKeyDown,
     onMouseDown,
+    onMouseUp,
     style,
   } = props;
   const tabPrefix = `${prefixCls}-tab`;
@@ -91,6 +93,7 @@ const TabNode: React.FC<TabNodeProps> = props => {
         }}
         onKeyDown={onKeyDown}
         onMouseDown={onMouseDown}
+        onMouseUp={onMouseUp}
         onFocus={onFocus}
         onBlur={onBlur}
       >

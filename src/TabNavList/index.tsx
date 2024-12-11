@@ -303,19 +303,6 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
 
   const enabledTabs = tabs.filter(tab => !tab.disabled).map(tab => tab.key);
 
-  useEffect(() => {
-    const captureTabKey = (e: KeyboardEvent) => {
-      if (e.key === 'Tab') {
-        setIsKeyboard(true);
-      }
-    };
-
-    window.addEventListener('keydown', captureTabKey);
-    return () => {
-      window.removeEventListener('keydown', captureTabKey);
-    };
-  }, []);
-
   const onOffset = (offset: number) => {
     const currentIndex = enabledTabs.indexOf(focusKey || activeKey);
 
@@ -445,6 +432,9 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
         }}
         onMouseDown={() => {
           setIsKeyboard(false);
+        }}
+        onMouseUp={() => {
+          setIsKeyboard(true);
         }}
       />
     );
