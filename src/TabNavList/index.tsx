@@ -150,7 +150,8 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
   const addSizeValue = getUnitValue(addSize, tabPositionTopOrBottom);
   const operationSizeValue = getUnitValue(operationSize, tabPositionTopOrBottom);
 
-  const needScroll = Math.floor(containerExcludeExtraSizeValue) < Math.floor(tabContentSizeValue + addSizeValue);
+  const needScroll =
+    Math.floor(containerExcludeExtraSizeValue) < Math.floor(tabContentSizeValue + addSizeValue);
   const visibleTabContentValue = needScroll
     ? containerExcludeExtraSizeValue - operationSizeValue
     : containerExcludeExtraSizeValue - addSizeValue;
@@ -296,9 +297,109 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
     }
   });
 
+  // ========================= Focus =========================
+  const [focusKey, setFocusKey] = useState<string>();
+  const [isKeyboard, setIsKeyboard] = useState(false);
+
+  const enabledTabs = tabs.filter(tab => !tab.disabled).map(tab => tab.key);
+
+  useEffect(() => {
+    const captureTabKey = (e: KeyboardEvent) => {
+      if (e.key === 'Tab') {
+        setIsKeyboard(true);
+      }
+    };
+
+    window.addEventListener('keydown', captureTabKey);
+    return () => {
+      window.removeEventListener('keydown', captureTabKey);
+    };
+  }, []);
+
+  const onOffset = (offset: number) => {
+    const currentIndex = enabledTabs.indexOf(focusKey || activeKey);
+
+    let newIndex = currentIndex + offset;
+
+    if (newIndex < 0) {
+      newIndex = enabledTabs.length - 1;
+    } else if (newIndex >= enabledTabs.length) {
+      newIndex = 0;
+    }
+
+    const newKey = enabledTabs[newIndex];
+    setFocusKey(newKey);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    const { code } = e;
+
+    const isRTL = rtl && tabPositionTopOrBottom;
+    const firstEnabledTab = enabledTabs[0];
+    const lastEnabledTab = enabledTabs[enabledTabs.length - 1];
+
+    switch (code) {
+      // LEFT
+      case 'ArrowLeft': {
+        if (tabPositionTopOrBottom) {
+          onOffset(isRTL ? 1 : -1);
+        }
+        break;
+      }
+
+      // RIGHT
+      case 'ArrowRight': {
+        if (tabPositionTopOrBottom) {
+          onOffset(isRTL ? -1 : 1);
+        }
+        break;
+      }
+
+      // UP
+      case 'ArrowUp': {
+        e.preventDefault();
+        if (!tabPositionTopOrBottom) {
+          onOffset(-1);
+        }
+        break;
+      }
+
+      // DOWN
+      case 'ArrowDown': {
+        e.preventDefault();
+        if (!tabPositionTopOrBottom) {
+          onOffset(1);
+        }
+        break;
+      }
+
+      // HOME
+      case 'Home': {
+        e.preventDefault();
+        setFocusKey(firstEnabledTab);
+        break;
+      }
+
+      // END
+      case 'End': {
+        e.preventDefault();
+        setFocusKey(lastEnabledTab);
+        break;
+      }
+
+      // Enter & Space
+      case 'Enter':
+      case 'Space': {
+        e.preventDefault();
+        onTabClick(focusKey, e);
+        break;
+      }
+    }
+  };
+
   // ========================== Tab ==========================
   const tabNodeStyle: React.CSSProperties = {};
-  if (tabPosition === 'top' || tabPosition === 'bottom') {
+  if (tabPositionTopOrBottom) {
     tabNodeStyle[rtl ? 'marginRight' : 'marginLeft'] = tabBarGutter;
   } else {
     tabNodeStyle.marginTop = tabBarGutter;
@@ -317,12 +418,17 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
         closable={tab.closable}
         editable={editable}
         active={key === activeKey}
+        focus={key === focusKey}
         renderWrapper={children}
         removeAriaLabel={locale?.removeAriaLabel}
         onClick={e => {
           onTabClick(key, e);
         }}
+        onKeyDown={handleKeyDown}
         onFocus={() => {
+          if (isKeyboard) {
+            setFocusKey(key);
+          }
           scrollToTab(key);
           doLockAnimation();
           if (!tabsWrapperRef.current) {
@@ -333,6 +439,12 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
             tabsWrapperRef.current.scrollLeft = 0;
           }
           tabsWrapperRef.current.scrollTop = 0;
+        }}
+        onBlur={() => {
+          setFocusKey(undefined);
+        }}
+        onMouseDown={() => {
+          setIsKeyboard(false);
         }}
       />
     );

@@ -25,7 +25,7 @@ exports[`Tabs.Basic Normal 1`] = `
             class="rc-tabs-tab-btn"
             id="rc-tabs-test-tab-light"
             role="tab"
-            tabindex="0"
+            tabindex="-1"
           >
             light
           </div>
@@ -55,7 +55,7 @@ exports[`Tabs.Basic Normal 1`] = `
             class="rc-tabs-tab-btn"
             id="rc-tabs-test-tab-cute"
             role="tab"
-            tabindex="0"
+            tabindex="-1"
           >
             cute
           </div>
