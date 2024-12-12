@@ -25,7 +25,7 @@ import type {
   TabSizeMap,
   TabsLocale,
 } from '../interface';
-import { genDataNodeKey, stringify } from '../util';
+import { genDataNodeKey, getRemovable, stringify } from '../util';
 import AddButton from './AddButton';
 import ExtraContent from './ExtraContent';
 import OperationNode from './OperationNode';
@@ -383,7 +383,14 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
       }
       // Backspace
       case 'Backspace': {
-        if (editable) {
+        const removeTab = tabs.find(tab => tab.key === focusKey);
+        const removable = getRemovable(
+          removeTab?.closable,
+          removeTab?.closeIcon,
+          editable,
+          removeTab?.disabled,
+        );
+        if (removable) {
           e.preventDefault();
           e.stopPropagation();
           editable.onEdit('remove', { key: focusKey, event: e });
