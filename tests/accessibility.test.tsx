@@ -148,4 +148,73 @@ describe('Tabs.Accessibility', () => {
     // skip disabled tab
     expect(fourthTab.parentElement).toHaveClass('rc-tabs-tab-focus');
   });
+
+  it('should support keyboard delete tab', async () => {
+    const user = userEvent.setup();
+    const Demo = () => {
+      const [items, setItems] = React.useState([
+        {
+          key: '1',
+          label: 'Tab 1',
+          children: 'Content 1',
+        },
+        {
+          key: '2',
+          label: 'Tab 2',
+          children: 'Content 2',
+        },
+        {
+          key: '3',
+          label: 'Tab 3',
+          disabled: true,
+          children: 'Content 3',
+        },
+        {
+          key: '4',
+          label: 'Tab 4',
+          children: 'Content 4',
+        },
+      ]);
+      return (
+        <Tabs
+          defaultActiveKey="1"
+          items={items}
+          editable={{
+            onEdit: (type, { key }) => {
+              if (type === 'remove') {
+                setItems(prevItems => prevItems.filter(item => item.key !== key));
+              }
+            },
+          }}
+        />
+      );
+    };
+
+    const { getByRole, queryByRole } = render(<Demo />);
+
+    // focus to first tab
+    await user.tab();
+    const firstTab = getByRole('tab', { name: 'Tab 1' });
+    expect(firstTab).toHaveFocus();
+
+    // delete first tab
+    await user.keyboard('{Backspace}');
+    expect(queryByRole('tab', { name: 'Tab 1' })).toBeNull();
+
+    // focus should move to next tab
+    const secondTab = getByRole('tab', { name: 'Tab 2' });
+    expect(secondTab).toHaveFocus();
+
+    // delete second tab
+    await user.keyboard('{Backspace}');
+    expect(queryByRole('tab', { name: 'Tab 2' })).toBeNull();
+
+    // focus should move to next tab
+    const fourthTab = getByRole('tab', { name: 'Tab 4' });
+    expect(fourthTab).toHaveFocus();
+
+    // keyboard navigation should work
+    await user.keyboard('{ArrowRight}');
+    expect(fourthTab.parentElement).toHaveClass('rc-tabs-tab-focus');
+  });
 });

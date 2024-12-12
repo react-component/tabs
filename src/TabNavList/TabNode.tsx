@@ -65,6 +65,14 @@ const TabNode: React.FC<TabNodeProps> = props => {
     [label, icon],
   );
 
+  const btnRef = React.useRef<HTMLDivElement>(null);
+
+  React.useEffect(() => {
+    if (focus && btnRef.current) {
+      btnRef.current.focus();
+    }
+  }, [focus]);
+
   const node: React.ReactElement = (
     <div
       key={key}
@@ -80,6 +88,7 @@ const TabNode: React.FC<TabNodeProps> = props => {
     >
       {/* Primary Tab Button */}
       <div
+        ref={btnRef}
         role="tab"
         aria-selected={active}
         id={id && `${id}-tab-${key}`}
