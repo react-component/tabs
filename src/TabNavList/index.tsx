@@ -383,6 +383,7 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
       }
       // Backspace
       case 'Backspace': {
+        const removeIndex = enabledTabs.indexOf(focusKey);
         const removeTab = tabs.find(tab => tab.key === focusKey);
         const removable = getRemovable(
           removeTab?.closable,
@@ -394,8 +395,12 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
           e.preventDefault();
           e.stopPropagation();
           editable.onEdit('remove', { key: focusKey, event: e });
-          // should focus next tab after remove
-          onOffset(1);
+          // when remove last tab, focus previous tab
+          if (removeIndex === enabledTabs.length - 1) {
+            onOffset(-1);
+          } else {
+            onOffset(1);
+          }
         }
         break;
       }

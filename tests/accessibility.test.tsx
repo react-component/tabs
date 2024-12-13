@@ -217,4 +217,47 @@ describe('Tabs.Accessibility', () => {
     await user.keyboard('{ArrowRight}');
     expect(fourthTab.parentElement).toHaveClass('rc-tabs-tab-focus');
   });
+
+  it('should focus previous tab when deleting the last tab', async () => {
+    const user = userEvent.setup();
+    const Demo = () => {
+      const [items, setItems] = React.useState([
+        {
+          key: '1',
+          label: 'Tab 1',
+          children: 'Content 1',
+        },
+        {
+          key: '2',
+          label: 'Tab 2',
+          children: 'Content 2',
+        },
+      ]);
+      return (
+        <Tabs
+          defaultActiveKey="2"
+          items={items}
+          editable={{
+            onEdit: (type, { key }) => {
+              if (type === 'remove') {
+                setItems(prevItems => prevItems.filter(item => item.key !== key));
+              }
+            },
+          }}
+        />
+      );
+    };
+
+    const { getByRole, queryByRole } = render(<Demo />);
+
+    await user.tab();
+    const lastTab = getByRole('tab', { name: 'Tab 2' });
+    expect(lastTab).toHaveFocus();
+
+    await user.keyboard('{Backspace}');
+    expect(queryByRole('tab', { name: 'Tab 2' })).toBeNull();
+
+    const firstTab = getByRole('tab', { name: 'Tab 1' });
+    expect(firstTab).toHaveFocus();
+  });
 });
