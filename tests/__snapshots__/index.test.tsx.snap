@@ -5,6 +5,7 @@ exports[`Tabs.Basic Normal 1`] = `
   class="rc-tabs rc-tabs-top"
 >
   <div
+    aria-orientation="horizontal"
     class="rc-tabs-nav"
     role="tablist"
   >
@@ -109,6 +110,7 @@ exports[`Tabs.Basic Skip invalidate children 1`] = `
   class="rc-tabs rc-tabs-top"
 >
   <div
+    aria-orientation="horizontal"
     class="rc-tabs-nav"
     role="tablist"
   >
