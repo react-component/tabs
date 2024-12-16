@@ -375,7 +375,8 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
         break;
       }
       // Backspace
-      case 'Backspace': {
+      case 'Backspace':
+      case 'Delete': {
         const removeIndex = enabledTabs.indexOf(focusKey);
         const removeTab = tabs.find(tab => tab.key === focusKey);
         const removable = getRemovable(
