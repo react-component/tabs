@@ -305,16 +305,9 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
 
   const onOffset = (offset: number) => {
     const currentIndex = enabledTabs.indexOf(focusKey || activeKey);
-
-    let newIndex = currentIndex + offset;
-
-    if (newIndex < 0) {
-      newIndex = enabledTabs.length - 1;
-    } else if (newIndex >= enabledTabs.length) {
-      newIndex = 0;
-    }
-
-    const newKey = enabledTabs[newIndex];
+    const len = enabledTabs.length;
+    const nextIndex = (currentIndex + offset + len) % len;
+    const newKey = enabledTabs[nextIndex];
     setFocusKey(newKey);
   };
 
