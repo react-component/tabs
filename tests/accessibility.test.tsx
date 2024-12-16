@@ -232,6 +232,11 @@ describe('Tabs.Accessibility', () => {
           label: 'Tab 2',
           children: 'Content 2',
         },
+        {
+          key: '3',
+          label: 'Tab 3',
+          children: 'Content 3',
+        },
       ]);
       return (
         <Tabs
@@ -256,6 +261,9 @@ describe('Tabs.Accessibility', () => {
 
     await user.keyboard('{Backspace}');
     expect(queryByRole('tab', { name: 'Tab 2' })).toBeNull();
+
+    await user.keyboard('{Delete}');
+    expect(queryByRole('tab', { name: 'Tab 3' })).toBeNull();
 
     const firstTab = getByRole('tab', { name: 'Tab 1' });
     expect(firstTab).toHaveFocus();
