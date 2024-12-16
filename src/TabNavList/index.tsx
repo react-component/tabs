@@ -564,6 +564,7 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
       <div
         ref={useComposeRef(ref, containerRef)}
         role="tablist"
+        aria-orientation={tabPositionTopOrBottom ? 'horizontal' : 'vertical'}
         className={classNames(`${prefixCls}-nav`, className)}
         style={style}
         onKeyDown={() => {
