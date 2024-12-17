@@ -15,6 +15,8 @@ export interface TabNodeProps {
   onResize?: (width: number, height: number, left: number, top: number) => void;
   renderWrapper?: (node: React.ReactElement) => React.ReactElement;
   removeAriaLabel?: string;
+  tabCount: number;
+  currentPosition: number;
   removeIcon?: React.ReactNode;
   onKeyDown: React.KeyboardEventHandler;
   onMouseDown: React.MouseEventHandler;
@@ -42,6 +44,8 @@ const TabNode: React.FC<TabNodeProps> = props => {
     onMouseDown,
     onMouseUp,
     style,
+    tabCount,
+    currentPosition,
   } = props;
   const tabPrefix = `${prefixCls}-tab`;
 
@@ -106,6 +110,22 @@ const TabNode: React.FC<TabNodeProps> = props => {
         onFocus={onFocus}
         onBlur={onBlur}
       >
+        {focus && (
+          <div
+            aria-live="polite"
+            style={{
+              position: 'absolute',
+              width: 1,
+              height: 1,
+              overflow: 'hidden',
+              padding: 0,
+              margin: -1,
+              clip: 'rect(0, 0, 0, 0)',
+            }}
+          >
+            {`Tab ${currentPosition} of ${tabCount}，`}
+          </div>
+        )}
         {icon && <span className={`${tabPrefix}-icon`}>{icon}</span>}
         {label && labelNode}
       </div>

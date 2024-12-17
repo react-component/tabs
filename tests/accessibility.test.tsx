@@ -12,23 +12,23 @@ describe('Tabs.Accessibility', () => {
       items={[
         {
           key: '1',
-          label: 'Tab 1',
+          label: 'Tab1',
           children: 'Content 1',
         },
         {
           key: '2',
-          label: 'Tab 2',
+          label: 'Tab2',
           children: 'Content 2',
         },
         {
           key: '3',
-          label: 'Tab 3',
+          label: 'Tab3',
           disabled: true,
           children: 'Content 3',
         },
         {
           key: '4',
-          label: 'Tab 4',
+          label: 'Tab4',
           children: 'Content 4',
         },
       ]}
@@ -39,9 +39,9 @@ describe('Tabs.Accessibility', () => {
     const user = userEvent.setup();
     const { getByRole } = render(createTabs());
 
-    const firstTab = getByRole('tab', { name: 'Tab 1' });
-    const secondTab = getByRole('tab', { name: 'Tab 2' });
-    const fourthTab = getByRole('tab', { name: 'Tab 4' });
+    const firstTab = getByRole('tab', { name: /Tab1/i });
+    const secondTab = getByRole('tab', { name: /Tab2/i });
+    const fourthTab = getByRole('tab', { name: /Tab4/i });
 
     await user.tab();
     expect(firstTab).toHaveFocus();
@@ -76,12 +76,12 @@ describe('Tabs.Accessibility', () => {
 
     // jump to first tab
     await user.tab();
-    const firstTab = getByRole('tab', { name: 'Tab 1' });
+    const firstTab = getByRole('tab', { name: /Tab1/i });
     expect(firstTab).toHaveFocus();
 
     // move to second tab
     await user.keyboard('{ArrowDown}');
-    const secondTab = getByRole('tab', { name: 'Tab 2' });
+    const secondTab = getByRole('tab', { name: /Tab2/i });
     expect(secondTab.parentElement).toHaveClass('rc-tabs-tab-focus');
 
     // move to first tab
@@ -121,7 +121,7 @@ describe('Tabs.Accessibility', () => {
     await user.keyboard('{ArrowRight}');
     await user.keyboard('{ArrowRight}');
 
-    const fourthTab = getByRole('tab', { name: 'Tab 4' });
+    const fourthTab = getByRole('tab', { name: /Tab4/i });
     expect(fourthTab.parentElement).toHaveClass('rc-tabs-tab-focus');
   });
 
@@ -129,8 +129,8 @@ describe('Tabs.Accessibility', () => {
     const user = userEvent.setup();
     const { getByRole } = render(createTabs());
 
-    const secondTab = getByRole('tab', { name: 'Tab 2' });
-    const fourthTab = getByRole('tab', { name: 'Tab 4' });
+    const secondTab = getByRole('tab', { name: /Tab2/i });
+    const fourthTab = getByRole('tab', { name: /Tab4/i });
 
     // mouse click should not add focus style
     await user.click(secondTab);
@@ -155,23 +155,23 @@ describe('Tabs.Accessibility', () => {
       const [items, setItems] = React.useState([
         {
           key: '1',
-          label: 'Tab 1',
+          label: 'Tab1',
           children: 'Content 1',
         },
         {
           key: '2',
-          label: 'Tab 2',
+          label: 'Tab2',
           children: 'Content 2',
         },
         {
           key: '3',
-          label: 'Tab 3',
+          label: 'Tab3',
           disabled: true,
           children: 'Content 3',
         },
         {
           key: '4',
-          label: 'Tab 4',
+          label: 'Tab4',
           children: 'Content 4',
         },
       ]);
@@ -194,23 +194,23 @@ describe('Tabs.Accessibility', () => {
 
     // focus to first tab
     await user.tab();
-    const firstTab = getByRole('tab', { name: 'Tab 1' });
+    const firstTab = getByRole('tab', { name: /Tab1/i });
     expect(firstTab).toHaveFocus();
 
     // delete first tab
     await user.keyboard('{Backspace}');
-    expect(queryByRole('tab', { name: 'Tab 1' })).toBeNull();
+    expect(queryByRole('tab', { name: /Tab1/i })).toBeNull();
 
     // focus should move to next tab
-    const secondTab = getByRole('tab', { name: 'Tab 2' });
+    const secondTab = getByRole('tab', { name: /Tab2/i });
     expect(secondTab).toHaveFocus();
 
     // delete second tab
     await user.keyboard('{Backspace}');
-    expect(queryByRole('tab', { name: 'Tab 2' })).toBeNull();
+    expect(queryByRole('tab', { name: /Tab2/i })).toBeNull();
 
     // focus should move to next tab
-    const fourthTab = getByRole('tab', { name: 'Tab 4' });
+    const fourthTab = getByRole('tab', { name: /Tab4/i });
     expect(fourthTab).toHaveFocus();
 
     // keyboard navigation should work
@@ -224,17 +224,17 @@ describe('Tabs.Accessibility', () => {
       const [items, setItems] = React.useState([
         {
           key: '1',
-          label: 'Tab 1',
+          label: 'Tab1',
           children: 'Content 1',
         },
         {
           key: '2',
-          label: 'Tab 2',
+          label: 'Tab2',
           children: 'Content 2',
         },
         {
           key: '3',
-          label: 'Tab 3',
+          label: 'Tab3',
           children: 'Content 3',
         },
       ]);
@@ -256,16 +256,16 @@ describe('Tabs.Accessibility', () => {
     const { getByRole, queryByRole } = render(<Demo />);
 
     await user.tab();
-    const lastTab = getByRole('tab', { name: 'Tab 2' });
-    expect(lastTab).toHaveFocus();
+    const secondTab = getByRole('tab', { name: /Tab2/i });
+    expect(secondTab).toHaveFocus();
 
     await user.keyboard('{Backspace}');
-    expect(queryByRole('tab', { name: 'Tab 2' })).toBeNull();
+    expect(queryByRole('tab', { name: /Tab2/i })).toBeNull();
 
     await user.keyboard('{Delete}');
-    expect(queryByRole('tab', { name: 'Tab 3' })).toBeNull();
+    expect(queryByRole('tab', { name: /Tab3/i })).toBeNull();
 
-    const firstTab = getByRole('tab', { name: 'Tab 1' });
+    const firstTab = getByRole('tab', { name: /Tab1/i });
     expect(firstTab).toHaveFocus();
   });
 });

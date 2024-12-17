@@ -425,6 +425,8 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
         focus={key === focusKey}
         renderWrapper={children}
         removeAriaLabel={locale?.removeAriaLabel}
+        tabCount={enabledTabs.length}
+        currentPosition={i + 1}
         onClick={e => {
           onTabClick(key, e);
         }}
