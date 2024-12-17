@@ -299,7 +299,7 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
 
   // ========================= Focus =========================
   const [focusKey, setFocusKey] = useState<string>();
-  const [isKeyboard, setIsKeyboard] = useState(true);
+  const [isMouse, setIsMouse] = useState(false);
 
   const enabledTabs = tabs.filter(tab => !tab.disabled).map(tab => tab.key);
 
@@ -432,7 +432,7 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
         }}
         onKeyDown={handleKeyDown}
         onFocus={() => {
-          if (isKeyboard) {
+          if (!isMouse) {
             setFocusKey(key);
           }
           scrollToTab(key);
@@ -450,10 +450,10 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
           setFocusKey(undefined);
         }}
         onMouseDown={() => {
-          setIsKeyboard(false);
+          setIsMouse(true);
         }}
         onMouseUp={() => {
-          setIsKeyboard(true);
+          setIsMouse(false);
         }}
       />
     );
