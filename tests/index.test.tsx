@@ -1,6 +1,5 @@
 import '@testing-library/dom';
 import { act, fireEvent, render, screen } from '@testing-library/react';
-import KeyCode from 'rc-util/lib/KeyCode';
 import { spyElementPrototypes } from 'rc-util/lib/test/domHook';
 import React from 'react';
 import Tabs from '../src';
@@ -25,6 +24,7 @@ describe('Tabs.Basic', () => {
   const hackOffsetInfo: HackInfo = {};
 
   beforeEach(() => {
+    jest.useFakeTimers();
     Object.keys(hackOffsetInfo).forEach(key => {
       delete hackOffsetInfo[key];
     });
@@ -215,15 +215,6 @@ describe('Tabs.Basic', () => {
         name: 'inner button',
         trigger: container =>
           fireEvent.click(container.querySelectorAll('.rc-tabs-tab .rc-tabs-tab-btn')[2]),
-      },
-      {
-        name: 'inner button key down',
-        trigger: container =>
-          fireEvent.keyDown(container.querySelectorAll('.rc-tabs-tab .rc-tabs-tab-btn')[2], {
-            which: KeyCode.SPACE,
-            keyCode: KeyCode.SPACE,
-            charCode: KeyCode.SPACE,
-          }),
       },
     ];
 

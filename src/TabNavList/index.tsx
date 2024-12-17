@@ -25,7 +25,7 @@ import type {
   TabSizeMap,
   TabsLocale,
 } from '../interface';
-import { genDataNodeKey, stringify } from '../util';
+import { genDataNodeKey, getRemovable, stringify } from '../util';
 import AddButton from './AddButton';
 import ExtraContent from './ExtraContent';
 import OperationNode from './OperationNode';
@@ -150,7 +150,8 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
   const addSizeValue = getUnitValue(addSize, tabPositionTopOrBottom);
   const operationSizeValue = getUnitValue(operationSize, tabPositionTopOrBottom);
 
-  const needScroll = Math.floor(containerExcludeExtraSizeValue) < Math.floor(tabContentSizeValue + addSizeValue);
+  const needScroll =
+    Math.floor(containerExcludeExtraSizeValue) < Math.floor(tabContentSizeValue + addSizeValue);
   const visibleTabContentValue = needScroll
     ? containerExcludeExtraSizeValue - operationSizeValue
     : containerExcludeExtraSizeValue - addSizeValue;
@@ -296,9 +297,113 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
     }
   });
 
+  // ========================= Focus =========================
+  const [focusKey, setFocusKey] = useState<string>();
+  const [isMouse, setIsMouse] = useState(false);
+
+  const enabledTabs = tabs.filter(tab => !tab.disabled).map(tab => tab.key);
+
+  const onOffset = (offset: number) => {
+    const currentIndex = enabledTabs.indexOf(focusKey || activeKey);
+    const len = enabledTabs.length;
+    const nextIndex = (currentIndex + offset + len) % len;
+    const newKey = enabledTabs[nextIndex];
+    setFocusKey(newKey);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    const { code } = e;
+
+    const isRTL = rtl && tabPositionTopOrBottom;
+    const firstEnabledTab = enabledTabs[0];
+    const lastEnabledTab = enabledTabs[enabledTabs.length - 1];
+
+    switch (code) {
+      // LEFT
+      case 'ArrowLeft': {
+        if (tabPositionTopOrBottom) {
+          onOffset(isRTL ? 1 : -1);
+        }
+        break;
+      }
+
+      // RIGHT
+      case 'ArrowRight': {
+        if (tabPositionTopOrBottom) {
+          onOffset(isRTL ? -1 : 1);
+        }
+        break;
+      }
+
+      // UP
+      case 'ArrowUp': {
+        e.preventDefault();
+        if (!tabPositionTopOrBottom) {
+          onOffset(-1);
+        }
+        break;
+      }
+
+      // DOWN
+      case 'ArrowDown': {
+        e.preventDefault();
+        if (!tabPositionTopOrBottom) {
+          onOffset(1);
+        }
+        break;
+      }
+
+      // HOME
+      case 'Home': {
+        e.preventDefault();
+        setFocusKey(firstEnabledTab);
+        break;
+      }
+
+      // END
+      case 'End': {
+        e.preventDefault();
+        setFocusKey(lastEnabledTab);
+        break;
+      }
+
+      // Enter & Space
+      case 'Enter':
+      case 'Space': {
+        e.preventDefault();
+        onTabClick(focusKey, e);
+        break;
+      }
+      // Backspace
+      case 'Backspace':
+      case 'Delete': {
+        const removeIndex = enabledTabs.indexOf(focusKey);
+        const removeTab = tabs.find(tab => tab.key === focusKey);
+        const removable = getRemovable(
+          removeTab?.closable,
+          removeTab?.closeIcon,
+          editable,
+          removeTab?.disabled,
+        );
+        if (removable) {
+          e.preventDefault();
+          e.stopPropagation();
+          editable.onEdit('remove', { key: focusKey, event: e });
+          // when remove last tab, focus previous tab
+          if (removeIndex === enabledTabs.length - 1) {
+            onOffset(-1);
+          } else {
+            onOffset(1);
+          }
+        }
+        break;
+      }
+    }
+  };
+
   // ========================== Tab ==========================
   const tabNodeStyle: React.CSSProperties = {};
-  if (tabPosition === 'top' || tabPosition === 'bottom') {
+  if (tabPositionTopOrBottom) {
     tabNodeStyle[rtl ? 'marginRight' : 'marginLeft'] = tabBarGutter;
   } else {
     tabNodeStyle.marginTop = tabBarGutter;
@@ -317,12 +422,19 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
         closable={tab.closable}
         editable={editable}
         active={key === activeKey}
+        focus={key === focusKey}
         renderWrapper={children}
         removeAriaLabel={locale?.removeAriaLabel}
+        tabCount={enabledTabs.length}
+        currentPosition={i + 1}
         onClick={e => {
           onTabClick(key, e);
         }}
+        onKeyDown={handleKeyDown}
         onFocus={() => {
+          if (!isMouse) {
+            setFocusKey(key);
+          }
           scrollToTab(key);
           doLockAnimation();
           if (!tabsWrapperRef.current) {
@@ -333,6 +445,15 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
             tabsWrapperRef.current.scrollLeft = 0;
           }
           tabsWrapperRef.current.scrollTop = 0;
+        }}
+        onBlur={() => {
+          setFocusKey(undefined);
+        }}
+        onMouseDown={() => {
+          setIsMouse(true);
+        }}
+        onMouseUp={() => {
+          setIsMouse(false);
         }}
       />
     );
@@ -445,6 +566,7 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
       <div
         ref={useComposeRef(ref, containerRef)}
         role="tablist"
+        aria-orientation={tabPositionTopOrBottom ? 'horizontal' : 'vertical'}
         className={classNames(`${prefixCls}-nav`, className)}
         style={style}
         onKeyDown={() => {
