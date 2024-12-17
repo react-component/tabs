@@ -113,17 +113,9 @@ const TabNode: React.FC<TabNodeProps> = props => {
         {focus && (
           <div
             aria-live="polite"
-            style={{
-              position: 'absolute',
-              width: 1,
-              height: 1,
-              overflow: 'hidden',
-              padding: 0,
-              margin: -1,
-              clip: 'rect(0, 0, 0, 0)',
-            }}
+            style={{ width: 0, height: 0, position: 'absolute', overflow: 'hidden', opacity: 0 }}
           >
-            {`Tab ${currentPosition} of ${tabCount}，`}
+            {`Tab ${currentPosition} of ${tabCount}`}
           </div>
         )}
         {icon && <span className={`${tabPrefix}-icon`}>{icon}</span>}
