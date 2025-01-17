@@ -178,7 +178,6 @@ const Tabs = React.forwardRef<HTMLDivElement, TabsProps>((props, ref) => {
     onTabScroll,
     extra: tabBarExtraContent,
     style: tabBarStyle,
-    panes: null,
     getPopupContainer,
     popupClassName,
     indicator,

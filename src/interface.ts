@@ -51,8 +51,6 @@ type RenderTabBarProps = {
   onTabScroll: OnTabScroll;
   extra: TabBarExtraContent;
   style: React.CSSProperties;
-  /** @deprecated It do not pass real TabPane node. Only for compatible usage.  */
-  panes: React.ReactNode;
 };
 
 export type RenderTabBar = (
