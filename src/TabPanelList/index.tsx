@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import CSSMotion from 'rc-motion';
+import CSSMotion from '@rc-component/motion';
 import * as React from 'react';
 import type { AnimatedConfig, TabPosition } from '../interface';
 import TabContext from '../TabContext';

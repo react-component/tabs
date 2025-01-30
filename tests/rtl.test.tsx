@@ -1,6 +1,5 @@
-import { render } from '@testing-library/react';
-import { spyElementPrototypes } from 'rc-util/lib/test/domHook';
-import { act } from 'react-dom/test-utils';
+import { render, act } from '@testing-library/react';
+import { spyElementPrototypes } from '@rc-component/util/lib/test/domHook';
 import { getOffsetSizeFunc, getTabs, getTransformX, triggerResize } from './common/util';
 
 // Same as `overflow.test.tsx` but use in RTL

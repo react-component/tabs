@@ -1,6 +1,6 @@
 import { act, fireEvent, render } from '@testing-library/react';
-import KeyCode from 'rc-util/lib/KeyCode';
-import { spyElementPrototypes } from 'rc-util/lib/test/domHook';
+import KeyCode from '@rc-component/util/lib/KeyCode';
+import { spyElementPrototypes } from '@rc-component/util/lib/test/domHook';
 import React from 'react';
 import type { TabsProps } from '../src';
 import Tabs from '../src';
@@ -95,12 +95,14 @@ describe('Tabs.Overflow', () => {
   it('should open dropdown on click when moreTrigger is set to click', () => {
     jest.useFakeTimers();
     const onChange = jest.fn();
-    const { container, unmount } = render(getTabs({ onChange, more: {icon: '...', trigger: 'click'} }));
+    const { container, unmount } = render(
+      getTabs({ onChange, more: { icon: '...', trigger: 'click' } }),
+    );
     triggerResize(container);
     act(() => {
       jest.runAllTimers();
     });
-    const button = container.querySelector('.rc-tabs-nav-more')
+    const button = container.querySelector('.rc-tabs-nav-more');
     fireEvent.click(button);
     act(() => {
       jest.runAllTimers();

@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import Dropdown from 'rc-dropdown';
 import Menu, { MenuItem } from 'rc-menu';
-import KeyCode from 'rc-util/lib/KeyCode';
+import KeyCode from '@rc-component/util/lib/KeyCode';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import type { EditableConfig, Tab, TabsLocale, MoreProps } from '../interface';

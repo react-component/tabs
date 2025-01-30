@@ -1,8 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import classNames from 'classnames';
-import ResizeObserver from 'rc-resize-observer';
-import useEvent from 'rc-util/lib/hooks/useEvent';
-import { useComposeRef } from 'rc-util/lib/ref';
+import ResizeObserver from '@rc-component/resize-observer';
+import useEvent from '@rc-component/util/lib/hooks/useEvent';
+import { useComposeRef } from '@rc-component/util/lib/ref';
 import * as React from 'react';
 import { useEffect, useRef, useState } from 'react';
 import TabContext from '../TabContext';
