@@ -1,15 +1,17 @@
-import type { CSSMotionProps } from 'rc-motion';
+import type { CSSMotionProps } from '@rc-component/motion';
 import type React from 'react';
 import type { TabNavListProps } from './TabNavList';
 import type { TabPaneProps } from './TabPanelList/TabPane';
-import { DropdownProps } from 'rc-dropdown/lib/Dropdown';
+import type { DropdownProps } from 'rc-dropdown/lib/Dropdown';
 
 export type TriggerProps = {
   trigger?: 'hover' | 'click';
-}
+};
+
 export type moreIcon = React.ReactNode;
+
 export type MoreProps = {
-  icon?: moreIcon,
+  icon?: moreIcon;
 } & Omit<DropdownProps, 'children'>;
 
 export type SizeInfo = [width: number, height: number];
@@ -45,7 +47,7 @@ type RenderTabBarProps = {
   mobile: boolean;
   editable: EditableConfig;
   locale: TabsLocale;
-  more: MoreProps,
+  more: MoreProps;
   tabBarGutter: number;
   onTabClick: (key: string, e: React.MouseEvent | React.KeyboardEvent) => void;
   onTabScroll: OnTabScroll;

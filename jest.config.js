@@ -13,12 +13,13 @@ const compileModules = [
 const ignoreList = [];
 
 // cnpm use `_` as prefix
-['', '_'].forEach((prefix) => {
-  compileModules.forEach((module) => {
+['', '_'].forEach(prefix => {
+  compileModules.forEach(module => {
     ignoreList.push(`${prefix}${module}`);
   });
 });
 
 module.exports = {
   transformIgnorePatterns: [`/node_modules/(?!${ignoreList.join('|')})[^/]+?/(?!(es)/)`],
+  setupFiles: ['./tests/setup.ts'],
 };

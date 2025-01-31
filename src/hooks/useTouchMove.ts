@@ -18,7 +18,7 @@ export default function useTouchMove(
   const [lastTimestamp, setLastTimestamp] = useState<number>(0);
   const [lastTimeDiff, setLastTimeDiff] = useState<number>(0);
   const [lastOffset, setLastOffset] = useState<{ x: number; y: number }>();
-  const motionRef = useRef<number>();
+  const motionRef = useRef<number>(undefined);
 
   // ========================= Events =========================
   // >>> Touch events
@@ -76,7 +76,7 @@ export default function useTouchMove(
   }
 
   // >>> Wheel event
-  const lastWheelDirectionRef = useRef<'x' | 'y'>();
+  const lastWheelDirectionRef = useRef<'x' | 'y'>(undefined);
 
   function onWheel(e: WheelEvent) {
     const { deltaX, deltaY } = e;

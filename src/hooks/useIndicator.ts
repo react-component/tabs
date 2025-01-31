@@ -1,4 +1,4 @@
-import raf from 'rc-util/lib/raf';
+import raf from '@rc-component/util/lib/raf';
 import React, { useEffect, useRef, useState } from 'react';
 import type { TabOffset } from '../interface';
 
@@ -20,7 +20,8 @@ const useIndicator = (options: UseIndicatorOptions) => {
   const { size, align = 'center' } = indicator;
 
   const [inkStyle, setInkStyle] = useState<React.CSSProperties>();
-  const inkBarRafRef = useRef<number>();
+
+  const inkBarRafRef = useRef<number>(undefined);
 
   const getLength = React.useCallback(
     (origin: number) => {

@@ -3,29 +3,16 @@
     "target": "esnext",
     "moduleResolution": "node",
     "baseUrl": "./",
-    "lib": [
-      "dom",
-      "es2017"
-    ],
+    "lib": ["dom", "es2017"],
     "jsx": "react",
     "declaration": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
     "paths": {
-      "@/*": [
-        "src/*"
-      ],
-      "@@/*": [
-        ".dumi/tmp/*"
-      ],
-      "rc-tabs": [
-        "src/"
-      ]
+      "@/*": ["src/*"],
+      "@@/*": [".dumi/tmp/*"],
+      "rc-tabs": ["src/"]
     }
   },
-  "include": [
-    ".dumirc.ts",
-    "**/*.ts",
-    "**/*.tsx"
-  ]
+  "include": [".dumirc.ts", "**/*.ts", "**/*.tsx", "tests/swipe.js"]
 }

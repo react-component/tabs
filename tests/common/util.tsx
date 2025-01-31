@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-invalid-this */
 import { act } from '@testing-library/react';
-import { _rs as onEsResize } from 'rc-resize-observer/es/utils/observerUtil';
-import { _rs as onLibResize } from 'rc-resize-observer/lib/utils/observerUtil';
+import { _rs as onEsResize } from '@rc-component/resize-observer/es/utils/observerUtil';
+import { _rs as onLibResize } from '@rc-component/resize-observer/lib/utils/observerUtil';
 import React from 'react';
 import Tabs from '../../src';
 import type { TabsProps } from '../../src/Tabs';
