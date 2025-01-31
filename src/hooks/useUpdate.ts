@@ -5,10 +5,10 @@ import { useRef, useState } from 'react';
  * Help to merge callback with `useLayoutEffect`.
  * One time will only trigger once.
  */
-export default function useUpdate(callback: VoidFunction): () => void {
+function useUpdate(callback: VoidFunction): () => void {
   const [count, setCount] = useState(0);
   const effectRef = useRef(0);
-  const callbackRef = useRef<VoidFunction>();
+  const callbackRef = useRef<VoidFunction>(undefined);
   callbackRef.current = callback;
 
   // Trigger on `useLayoutEffect`
@@ -56,3 +56,5 @@ export function useUpdateState<T>(
 
   return [state.current, updater];
 }
+
+export default useUpdate;
