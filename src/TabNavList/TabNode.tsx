@@ -126,6 +126,7 @@ const TabNode: React.FC<TabNodeProps> = props => {
       {removable && (
         <button
           type="button"
+          role="tab"
           aria-label={removeAriaLabel || 'remove'}
           tabIndex={active ? 0 : -1}
           className={`${tabPrefix}-remove`}
