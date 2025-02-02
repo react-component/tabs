@@ -18,6 +18,7 @@ const AddButton = React.forwardRef<HTMLButtonElement, AddButtonProps>((props, re
     <button
       ref={ref}
       type="button"
+      role='tab'
       className={`${prefixCls}-nav-add`}
       style={style}
       aria-label={locale?.addAriaLabel || 'Add tab'}
