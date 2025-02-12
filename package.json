@@ -32,13 +32,14 @@
     "docs:deploy": "gh-pages -d .doc",
     "lint": "eslint src/ docs/examples/ --ext .tsx,.ts,.jsx,.js",
     "now-build": "npm run build",
-    "prepublishOnly": "npm run lint && npm run test && npm run compile && np --yolo --no-publish",
+    "prepublishOnly": "npm run lint && npm run test && npm run compile && rc-np --yolo --no-publish",
     "start": "dumi dev",
     "test": "rc-test"
   },
   "dependencies": {
     "@rc-component/resize-observer": "^1.0.0",
     "@rc-component/util": "^1.2.0",
+    "@rc-component/motion": "^1.1.3",
     "classnames": "2.x",
     "rc-dropdown": "~4.2.0",
     "rc-menu": "~9.16.0",
@@ -70,7 +71,6 @@
     "history": "^5.3.0",
     "immutability-helper": "^3.0.1",
     "less": "^4.1.3",
-    "np": "^10.0.2",
     "preact-compat": "^3.16.0",
     "rc-test": "^7.0.14",
     "react": "^18.0.0",
