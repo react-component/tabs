@@ -20,6 +20,9 @@
       ],
       "rc-tabs": [
         "src/"
+      ],
+      "@rc-component/tabs": [
+        "src/"
       ]
     }
   },
