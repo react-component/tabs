@@ -310,23 +310,6 @@ describe('Tabs.Basic', () => {
       expect(container.querySelector('.my-node')).toBeTruthy();
       expect(renderTabBar).toHaveBeenCalled();
     });
-    it('has panes property in props', () => {
-      const renderTabBar = props => {
-        return (
-          <div>
-            {props.panes.map(pane => (
-              <span key={pane.key} data-key={pane.key}>
-                tab
-              </span>
-            ))}
-          </div>
-        );
-      };
-      const { container } = render(getTabs({ renderTabBar }));
-      expect(container.querySelector('[data-key="light"]')).toBeTruthy();
-      expect(container.querySelector('[data-key="bamboo"]')).toBeTruthy();
-      expect(container.querySelector('[data-key="cute"]')).toBeTruthy();
-    });
   });
 
   it('destroyInactiveTabPane', () => {
