@@ -23,11 +23,13 @@ export interface TabPaneProps {
 
 const TabPane = React.forwardRef<HTMLDivElement, TabPaneProps>((props, ref) => {
   const { prefixCls, className, style, id, active, tabKey, children } = props;
+  const hasContent = React.Children.count(children) > 0;
+
   return (
     <div
       id={id && `${id}-panel-${tabKey}`}
       role="tabpanel"
-      tabIndex={active ? 0 : -1}
+      tabIndex={active && hasContent ? 0 : -1}
       aria-labelledby={id && `${id}-tab-${tabKey}`}
       aria-hidden={!active}
       style={style}
