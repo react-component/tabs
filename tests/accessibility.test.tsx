@@ -268,4 +268,16 @@ describe('Tabs.Accessibility', () => {
     const firstTab = getByRole('tab', { name: /Tab1/i });
     expect(firstTab).toHaveFocus();
   });
+
+  it('should not focus on tab panel when it is empty', async () => {
+    const user = userEvent.setup();
+    const { getByRole } = render(
+      <Tabs defaultActiveKey="1" items={[{ key: '1', label: 'Tab1', children: null }]} />,
+    );
+
+    const tabPanel = getByRole('tabpanel', { name: /Tab1/i });
+    await user.tab();
+    await user.tab();
+    expect(tabPanel).not.toHaveFocus();
+  });
 });
