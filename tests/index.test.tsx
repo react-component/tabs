@@ -690,24 +690,28 @@ describe('Tabs.Basic', () => {
     expect(parseInt(centerBar.style.top)).toBeLessThanOrEqual(parseInt(endBar.style.top));
   });
   it('support classnames and styles', () => {
-    const items = Array.from({ length: 20 }, (_, index) => ({
-      key: `test-${index}`,
-      label: 'test',
-      icon: 'test',
-    }));
     const customClassNames = {
       indicator: 'custom-indicator',
       item: 'custom-item',
-      popup: 'custom-popup',
     };
     const customStyles = {
       indicator: { background: 'red' },
-      item: { background: 'blue' },
-      popup: { background: 'green' },
+      item: { color: 'blue' },
     };
     const { container } = render(
-      <Tabs tabPosition="left" items={items} styles={customStyles} classNames={customClassNames} />,
+      <Tabs
+        tabPosition="left"
+        items={[{ key: 'test', label: 'test', icon: 'test' }]}
+        styles={customStyles}
+        classNames={customClassNames}
+      />,
     );
-    console.log(container.innerHTML);
+    const indicator = container.querySelector('.rc-tabs-ink-bar') as HTMLElement;
+    const item = container.querySelector('.rc-tabs-tab') as HTMLElement;
+
+    expect(indicator).toHaveClass('custom-indicator');
+    expect(item).toHaveClass('custom-item');
+    expect(indicator).toHaveStyle({ background: 'red' });
+    expect(item).toHaveStyle({ color: 'blue' });
   });
 });

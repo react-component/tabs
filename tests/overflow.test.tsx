@@ -95,12 +95,14 @@ describe('Tabs.Overflow', () => {
   it('should open dropdown on click when moreTrigger is set to click', () => {
     jest.useFakeTimers();
     const onChange = jest.fn();
-    const { container, unmount } = render(getTabs({ onChange, more: {icon: '...', trigger: 'click'} }));
+    const { container, unmount } = render(
+      getTabs({ onChange, more: { icon: '...', trigger: 'click' } }),
+    );
     triggerResize(container);
     act(() => {
       jest.runAllTimers();
     });
-    const button = container.querySelector('.rc-tabs-nav-more')
+    const button = container.querySelector('.rc-tabs-nav-more');
     fireEvent.click(button);
     act(() => {
       jest.runAllTimers();
@@ -504,7 +506,13 @@ describe('Tabs.Overflow', () => {
 
   it('should support popupClassName', () => {
     jest.useFakeTimers();
-    const { container } = render(getTabs({ popupClassName: 'custom-popup' }));
+    const { container } = render(
+      getTabs({
+        popupClassName: 'custom-popup',
+        classNames: { popup: 'classnames-popup' },
+        styles: { popup: { color: 'red' } },
+      }),
+    );
 
     triggerResize(container);
     act(() => {
@@ -516,6 +524,8 @@ describe('Tabs.Overflow', () => {
       jest.runAllTimers();
     });
     expect(document.querySelector('.rc-tabs-dropdown')).toHaveClass('custom-popup');
+    expect(document.querySelector('.rc-tabs-dropdown')).toHaveClass('classnames-popup');
+    expect(document.querySelector('.rc-tabs-dropdown')).toHaveStyle('color: red');
   });
 
   it('correct handle decimal', () => {

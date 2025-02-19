@@ -407,7 +407,7 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
   };
 
   // ========================== Tab ==========================
-  const tabNodeStyle: React.CSSProperties = styles?.item || {};
+  const tabNodeStyle: React.CSSProperties = {};
   if (tabPositionTopOrBottom) {
     tabNodeStyle[rtl ? 'marginRight' : 'marginLeft'] = tabBarGutter;
   } else {
@@ -424,7 +424,7 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
         tab={tab}
         className={tabsClassNames?.item}
         /* first node should not have margin left */
-        style={i === 0 ? undefined : tabNodeStyle}
+        style={i === 0 ? styles?.item : { ...tabNodeStyle, ...styles?.item }}
         closable={tab.closable}
         editable={editable}
         active={key === activeKey}
