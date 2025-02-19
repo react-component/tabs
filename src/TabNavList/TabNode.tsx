@@ -24,6 +24,7 @@ export interface TabNodeProps {
   onFocus: React.FocusEventHandler;
   onBlur: React.FocusEventHandler;
   style?: React.CSSProperties;
+  className?: string;
 }
 
 const TabNode: React.FC<TabNodeProps> = props => {
@@ -44,6 +45,7 @@ const TabNode: React.FC<TabNodeProps> = props => {
     onMouseDown,
     onMouseUp,
     style,
+    className,
     tabCount,
     currentPosition,
   } = props;
@@ -81,7 +83,7 @@ const TabNode: React.FC<TabNodeProps> = props => {
     <div
       key={key}
       data-node-key={genDataNodeKey(key)}
-      className={classNames(tabPrefix, {
+      className={classNames(tabPrefix, className, {
         [`${tabPrefix}-with-remove`]: removable,
         [`${tabPrefix}-active`]: active,
         [`${tabPrefix}-disabled`]: disabled,

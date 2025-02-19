@@ -689,4 +689,25 @@ describe('Tabs.Basic', () => {
     expect(parseInt(startBar.style.top)).toBeLessThanOrEqual(parseInt(centerBar.style.top));
     expect(parseInt(centerBar.style.top)).toBeLessThanOrEqual(parseInt(endBar.style.top));
   });
+  it('support classnames and styles', () => {
+    const items = Array.from({ length: 20 }, (_, index) => ({
+      key: `test-${index}`,
+      label: 'test',
+      icon: 'test',
+    }));
+    const customClassNames = {
+      indicator: 'custom-indicator',
+      item: 'custom-item',
+      popup: 'custom-popup',
+    };
+    const customStyles = {
+      indicator: { background: 'red' },
+      item: { background: 'blue' },
+      popup: { background: 'green' },
+    };
+    const { container } = render(
+      <Tabs tabPosition="left" items={items} styles={customStyles} classNames={customClassNames} />,
+    );
+    console.log(container.innerHTML);
+  });
 });

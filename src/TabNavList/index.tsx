@@ -30,6 +30,7 @@ import AddButton from './AddButton';
 import ExtraContent from './ExtraContent';
 import OperationNode from './OperationNode';
 import TabNode from './TabNode';
+import type { SemanticName } from '@/Tabs';
 
 export interface TabNavListProps {
   id: string;
@@ -55,6 +56,8 @@ export interface TabNavListProps {
     size?: GetIndicatorSize;
     align?: 'start' | 'center' | 'end';
   };
+  classNames?: Partial<Record<SemanticName, string>>;
+  styles?: Partial<Record<SemanticName, React.CSSProperties>>;
 }
 
 const getTabSize = (tab: HTMLElement, containerRect: { left: number; top: number }) => {
@@ -109,6 +112,8 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
     onTabClick,
     onTabScroll,
     indicator,
+    classNames: tabsClassNames,
+    styles,
   } = props;
 
   const { prefixCls, tabs } = React.useContext(TabContext);
@@ -402,7 +407,7 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
   };
 
   // ========================== Tab ==========================
-  const tabNodeStyle: React.CSSProperties = {};
+  const tabNodeStyle: React.CSSProperties = styles?.item || {};
   if (tabPositionTopOrBottom) {
     tabNodeStyle[rtl ? 'marginRight' : 'marginLeft'] = tabBarGutter;
   } else {
@@ -417,6 +422,7 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
         prefixCls={prefixCls}
         key={key}
         tab={tab}
+        className={tabsClassNames?.item}
         /* first node should not have margin left */
         style={i === 0 ? undefined : tabNodeStyle}
         closable={tab.closable}
@@ -607,10 +613,10 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
                   }}
                 />
                 <div
-                  className={classNames(`${prefixCls}-ink-bar`, {
+                  className={classNames(`${prefixCls}-ink-bar`, tabsClassNames?.indicator, {
                     [`${prefixCls}-ink-bar-animated`]: animated.inkBar,
                   })}
-                  style={indicatorStyle}
+                  style={{ ...indicatorStyle, ...styles?.indicator }}
                 />
               </div>
             </ResizeObserver>
