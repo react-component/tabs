@@ -26,6 +26,7 @@ export interface OperationNodeProps {
   tabMoving?: boolean;
   getPopupContainer?: (node: HTMLElement) => HTMLElement;
   popupClassName?: string;
+  popupStyle?: React.CSSProperties;
 }
 
 const OperationNode = React.forwardRef<HTMLDivElement, OperationNodeProps>((props, ref) => {
@@ -45,6 +46,7 @@ const OperationNode = React.forwardRef<HTMLDivElement, OperationNodeProps>((prop
     onTabClick,
     getPopupContainer,
     popupClassName,
+    popupStyle,
   } = props;
   // ======================== Dropdown ========================
   const [open, setOpen] = useState(false);
@@ -182,7 +184,7 @@ const OperationNode = React.forwardRef<HTMLDivElement, OperationNodeProps>((prop
     moreStyle.order = 1;
   }
 
-  const overlayClassName = classNames({
+  const overlayClassName = classNames(popupClassName, {
     [`${dropdownPrefix}-rtl`]: rtl,
   });
 
@@ -192,7 +194,8 @@ const OperationNode = React.forwardRef<HTMLDivElement, OperationNodeProps>((prop
       overlay={menu}
       visible={tabs.length ? open : false}
       onVisibleChange={setOpen}
-      overlayClassName={classNames(overlayClassName, popupClassName)}
+      overlayClassName={overlayClassName}
+      overlayStyle={popupStyle}
       mouseEnterDelay={0.1}
       mouseLeaveDelay={0.1}
       getPopupContainer={getPopupContainer}

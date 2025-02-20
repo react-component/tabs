@@ -689,4 +689,29 @@ describe('Tabs.Basic', () => {
     expect(parseInt(startBar.style.top)).toBeLessThanOrEqual(parseInt(centerBar.style.top));
     expect(parseInt(centerBar.style.top)).toBeLessThanOrEqual(parseInt(endBar.style.top));
   });
+  it('support classnames and styles', () => {
+    const customClassNames = {
+      indicator: 'custom-indicator',
+      item: 'custom-item',
+    };
+    const customStyles = {
+      indicator: { background: 'red' },
+      item: { color: 'blue' },
+    };
+    const { container } = render(
+      <Tabs
+        tabPosition="left"
+        items={[{ key: 'test', label: 'test', icon: 'test' }]}
+        styles={customStyles}
+        classNames={customClassNames}
+      />,
+    );
+    const indicator = container.querySelector('.rc-tabs-ink-bar') as HTMLElement;
+    const item = container.querySelector('.rc-tabs-tab') as HTMLElement;
+
+    expect(indicator).toHaveClass('custom-indicator');
+    expect(item).toHaveClass('custom-item');
+    expect(indicator).toHaveStyle({ background: 'red' });
+    expect(item).toHaveStyle({ color: 'blue' });
+  });
 });
