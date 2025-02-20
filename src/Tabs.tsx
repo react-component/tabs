@@ -34,7 +34,7 @@ import type {
 // Used for accessibility
 let uuid = 0;
 
-export type SemanticName = 'popup' | 'item' | 'indicator';
+export type SemanticName = 'popup' | 'item' | 'indicator' | 'content' | 'header';
 
 export interface TabsProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange' | 'children'> {
@@ -186,9 +186,9 @@ const Tabs = React.forwardRef<HTMLDivElement, TabsProps>((props, ref) => {
     style: tabBarStyle,
     getPopupContainer,
     popupClassName: classNames(popupClassName, tabsClassNames?.popup),
+    indicator,
     styles,
     classNames: tabsClassNames,
-    indicator,
   };
 
   return (
@@ -212,6 +212,8 @@ const Tabs = React.forwardRef<HTMLDivElement, TabsProps>((props, ref) => {
         <TabPanelList
           destroyInactiveTabPane={destroyInactiveTabPane}
           {...sharedProps}
+          contentStyle={styles?.content}
+          contentClassName={tabsClassNames?.content}
           animated={mergedAnimated}
         />
       </div>

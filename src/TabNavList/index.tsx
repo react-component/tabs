@@ -573,8 +573,8 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
         ref={useComposeRef(ref, containerRef)}
         role="tablist"
         aria-orientation={tabPositionTopOrBottom ? 'horizontal' : 'vertical'}
-        className={classNames(`${prefixCls}-nav`, className)}
-        style={style}
+        className={classNames(`${prefixCls}-nav`, className, tabsClassNames?.header)}
+        style={{ ...styles?.header, ...style }}
         onKeyDown={() => {
           // No need animation when use keyboard
           doLockAnimation();
