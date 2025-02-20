@@ -630,6 +630,7 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
           prefixCls={prefixCls}
           tabs={hiddenTabs}
           className={!hasDropdown && operationsHiddenClassName}
+          popupStyle={styles?.popup}
           tabMoving={!!lockAnimation}
         />
 
