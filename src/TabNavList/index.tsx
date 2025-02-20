@@ -30,7 +30,7 @@ import AddButton from './AddButton';
 import ExtraContent from './ExtraContent';
 import OperationNode from './OperationNode';
 import TabNode from './TabNode';
-import type { SemanticName } from '@/Tabs';
+import type { SemanticName } from '../Tabs';
 
 export interface TabNavListProps {
   id: string;
