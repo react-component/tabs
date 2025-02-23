@@ -42,13 +42,12 @@
     "@rc-component/motion": "^1.1.3",
     "classnames": "2.x",
     "rc-dropdown": "~4.2.0",
-    "rc-menu": "~9.16.0",
-    "rc-motion": "^2.6.2"
+    "rc-menu": "~9.16.0"
   },
   "devDependencies": {
     "@rc-component/father-plugin": "^2.0.0",
     "@rc-component/np": "^1.0.3",
-    "@rc-component/trigger": "^2.0.0",
+    "@rc-component/trigger": "^3.0.0",
     "@testing-library/jest-dom": "^6.1.4",
     "@testing-library/react": "^16.0.1",
     "@testing-library/user-event": "^14.5.2",
