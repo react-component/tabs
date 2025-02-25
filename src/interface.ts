@@ -1,5 +1,5 @@
 import type { CSSMotionProps } from '@rc-component/motion';
-import { DropdownProps } from 'rc-dropdown/lib/Dropdown';
+import { DropdownProps } from '@rc-component/dropdown/lib/Dropdown';
 import type React from 'react';
 import type { TabNavListProps } from './TabNavList';
 import type { TabPaneProps } from './TabPanelList/TabPane';
