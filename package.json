@@ -32,7 +32,7 @@
     "docs:deploy": "gh-pages -d .doc",
     "lint": "eslint src/ docs/examples/ --ext .tsx,.ts,.jsx,.js",
     "now-build": "npm run build",
-    "prepublishOnly": "npm run lint && npm run test && npm run compile && np --yolo --no-publish",
+    "prepublishOnly": "npm run lint && npm run test && npm run compile && np --yolo --no-publish --branch=antd-5.x",
     "start": "dumi dev",
     "test": "rc-test"
   },
