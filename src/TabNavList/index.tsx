@@ -371,7 +371,7 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
       case 'Enter':
       case 'Space': {
         e.preventDefault();
-        onTabClick(focusKey, e);
+        onTabClick(activeKey, e);
         break;
       }
       // Backspace
