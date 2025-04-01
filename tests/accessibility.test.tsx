@@ -91,9 +91,10 @@ describe('Tabs.Accessibility', () => {
 
   it('should activate tab on Enter/Space', async () => {
     const onTabClick = jest.fn();
+    const onChange = jest.fn();
     const user = userEvent.setup();
 
-    render(createTabs({ onTabClick }));
+    render(createTabs({ onTabClick, onChange }));
 
     // jump to first tab
     await user.tab();
@@ -101,6 +102,7 @@ describe('Tabs.Accessibility', () => {
     // activate tab
     await user.keyboard(' ');
     expect(onTabClick).toHaveBeenCalledTimes(1);
+    expect(onChange).not.toHaveBeenCalled();
 
     // move focus to second tab
     await user.keyboard('{ArrowRight}');
@@ -108,6 +110,7 @@ describe('Tabs.Accessibility', () => {
     // activate tab
     await user.keyboard('{Enter}');
     expect(onTabClick).toHaveBeenCalledTimes(2);
+    expect(onChange).not.toHaveBeenCalled();
   });
 
   it('should not navigate to disabled tabs', async () => {
