@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import CSSMotion from 'rc-motion';
+import CSSMotion from '@rc-component/motion';
 import * as React from 'react';
 import type { AnimatedConfig, TabPosition } from '../interface';
 import TabContext from '../TabContext';
@@ -11,10 +11,20 @@ export interface TabPanelListProps {
   animated?: AnimatedConfig;
   tabPosition?: TabPosition;
   destroyInactiveTabPane?: boolean;
+  contentStyle?: React.CSSProperties;
+  contentClassName?: string;
 }
 
 const TabPanelList: React.FC<TabPanelListProps> = props => {
-  const { id, activeKey, animated, tabPosition, destroyInactiveTabPane } = props;
+  const {
+    id,
+    activeKey,
+    animated,
+    tabPosition,
+    destroyInactiveTabPane,
+    contentStyle,
+    contentClassName,
+  } = props;
   const { prefixCls, tabs } = React.useContext(TabContext);
   const tabPaneAnimated = animated.tabPane;
 
@@ -54,8 +64,8 @@ const TabPanelList: React.FC<TabPanelListProps> = props => {
                   tabKey={key}
                   animated={tabPaneAnimated}
                   active={active}
-                  style={{ ...paneStyle, ...motionStyle }}
-                  className={classNames(paneClassName, motionClassName)}
+                  style={{ ...contentStyle, ...paneStyle, ...motionStyle }}
+                  className={classNames(contentClassName, paneClassName, motionClassName)}
                   ref={ref}
                 />
               )}

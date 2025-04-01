@@ -310,23 +310,6 @@ describe('Tabs.Basic', () => {
       expect(container.querySelector('.my-node')).toBeTruthy();
       expect(renderTabBar).toHaveBeenCalled();
     });
-    it('has panes property in props', () => {
-      const renderTabBar = props => {
-        return (
-          <div>
-            {props.panes.map(pane => (
-              <span key={pane.key} data-key={pane.key}>
-                tab
-              </span>
-            ))}
-          </div>
-        );
-      };
-      const { container } = render(getTabs({ renderTabBar }));
-      expect(container.querySelector('[data-key="light"]')).toBeTruthy();
-      expect(container.querySelector('[data-key="bamboo"]')).toBeTruthy();
-      expect(container.querySelector('[data-key="cute"]')).toBeTruthy();
-    });
   });
 
   it('destroyInactiveTabPane', () => {
@@ -705,5 +688,41 @@ describe('Tabs.Basic', () => {
 
     expect(parseInt(startBar.style.top)).toBeLessThanOrEqual(parseInt(centerBar.style.top));
     expect(parseInt(centerBar.style.top)).toBeLessThanOrEqual(parseInt(endBar.style.top));
+  });
+  it('support classnames and styles', () => {
+    const customClassNames = {
+      indicator: 'custom-indicator',
+      item: 'custom-item',
+      content: 'custom-content',
+      header: 'custom-header',
+    };
+    const customStyles = {
+      indicator: { background: 'red' },
+      item: { color: 'blue' },
+      content: { background: 'green' },
+      header: { background: 'yellow' },
+    };
+    const { container } = render(
+      <Tabs
+        tabPosition="left"
+        items={[{ key: 'test', label: 'test', icon: 'test' }]}
+        styles={customStyles}
+        classNames={customClassNames}
+      />,
+    );
+    const indicator = container.querySelector('.rc-tabs-ink-bar') as HTMLElement;
+    const item = container.querySelector('.rc-tabs-tab') as HTMLElement;
+    const content = container.querySelector('.rc-tabs-tabpane') as HTMLElement;
+    const header = container.querySelector('.rc-tabs-nav') as HTMLElement;
+
+    expect(indicator).toHaveClass('custom-indicator');
+    expect(item).toHaveClass('custom-item');
+    expect(content).toHaveClass('custom-content');
+    expect(header).toHaveClass('custom-header');
+
+    expect(indicator).toHaveStyle({ background: 'red' });
+    expect(item).toHaveStyle({ color: 'blue' });
+    expect(content).toHaveStyle({ background: 'green' });
+    expect(header).toHaveStyle({ background: 'yellow' });
   });
 });

@@ -34,11 +34,15 @@ import type {
 // Used for accessibility
 let uuid = 0;
 
+export type SemanticName = 'popup' | 'item' | 'indicator' | 'content' | 'header';
+
 export interface TabsProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange' | 'children'> {
   prefixCls?: string;
   className?: string;
   style?: React.CSSProperties;
+  classNames?: Partial<Record<SemanticName, string>>;
+  styles?: Partial<Record<SemanticName, React.CSSProperties>>;
   id?: string;
 
   items?: Tab[];
@@ -99,6 +103,8 @@ const Tabs = React.forwardRef<HTMLDivElement, TabsProps>((props, ref) => {
     getPopupContainer,
     popupClassName,
     indicator,
+    classNames: tabsClassNames,
+    styles,
     ...restProps
   } = props;
   const tabs = React.useMemo<Tab[]>(
@@ -178,10 +184,11 @@ const Tabs = React.forwardRef<HTMLDivElement, TabsProps>((props, ref) => {
     onTabScroll,
     extra: tabBarExtraContent,
     style: tabBarStyle,
-    panes: null,
     getPopupContainer,
-    popupClassName,
+    popupClassName: classNames(popupClassName, tabsClassNames?.popup),
     indicator,
+    styles,
+    classNames: tabsClassNames,
   };
 
   return (
@@ -205,6 +212,8 @@ const Tabs = React.forwardRef<HTMLDivElement, TabsProps>((props, ref) => {
         <TabPanelList
           destroyInactiveTabPane={destroyInactiveTabPane}
           {...sharedProps}
+          contentStyle={styles?.content}
+          contentClassName={tabsClassNames?.content}
           animated={mergedAnimated}
         />
       </div>
