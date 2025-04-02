@@ -58,7 +58,7 @@
     "@types/enzyme": "^3.10.5",
     "@types/jest": "^29.4.0",
     "@types/react": "^18.2.42",
-    "@types/react-dom": "^18.0.11",
+    "@types/react-dom": "^19.1.1",
     "@umijs/fabric": "^4.0.1",
     "cross-env": "^7.0.2",
     "dumi": "^2.0.0",
