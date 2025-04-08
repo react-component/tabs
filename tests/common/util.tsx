@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-invalid-this */
 import { act } from '@testing-library/react';
-import { _rs as onEsResize } from 'rc-resize-observer/es/utils/observerUtil';
-import { _rs as onLibResize } from 'rc-resize-observer/lib/utils/observerUtil';
+import { _rs as onEsResize } from '@rc-component/resize-observer/es/utils/observerUtil';
+import { _rs as onLibResize } from '@rc-component/resize-observer/lib/utils/observerUtil';
 import React from 'react';
 import Tabs from '../../src';
 import type { TabsProps } from '../../src/Tabs';
@@ -67,18 +67,6 @@ export function getOffsetSizeFunc(info: HackInfo = {}) {
       return this.querySelector('.rc-tabs-nav-add') ? more + add : more;
     }
 
-    // if (this.className.includes('rc-tabs-nav-list')) {
-    //   return info.list || 5 * 20 + 10;
-    // }
-    // if (this.className.includes('rc-tabs-nav-add')) {
-    //   return info.add || 10;
-    // }
-    // if (this.className.includes('rc-tabs-nav-operations')) {
-    //   return info.operation || 10;
-    // }
-    // if (this.className.includes('rc-tabs-nav-more')) {
-    //   return info.more || 10;
-    // }
     if (this.className.includes('rc-tabs-dropdown')) {
       return dropdown;
     }
@@ -157,10 +145,6 @@ export function getTabs(props: TabsProps = null) {
     />
   );
 }
-
-// export function triggerResize(wrapper: ReactWrapper) {
-//   (wrapper.find('.rc-tabs-nav').find('ResizeObserver').first().props() as any).onResize();
-// }
 
 export const triggerResize = (container: Element) => {
   const target = container.querySelector('.rc-tabs-nav');
