@@ -1,12 +1,12 @@
 import { render } from '@testing-library/react';
-import { spyElementPrototypes } from 'rc-util/lib/test/domHook';
+import { spyElementPrototypes } from '@rc-component/util/lib/test/domHook';
 import React from 'react';
 import { act } from 'react-dom/test-utils';
 import type { TabsProps } from '../src';
 import Tabs from '../src';
 import { btnOffsetPosition, getOffsetSizeFunc, getTransformX } from './common/util';
 
-jest.mock('rc-util/lib/isMobile', () => () => true);
+jest.mock('@rc-component/util/lib/isMobile', () => () => true);
 
 describe('Tabs.Mobile', () => {
   const tabCount = 100;

@@ -8,13 +8,14 @@ const compileModules = [
   'tween-one',
   '@babel',
   '@ant-design',
+  '@rc-component/resize-observer',
 ];
 
 const ignoreList = [];
 
 // cnpm use `_` as prefix
-['', '_'].forEach((prefix) => {
-  compileModules.forEach((module) => {
+['', '_'].forEach(prefix => {
+  compileModules.forEach(module => {
     ignoreList.push(`${prefix}${module}`);
   });
 });
