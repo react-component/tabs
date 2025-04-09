@@ -8,7 +8,7 @@ const compileModules = [
   'tween-one',
   '@babel',
   '@ant-design',
-  '@rc-component/resize-observer',
+  '@rc-component',
 ];
 
 const ignoreList = [];
