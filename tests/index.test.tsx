@@ -611,6 +611,20 @@ describe('Tabs.Basic', () => {
     rerender(getTabs({ indicator: { size: origin => origin - 2 } }));
     await waitFakeTimer();
     expect(container.querySelector('.rc-tabs-ink-bar')).toHaveStyle({ width: '18px' });
+
+    // 测试小数值的处理
+    rerender(getTabs({ indicator: { size: origin => origin - 0.5 } }));
+    await waitFakeTimer();
+    expect(container.querySelector('.rc-tabs-ink-bar')).toHaveStyle({ width: '19.5px' });
+
+    // 测试防抖动功能
+    rerender(getTabs({ indicator: { size: origin => origin - 0.1 } }));
+    await waitFakeTimer();
+    const initialWidth = (container.querySelector('.rc-tabs-ink-bar') as HTMLElement).style.width;
+
+    rerender(getTabs({ indicator: { size: origin => origin - 0.2 } }));
+    await waitFakeTimer();
+    expect(container.querySelector('.rc-tabs-ink-bar')).toHaveStyle({ width: initialWidth });
   });
 
   it('Add span to text label when have icon', () => {
@@ -624,7 +638,7 @@ describe('Tabs.Basic', () => {
   });
 
   it('support indicatorAlign', async () => {
-    const { container: startContainer } = render(
+    const { container: startContainer, rerender: rerenderStart } = render(
       <Tabs
         items={[{ key: 'test', label: 'test', icon: 'test' }]}
         indicator={{ size: origin => origin - 20, align: 'start' }}
@@ -653,10 +667,21 @@ describe('Tabs.Basic', () => {
 
     expect(parseInt(startBar.style.left)).toBeLessThanOrEqual(parseInt(centerBar.style.left));
     expect(parseInt(centerBar.style.left)).toBeLessThanOrEqual(parseInt(endBar.style.left));
+
+    // 测试动态切换 align
+    rerenderStart(
+      <Tabs
+        items={[{ key: 'test', label: 'test', icon: 'test' }]}
+        indicator={{ size: origin => origin - 20, align: 'center' }}
+      />,
+    );
+    await waitFakeTimer();
+    const newStartBar = startContainer.querySelector<HTMLDivElement>(selectors);
+    expect(parseInt(newStartBar.style.left)).toBe(parseInt(centerBar.style.left));
   });
 
   it('support indicatorAlign when tabPosition=left', async () => {
-    const { container: startContainer } = render(
+    const { container: startContainer, rerender: rerenderStart } = render(
       <Tabs
         tabPosition="left"
         items={[{ key: 'test', label: 'test', icon: 'test' }]}
@@ -688,6 +713,31 @@ describe('Tabs.Basic', () => {
 
     expect(parseInt(startBar.style.top)).toBeLessThanOrEqual(parseInt(centerBar.style.top));
     expect(parseInt(centerBar.style.top)).toBeLessThanOrEqual(parseInt(endBar.style.top));
+
+    // 测试动态切换 align
+    rerenderStart(
+      <Tabs
+        tabPosition="left"
+        items={[{ key: 'test', label: 'test', icon: 'test' }]}
+        indicator={{ size: origin => origin - 20, align: 'center' }}
+      />,
+    );
+    await waitFakeTimer();
+    const newStartBar = startContainer.querySelector<HTMLDivElement>(selectors);
+    expect(parseInt(newStartBar.style.top)).toBe(parseInt(centerBar.style.top));
+
+    // 测试 RTL 模式下的位置
+    const { container: rtlContainer } = render(
+      <Tabs
+        tabPosition="left"
+        direction="rtl"
+        items={[{ key: 'test', label: 'test', icon: 'test' }]}
+        indicator={{ size: origin => origin - 20, align: 'center' }}
+      />,
+    );
+    await waitFakeTimer();
+    const rtlBar = rtlContainer.querySelector<HTMLDivElement>(selectors);
+    expect(rtlBar.style.transform).toContain('translateY(-50%)');
   });
   it('support classnames and styles', () => {
     const customClassNames = {
