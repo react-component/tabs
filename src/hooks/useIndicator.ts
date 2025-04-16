@@ -76,11 +76,25 @@ const useIndicator = (options: UseIndicatorOptions) => {
 
     cleanInkBarRaf();
     inkBarRafRef.current = raf(() => {
-      setInkStyle(newInkStyle);
+      // Avoid jitter caused by tiny numerical differences
+      // fix https://github.com/ant-design/ant-design/issues/53378
+      const isEqual =
+        inkStyle &&
+        newInkStyle &&
+        Object.keys(newInkStyle).every(key => {
+          const newValue = newInkStyle[key];
+          const oldValue = inkStyle[key];
+          return typeof newValue === 'number' && typeof oldValue === 'number'
+            ? Math.round(newValue) === Math.round(oldValue)
+            : newValue === oldValue;
+        });
+      if (!isEqual) {
+        setInkStyle(newInkStyle);
+      }
     });
 
     return cleanInkBarRaf;
-  }, [activeTabOffset, horizontal, rtl, align, getLength]);
+  }, [JSON.stringify(activeTabOffset), horizontal, rtl, align, getLength]);
 
   return { style: inkStyle };
 };
