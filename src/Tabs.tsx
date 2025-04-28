@@ -1,7 +1,7 @@
 // Accessibility https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/Tab_Role
 import classNames from 'classnames';
-import useMergedState from 'rc-util/lib/hooks/useMergedState';
-import isMobile from 'rc-util/lib/isMobile';
+import useMergedState from '@rc-component/util/lib/hooks/useMergedState';
+import isMobile from '@rc-component/util/lib/isMobile';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import TabContext from './TabContext';

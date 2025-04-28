@@ -41,3 +41,4 @@ pnpm-lock.yaml
 .dumi
 
 bun.lockb
+bun.lock
