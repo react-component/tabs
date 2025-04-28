@@ -41,8 +41,8 @@ export default () => {
     console.log('onTabClick', key);
   };
 
-  const onChange = (key: string) => {
-    console.log('onChange', key);
+  const onTabChange = (key: string) => {
+    console.log('onTabChange', key);
   };
 
   return (
@@ -50,7 +50,7 @@ export default () => {
       <Tabs
         tabBarExtraContent="extra"
         onTabClick={onTabClick}
-        onChange={onChange}
+        onChange={onTabChange}
         direction={direction}
         items={items}
       />
