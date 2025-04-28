@@ -102,7 +102,8 @@ describe('Tabs.Accessibility', () => {
     // activate tab
     await user.keyboard(' ');
     expect(onTabClick).toHaveBeenCalledTimes(1);
-    expect(onChange).not.toHaveBeenCalled();
+    expect(onTabClick).toHaveBeenLastCalledWith('1', expect.any(Object));
+    expect(onChange).toHaveBeenCalledTimes(0);
 
     // move focus to second tab
     await user.keyboard('{ArrowRight}');
@@ -110,7 +111,15 @@ describe('Tabs.Accessibility', () => {
     // activate tab
     await user.keyboard('{Enter}');
     expect(onTabClick).toHaveBeenCalledTimes(2);
-    expect(onChange).not.toHaveBeenCalled();
+    expect(onTabClick).toHaveBeenLastCalledWith('2', expect.any(Object));
+    expect(onChange).toHaveBeenCalledTimes(1);
+    expect(onChange).toHaveBeenLastCalledWith('2');
+
+    // press enter on same tab
+    await user.keyboard('{Enter}');
+    expect(onTabClick).toHaveBeenCalledTimes(3);
+    expect(onTabClick).toHaveBeenLastCalledWith('2', expect.any(Object));
+    expect(onChange).toHaveBeenCalledTimes(1);
   });
 
   it('should not navigate to disabled tabs', async () => {
