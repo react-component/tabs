@@ -17,7 +17,6 @@ React Tabs component.
 [bundlephobia-url]: https://bundlephobia.com/result?p=rc-tabs
 [bundlephobia-image]: https://badgen.net/bundlephobia/minzip/rc-tabs
 
-
 ## Screenshot
 
 <img src='https://zos.alipayobjects.com/rmsportal/JwLASrsOYJuFRIt.png' width='408'>
@@ -45,7 +44,7 @@ online example: https://tabs.react-component.now.sh/
 import Tabs from 'rc-tabs';
 import ReactDom from 'react-dom';
 
-const callback = (key) => {
+const callback = key => {
   console.log(key);
 };
 
@@ -112,7 +111,7 @@ ReactDom.render(
 | tabBarPosition | `'left' \| 'right' \| 'top' \| 'bottom'` | `'top'` | tab nav 's position |
 | tabBarStyle | style | - | tab nav style |
 | tabPosition | `'left' or 'right' or 'top' or 'bottom'` | `'top'` | tab nav 's position |
-| destroyInactiveTabPane | boolean | false | whether destroy inactive TabPane when change tab |
+| destroyOnClose | boolean | false | whether destroy inactive TabPane when change tab |
 | onChange | (key) => void | - | called when tabPanel is changed |
 | onTabClick | (key) => void | - | called when tab click |
 | onTabScroll | ({ direction }) => void | - | called when tab scroll |
@@ -137,16 +136,15 @@ ReactDom.render(
 | prefixCls | string | `'rc-tabs-tab'` | prefix class name, use to custom style |
 | id | string | - | unique identifier |
 | animated | boolean \| { inkBar: boolean, tabPane: boolean } | `{ inkBar: true, tabPane: false }` | config animation |
-| destroyInactiveTabPane | boolean | false | whether destroy inactive TabPane when change tab |
+| destroyOnClose | boolean | false | whether destroy inactive TabPane when change tab |
 | active | boolean | false | active feature of tab item |
 | tabKey | string | - | key linked to tab |
-
 
 ### TabPane(support in older versions)
 
 | name | type | default | description |
 | --- | --- | --- | --- |
-| destroyInactiveTabPane | boolean | false | whether destroy inactive TabPane when change tab |
+| destroyOnClose | boolean | false | whether destroy inactive TabPane when change tab |
 | key | string | - | corresponding to activeKey, should be unique |
 | forceRender | boolean | false | forced render of content in tabs, not lazy render after clicking on tabs |
 | tab | ReactNode | - | current tab's title corresponding to current tabPane |
@@ -182,10 +180,6 @@ rc-tabs is released under the MIT license.
 
 ### Responsive Tabs
 
-There are 3 cases when handling responsive tabs:
-![image](https://user-images.githubusercontent.com/27722486/156315099-7e6eda9d-ab77-4b16-9b49-1727c5ec8b26.png)
+There are 3 cases when handling responsive tabs: ![image](https://user-images.githubusercontent.com/27722486/156315099-7e6eda9d-ab77-4b16-9b49-1727c5ec8b26.png)
 
-We get hidden tabs through [useVisibleRange.ts](https://github.com/react-component/tabs/blob/master/src/hooks/useVisibleRange.ts).
-If enconter the third case, in order to make tabs responsive, some tabs should be hidden. 
-So we minus `addSize` when calculating `basicSize` manully, even though there's no addNode in container.
-In this way, case 3 turns to case 2, tabs become stable again.
+We get hidden tabs through [useVisibleRange.ts](https://github.com/react-component/tabs/blob/master/src/hooks/useVisibleRange.ts). If enconter the third case, in order to make tabs responsive, some tabs should be hidden. So we minus `addSize` when calculating `basicSize` manully, even though there's no addNode in container. In this way, case 3 turns to case 2, tabs become stable again.

@@ -24,7 +24,7 @@ export default () => {
   const [fixHeight, setFixHeight] = React.useState(true);
   const [rtl, setRTL] = React.useState(false);
   const [editable, setEditable] = React.useState(true);
-  const [destroyInactiveTabPane, setDestroyInactiveTabPane] = React.useState(false);
+  const [destroyOnClose, setDestroyOnClose] = React.useState(false);
   const [destroy, setDestroy] = React.useState(false);
   const [animated, setAnimated] = React.useState(true);
   const [tabPanes, setTabPanes] = React.useState(getTabPanes(10));
@@ -86,8 +86,8 @@ export default () => {
         <label>
           <input
             type="checkbox"
-            checked={destroyInactiveTabPane}
-            onChange={() => setDestroyInactiveTabPane(val => !val)}
+            checked={destroyOnClose}
+            onChange={() => setDestroyOnClose(val => !val)}
           />
           Destroy Inactive TabPane
         </label>
@@ -155,7 +155,7 @@ export default () => {
             onTabScroll={info => {
               console.log('Scroll:', info);
             }}
-            destroyInactiveTabPane={destroyInactiveTabPane}
+            destroyOnClose={destroyOnClose}
             animated={{ tabPane: animated }}
             editable={editableConfig}
             direction={rtl ? 'rtl' : null}

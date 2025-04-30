@@ -56,7 +56,7 @@ export interface TabsProps
   tabBarGutter?: number;
   tabBarStyle?: React.CSSProperties;
   tabPosition?: TabPosition;
-  destroyInactiveTabPane?: boolean;
+  destroyOnClose?: boolean;
 
   onChange?: (activeKey: string) => void;
   onTabClick?: (activeKey: string, e: React.KeyboardEvent | React.MouseEvent) => void;
@@ -95,7 +95,7 @@ const Tabs = React.forwardRef<HTMLDivElement, TabsProps>((props, ref) => {
     tabBarExtraContent,
     locale,
     more,
-    destroyInactiveTabPane,
+    destroyOnClose,
     renderTabBar,
     onChange,
     onTabClick,
@@ -210,7 +210,7 @@ const Tabs = React.forwardRef<HTMLDivElement, TabsProps>((props, ref) => {
       >
         <TabNavListWrapper {...tabNavBarProps} renderTabBar={renderTabBar} />
         <TabPanelList
-          destroyInactiveTabPane={destroyInactiveTabPane}
+          destroyOnClose={destroyOnClose}
           {...sharedProps}
           contentStyle={styles?.content}
           contentClassName={tabsClassNames?.content}
