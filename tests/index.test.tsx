@@ -312,10 +312,10 @@ describe('Tabs.Basic', () => {
     });
   });
 
-  it('destroyInactiveTabPane', () => {
+  it('destroyOnHidden', () => {
     const props = {
       activeKey: 'light',
-      destroyInactiveTabPane: true,
+      destroyOnHidden: true,
       items: [
         {
           key: 'light',
@@ -346,7 +346,7 @@ describe('Tabs.Basic', () => {
     matchText('Bamboo');
   });
 
-  it('destroyInactiveTabPane from TabPane', () => {
+  it('destroyOnHidden from TabPane', () => {
     const props = {
       activeKey: 'light',
 
@@ -354,12 +354,12 @@ describe('Tabs.Basic', () => {
         {
           key: 'light',
           children: 'Light',
-          destroyInactiveTabPane: true,
+          destroyOnHidden: true,
         },
         {
           key: 'bamboo',
           children: 'Bamboo',
-          destroyInactiveTabPane: true,
+          destroyOnHidden: true,
         },
       ] as any,
     };

@@ -10,21 +10,14 @@ export interface TabPanelListProps {
   id: string;
   animated?: AnimatedConfig;
   tabPosition?: TabPosition;
-  destroyInactiveTabPane?: boolean;
+  destroyOnHidden?: boolean;
   contentStyle?: React.CSSProperties;
   contentClassName?: string;
 }
 
 const TabPanelList: React.FC<TabPanelListProps> = props => {
-  const {
-    id,
-    activeKey,
-    animated,
-    tabPosition,
-    destroyInactiveTabPane,
-    contentStyle,
-    contentClassName,
-  } = props;
+  const { id, activeKey, animated, tabPosition, destroyOnHidden, contentStyle, contentClassName } =
+    props;
   const { prefixCls, tabs } = React.useContext(TabContext);
   const tabPaneAnimated = animated.tabPane;
 
@@ -43,7 +36,7 @@ const TabPanelList: React.FC<TabPanelListProps> = props => {
             forceRender,
             style: paneStyle,
             className: paneClassName,
-            destroyInactiveTabPane: itemDestroyInactiveTabPane,
+            destroyOnHidden: itemDestroyOnHidden,
             ...restTabProps
           } = item;
           const active = key === activeKey;
@@ -52,7 +45,7 @@ const TabPanelList: React.FC<TabPanelListProps> = props => {
               key={key}
               visible={active}
               forceRender={forceRender}
-              removeOnLeave={!!(destroyInactiveTabPane || itemDestroyInactiveTabPane)}
+              removeOnLeave={!!(destroyOnHidden ?? itemDestroyOnHidden)}
               leavedClassName={`${tabPanePrefixCls}-hidden`}
               {...animated.tabPaneMotion}
             >
