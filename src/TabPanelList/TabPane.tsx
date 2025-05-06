@@ -18,7 +18,7 @@ export interface TabPaneProps {
   id?: string;
   animated?: boolean;
   active?: boolean;
-  destroyOnClose?: boolean;
+  destroyOnHidden?: boolean;
 }
 
 const TabPane = React.forwardRef<HTMLDivElement, TabPaneProps>((props, ref) => {

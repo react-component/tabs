@@ -111,7 +111,7 @@ ReactDom.render(
 | tabBarPosition | `'left' \| 'right' \| 'top' \| 'bottom'` | `'top'` | tab nav 's position |
 | tabBarStyle | style | - | tab nav style |
 | tabPosition | `'left' or 'right' or 'top' or 'bottom'` | `'top'` | tab nav 's position |
-| destroyOnClose | boolean | false | whether destroy inactive TabPane when change tab |
+| destroyOnHidden | boolean | false | whether destroy inactive TabPane when change tab |
 | onChange | (key) => void | - | called when tabPanel is changed |
 | onTabClick | (key) => void | - | called when tab click |
 | onTabScroll | ({ direction }) => void | - | called when tab scroll |
@@ -136,7 +136,7 @@ ReactDom.render(
 | prefixCls | string | `'rc-tabs-tab'` | prefix class name, use to custom style |
 | id | string | - | unique identifier |
 | animated | boolean \| { inkBar: boolean, tabPane: boolean } | `{ inkBar: true, tabPane: false }` | config animation |
-| destroyOnClose | boolean | false | whether destroy inactive TabPane when change tab |
+| destroyOnHidden | boolean | false | whether destroy inactive TabPane when change tab |
 | active | boolean | false | active feature of tab item |
 | tabKey | string | - | key linked to tab |
 
@@ -144,7 +144,7 @@ ReactDom.render(
 
 | name | type | default | description |
 | --- | --- | --- | --- |
-| destroyOnClose | boolean | false | whether destroy inactive TabPane when change tab |
+| destroyOnHidden | boolean | false | whether destroy inactive TabPane when change tab |
 | key | string | - | corresponding to activeKey, should be unique |
 | forceRender | boolean | false | forced render of content in tabs, not lazy render after clicking on tabs |
 | tab | ReactNode | - | current tab's title corresponding to current tabPane |
