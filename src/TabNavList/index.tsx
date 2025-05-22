@@ -25,7 +25,7 @@ import type {
   TabSizeMap,
   TabsLocale,
 } from '../interface';
-import { genDataNodeKey, getRemovable, stringify } from '../util';
+import { genDataNodeKey, getRemovable, isFocusVisible, stringify } from '../util';
 import AddButton from './AddButton';
 import ExtraContent from './ExtraContent';
 import OperationNode from './OperationNode';
@@ -299,7 +299,6 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
 
   // ========================= Focus =========================
   const [focusKey, setFocusKey] = useState<string>();
-  const [isMouse, setIsMouse] = useState(false);
 
   const enabledTabs = tabs.filter(tab => !tab.disabled).map(tab => tab.key);
 
@@ -432,7 +431,7 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
         }}
         onKeyDown={handleKeyDown}
         onFocus={event => {
-          if (!isMouse && event.relatedTarget) {
+          if (isFocusVisible(event.target)) {
             setFocusKey(key);
           }
           scrollToTab(key);
@@ -449,11 +448,8 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
         onBlur={() => {
           setFocusKey(undefined);
         }}
-        onMouseDown={() => {
-          setIsMouse(true);
-        }}
-        onMouseUp={() => {
-          setIsMouse(false);
+        onMouseEnter={() => {
+          setFocusKey(undefined);
         }}
       />
     );

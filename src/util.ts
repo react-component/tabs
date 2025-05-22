@@ -1,6 +1,7 @@
 import type React from 'react';
 import type { ReactNode } from 'react';
 import type { EditableConfig } from './interface';
+import warning from 'rc-util/lib/warning';
 
 /**
  * We trade Map as deps which may change with same value but different ref object.
@@ -46,4 +47,31 @@ export function getRemovable(
     return false;
   }
   return true;
+}
+
+/**
+ * Returns a boolean indicating if the event's target has :focus-visible
+ */
+export function isFocusVisible(element: Element): boolean {
+  try {
+    return element.matches(':focus-visible');
+  } catch (error) {
+    if (process.env.NODE_ENV !== 'production') {
+      const isJsdom = /jsdom/.test(window.navigator.userAgent);
+      warning(
+        // Do not warn on jsdom tests, otherwise all tests that rely on focus have to be skipped
+        // Tests that rely on `:focus-visible` will still have to be skipped in jsdom
+        isJsdom,
+        [
+          'rc-tabs: The `:focus-visible` pseudo class is not supported in this browser.',
+          'Some components rely on this feature to work properly.',
+        ].join('\n'),
+      );
+
+      // In jsdom, in order to pass the previous a11y unit tests.
+      return isJsdom;
+    }
+  }
+
+  return false;
 }
