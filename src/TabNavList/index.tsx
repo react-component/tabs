@@ -432,7 +432,7 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
         }}
         onKeyDown={handleKeyDown}
         onFocus={event => {
-          if (isFocusVisible(event.target)) {
+          if (!isMouse && isFocusVisible(event.target)) {
             setFocusKey(key);
           }
           scrollToTab(key);
