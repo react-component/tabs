@@ -19,7 +19,8 @@ export interface TabNodeProps {
   currentPosition: number;
   removeIcon?: React.ReactNode;
   onKeyDown: React.KeyboardEventHandler;
-  onMouseEnter?: React.MouseEventHandler;
+  onMouseDown: React.MouseEventHandler;
+  onMouseUp: React.MouseEventHandler;
   onFocus: React.FocusEventHandler;
   onBlur: React.FocusEventHandler;
   style?: React.CSSProperties;
@@ -40,7 +41,8 @@ const TabNode: React.FC<TabNodeProps> = props => {
     onFocus,
     onBlur,
     onKeyDown,
-    onMouseEnter,
+    onMouseDown,
+    onMouseUp,
     style,
     tabCount,
     currentPosition,
@@ -67,13 +69,13 @@ const TabNode: React.FC<TabNodeProps> = props => {
     [label, icon],
   );
 
-  // const btnRef = React.useRef<HTMLDivElement>(null);
+  const btnRef = React.useRef<HTMLDivElement>(null);
 
-  // React.useEffect(() => {
-  //   if (focus && btnRef.current) {
-  //     btnRef.current.focus();
-  //   }
-  // }, [focus]);
+  React.useEffect(() => {
+    if (focus && btnRef.current) {
+      btnRef.current.focus();
+    }
+  }, [focus]);
 
   const node: React.ReactElement = (
     <div
@@ -90,7 +92,7 @@ const TabNode: React.FC<TabNodeProps> = props => {
     >
       {/* Primary Tab Button */}
       <div
-        // ref={btnRef}
+        ref={btnRef}
         role="tab"
         aria-selected={active}
         id={id && `${id}-tab-${key}`}
@@ -103,9 +105,10 @@ const TabNode: React.FC<TabNodeProps> = props => {
           onInternalClick(e);
         }}
         onKeyDown={onKeyDown}
+        onMouseDown={onMouseDown}
+        onMouseUp={onMouseUp}
         onFocus={onFocus}
         onBlur={onBlur}
-        onMouseEnter={onMouseEnter}
       >
         {focus && (
           <div

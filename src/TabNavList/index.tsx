@@ -299,6 +299,7 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
 
   // ========================= Focus =========================
   const [focusKey, setFocusKey] = useState<string>();
+  const [isMouse, setIsMouse] = useState(false);
 
   const enabledTabs = tabs.filter(tab => !tab.disabled).map(tab => tab.key);
 
@@ -448,8 +449,11 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
         onBlur={() => {
           setFocusKey(undefined);
         }}
-        onMouseEnter={() => {
-          setFocusKey(undefined);
+        onMouseDown={() => {
+          setIsMouse(true);
+        }}
+        onMouseUp={() => {
+          setIsMouse(false);
         }}
       />
     );
