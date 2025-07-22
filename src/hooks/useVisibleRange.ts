@@ -36,10 +36,14 @@ export default function useVisibleRange(
 
     const len = tabs.length;
     let endIndex = len;
+
     for (let i = 0; i < len; i += 1) {
       const offset = tabOffsets.get(tabs[i].key) || DEFAULT_SIZE;
-      if (Math.floor(offset[position] + offset[charUnit]) > Math.floor(transformSize + visibleTabContentValue)) {
-        endIndex = i - 1;
+      if (
+        Math.floor(offset[position] + offset[charUnit] * 0.8) >
+        Math.floor(transformSize + visibleTabContentValue)
+      ) {
+        endIndex = i;
         break;
       }
     }
@@ -47,8 +51,8 @@ export default function useVisibleRange(
     let startIndex = 0;
     for (let i = len - 1; i >= 0; i -= 1) {
       const offset = tabOffsets.get(tabs[i].key) || DEFAULT_SIZE;
-      if (offset[position] < transformSize) {
-        startIndex = i + 1;
+      if (offset[position] < transformSize + offset[charUnit] / 5) {
+        startIndex = i;
         break;
       }
     }

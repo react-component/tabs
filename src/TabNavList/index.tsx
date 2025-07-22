@@ -515,7 +515,7 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
 
   // ======================== Dropdown =======================
   const startHiddenTabs = tabs.slice(0, visibleStart);
-  const endHiddenTabs = tabs.slice(visibleEnd + 1);
+  const endHiddenTabs = tabs.slice(visibleEnd);
   const hiddenTabs = [...startHiddenTabs, ...endHiddenTabs];
 
   // =================== Link & Operations ===================
