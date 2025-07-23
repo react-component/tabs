@@ -584,4 +584,65 @@ describe('Tabs.Overflow', () => {
 
     jest.useRealTimers();
   });
+
+  it('should handle no visible tabs when container is too small', () => {
+    jest.useFakeTimers();
+
+    // 设置极小的容器空间，无法显示任何tab
+    // 可用空间 = container - more - add - extra - tabNode = 40 - 10 - 10 - 10 - 20 = -10
+    hackOffsetInfo.container = 40;
+    hackOffsetInfo.more = 10;
+    hackOffsetInfo.add = 10;
+    hackOffsetInfo.extra = 10;
+    hackOffsetInfo.tabNode = 20;
+
+    const { container, unmount } = render(
+      getTabs({
+        editable: { onEdit: () => {} },
+        tabBarExtraContent: 'Extra',
+      }),
+    );
+
+    triggerResize(container);
+
+    act(() => {
+      jest.runAllTimers();
+    });
+
+    // 验证关键行为：当startIndex > endIndex时（返回[0,-1]），容器太小无法显示任何tab
+
+    // 1. "更多"按钮存在（在operations区域，用于访问隐藏的tab）
+    const dropdownTrigger = container.querySelector('.rc-tabs-nav-operations .rc-tabs-nav-more');
+    expect(dropdownTrigger).toBeTruthy();
+
+    // 2. 验证添加按钮（operations区域的添加按钮应该可见）
+    const operationsAddButton = container.querySelector('.rc-tabs-nav-operations .rc-tabs-nav-add');
+    expect(operationsAddButton).toBeTruthy();
+
+    // 3. Extra内容存在
+    const extraTrigger = container.querySelector('.rc-tabs-extra-content');
+    expect(extraTrigger).toBeTruthy();
+
+    // 4. transform会是负值，将所有tab移出可视区域
+    const transformX = getTransformX(container);
+    expect(transformX).toBe(-10); // 实际测量值，说明组件正确处理了无tab可见的情况
+
+    // 5. 获取实际的tab数量（动态计算，不硬编码）
+    const allTabs = container.querySelectorAll('.rc-tabs-nav-list .rc-tabs-tab');
+    const expectedTabCount = allTabs.length;
+
+    // 6. 触发下拉菜单打开，验证所有tab都在dropdown中
+    fireEvent.mouseEnter(dropdownTrigger);
+
+    act(() => {
+      jest.runAllTimers();
+    });
+
+    // 验证下拉菜单包含所有tab
+    const moreDropdownItems = document.querySelectorAll('.rc-tabs-dropdown-menu-item');
+    expect(moreDropdownItems.length).toBe(expectedTabCount);
+
+    unmount();
+    jest.useRealTimers();
+  });
 });
