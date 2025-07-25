@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 import type { TabsProps } from '../src';
@@ -291,5 +291,45 @@ describe('Tabs.Accessibility', () => {
     await user.tab();
     await user.tab();
     expect(tabPanel).not.toHaveFocus();
+  });
+
+  it('should close tab on middle mouse button click', async () => {
+    const Demo = () => {
+      const [items, setItems] = React.useState(
+        Array.from({ length: 3 }, (_, i) => ({
+          key: `${i + 1}`,
+          label: `Tab${i + 1}`,
+          children: `Content ${i + 1}`,
+        })),
+      );
+      return (
+        <Tabs
+          defaultActiveKey="1"
+          items={items}
+          editable={{
+            onEdit: (type, { key }) => {
+              if (type === 'remove') {
+                setItems(prevItems => prevItems.filter(item => item.key !== key));
+              }
+            },
+          }}
+        />
+      );
+    };
+
+    const { queryByRole } = render(<Demo />);
+
+    // Get the second tab
+    const secondTab = queryByRole('tab', { name: /Tab2/i });
+    expect(secondTab).toBeInTheDocument();
+
+    // Simulate middle mouse button click (button index 1)
+    fireEvent.mouseDown(secondTab, { button: 1 });
+
+    expect(queryByRole('tab', { name: /Tab2/i })).toBeNull();
+
+    // First and third tabs should still be there
+    expect(queryByRole('tab', { name: /Tab1/i })).toBeInTheDocument();
+    expect(queryByRole('tab', { name: /Tab3/i })).toBeInTheDocument();
   });
 });

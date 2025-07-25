@@ -315,6 +315,38 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
     setFocusKey(newKey);
   };
 
+  const handleRemoveTab = (removalTabKey: string, e: React.MouseEvent | React.KeyboardEvent) => {
+    const removeIndex = enabledTabs.indexOf(removalTabKey);
+    const removeTab = tabs.find(tab => tab.key === removalTabKey);
+    const removable = getRemovable(
+      removeTab?.closable,
+      removeTab?.closeIcon,
+      editable,
+      removeTab?.disabled,
+    );
+
+    if (removable) {
+      e.preventDefault();
+      e.stopPropagation();
+      editable.onEdit('remove', { key: removalTabKey, event: e });
+
+      // when remove last tab, focus previous tab
+      if (removeIndex === enabledTabs.length - 1) {
+        onOffset(-1);
+      } else {
+        onOffset(1);
+      }
+    }
+  };
+
+  const handleMouseDown = (key: string, e: React.MouseEvent) => {
+    setIsMouse(true);
+    // Middle mouse button
+    if (e.button === 1) {
+      handleRemoveTab(key, e);
+    }
+  };
+
   const handleKeyDown = (e: React.KeyboardEvent) => {
     const { code } = e;
 
@@ -381,25 +413,7 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
       // Backspace
       case 'Backspace':
       case 'Delete': {
-        const removeIndex = enabledTabs.indexOf(focusKey);
-        const removeTab = tabs.find(tab => tab.key === focusKey);
-        const removable = getRemovable(
-          removeTab?.closable,
-          removeTab?.closeIcon,
-          editable,
-          removeTab?.disabled,
-        );
-        if (removable) {
-          e.preventDefault();
-          e.stopPropagation();
-          editable.onEdit('remove', { key: focusKey, event: e });
-          // when remove last tab, focus previous tab
-          if (removeIndex === enabledTabs.length - 1) {
-            onOffset(-1);
-          } else {
-            onOffset(1);
-          }
-        }
+        handleRemoveTab(focusKey, e);
         break;
       }
     }
@@ -454,9 +468,7 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
         onBlur={() => {
           setFocusKey(undefined);
         }}
-        onMouseDown={() => {
-          setIsMouse(true);
-        }}
+        onMouseDown={e => handleMouseDown(key, e)}
         onMouseUp={() => {
           setIsMouse(false);
         }}
