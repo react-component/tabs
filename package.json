@@ -62,7 +62,7 @@
     "@umijs/fabric": "^4.0.1",
     "cross-env": "^7.0.2",
     "dumi": "^2.0.0",
-    "eslint": "^8.54.0",
+    "eslint": "^9.32.0",
     "eslint-plugin-jest": "^28.9.0",
     "eslint-plugin-unicorn": "^56.0.0",
     "father": "^4.0.0",
