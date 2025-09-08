@@ -1,6 +1,6 @@
 // Accessibility https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/Tab_Role
 import classNames from 'classnames';
-import useMergedState from '@rc-component/util/lib/hooks/useMergedState';
+import useControlledState from '@rc-component/util/lib/hooks/useControlledState';
 import isMobile from '@rc-component/util/lib/isMobile';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
@@ -123,10 +123,10 @@ const Tabs = React.forwardRef<HTMLDivElement, TabsProps>((props, ref) => {
   }, []);
 
   // ====================== Active Key ======================
-  const [mergedActiveKey, setMergedActiveKey] = useMergedState<string>(() => tabs[0]?.key, {
-    value: activeKey,
-    defaultValue: defaultActiveKey,
-  });
+  const [mergedActiveKey, setMergedActiveKey] = useControlledState<string>(
+    defaultActiveKey ?? tabs[0]?.key,
+    activeKey,
+  );
   const [activeIndex, setActiveIndex] = useState(() =>
     tabs.findIndex(tab => tab.key === mergedActiveKey),
   );
@@ -142,9 +142,7 @@ const Tabs = React.forwardRef<HTMLDivElement, TabsProps>((props, ref) => {
   }, [tabs.map(tab => tab.key).join('_'), mergedActiveKey, activeIndex]);
 
   // ===================== Accessibility ====================
-  const [mergedId, setMergedId] = useMergedState(null, {
-    value: id,
-  });
+  const [mergedId, setMergedId] = useControlledState(null, id);
 
   // Async generate id to avoid ssr mapping failed
   useEffect(() => {
