@@ -124,7 +124,7 @@ const Tabs = React.forwardRef<HTMLDivElement, TabsProps>((props, ref) => {
 
   // ====================== Active Key ======================
   const [mergedActiveKey, setMergedActiveKey] = useControlledState<string>(
-    defaultActiveKey || tabs[0]?.key,
+    defaultActiveKey ?? tabs[0]?.key,
     activeKey,
   );
   const [activeIndex, setActiveIndex] = useState(() =>
