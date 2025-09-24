@@ -24,8 +24,8 @@ export interface TabNodeProps {
   onMouseUp: React.MouseEventHandler;
   onFocus: React.FocusEventHandler;
   onBlur: React.FocusEventHandler;
-  styles?: Pick<Record<SemanticName, React.CSSProperties>, 'item' | 'close'>;
-  classNames?: Pick<Record<SemanticName, string>, 'item' | 'close'>;
+  styles?: Pick<Partial<Record<SemanticName, React.CSSProperties>>, 'item' | 'close'>;
+  classNames?: Pick<Partial<Record<SemanticName, string>>, 'item' | 'close'>;
 }
 
 const TabNode: React.FC<TabNodeProps> = props => {
