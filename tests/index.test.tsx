@@ -775,4 +775,28 @@ describe('Tabs.Basic', () => {
     expect(content).toHaveStyle({ background: 'green' });
     expect(header).toHaveStyle({ background: 'yellow' });
   });
+
+  it('support classnames and styles for editable', () => {
+    const customClassNames = {
+      close: 'custom-close',
+    };
+    const customStyles = {
+      close: { background: 'red' },
+    };
+
+    const { container } = render(
+      <Tabs
+        editable={{
+          onEdit: () => {},
+        }}
+        tabPosition="left"
+        items={[{ key: 'test', label: 'test', icon: 'test' }]}
+        styles={customStyles}
+        classNames={customClassNames}
+      />,
+    );
+
+    expect(container.querySelector('.rc-tabs-tab-remove')).toHaveClass('custom-close');
+    expect(container.querySelector('.rc-tabs-tab-remove')).toHaveStyle({ background: 'red' });
+  });
 });
