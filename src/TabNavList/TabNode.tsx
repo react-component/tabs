@@ -2,6 +2,7 @@ import { clsx } from 'clsx';
 import * as React from 'react';
 import type { EditableConfig, Tab } from '../interface';
 import { genDataNodeKey, getRemovable } from '../util';
+import type { SemanticName } from '@/Tabs';
 
 export interface TabNodeProps {
   id: string;
@@ -23,8 +24,8 @@ export interface TabNodeProps {
   onMouseUp: React.MouseEventHandler;
   onFocus: React.FocusEventHandler;
   onBlur: React.FocusEventHandler;
-  style?: React.CSSProperties;
-  className?: string;
+  styles?: Pick<Record<SemanticName, React.CSSProperties>, 'item' | 'close'>;
+  classNames?: Pick<Record<SemanticName, string>, 'item' | 'close'>;
 }
 
 const TabNode: React.FC<TabNodeProps> = props => {
@@ -44,8 +45,8 @@ const TabNode: React.FC<TabNodeProps> = props => {
     onKeyDown,
     onMouseDown,
     onMouseUp,
-    style,
-    className,
+    styles,
+    classNames: tabNodeClassNames,
     tabCount,
     currentPosition,
   } = props;
@@ -83,13 +84,13 @@ const TabNode: React.FC<TabNodeProps> = props => {
     <div
       key={key}
       data-node-key={genDataNodeKey(key)}
-      className={clsx(tabPrefix, className, {
+      className={clsx(tabPrefix, tabNodeClassNames?.item, {
         [`${tabPrefix}-with-remove`]: removable,
         [`${tabPrefix}-active`]: active,
         [`${tabPrefix}-disabled`]: disabled,
         [`${tabPrefix}-focus`]: focus,
       })}
-      style={style}
+      style={styles?.item}
       onClick={onInternalClick}
     >
       {/* Primary Tab Button */}
@@ -130,7 +131,8 @@ const TabNode: React.FC<TabNodeProps> = props => {
           type="button"
           aria-label={removeAriaLabel || 'remove'}
           tabIndex={active ? 0 : -1}
-          className={`${tabPrefix}-remove`}
+          className={clsx(`${tabPrefix}-remove`, tabNodeClassNames?.close)}
+          style={styles?.close}
           onClick={e => {
             e.stopPropagation();
             onRemoveTab(e);
