@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import { clsx } from 'clsx';
 import CSSMotion from '@rc-component/motion';
 import * as React from 'react';
 import type { AnimatedConfig, TabPosition } from '../interface';
@@ -24,9 +24,9 @@ const TabPanelList: React.FC<TabPanelListProps> = props => {
   const tabPanePrefixCls = `${prefixCls}-tabpane`;
 
   return (
-    <div className={classNames(`${prefixCls}-content-holder`)}>
+    <div className={clsx(`${prefixCls}-content-holder`)}>
       <div
-        className={classNames(`${prefixCls}-content`, `${prefixCls}-content-${tabPosition}`, {
+        className={clsx(`${prefixCls}-content`, `${prefixCls}-content-${tabPosition}`, {
           [`${prefixCls}-content-animated`]: tabPaneAnimated,
         })}
       >
@@ -58,7 +58,7 @@ const TabPanelList: React.FC<TabPanelListProps> = props => {
                   animated={tabPaneAnimated}
                   active={active}
                   style={{ ...contentStyle, ...paneStyle, ...motionStyle }}
-                  className={classNames(contentClassName, paneClassName, motionClassName)}
+                  className={clsx(contentClassName, paneClassName, motionClassName)}
                   ref={ref}
                 />
               )}
