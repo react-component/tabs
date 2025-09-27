@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import { clsx } from 'clsx';
 import ResizeObserver from '@rc-component/resize-observer';
 import useEvent from '@rc-component/util/lib/hooks/useEvent';
 import { useComposeRef } from '@rc-component/util/lib/ref';
@@ -584,7 +584,7 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
         ref={useComposeRef(ref, containerRef)}
         role="tablist"
         aria-orientation={tabPositionTopOrBottom ? 'horizontal' : 'vertical'}
-        className={classNames(`${prefixCls}-nav`, className, tabsClassNames?.header)}
+        className={clsx(`${prefixCls}-nav`, className, tabsClassNames?.header)}
         style={{ ...styles?.header, ...style }}
         onKeyDown={() => {
           // No need animation when use keyboard
@@ -595,7 +595,7 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
 
         <ResizeObserver onResize={onListHolderResize}>
           <div
-            className={classNames(wrapPrefix, {
+            className={clsx(wrapPrefix, {
               [`${wrapPrefix}-ping-left`]: pingLeft,
               [`${wrapPrefix}-ping-right`]: pingRight,
               [`${wrapPrefix}-ping-top`]: pingTop,
@@ -624,7 +624,7 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
                   }}
                 />
                 <div
-                  className={classNames(`${prefixCls}-ink-bar`, tabsClassNames?.indicator, {
+                  className={clsx(`${prefixCls}-ink-bar`, tabsClassNames?.indicator, {
                     [`${prefixCls}-ink-bar-animated`]: animated.inkBar,
                   })}
                   style={{ ...indicatorStyle, ...styles?.indicator }}

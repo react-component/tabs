@@ -1,11 +1,12 @@
 // Accessibility https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/Tab_Role
-import classNames from 'classnames';
+import { clsx } from 'clsx';
 import useControlledState from '@rc-component/util/lib/hooks/useControlledState';
 import isMobile from '@rc-component/util/lib/isMobile';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import TabContext from './TabContext';
-import TabNavListWrapper from './TabNavList/Wrapper';
+import type { TabContextProps } from './TabContext';
+import TabNavListWrapper, { TabNavListWrapperProps } from './TabNavList/Wrapper';
 import TabPanelList from './TabPanelList';
 import useAnimateConfig from './hooks/useAnimateConfig';
 import type { GetIndicatorSize } from './hooks/useIndicator';
@@ -183,18 +184,22 @@ const Tabs = React.forwardRef<HTMLDivElement, TabsProps>((props, ref) => {
     extra: tabBarExtraContent,
     style: tabBarStyle,
     getPopupContainer,
-    popupClassName: classNames(popupClassName, tabsClassNames?.popup),
+    popupClassName: clsx(popupClassName, tabsClassNames?.popup),
     indicator,
     styles,
     classNames: tabsClassNames,
   };
 
+  const memoizedValue = React.useMemo<TabContextProps>(() => {
+    return { tabs, prefixCls };
+  }, [tabs, prefixCls]);
+
   return (
-    <TabContext.Provider value={{ tabs, prefixCls }}>
+    <TabContext.Provider value={memoizedValue}>
       <div
         ref={ref}
         id={id}
-        className={classNames(
+        className={clsx(
           prefixCls,
           `${prefixCls}-${tabPosition}`,
           {
