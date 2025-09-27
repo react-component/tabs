@@ -6,7 +6,7 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import TabContext from './TabContext';
 import type { TabContextProps } from './TabContext';
-import TabNavListWrapper, { TabNavListWrapperProps } from './TabNavList/Wrapper';
+import TabNavListWrapper from './TabNavList/Wrapper';
 import TabPanelList from './TabPanelList';
 import useAnimateConfig from './hooks/useAnimateConfig';
 import type { GetIndicatorSize } from './hooks/useIndicator';
