@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import { clsx } from 'clsx';
 import * as React from 'react';
 
 export interface TabPaneProps {
@@ -33,7 +33,7 @@ const TabPane = React.forwardRef<HTMLDivElement, TabPaneProps>((props, ref) => {
       aria-labelledby={id && `${id}-tab-${tabKey}`}
       aria-hidden={!active}
       style={style}
-      className={classNames(prefixCls, active && `${prefixCls}-active`, className)}
+      className={clsx(prefixCls, active && `${prefixCls}-active`, className)}
       ref={ref}
     >
       {children}
