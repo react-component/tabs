@@ -60,7 +60,7 @@
     "@typescript-eslint/eslint-plugin": "^5.59.7",
     "@typescript-eslint/parser": "^8.31.1",
     "@umijs/fabric": "^4.0.1",
-    "cross-env": "^7.0.2",
+    "cross-env": "^10.1.0",
     "dumi": "^2.0.0",
     "eslint": "^8.54.0",
     "eslint-plugin-jest": "^28.9.0",
