@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import { clsx } from 'clsx';
 import Dropdown from '@rc-component/dropdown';
 import Menu, { MenuItem } from '@rc-component/menu';
 import KeyCode from '@rc-component/util/lib/KeyCode';
@@ -184,9 +184,7 @@ const OperationNode = React.forwardRef<HTMLDivElement, OperationNodeProps>((prop
     moreStyle.order = 1;
   }
 
-  const overlayClassName = classNames(popupClassName, {
-    [`${dropdownPrefix}-rtl`]: rtl,
-  });
+  const overlayClassName = clsx(popupClassName, { [`${dropdownPrefix}-rtl`]: rtl });
 
   const moreNode: React.ReactNode = mobile ? null : (
     <Dropdown
@@ -217,7 +215,7 @@ const OperationNode = React.forwardRef<HTMLDivElement, OperationNodeProps>((prop
   );
 
   return (
-    <div className={classNames(`${prefixCls}-nav-operations`, className)} style={style} ref={ref}>
+    <div className={clsx(`${prefixCls}-nav-operations`, className)} style={style} ref={ref}>
       {moreNode}
       <AddButton prefixCls={prefixCls} locale={locale} editable={editable} />
     </div>

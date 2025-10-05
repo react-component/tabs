@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import { clsx } from 'clsx';
 import ResizeObserver from '@rc-component/resize-observer';
 import useEvent from '@rc-component/util/lib/hooks/useEvent';
 import { useComposeRef } from '@rc-component/util/lib/ref';
@@ -315,6 +315,38 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
     setFocusKey(newKey);
   };
 
+  const handleRemoveTab = (removalTabKey: string, e: React.MouseEvent | React.KeyboardEvent) => {
+    const removeIndex = enabledTabs.indexOf(removalTabKey);
+    const removeTab = tabs.find(tab => tab.key === removalTabKey);
+    const removable = getRemovable(
+      removeTab?.closable,
+      removeTab?.closeIcon,
+      editable,
+      removeTab?.disabled,
+    );
+
+    if (removable) {
+      e.preventDefault();
+      e.stopPropagation();
+      editable.onEdit('remove', { key: removalTabKey, event: e });
+
+      // when remove last tab, focus previous tab
+      if (removeIndex === enabledTabs.length - 1) {
+        onOffset(-1);
+      } else {
+        onOffset(1);
+      }
+    }
+  };
+
+  const handleMouseDown = (key: string, e: React.MouseEvent) => {
+    setIsMouse(true);
+    // Middle mouse button
+    if (e.button === 1) {
+      handleRemoveTab(key, e);
+    }
+  };
+
   const handleKeyDown = (e: React.KeyboardEvent) => {
     const { code } = e;
 
@@ -381,25 +413,7 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
       // Backspace
       case 'Backspace':
       case 'Delete': {
-        const removeIndex = enabledTabs.indexOf(focusKey);
-        const removeTab = tabs.find(tab => tab.key === focusKey);
-        const removable = getRemovable(
-          removeTab?.closable,
-          removeTab?.closeIcon,
-          editable,
-          removeTab?.disabled,
-        );
-        if (removable) {
-          e.preventDefault();
-          e.stopPropagation();
-          editable.onEdit('remove', { key: focusKey, event: e });
-          // when remove last tab, focus previous tab
-          if (removeIndex === enabledTabs.length - 1) {
-            onOffset(-1);
-          } else {
-            onOffset(1);
-          }
-        }
+        handleRemoveTab(focusKey, e);
         break;
       }
     }
@@ -454,9 +468,7 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
         onBlur={() => {
           setFocusKey(undefined);
         }}
-        onMouseDown={() => {
-          setIsMouse(true);
-        }}
+        onMouseDown={e => handleMouseDown(key, e)}
         onMouseUp={() => {
           setIsMouse(false);
         }}
@@ -572,7 +584,7 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
         ref={useComposeRef(ref, containerRef)}
         role="tablist"
         aria-orientation={tabPositionTopOrBottom ? 'horizontal' : 'vertical'}
-        className={classNames(`${prefixCls}-nav`, className, tabsClassNames?.header)}
+        className={clsx(`${prefixCls}-nav`, className, tabsClassNames?.header)}
         style={{ ...styles?.header, ...style }}
         onKeyDown={() => {
           // No need animation when use keyboard
@@ -583,7 +595,7 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
 
         <ResizeObserver onResize={onListHolderResize}>
           <div
-            className={classNames(wrapPrefix, {
+            className={clsx(wrapPrefix, {
               [`${wrapPrefix}-ping-left`]: pingLeft,
               [`${wrapPrefix}-ping-right`]: pingRight,
               [`${wrapPrefix}-ping-top`]: pingTop,
@@ -612,7 +624,7 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
                   }}
                 />
                 <div
-                  className={classNames(`${prefixCls}-ink-bar`, tabsClassNames?.indicator, {
+                  className={clsx(`${prefixCls}-ink-bar`, tabsClassNames?.indicator, {
                     [`${prefixCls}-ink-bar-animated`]: animated.inkBar,
                   })}
                   style={{ ...indicatorStyle, ...styles?.indicator }}

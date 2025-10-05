@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import { clsx } from 'clsx';
 import * as React from 'react';
 import type { EditableConfig, Tab } from '../interface';
 import { genDataNodeKey, getRemovable } from '../util';
@@ -83,7 +83,7 @@ const TabNode: React.FC<TabNodeProps> = props => {
     <div
       key={key}
       data-node-key={genDataNodeKey(key)}
-      className={classNames(tabPrefix, className, {
+      className={clsx(tabPrefix, className, {
         [`${tabPrefix}-with-remove`]: removable,
         [`${tabPrefix}-active`]: active,
         [`${tabPrefix}-disabled`]: disabled,
