@@ -167,7 +167,7 @@ const OperationNode = React.forwardRef<HTMLDivElement, OperationNodeProps>((prop
     if (ele && ele.scrollIntoView) {
       ele.scrollIntoView(false);
     }
-  }, [selectedKey]);
+  }, [selectedItemId, selectedKey]);
 
   useEffect(() => {
     if (!open) {
