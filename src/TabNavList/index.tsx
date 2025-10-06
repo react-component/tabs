@@ -437,8 +437,8 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
         tab={tab}
         classNames={tabsClassNames}
         styles={{
+          ...styles,
           item: i === 0 ? styles?.item : { ...tabNodeStyle, ...styles?.item },
-          close: styles?.close,
         }}
         closable={tab.closable}
         editable={editable}
