@@ -144,7 +144,7 @@ const TabNode: React.FC<TabNodeProps> = props => {
     </div>
   );
 
-  return renderWrapper ? renderWrapper(node) : node;
+  return typeof renderWrapper === 'function' ? renderWrapper(node) : node;
 };
 
 export default TabNode;
