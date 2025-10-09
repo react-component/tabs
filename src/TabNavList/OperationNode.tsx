@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 import type { EditableConfig, Tab, TabsLocale, MoreProps } from '../interface';
 import { getRemovable } from '../util';
 import AddButton from './AddButton';
-import { SemanticName } from '../Tabs';
+import type { SemanticName } from '../Tabs';
 
 export interface OperationNodeProps {
   prefixCls: string;
