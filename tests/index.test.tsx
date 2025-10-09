@@ -775,4 +775,34 @@ describe('Tabs.Basic', () => {
     expect(content).toHaveStyle({ background: 'green' });
     expect(header).toHaveStyle({ background: 'yellow' });
   });
+
+  it('support classnames and styles for editable close button', () => {
+    const customClassNames = {
+      close: 'custom-close',
+    };
+    const customStyles = {
+      close: { background: 'red' },
+    };
+
+    const { container } = render(
+      <div style={{ width: 100 }}>
+        <Tabs
+          editable={{
+            onEdit: () => {},
+          }}
+          tabPosition="left"
+          items={Array.from({ length: 10 }).map((_, index) => ({
+            key: `test-${index}`,
+            label: `test-${index}`,
+            icon: 'test',
+          }))}
+          styles={customStyles}
+          classNames={customClassNames}
+        />
+      </div>,
+    );
+
+    expect(container.querySelector('.rc-tabs-tab-remove')).toHaveClass('custom-close');
+    expect(container.querySelector('.rc-tabs-tab-remove')).toHaveStyle({ background: 'red' });
+  });
 });
