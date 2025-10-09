@@ -528,6 +528,33 @@ describe('Tabs.Overflow', () => {
     expect(document.querySelector('.rc-tabs-dropdown')).toHaveStyle('color: red');
   });
 
+  it('should support classnames and styles for editable close button', () => {
+    jest.useFakeTimers();
+    const { container } = render(
+      getTabs({
+        editable: { onEdit: () => {} },
+        classNames: { close: 'custom-close' },
+        styles: { close: { color: 'red' } },
+      }),
+    );
+
+    triggerResize(container);
+    act(() => {
+      jest.runAllTimers();
+    });
+
+    fireEvent.mouseEnter(container.querySelector('.rc-tabs-nav-more'));
+    act(() => {
+      jest.runAllTimers();
+    });
+    expect(document.querySelector('.rc-tabs-dropdown-menu-item-remove')).toHaveClass(
+      'custom-close',
+    );
+    expect(document.querySelector('.rc-tabs-dropdown-menu-item-remove')).toHaveStyle({
+      color: 'red',
+    });
+  });
+
   it('correct handle decimal', () => {
     hackOffsetInfo.container = 29;
     hackOffsetInfo.tabNodeList = 29;

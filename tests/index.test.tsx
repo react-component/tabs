@@ -798,17 +798,10 @@ describe('Tabs.Basic', () => {
           }))}
           styles={customStyles}
           classNames={customClassNames}
-          getPopupContainer={() => document.querySelector('.rc-tabs') as HTMLElement}
         />
       </div>,
     );
 
-    expect(container.querySelector('.rc-tabs-dropdown-menu-item-remove')).toHaveClass(
-      'custom-close',
-    );
-    expect(container.querySelector('.rc-tabs-dropdown-menu-item-remove')).toHaveStyle({
-      background: 'red',
-    });
     expect(container.querySelector('.rc-tabs-tab-remove')).toHaveClass('custom-close');
     expect(container.querySelector('.rc-tabs-tab-remove')).toHaveStyle({ background: 'red' });
   });
