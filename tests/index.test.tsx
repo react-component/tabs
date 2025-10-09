@@ -776,7 +776,7 @@ describe('Tabs.Basic', () => {
     expect(header).toHaveStyle({ background: 'yellow' });
   });
 
-  it('support classnames and styles for editable', () => {
+  it('support classnames and styles for editable close button', () => {
     const customClassNames = {
       close: 'custom-close',
     };
@@ -785,17 +785,30 @@ describe('Tabs.Basic', () => {
     };
 
     const { container } = render(
-      <Tabs
-        editable={{
-          onEdit: () => {},
-        }}
-        tabPosition="left"
-        items={[{ key: 'test', label: 'test', icon: 'test' }]}
-        styles={customStyles}
-        classNames={customClassNames}
-      />,
+      <div style={{ width: 100 }}>
+        <Tabs
+          editable={{
+            onEdit: () => {},
+          }}
+          tabPosition="left"
+          items={Array.from({ length: 10 }).map((_, index) => ({
+            key: `test-${index}`,
+            label: `test-${index}`,
+            icon: 'test',
+          }))}
+          styles={customStyles}
+          classNames={customClassNames}
+          getPopupContainer={() => document.querySelector('.rc-tabs') as HTMLElement}
+        />
+      </div>,
     );
 
+    expect(container.querySelector('.rc-tabs-dropdown-menu-item-remove')).toHaveClass(
+      'custom-close',
+    );
+    expect(container.querySelector('.rc-tabs-dropdown-menu-item-remove')).toHaveStyle({
+      background: 'red',
+    });
     expect(container.querySelector('.rc-tabs-tab-remove')).toHaveClass('custom-close');
     expect(container.querySelector('.rc-tabs-tab-remove')).toHaveStyle({ background: 'red' });
   });

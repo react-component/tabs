@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import type { EditableConfig, Tab, TabsLocale, MoreProps } from '../interface';
 import { getRemovable } from '../util';
 import AddButton from './AddButton';
+import { SemanticName } from '../Tabs';
 
 export interface OperationNodeProps {
   prefixCls: string;
@@ -27,6 +28,8 @@ export interface OperationNodeProps {
   getPopupContainer?: (node: HTMLElement) => HTMLElement;
   popupClassName?: string;
   popupStyle?: React.CSSProperties;
+  styles?: Pick<Partial<Record<SemanticName, React.CSSProperties>>, 'close'>;
+  classNames?: Pick<Partial<Record<SemanticName, string>>, 'close'>;
 }
 
 const OperationNode = React.forwardRef<HTMLDivElement, OperationNodeProps>((props, ref) => {
@@ -47,6 +50,8 @@ const OperationNode = React.forwardRef<HTMLDivElement, OperationNodeProps>((prop
     getPopupContainer,
     popupClassName,
     popupStyle,
+    classNames,
+    styles,
   } = props;
   // ======================== Dropdown ========================
   const [open, setOpen] = useState(false);
@@ -98,7 +103,8 @@ const OperationNode = React.forwardRef<HTMLDivElement, OperationNodeProps>((prop
                 type="button"
                 aria-label={removeAriaLabel || 'remove'}
                 tabIndex={0}
-                className={`${dropdownPrefix}-menu-item-remove`}
+                className={clsx(`${dropdownPrefix}-menu-item-remove`, classNames?.close)}
+                style={styles?.close}
                 onClick={e => {
                   e.stopPropagation();
                   onRemoveTab(e, key);
