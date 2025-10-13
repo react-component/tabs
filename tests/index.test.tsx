@@ -281,10 +281,10 @@ describe('Tabs.Basic', () => {
   it('tabBarGutter should work', () => {
     const topTabs = render(getTabs({ tabBarGutter: 23 }));
     expect(topTabs.container.querySelectorAll('.rc-tabs-tab')[0]).toHaveStyle({
-      marginLeft: undefined,
+      marginInlineStart: undefined,
     });
     expect(topTabs.container.querySelectorAll('.rc-tabs-tab')[1]).toHaveStyle({
-      marginLeft: '23px',
+      marginInlineStart: '23px',
     });
 
     const rightTabs = render(getTabs({ tabBarGutter: 33, tabPosition: 'right' }));
