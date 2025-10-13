@@ -24,8 +24,8 @@ export interface TabNodeProps {
   onMouseUp: React.MouseEventHandler;
   onFocus: React.FocusEventHandler;
   onBlur: React.FocusEventHandler;
-  styles?: Pick<Partial<Record<SemanticName, React.CSSProperties>>, 'item' | 'close'>;
-  classNames?: Pick<Partial<Record<SemanticName, string>>, 'item' | 'close'>;
+  styles?: Pick<Partial<Record<SemanticName, React.CSSProperties>>, 'item' | 'remove'>;
+  classNames?: Pick<Partial<Record<SemanticName, string>>, 'item' | 'remove'>;
 }
 
 const TabNode: React.FC<TabNodeProps> = props => {
@@ -131,8 +131,8 @@ const TabNode: React.FC<TabNodeProps> = props => {
           type="button"
           aria-label={removeAriaLabel || 'remove'}
           tabIndex={active ? 0 : -1}
-          className={clsx(`${tabPrefix}-remove`, tabNodeClassNames?.close)}
-          style={styles?.close}
+          className={clsx(`${tabPrefix}-remove`, tabNodeClassNames?.remove)}
+          style={styles?.remove}
           onClick={e => {
             e.stopPropagation();
             onRemoveTab(e);

@@ -528,13 +528,13 @@ describe('Tabs.Overflow', () => {
     expect(document.querySelector('.rc-tabs-dropdown')).toHaveStyle('color: red');
   });
 
-  it('should support classnames and styles for editable close button', () => {
+  it('should support classnames and styles for editable remove button', () => {
     jest.useFakeTimers();
     const { container } = render(
       getTabs({
         editable: { onEdit: () => {} },
-        classNames: { close: 'custom-close' },
-        styles: { close: { color: 'red' } },
+        classNames: { remove: 'custom-remove' },
+        styles: { remove: { color: 'red' } },
       }),
     );
 
@@ -548,7 +548,7 @@ describe('Tabs.Overflow', () => {
       jest.runAllTimers();
     });
     expect(document.querySelector('.rc-tabs-dropdown-menu-item-remove')).toHaveClass(
-      'custom-close',
+      'custom-remove',
     );
     expect(document.querySelector('.rc-tabs-dropdown-menu-item-remove')).toHaveStyle({
       color: 'red',

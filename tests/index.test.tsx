@@ -776,12 +776,12 @@ describe('Tabs.Basic', () => {
     expect(header).toHaveStyle({ background: 'yellow' });
   });
 
-  it('support classnames and styles for editable close button', () => {
+  it('support classnames and styles for editable remove button', () => {
     const customClassNames = {
-      close: 'custom-close',
+      remove: 'custom-remove',
     };
     const customStyles = {
-      close: { background: 'red' },
+      remove: { background: 'red' },
     };
 
     const { container } = render(
@@ -802,7 +802,7 @@ describe('Tabs.Basic', () => {
       </div>,
     );
 
-    expect(container.querySelector('.rc-tabs-tab-remove')).toHaveClass('custom-close');
+    expect(container.querySelector('.rc-tabs-tab-remove')).toHaveClass('custom-remove');
     expect(container.querySelector('.rc-tabs-tab-remove')).toHaveStyle({ background: 'red' });
   });
 });

@@ -437,12 +437,12 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
         tab={tab}
         classNames={{
           item: tabsClassNames?.item,
-          close: tabsClassNames?.close,
+          remove: tabsClassNames?.remove,
         }}
         styles={{
           /* first node should not have margin left */
           item: i === 0 ? styles?.item : { ...tabNodeStyle, ...styles?.item },
-          close: styles?.close,
+          remove: styles?.remove,
         }}
         closable={tab.closable}
         editable={editable}

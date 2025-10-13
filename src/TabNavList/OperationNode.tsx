@@ -28,8 +28,8 @@ export interface OperationNodeProps {
   getPopupContainer?: (node: HTMLElement) => HTMLElement;
   popupClassName?: string;
   popupStyle?: React.CSSProperties;
-  styles?: Pick<Partial<Record<SemanticName, React.CSSProperties>>, 'close'>;
-  classNames?: Pick<Partial<Record<SemanticName, string>>, 'close'>;
+  styles?: Pick<Partial<Record<SemanticName, React.CSSProperties>>, 'remove'>;
+  classNames?: Pick<Partial<Record<SemanticName, string>>, 'remove'>;
 }
 
 const OperationNode = React.forwardRef<HTMLDivElement, OperationNodeProps>((props, ref) => {
@@ -103,8 +103,8 @@ const OperationNode = React.forwardRef<HTMLDivElement, OperationNodeProps>((prop
                 type="button"
                 aria-label={removeAriaLabel || 'remove'}
                 tabIndex={0}
-                className={clsx(`${dropdownPrefix}-menu-item-remove`, classNames?.close)}
-                style={styles?.close}
+                className={clsx(`${dropdownPrefix}-menu-item-remove`, classNames?.remove)}
+                style={styles?.remove}
                 onClick={e => {
                   e.stopPropagation();
                   onRemoveTab(e, key);
