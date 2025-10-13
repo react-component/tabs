@@ -164,10 +164,10 @@ const OperationNode = React.forwardRef<HTMLDivElement, OperationNodeProps>((prop
   useEffect(() => {
     // We use query element here to avoid React strict warning
     const ele = document.getElementById(selectedItemId);
-    if (ele && ele.scrollIntoView) {
+    if (ele?.scrollIntoView) {
       ele.scrollIntoView(false);
     }
-  }, [selectedKey]);
+  }, [selectedItemId, selectedKey]);
 
   useEffect(() => {
     if (!open) {
