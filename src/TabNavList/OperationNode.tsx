@@ -177,8 +177,9 @@ const OperationNode = React.forwardRef<HTMLDivElement, OperationNodeProps>((prop
 
   // ========================= Render =========================
   const moreStyle: React.CSSProperties = {
-    [rtl ? 'marginRight' : 'marginLeft']: tabBarGutter,
+    marginInlineStart: tabBarGutter,
   };
+
   if (!tabs.length) {
     moreStyle.visibility = 'hidden';
     moreStyle.order = 1;
