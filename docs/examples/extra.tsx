@@ -117,7 +117,7 @@ export default () => {
           />
           <label htmlFor="default-position">default position(right)</label>
         </div>
-        <div style={{ marginLeft: '15px' }}>
+        <div style={{ marginInlineStart: '15px' }}>
           <input
             id="coustom-position"
             ref={checkRef}

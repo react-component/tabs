@@ -421,8 +421,9 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
 
   // ========================== Tab ==========================
   const tabNodeStyle: React.CSSProperties = {};
+
   if (tabPositionTopOrBottom) {
-    tabNodeStyle[rtl ? 'marginRight' : 'marginLeft'] = tabBarGutter;
+    tabNodeStyle.marginInlineStart = tabBarGutter;
   } else {
     tabNodeStyle.marginTop = tabBarGutter;
   }
