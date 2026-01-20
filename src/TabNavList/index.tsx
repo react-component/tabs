@@ -252,6 +252,8 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
     addSizeValue,
     // Operation
     operationSizeValue,
+    containerExcludeExtraSizeValue,
+    activeKey,
     { ...props, tabs },
   );
 
