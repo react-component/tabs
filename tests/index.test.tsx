@@ -745,12 +745,14 @@ describe('Tabs.Basic', () => {
       item: 'custom-item',
       content: 'custom-content',
       header: 'custom-header',
+      icon: 'custom-icon',
     };
     const customStyles = {
       indicator: { background: 'red' },
       item: { color: 'blue' },
       content: { background: 'green' },
       header: { background: 'yellow' },
+      icon: { color: 'pink' },
     };
     const { container } = render(
       <Tabs
@@ -764,15 +766,18 @@ describe('Tabs.Basic', () => {
     const item = container.querySelector('.rc-tabs-tab') as HTMLElement;
     const content = container.querySelector('.rc-tabs-tabpane') as HTMLElement;
     const header = container.querySelector('.rc-tabs-nav') as HTMLElement;
+    const icon = container.querySelector('.rc-tabs-tab-icon') as HTMLElement;
 
     expect(indicator).toHaveClass('custom-indicator');
     expect(item).toHaveClass('custom-item');
     expect(content).toHaveClass('custom-content');
     expect(header).toHaveClass('custom-header');
+    expect(icon).toHaveClass('custom-icon');
 
     expect(indicator).toHaveStyle({ background: 'red' });
     expect(item).toHaveStyle({ color: 'blue' });
     expect(content).toHaveStyle({ background: 'green' });
     expect(header).toHaveStyle({ background: 'yellow' });
+    expect(icon).toHaveStyle({ color: 'pink' });
   });
 });
