@@ -95,7 +95,7 @@ const TabNode: React.FC<TabNodeProps> = props => {
         [`${tabPrefix}-disabled`]: disabled,
         [`${tabPrefix}-focus`]: focus,
       })}
-      style={styles.root}
+      style={styles?.root}
       onClick={onInternalClick}
     >
       {/* Primary Tab Button */}
@@ -127,7 +127,7 @@ const TabNode: React.FC<TabNodeProps> = props => {
           </div>
         )}
         {icon && (
-          <span className={clsx(`${tabPrefix}-icon`, classNames?.icon)} style={styles.icon}>
+          <span className={clsx(`${tabPrefix}-icon`, classNames?.icon)} style={styles?.icon}>
             {icon}
           </span>
         )}
