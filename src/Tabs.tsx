@@ -35,10 +35,12 @@ import type {
 // Used for accessibility
 let uuid = 0;
 
-export type SemanticName = 'popup' | 'item' | 'indicator' | 'content' | 'header';
+export type SemanticName = 'popup' | 'item' | 'indicator' | 'content' | 'header' | 'icon';
 
-export interface TabsProps
-  extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange' | 'children'> {
+export interface TabsProps extends Omit<
+  React.HTMLAttributes<HTMLDivElement>,
+  'onChange' | 'children'
+> {
   prefixCls?: string;
   className?: string;
   style?: React.CSSProperties;

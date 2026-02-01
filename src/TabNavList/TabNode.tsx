@@ -23,8 +23,14 @@ export interface TabNodeProps {
   onMouseUp: React.MouseEventHandler;
   onFocus: React.FocusEventHandler;
   onBlur: React.FocusEventHandler;
-  style?: React.CSSProperties;
-  className?: string;
+  styles?: {
+    root?: React.CSSProperties;
+    icon?: React.CSSProperties;
+  };
+  classNames?: {
+    root?: string;
+    icon?: string;
+  };
 }
 
 const TabNode: React.FC<TabNodeProps> = props => {
@@ -44,8 +50,8 @@ const TabNode: React.FC<TabNodeProps> = props => {
     onKeyDown,
     onMouseDown,
     onMouseUp,
-    style,
-    className,
+    styles,
+    classNames,
     tabCount,
     currentPosition,
   } = props;
@@ -83,13 +89,13 @@ const TabNode: React.FC<TabNodeProps> = props => {
     <div
       key={key}
       data-node-key={genDataNodeKey(key)}
-      className={clsx(tabPrefix, className, {
+      className={clsx(tabPrefix, classNames?.root, {
         [`${tabPrefix}-with-remove`]: removable,
         [`${tabPrefix}-active`]: active,
         [`${tabPrefix}-disabled`]: disabled,
         [`${tabPrefix}-focus`]: focus,
       })}
-      style={style}
+      style={styles.root}
       onClick={onInternalClick}
     >
       {/* Primary Tab Button */}
@@ -120,7 +126,11 @@ const TabNode: React.FC<TabNodeProps> = props => {
             {`Tab ${currentPosition} of ${tabCount}`}
           </div>
         )}
-        {icon && <span className={`${tabPrefix}-icon`}>{icon}</span>}
+        {icon && (
+          <span className={clsx(`${tabPrefix}-icon`, classNames?.icon)} style={styles.icon}>
+            {icon}
+          </span>
+        )}
         {label && labelNode}
       </div>
 
