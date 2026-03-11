@@ -2,7 +2,7 @@ import { clsx } from 'clsx';
 import * as React from 'react';
 import type { EditableConfig, Tab } from '../interface';
 import { genDataNodeKey, getRemovable } from '../util';
-import type { SemanticName } from '@/Tabs';
+import type { SemanticName } from '../Tabs';
 
 export interface TabNodeProps {
   id: string;
