@@ -1,6 +1,5 @@
 import { act, fireEvent, render } from '@testing-library/react';
-import KeyCode from '@rc-component/util/lib/KeyCode';
-import { spyElementPrototypes } from '@rc-component/util/lib/test/domHook';
+import { KeyCode, spyElementPrototypes } from '@rc-component/util';
 import React from 'react';
 import type { TabsProps } from '../src';
 import Tabs from '../src';
