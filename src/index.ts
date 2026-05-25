@@ -7,7 +7,6 @@ export type {
   MoreProps,
   Tab,
   TabBarExtraContent,
-  TabBarExtraMap,
 } from './interface';
 export type { TabPaneProps } from './TabPanelList/TabPane';
 export type { GetIndicatorSize } from './hooks/useIndicator';
