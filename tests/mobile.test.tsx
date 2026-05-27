@@ -1,5 +1,5 @@
 import { render } from '@testing-library/react';
-import { spyElementPrototypes } from '@rc-component/util/lib/test/domHook';
+import { spyElementPrototypes } from '@rc-component/util';
 import React from 'react';
 import { act } from 'react-dom/test-utils';
 import type { TabsProps } from '../src';

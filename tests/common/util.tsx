@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-invalid-this */
 import { act } from '@testing-library/react';
-import { _rs as onEsResize } from '@rc-component/resize-observer/es/utils/observerUtil';
-import { _rs as onLibResize } from '@rc-component/resize-observer/lib/utils/observerUtil';
+import { _rs as onResize } from '@rc-component/resize-observer';
 import React from 'react';
 import Tabs from '../../src';
 import type { TabsProps } from '../../src/Tabs';
@@ -150,8 +149,7 @@ export const triggerResize = (container: Element) => {
   const target = container.querySelector('.rc-tabs-nav');
 
   act(() => {
-    onLibResize([{ target } as ResizeObserverEntry]);
-    onEsResize([{ target } as ResizeObserverEntry]);
+    onResize([{ target } as ResizeObserverEntry]);
   });
 };
 

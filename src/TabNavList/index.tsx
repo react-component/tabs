@@ -1,7 +1,6 @@
 import { clsx } from 'clsx';
 import ResizeObserver from '@rc-component/resize-observer';
-import useEvent from '@rc-component/util/lib/hooks/useEvent';
-import { useComposeRef } from '@rc-component/util/lib/ref';
+import { useComposeRef, useEvent } from '@rc-component/util';
 import * as React from 'react';
 import { useEffect, useRef, useState } from 'react';
 import TabContext from '../TabContext';

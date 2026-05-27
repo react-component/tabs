@@ -1,4 +1,4 @@
-import { useLayoutUpdateEffect } from '@rc-component/util/lib/hooks/useLayoutEffect';
+import { useLayoutUpdateEffect } from '@rc-component/util';
 import { useRef, useState } from 'react';
 
 /**

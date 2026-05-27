@@ -1,7 +1,6 @@
 // Accessibility https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/Tab_Role
 import { clsx } from 'clsx';
-import useControlledState from '@rc-component/util/lib/hooks/useControlledState';
-import isMobile from '@rc-component/util/lib/isMobile';
+import { isMobile, useControlledState } from '@rc-component/util';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import TabContext from './TabContext';
@@ -37,8 +36,10 @@ let uuid = 0;
 
 export type SemanticName = 'popup' | 'item' | 'indicator' | 'content' | 'header' | 'remove';
 
-export interface TabsProps
-  extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange' | 'children'> {
+export interface TabsProps extends Omit<
+  React.HTMLAttributes<HTMLDivElement>,
+  'onChange' | 'children'
+> {
   prefixCls?: string;
   className?: string;
   style?: React.CSSProperties;
