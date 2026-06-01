@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-invalid-this */
-import { render } from '@testing-library/react';
+import { render, act } from '@testing-library/react';
 import { spyElementPrototypes } from '@rc-component/util';
-import { act } from 'react-dom/test-utils';
 import { getOffsetSizeFunc, getTabs, triggerResize } from './common/util';
 
 describe('Tabs.Operation-Overflow', () => {

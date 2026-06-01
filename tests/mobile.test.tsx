@@ -1,7 +1,6 @@
-import { render } from '@testing-library/react';
+import { render, act } from '@testing-library/react';
 import { spyElementPrototypes } from '@rc-component/util';
 import React from 'react';
-import { act } from 'react-dom/test-utils';
 import type { TabsProps } from '../src';
 import Tabs from '../src';
 import { btnOffsetPosition, getOffsetSizeFunc, getTransformX } from './common/util';

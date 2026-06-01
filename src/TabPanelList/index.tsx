@@ -25,47 +25,50 @@ const TabPanelList: React.FC<TabPanelListProps> = props => {
 
   return (
     <div className={clsx(`${prefixCls}-content-holder`)}>
-      <div
-        className={clsx(`${prefixCls}-content`, `${prefixCls}-content-${tabPosition}`, {
-          [`${prefixCls}-content-animated`]: tabPaneAnimated,
-        })}
-      >
-        {tabs.map(item => {
-          const {
-            key,
-            forceRender,
-            style: paneStyle,
-            className: paneClassName,
-            destroyOnHidden: itemDestroyOnHidden,
-            ...restTabProps
-          } = item;
-          const active = key === activeKey;
-          return (
-            <CSSMotion
-              key={key}
-              visible={active}
-              forceRender={forceRender}
-              removeOnLeave={!!(destroyOnHidden ?? itemDestroyOnHidden)}
-              leavedClassName={`${tabPanePrefixCls}-hidden`}
-              {...animated.tabPaneMotion}
-            >
-              {({ style: motionStyle, className: motionClassName }, ref) => (
-                <TabPane
-                  {...restTabProps}
-                  prefixCls={tabPanePrefixCls}
-                  id={id}
-                  tabKey={key}
-                  animated={tabPaneAnimated}
-                  active={active}
-                  style={{ ...contentStyle, ...paneStyle, ...motionStyle }}
-                  className={clsx(contentClassName, paneClassName, motionClassName)}
-                  ref={ref}
-                />
-              )}
-            </CSSMotion>
-          );
-        })}
-      </div>
+      {tabs.map(item => {
+        const {
+          key,
+          forceRender,
+          style: paneStyle,
+          className: paneClassName,
+          destroyOnHidden: itemDestroyOnHidden,
+          ...restTabProps
+        } = item;
+        const active = key === activeKey;
+        return (
+          <CSSMotion
+            key={key}
+            visible={active}
+            forceRender={forceRender}
+            removeOnLeave={!!(destroyOnHidden ?? itemDestroyOnHidden)}
+            leavedClassName={`${tabPanePrefixCls}-hidden`}
+            {...animated.tabPaneMotion}
+          >
+            {({ style: motionStyle, className: motionClassName }, ref) => (
+              <TabPane
+                {...restTabProps}
+                prefixCls={tabPanePrefixCls}
+                id={id}
+                tabKey={key}
+                animated={tabPaneAnimated}
+                active={active}
+                style={{ ...contentStyle, ...paneStyle, ...motionStyle }}
+                className={clsx(
+                  `${prefixCls}-content`,
+                  `${prefixCls}-content-${tabPosition}`,
+                  {
+                    [`${prefixCls}-content-animated`]: tabPaneAnimated,
+                  },
+                  contentClassName,
+                  paneClassName,
+                  motionClassName,
+                )}
+                ref={ref}
+              />
+            )}
+          </CSSMotion>
+        );
+      })}
     </div>
   );
 };

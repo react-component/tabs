@@ -86,18 +86,14 @@ exports[`Tabs.Basic Normal 1`] = `
     class="rc-tabs-content-holder"
   >
     <div
-      class="rc-tabs-content rc-tabs-content-top"
+      aria-hidden="false"
+      aria-labelledby="rc-tabs-test-tab-bamboo"
+      class="rc-tabs-tabpane rc-tabs-tabpane-active rc-tabs-content rc-tabs-content-top"
+      id="rc-tabs-test-panel-bamboo"
+      role="tabpanel"
+      tabindex="0"
     >
-      <div
-        aria-hidden="false"
-        aria-labelledby="rc-tabs-test-tab-bamboo"
-        class="rc-tabs-tabpane rc-tabs-tabpane-active"
-        id="rc-tabs-test-panel-bamboo"
-        role="tabpanel"
-        tabindex="0"
-      >
-        Bamboo
-      </div>
+      Bamboo
     </div>
   </div>
 </div>
@@ -159,18 +155,14 @@ exports[`Tabs.Basic Skip invalidate children 1`] = `
     class="rc-tabs-content-holder"
   >
     <div
-      class="rc-tabs-content rc-tabs-content-top"
+      aria-hidden="false"
+      aria-labelledby="rc-tabs-test-tab-light"
+      class="rc-tabs-tabpane rc-tabs-tabpane-active rc-tabs-content rc-tabs-content-top"
+      id="rc-tabs-test-panel-light"
+      role="tabpanel"
+      tabindex="0"
     >
-      <div
-        aria-hidden="false"
-        aria-labelledby="rc-tabs-test-tab-light"
-        class="rc-tabs-tabpane rc-tabs-tabpane-active"
-        id="rc-tabs-test-panel-light"
-        role="tabpanel"
-        tabindex="0"
-      >
-        Light
-      </div>
+      Light
     </div>
   </div>
 </div>
