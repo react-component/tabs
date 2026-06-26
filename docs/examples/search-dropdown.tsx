@@ -2,6 +2,26 @@ import React, { useState } from 'react';
 import '../../assets/index.less';
 import Tabs from '../../src';
 
+// Controlled mode example
+const ControlledDemo = ({ items }: { items: any[] }) => {
+  const [searchValue, setSearchValue] = useState('');
+
+  return (
+    <Tabs
+      activeKey="1"
+      onChange={() => {}}
+      items={items}
+      more={{
+        showSearch: {
+          placeholder: 'Controlled search...',
+          searchValue,
+          onSearch: setSearchValue,
+        },
+      }}
+    />
+  );
+};
+
 export default () => {
   const [activeKey, setActiveKey] = useState('1');
 
@@ -42,25 +62,5 @@ export default () => {
         }}
       />
     </div>
-  );
-};
-
-// Controlled mode example
-const ControlledDemo = ({ items }: { items: any[] }) => {
-  const [searchValue, setSearchValue] = useState('');
-
-  return (
-    <Tabs
-      activeKey="1"
-      onChange={() => {}}
-      items={items}
-      more={{
-        showSearch: {
-          placeholder: 'Controlled search...',
-          searchValue,
-          onSearch: setSearchValue,
-        },
-      }}
-    />
   );
 };
