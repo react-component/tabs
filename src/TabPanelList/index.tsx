@@ -8,7 +8,7 @@ import TabPane from './TabPane';
 export interface TabPanelListProps {
   activeKey: string;
   id: string;
-  animated?: AnimatedConfig;
+  animated: AnimatedConfig;
   tabPosition?: TabPosition;
   destroyOnHidden?: boolean;
   bodyStyle?: React.CSSProperties;
