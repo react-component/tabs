@@ -83,15 +83,15 @@ exports[`Tabs.Basic Normal 1`] = `
     </div>
   </div>
   <div
-    class="rc-tabs-content-holder"
+    class="rc-tabs-body-holder"
   >
     <div
-      class="rc-tabs-content rc-tabs-content-top"
+      class="rc-tabs-body rc-tabs-body-top"
     >
       <div
         aria-hidden="false"
         aria-labelledby="rc-tabs-test-tab-bamboo"
-        class="rc-tabs-tabpane rc-tabs-tabpane-active"
+        class="rc-tabs-content rc-tabs-content-active"
         id="rc-tabs-test-panel-bamboo"
         role="tabpanel"
         tabindex="0"
@@ -156,15 +156,15 @@ exports[`Tabs.Basic Skip invalidate children 1`] = `
     </div>
   </div>
   <div
-    class="rc-tabs-content-holder"
+    class="rc-tabs-body-holder"
   >
     <div
-      class="rc-tabs-content rc-tabs-content-top"
+      class="rc-tabs-body rc-tabs-body-top"
     >
       <div
         aria-hidden="false"
         aria-labelledby="rc-tabs-test-tab-light"
-        class="rc-tabs-tabpane rc-tabs-tabpane-active"
+        class="rc-tabs-content rc-tabs-content-active"
         id="rc-tabs-test-panel-light"
         role="tabpanel"
         tabindex="0"
