@@ -9,7 +9,7 @@ export interface TabPanelListProps {
   activeKey: string;
   id: string;
   animated: AnimatedConfig;
-  tabPosition?: TabPosition;
+  tabPosition: TabPosition;
   destroyOnHidden?: boolean;
   bodyStyle?: React.CSSProperties;
   bodyClassName?: string;
