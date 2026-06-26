@@ -671,4 +671,77 @@ describe('Tabs.Overflow', () => {
     unmount();
     jest.useRealTimers();
   });
+
+  it('should have input', () => {
+    jest.useFakeTimers();
+    const { container } = render(
+      getTabs({
+        more: {
+          showSearch: {
+            placeholder: '搜索',
+            autoClearSearchValue: false,
+          },
+        },
+      }),
+    );
+
+    triggerResize(container);
+    act(() => {
+      jest.runAllTimers();
+    });
+
+    fireEvent.mouseEnter(container.querySelector('.rc-tabs-nav-more'));
+    act(() => {
+      jest.runAllTimers();
+    });
+    const dropdown = document.querySelector('.rc-tabs-dropdown');
+    const input = dropdown?.querySelector('input');
+    expect(input).toBeTruthy();
+    expect(input?.placeholder).toEqual('搜索');
+    fireEvent.input(input!, { target: { value: 'cute' } });
+    act(() => {
+      jest.runAllTimers();
+    });
+    expect(input?.value).toEqual('cute');
+    expect(dropdown?.querySelectorAll('.rc-tabs-dropdown-menu-item').length).toEqual(1);
+  });
+
+  it('should call onSearch when input changes', () => {
+    jest.useFakeTimers();
+    const onSearch = jest.fn();
+    const { container } = render(
+      getTabs({
+        more: {
+          showSearch: {
+            placeholder: 'search',
+            onSearch,
+          },
+        },
+      }),
+    );
+
+    triggerResize(container);
+    act(() => {
+      jest.runAllTimers();
+    });
+
+    fireEvent.mouseEnter(container.querySelector('.rc-tabs-nav-more'));
+    act(() => {
+      jest.runAllTimers();
+    });
+
+    const dropdown = document.querySelector('.rc-tabs-dropdown');
+    const input = dropdown?.querySelector('input') as HTMLInputElement;
+
+    // 输入搜索内容
+    fireEvent.input(input, { target: { value: 'test' } });
+    act(() => {
+      jest.runAllTimers();
+    });
+
+    // 验证 onSearch 被调用
+    expect(onSearch).toHaveBeenCalledWith('test');
+
+    jest.useRealTimers();
+  });
 });

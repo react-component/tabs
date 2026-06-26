@@ -5,16 +5,58 @@
   background: #fefefe;
   border: 1px solid black;
   max-height: 200px;
-  overflow: auto;
 
   &-hidden {
     display: none;
   }
 
+  // 搜索框容器样式（有 search 时使用）
+  &-container {
+    display: flex;
+    flex-direction: column;
+    max-height: 200px;
+    overflow: hidden;
+
+    // 搜索框固定在顶部
+    .@{tabs-prefix-cls}-dropdown-search {
+      padding: 8px;
+      flex-shrink: 0;
+      border-bottom: 1px solid #f0f0f0;
+      box-sizing: border-box;
+
+      input {
+        width: 100%;
+        max-width: 100%;
+        padding: 4px 8px;
+        border: 1px solid #d9d9d9;
+        border-radius: 4px;
+        outline: none;
+        box-sizing: border-box;
+
+        &:focus {
+          border-color: #1677ff;
+          box-shadow: 0 0 0 2px rgba(22, 119, 255, 0.1);
+        }
+      }
+    }
+
+    // menu 区域可滚动
+    .@{tabs-prefix-cls}-dropdown-menu {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      overflow: auto;
+      flex: 1;
+    }
+  }
+
+  // 非 search 模式的 menu 样式
   &-menu {
     margin: 0;
     padding: 0;
     list-style: none;
+    overflow: auto;
+    max-height: 200px;
 
     &-item {
       padding: 4px 8px;
