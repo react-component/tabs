@@ -1,6 +1,6 @@
 import React from 'react';
-import Tabs from '../../src';
-import type { TabsProps } from '../../src';
+import Tabs from '@rc-component/tabs';
+import type { TabsProps } from '@rc-component/tabs';
 import '../../assets/index.less';
 
 const items: TabsProps['items'] = [];
