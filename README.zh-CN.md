@@ -1,7 +1,7 @@
 <div align="center">
   <h1>@rc-component/tabs</h1>
-  <p><sub>Part of the Ant Design ecosystem.</sub></p>
-  <p>📑 Flexible React tabs with overflow, editable items, custom tab bars, and accessible panels.</p>
+  <p><sub>Ant Design 生态的一部分。</sub></p>
+  <p>🗂️ React 标签页组件，支持可编辑标签、溢出滚动和自定义渲染。</p>
 
   <p>
     <a href="https://www.npmjs.com/package/@rc-component/tabs"><img src="https://img.shields.io/npm/v/@rc-component/tabs.svg?style=flat-square" alt="npm version" /></a>
@@ -13,23 +13,23 @@
   </p>
 </div>
 
-<p align="center">English | <a href="./README.zh-CN.md">简体中文</a></p>
+<p align="center"><a href="./README.md">English</a> | 简体中文</p>
 
 
-## Highlights
+## 特性
 
-- Supports top, bottom, left, and right tab positions with RTL layouts.
+- 支持 top, bottom, left, and right tab positions with RTL layouts.
 - Handles overflow with a dropdown operation menu.
-- Supports editable tabs, extra tab bar content, indicators, and custom tab bars.
-- Provides semantic `classNames` and `styles` slots for panel and navigation customization.
+- 支持 editable tabs, extra tab bar content, indicators, and custom tab bars.
+- 提供 semantic `classNames` and `styles` slots for panel and navigation customization.
 
-## Install
+## 安装
 
 ```bash
 npm install @rc-component/tabs
 ```
 
-## Usage
+## 使用
 
 ```tsx pure
 import Tabs from '@rc-component/tabs';
@@ -49,7 +49,7 @@ Online preview: https://tabs.react-component.vercel.app/
 
 ### Tabs
 
-| Name | Type | Default | Description |
+| 名称 | 类型 | 默认值 | 说明 |
 | --- | --- | --- | --- |
 | `activeKey` | string | - | Controlled active tab key. |
 | `animated` | boolean \| AnimatedConfig | `{ inkBar: true, tabPane: false }` | Animation config. |
@@ -79,7 +79,7 @@ Online preview: https://tabs.react-component.vercel.app/
 
 ### Tab
 
-| Name | Type | Default | Description |
+| 名称 | 类型 | 默认值 | 说明 |
 | --- | --- | --- | --- |
 | `children` | React.ReactNode | - | Tab panel content. |
 | `className` | string | - | Panel class name. |
@@ -92,7 +92,7 @@ Online preview: https://tabs.react-component.vercel.app/
 | `label` | React.ReactNode | - | Tab label. |
 | `style` | React.CSSProperties | - | Panel style. |
 
-## Development
+## 本地开发
 
 ```bash
 npm install
@@ -103,7 +103,7 @@ npm run compile
 npm run build
 ```
 
-## Release
+## 发布
 
 ```bash
 npm run prepublishOnly
@@ -111,6 +111,6 @@ npm run prepublishOnly
 
 The release flow is handled by `@rc-component/np` through the `rc-np` command after the package build.
 
-## License
+## 许可证
 
 @rc-component/tabs is released under the [MIT](./LICENSE.md) license.
