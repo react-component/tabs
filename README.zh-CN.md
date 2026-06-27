@@ -64,44 +64,44 @@ npm start
 | --- | --- | --- | --- |
 | `activeKey` | string | - | 受控的活动 Tab 键。 |
 | `animated` | boolean \| AnimatedConfig | `{ inkBar: true, tabPane: false }` | 动画配置。 |
-| `className` | string | - | 附加className。 |
-| `classNames` | `Partial<Record<SemanticName, string>>` | - | 语义className。 |
+| `className` | string | - | 附加 className。 |
+| `classNames` | `Partial<Record<SemanticName, string>>` | - | 语义化类名。 |
 | `defaultActiveKey` | string | - | 初始活动 Tab 键。 |
-| `destroyOnHidden` | boolean | false | Destroy inactive tab panels. |
-| `direction` | `'ltr' \| 'rtl'` | `'ltr'` | Layout direction. |
+| `destroyOnHidden` | boolean | false | 销毁非活动标签页面板。 |
+| `direction` | `'ltr' \| 'rtl'` | `'ltr'` | 布局方向。 |
 | `editable` | EditableConfig | - | 可编辑标签页配置。 |
 | `getPopupContainer` | `(node: HTMLElement) => HTMLElement` | - | 弹层容器解析器。 |
 | `id` | string | - | 根 ID。 |
-| `indicator` | `{ size?: GetIndicatorSize; align?: 'start' \| 'center' \| 'end' }` | - | Indicator size and alignment. |
+| `indicator` | `{ size?: GetIndicatorSize; align?: 'start' \| 'center' \| 'end' }` | - | 指示器尺寸和对齐方式。 |
 | `items` | Tab[] | [] | 选项卡项目。 |
 | `locale` | TabsLocale | - | 无障碍本地化文本。 |
 | `more` | MoreProps | - | 溢出下拉菜单配置。 |
 | `onChange` | `(activeKey: string) => void` | - | 当活动选项卡更改时触发。 |
 | `onTabClick` | `(activeKey, event) => void` | - | 单击选项卡时触发。 |
 | `onTabScroll` | `({ direction }) => void` | - | 当选项卡导航滚动时触发。 |
-| `prefixCls` | string | `'rc-tabs'` | 前缀className。 |
+| `prefixCls` | string | `'rc-tabs'` | 前缀 className。 |
 | `renderTabBar` | RenderTabBar | - | 自定义标签栏渲染函数。 |
 | `style` | React.CSSProperties | - | 根样式。 |
 | `styles` | `Partial<Record<SemanticName, React.CSSProperties>>` | - | 语义化样式。 |
 | `tabBarExtraContent` | React.ReactNode \| TabBarExtraMap | - | 标签栏旁的额外内容。 |
 | `tabBarGutter` | number | 0 | 选项卡之间的间隙。 |
 | `tabBarStyle` | React.CSSProperties | - | 标签栏样式。 |
-| `tabPosition` | `'left' \| 'right' \| 'top' \| 'bottom'` | `'top'` | Tab position. |
+| `tabPosition` | `'left' \| 'right' \| 'top' \| 'bottom'` | `'top'` | 标签页位置。 |
 
 ### Tab
 
 | 名称 | 类型 | 默认值 | 说明 |
 | --- | --- | --- | --- |
 | `children` | React.ReactNode | - | 选项卡面板内容。 |
-| `className` | string | - | 面板className称。 |
+| `className` | string | - | 面板 className。 |
 | `closable` | boolean | - | 是否可以在可编辑模式下关闭选项卡。 |
 | `closeIcon` | React.ReactNode | - | 自定义关闭图标。 |
 | `destroyOnHidden` | boolean | false | 销毁非活动面板。 |
 | `disabled` | boolean | false | 禁用该选项卡。 |
 | `forceRender` | boolean | false | 在面板变为活动状态之前渲染面板。 |
 | `key` | string | - | 需要唯一的 Tab 键。 |
-| `label` | React.ReactNode | - | Tab label. |
-| `style` | React.CSSProperties | - | 面板风格。 |
+| `label` | React.ReactNode | - | Tab 标签内容。 |
+| `style` | React.CSSProperties | - | 面板样式。 |
 
 ## 本地开发
 
