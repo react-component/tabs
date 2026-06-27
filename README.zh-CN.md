@@ -45,6 +45,17 @@ export default () => <Tabs items={items} defaultActiveKey="overview" />;
 
 在线预览：https://tabs.react-component.vercel.app/
 
+## 示例
+
+运行本地 dumi 站点：
+
+```bash
+npm install
+npm start
+```
+
+然后打开 `http://localhost:8000`。
+
 ## API
 
 ### Tabs
