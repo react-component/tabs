@@ -1,6 +1,7 @@
 <div align="center">
   <h1>@rc-component/tabs</h1>
   <p><sub>Part of the Ant Design ecosystem.</sub></p>
+  <img alt="Ant Design" height="32" src="https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg" />
   <p>📑 Flexible React tabs with overflow, editable items, custom tab bars, and accessible panels.</p>
 
   <p>
