@@ -146,6 +146,7 @@ describe('Tabs.Accessibility', () => {
     // mouse click should not add focus style
     fireEvent.mouseDown(secondTab);
     fireEvent.click(secondTab);
+    fireEvent.mouseUp(secondTab);
     expect(secondTab.parentElement).not.toHaveClass('rc-tabs-tab-focus');
 
     unmount();
