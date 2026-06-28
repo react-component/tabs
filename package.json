@@ -86,7 +86,7 @@
   "engines": {
     "node": ">=8.x"
   },
-  "types": "./lib/index.d.ts",
+  "types": "./es/index.d.ts",
   "style": "./assets/index.css",
   "publishConfig": {
     "access": "public"
