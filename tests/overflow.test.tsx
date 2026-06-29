@@ -737,6 +737,18 @@ describe('Tabs.Overflow', () => {
     // 验证 onChange 被调用（选中 miu）
     expect(onChange).toHaveBeenCalledWith('miu');
 
+    // 关闭下拉再打开，验证 autoClearSearchValue: false 时搜索值保留
+    fireEvent.keyDown(input, { key: 'Escape' });
+    act(() => {
+      jest.runAllTimers();
+    });
+    fireEvent.mouseEnter(container.querySelector('.rc-tabs-nav-more'));
+    act(() => {
+      jest.runAllTimers();
+    });
+    const input2 = document.querySelector('.rc-tabs-dropdown input') as HTMLInputElement;
+    expect(input2.value).toEqual('u');
+
     jest.useRealTimers();
   });
 
@@ -776,6 +788,60 @@ describe('Tabs.Overflow', () => {
 
     // 验证 onSearch 被调用
     expect(onSearch).toHaveBeenCalledWith('test');
+
+    jest.useRealTimers();
+  });
+
+  it('should clear search value when dropdown closes', () => {
+    jest.useFakeTimers();
+    const { container } = render(
+      getTabs({
+        more: {
+          showSearch: true,
+        },
+      }),
+    );
+
+    triggerResize(container);
+    act(() => {
+      jest.runAllTimers();
+    });
+
+    fireEvent.mouseEnter(container.querySelector('.rc-tabs-nav-more'));
+    act(() => {
+      jest.runAllTimers();
+    });
+
+    const dropdown = document.querySelector('.rc-tabs-dropdown');
+    const input = dropdown?.querySelector('input') as HTMLInputElement;
+
+    // 输入内容
+    fireEvent.input(input, { target: { value: 'cute' } });
+    act(() => {
+      jest.runAllTimers();
+    });
+
+    expect(input.value).toEqual('cute');
+
+    // 关闭下拉（ESC）
+    fireEvent.keyDown(container.querySelector('.rc-tabs-nav-more'), {
+      key: 'Escape',
+      keyCode: KeyCode.ESC,
+      charCode: KeyCode.ESC,
+    });
+    act(() => {
+      jest.runAllTimers();
+    });
+
+    // 再次打开
+    fireEvent.mouseEnter(container.querySelector('.rc-tabs-nav-more'));
+    act(() => {
+      jest.runAllTimers();
+    });
+
+    // 验证搜索值已清空
+    const input2 = document.querySelector('.rc-tabs-dropdown input') as HTMLInputElement;
+    expect(input2.value).toEqual('');
 
     jest.useRealTimers();
   });
