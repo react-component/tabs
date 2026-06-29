@@ -1,185 +1,129 @@
-# rc-tabs
+<div align="center">
+  <h1>@rc-component/tabs</h1>
+  <p><sub><img alt="Ant Design" height="14" src="https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg" style="vertical-align: -0.125em;" /> Part of the Ant Design ecosystem.</sub></p>
+  <p>📑 Flexible React tabs with overflow, editable items, custom tab bars, and accessible panels.</p>
 
----
+  <p>
+    <a href="https://npmjs.org/package/@rc-component/tabs"><img alt="NPM version" src="https://img.shields.io/npm/v/@rc-component/tabs.svg?style=flat-square"></a>
+    <a href="https://npmjs.org/package/@rc-component/tabs"><img alt="npm downloads" src="https://img.shields.io/npm/dm/@rc-component/tabs.svg?style=flat-square"></a>
+    <a href="https://github.com/react-component/tabs/actions/workflows/react-component-ci.yml"><img alt="build status" src="https://github.com/react-component/tabs/actions/workflows/react-component-ci.yml/badge.svg"></a>
+    <a href="https://app.codecov.io/gh/react-component/tabs"><img alt="Codecov" src="https://img.shields.io/codecov/c/github/react-component/tabs/master.svg?style=flat-square"></a>
+    <a href="https://bundlephobia.com/package/@rc-component/tabs"><img alt="bundle size" src="https://img.shields.io/bundlephobia/minzip/@rc-component/tabs?style=flat-square"></a>
+    <a href="https://github.com/umijs/dumi"><img alt="dumi" src="https://img.shields.io/badge/docs%20by-dumi-blue?style=flat-square"></a>
+  </p>
+</div>
 
-React Tabs component.
+<p align="center">English | <a href="./README.zh-CN.md">简体中文</a></p>
 
-[![NPM version][npm-image]][npm-url] [![dumi](https://img.shields.io/badge/docs%20by-dumi-blue?style=flat-square)](https://github.com/umijs/dumi) [![build status][github-actions-image]][github-actions-url] [![Test coverage][codecov-image]][codecov-url] [![npm download][download-image]][download-url] [![bundle size][bundlephobia-image]][bundlephobia-url]
 
-[npm-image]: http://img.shields.io/npm/v/rc-tabs.svg?style=flat-square
-[npm-url]: http://npmjs.org/package/rc-tabs
-[github-actions-image]: https://github.com/react-component/tabs/workflows/CI/badge.svg
-[github-actions-url]: https://github.com/react-component/tabs/actions
-[codecov-image]: https://img.shields.io/codecov/c/github/react-component/tabs/master.svg?style=flat-square
-[codecov-url]: https://codecov.io/gh/react-component/tabs/branch/master
-[download-image]: https://img.shields.io/npm/dm/rc-tabs.svg?style=flat-square
-[download-url]: https://npmjs.org/package/rc-tabs
-[bundlephobia-url]: https://bundlephobia.com/result?p=rc-tabs
-[bundlephobia-image]: https://badgen.net/bundlephobia/minzip/rc-tabs
+## Highlights
 
-## Screenshot
+- Supports top, bottom, left, and right tab positions with RTL layouts.
+- Handles overflow with a dropdown operation menu.
+- Supports editable tabs, extra tab bar content, indicators, and custom tab bars.
+- Provides semantic `classNames` and `styles` slots for panel and navigation customization.
 
-<img src='https://zos.alipayobjects.com/rmsportal/JwLASrsOYJuFRIt.png' width='408'>
+## Install
 
-## Example
-
-http://localhost:8000/examples
-
-online example: https://tabs.react-component.now.sh/
-
-## install
-
-[![rc-tabs](https://nodei.co/npm/rc-tabs.png)](https://npmjs.org/package/rc-tabs)
-
-## Feature
-
-### Keyboard
-
-- left and up: tabs to previous tab
-- right and down: tabs to next tab
+```bash
+npm install @rc-component/tabs
+```
 
 ## Usage
 
-```tsx | pure
-import Tabs from 'rc-tabs';
-import ReactDom from 'react-dom';
-
-const callback = key => {
-  console.log(key);
-};
+```tsx pure
+import Tabs from '@rc-component/tabs';
+import '@rc-component/tabs/assets/index.css';
 
 const items = [
-  {
-    key: '1',
-    label: 'Google',
-    children: (
-      <div className="text-xl">
-        <p>Lorem Ipsum is simply dummy text of the printing and typesetting</p>
-      </div>
-    ),
-  },
-  {
-    key: '2',
-    label: <p>Amazon</p>,
-    children:
-      'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...',
-    disabled: true,
-  },
-  {
-    key: '3',
-    label: <p>Twitter</p>,
-    children: (
-      <div>
-        "There is no one who loves pain itself, who seeks after it and wants to have it, simply
-        because it is pain..."
-      </div>
-    ),
-  },
+  { key: 'overview', label: 'Overview', children: 'Overview content' },
+  { key: 'settings', label: 'Settings', children: 'Settings content' },
 ];
 
-ReactDom.render(
-  <Tabs
-    tabPosition="bottom"
-    items={items}
-    defaultActiveKey="1"
-    className="md:w-[70%] w-full mx-auto p-2 border-0"
-    onChange={callback}
-    style={{ color: 'yellow' }}
-  />,
-  root,
-);
+export default () => <Tabs items={items} defaultActiveKey="overview" />;
 ```
+
+Online preview: https://tabs.react-component.vercel.app/
+
+## Examples
+
+Run the local dumi site:
+
+```bash
+npm install
+npm start
+```
+
+Then open `http://localhost:8000`.
 
 ## API
 
 ### Tabs
 
-| name | type | default | description |
+| Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| prefixCls | string | `'rc-tabs'` | prefix class name, use to custom style |
-| className | string | - | to define a class name for an element |
-| style | CSS properties | - | object with css properties for styling |
-| items | TabItem[] | [] | configure tab content |
-| id | string | - | unique identifier |
-| defaultActiveKey | string | - | initial active tabPanel's key if activeKey is absent |
-| activeKey | string | - | current active tabPanel's key |
-| direction | `'ltr' or 'rtl'` | `'ltr'` | Layout direction of tabs component |
-| animated | boolean \| { inkBar: boolean, tabPane: boolean } | `{ inkBar: true, tabPane: false }` | config animation |
-| renderTabBar | (props, TabBarComponent) => ReactElement | - | How to render tab bar |
-| tabBarExtraContent | ReactNode \| `{ left: ReactNode, right: ReactNode }` | - | config extra content |
-| tabBarGutter | number | 0 | config tab bar gutter |
-| tabBarPosition | `'left' \| 'right' \| 'top' \| 'bottom'` | `'top'` | tab nav 's position |
-| tabBarStyle | style | - | tab nav style |
-| tabPosition | `'left' or 'right' or 'top' or 'bottom'` | `'top'` | tab nav 's position |
-| destroyOnHidden | boolean | false | whether destroy inactive TabPane when change tab |
-| onChange | (key) => void | - | called when tabPanel is changed |
-| onTabClick | (key) => void | - | called when tab click |
-| onTabScroll | ({ direction }) => void | - | called when tab scroll |
-| editable | { onEdit(type: 'add' \| 'remove', info: { key, event }), showAdd: boolean, removeIcon: ReactNode, addIcon: ReactNode } | - | config tab editable |
-| locale | { dropdownAriaLabel: string, removeAriaLabel: string, addAriaLabel: string } | - | Accessibility locale help text |
-| moreIcon | ReactNode | - | collapse icon |
+| `activeKey` | string | - | Controlled active tab key. |
+| `animated` | boolean \| AnimatedConfig | `{ inkBar: true, tabPane: false }` | Animation config. |
+| `className` | string | - | Additional class name. |
+| `classNames` | `Partial<Record<SemanticName, string>>` | - | Semantic class names. |
+| `defaultActiveKey` | string | - | Initial active tab key. |
+| `destroyOnHidden` | boolean | false | Destroy inactive tab panels. |
+| `direction` | `'ltr' \| 'rtl'` | `'ltr'` | Layout direction. |
+| `editable` | EditableConfig | - | Editable tab configuration. |
+| `getPopupContainer` | `(node: HTMLElement) => HTMLElement` | - | Popup container resolver. |
+| `id` | string | - | Root id. |
+| `indicator` | `{ size?: GetIndicatorSize; align?: 'start' \| 'center' \| 'end' }` | - | Indicator size and alignment. |
+| `items` | Tab[] | [] | Tab items. |
+| `locale` | TabsLocale | - | Accessibility locale text. |
+| `more` | MoreProps | - | Overflow dropdown config. |
+| `onChange` | `(activeKey: string) => void` | - | Triggered when active tab changes. |
+| `onTabClick` | `(activeKey, event) => void` | - | Triggered when a tab is clicked. |
+| `onTabScroll` | `({ direction }) => void` | - | Triggered when tab navigation scrolls. |
+| `prefixCls` | string | `'rc-tabs'` | Prefix class name. |
+| `renderTabBar` | RenderTabBar | - | Custom tab bar renderer. |
+| `style` | React.CSSProperties | - | Root style. |
+| `styles` | `Partial<Record<SemanticName, React.CSSProperties>>` | - | Semantic styles. |
+| `tabBarExtraContent` | React.ReactNode \| TabBarExtraMap | - | Extra content beside the tab bar. |
+| `tabBarGutter` | number | 0 | Gap between tabs. |
+| `tabBarStyle` | React.CSSProperties | - | Tab bar style. |
+| `tabPosition` | `'left' \| 'right' \| 'top' \| 'bottom'` | `'top'` | Tab position. |
 
-### TabItem
+### Tab
 
-| name | type | default | description |
+| Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| key | string | - | corresponding to activeKey, should be unique |
-| label | string | - | TabPane's head display text |
-| tab | ReactNode | - | current tab's title corresponding to current tabPane |
-| className | string | - | to define a class name for an element |
-| style | CSS properties | - | object with css properties for styling |
-| disabled | boolean | false | set TabPane disabled |
-| children | ReactNode | - | TabPane's head display content |
-| forceRender | boolean | false | forced render of content in tabs, not lazy render after clicking on tabs |
-| closable | boolean | false | closable feature of tab item |
-| closeIcon | ReactNode | - | Config close icon |
-| prefixCls | string | `'rc-tabs-tab'` | prefix class name, use to custom style |
-| id | string | - | unique identifier |
-| animated | boolean \| { inkBar: boolean, tabPane: boolean } | `{ inkBar: true, tabPane: false }` | config animation |
-| destroyOnHidden | boolean | false | whether destroy inactive TabPane when change tab |
-| active | boolean | false | active feature of tab item |
-| tabKey | string | - | key linked to tab |
-
-### TabPane(support in older versions)
-
-| name | type | default | description |
-| --- | --- | --- | --- |
-| destroyOnHidden | boolean | false | whether destroy inactive TabPane when change tab |
-| key | string | - | corresponding to activeKey, should be unique |
-| forceRender | boolean | false | forced render of content in tabs, not lazy render after clicking on tabs |
-| tab | ReactNode | - | current tab's title corresponding to current tabPane |
-| closeIcon | ReactNode | - | Config close icon |
+| `children` | React.ReactNode | - | Tab panel content. |
+| `className` | string | - | Panel class name. |
+| `closable` | boolean | - | Whether the tab can be closed in editable mode. |
+| `closeIcon` | React.ReactNode | - | Custom close icon. |
+| `destroyOnHidden` | boolean | false | Destroy inactive panel. |
+| `disabled` | boolean | false | Disable the tab. |
+| `forceRender` | boolean | false | Render panel before it becomes active. |
+| `key` | string | - | Required unique tab key. |
+| `label` | React.ReactNode | - | Tab label. |
+| `style` | React.CSSProperties | - | Panel style. |
 
 ## Development
 
-```
+```bash
 npm install
 npm start
-```
-
-## Test Case
-
-```
 npm test
-npm run chrome-test
+npm run tsc
+npm run compile
+npm run build
 ```
 
-## Coverage
+The dumi site runs at `http://localhost:8000` by default.
 
-```
-npm run coverage
+## Release
+
+```bash
+npm run prepublishOnly
 ```
 
-open coverage/ dir
+The release flow is handled by `@rc-component/np` through the `rc-np` command after the package build.
 
 ## License
 
-rc-tabs is released under the MIT license.
-
-## FAQ
-
-### Responsive Tabs
-
-There are 3 cases when handling responsive tabs: ![image](https://user-images.githubusercontent.com/27722486/156315099-7e6eda9d-ab77-4b16-9b49-1727c5ec8b26.png)
-
-We get hidden tabs through [useVisibleRange.ts](https://github.com/react-component/tabs/blob/master/src/hooks/useVisibleRange.ts). If enconter the third case, in order to make tabs responsive, some tabs should be hidden. So we minus `addSize` when calculating `basicSize` manully, even though there's no addNode in container. In this way, case 3 turns to case 2, tabs become stable again.
+@rc-component/tabs is released under the [MIT](./LICENSE) license.
