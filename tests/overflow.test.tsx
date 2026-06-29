@@ -681,7 +681,7 @@ describe('Tabs.Overflow', () => {
         more: {
           showSearch: {
             placeholder: '搜索',
-            autoClearSearchValue: false,
+            autoClearSearchValue: true,
           },
         },
       }),
@@ -737,7 +737,6 @@ describe('Tabs.Overflow', () => {
     // 验证 onChange 被调用（选中 miu）
     expect(onChange).toHaveBeenCalledWith('miu');
 
-    // 关闭下拉再打开，验证 autoClearSearchValue: false 时搜索值保留
     fireEvent.keyDown(input, { key: 'Escape' });
     act(() => {
       jest.runAllTimers();
@@ -746,8 +745,8 @@ describe('Tabs.Overflow', () => {
     act(() => {
       jest.runAllTimers();
     });
-    const input2 = document.querySelector('.rc-tabs-dropdown input') as HTMLInputElement;
-    expect(input2.value).toEqual('u');
+
+    expect(input.value).toEqual('');
 
     jest.useRealTimers();
   });
@@ -792,12 +791,12 @@ describe('Tabs.Overflow', () => {
     jest.useRealTimers();
   });
 
-  it('should clear search value when dropdown closes', () => {
+  it('keep search value when dropdown closes', () => {
     jest.useFakeTimers();
     const { container } = render(
       getTabs({
         more: {
-          showSearch: true,
+          showSearch: { autoClearSearchValue: false },
         },
       }),
     );
@@ -839,9 +838,8 @@ describe('Tabs.Overflow', () => {
       jest.runAllTimers();
     });
 
-    // 验证搜索值已清空
-    const input2 = document.querySelector('.rc-tabs-dropdown input') as HTMLInputElement;
-    expect(input2.value).toEqual('');
+    // 验证搜索值保留
+    expect(input.value).toEqual('cute');
 
     jest.useRealTimers();
   });
