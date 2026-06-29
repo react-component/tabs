@@ -10,19 +10,15 @@ export type TriggerProps = {
 export type moreIcon = React.ReactNode;
 
 export type ShowSearchConfig = {
-  /** 搜索框占位文字 */
   placeholder?: string;
-  /** 搜索值变化回调 */
   onSearch?: (value: string) => void;
-  /** 搜索框的值（受控模式） */
   searchValue?: string;
-  /** 是否在关闭时自动清空搜索值，默认 true */
   autoClearSearchValue?: boolean;
+  filter?: (tab: Tab, searchValue: string) => boolean;
 };
 
 export type MoreProps = {
   icon?: moreIcon;
-  /** 是否显示搜索框，或配置搜索框选项 */
   showSearch?: boolean | ShowSearchConfig;
 } & Omit<DropdownProps, 'children'>;
 

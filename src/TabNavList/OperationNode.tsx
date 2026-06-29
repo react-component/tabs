@@ -61,7 +61,6 @@ const OperationNode = React.forwardRef<HTMLDivElement, OperationNodeProps>((prop
 
   const { icon: moreIcon = 'More', showSearch } = moreProps;
 
-  // 是否启用搜索
   const isSearchable = !!showSearch;
   const showSearchConfig = typeof showSearch === 'object' ? showSearch : {};
   const {
@@ -69,16 +68,23 @@ const OperationNode = React.forwardRef<HTMLDivElement, OperationNodeProps>((prop
     onSearch,
     searchValue: controlledSearchValue,
     autoClearSearchValue = true,
+    filter: filterOption,
   } = showSearchConfig;
 
-  // 支持受控和非受控 searchValue
   const mergedSearchValue =
     controlledSearchValue !== undefined ? controlledSearchValue : searchValue;
   const setSearchValueFn = controlledSearchValue !== undefined ? () => {} : setSearchValue;
 
-  // 根据搜索值过滤 tabs
   const filteredTabs = mergedSearchValue
-    ? tabs.filter(tab => String(tab.label).toLowerCase().includes(mergedSearchValue.toLowerCase()))
+    ? tabs.filter(tab => {
+        if (filterOption) {
+          return filterOption(tab, mergedSearchValue);
+        }
+        if (typeof tab.label === 'string') {
+          return tab.label.toLowerCase().includes(mergedSearchValue.toLowerCase());
+        }
+        return false;
+      })
     : tabs;
 
   const popupId = `${id}-more-popup`;
