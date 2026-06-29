@@ -3,7 +3,7 @@ import Dropdown from '@rc-component/dropdown';
 import Menu, { MenuItem } from '@rc-component/menu';
 import { KeyCode } from '@rc-component/util';
 import * as React from 'react';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { EditableConfig, Tab, TabsLocale, MoreProps } from '../interface';
 import { getRemovable } from '../util';
 import AddButton from './AddButton';
@@ -58,6 +58,7 @@ const OperationNode = React.forwardRef<HTMLDivElement, OperationNodeProps>((prop
   const [open, setOpen] = useState(false);
   const [selectedKey, setSelectedKey] = useState<string>(null);
   const [searchValue, setSearchValue] = useState('');
+  const searchInputRef = useRef<HTMLInputElement>(null);
 
   const { icon: moreIcon = 'More', showSearch } = moreProps;
 
@@ -148,7 +149,6 @@ const OperationNode = React.forwardRef<HTMLDivElement, OperationNodeProps>((prop
   );
 
   function selectOffset(offset: -1 | 1) {
-    // 键盘导航只在过滤后的 tabs 上生效
     const enabledTabs = filteredTabs.filter(tab => !tab.disabled);
     let selectedIndex = enabledTabs.findIndex(tab => tab.key === selectedKey) || 0;
     const len = enabledTabs.length;
@@ -201,6 +201,7 @@ const OperationNode = React.forwardRef<HTMLDivElement, OperationNodeProps>((prop
   const searchInput = isSearchable ? (
     <div className={`${dropdownPrefix}-search`}>
       <input
+        ref={searchInputRef}
         type="text"
         placeholder={placeholder}
         value={mergedSearchValue}
@@ -237,9 +238,14 @@ const OperationNode = React.forwardRef<HTMLDivElement, OperationNodeProps>((prop
 
   useEffect(() => {
     if (open) {
-      // 打开时，默认选中当前 activeKey 对应的 tab
       if (!selectedKey && activeKey) {
         setSelectedKey(activeKey);
+      }
+
+      if (isSearchable) {
+        requestAnimationFrame(() => {
+          searchInputRef.current?.focus();
+        });
       }
     } else {
       setSelectedKey(null);
@@ -247,7 +253,7 @@ const OperationNode = React.forwardRef<HTMLDivElement, OperationNodeProps>((prop
         setSearchValue('');
       }
     }
-  }, [open, activeKey]);
+  }, [open, activeKey, isSearchable, autoClearSearchValue, controlledSearchValue]);
 
   // ========================= Render =========================
   const moreStyle: React.CSSProperties = {
@@ -261,7 +267,6 @@ const OperationNode = React.forwardRef<HTMLDivElement, OperationNodeProps>((prop
 
   const overlayClassName = clsx(popupClassName, { [`${dropdownPrefix}-rtl`]: rtl });
 
-  // 搜索框包裹 menu
   const dropdownContent = isSearchable ? (
     <div className={`${dropdownPrefix}-container`}>
       {searchInput}
@@ -271,7 +276,6 @@ const OperationNode = React.forwardRef<HTMLDivElement, OperationNodeProps>((prop
     menu
   );
 
-  // 过滤 showSearch 属性，避免传给 Dropdown
   const { showSearch: _s, ...dropdownProps } = moreProps;
 
   const moreNode: React.ReactNode = mobile ? null : (
