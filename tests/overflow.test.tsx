@@ -672,10 +672,12 @@ describe('Tabs.Overflow', () => {
     jest.useRealTimers();
   });
 
-  it('should have input', () => {
+  it('should have input and support keyboard navigation', () => {
     jest.useFakeTimers();
+    const onChange = jest.fn();
     const { container } = render(
       getTabs({
+        onChange,
         more: {
           showSearch: {
             placeholder: '搜索',
@@ -694,21 +696,54 @@ describe('Tabs.Overflow', () => {
     act(() => {
       jest.runAllTimers();
     });
+
     const dropdown = document.querySelector('.rc-tabs-dropdown');
-    const input = dropdown?.querySelector('input');
+    const input = dropdown?.querySelector('input') as HTMLInputElement;
+
+    // 验证输入框存在且 placeholder 正确
     expect(input).toBeTruthy();
     expect(input?.placeholder).toEqual('搜索');
-    fireEvent.input(input!, { target: { value: 'cute' } });
+
+    // 输入内容过滤（匹配 cute 和 miu）
+    fireEvent.input(input, { target: { value: 'u' } });
     act(() => {
       jest.runAllTimers();
     });
-    expect(input?.value).toEqual('cute');
-    expect(dropdown?.querySelectorAll('.rc-tabs-dropdown-menu-item').length).toEqual(1);
+
+    expect(input?.value).toEqual('u');
+
+    // 验证过滤结果
+    const items = dropdown?.querySelectorAll('.rc-tabs-dropdown-menu-item');
+    expect(items.length).toEqual(2);
+
+    // 键盘导航：ArrowDown
+    fireEvent.keyDown(input, { key: 'ArrowDown' });
+    act(() => {
+      jest.runAllTimers();
+    });
+
+    // 键盘导航：ArrowUp 循环
+    fireEvent.keyDown(input, { key: 'ArrowUp' });
+    act(() => {
+      jest.runAllTimers();
+    });
+
+    // 按 Enter 确认选择
+    fireEvent.keyDown(input, { key: 'Enter' });
+    act(() => {
+      jest.runAllTimers();
+    });
+
+    // 验证 onChange 被调用（选中 miu）
+    expect(onChange).toHaveBeenCalledWith('miu');
+
+    jest.useRealTimers();
   });
 
-  it('should call onSearch when input changes', () => {
+  it('should support controlled searchValue and onSearch', () => {
     jest.useFakeTimers();
     const onSearch = jest.fn();
+
     const { container } = render(
       getTabs({
         more: {
@@ -733,7 +768,7 @@ describe('Tabs.Overflow', () => {
     const dropdown = document.querySelector('.rc-tabs-dropdown');
     const input = dropdown?.querySelector('input') as HTMLInputElement;
 
-    // 输入搜索内容
+    // 输入内容
     fireEvent.input(input, { target: { value: 'test' } });
     act(() => {
       jest.runAllTimers();
