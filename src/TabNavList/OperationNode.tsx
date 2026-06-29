@@ -216,7 +216,6 @@ const OperationNode = React.forwardRef<HTMLDivElement, OperationNodeProps>((prop
             setOpen(false);
           }
         }}
-        onClick={e => e.stopPropagation()}
       />
     </div>
   ) : null;
