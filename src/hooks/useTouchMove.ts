@@ -110,6 +110,8 @@ export default function useTouchMove(
   touchEventsRef.current = { onTouchStart, onTouchMove, onTouchEnd, onWheel };
 
   React.useEffect(() => {
+    const abortController = new AbortController();
+
     function onProxyTouchStart(e: TouchEvent) {
       touchEventsRef.current.onTouchStart(e);
     }
@@ -123,16 +125,26 @@ export default function useTouchMove(
       touchEventsRef.current.onWheel(e);
     }
 
-    document.addEventListener('touchmove', onProxyTouchMove, { passive: false });
-    document.addEventListener('touchend', onProxyTouchEnd, { passive: true });
+    document.addEventListener('touchmove', onProxyTouchMove, {
+      passive: false,
+      signal: abortController.signal,
+    });
+    document.addEventListener('touchend', onProxyTouchEnd, {
+      passive: true,
+      signal: abortController.signal,
+    });
 
-    // No need to clean up since element removed
-    ref.current.addEventListener('touchstart', onProxyTouchStart, { passive: true });
-    ref.current.addEventListener('wheel', onProxyWheel, { passive: false });
+    ref.current.addEventListener('touchstart', onProxyTouchStart, {
+      passive: true,
+      signal: abortController.signal,
+    });
+    ref.current.addEventListener('wheel', onProxyWheel, {
+      passive: false,
+      signal: abortController.signal,
+    });
 
     return () => {
-      document.removeEventListener('touchmove', onProxyTouchMove);
-      document.removeEventListener('touchend', onProxyTouchEnd);
+      abortController.abort();
     };
   }, []);
 }
