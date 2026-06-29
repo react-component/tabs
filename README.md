@@ -118,18 +118,18 @@ ReactDom.render(
 | editable | { onEdit(type: 'add' \| 'remove', info: { key, event }), showAdd: boolean, removeIcon: ReactNode, addIcon: ReactNode } | - | config tab editable |
 | locale | { dropdownAriaLabel: string, removeAriaLabel: string, addAriaLabel: string } | - | Accessibility locale help text |
 | moreIcon | ReactNode | - | collapse icon |
-| more | MoreProps | - | dropdown 配置，透传 `@rc-component/dropdown` 的属性 |
+| more | MoreProps | - | dropdown config, pass through `@rc-component/dropdown` props |
 
 ### MoreProps
 
-| name                   | type                        | default    | description              |
-| ---------------------- | --------------------------- | ---------- | ------------------------ |
-| icon                   | ReactNode                   | -          | 自定义更多按钮图标       |
-| showSearch             | boolean \| ShowSearchConfig | -          | 是否显示搜索框           |
-| - placeholder          | string                      | `'Search'` | 搜索框占位文字           |
-| - searchValue          | string                      | -          | 搜索框的值（受控模式）   |
-| - onSearch             | (value: string) => void     | -          | 搜索值变化回调           |
-| - autoClearSearchValue | boolean                     | `true`     | 关闭时是否自动清空搜索值 |
+| name | type | default | description |
+| --- | --- | --- | --- |
+| icon | ReactNode | - | custom more button icon |
+| showSearch | boolean \| ShowSearchConfig | - | whether to show search input |
+| - placeholder | string | `'Search'` | search input placeholder |
+| - searchValue | string | - | search input value (controlled) |
+| - onSearch | (value: string) => void | - | search value change callback |
+| - autoClearSearchValue | boolean | `true` | whether to clear search on close |
 
 ### TabItem
 
