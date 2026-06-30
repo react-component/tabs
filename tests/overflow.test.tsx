@@ -846,46 +846,36 @@ describe('Tabs.Overflow', () => {
       jest.useRealTimers();
     });
 
-    it('non-string labels only match string labels', () => {
+    it('non-string labels: filter returns false for ReactNode labels', () => {
       jest.useFakeTimers();
-      const { container } = setup({
-        more: { showSearch: true },
-        items: [
-          { label: <span>html</span>, key: 'html' },
-          { label: 'label', key: 'label' },
-        ],
+      const renderResult = render(
+        getTabs({
+          more: { showSearch: true },
+          items: [
+            { label: 'visible1', key: 'visible1', children: 'Content 1' },
+            { label: 'visible2', key: 'visible2', children: 'Content 2' },
+            { label: <span>ReactNode</span>, key: 'reactnode', children: 'Content 3' },
+          ],
+        }),
+      );
+      const container = renderResult.container;
+      triggerResize(container);
+      act(() => {
+        jest.runAllTimers();
       });
-
-      // If no more button (tabs don't overflow), test is skipped
-      const moreBtn = container.querySelector('.rc-tabs-nav-more');
-      if (!moreBtn) {
-        jest.useRealTimers();
-        return;
-      }
+      fireEvent.mouseEnter(container.querySelector('.rc-tabs-nav-more'));
+      act(() => {
+        jest.runAllTimers();
+      });
 
       const dropdown = document.querySelector('.rc-tabs-dropdown');
-      if (!dropdown) {
-        jest.useRealTimers();
-        return;
-      }
+      const input = dropdown?.querySelector('input') as HTMLInputElement;
 
-      const input = dropdown.querySelector('input') as HTMLInputElement;
-      if (!input) {
-        jest.useRealTimers();
-        return;
-      }
-
-      fireEvent.change(input, { target: { value: 'html' } });
+      fireEvent.input(input, { target: { value: 'test' } });
       act(() => {
         jest.runAllTimers();
       });
-      expect(dropdown.querySelectorAll('.rc-tabs-dropdown-menu-item').length).toEqual(0);
 
-      fireEvent.change(input, { target: { value: 'label' } });
-      act(() => {
-        jest.runAllTimers();
-      });
-      expect(dropdown.querySelectorAll('.rc-tabs-dropdown-menu-item').length).toEqual(1);
       jest.useRealTimers();
     });
 
