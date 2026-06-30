@@ -1,8 +1,7 @@
 {
   "compilerOptions": {
     "target": "esnext",
-    "moduleResolution": "node",
-    "baseUrl": "./",
+    "moduleResolution": "bundler",
     "lib": [
       "dom",
       "es2017"
@@ -13,32 +12,32 @@
     "esModuleInterop": true,
     "paths": {
       "@/*": [
-        "src/*"
+        "./src/*"
       ],
       "@@/*": [
-        ".dumi/tmp/*"
+        "./.dumi/tmp/*"
       ],
       "@rc-component/tabs": [
-        "src/index.ts"
+        "./src/index.ts"
       ],
       "@rc-component/tabs/es": [
-        "src"
+        "./src"
       ],
       "@rc-component/tabs/es/*": [
-        "src/*"
+        "./src/*"
       ],
       "@rc-component/tabs/assets/*": [
-        "assets/*"
+        "./assets/*"
       ]
     },
-    "ignoreDeprecations": "6.0",
     "noImplicitAny": false,
     "strictNullChecks": false,
     "strictPropertyInitialization": false,
     "strictFunctionTypes": false,
     "strict": false,
     "noImplicitThis": false,
-    "strictBindCallApply": false
+    "strictBindCallApply": false,
+    "module": "ESNext"
   },
   "include": [
     "react-compat.d.ts",
