@@ -1,4 +1,5 @@
-import { render, fireEvent } from '@testing-library/react';
+import { fireEvent } from '@testing-library/dom';
+import { render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 import type { TabsProps } from '../src';
