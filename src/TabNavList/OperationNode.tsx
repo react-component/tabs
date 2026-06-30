@@ -165,16 +165,8 @@ const OperationNode = React.forwardRef<HTMLDivElement, OperationNodeProps>((prop
     }
   }
 
-  function onKeyDown(e: React.KeyboardEvent) {
+  function onKeyboardNavigation(e: React.KeyboardEvent) {
     const { which } = e;
-
-    if (!open) {
-      if ([KeyCode.DOWN, KeyCode.SPACE, KeyCode.ENTER].includes(which)) {
-        setOpen(true);
-        e.preventDefault();
-      }
-      return;
-    }
 
     switch (which) {
       case KeyCode.UP:
@@ -197,6 +189,20 @@ const OperationNode = React.forwardRef<HTMLDivElement, OperationNodeProps>((prop
     }
   }
 
+  function onKeyDown(e: React.KeyboardEvent) {
+    const { which } = e;
+
+    if (!open) {
+      if ([KeyCode.DOWN, KeyCode.SPACE, KeyCode.ENTER].includes(which)) {
+        setOpen(true);
+        e.preventDefault();
+      }
+      return;
+    }
+
+    onKeyboardNavigation(e);
+  }
+
   // 搜索框
   const searchInput = isSearchable ? (
     <div className={`${dropdownPrefix}-search`}>
@@ -210,19 +216,7 @@ const OperationNode = React.forwardRef<HTMLDivElement, OperationNodeProps>((prop
           setSearchValueFn(value);
           onSearch?.(value);
         }}
-        onKeyDown={e => {
-          if (e.key === 'ArrowDown') {
-            e.preventDefault();
-            selectOffset(1);
-          } else if (e.key === 'ArrowUp') {
-            e.preventDefault();
-            selectOffset(-1);
-          } else if (e.key === 'Enter' && selectedKey) {
-            e.preventDefault();
-            onTabClick(selectedKey, e);
-            setOpen(false);
-          }
-        }}
+        onKeyDown={onKeyboardNavigation}
       />
     </div>
   ) : null;

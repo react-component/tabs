@@ -717,19 +717,31 @@ describe('Tabs.Overflow', () => {
     expect(items.length).toEqual(2);
 
     // 键盘导航：ArrowDown
-    fireEvent.keyDown(input, { key: 'ArrowDown' });
+    fireEvent.keyDown(input, {
+      which: KeyCode.DOWN,
+      keyCode: KeyCode.DOWN,
+      charCode: KeyCode.DOWN,
+    });
     act(() => {
       jest.runAllTimers();
     });
 
     // 键盘导航：ArrowUp 循环
-    fireEvent.keyDown(input, { key: 'ArrowUp' });
+    fireEvent.keyDown(input, {
+      which: KeyCode.UP,
+      keyCode: KeyCode.UP,
+      charCode: KeyCode.UP,
+    });
     act(() => {
       jest.runAllTimers();
     });
 
     // 按 Enter 确认选择
-    fireEvent.keyDown(input, { key: 'Enter' });
+    fireEvent.keyDown(input, {
+      which: KeyCode.ENTER,
+      keyCode: KeyCode.ENTER,
+      charCode: KeyCode.ENTER,
+    });
     act(() => {
       jest.runAllTimers();
     });
@@ -737,7 +749,11 @@ describe('Tabs.Overflow', () => {
     // 验证 onChange 被调用（选中 miu）
     expect(onChange).toHaveBeenCalledWith('miu');
 
-    fireEvent.keyDown(input, { key: 'Escape' });
+    fireEvent.keyDown(input, {
+      which: KeyCode.ESC,
+      keyCode: KeyCode.ESC,
+      charCode: KeyCode.ESC,
+    });
     act(() => {
       jest.runAllTimers();
     });
@@ -822,7 +838,6 @@ describe('Tabs.Overflow', () => {
 
     expect(input.value).toEqual('cute');
 
-    // 关闭下拉（ESC）
     fireEvent.keyDown(container.querySelector('.rc-tabs-nav-more'), {
       key: 'Escape',
       keyCode: KeyCode.ESC,
@@ -832,13 +847,11 @@ describe('Tabs.Overflow', () => {
       jest.runAllTimers();
     });
 
-    // 再次打开
     fireEvent.mouseEnter(container.querySelector('.rc-tabs-nav-more'));
     act(() => {
       jest.runAllTimers();
     });
 
-    // 验证搜索值保留
     expect(input.value).toEqual('cute');
 
     jest.useRealTimers();
