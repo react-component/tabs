@@ -61,6 +61,24 @@ export default () => {
           },
         }}
       />
+
+      <h3>filter</h3>
+      <Tabs
+        activeKey={activeKey}
+        onChange={setActiveKey}
+        items={Array.from({ length: 30 }, (_, i) => ({
+          key: String(i + 1),
+          label: <span>Tab {i + 1}</span>,
+          children: `Content of Tab ${i + 1}`,
+        }))}
+        more={{
+          trigger: 'click',
+          showSearch: {
+            placeholder: 'Keep search value',
+            filter: (tab, value) => tab.key.includes(value),
+          },
+        }}
+      />
     </div>
   );
 };
