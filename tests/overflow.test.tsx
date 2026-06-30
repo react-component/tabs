@@ -671,4 +671,238 @@ describe('Tabs.Overflow', () => {
     unmount();
     jest.useRealTimers();
   });
+
+  describe('showSearch', () => {
+    // 通用 setup 函数
+    const setup = (props = {}) => {
+      const renderResult = render(getTabs(props));
+      const container = renderResult.container;
+      triggerResize(container);
+      act(() => {
+        jest.runAllTimers();
+      });
+      fireEvent.mouseEnter(container.querySelector('.rc-tabs-nav-more'));
+      act(() => {
+        jest.runAllTimers();
+      });
+      return renderResult;
+    };
+
+    it('basic: placeholder, filter tabs, onSearch callback', () => {
+      jest.useFakeTimers();
+      const onSearch = jest.fn();
+      setup({
+        more: { showSearch: { onSearch } },
+      });
+
+      const input = document.querySelector('.rc-tabs-dropdown input') as HTMLInputElement;
+      expect(input.placeholder).toEqual('Search');
+
+      fireEvent.input(input, { target: { value: 'u' } });
+      act(() => {
+        jest.runAllTimers();
+      });
+
+      expect(onSearch).toHaveBeenCalledWith('u');
+      expect(document.querySelectorAll('.rc-tabs-dropdown-menu-item').length).toEqual(2);
+
+      jest.useRealTimers();
+    });
+
+    it('keyboard: DOWN to select, ENTER to confirm', () => {
+      jest.useFakeTimers();
+      const onChange = jest.fn();
+      setup({ onChange, more: { showSearch: {} } }).container;
+
+      const input = document.querySelector('.rc-tabs-dropdown input') as HTMLInputElement;
+
+      fireEvent.input(input, { target: { value: 'u' } });
+      act(() => {
+        jest.runAllTimers();
+      });
+
+      fireEvent.keyDown(input, {
+        which: KeyCode.DOWN,
+        keyCode: KeyCode.DOWN,
+        charCode: KeyCode.DOWN,
+      });
+      act(() => {
+        jest.runAllTimers();
+      });
+
+      fireEvent.keyDown(input, {
+        which: KeyCode.ENTER,
+        keyCode: KeyCode.ENTER,
+        charCode: KeyCode.ENTER,
+      });
+      act(() => {
+        jest.runAllTimers();
+      });
+
+      expect(onChange).toHaveBeenCalledWith('cute');
+      jest.useRealTimers();
+    });
+
+    it('ESC clears search when autoClearSearchValue=true', () => {
+      jest.useFakeTimers();
+      const { container } = setup({
+        more: { showSearch: { autoClearSearchValue: true } },
+      });
+
+      let input = document.querySelector('.rc-tabs-dropdown input') as HTMLInputElement;
+
+      fireEvent.input(input, { target: { value: 'test' } });
+      act(() => {
+        jest.runAllTimers();
+      });
+      expect(input.value).toEqual('test');
+
+      fireEvent.keyDown(input, { which: KeyCode.ESC, keyCode: KeyCode.ESC, charCode: KeyCode.ESC });
+      act(() => {
+        jest.runAllTimers();
+      });
+
+      fireEvent.mouseEnter(container.querySelector('.rc-tabs-nav-more'));
+      act(() => {
+        jest.runAllTimers();
+      });
+
+      input = document.querySelector('.rc-tabs-dropdown input') as HTMLInputElement;
+      expect(input.value).toEqual('');
+      jest.useRealTimers();
+    });
+
+    it('keep search value when autoClearSearchValue=false', () => {
+      jest.useFakeTimers();
+      const { container } = setup({
+        more: { showSearch: { autoClearSearchValue: false } },
+      });
+
+      let input = document.querySelector('.rc-tabs-dropdown input') as HTMLInputElement;
+
+      fireEvent.input(input, { target: { value: 'cute' } });
+      act(() => {
+        jest.runAllTimers();
+      });
+
+      fireEvent.keyDown(container.querySelector('.rc-tabs-nav-more'), {
+        key: 'Escape',
+        keyCode: KeyCode.ESC,
+        charCode: KeyCode.ESC,
+      });
+      act(() => {
+        jest.runAllTimers();
+      });
+
+      fireEvent.mouseEnter(container.querySelector('.rc-tabs-nav-more'));
+      act(() => {
+        jest.runAllTimers();
+      });
+
+      input = document.querySelector('.rc-tabs-dropdown input') as HTMLInputElement;
+      expect(input.value).toEqual('cute');
+      jest.useRealTimers();
+    });
+
+    it('controlled searchValue', () => {
+      jest.useFakeTimers();
+      const { container, rerender } = setup({
+        more: { showSearch: { searchValue: 'initial', onSearch: jest.fn() } },
+      });
+
+      let input = document.querySelector('.rc-tabs-dropdown input') as HTMLInputElement;
+      expect(input.value).toEqual('initial');
+
+      rerender(getTabs({ more: { showSearch: { searchValue: 'updated', onSearch: jest.fn() } } }));
+      act(() => {
+        jest.runAllTimers();
+      });
+
+      input = document.querySelector('.rc-tabs-dropdown input') as HTMLInputElement;
+      expect(input.value).toEqual('updated');
+      jest.useRealTimers();
+    });
+
+    it('custom filter', () => {
+      jest.useFakeTimers();
+      const filterFn = jest.fn((tab, value) => tab.key.toLowerCase().includes(value.toLowerCase()));
+      setup({
+        more: {
+          showSearch: {
+            filter: filterFn,
+          },
+        },
+      });
+
+      const input = document.querySelector('.rc-tabs-dropdown input') as HTMLInputElement;
+
+      fireEvent.input(input, { target: { value: 'test' } });
+      act(() => {
+        jest.runAllTimers();
+      });
+
+      expect(filterFn).toHaveBeenCalled();
+
+      jest.useRealTimers();
+    });
+
+    it('non-string labels: filter returns false for ReactNode labels', () => {
+      jest.useFakeTimers();
+      const renderResult = render(
+        getTabs({
+          more: { showSearch: true },
+          items: [
+            { label: 'visible1', key: 'visible1', children: 'Content 1' },
+            { label: 'visible2', key: 'visible2', children: 'Content 2' },
+            { label: <span>ReactNode</span>, key: 'reactnode', children: 'Content 3' },
+          ],
+        }),
+      );
+      const container = renderResult.container;
+      triggerResize(container);
+      act(() => {
+        jest.runAllTimers();
+      });
+      fireEvent.mouseEnter(container.querySelector('.rc-tabs-nav-more'));
+      act(() => {
+        jest.runAllTimers();
+      });
+
+      const dropdown = document.querySelector('.rc-tabs-dropdown');
+      const input = dropdown?.querySelector('input') as HTMLInputElement;
+
+      fireEvent.input(input, { target: { value: 'test' } });
+      act(() => {
+        jest.runAllTimers();
+      });
+
+      jest.useRealTimers();
+    });
+
+    it('empty results and disabled tabs', () => {
+      jest.useFakeTimers();
+      setup({ more: { showSearch: true } });
+
+      const dropdown = document.querySelector('.rc-tabs-dropdown');
+      const input = dropdown.querySelector('input') as HTMLInputElement;
+
+      // empty results
+      fireEvent.input(input, { target: { value: 'xyz' } });
+      act(() => {
+        jest.runAllTimers();
+      });
+      expect(dropdown.querySelectorAll('.rc-tabs-dropdown-menu-item').length).toEqual(0);
+      expect(dropdown.querySelector('.rc-tabs-dropdown-menu')).toBeTruthy();
+
+      // disabled tabs visible
+      fireEvent.input(input, { target: { value: '' } });
+      act(() => {
+        jest.runAllTimers();
+      });
+      const items = dropdown.querySelectorAll('.rc-tabs-dropdown-menu-item');
+      const hasDisabled = Array.from(items).some(item => item.textContent === 'disabled');
+      expect(hasDisabled).toBe(true);
+      jest.useRealTimers();
+    });
+  });
 });

@@ -8,8 +8,18 @@ export type TriggerProps = {
   trigger?: 'hover' | 'click';
 };
 export type moreIcon = React.ReactNode;
+
+export type ShowSearchConfig = {
+  placeholder?: string;
+  onSearch?: (value: string) => void;
+  searchValue?: string;
+  autoClearSearchValue?: boolean;
+  filter?: (tab: Tab, searchValue: string) => boolean;
+};
+
 export type MoreProps = {
   icon?: moreIcon;
+  showSearch?: boolean | ShowSearchConfig;
 } & Omit<DropdownProps, 'children'>;
 
 export type SizeInfo = [width: number, height: number];

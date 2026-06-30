@@ -3,7 +3,7 @@ import Dropdown from '@rc-component/dropdown';
 import Menu, { MenuItem } from '@rc-component/menu';
 import { KeyCode } from '@rc-component/util';
 import * as React from 'react';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { EditableConfig, Tab, TabsLocale, MoreProps } from '../interface';
 import { getRemovable } from '../util';
 import AddButton from './AddButton';
@@ -39,6 +39,7 @@ const OperationNode = React.forwardRef<HTMLDivElement, OperationNodeProps>((prop
     tabs,
     locale,
     mobile,
+    activeKey,
     more: moreProps = {},
     style,
     className,
@@ -56,8 +57,36 @@ const OperationNode = React.forwardRef<HTMLDivElement, OperationNodeProps>((prop
   // ======================== Dropdown ========================
   const [open, setOpen] = useState(false);
   const [selectedKey, setSelectedKey] = useState<string>(null);
+  const [searchValue, setSearchValue] = useState('');
+  const searchInputRef = useRef<HTMLInputElement>(null);
 
-  const { icon: moreIcon = 'More' } = moreProps;
+  const { icon: moreIcon = 'More', showSearch } = moreProps;
+
+  const isSearchable = !!showSearch;
+  const showSearchConfig = typeof showSearch === 'object' ? showSearch : {};
+  const {
+    placeholder = 'Search',
+    onSearch,
+    searchValue: controlledSearchValue,
+    autoClearSearchValue = true,
+    filter: filterOption,
+  } = showSearchConfig;
+
+  const mergedSearchValue =
+    controlledSearchValue !== undefined ? controlledSearchValue : searchValue;
+  const setSearchValueFn = controlledSearchValue !== undefined ? () => {} : setSearchValue;
+
+  const filteredTabs = mergedSearchValue
+    ? tabs.filter(tab => {
+        if (filterOption) {
+          return filterOption(tab, mergedSearchValue);
+        }
+        if (typeof tab.label === 'string') {
+          return tab.label.toLowerCase().includes(mergedSearchValue.toLowerCase());
+        }
+        return false;
+      })
+    : tabs;
 
   const popupId = `${id}-more-popup`;
   const dropdownPrefix = `${prefixCls}-dropdown`;
@@ -85,7 +114,7 @@ const OperationNode = React.forwardRef<HTMLDivElement, OperationNodeProps>((prop
       selectedKeys={[selectedKey]}
       aria-label={dropdownAriaLabel !== undefined ? dropdownAriaLabel : 'expanded dropdown'}
     >
-      {tabs.map<React.ReactNode>(tab => {
+      {filteredTabs.map<React.ReactNode>(tab => {
         const { closable, disabled, closeIcon, key, label } = tab;
         const removable = getRemovable(closable, closeIcon, editable, disabled);
         return (
@@ -120,9 +149,11 @@ const OperationNode = React.forwardRef<HTMLDivElement, OperationNodeProps>((prop
   );
 
   function selectOffset(offset: -1 | 1) {
-    const enabledTabs = tabs.filter(tab => !tab.disabled);
+    const enabledTabs = filteredTabs.filter(tab => !tab.disabled);
     let selectedIndex = enabledTabs.findIndex(tab => tab.key === selectedKey) || 0;
     const len = enabledTabs.length;
+
+    if (len === 0) return;
 
     for (let i = 0; i < len; i += 1) {
       selectedIndex = (selectedIndex + offset + len) % len;
@@ -134,16 +165,8 @@ const OperationNode = React.forwardRef<HTMLDivElement, OperationNodeProps>((prop
     }
   }
 
-  function onKeyDown(e: React.KeyboardEvent) {
+  function onKeyboardNavigation(e: React.KeyboardEvent) {
     const { which } = e;
-
-    if (!open) {
-      if ([KeyCode.DOWN, KeyCode.SPACE, KeyCode.ENTER].includes(which)) {
-        setOpen(true);
-        e.preventDefault();
-      }
-      return;
-    }
 
     switch (which) {
       case KeyCode.UP:
@@ -159,27 +182,72 @@ const OperationNode = React.forwardRef<HTMLDivElement, OperationNodeProps>((prop
         break;
       case KeyCode.SPACE:
       case KeyCode.ENTER:
-        if (selectedKey !== null) {
+        if (selectedKey && filteredTabs.some(t => t.key === selectedKey)) {
           onTabClick(selectedKey, e);
         }
         break;
     }
   }
 
+  function onKeyDown(e: React.KeyboardEvent) {
+    const { which } = e;
+
+    if (!open) {
+      if ([KeyCode.DOWN, KeyCode.SPACE, KeyCode.ENTER].includes(which)) {
+        setOpen(true);
+        e.preventDefault();
+      }
+      return;
+    }
+
+    onKeyboardNavigation(e);
+  }
+
+  // 搜索框
+  const searchInput = isSearchable ? (
+    <div className={`${dropdownPrefix}-search`}>
+      <input
+        ref={searchInputRef}
+        type="text"
+        placeholder={placeholder}
+        value={mergedSearchValue}
+        onChange={e => {
+          const value = e.target.value;
+          setSearchValueFn(value);
+          onSearch?.(value);
+        }}
+        onKeyDown={onKeyboardNavigation}
+      />
+    </div>
+  ) : null;
+
   // ========================= Effect =========================
   useEffect(() => {
     // We use query element here to avoid React strict warning
     const ele = document.getElementById(selectedItemId);
     if (ele?.scrollIntoView) {
-      ele.scrollIntoView(false);
+      ele.scrollIntoView({ block: 'center', behavior: 'smooth' });
     }
   }, [selectedItemId, selectedKey]);
 
   useEffect(() => {
-    if (!open) {
+    if (open) {
+      if (!selectedKey && activeKey) {
+        setSelectedKey(activeKey);
+      }
+
+      if (isSearchable) {
+        requestAnimationFrame(() => {
+          searchInputRef.current?.focus();
+        });
+      }
+    } else {
       setSelectedKey(null);
+      if (autoClearSearchValue && controlledSearchValue === undefined) {
+        setSearchValue('');
+      }
     }
-  }, [open]);
+  }, [open, activeKey, isSearchable, autoClearSearchValue, controlledSearchValue]);
 
   // ========================= Render =========================
   const moreStyle: React.CSSProperties = {
@@ -193,10 +261,21 @@ const OperationNode = React.forwardRef<HTMLDivElement, OperationNodeProps>((prop
 
   const overlayClassName = clsx(popupClassName, { [`${dropdownPrefix}-rtl`]: rtl });
 
+  const dropdownContent = isSearchable ? (
+    <div className={`${dropdownPrefix}-container`}>
+      {searchInput}
+      {menu}
+    </div>
+  ) : (
+    menu
+  );
+
+  const { showSearch: _s, ...dropdownProps } = moreProps;
+
   const moreNode: React.ReactNode = mobile ? null : (
     <Dropdown
       prefixCls={dropdownPrefix}
-      overlay={menu}
+      overlay={dropdownContent}
       visible={tabs.length ? open : false}
       onVisibleChange={setOpen}
       overlayClassName={overlayClassName}
@@ -204,7 +283,7 @@ const OperationNode = React.forwardRef<HTMLDivElement, OperationNodeProps>((prop
       mouseEnterDelay={0.1}
       mouseLeaveDelay={0.1}
       getPopupContainer={getPopupContainer}
-      {...moreProps}
+      {...dropdownProps}
     >
       <button
         type="button"

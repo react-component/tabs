@@ -75,7 +75,7 @@ Then open `http://localhost:8000`.
 | `indicator` | `{ size?: GetIndicatorSize; align?: 'start' \| 'center' \| 'end' }` | - | Indicator size and alignment. |
 | `items` | Tab[] | [] | Tab items. |
 | `locale` | TabsLocale | - | Accessibility locale text. |
-| `more` | MoreProps | - | Overflow dropdown config. |
+| `more` | MoreProps | - | dropdown config, pass through `@rc-component/dropdown` props |
 | `onChange` | `(activeKey: string) => void` | - | Triggered when active tab changes. |
 | `onTabClick` | `(activeKey, event) => void` | - | Triggered when a tab is clicked. |
 | `onTabScroll` | `({ direction }) => void` | - | Triggered when tab navigation scrolls. |
@@ -87,6 +87,17 @@ Then open `http://localhost:8000`.
 | `tabBarGutter` | number | 0 | Gap between tabs. |
 | `tabBarStyle` | React.CSSProperties | - | Tab bar style. |
 | `tabPosition` | `'left' \| 'right' \| 'top' \| 'bottom'` | `'top'` | Tab position. |
+
+### MoreProps
+
+| name | type | default | description |
+| --- | --- | --- | --- |
+| icon | ReactNode | - | custom more button icon |
+| showSearch | boolean \| ShowSearchConfig | - | whether to show search input |
+| - placeholder | string | `'Search'` | search input placeholder |
+| - searchValue | string | - | search input value (controlled) |
+| - onSearch | (value: string) => void | - | search value change callback |
+| - autoClearSearchValue | boolean | `true` | whether to clear search on close |
 
 ### Tab
 
