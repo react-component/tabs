@@ -182,7 +182,7 @@ const OperationNode = React.forwardRef<HTMLDivElement, OperationNodeProps>((prop
         break;
       case KeyCode.SPACE:
       case KeyCode.ENTER:
-        if (selectedKey !== null) {
+        if (selectedKey && filteredTabs.some(t => t.key === selectedKey)) {
           onTabClick(selectedKey, e);
         }
         break;
