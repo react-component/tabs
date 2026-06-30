@@ -18,17 +18,31 @@
       "@@/*": [
         ".dumi/tmp/*"
       ],
-      "rc-tabs": [
-        "src/"
-      ],
       "@rc-component/tabs": [
-        "src/"
+        "src/index.ts"
+      ],
+      "@rc-component/tabs/es": [
+        "src"
+      ],
+      "@rc-component/tabs/es/*": [
+        "src/*"
+      ],
+      "@rc-component/tabs/assets/*": [
+        "assets/*"
       ]
-    }
+    },
+    "ignoreDeprecations": "5.0"
   },
   "include": [
     ".dumirc.ts",
-    "**/*.ts",
-    "**/*.tsx"
+    ".fatherrc.ts",
+    "src",
+    "tests",
+    "docs/examples"
+  ],
+  "exclude": [
+    "docs-dist",
+    "lib",
+    "es"
   ]
 }

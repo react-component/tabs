@@ -1,6 +1,6 @@
 import React from 'react';
-import Tabs from '../../src';
-import type { TabsProps } from '../../src';
+import Tabs from '@rc-component/tabs';
+import type { TabsProps } from '@rc-component/tabs';
 import '../../assets/index.less';
 
 const items: TabsProps['items'] = [];
@@ -16,21 +16,19 @@ export default () => {
 
   const extra = React.useMemo(() => {
     if (key === '0') {
-      return (
-        <div>额外内容</div>
-      )
-    } 
-    return null
-  }, [key])
+      return <div>额外内容</div>;
+    }
+    return null;
+  }, [key]);
 
   return (
     <div style={{ maxWidth: 550 }}>
-      <Tabs 
+      <Tabs
         activeKey={key}
-        onChange={(curKey) => setKey(curKey)}
-        tabBarExtraContent={extra} 
-        defaultActiveKey="8" 
-        items={items} 
+        onChange={curKey => setKey(curKey)}
+        tabBarExtraContent={extra}
+        defaultActiveKey="8"
+        items={items}
       />
     </div>
   );

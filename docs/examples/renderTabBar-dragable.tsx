@@ -1,8 +1,8 @@
 import React from 'react';
 import { DndProvider, DragSource, DropTarget } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
-import Tabs from '../../src';
-import type { TabsProps } from '../../src';
+import Tabs from '@rc-component/tabs';
+import type { TabsProps } from '@rc-component/tabs';
 import '../../assets/index.less';
 
 // Drag & Drop node

@@ -1,6 +1,6 @@
 import React from 'react';
 import '../../assets/index.less';
-import Tabs from '../../src';
+import Tabs from '@rc-component/tabs';
 
 export default () => {
   const [destroy, setDestroy] = React.useState(false);
