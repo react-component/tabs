@@ -2,54 +2,22 @@
   "compilerOptions": {
     "target": "esnext",
     "moduleResolution": "bundler",
-    "lib": [
-      "dom",
-      "es2017"
-    ],
+    "lib": ["dom", "es2017"],
     "jsx": "react",
     "declaration": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
     "paths": {
-      "@/*": [
-        "./src/*"
-      ],
-      "@@/*": [
-        "./.dumi/tmp/*"
-      ],
-      "@rc-component/tabs": [
-        "./src/index.ts"
-      ],
-      "@rc-component/tabs/es": [
-        "./src"
-      ],
-      "@rc-component/tabs/es/*": [
-        "./src/*"
-      ],
-      "@rc-component/tabs/assets/*": [
-        "./assets/*"
-      ]
+      "@/*": ["./src/*"],
+      "@@/*": ["./.dumi/tmp/*"],
+      "@rc-component/tabs": ["./src/index.ts"],
+      "@rc-component/tabs/es": ["./src"],
+      "@rc-component/tabs/es/*": ["./src/*"],
+      "@rc-component/tabs/assets/*": ["./assets/*"]
     },
-    "noImplicitAny": false,
-    "strictNullChecks": false,
-    "strictPropertyInitialization": false,
-    "strictFunctionTypes": false,
     "strict": false,
-    "noImplicitThis": false,
-    "strictBindCallApply": false,
     "module": "ESNext"
   },
-  "include": [
-    "global.d.ts",
-    ".dumirc.ts",
-    ".fatherrc.ts",
-    "src",
-    "tests",
-    "docs/examples"
-  ],
-  "exclude": [
-    "docs-dist",
-    "lib",
-    "es"
-  ]
+  "include": ["global.d.ts", ".dumirc.ts", ".fatherrc.ts", "src", "tests", "docs/examples"],
+  "exclude": ["docs-dist", "lib", "es"]
 }
