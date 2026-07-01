@@ -15,7 +15,6 @@
 
 <p align="center"><a href="./README.md">English</a> | 简体中文</p>
 
-
 ## 特性
 
 - 支持 RTL 布局的顶部、底部、左侧和右侧选项卡位置。
@@ -50,7 +49,7 @@ export default () => <Tabs items={items} defaultActiveKey="overview" />;
 运行本地 dumi 站点：
 
 ```bash
-ut install
+npm install
 npm start
 ```
 
@@ -90,23 +89,23 @@ npm start
 
 ### Tab
 
-| 名称 | 类型 | 默认值 | 说明 |
-| --- | --- | --- | --- |
-| `children` | React.ReactNode | - | 选项卡面板内容。 |
-| `className` | string | - | 面板 className。 |
-| `closable` | boolean | - | 是否可以在可编辑模式下关闭选项卡。 |
-| `closeIcon` | React.ReactNode | - | 自定义关闭图标。 |
-| `destroyOnHidden` | boolean | false | 销毁非活动面板。 |
-| `disabled` | boolean | false | 禁用该选项卡。 |
-| `forceRender` | boolean | false | 在面板变为活动状态之前渲染面板。 |
-| `key` | string | - | 需要唯一的 Tab 键。 |
-| `label` | React.ReactNode | - | Tab 标签内容。 |
-| `style` | React.CSSProperties | - | 面板样式。 |
+| 名称              | 类型                | 默认值 | 说明                               |
+| ----------------- | ------------------- | ------ | ---------------------------------- |
+| `children`        | React.ReactNode     | -      | 选项卡面板内容。                   |
+| `className`       | string              | -      | 面板 className。                   |
+| `closable`        | boolean             | -      | 是否可以在可编辑模式下关闭选项卡。 |
+| `closeIcon`       | React.ReactNode     | -      | 自定义关闭图标。                   |
+| `destroyOnHidden` | boolean             | false  | 销毁非活动面板。                   |
+| `disabled`        | boolean             | false  | 禁用该选项卡。                     |
+| `forceRender`     | boolean             | false  | 在面板变为活动状态之前渲染面板。   |
+| `key`             | string              | -      | 需要唯一的 Tab 键。                |
+| `label`           | React.ReactNode     | -      | Tab 标签内容。                     |
+| `style`           | React.CSSProperties | -      | 面板样式。                         |
 
 ## 本地开发
 
 ```bash
-ut install
+npm install
 npm start
 npm test
 npm run tsc

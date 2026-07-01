@@ -15,7 +15,6 @@
 
 <p align="center">English | <a href="./README.zh-CN.md">简体中文</a></p>
 
-
 ## Highlights
 
 - Supports top, bottom, left, and right tab positions with RTL layouts.
@@ -50,7 +49,7 @@ Online preview: https://tabs.react-component.vercel.app/
 Run the local dumi site:
 
 ```bash
-ut install
+npm install
 npm start
 ```
 
@@ -106,7 +105,7 @@ Then open `http://localhost:8000`.
 ## Development
 
 ```bash
-ut install
+npm install
 npm start
 npm test
 npm run tsc
