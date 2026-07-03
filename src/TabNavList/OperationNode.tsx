@@ -57,7 +57,7 @@ const OperationNode = React.forwardRef<HTMLDivElement, OperationNodeProps>((prop
   const [open, setOpen] = useState(false);
   const [selectedKey, setSelectedKey] = useState<string>(null);
 
-  const { icon: moreIcon = 'More' } = moreProps;
+  const { icon: moreIcon = 'More', popupRender } = moreProps;
 
   const popupId = `${id}-more-popup`;
   const dropdownPrefix = `${prefixCls}-dropdown`;
@@ -119,13 +119,10 @@ const OperationNode = React.forwardRef<HTMLDivElement, OperationNodeProps>((prop
     </Menu>
   );
 
-  // Handle popupRender to allow custom popup content
-  const { popupRender } = moreProps;
-  const handleClose = () => setOpen(false);
   const overlay = popupRender
     ? popupRender(menu, {
         tabs,
-        onClose: handleClose,
+        onClose: () => setOpen(false),
       })
     : menu;
 
