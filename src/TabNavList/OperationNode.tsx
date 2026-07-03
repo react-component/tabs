@@ -119,6 +119,17 @@ const OperationNode = React.forwardRef<HTMLDivElement, OperationNodeProps>((prop
     </Menu>
   );
 
+  // Handle popupRender to allow custom popup content
+  const { popupRender } = moreProps;
+  const handleClose = () => setOpen(false);
+  const overlay = popupRender
+    ? popupRender(menu, {
+        tabs,
+        activeKey: props.activeKey,
+        onClose: handleClose,
+      })
+    : menu;
+
   function selectOffset(offset: -1 | 1) {
     const enabledTabs = tabs.filter(tab => !tab.disabled);
     let selectedIndex = enabledTabs.findIndex(tab => tab.key === selectedKey) || 0;
@@ -196,7 +207,7 @@ const OperationNode = React.forwardRef<HTMLDivElement, OperationNodeProps>((prop
   const moreNode: React.ReactNode = mobile ? null : (
     <Dropdown
       prefixCls={dropdownPrefix}
-      overlay={menu}
+      overlay={overlay}
       visible={tabs.length ? open : false}
       onVisibleChange={setOpen}
       overlayClassName={overlayClassName}

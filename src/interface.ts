@@ -8,8 +8,24 @@ export type TriggerProps = {
   trigger?: 'hover' | 'click';
 };
 export type moreIcon = React.ReactNode;
+
+export type Tab = Omit<TabPaneProps, 'tab'> & {
+  key: string;
+  label: React.ReactNode;
+};
+
+export type PopupRender = (
+  menu: React.ReactElement,
+  info: {
+    tabs: Tab[];
+    activeKey?: string;
+    onClose: () => void;
+  },
+) => React.ReactElement;
+
 export type MoreProps = {
   icon?: moreIcon;
+  popupRender?: PopupRender;
 } & Omit<DropdownProps, 'children'>;
 
 export type SizeInfo = [width: number, height: number];
@@ -30,11 +46,6 @@ export interface TabOffset {
 export type TabOffsetMap = Map<React.Key, TabOffset>;
 
 export type TabPosition = 'left' | 'right' | 'top' | 'bottom';
-
-export interface Tab extends Omit<TabPaneProps, 'tab'> {
-  key: string;
-  label: React.ReactNode;
-}
 
 type RenderTabBarProps = {
   id: string;
