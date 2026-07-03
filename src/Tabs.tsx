@@ -34,7 +34,14 @@ import type {
 // Used for accessibility
 let uuid = 0;
 
-export type SemanticName = 'popup' | 'item' | 'indicator' | 'content' | 'header' | 'remove';
+export type SemanticName =
+  | 'popup'
+  | 'item'
+  | 'indicator'
+  | 'body'
+  | 'content'
+  | 'header'
+  | 'remove';
 
 export interface TabsProps extends Omit<
   React.HTMLAttributes<HTMLDivElement>,
@@ -216,6 +223,8 @@ const Tabs = React.forwardRef<HTMLDivElement, TabsProps>((props, ref) => {
         <TabPanelList
           destroyOnHidden={destroyOnHidden}
           {...sharedProps}
+          bodyStyle={styles?.body}
+          bodyClassName={tabsClassNames?.body}
           contentStyle={styles?.content}
           contentClassName={tabsClassNames?.content}
           animated={mergedAnimated}

@@ -331,8 +331,8 @@ describe('Tabs.Basic', () => {
     const { container, rerender } = render(getTabs(props));
 
     function matchText(text: string) {
-      expect(container.querySelectorAll('.rc-tabs-tabpane')).toHaveLength(1);
-      expect(container.querySelector('.rc-tabs-tabpane-active').textContent).toEqual(text);
+      expect(container.querySelectorAll('.rc-tabs-content')).toHaveLength(1);
+      expect(container.querySelector('.rc-tabs-content-active').textContent).toEqual(text);
     }
 
     matchText('Light');
@@ -367,8 +367,8 @@ describe('Tabs.Basic', () => {
     const { container, rerender } = render(getTabs(props));
 
     function matchText(text: string) {
-      expect(container.querySelectorAll('.rc-tabs-tabpane')).toHaveLength(1);
-      expect(container.querySelector('.rc-tabs-tabpane-active').textContent).toEqual(text);
+      expect(container.querySelectorAll('.rc-tabs-content')).toHaveLength(1);
+      expect(container.querySelector('.rc-tabs-content-active').textContent).toEqual(text);
     }
 
     matchText('Light');
@@ -743,13 +743,15 @@ describe('Tabs.Basic', () => {
     const customClassNames = {
       indicator: 'custom-indicator',
       item: 'custom-item',
+      body: 'custom-body',
       content: 'custom-content',
       header: 'custom-header',
     };
     const customStyles = {
       indicator: { background: 'red' },
       item: { color: 'blue' },
-      content: { background: 'green' },
+      body: { background: 'green' },
+      content: { color: 'purple' },
       header: { background: 'yellow' },
     };
     const { container } = render(
@@ -762,17 +764,20 @@ describe('Tabs.Basic', () => {
     );
     const indicator = container.querySelector('.rc-tabs-ink-bar') as HTMLElement;
     const item = container.querySelector('.rc-tabs-tab') as HTMLElement;
-    const content = container.querySelector('.rc-tabs-tabpane') as HTMLElement;
+    const body = container.querySelector('.rc-tabs-body') as HTMLElement;
+    const content = container.querySelector('.rc-tabs-content') as HTMLElement;
     const header = container.querySelector('.rc-tabs-nav') as HTMLElement;
 
     expect(indicator).toHaveClass('custom-indicator');
     expect(item).toHaveClass('custom-item');
+    expect(body).toHaveClass('custom-body');
     expect(content).toHaveClass('custom-content');
     expect(header).toHaveClass('custom-header');
 
     expect(indicator).toHaveStyle({ background: 'red' });
     expect(item).toHaveStyle({ color: 'blue' });
-    expect(content).toHaveStyle({ background: 'green' });
+    expect(body).toHaveStyle({ background: 'green' });
+    expect(content).toHaveStyle({ color: 'purple' });
     expect(header).toHaveStyle({ background: 'yellow' });
   });
 

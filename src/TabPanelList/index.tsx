@@ -8,27 +8,45 @@ import TabPane from './TabPane';
 export interface TabPanelListProps {
   activeKey: string;
   id: string;
-  animated?: AnimatedConfig;
-  tabPosition?: TabPosition;
+  animated: AnimatedConfig;
+  tabPosition: TabPosition;
   destroyOnHidden?: boolean;
+  bodyStyle?: React.CSSProperties;
+  bodyClassName?: string;
   contentStyle?: React.CSSProperties;
   contentClassName?: string;
 }
 
 const TabPanelList: React.FC<TabPanelListProps> = props => {
-  const { id, activeKey, animated, tabPosition, destroyOnHidden, contentStyle, contentClassName } =
-    props;
+  const {
+    id,
+    activeKey,
+    animated,
+    tabPosition,
+    destroyOnHidden,
+    bodyStyle,
+    bodyClassName,
+    contentStyle,
+    contentClassName,
+  } = props;
   const { prefixCls, tabs } = React.useContext(TabContext);
   const tabPaneAnimated = animated.tabPane;
 
-  const tabPanePrefixCls = `${prefixCls}-tabpane`;
+  const bodyPrefixCls = `${prefixCls}-body`;
+  const contentPrefixCls = `${prefixCls}-content`;
 
   return (
-    <div className={clsx(`${prefixCls}-content-holder`)}>
+    <div className={clsx(`${bodyPrefixCls}-holder`)}>
       <div
-        className={clsx(`${prefixCls}-content`, `${prefixCls}-content-${tabPosition}`, {
-          [`${prefixCls}-content-animated`]: tabPaneAnimated,
-        })}
+        className={clsx(
+          bodyPrefixCls,
+          `${bodyPrefixCls}-${tabPosition}`,
+          {
+            [`${bodyPrefixCls}-animated`]: tabPaneAnimated,
+          },
+          bodyClassName,
+        )}
+        style={bodyStyle}
       >
         {tabs.map(item => {
           const {
@@ -46,13 +64,13 @@ const TabPanelList: React.FC<TabPanelListProps> = props => {
               visible={active}
               forceRender={forceRender}
               removeOnLeave={!!(destroyOnHidden ?? itemDestroyOnHidden)}
-              leavedClassName={`${tabPanePrefixCls}-hidden`}
+              leavedClassName={`${contentPrefixCls}-hidden`}
               {...animated.tabPaneMotion}
             >
               {({ style: motionStyle, className: motionClassName }, ref) => (
                 <TabPane
                   {...restTabProps}
-                  prefixCls={tabPanePrefixCls}
+                  prefixCls={contentPrefixCls}
                   id={id}
                   tabKey={key}
                   animated={tabPaneAnimated}

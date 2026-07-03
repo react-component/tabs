@@ -139,22 +139,30 @@ describe('Tabs.Accessibility', () => {
 
   it('should distinguish between keyboard and mouse navigation', async () => {
     const user = userEvent.setup();
-    const { getByRole } = render(createTabs());
+    const { getByRole, unmount } = render(createTabs());
 
     const secondTab = getByRole('tab', { name: /Tab2/i });
-    const fourthTab = getByRole('tab', { name: /Tab4/i });
 
     // mouse click should not add focus style
-    await user.click(secondTab);
+    fireEvent.mouseDown(secondTab);
+    fireEvent.click(secondTab);
+    fireEvent.mouseUp(secondTab);
     expect(secondTab.parentElement).not.toHaveClass('rc-tabs-tab-focus');
 
-    // clear focus
-    await user.click(document.body);
+    unmount();
+
+    const { getByRole: getByRoleWithKeyboard } = render(createTabs());
+    const firstTab = getByRoleWithKeyboard('tab', { name: /Tab1/i });
+    const secondKeyboardTab = getByRoleWithKeyboard('tab', { name: /Tab2/i });
+    const fourthTab = getByRoleWithKeyboard('tab', { name: /Tab4/i });
 
     // keyboard navigation should add focus style
     await user.tab();
     // default focus active tab
-    expect(secondTab.parentElement).toHaveClass('rc-tabs-tab-focus');
+    expect(firstTab.parentElement).toHaveClass('rc-tabs-tab-focus');
+
+    await user.keyboard('{ArrowRight}');
+    expect(secondKeyboardTab.parentElement).toHaveClass('rc-tabs-tab-focus');
 
     await user.keyboard('{ArrowRight}');
     // skip disabled tab

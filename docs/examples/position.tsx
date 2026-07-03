@@ -1,5 +1,5 @@
 import React from 'react';
-import Tabs from '../../src';
+import Tabs from '@rc-component/tabs';
 import '../../assets/index.less';
 
 export default () => {
