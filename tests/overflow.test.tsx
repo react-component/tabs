@@ -1,5 +1,6 @@
 import { act, fireEvent, render } from '@testing-library/react';
 import { KeyCode, spyElementPrototypes } from '@rc-component/util';
+import Menu from '@rc-component/menu';
 import React from 'react';
 import type { TabsProps } from '../src';
 import Tabs from '../src';
@@ -670,5 +671,78 @@ describe('Tabs.Overflow', () => {
 
     unmount();
     jest.useRealTimers();
+  });
+
+  describe('popupRender', () => {
+    it('should call popupRender with correct params', () => {
+      jest.useFakeTimers();
+      const popupRender = jest.fn((menu, info) => menu);
+      const { container } = render(getTabs({ more: { popupRender } }));
+
+      triggerResize(container);
+      act(() => {
+        jest.runAllTimers();
+      });
+      fireEvent.mouseEnter(container.querySelector('.rc-tabs-nav-more'));
+      act(() => {
+        jest.runAllTimers();
+      });
+
+      expect(popupRender).toHaveBeenCalled();
+      const callArgs = popupRender.mock.calls[0];
+      // 验证第一个参数是 menu 元素
+      expect(callArgs[0].type).toBe(Menu);
+      // 验证第二个参数包含 tabs
+      expect(callArgs[1]).toHaveProperty('tabs');
+      expect(callArgs[1]).toHaveProperty('activeKey');
+      expect(callArgs[1]).toHaveProperty('onClose');
+
+      jest.useRealTimers();
+    });
+
+    it('should render custom popup content', () => {
+      jest.useFakeTimers();
+      const popupRender = jest.fn((menu, { tabs }) => (
+        <div data-testid="custom-popup">
+          <div data-testid="tab-count">{tabs.length}</div>
+          {menu}
+        </div>
+      ));
+      const { container } = render(getTabs({ more: { popupRender } }));
+
+      triggerResize(container);
+      act(() => {
+        jest.runAllTimers();
+      });
+      fireEvent.mouseEnter(container.querySelector('.rc-tabs-nav-more'));
+      act(() => {
+        jest.runAllTimers();
+      });
+
+      expect(document.querySelector('[data-testid="custom-popup"]')).toBeTruthy();
+      expect(document.querySelector('[data-testid="tab-count"]')).toBeTruthy();
+
+      jest.useRealTimers();
+    });
+
+    it('should pass onClose function', () => {
+      jest.useFakeTimers();
+      const popupRender = jest.fn((menu, { onClose }) => menu);
+      const { container } = render(getTabs({ more: { popupRender } }));
+
+      triggerResize(container);
+      act(() => {
+        jest.runAllTimers();
+      });
+      fireEvent.mouseEnter(container.querySelector('.rc-tabs-nav-more'));
+      act(() => {
+        jest.runAllTimers();
+      });
+
+      const callArgs = popupRender.mock.calls[0];
+      expect(typeof callArgs[1].onClose).toBe('function');
+
+      jest.useRealTimers();
+    });
   });
 });
