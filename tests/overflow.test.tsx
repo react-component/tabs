@@ -698,12 +698,12 @@ describe('Tabs.Overflow', () => {
     expect(document.querySelector('[data-testid="custom-popup"]')).toBeTruthy();
 
     const onClose = callArgs[1].onClose;
-    fireEvent.click(document.querySelector('.rc-tabs-dropdown'));
     act(() => {
       onClose();
       jest.runAllTimers();
     });
-    expect(container.querySelector('.rc-tabs-dropdown')).toBeFalsy();
+    const dropdownPopup = document.querySelector('.rc-tabs-dropdown');
+    expect(dropdownPopup?.classList.contains('rc-tabs-dropdown-hidden')).toBeTruthy();
 
     jest.useRealTimers();
   });

@@ -15,7 +15,6 @@
 
 <p align="center"><a href="./README.md">English</a> | 简体中文</p>
 
-
 ## 特性
 
 - 支持 RTL 布局的顶部、底部、左侧和右侧选项卡位置。
@@ -75,7 +74,7 @@ npm start
 | `indicator` | `{ size?: GetIndicatorSize; align?: 'start' \| 'center' \| 'end' }` | - | 指示器尺寸和对齐方式。 |
 | `items` | Tab[] | [] | 选项卡项目。 |
 | `locale` | TabsLocale | - | 无障碍本地化文本。 |
-| `more` | MoreProps | - | 溢出下拉菜单配置。 |
+| `more` | MoreProps | - | 溢出下拉菜单配置，详情见 [MoreProps](#moreprops)。支持 `popupRender` 自定义弹层内容。 |
 | `onChange` | `(activeKey: string) => void` | - | 当活动选项卡更改时触发。 |
 | `onTabClick` | `(activeKey, event) => void` | - | 单击选项卡时触发。 |
 | `onTabScroll` | `({ direction }) => void` | - | 当选项卡导航滚动时触发。 |
@@ -90,18 +89,26 @@ npm start
 
 ### Tab
 
+| 名称              | 类型                | 默认值 | 说明                               |
+| ----------------- | ------------------- | ------ | ---------------------------------- |
+| `children`        | React.ReactNode     | -      | 选项卡面板内容。                   |
+| `className`       | string              | -      | 面板 className。                   |
+| `closable`        | boolean             | -      | 是否可以在可编辑模式下关闭选项卡。 |
+| `closeIcon`       | React.ReactNode     | -      | 自定义关闭图标。                   |
+| `destroyOnHidden` | boolean             | false  | 销毁非活动面板。                   |
+| `disabled`        | boolean             | false  | 禁用该选项卡。                     |
+| `forceRender`     | boolean             | false  | 在面板变为活动状态之前渲染面板。   |
+| `key`             | string              | -      | 需要唯一的 Tab 键。                |
+| `label`           | React.ReactNode     | -      | Tab 标签内容。                     |
+| `style`           | React.CSSProperties | -      | 面板样式。                         |
+
+### MoreProps
+
 | 名称 | 类型 | 默认值 | 说明 |
 | --- | --- | --- | --- |
-| `children` | React.ReactNode | - | 选项卡面板内容。 |
-| `className` | string | - | 面板 className。 |
-| `closable` | boolean | - | 是否可以在可编辑模式下关闭选项卡。 |
-| `closeIcon` | React.ReactNode | - | 自定义关闭图标。 |
-| `destroyOnHidden` | boolean | false | 销毁非活动面板。 |
-| `disabled` | boolean | false | 禁用该选项卡。 |
-| `forceRender` | boolean | false | 在面板变为活动状态之前渲染面板。 |
-| `key` | string | - | 需要唯一的 Tab 键。 |
-| `label` | React.ReactNode | - | Tab 标签内容。 |
-| `style` | React.CSSProperties | - | 面板样式。 |
+| `icon` | ReactNode | - | 更多按钮的图标。 |
+| `popupRender` | `(menu: ReactElement, info: { tabs: Tab[], onClose: () => void }) => ReactElement` | - | 自定义下拉弹层内容。`info` 对象提供 `tabs`（所有溢出标签）和 `onClose`（关闭下拉菜单的函数）。 |
+| 其他下拉属性 | 来自 DropdownProps | - | 其他 [rc-dropdown](https://github.com/react-component/dropdown) 属性如 `trigger`、`overlayClassName`、`visible` 等也都支持。 |
 
 ## 本地开发
 
