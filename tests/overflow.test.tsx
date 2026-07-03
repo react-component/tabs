@@ -1,6 +1,5 @@
 import { act, fireEvent, render } from '@testing-library/react';
 import { KeyCode, spyElementPrototypes } from '@rc-component/util';
-import Menu from '@rc-component/menu';
 import React from 'react';
 import type { TabsProps } from '../src';
 import Tabs from '../src';
