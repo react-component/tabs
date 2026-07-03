@@ -694,7 +694,6 @@ describe('Tabs.Overflow', () => {
       expect(callArgs[0].type).toBe(Menu);
       // 验证第二个参数包含 tabs
       expect(callArgs[1]).toHaveProperty('tabs');
-      expect(callArgs[1]).toHaveProperty('activeKey');
       expect(callArgs[1]).toHaveProperty('onClose');
 
       jest.useRealTimers();

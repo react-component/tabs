@@ -18,7 +18,6 @@ export type PopupRender = (
   menu: React.ReactElement,
   info: {
     tabs: Tab[];
-    activeKey?: string;
     onClose: () => void;
   },
 ) => React.ReactElement;

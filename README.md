@@ -118,7 +118,7 @@ ReactDom.render(
 | editable | { onEdit(type: 'add' \| 'remove', info: { key, event }), showAdd: boolean, removeIcon: ReactNode, addIcon: ReactNode } | - | config tab editable |
 | locale | { dropdownAriaLabel: string, removeAriaLabel: string, addAriaLabel: string } | - | Accessibility locale help text |
 | moreIcon | ReactNode | - | collapse icon |
-| more | { icon?: ReactNode, popupRender?: (menu: ReactElement, info: { tabs: Tab[], activeKey?: string, onClose: () => void }) => ReactElement } | - | more dropdown config, support custom popup content |
+| more | { icon?: ReactNode, popupRender?: (menu: ReactElement, info: { tabs: Tab[], onClose: () => void }) => ReactElement } | - | more dropdown config, support custom popup content |
 
 ### TabItem
 
