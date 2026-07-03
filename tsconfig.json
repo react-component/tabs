@@ -1,48 +1,23 @@
 {
   "compilerOptions": {
     "target": "esnext",
-    "moduleResolution": "node",
-    "baseUrl": "./",
-    "lib": [
-      "dom",
-      "es2017"
-    ],
+    "moduleResolution": "bundler",
+    "lib": ["dom", "es2017"],
     "jsx": "react",
     "declaration": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
     "paths": {
-      "@/*": [
-        "src/*"
-      ],
-      "@@/*": [
-        ".dumi/tmp/*"
-      ],
-      "@rc-component/tabs": [
-        "src/index.ts"
-      ],
-      "@rc-component/tabs/es": [
-        "src"
-      ],
-      "@rc-component/tabs/es/*": [
-        "src/*"
-      ],
-      "@rc-component/tabs/assets/*": [
-        "assets/*"
-      ]
+      "@/*": ["./src/*"],
+      "@@/*": ["./.dumi/tmp/*"],
+      "@rc-component/tabs": ["./src/index.ts"],
+      "@rc-component/tabs/es": ["./src"],
+      "@rc-component/tabs/es/*": ["./src/*"],
+      "@rc-component/tabs/assets/*": ["./assets/*"]
     },
-    "ignoreDeprecations": "5.0"
+    "strict": false,
+    "module": "ESNext"
   },
-  "include": [
-    ".dumirc.ts",
-    ".fatherrc.ts",
-    "src",
-    "tests",
-    "docs/examples"
-  ],
-  "exclude": [
-    "docs-dist",
-    "lib",
-    "es"
-  ]
+  "include": ["global.d.ts", ".dumirc.ts", ".fatherrc.ts", "src", "tests", "docs/examples"],
+  "exclude": ["docs-dist", "lib", "es"]
 }
