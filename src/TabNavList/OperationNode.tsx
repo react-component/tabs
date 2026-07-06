@@ -121,7 +121,7 @@ const OperationNode = React.forwardRef<HTMLDivElement, OperationNodeProps>((prop
 
   const overlay = popupRender
     ? popupRender(menu, {
-        tabs,
+        restTabs: tabs,
         onClose: () => setOpen(false),
       })
     : menu;

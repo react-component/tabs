@@ -107,7 +107,7 @@ Then open `http://localhost:8000`.
 | Name | Type | Default | Description |
 | --- | --- | --- | --- |
 | `icon` | ReactNode | - | The icon shown in the more trigger. |
-| `popupRender` | `(menu: ReactElement, info: { tabs: Tab[], onClose: () => void }) => ReactElement` | - | Customize the dropdown popup content. The `info` object provides `tabs` (all overflowed tabs) and `onClose` (function to close the dropdown). |
+| `popupRender` | `(menu: ReactElement, info: { restTabs: Tab[], onClose: () => void }) => ReactElement` | - | Customize the dropdown popup content. The `info` object provides `restTabs` (all overflowed tabs) and `onClose` (function to close the dropdown). |
 | Other dropdown props | from DropdownProps | - | All other [rc-dropdown](https://github.com/react-component/dropdown) props such as `trigger`, `overlayClassName`, `visible`, etc. are also supported. |
 
 ## Development

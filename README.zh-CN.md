@@ -107,7 +107,7 @@ npm start
 | 名称 | 类型 | 默认值 | 说明 |
 | --- | --- | --- | --- |
 | `icon` | ReactNode | - | 更多按钮的图标。 |
-| `popupRender` | `(menu: ReactElement, info: { tabs: Tab[], onClose: () => void }) => ReactElement` | - | 自定义下拉弹层内容。`info` 对象提供 `tabs`（所有溢出标签）和 `onClose`（关闭下拉菜单的函数）。 |
+| `popupRender` | `(menu: ReactElement, info: { restTabs: Tab[], onClose: () => void }) => ReactElement` | - | 自定义下拉弹层内容。`info` 对象提供 `restTabs`（所有溢出标签）和 `onClose`（关闭下拉菜单的函数）。 |
 | 其他下拉属性 | 来自 DropdownProps | - | 其他 [rc-dropdown](https://github.com/react-component/dropdown) 属性如 `trigger`、`overlayClassName`、`visible` 等也都支持。 |
 
 ## 本地开发

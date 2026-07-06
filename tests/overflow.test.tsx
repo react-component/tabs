@@ -674,9 +674,9 @@ describe('Tabs.Overflow', () => {
 
   it('should pass correct params and support custom popup content', () => {
     jest.useFakeTimers();
-    const popupRender = jest.fn((menu, { tabs }) => (
+    const popupRender = jest.fn((menu, { restTabs }) => (
       <div data-testid="custom-popup">
-        <div data-testid="tab-count">{tabs.length}</div>
+        <div data-testid="tab-count">{restTabs.length}</div>
         {menu}
       </div>
     ));
@@ -693,7 +693,7 @@ describe('Tabs.Overflow', () => {
 
     expect(popupRender).toHaveBeenCalled();
     const callArgs = popupRender.mock.calls[0];
-    expect(callArgs[1]).toHaveProperty('tabs');
+    expect(callArgs[1]).toHaveProperty('restTabs');
     expect(callArgs[1]).toHaveProperty('onClose');
     expect(document.querySelector('[data-testid="custom-popup"]')).toBeTruthy();
 

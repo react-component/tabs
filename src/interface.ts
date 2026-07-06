@@ -17,7 +17,7 @@ export type Tab = Omit<TabPaneProps, 'tab'> & {
 export type PopupRender = (
   menu: React.ReactElement,
   info: {
-    tabs: Tab[];
+    restTabs: Tab[];
     onClose: () => void;
   },
 ) => React.ReactElement;
