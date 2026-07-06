@@ -1,50 +1,33 @@
 import React from 'react';
-import { DndProvider, DragSource, DropTarget } from 'react-dnd';
-import HTML5Backend from 'react-dnd-html5-backend';
+import { DndProvider, useDrag, useDrop } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 import Tabs from '@rc-component/tabs';
 import type { TabsProps } from '@rc-component/tabs';
 import '../../assets/index.less';
 
 // Drag & Drop node
-class TabNode extends React.Component<any, any> {
-  render() {
-    const { connectDragSource, connectDropTarget, children } = this.props;
+const WrapTabNode: React.FC<any> = ({ children, index, moveTabNode }) => {
+  const [, drop] = useDrop({
+    accept: 'DND_NODE',
+    drop(item: { index: React.Key }) {
+      const dragKey = item.index;
+      const hoverKey = index;
 
-    return connectDragSource(connectDropTarget(children));
-  }
-}
+      if (dragKey === hoverKey) {
+        return;
+      }
 
-const cardTarget = {
-  drop(props, monitor) {
-    const dragKey = monitor.getItem().index;
-    const hoverKey = props.index;
+      moveTabNode(dragKey, hoverKey);
+      item.index = hoverKey;
+    },
+  });
+  const [, drag] = useDrag({
+    type: 'DND_NODE',
+    item: { index },
+  });
 
-    if (dragKey === hoverKey) {
-      return;
-    }
-
-    props.moveTabNode(dragKey, hoverKey);
-    monitor.getItem().index = hoverKey;
-  },
+  return drag(drop(children));
 };
-
-const cardSource = {
-  beginDrag(props) {
-    return {
-      id: props.id,
-      index: props.index,
-    };
-  },
-};
-
-const WrapTabNode = DropTarget('DND_NODE', cardTarget, connect => ({
-  connectDropTarget: connect.dropTarget(),
-}))(
-  DragSource('DND_NODE', cardSource, (connect, monitor) => ({
-    connectDragSource: connect.dragSource(),
-    isDragging: monitor.isDragging(),
-  }))(TabNode),
-);
 
 class DraggableTabs extends React.Component<TabsProps> {
   state = {
@@ -111,7 +94,6 @@ class DraggableTabs extends React.Component<TabsProps> {
     });
 
     return (
-      // @ts-ignore https://github.com/react-dnd/react-dnd/issues/3636 需要升级 15.0.0 类型支持 children 但是写法需要重新调整验证
       <DndProvider backend={HTML5Backend}>
         <Tabs renderTabBar={this.renderTabBar} {...this.props} items={orderTabs} />
       </DndProvider>

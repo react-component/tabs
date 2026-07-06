@@ -82,7 +82,7 @@ export default function useTouchMove(
     const { deltaX, deltaY } = e;
 
     // Convert both to x & y since wheel only happened on PC
-    let mixed: number = 0;
+    let mixed: number;
     const absX = Math.abs(deltaX);
     const absY = Math.abs(deltaY);
     if (absX === absY) {
