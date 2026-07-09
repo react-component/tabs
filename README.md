@@ -74,7 +74,7 @@ Then open `http://localhost:8000`.
 | `indicator` | `{ size?: GetIndicatorSize; align?: 'start' \| 'center' \| 'end' }` | - | Indicator size and alignment. |
 | `items` | Tab[] | [] | Tab items. |
 | `locale` | TabsLocale | - | Accessibility locale text. |
-| `more` | MoreProps | - | Overflow dropdown config. |
+| `more` | MoreProps | - | more dropdown config, see [MoreProps](#moreprops) for full API. Additionally supports `popupRender` for custom popup content. |
 | `onChange` | `(activeKey: string) => void` | - | Triggered when active tab changes. |
 | `onTabClick` | `(activeKey, event) => void` | - | Triggered when a tab is clicked. |
 | `onTabScroll` | `({ direction }) => void` | - | Triggered when tab navigation scrolls. |
@@ -101,6 +101,14 @@ Then open `http://localhost:8000`.
 | `key` | string | - | Required unique tab key. |
 | `label` | React.ReactNode | - | Tab label. |
 | `style` | React.CSSProperties | - | Panel style. |
+
+### MoreProps
+
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| `icon` | ReactNode | - | The icon shown in the more trigger. |
+| `popupRender` | `(menu: ReactElement, info: { restTabs: Tab[], onClose: () => void }) => ReactElement` | - | Customize the dropdown popup content. The `info` object provides `restTabs` (all overflowed tabs) and `onClose` (function to close the dropdown). |
+| Other dropdown props | from DropdownProps | - | All other [rc-dropdown](https://github.com/react-component/dropdown) props such as `trigger`, `overlayClassName`, `visible`, etc. are also supported. |
 
 ## Development
 

@@ -671,4 +671,40 @@ describe('Tabs.Overflow', () => {
     unmount();
     jest.useRealTimers();
   });
+
+  it('should pass correct params and support custom popup content', () => {
+    jest.useFakeTimers();
+    const popupRender = jest.fn((menu, { restTabs }) => (
+      <div data-testid="custom-popup">
+        <div data-testid="tab-count">{restTabs.length}</div>
+        {menu}
+      </div>
+    ));
+    const { container } = render(getTabs({ more: { popupRender } }));
+
+    triggerResize(container);
+    act(() => {
+      jest.runAllTimers();
+    });
+    fireEvent.mouseEnter(container.querySelector('.rc-tabs-nav-more'));
+    act(() => {
+      jest.runAllTimers();
+    });
+
+    expect(popupRender).toHaveBeenCalled();
+    const callArgs = popupRender.mock.calls[0];
+    expect(callArgs[1]).toHaveProperty('restTabs');
+    expect(callArgs[1]).toHaveProperty('onClose');
+    expect(document.querySelector('[data-testid="custom-popup"]')).toBeTruthy();
+
+    const onClose = callArgs[1].onClose;
+    act(() => {
+      onClose();
+      jest.runAllTimers();
+    });
+    const dropdownPopup = document.querySelector('.rc-tabs-dropdown');
+    expect(dropdownPopup?.classList.contains('rc-tabs-dropdown-hidden')).toBeTruthy();
+
+    jest.useRealTimers();
+  });
 });

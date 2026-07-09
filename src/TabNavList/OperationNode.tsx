@@ -57,7 +57,7 @@ const OperationNode = React.forwardRef<HTMLDivElement, OperationNodeProps>((prop
   const [open, setOpen] = useState(false);
   const [selectedKey, setSelectedKey] = useState<string>(null);
 
-  const { icon: moreIcon = 'More' } = moreProps;
+  const { icon: moreIcon = 'More', popupRender } = moreProps;
 
   const popupId = `${id}-more-popup`;
   const dropdownPrefix = `${prefixCls}-dropdown`;
@@ -118,6 +118,13 @@ const OperationNode = React.forwardRef<HTMLDivElement, OperationNodeProps>((prop
       })}
     </Menu>
   );
+
+  const overlay = popupRender
+    ? popupRender(menu, {
+        restTabs: tabs,
+        onClose: () => setOpen(false),
+      })
+    : menu;
 
   function selectOffset(offset: -1 | 1) {
     const enabledTabs = tabs.filter(tab => !tab.disabled);
@@ -196,7 +203,7 @@ const OperationNode = React.forwardRef<HTMLDivElement, OperationNodeProps>((prop
   const moreNode: React.ReactNode = mobile ? null : (
     <Dropdown
       prefixCls={dropdownPrefix}
-      overlay={menu}
+      overlay={overlay}
       visible={tabs.length ? open : false}
       onVisibleChange={setOpen}
       overlayClassName={overlayClassName}

@@ -5,6 +5,7 @@ export type {
   AnimatedConfig,
   EditableConfig,
   MoreProps,
+  PopupRender,
   Tab,
   TabBarExtraContent,
 } from './interface';

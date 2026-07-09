@@ -74,7 +74,7 @@ npm start
 | `indicator` | `{ size?: GetIndicatorSize; align?: 'start' \| 'center' \| 'end' }` | - | 指示器尺寸和对齐方式。 |
 | `items` | Tab[] | [] | 选项卡项目。 |
 | `locale` | TabsLocale | - | 无障碍本地化文本。 |
-| `more` | MoreProps | - | 溢出下拉菜单配置。 |
+| `more` | MoreProps | - | 溢出下拉菜单配置，详情见 [MoreProps](#moreprops)。支持 `popupRender` 自定义弹层内容。 |
 | `onChange` | `(activeKey: string) => void` | - | 当活动选项卡更改时触发。 |
 | `onTabClick` | `(activeKey, event) => void` | - | 单击选项卡时触发。 |
 | `onTabScroll` | `({ direction }) => void` | - | 当选项卡导航滚动时触发。 |
@@ -101,6 +101,14 @@ npm start
 | `key`             | string              | -      | 需要唯一的 Tab 键。                |
 | `label`           | React.ReactNode     | -      | Tab 标签内容。                     |
 | `style`           | React.CSSProperties | -      | 面板样式。                         |
+
+### MoreProps
+
+| 名称 | 类型 | 默认值 | 说明 |
+| --- | --- | --- | --- |
+| `icon` | ReactNode | - | 更多按钮的图标。 |
+| `popupRender` | `(menu: ReactElement, info: { restTabs: Tab[], onClose: () => void }) => ReactElement` | - | 自定义下拉弹层内容。`info` 对象提供 `restTabs`（所有溢出标签）和 `onClose`（关闭下拉菜单的函数）。 |
+| 其他下拉属性 | 来自 DropdownProps | - | 其他 [rc-dropdown](https://github.com/react-component/dropdown) 属性如 `trigger`、`overlayClassName`、`visible` 等也都支持。 |
 
 ## 本地开发
 
