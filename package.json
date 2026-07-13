@@ -82,7 +82,7 @@
     "react-dnd-html5-backend": "^16.0.1",
     "react-dom": "^19.2.7",
     "react-sticky": "^6.0.3",
-    "typescript": "^6.0.3",
+    "typescript": "^7.0.2",
     "typescript-eslint": "^8.62.1"
   },
   "peerDependencies": {
