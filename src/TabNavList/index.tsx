@@ -565,7 +565,8 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
 
   // ========================= Render ========================
   const hasDropdown = !!hiddenTabs.length;
-  const tabIds = id ? tabs.map(tab => `${id}-tab-${tab.key}`).join(' ') : undefined;
+  const hasTabList = Boolean(id);
+  const tabIds = hasTabList ? tabs.map(tab => `${id}-tab-${tab.key}`).join(' ') : undefined;
   const wrapPrefix = `${prefixCls}-nav-wrap`;
   let pingLeft: boolean;
   let pingRight: boolean;
@@ -589,8 +590,10 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
     <ResizeObserver onResize={onListHolderResize}>
       <div
         ref={useComposeRef(ref, containerRef)}
-        role={tabIds ? undefined : 'tablist'}
-        aria-orientation={tabIds ? undefined : tabPositionTopOrBottom ? 'horizontal' : 'vertical'}
+        role={hasTabList ? undefined : 'tablist'}
+        aria-orientation={
+          hasTabList ? undefined : tabPositionTopOrBottom ? 'horizontal' : 'vertical'
+        }
         className={clsx(`${prefixCls}-nav`, className, tabsClassNames?.header)}
         style={{ ...styles?.header, ...style }}
         onKeyDown={() => {
@@ -598,11 +601,11 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
           doLockAnimation();
         }}
       >
-        {tabIds && (
+        {hasTabList && (
           <div
             role="tablist"
             aria-orientation={tabPositionTopOrBottom ? 'horizontal' : 'vertical'}
-            aria-owns={tabIds}
+            aria-owns={tabIds || undefined}
           />
         )}
 

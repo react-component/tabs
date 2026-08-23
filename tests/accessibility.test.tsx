@@ -67,6 +67,25 @@ describe('Tabs.Accessibility', () => {
     });
   });
 
+  it('should keep auxiliary controls outside an empty semantic tablist', () => {
+    const { getByRole, getAllByRole } = render(
+      <Tabs
+        items={[]}
+        tabBarExtraContent={<button type="button">Extra action</button>}
+        editable={{ onEdit: jest.fn() }}
+      />,
+    );
+
+    const tablist = getByRole('tablist');
+
+    expect(tablist).toBeEmptyDOMElement();
+    expect(tablist).not.toHaveAttribute('aria-owns');
+    expect(tablist).not.toContainElement(getByRole('button', { name: 'Extra action' }));
+    getAllByRole('button', { name: 'Add tab' }).forEach(button => {
+      expect(tablist).not.toContainElement(button);
+    });
+  });
+
   it('should support keyboard navigation', async () => {
     const user = userEvent.setup();
     const { getByRole } = render(createTabs());
