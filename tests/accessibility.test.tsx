@@ -1,6 +1,7 @@
 import { render, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
+import { renderToString } from 'react-dom/server';
 import type { TabsProps } from '../src';
 import Tabs from '../src';
 
@@ -34,6 +35,37 @@ describe('Tabs.Accessibility', () => {
       ]}
     />
   );
+
+  it('should keep tablist semantics during server rendering', () => {
+    const html = renderToString(createTabs());
+
+    expect(html).toContain('role="tablist"');
+    expect(html).toContain('aria-orientation="horizontal"');
+  });
+
+  it('should keep auxiliary controls outside the semantic tablist', () => {
+    const { getByRole, getAllByRole } = render(
+      createTabs({
+        tabBarExtraContent: <button type="button">Extra action</button>,
+        editable: {
+          onEdit: jest.fn(),
+        },
+      }),
+    );
+
+    const tablist = getByRole('tablist');
+    const tabs = getAllByRole('tab');
+
+    expect(tablist).toBeEmptyDOMElement();
+    expect(tablist).toHaveAttribute('aria-owns', tabs.map(tab => tab.id).join(' '));
+    expect(tablist).not.toContainElement(getByRole('button', { name: 'Extra action' }));
+    getAllByRole('button', { name: 'Add tab' }).forEach(button => {
+      expect(tablist).not.toContainElement(button);
+    });
+    getAllByRole('button', { name: 'remove' }).forEach(button => {
+      expect(tablist).not.toContainElement(button);
+    });
+  });
 
   it('should support keyboard navigation', async () => {
     const user = userEvent.setup();
