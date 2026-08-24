@@ -319,13 +319,20 @@ describe('Tabs.Overflow', () => {
     });
 
     describe('scrollPosition', () => {
+      // Mock layout: container=50, extra=10*2, tab=20, add=10, more=10.
+      // `disabled` is the 4th tab (offset=60, size=20) and the viewport is 40px,
+      // so start=-60 / center=-50 / end=-40 for both top/bottom and left/right.
+      // Numeric ratios are clamped to [0, 1]: 1.5 → end (-40), -0.5 → start (-60).
       const layouts: { position: any; expected: number }[] = [
         { position: 'auto' as const, expected: -40 },
         { position: 'start' as const, expected: -60 },
         { position: 'center' as const, expected: -50 },
         { position: 'end' as const, expected: -40 },
-        { position: 1 as const, expected: -40 },
+        { position: 0.25 as const, expected: -55 },
         { position: 0.5 as const, expected: -50 },
+        { position: 1 as const, expected: -40 },
+        { position: 1.5 as const, expected: -40 },
+        { position: -0.5 as const, expected: -60 },
       ];
 
       it.each(layouts)('top: $position', ({ position, expected }) => {
@@ -339,17 +346,16 @@ describe('Tabs.Overflow', () => {
         jest.useRealTimers();
       });
 
-      it('keeps center between start and end for left tabPosition', () => {
+      it.each(layouts)('left: $position', ({ position, expected }) => {
         jest.useFakeTimers();
         const { container } = render(
-          getTabs({ activeKey: 'disabled', tabPosition: 'left', scrollPosition: 'center' }),
+          getTabs({ activeKey: 'disabled', tabPosition: 'left', scrollPosition: position }),
         );
         triggerResize(container);
         act(() => {
           jest.runAllTimers();
         });
-        // Same geometry as the top case: disabled top=60, height=20, viewport=40.
-        expect(getTransformY(container)).toEqual(-50);
+        expect(getTransformY(container)).toEqual(expected);
         jest.useRealTimers();
       });
     });
