@@ -274,7 +274,7 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
       ratio = 0.5;
     } else if (scrollPosition === 'end') {
       ratio = 1;
-    } else if (typeof scrollPosition === 'number') {
+    } else if (typeof scrollPosition === 'number' && !Number.isNaN(scrollPosition)) {
       ratio = Math.min(1, Math.max(0, scrollPosition));
     }
 

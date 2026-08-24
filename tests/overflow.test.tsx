@@ -319,10 +319,6 @@ describe('Tabs.Overflow', () => {
     });
 
     describe('scrollPosition', () => {
-      // Mock layout: container=50, extra=10*2, tab=20, add=10, more=10.
-      // `disabled` is the 4th tab (offset=60, size=20) and the viewport is 40px,
-      // so start=-60 / center=-50 / end=-40 for both top/bottom and left/right.
-      // Numeric ratios are clamped to [0, 1]: 1.5 → end (-40), -0.5 → start (-60).
       const layouts: { position: any; expected: number }[] = [
         { position: 'auto' as const, expected: -40 },
         { position: 'start' as const, expected: -60 },
@@ -333,6 +329,7 @@ describe('Tabs.Overflow', () => {
         { position: 1 as const, expected: -40 },
         { position: 1.5 as const, expected: -40 },
         { position: -0.5 as const, expected: -60 },
+        { position: Number.NaN, expected: -40 },
       ];
 
       it.each(layouts)('top: $position', ({ position, expected }) => {

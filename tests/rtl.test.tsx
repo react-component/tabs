@@ -67,8 +67,6 @@ describe('Tabs.RTL', () => {
     jest.useRealTimers();
   });
 
-  // RTL mirrors LTR: `disabled` sits at right=60/width=20 with a 40px viewport,
-  // so start=60 / center=50 / end=40. Ratios clamp to [0,1]: 1.5 → end, -0.5 → start.
   describe('scrollPosition', () => {
     const layouts: { position: any; expected: number }[] = [
       { position: 'auto' as const, expected: 40 },
@@ -80,6 +78,7 @@ describe('Tabs.RTL', () => {
       { position: 1 as const, expected: 40 },
       { position: 1.5 as const, expected: 40 },
       { position: -0.5 as const, expected: 60 },
+      { position: Number.NaN, expected: 40 },
     ];
 
     it.each(layouts)('rtl: $position', ({ position, expected }) => {
