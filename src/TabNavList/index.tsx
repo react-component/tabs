@@ -17,6 +17,7 @@ import type {
   MoreProps,
   OnTabScroll,
   RenderTabBar,
+  ScrollPosition,
   SizeInfo,
   TabBarExtraContent,
   TabPosition,
@@ -54,6 +55,7 @@ export interface TabNavListProps {
     size?: GetIndicatorSize;
     align?: 'start' | 'center' | 'end';
   };
+  scrollPosition?: ScrollPosition;
   classNames?: Partial<Record<SemanticName, string>>;
   styles?: Partial<Record<SemanticName, React.CSSProperties>>;
 }
@@ -110,6 +112,7 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
     onTabClick,
     onTabScroll,
     indicator,
+    scrollPosition,
     classNames: tabsClassNames,
     styles,
   } = props;
@@ -264,12 +267,29 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
       top: 0,
     };
 
+    let ratio: number | null = null;
+    if (scrollPosition === 'start') {
+      ratio = 0;
+    } else if (scrollPosition === 'center') {
+      ratio = 0.5;
+    } else if (scrollPosition === 'end') {
+      ratio = 1;
+    } else if (typeof scrollPosition === 'number') {
+      ratio = Math.min(1, Math.max(0, scrollPosition));
+    }
+
     if (tabPositionTopOrBottom) {
       // ============ Align with top & bottom ============
       let newTransform = transformLeft;
 
+      if (ratio !== null) {
+        // Align the `ratio` point of the tab with the same point of the viewport.
+        newTransform = rtl
+          ? tabOffset.right + tabOffset.width * ratio - visibleTabContentValue * ratio
+          : -(tabOffset.left + tabOffset.width * ratio - visibleTabContentValue * ratio);
+      }
       // RTL
-      if (rtl) {
+      else if (rtl) {
         if (tabOffset.right < transformLeft) {
           newTransform = tabOffset.right;
         } else if (tabOffset.right + tabOffset.width > transformLeft + visibleTabContentValue) {
@@ -289,7 +309,9 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
       // ============ Align with left & right ============
       let newTransform = transformTop;
 
-      if (tabOffset.top < -transformTop) {
+      if (ratio !== null) {
+        newTransform = -(tabOffset.top + tabOffset.height * ratio - visibleTabContentValue * ratio);
+      } else if (tabOffset.top < -transformTop) {
         newTransform = -tabOffset.top;
       } else if (tabOffset.top + tabOffset.height > -transformTop + visibleTabContentValue) {
         newTransform = -(tabOffset.top + tabOffset.height - visibleTabContentValue);
@@ -550,6 +572,7 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
     scrollToTab();
   }, [
     activeKey,
+    scrollPosition,
     transformMin,
     transformMax,
     stringify(activeTabOffset),

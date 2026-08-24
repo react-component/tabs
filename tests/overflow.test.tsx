@@ -318,6 +318,42 @@ describe('Tabs.Overflow', () => {
       jest.useRealTimers();
     });
 
+    describe('scrollPosition', () => {
+      const layouts: { position: any; expected: number }[] = [
+        { position: 'auto' as const, expected: -40 },
+        { position: 'start' as const, expected: -60 },
+        { position: 'center' as const, expected: -50 },
+        { position: 'end' as const, expected: -40 },
+        { position: 1 as const, expected: -40 },
+        { position: 0.5 as const, expected: -50 },
+      ];
+
+      it.each(layouts)('top: $position', ({ position, expected }) => {
+        jest.useFakeTimers();
+        const { container } = render(getTabs({ activeKey: 'disabled', scrollPosition: position }));
+        triggerResize(container);
+        act(() => {
+          jest.runAllTimers();
+        });
+        expect(getTransformX(container)).toEqual(expected);
+        jest.useRealTimers();
+      });
+
+      it('keeps center between start and end for left tabPosition', () => {
+        jest.useFakeTimers();
+        const { container } = render(
+          getTabs({ activeKey: 'disabled', tabPosition: 'left', scrollPosition: 'center' }),
+        );
+        triggerResize(container);
+        act(() => {
+          jest.runAllTimers();
+        });
+        // Same geometry as the top case: disabled top=60, height=20, viewport=40.
+        expect(getTransformY(container)).toEqual(-50);
+        jest.useRealTimers();
+      });
+    });
+
     it('left', () => {
       jest.useFakeTimers();
       const onTabScroll = jest.fn();
