@@ -648,6 +648,21 @@ describe('Tabs.Basic', () => {
     expect(container.querySelectorAll<HTMLSpanElement>(selectors).length).toBe(1);
   });
 
+  it('renders numeric zero tab labels and icons', () => {
+    const { getAllByRole, container } = render(
+      <Tabs
+        items={[
+          { key: 'zero-label', label: 0, children: 'Zero label content' },
+          { key: 'zero-icon', label: 'Label', icon: 0, children: 'Zero icon content' },
+        ]}
+      />,
+    );
+
+    expect(getAllByRole('tab')[0]).toHaveTextContent('0');
+    expect(container.querySelector('.rc-tabs-tab-icon')).toHaveTextContent('0');
+    expect(getAllByRole('tab')[1].querySelectorAll('span')).toHaveLength(2);
+  });
+
   it('support indicatorAlign', async () => {
     const { container: startContainer, rerender: rerenderStart } = render(
       <Tabs
