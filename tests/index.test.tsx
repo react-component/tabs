@@ -537,6 +537,17 @@ describe('Tabs.Basic', () => {
     );
   });
 
+  it('renders numeric zero extra content', () => {
+    const { container, rerender } = render(getTabs({ tabBarExtraContent: 0 }));
+    expect(container.querySelectorAll('.rc-tabs-extra-content')).toHaveLength(1);
+    expect(container.querySelector('.rc-tabs-extra-content')).toHaveTextContent('0');
+
+    rerender(getTabs({ tabBarExtraContent: { left: 0, right: 0 } }));
+    expect(container.querySelectorAll('.rc-tabs-extra-content')).toHaveLength(2);
+    expect(container.querySelectorAll('.rc-tabs-extra-content')[0]).toHaveTextContent('0');
+    expect(container.querySelectorAll('.rc-tabs-extra-content')[1]).toHaveTextContent('0');
+  });
+
   it('no break of empty object', () => {
     render(getTabs({ tabBarExtraContent: {} }));
   });
