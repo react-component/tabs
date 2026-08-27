@@ -537,6 +537,24 @@ describe('Tabs.Basic', () => {
     );
   });
 
+  it('keeps interactive extra content outside the tablist', () => {
+    const { container } = render(
+      getTabs({
+        tabBarExtraContent: {
+          left: <button type="button">Left action</button>,
+          right: <button type="button">Right action</button>,
+        },
+      }),
+    );
+    const tablist = container.querySelector('[role="tablist"]')!;
+
+    expect(tablist).toContainElement(container.querySelector('[role="tab"]'));
+    expect(container.querySelector('.rc-tabs-nav-more')!.closest('[role="tablist"]')).toBeNull();
+    screen.getAllByRole('button', { name: /action/ }).forEach(button => {
+      expect(button.closest('[role="tablist"]')).toBeNull();
+    });
+  });
+
   it('no break of empty object', () => {
     render(getTabs({ tabBarExtraContent: {} }));
   });

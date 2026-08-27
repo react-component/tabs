@@ -588,8 +588,6 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
     <ResizeObserver onResize={onListHolderResize}>
       <div
         ref={useComposeRef(ref, containerRef)}
-        role="tablist"
-        aria-orientation={tabPositionTopOrBottom ? 'horizontal' : 'vertical'}
         className={clsx(`${prefixCls}-nav`, className, tabsClassNames?.header)}
         style={{ ...styles?.header, ...style }}
         onKeyDown={() => {
@@ -612,6 +610,8 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
             <ResizeObserver onResize={onListHolderResize}>
               <div
                 ref={tabListRef}
+                role="tablist"
+                aria-orientation={tabPositionTopOrBottom ? 'horizontal' : 'vertical'}
                 className={`${prefixCls}-nav-list`}
                 style={{
                   transform: `translate(${transformLeft}px, ${transformTop}px)`,

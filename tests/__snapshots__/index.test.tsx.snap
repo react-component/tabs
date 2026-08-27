@@ -5,15 +5,15 @@ exports[`Tabs.Basic Normal 1`] = `
   class="rc-tabs rc-tabs-top"
 >
   <div
-    aria-orientation="horizontal"
     class="rc-tabs-nav"
-    role="tablist"
   >
     <div
       class="rc-tabs-nav-wrap rc-tabs-nav-wrap-ping-right"
     >
       <div
+        aria-orientation="horizontal"
         class="rc-tabs-nav-list"
+        role="tablist"
         style="transform: translate(0px, 0px);"
       >
         <div
@@ -108,15 +108,15 @@ exports[`Tabs.Basic Skip invalidate children 1`] = `
   class="rc-tabs rc-tabs-top"
 >
   <div
-    aria-orientation="horizontal"
     class="rc-tabs-nav"
-    role="tablist"
   >
     <div
       class="rc-tabs-nav-wrap"
     >
       <div
+        aria-orientation="horizontal"
         class="rc-tabs-nav-list"
+        role="tablist"
         style="transform: translate(0px, 0px);"
       >
         <div
