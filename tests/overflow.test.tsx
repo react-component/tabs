@@ -111,6 +111,35 @@ describe('Tabs.Overflow', () => {
     unmount();
   });
 
+  it('should select the last enabled tab on the first ArrowUp', () => {
+    jest.useFakeTimers();
+    const { container, unmount } = render(getTabs());
+
+    triggerResize(container);
+    act(() => {
+      jest.runAllTimers();
+    });
+
+    const moreButton = container.querySelector('.rc-tabs-nav-more');
+    fireEvent.keyDown(moreButton, {
+      which: KeyCode.DOWN,
+      keyCode: KeyCode.DOWN,
+      charCode: KeyCode.DOWN,
+    });
+    fireEvent.keyDown(moreButton, {
+      which: KeyCode.UP,
+      keyCode: KeyCode.UP,
+      charCode: KeyCode.UP,
+    });
+
+    expect(document.querySelector('li.rc-tabs-dropdown-menu-item-selected').textContent).toEqual(
+      'miu',
+    );
+
+    unmount();
+    jest.useRealTimers();
+  });
+
   [KeyCode.SPACE, KeyCode.ENTER].forEach(code => {
     it(`keyboard with select keycode: ${code}`, () => {
       jest.useFakeTimers();

@@ -128,8 +128,12 @@ const OperationNode = React.forwardRef<HTMLDivElement, OperationNodeProps>((prop
 
   function selectOffset(offset: -1 | 1) {
     const enabledTabs = tabs.filter(tab => !tab.disabled);
-    let selectedIndex = enabledTabs.findIndex(tab => tab.key === selectedKey) || 0;
+    let selectedIndex = enabledTabs.findIndex(tab => tab.key === selectedKey);
     const len = enabledTabs.length;
+
+    if (selectedIndex === -1 && offset === -1) {
+      selectedIndex = 0;
+    }
 
     for (let i = 0; i < len; i += 1) {
       selectedIndex = (selectedIndex + offset + len) % len;
