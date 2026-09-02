@@ -9,7 +9,7 @@ interface ExtraContentProps {
 
 const ExtraContent = React.forwardRef<HTMLDivElement, ExtraContentProps>((props, ref) => {
   const { position, prefixCls, extra } = props;
-  if (!extra) {
+  if (!extra && extra !== 0) {
     return null;
   }
 
@@ -31,7 +31,7 @@ const ExtraContent = React.forwardRef<HTMLDivElement, ExtraContentProps>((props,
     content = assertExtra.left;
   }
 
-  return content ? (
+  return content || content === 0 ? (
     <div className={`${prefixCls}-extra-content`} ref={ref}>
       {content}
     </div>

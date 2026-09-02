@@ -537,6 +537,17 @@ describe('Tabs.Basic', () => {
     );
   });
 
+  it('renders numeric zero extra content', () => {
+    const { container, rerender } = render(getTabs({ tabBarExtraContent: 0 }));
+    expect(container.querySelectorAll('.rc-tabs-extra-content')).toHaveLength(1);
+    expect(container.querySelector('.rc-tabs-extra-content')).toHaveTextContent('0');
+
+    rerender(getTabs({ tabBarExtraContent: { left: 0, right: 0 } }));
+    expect(container.querySelectorAll('.rc-tabs-extra-content')).toHaveLength(2);
+    expect(container.querySelectorAll('.rc-tabs-extra-content')[0]).toHaveTextContent('0');
+    expect(container.querySelectorAll('.rc-tabs-extra-content')[1]).toHaveTextContent('0');
+  });
+
   it('no break of empty object', () => {
     render(getTabs({ tabBarExtraContent: {} }));
   });
@@ -635,6 +646,21 @@ describe('Tabs.Basic', () => {
     expect(container.querySelectorAll<HTMLSpanElement>(selectors).length).toBe(2);
     rerender(<Tabs items={[{ key: 'key', label: <div>test</div>, icon: 'test' }]} />);
     expect(container.querySelectorAll<HTMLSpanElement>(selectors).length).toBe(1);
+  });
+
+  it('renders numeric zero tab labels and icons', () => {
+    const { getAllByRole, container } = render(
+      <Tabs
+        items={[
+          { key: 'zero-label', label: 0, children: 'Zero label content' },
+          { key: 'zero-icon', label: 'Label', icon: 0, children: 'Zero icon content' },
+        ]}
+      />,
+    );
+
+    expect(getAllByRole('tab')[0]).toHaveTextContent('0');
+    expect(container.querySelector('.rc-tabs-tab-icon')).toHaveTextContent('0');
+    expect(getAllByRole('tab')[1].querySelectorAll('span')).toHaveLength(2);
   });
 
   it('support indicatorAlign', async () => {

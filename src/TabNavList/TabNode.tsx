@@ -53,6 +53,7 @@ const TabNode: React.FC<TabNodeProps> = props => {
   const tabPrefix = `${prefixCls}-tab`;
 
   const removable = getRemovable(closable, closeIcon, editable, disabled);
+  const hasIcon = !!icon || icon === 0;
 
   function onInternalClick(e: React.MouseEvent | React.KeyboardEvent) {
     if (disabled) {
@@ -68,8 +69,8 @@ const TabNode: React.FC<TabNodeProps> = props => {
   }
 
   const labelNode = React.useMemo<React.ReactNode>(
-    () => (icon && typeof label === 'string' ? <span>{label}</span> : label),
-    [label, icon],
+    () => (hasIcon && typeof label === 'string' ? <span>{label}</span> : label),
+    [label, hasIcon],
   );
 
   const btnRef = React.useRef<HTMLDivElement>(null);
@@ -121,7 +122,7 @@ const TabNode: React.FC<TabNodeProps> = props => {
             {`Tab ${currentPosition} of ${tabCount}`}
           </div>
         )}
-        {icon && <span className={`${tabPrefix}-icon`}>{icon}</span>}
+        {hasIcon && <span className={`${tabPrefix}-icon`}>{icon}</span>}
         {label && labelNode}
       </div>
 
