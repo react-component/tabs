@@ -1,4 +1,5 @@
 import { clsx } from 'clsx';
+import { isReactRenderable } from '@rc-component/util';
 import * as React from 'react';
 import type { EditableConfig, Tab } from '../interface';
 import { genDataNodeKey, getRemovable } from '../util';
@@ -68,7 +69,7 @@ const TabNode: React.FC<TabNodeProps> = props => {
   }
 
   const labelNode = React.useMemo<React.ReactNode>(
-    () => (icon && typeof label === 'string' ? <span>{label}</span> : label),
+    () => (isReactRenderable(icon) && typeof label === 'string' ? <span>{label}</span> : label),
     [label, icon],
   );
 
@@ -121,8 +122,8 @@ const TabNode: React.FC<TabNodeProps> = props => {
             {`Tab ${currentPosition} of ${tabCount}`}
           </div>
         )}
-        {icon && <span className={`${tabPrefix}-icon`}>{icon}</span>}
-        {label && labelNode}
+        {isReactRenderable(icon) && <span className={`${tabPrefix}-icon`}>{icon}</span>}
+        {isReactRenderable(label) && labelNode}
       </div>
 
       {/* Remove Button */}
@@ -138,7 +139,11 @@ const TabNode: React.FC<TabNodeProps> = props => {
             onRemoveTab(e);
           }}
         >
-          {closeIcon || editable.removeIcon || '×'}
+          {isReactRenderable(closeIcon)
+            ? closeIcon
+            : isReactRenderable(editable.removeIcon)
+              ? editable.removeIcon
+              : '×'}
         </button>
       )}
     </div>
