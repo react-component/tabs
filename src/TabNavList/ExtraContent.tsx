@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { isReactRenderable } from '@rc-component/util';
 import type { TabBarExtraContent, TabBarExtraMap, TabBarExtraPosition } from '../interface';
 
 interface ExtraContentProps {
@@ -9,7 +10,7 @@ interface ExtraContentProps {
 
 const ExtraContent = React.forwardRef<HTMLDivElement, ExtraContentProps>((props, ref) => {
   const { position, prefixCls, extra } = props;
-  if (!extra) {
+  if (!isReactRenderable(extra)) {
     return null;
   }
 
@@ -31,7 +32,7 @@ const ExtraContent = React.forwardRef<HTMLDivElement, ExtraContentProps>((props,
     content = assertExtra.left;
   }
 
-  return content ? (
+  return isReactRenderable(content) ? (
     <div className={`${prefixCls}-extra-content`} ref={ref}>
       {content}
     </div>

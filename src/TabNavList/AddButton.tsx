@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { isReactRenderable } from '@rc-component/util';
 import type { EditableConfig, TabsLocale } from '../interface';
 
 export interface AddButtonProps {
@@ -25,7 +26,7 @@ const AddButton = React.forwardRef<HTMLButtonElement, AddButtonProps>((props, re
         editable.onEdit('add', { event });
       }}
     >
-      {editable.addIcon || '+'}
+      {isReactRenderable(editable.addIcon) ? editable.addIcon : '+'}
     </button>
   );
 });
