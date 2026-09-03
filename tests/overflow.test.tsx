@@ -400,47 +400,50 @@ describe('Tabs.Overflow', () => {
 
     it('renders numeric remove icons in the dropdown menu', () => {
       jest.useFakeTimers();
-      hackOffsetInfo.container = 20;
+      try {
+        hackOffsetInfo.container = 20;
 
-      const onEdit = jest.fn();
-      const { container, unmount } = render(
-        getTabs({
-          editable: { onEdit, removeIcon: 0 },
-          items: [
-            {
-              key: 'close-icon',
-              label: 'Close icon',
-              closeIcon: 0,
-              children: 'Close icon',
-            },
-            {
-              key: 'remove-icon',
-              label: 'Remove icon',
-              closeIcon: '',
-              closable: true,
-              children: 'Remove icon',
-            },
-          ],
-        }),
-      );
+        const onEdit = jest.fn();
+        const { container, unmount } = render(
+          getTabs({
+            editable: { onEdit, removeIcon: 0 },
+            items: [
+              {
+                key: 'close-icon',
+                label: 'Close icon',
+                closeIcon: 0,
+                children: 'Close icon',
+              },
+              {
+                key: 'remove-icon',
+                label: 'Remove icon',
+                closeIcon: '',
+                closable: true,
+                children: 'Remove icon',
+              },
+            ],
+          }),
+        );
 
-      triggerResize(container);
-      act(() => {
-        jest.runAllTimers();
-      });
+        triggerResize(container);
+        act(() => {
+          jest.runAllTimers();
+        });
 
-      fireEvent.mouseEnter(container.querySelector('.rc-tabs-nav-more'));
-      act(() => {
-        jest.runAllTimers();
-      });
+        fireEvent.mouseEnter(container.querySelector('.rc-tabs-nav-more'));
+        act(() => {
+          jest.runAllTimers();
+        });
 
-      const removes = document.querySelectorAll('.rc-tabs-dropdown-menu-item-remove');
-      expect(removes).toHaveLength(2);
-      expect(removes[0]).toHaveTextContent('0');
-      expect(removes[1]).toHaveTextContent('0');
+        const removes = document.querySelectorAll('.rc-tabs-dropdown-menu-item-remove');
+        expect(removes).toHaveLength(2);
+        expect(removes[0]).toHaveTextContent('0');
+        expect(removes[1]).toHaveTextContent('0');
 
-      unmount();
-      jest.useRealTimers();
+        unmount();
+      } finally {
+        jest.useRealTimers();
+      }
     });
 
     it('auto hidden Dropdown', async () => {
