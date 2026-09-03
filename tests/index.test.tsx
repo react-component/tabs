@@ -464,6 +464,56 @@ describe('Tabs.Basic', () => {
         container.querySelector('.rc-tabs-tab-remove').querySelector('.close-light'),
       ).toBeTruthy();
     });
+
+    it('should render numeric close and remove icons', () => {
+      const onEdit = jest.fn();
+      const { container } = render(
+        getTabs({
+          editable: { onEdit, removeIcon: 0 },
+          items: [
+            {
+              key: 'close-icon',
+              label: 'Close icon',
+              closeIcon: 0,
+              children: 'Close icon',
+            },
+            {
+              key: 'remove-icon',
+              label: 'Remove icon',
+              children: 'Remove icon',
+            },
+          ],
+        }),
+      );
+
+      const removes = container.querySelectorAll('.rc-tabs-tab-remove');
+      expect(removes).toHaveLength(2);
+      expect(removes[0]).toHaveTextContent('0');
+      expect(removes[1]).toHaveTextContent('0');
+    });
+
+    it.each([false, '', null, undefined])(
+      'should fall back for a non-renderable remove icon: %p',
+      removeIcon => {
+        const onEdit = jest.fn();
+        const { container } = render(
+          getTabs({
+            editable: { onEdit, removeIcon },
+            items: [
+              {
+                key: 'fallback-icon',
+                label: 'Fallback icon',
+                closable: true,
+                children: 'Fallback icon',
+              },
+            ],
+          }),
+        );
+
+        expect(container.querySelector('.rc-tabs-tab-remove')).toHaveTextContent('×');
+      },
+    );
+
     it('should hide closeIcon when closeIcon is set to null or false', () => {
       const onEdit = jest.fn();
       const { container } = render(
