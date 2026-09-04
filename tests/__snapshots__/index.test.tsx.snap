@@ -5,10 +5,13 @@ exports[`Tabs.Basic Normal 1`] = `
   class="rc-tabs rc-tabs-top"
 >
   <div
-    aria-orientation="horizontal"
     class="rc-tabs-nav"
-    role="tablist"
   >
+    <div
+      aria-orientation="horizontal"
+      aria-owns="rc-tabs-test-tab-light rc-tabs-test-tab-bamboo rc-tabs-test-tab-cute"
+      role="tablist"
+    />
     <div
       class="rc-tabs-nav-wrap rc-tabs-nav-wrap-ping-right"
     >
@@ -108,10 +111,13 @@ exports[`Tabs.Basic Skip invalidate children 1`] = `
   class="rc-tabs rc-tabs-top"
 >
   <div
-    aria-orientation="horizontal"
     class="rc-tabs-nav"
-    role="tablist"
   >
+    <div
+      aria-orientation="horizontal"
+      aria-owns="rc-tabs-test-tab-light"
+      role="tablist"
+    />
     <div
       class="rc-tabs-nav-wrap"
     >
