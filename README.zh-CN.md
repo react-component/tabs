@@ -108,7 +108,9 @@ npm start
 | --- | --- | --- | --- |
 | `icon` | ReactNode | - | 更多按钮的图标。 |
 | `popupRender` | `(menu: ReactElement, info: { restTabs: Tab[], onClose: () => void }) => ReactElement` | - | 自定义下拉弹层内容。`info` 对象提供 `restTabs`（所有溢出标签）和 `onClose`（关闭下拉菜单的函数）。 |
-| 其他下拉属性 | 来自 DropdownProps | - | 其他 [rc-dropdown](https://github.com/react-component/dropdown) 属性如 `trigger`、`overlayClassName`、`visible` 等也都支持。 |
+| 其他下拉属性 | 来自 DropdownProps | - | 其他 [rc-dropdown](https://github.com/react-component/dropdown) 属性如 `trigger`、`overlayClassName`、`open` 等也都支持。 |
+
+Dropdown 2 使用 `more.open` 和 `more.onOpenChange`。旧的 `more.visible` 和 `more.onVisibleChange` 已不再支持，升级时需要同步迁移。
 
 ## 本地开发
 

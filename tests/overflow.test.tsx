@@ -111,6 +111,32 @@ describe('Tabs.Overflow', () => {
     unmount();
   });
 
+  it('supports more.open and more.onOpenChange', () => {
+    jest.useFakeTimers();
+    const onOpenChange = jest.fn();
+    const dropdown = (open: boolean) => getTabs({ more: { open, onOpenChange, trigger: 'click' } });
+    const { container, rerender, unmount } = render(dropdown(false));
+    triggerResize(container);
+    act(() => {
+      jest.runAllTimers();
+    });
+    const button = container.querySelector('.rc-tabs-nav-more');
+    fireEvent.click(button);
+    expect(onOpenChange).toHaveBeenLastCalledWith(true);
+    expect(button).not.toHaveClass('rc-tabs-dropdown-open');
+
+    rerender(dropdown(true));
+    expect(button).toHaveClass('rc-tabs-dropdown-open');
+    fireEvent.click(button);
+    expect(onOpenChange).toHaveBeenLastCalledWith(false);
+    expect(button).toHaveClass('rc-tabs-dropdown-open');
+
+    rerender(dropdown(false));
+    expect(button).not.toHaveClass('rc-tabs-dropdown-open');
+    unmount();
+    jest.useRealTimers();
+  });
+
   [KeyCode.SPACE, KeyCode.ENTER].forEach(code => {
     it(`keyboard with select keycode: ${code}`, () => {
       jest.useFakeTimers();

@@ -208,8 +208,8 @@ const OperationNode = React.forwardRef<HTMLDivElement, OperationNodeProps>((prop
     <Dropdown
       prefixCls={dropdownPrefix}
       overlay={overlay}
-      visible={tabs.length ? open : false}
-      onVisibleChange={setOpen}
+      open={tabs.length ? open : false}
+      onOpenChange={setOpen}
       overlayClassName={overlayClassName}
       overlayStyle={popupStyle}
       mouseEnterDelay={0.1}
