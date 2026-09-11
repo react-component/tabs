@@ -66,4 +66,32 @@ describe('Tabs.RTL', () => {
 
     jest.useRealTimers();
   });
+
+  describe('scrollPosition', () => {
+    const layouts: { position: any; expected: number }[] = [
+      { position: 'auto' as const, expected: 40 },
+      { position: 'start' as const, expected: 60 },
+      { position: 'center' as const, expected: 50 },
+      { position: 'end' as const, expected: 40 },
+      { position: 0.25 as const, expected: 55 },
+      { position: 0.5 as const, expected: 50 },
+      { position: 1 as const, expected: 40 },
+      { position: 1.5 as const, expected: 40 },
+      { position: -0.5 as const, expected: 60 },
+      { position: Number.NaN, expected: 40 },
+    ];
+
+    it.each(layouts)('rtl: $position', ({ position, expected }) => {
+      jest.useFakeTimers();
+      const { container } = render(
+        getTabs({ direction: 'rtl', defaultActiveKey: 'disabled', scrollPosition: position }),
+      );
+      triggerResize(container);
+      act(() => {
+        jest.runAllTimers();
+      });
+      expect(getTransformX(container)).toEqual(expected);
+      jest.useRealTimers();
+    });
+  });
 });

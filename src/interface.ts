@@ -46,6 +46,8 @@ export type TabOffsetMap = Map<React.Key, TabOffset>;
 
 export type TabPosition = 'left' | 'right' | 'top' | 'bottom';
 
+export type ScrollPosition = 'auto' | 'start' | 'center' | 'end' | number;
+
 type RenderTabBarProps = {
   id: string;
   activeKey: string;

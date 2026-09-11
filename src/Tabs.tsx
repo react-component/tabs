@@ -19,6 +19,7 @@ import type {
   TabBarExtraContent,
   TabPosition,
   TabsLocale,
+  ScrollPosition,
 } from './interface';
 
 /**
@@ -35,13 +36,7 @@ import type {
 let uuid = 0;
 
 export type SemanticName =
-  | 'popup'
-  | 'item'
-  | 'indicator'
-  | 'body'
-  | 'content'
-  | 'header'
-  | 'remove';
+  'popup' | 'item' | 'indicator' | 'body' | 'content' | 'header' | 'remove';
 
 export interface TabsProps extends Omit<
   React.HTMLAttributes<HTMLDivElement>,
@@ -66,6 +61,7 @@ export interface TabsProps extends Omit<
   tabBarStyle?: React.CSSProperties;
   tabPosition?: TabPosition;
   destroyOnHidden?: boolean;
+  scrollPosition?: ScrollPosition;
 
   onChange?: (activeKey: string) => void;
   onTabClick?: (activeKey: string, e: React.KeyboardEvent | React.MouseEvent) => void;
@@ -112,6 +108,7 @@ const Tabs = React.forwardRef<HTMLDivElement, TabsProps>((props, ref) => {
     getPopupContainer,
     popupClassName,
     indicator,
+    scrollPosition,
     classNames: tabsClassNames,
     styles,
     ...restProps
@@ -194,6 +191,7 @@ const Tabs = React.forwardRef<HTMLDivElement, TabsProps>((props, ref) => {
     getPopupContainer,
     popupClassName: clsx(popupClassName, tabsClassNames?.popup),
     indicator,
+    scrollPosition,
     styles,
     classNames: tabsClassNames,
   };
