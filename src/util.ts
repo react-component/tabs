@@ -1,5 +1,4 @@
-import type React from 'react';
-import type { ReactNode } from 'react';
+import type { ReactNode, default as React } from 'react';
 import type { EditableConfig } from './interface';
 
 /**
@@ -25,6 +24,21 @@ const RC_TABS_DOUBLE_QUOTE = 'TABS_DQ';
 
 export function genDataNodeKey(key: React.Key): string {
   return String(key).replace(/"/g, RC_TABS_DOUBLE_QUOTE);
+}
+
+export function isLineMode(event: WheelEvent) {
+  return event.deltaMode === WheelEvent.DOM_DELTA_LINE
+}
+
+export function getWheelDeltaOfPx(event: WheelEvent) {
+  const { deltaX, deltaY } = event
+  const deltaXOfPx = isLineMode(event)
+    ? deltaX * 100 / 3
+    : deltaX;
+  const deltaYOfPx = isLineMode(event)
+    ? deltaY * 100 / 3
+    : deltaY;
+  return [deltaXOfPx, deltaYOfPx]
 }
 
 export function getRemovable(
