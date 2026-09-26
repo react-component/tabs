@@ -357,6 +357,10 @@ describe('Tabs.Accessibility', () => {
 
     // Extra content and operations buttons live outside the tablist element,
     // so the tablist only owns tab nodes (axe: aria-required-children).
+    // Confirm both extra buttons rendered first, so the querySelector below
+    // cannot pass vacuously when extra content fails to mount.
+    getByRole('button', { name: 'Left Extra' });
+    getByRole('button', { name: 'Right Extra' });
     expect(navList.querySelector('button')).toBeNull();
   });
 });
