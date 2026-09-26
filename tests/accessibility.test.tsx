@@ -340,4 +340,27 @@ describe('Tabs.Accessibility', () => {
     expect(queryByRole('tab', { name: /Tab1/i })).toBeInTheDocument();
     expect(queryByRole('tab', { name: /Tab3/i })).toBeInTheDocument();
   });
+
+  it('should scope tablist role to the nav list so extra content is not owned by the tablist', () => {
+    const { container, getByRole } = render(
+      createTabs({
+        tabBarExtraContent: {
+          left: <button type="button">Left Extra</button>,
+          right: <button type="button">Right Extra</button>,
+        },
+      }),
+    );
+
+    const navList = getByRole('tablist');
+    expect(navList).toHaveClass('rc-tabs-nav-list');
+    expect(container.querySelector('.rc-tabs-nav')).not.toHaveAttribute('role');
+
+    // Extra content and operations buttons live outside the tablist element,
+    // so the tablist only owns tab nodes (axe: aria-required-children).
+    // Confirm both extra buttons rendered first, so the querySelector below
+    // cannot pass vacuously when extra content fails to mount.
+    getByRole('button', { name: 'Left Extra' });
+    getByRole('button', { name: 'Right Extra' });
+    expect(navList.querySelector('button')).toBeNull();
+  });
 });
