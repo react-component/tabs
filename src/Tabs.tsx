@@ -1,6 +1,6 @@
 // Accessibility https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/Tab_Role
 import { clsx } from 'clsx';
-import { isMobile, useControlledState } from '@rc-component/util';
+import { isMobile, useControlledState, useEvent } from '@rc-component/util';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import TabContext from './TabContext';
@@ -159,14 +159,14 @@ const Tabs = React.forwardRef<HTMLDivElement, TabsProps>((props, ref) => {
   }, []);
 
   // ======================== Events ========================
-  function onInternalTabClick(key: string, e: React.MouseEvent | React.KeyboardEvent) {
+  const onInternalTabClick = useEvent((key: string, e: React.MouseEvent | React.KeyboardEvent) => {
     onTabClick?.(key, e);
     const isActiveChanged = key !== mergedActiveKey;
     setMergedActiveKey(key);
     if (isActiveChanged) {
       onChange?.(key);
     }
-  }
+  });
 
   // ======================== Render ========================
   const sharedProps = {

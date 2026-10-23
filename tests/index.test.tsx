@@ -310,6 +310,17 @@ describe('Tabs.Basic', () => {
       expect(container.querySelector('.my-node')).toBeTruthy();
       expect(renderTabBar).toHaveBeenCalled();
     });
+
+    it('keep onTabClick reference stable across renders', () => {
+      const onTabClickList: any[] = [];
+      const renderTabBar = jest.fn((props, Component) => {
+        onTabClickList.push(props.onTabClick);
+        return <Component {...props} />;
+      });
+      const { rerender } = render(getTabs({ renderTabBar, className: 'first' }));
+      rerender(getTabs({ renderTabBar, className: 'second' }));
+      expect(onTabClickList[0]).toBe(onTabClickList[1]);
+    });
   });
 
   it('destroyOnHidden', () => {
