@@ -690,7 +690,8 @@ describe('Tabs.Overflow', () => {
               left: 14.5,
             };
       }
-      // console.log('ele!!!', ele.className);
+      const size = getOffsetSizeFunc(hackOffsetInfo).call(ele);
+      return { left: 0, top: 0, width: size, height: size };
     };
 
     jest.useFakeTimers();
@@ -819,5 +820,185 @@ describe('Tabs.Overflow', () => {
     expect(dropdownPopup?.classList.contains('rc-tabs-dropdown-hidden')).toBeTruthy();
 
     jest.useRealTimers();
+  });
+});
+
+describe('Tabs.Overflow scaled layout', () => {
+  let domSpy: ReturnType<typeof spyElementPrototypes>;
+
+  const items = ['first', 'middle', 'last'].map(key => ({ key, label: key }));
+  const layouts: {
+    name: string;
+    tabPosition: TabsProps['tabPosition'];
+    direction: TabsProps['direction'];
+    scaleX: number;
+    scaleY: number;
+  }[] = [
+    { name: 'horizontal', tabPosition: 'top', direction: 'ltr', scaleX: 1.01, scaleY: 1.01 },
+    { name: 'RTL', tabPosition: 'top', direction: 'rtl', scaleX: 1.01, scaleY: 1.01 },
+    { name: 'vertical', tabPosition: 'left', direction: 'ltr', scaleX: 1, scaleY: 1.01 },
+  ];
+
+  beforeEach(() => {
+    jest.useFakeTimers();
+  });
+
+  afterEach(() => {
+    domSpy.mockRestore();
+    jest.useRealTimers();
+  });
+
+  function mockLayout(
+    layout: (typeof layouts)[number],
+    { containerSize = 198, tabSize = 54, scaleX = layout.scaleX, scaleY = layout.scaleY } = {},
+  ) {
+    const horizontal = layout.tabPosition === 'top';
+    const listSize = tabSize * items.length + 18 * (items.length - 1);
+
+    // offset* uses layout coordinates, whereas DOMRect includes the ancestor's scale.
+    function getLayoutRect(element: HTMLElement) {
+      let size = 10;
+      let position = 0;
+
+      if (element.classList.contains('rc-tabs-tab')) {
+        size = tabSize;
+        let index = items.findIndex(item => item.key === element.dataset.nodeKey);
+        if (horizontal && layout.direction === 'rtl') {
+          index = items.length - index - 1;
+        }
+        position = index * (tabSize + 18);
+      } else if (element.classList.contains('rc-tabs-nav-list')) {
+        size = listSize;
+      } else if (element.classList.contains('rc-tabs-nav')) {
+        size = containerSize;
+      } else if (
+        element.classList.contains('rc-tabs-nav-operations') ||
+        element.classList.contains('rc-tabs-nav-more')
+      ) {
+        size = 45;
+      }
+
+      return horizontal
+        ? { width: size, height: 35, left: position, top: 0 }
+        : { width: 35, height: size, left: 0, top: position };
+    }
+
+    domSpy = spyElementPrototypes(HTMLElement, {
+      scrollIntoView: () => {},
+      offsetWidth: {
+        get() {
+          return Math.round(getLayoutRect(this).width);
+        },
+      },
+      offsetHeight: {
+        get() {
+          return Math.round(getLayoutRect(this).height);
+        },
+      },
+      offsetLeft: {
+        get() {
+          return Math.round(getLayoutRect(this).left);
+        },
+      },
+      offsetTop: {
+        get() {
+          return Math.round(getLayoutRect(this).top);
+        },
+      },
+      getBoundingClientRect() {
+        const { width, height, left, top } = getLayoutRect(this);
+        return {
+          width: width * scaleX,
+          height: height * scaleY,
+          left: 100 + left * scaleX,
+          top: 200 + top * scaleY,
+        };
+      },
+    });
+  }
+
+  function flushResize(container: Element) {
+    triggerResize(container);
+    act(() => {
+      jest.runAllTimers();
+    });
+  }
+
+  describe.each(layouts)('$name', layout => {
+    const horizontal = layout.tabPosition === 'top';
+    const sizeProperty = horizontal ? 'width' : 'height';
+    const positionProperty = horizontal ? (layout.direction === 'rtl' ? 'right' : 'left') : 'top';
+
+    it('does not hide a tab that fits when the ancestor is scaled', () => {
+      mockLayout(layout);
+      const { container, unmount } = render(
+        <Tabs items={items} tabPosition={layout.tabPosition} direction={layout.direction} />,
+      );
+
+      flushResize(container);
+
+      // The 198px parent differs from its DOMRect by > 1px, but each 54px tab by < 1px.
+      expect(container.querySelector('.rc-tabs-nav-operations')).toHaveClass(
+        'rc-tabs-nav-operations-hidden',
+      );
+      expect(getTransformX(container)).toBe(0);
+      expect(getTransformY(container)).toBe(0);
+      expect(container.querySelector('.rc-tabs-ink-bar')).toHaveStyle({
+        [sizeProperty]: '54px',
+        [positionProperty]: '27px',
+      });
+      unmount();
+    });
+
+    it('keeps genuinely overflowing tabs accessible when the ancestor is scaled', () => {
+      mockLayout(layout, { containerSize: 170 });
+      const onChange = jest.fn();
+      const { container, unmount } = render(
+        <Tabs
+          items={items}
+          tabPosition={layout.tabPosition}
+          direction={layout.direction}
+          onChange={onChange}
+        />,
+      );
+
+      flushResize(container);
+
+      expect(container.querySelector('.rc-tabs-nav-operations')).not.toHaveClass(
+        'rc-tabs-nav-operations-hidden',
+      );
+      fireEvent.mouseEnter(container.querySelector('.rc-tabs-nav-more'));
+      act(() => {
+        jest.runAllTimers();
+      });
+      const hiddenTabs = document.querySelectorAll('.rc-tabs-dropdown-menu-item');
+      expect(Array.from(hiddenTabs, node => node.textContent)).toEqual(['middle', 'last']);
+      fireEvent.click(hiddenTabs[1]);
+      expect(onChange).toHaveBeenCalledWith('last');
+      unmount();
+    });
+
+    it('preserves fractional layout sizes without scaling', () => {
+      mockLayout(layout, { containerSize: 199.5, tabSize: 54.5, scaleX: 1, scaleY: 1 });
+      const { container, unmount } = render(
+        <Tabs
+          items={items}
+          defaultActiveKey="last"
+          tabPosition={layout.tabPosition}
+          direction={layout.direction}
+        />,
+      );
+
+      flushResize(container);
+
+      expect(container.querySelector('.rc-tabs-nav-operations')).toHaveClass(
+        'rc-tabs-nav-operations-hidden',
+      );
+      expect(container.querySelector('.rc-tabs-ink-bar')).toHaveStyle({
+        [sizeProperty]: '54.5px',
+        [positionProperty]: '172.25px',
+      });
+      unmount();
+    });
   });
 });

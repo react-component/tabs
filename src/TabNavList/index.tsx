@@ -60,28 +60,37 @@ export interface TabNavListProps {
   styles?: Partial<Record<SemanticName, React.CSSProperties>>;
 }
 
-const getTabSize = (tab: HTMLElement, containerRect: { left: number; top: number }) => {
+const isScaled = (element: HTMLElement, rect = element.getBoundingClientRect()) =>
+  Math.abs(rect.width - element.offsetWidth) >= 1 ||
+  Math.abs(rect.height - element.offsetHeight) >= 1;
+
+const getTabSize = (
+  tab: HTMLElement,
+  containerRect: { left: number; top: number },
+  forceOffset: boolean,
+) => {
   // tabListRef
   const { offsetWidth, offsetHeight, offsetTop, offsetLeft } = tab;
-  const { width, height, left, top } = tab.getBoundingClientRect();
+  const rect = tab.getBoundingClientRect();
+  const { width, height, left, top } = rect;
 
   // Use getBoundingClientRect to avoid decimal inaccuracy
-  if (Math.abs(width - offsetWidth) < 1) {
+  if (!forceOffset && !isScaled(tab, rect)) {
     return [width, height, left - containerRect.left, top - containerRect.top];
   }
 
   return [offsetWidth, offsetHeight, offsetLeft, offsetTop];
 };
 
-const getSize = (refObj: React.RefObject<HTMLElement>): SizeInfo => {
+const getSize = (refObj: React.RefObject<HTMLElement>, forceOffset: boolean): SizeInfo => {
   const { offsetWidth = 0, offsetHeight = 0 } = refObj.current || {};
 
   // Use getBoundingClientRect to avoid decimal inaccuracy
-  if (refObj.current) {
-    const { width, height } = refObj.current.getBoundingClientRect();
+  if (refObj.current && !forceOffset) {
+    const rect = refObj.current.getBoundingClientRect();
 
-    if (Math.abs(width - offsetWidth) < 1) {
-      return [width, height];
+    if (!isScaled(refObj.current, rect)) {
+      return [rect.width, rect.height];
     }
   }
 
@@ -504,8 +513,13 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
     );
   });
 
+  // A scaled nav/list must use layout coordinates for its smaller descendants too.
+  // Otherwise showing More can change the measured width and repeatedly hide it again.
+  const shouldUseOffset = () =>
+    [containerRef, tabListRef].some(({ current }) => current && isScaled(current));
+
   // Update buttons records
-  const updateTabSizes = () =>
+  const updateTabSizes = (forceOffset = shouldUseOffset()) =>
     setTabSizes(() => {
       const newSizes: TabSizeMap = new Map();
       const listRect = tabListRef.current?.getBoundingClientRect();
@@ -515,7 +529,7 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
           `[data-node-key="${genDataNodeKey(key)}"]`,
         );
         if (btnNode) {
-          const [width, height, left, top] = getTabSize(btnNode, listRect);
+          const [width, height, left, top] = getTabSize(btnNode, listRect, forceOffset);
           newSizes.set(key, { width, height, left, top });
         }
       });
@@ -527,30 +541,32 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
   }, [tabs.map(tab => tab.key).join('_')]);
 
   const onListHolderResize = useUpdate(() => {
+    const forceOffset = shouldUseOffset();
+
     // Update wrapper records
-    const containerSize = getSize(containerRef);
-    const extraLeftSize = getSize(extraLeftRef);
-    const extraRightSize = getSize(extraRightRef);
+    const containerSize = getSize(containerRef, forceOffset);
+    const extraLeftSize = getSize(extraLeftRef, forceOffset);
+    const extraRightSize = getSize(extraRightRef, forceOffset);
     setContainerExcludeExtraSize([
       containerSize[0] - extraLeftSize[0] - extraRightSize[0],
       containerSize[1] - extraLeftSize[1] - extraRightSize[1],
     ]);
 
-    const newAddSize = getSize(innerAddButtonRef);
+    const newAddSize = getSize(innerAddButtonRef, forceOffset);
     setAddSize(newAddSize);
 
-    const newOperationSize = getSize(operationsRef);
+    const newOperationSize = getSize(operationsRef, forceOffset);
     setOperationSize(newOperationSize);
 
     // Which includes add button size
-    const tabContentFullSize = getSize(tabListRef);
+    const tabContentFullSize = getSize(tabListRef, forceOffset);
     setTabContentSize([
       tabContentFullSize[0] - newAddSize[0],
       tabContentFullSize[1] - newAddSize[1],
     ]);
 
     // Update buttons records
-    updateTabSizes();
+    updateTabSizes(forceOffset);
   });
 
   // ======================== Dropdown =======================
