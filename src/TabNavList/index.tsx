@@ -60,27 +60,31 @@ export interface TabNavListProps {
   styles?: Partial<Record<SemanticName, React.CSSProperties>>;
 }
 
-const getTabSize = (tab: HTMLElement, containerRect: { left: number; top: number }) => {
+const getTabSize = (
+  tab: HTMLElement,
+  containerRect: { left: number; top: number },
+  preferRect?: boolean,
+) => {
   // tabListRef
   const { offsetWidth, offsetHeight, offsetTop, offsetLeft } = tab;
   const { width, height, left, top } = tab.getBoundingClientRect();
 
   // Use getBoundingClientRect to avoid decimal inaccuracy
-  if (Math.abs(width - offsetWidth) < 1) {
+  if (preferRect || Math.abs(width - offsetWidth) < 1) {
     return [width, height, left - containerRect.left, top - containerRect.top];
   }
 
   return [offsetWidth, offsetHeight, offsetLeft, offsetTop];
 };
 
-const getSize = (refObj: React.RefObject<HTMLElement>): SizeInfo => {
+const getSize = (refObj: React.RefObject<HTMLElement>, preferRect?: boolean): SizeInfo => {
   const { offsetWidth = 0, offsetHeight = 0 } = refObj.current || {};
 
   // Use getBoundingClientRect to avoid decimal inaccuracy
   if (refObj.current) {
     const { width, height } = refObj.current.getBoundingClientRect();
 
-    if (Math.abs(width - offsetWidth) < 1) {
+    if (preferRect || Math.abs(width - offsetWidth) < 1) {
       return [width, height];
     }
   }
@@ -505,17 +509,37 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
   });
 
   // Update buttons records
+  // CSS zoom or an ancestor transform scale makes getBoundingClientRect and
+  // offset* diverge per element by different amounts, which can flip the
+  // overflow decision on every measurement (More button shows -> container
+  // grows -> tabs fit -> More hides -> container shrinks -> loop). Pick one
+  // coordinate system for a whole measurement pass instead.
+  const getPreferRect = () => {
+    const container = containerRef.current;
+    if (!container) {
+      return false;
+    }
+    const { offsetWidth } = container;
+    const rectWidth = container.getBoundingClientRect().width;
+    // Rect is not measurable (e.g. jsdom or a hidden subtree): keep legacy path
+    if (!offsetWidth || !rectWidth) {
+      return false;
+    }
+    return Math.abs(rectWidth / offsetWidth - 1) > 0.0001;
+  };
+
   const updateTabSizes = () =>
     setTabSizes(() => {
       const newSizes: TabSizeMap = new Map();
       const listRect = tabListRef.current?.getBoundingClientRect();
+      const preferRect = getPreferRect();
 
       tabs.forEach(({ key }) => {
         const btnNode = tabListRef.current?.querySelector<HTMLElement>(
           `[data-node-key="${genDataNodeKey(key)}"]`,
         );
         if (btnNode) {
-          const [width, height, left, top] = getTabSize(btnNode, listRect);
+          const [width, height, left, top] = getTabSize(btnNode, listRect, preferRect);
           newSizes.set(key, { width, height, left, top });
         }
       });
@@ -527,23 +551,25 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
   }, [tabs.map(tab => tab.key).join('_')]);
 
   const onListHolderResize = useUpdate(() => {
+    const preferRect = getPreferRect();
+
     // Update wrapper records
-    const containerSize = getSize(containerRef);
-    const extraLeftSize = getSize(extraLeftRef);
-    const extraRightSize = getSize(extraRightRef);
+    const containerSize = getSize(containerRef, preferRect);
+    const extraLeftSize = getSize(extraLeftRef, preferRect);
+    const extraRightSize = getSize(extraRightRef, preferRect);
     setContainerExcludeExtraSize([
       containerSize[0] - extraLeftSize[0] - extraRightSize[0],
       containerSize[1] - extraLeftSize[1] - extraRightSize[1],
     ]);
 
-    const newAddSize = getSize(innerAddButtonRef);
+    const newAddSize = getSize(innerAddButtonRef, preferRect);
     setAddSize(newAddSize);
 
-    const newOperationSize = getSize(operationsRef);
+    const newOperationSize = getSize(operationsRef, preferRect);
     setOperationSize(newOperationSize);
 
     // Which includes add button size
-    const tabContentFullSize = getSize(tabListRef);
+    const tabContentFullSize = getSize(tabListRef, preferRect);
     setTabContentSize([
       tabContentFullSize[0] - newAddSize[0],
       tabContentFullSize[1] - newAddSize[1],
