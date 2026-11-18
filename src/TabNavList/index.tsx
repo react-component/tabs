@@ -87,13 +87,29 @@ const getAncestorScale = (el: HTMLElement): MeasureMode => {
     // `rotate` breaks the per-axis mapping the same way transform rotation does.
     const scaleProp = style.scale;
     if (scaleProp && scaleProp !== 'none') {
-      const parts = scaleProp.split(' ').map(part => parseFloat(part) || 0);
+      // Negative factors are reflections, not degenerate: normalize by magnitude.
+      const parts = scaleProp.split(' ').map(part => Math.abs(parseFloat(part) || 0));
       scaleX *= parts[0];
       scaleY *= parts[1] ?? parts[0];
     }
     const rotateProp = style.rotate;
-    if (rotateProp && rotateProp !== 'none' && (parseFloat(rotateProp) || 0) % 360 !== 0) {
-      return { type: 'offset' };
+    if (rotateProp && rotateProp !== 'none') {
+      // Computed value keeps an optional axis keyword (`y 60deg`), so scan for
+      // the angle token instead of parseFloat on the whole string.
+      const angle = rotateProp.match(/(-?[\d.]+)(deg|grad|rad|turn)/);
+      if (angle) {
+        const toDeg =
+          angle[2] === 'grad'
+            ? 0.9
+            : angle[2] === 'rad'
+              ? 180 / Math.PI
+              : angle[2] === 'turn'
+                ? 360
+                : 1;
+        if ((parseFloat(angle[1]) * toDeg) % 360 !== 0) {
+          return { type: 'offset' };
+        }
+      }
     }
 
     const zoom = parseFloat(style.zoom);
