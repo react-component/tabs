@@ -60,32 +60,36 @@ export interface TabNavListProps {
   styles?: Partial<Record<SemanticName, React.CSSProperties>>;
 }
 
-const getTabSize = (
-  tab: HTMLElement,
-  containerRect: { left: number; top: number },
-  preferRect?: boolean,
-) => {
+const getTabSize = (tab: HTMLElement, containerRect: { left: number; top: number }, scale = 1) => {
   // tabListRef
   const { offsetWidth, offsetHeight, offsetTop, offsetLeft } = tab;
   const { width, height, left, top } = tab.getBoundingClientRect();
 
   // Use getBoundingClientRect to avoid decimal inaccuracy
-  if (preferRect || Math.abs(width - offsetWidth) < 1) {
-    return [width, height, left - containerRect.left, top - containerRect.top];
+  if (scale !== 1 || Math.abs(width - offsetWidth) < 1) {
+    // The consumer of these values works in local CSS units (translate and
+    // scroll math), while getBoundingClientRect reports scaled units when an
+    // ancestor applies CSS zoom or transform. Normalize back to local units.
+    return [
+      width / scale,
+      height / scale,
+      (left - containerRect.left) / scale,
+      (top - containerRect.top) / scale,
+    ];
   }
 
   return [offsetWidth, offsetHeight, offsetLeft, offsetTop];
 };
 
-const getSize = (refObj: React.RefObject<HTMLElement>, preferRect?: boolean): SizeInfo => {
+const getSize = (refObj: React.RefObject<HTMLElement>, scale = 1): SizeInfo => {
   const { offsetWidth = 0, offsetHeight = 0 } = refObj.current || {};
 
   // Use getBoundingClientRect to avoid decimal inaccuracy
   if (refObj.current) {
     const { width, height } = refObj.current.getBoundingClientRect();
 
-    if (preferRect || Math.abs(width - offsetWidth) < 1) {
-      return [width, height];
+    if (scale !== 1 || Math.abs(width - offsetWidth) < 1) {
+      return [width / scale, height / scale];
     }
   }
 
@@ -512,34 +516,36 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
   // CSS zoom or an ancestor transform scale makes getBoundingClientRect and
   // offset* diverge per element by different amounts, which can flip the
   // overflow decision on every measurement (More button shows -> container
-  // grows -> tabs fit -> More hides -> container shrinks -> loop). Pick one
-  // coordinate system for a whole measurement pass instead.
-  const getPreferRect = () => {
+  // grows -> tabs fit -> More hides -> container shrinks -> loop). Detect the
+  // scale once per pass and measure every element in the same coordinate
+  // system, normalized back to local CSS units for the scroll consumers.
+  const getMeasureScale = () => {
     const container = containerRef.current;
     if (!container) {
-      return false;
+      return 1;
     }
     const { offsetWidth } = container;
     const rectWidth = container.getBoundingClientRect().width;
     // Rect is not measurable (e.g. jsdom or a hidden subtree): keep legacy path
     if (!offsetWidth || !rectWidth) {
-      return false;
+      return 1;
     }
-    return Math.abs(rectWidth / offsetWidth - 1) > 0.0001;
+    const ratio = rectWidth / offsetWidth;
+    return Math.abs(ratio - 1) > 0.0001 ? ratio : 1;
   };
 
   const updateTabSizes = () =>
     setTabSizes(() => {
       const newSizes: TabSizeMap = new Map();
       const listRect = tabListRef.current?.getBoundingClientRect();
-      const preferRect = getPreferRect();
+      const scale = getMeasureScale();
 
       tabs.forEach(({ key }) => {
         const btnNode = tabListRef.current?.querySelector<HTMLElement>(
           `[data-node-key="${genDataNodeKey(key)}"]`,
         );
         if (btnNode) {
-          const [width, height, left, top] = getTabSize(btnNode, listRect, preferRect);
+          const [width, height, left, top] = getTabSize(btnNode, listRect, scale);
           newSizes.set(key, { width, height, left, top });
         }
       });
@@ -551,25 +557,25 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
   }, [tabs.map(tab => tab.key).join('_')]);
 
   const onListHolderResize = useUpdate(() => {
-    const preferRect = getPreferRect();
+    const scale = getMeasureScale();
 
     // Update wrapper records
-    const containerSize = getSize(containerRef, preferRect);
-    const extraLeftSize = getSize(extraLeftRef, preferRect);
-    const extraRightSize = getSize(extraRightRef, preferRect);
+    const containerSize = getSize(containerRef, scale);
+    const extraLeftSize = getSize(extraLeftRef, scale);
+    const extraRightSize = getSize(extraRightRef, scale);
     setContainerExcludeExtraSize([
       containerSize[0] - extraLeftSize[0] - extraRightSize[0],
       containerSize[1] - extraLeftSize[1] - extraRightSize[1],
     ]);
 
-    const newAddSize = getSize(innerAddButtonRef, preferRect);
+    const newAddSize = getSize(innerAddButtonRef, scale);
     setAddSize(newAddSize);
 
-    const newOperationSize = getSize(operationsRef, preferRect);
+    const newOperationSize = getSize(operationsRef, scale);
     setOperationSize(newOperationSize);
 
     // Which includes add button size
-    const tabContentFullSize = getSize(tabListRef, preferRect);
+    const tabContentFullSize = getSize(tabListRef, scale);
     setTabContentSize([
       tabContentFullSize[0] - newAddSize[0],
       tabContentFullSize[1] - newAddSize[1],
