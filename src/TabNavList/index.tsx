@@ -60,36 +60,85 @@ export interface TabNavListProps {
   styles?: Partial<Record<SemanticName, React.CSSProperties>>;
 }
 
-const getTabSize = (tab: HTMLElement, containerRect: { left: number; top: number }, scale = 1) => {
+// CSS zoom and transform on ancestors make getBoundingClientRect report
+// scaled values while offset* stay in local CSS units. Collect the exact
+// per-axis scale factors from computed styles instead of guessing them from
+// rounded measurements, so scaleX(2) does not divide vertical sizes and
+// fractional widths are not mistaken for scaling.
+const getAncestorScale = (el: HTMLElement): [number, number] => {
+  let scaleX = 1;
+  let scaleY = 1;
+  let current: HTMLElement | null = el;
+  while (current) {
+    const style = getComputedStyle(current);
+    const zoom = parseFloat(style.zoom);
+    if (!Number.isNaN(zoom) && zoom > 0 && zoom !== 1) {
+      scaleX *= zoom;
+      scaleY *= zoom;
+    }
+    const { transform } = style;
+    if (transform && transform !== 'none') {
+      const matrix = transform.match(/^matrix(?:3d)?\(([^)]+)\)$/);
+      if (matrix) {
+        const values = matrix[1].split(',').map(part => parseFloat(part.trim()));
+        // matrix(a,b,c,d,e,f): scale x = hypot(a,b), y = hypot(c,d);
+        // matrix3d: scale x = hypot(m11,m12), y = hypot(m21,m22)
+        if (values.length === 6) {
+          scaleX *= Math.hypot(values[0], values[1]);
+          scaleY *= Math.hypot(values[2], values[3]);
+        } else if (values.length === 16) {
+          scaleX *= Math.hypot(values[0], values[1]);
+          scaleY *= Math.hypot(values[4], values[5]);
+        }
+      }
+    }
+    current = current.parentElement;
+  }
+  return [scaleX, scaleY];
+};
+
+const getTabSize = (
+  tab: HTMLElement,
+  containerRect: { left: number; top: number },
+  scaleX = 1,
+  scaleY = 1,
+) => {
   // tabListRef
   const { offsetWidth, offsetHeight, offsetTop, offsetLeft } = tab;
   const { width, height, left, top } = tab.getBoundingClientRect();
 
-  // Use getBoundingClientRect to avoid decimal inaccuracy
-  if (scale !== 1 || Math.abs(width - offsetWidth) < 1) {
-    // The consumer of these values works in local CSS units (translate and
-    // scroll math), while getBoundingClientRect reports scaled units when an
-    // ancestor applies CSS zoom or transform. Normalize back to local units.
+  // Use getBoundingClientRect to avoid decimal inaccuracy. When an ancestor
+  // applies CSS zoom or transform, normalize the scaled rect back to local
+  // CSS units per axis: the scroll consumers work in local units.
+  if (scaleX !== 1 || scaleY !== 1) {
     return [
-      width / scale,
-      height / scale,
-      (left - containerRect.left) / scale,
-      (top - containerRect.top) / scale,
+      width / scaleX,
+      height / scaleY,
+      (left - containerRect.left) / scaleX,
+      (top - containerRect.top) / scaleY,
     ];
+  }
+
+  if (Math.abs(width - offsetWidth) < 1) {
+    return [width, height, left - containerRect.left, top - containerRect.top];
   }
 
   return [offsetWidth, offsetHeight, offsetLeft, offsetTop];
 };
 
-const getSize = (refObj: React.RefObject<HTMLElement>, scale = 1): SizeInfo => {
+const getSize = (refObj: React.RefObject<HTMLElement>, scaleX = 1, scaleY = 1): SizeInfo => {
   const { offsetWidth = 0, offsetHeight = 0 } = refObj.current || {};
 
   // Use getBoundingClientRect to avoid decimal inaccuracy
   if (refObj.current) {
     const { width, height } = refObj.current.getBoundingClientRect();
 
-    if (scale !== 1 || Math.abs(width - offsetWidth) < 1) {
-      return [width / scale, height / scale];
+    if (scaleX !== 1 || scaleY !== 1) {
+      return [width / scaleX, height / scaleY];
+    }
+
+    if (Math.abs(width - offsetWidth) < 1) {
+      return [width, height];
     }
   }
 
@@ -517,35 +566,28 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
   // offset* diverge per element by different amounts, which can flip the
   // overflow decision on every measurement (More button shows -> container
   // grows -> tabs fit -> More hides -> container shrinks -> loop). Detect the
-  // scale once per pass and measure every element in the same coordinate
-  // system, normalized back to local CSS units for the scroll consumers.
-  const getMeasureScale = () => {
+  // per-axis scale factors once per pass and measure every element in the
+  // same coordinate system, normalized back to local CSS units.
+  const getMeasureScale = (): [number, number] => {
     const container = containerRef.current;
     if (!container) {
-      return 1;
+      return [1, 1];
     }
-    const { offsetWidth } = container;
-    const rectWidth = container.getBoundingClientRect().width;
-    // Rect is not measurable (e.g. jsdom or a hidden subtree): keep legacy path
-    if (!offsetWidth || !rectWidth) {
-      return 1;
-    }
-    const ratio = rectWidth / offsetWidth;
-    return Math.abs(ratio - 1) > 0.0001 ? ratio : 1;
+    return getAncestorScale(container);
   };
 
   const updateTabSizes = () =>
     setTabSizes(() => {
       const newSizes: TabSizeMap = new Map();
       const listRect = tabListRef.current?.getBoundingClientRect();
-      const scale = getMeasureScale();
+      const [scaleX, scaleY] = getMeasureScale();
 
       tabs.forEach(({ key }) => {
         const btnNode = tabListRef.current?.querySelector<HTMLElement>(
           `[data-node-key="${genDataNodeKey(key)}"]`,
         );
         if (btnNode) {
-          const [width, height, left, top] = getTabSize(btnNode, listRect, scale);
+          const [width, height, left, top] = getTabSize(btnNode, listRect, scaleX, scaleY);
           newSizes.set(key, { width, height, left, top });
         }
       });
@@ -557,25 +599,25 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
   }, [tabs.map(tab => tab.key).join('_')]);
 
   const onListHolderResize = useUpdate(() => {
-    const scale = getMeasureScale();
+    const [scaleX, scaleY] = getMeasureScale();
 
     // Update wrapper records
-    const containerSize = getSize(containerRef, scale);
-    const extraLeftSize = getSize(extraLeftRef, scale);
-    const extraRightSize = getSize(extraRightRef, scale);
+    const containerSize = getSize(containerRef, scaleX, scaleY);
+    const extraLeftSize = getSize(extraLeftRef, scaleX, scaleY);
+    const extraRightSize = getSize(extraRightRef, scaleX, scaleY);
     setContainerExcludeExtraSize([
       containerSize[0] - extraLeftSize[0] - extraRightSize[0],
       containerSize[1] - extraLeftSize[1] - extraRightSize[1],
     ]);
 
-    const newAddSize = getSize(innerAddButtonRef, scale);
+    const newAddSize = getSize(innerAddButtonRef, scaleX, scaleY);
     setAddSize(newAddSize);
 
-    const newOperationSize = getSize(operationsRef, scale);
+    const newOperationSize = getSize(operationsRef, scaleX, scaleY);
     setOperationSize(newOperationSize);
 
     // Which includes add button size
-    const tabContentFullSize = getSize(tabListRef, scale);
+    const tabContentFullSize = getSize(tabListRef, scaleX, scaleY);
     setTabContentSize([
       tabContentFullSize[0] - newAddSize[0],
       tabContentFullSize[1] - newAddSize[1],
