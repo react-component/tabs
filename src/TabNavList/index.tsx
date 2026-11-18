@@ -663,8 +663,10 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
   };
 
   const updateTabSizes = () => {
-    const mode = getMeasureScale();
     setTabSizes(() => {
+      // The state updater runs deferred: read the mode here so the scale
+      // factors and the rects always come from the same measurement moment.
+      const mode = getMeasureScale();
       const newSizes: TabSizeMap = new Map();
       const listRect = tabListRef.current?.getBoundingClientRect();
 
