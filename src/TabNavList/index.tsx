@@ -64,12 +64,12 @@ export interface TabNavListProps {
 // - legacy: no scaling detected, keep the per-element gBCR/offset choice
 // - rect: an ancestor applies zoom/transform; normalize rect values back to
 //   local CSS units with the given per-axis factors
-// - offset: rotation or skew makes rect values a transformed bounding box
-//   that cannot be divided back per axis; the whole pass uses offset*
-// - null: degenerate scale (e.g. scale(0)) — skip this round and keep the
-//   last valid sizes, since a transform change does not fire ResizeObserver
+// - offset: rect values cannot be mapped back to local units (rotation,
+//   skew, reflection) or the scale is degenerate (e.g. scale(0)) — the whole
+//   pass uses offset* instead, so measurements never get skipped and stay
+//   valid when the ancestor recovers to scale(1)
 type MeasureMode =
-  { type: 'legacy' } | { type: 'rect'; sx: number; sy: number } | { type: 'offset' } | null;
+  { type: 'legacy' } | { type: 'rect'; sx: number; sy: number } | { type: 'offset' };
 
 // CSS zoom and transform on ancestors make getBoundingClientRect report
 // scaled values while offset* stay in local CSS units. Collect the exact
@@ -87,8 +87,12 @@ const getAncestorScale = (el: HTMLElement): MeasureMode => {
     // `rotate` breaks the per-axis mapping the same way transform rotation does.
     const scaleProp = style.scale;
     if (scaleProp && scaleProp !== 'none') {
-      // Negative factors are reflections, not degenerate: normalize by magnitude.
-      const parts = scaleProp.split(' ').map(part => Math.abs(parseFloat(part) || 0));
+      const parts = scaleProp.split(' ').map(part => parseFloat(part) || 0);
+      // Negative factors are reflections: the mirrored rect positions cannot
+      // be mapped back for local scrolling, so this pass falls back to offset*.
+      if (parts[0] < 0 || (parts.length > 1 && parts[1] < 0)) {
+        return { type: 'offset' };
+      }
       scaleX *= parts[0];
       scaleY *= parts[1] ?? parts[0];
     }
@@ -122,16 +126,17 @@ const getAncestorScale = (el: HTMLElement): MeasureMode => {
       const matrix = transform.match(/^matrix(?:3d)?\(([^)]+)\)$/);
       if (matrix) {
         const values = matrix[1].split(',').map(part => parseFloat(part.trim()));
-        // matrix(a,b,c,d,e,f): scale x = |a|, y = |d| when axis aligned;
+        // matrix(a,b,c,d,e,f): scale x = a, y = d when axis aligned;
         // non-zero b or c means rotation/skew, which swaps the bounding box
         // and cannot be divided back per axis.
         if (values.length === 6) {
           const [a, b, c, d] = values;
-          if (b !== 0 || c !== 0) {
+          if (b !== 0 || c !== 0 || a < 0 || d < 0) {
+            // Negative a/d are reflections: same offset fallback as rotation.
             return { type: 'offset' };
           }
-          scaleX *= Math.abs(a);
-          scaleY *= Math.abs(d);
+          scaleX *= a;
+          scaleY *= d;
         } else if (values.length === 16) {
           // matrix3d(m11..m44): bail on any rotation/skew/perspective part
           const hasRotation =
@@ -145,20 +150,21 @@ const getAncestorScale = (el: HTMLElement): MeasureMode => {
             values[7] !== 0 ||
             values[11] !== 0 ||
             values[15] !== 1;
-          if (hasRotation) {
+          if (hasRotation || values[0] < 0 || values[5] < 0) {
             return { type: 'offset' };
           }
-          scaleX *= Math.abs(values[0]);
-          scaleY *= Math.abs(values[5]);
+          scaleX *= values[0];
+          scaleY *= values[5];
         }
       }
     }
     current = current.parentElement;
   }
   if (!Number.isFinite(scaleX) || !Number.isFinite(scaleY) || scaleX <= 0 || scaleY <= 0) {
-    // Degenerate scale (e.g. scale(0)): dividing would produce NaN, and the
-    // values would stick until the next valid measurement.
-    return null;
+    // Degenerate scale (e.g. scale(0)): dividing would produce NaN, and a
+    // later transform change does not fire ResizeObserver, so measurements
+    // must never be skipped here — the offset pass keeps the local sizes valid.
+    return { type: 'offset' };
   }
   if (scaleX !== 1 || scaleY !== 1) {
     return { type: 'rect', sx: scaleX, sy: scaleY };
@@ -658,11 +664,6 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
 
   const updateTabSizes = () => {
     const mode = getMeasureScale();
-    // Degenerate ancestor scale (e.g. scale(0)): skip this round and keep the
-    // last valid sizes instead of storing NaN.
-    if (!mode) {
-      return;
-    }
     setTabSizes(() => {
       const newSizes: TabSizeMap = new Map();
       const listRect = tabListRef.current?.getBoundingClientRect();
@@ -686,10 +687,6 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
 
   const onListHolderResize = useUpdate(() => {
     const mode = getMeasureScale();
-    // Same skip rule as updateTabSizes: keep last valid measurements.
-    if (!mode) {
-      return;
-    }
 
     // Update wrapper records
     const containerSize = getSize(containerRef, mode);
