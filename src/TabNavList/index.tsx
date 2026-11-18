@@ -60,12 +60,145 @@ export interface TabNavListProps {
   styles?: Partial<Record<SemanticName, React.CSSProperties>>;
 }
 
-const getTabSize = (tab: HTMLElement, containerRect: { left: number; top: number }) => {
+// How to measure one pass:
+// - legacy: no scaling detected, keep the per-element gBCR/offset choice
+// - rect: an ancestor applies zoom/transform; normalize rect values back to
+//   local CSS units with the given per-axis factors
+// - offset: rect values cannot be mapped back to local units (rotation,
+//   skew, reflection) or the scale is degenerate (e.g. scale(0)) — the whole
+//   pass uses offset* instead, so measurements never get skipped and stay
+//   valid when the ancestor recovers to scale(1)
+type MeasureMode =
+  { type: 'legacy' } | { type: 'rect'; sx: number; sy: number } | { type: 'offset' };
+
+// CSS zoom and transform on ancestors make getBoundingClientRect report
+// scaled values while offset* stay in local CSS units. Collect the exact
+// per-axis scale factors from computed styles instead of guessing them from
+// rounded measurements, so scaleX(2) does not divide vertical sizes and
+// fractional widths are not mistaken for scaling.
+const getAncestorScale = (el: HTMLElement): MeasureMode => {
+  let scaleX = 1;
+  let scaleY = 1;
+  let current: HTMLElement | null = el;
+  while (current) {
+    const style = getComputedStyle(current);
+
+    // Independent transforms: `scale` contributes on top of `transform`,
+    // `rotate` breaks the per-axis mapping the same way transform rotation does.
+    const scaleProp = style.scale;
+    if (scaleProp && scaleProp !== 'none') {
+      const parts = scaleProp.split(' ').map(part => parseFloat(part) || 0);
+      // Negative factors are reflections: the mirrored rect positions cannot
+      // be mapped back for local scrolling, so this pass falls back to offset*.
+      if (parts[0] < 0 || (parts.length > 1 && parts[1] < 0)) {
+        return { type: 'offset' };
+      }
+      scaleX *= parts[0];
+      scaleY *= parts[1] ?? parts[0];
+    }
+    const rotateProp = style.rotate;
+    if (rotateProp && rotateProp !== 'none') {
+      // Computed value keeps an optional axis keyword (`y 60deg`), so scan for
+      // the angle token instead of parseFloat on the whole string.
+      const angle = rotateProp.match(/(-?[\d.]+)(deg|grad|rad|turn)/);
+      if (angle) {
+        const toDeg =
+          angle[2] === 'grad'
+            ? 0.9
+            : angle[2] === 'rad'
+              ? 180 / Math.PI
+              : angle[2] === 'turn'
+                ? 360
+                : 1;
+        if ((parseFloat(angle[1]) * toDeg) % 360 !== 0) {
+          return { type: 'offset' };
+        }
+      }
+    }
+
+    const zoom = parseFloat(style.zoom);
+    if (!Number.isNaN(zoom) && zoom > 0) {
+      scaleX *= zoom;
+      scaleY *= zoom;
+    }
+    const { transform } = style;
+    if (transform && transform !== 'none') {
+      const matrix = transform.match(/^matrix(?:3d)?\(([^)]+)\)$/);
+      if (matrix) {
+        const values = matrix[1].split(',').map(part => parseFloat(part.trim()));
+        // matrix(a,b,c,d,e,f): scale x = a, y = d when axis aligned;
+        // non-zero b or c means rotation/skew, which swaps the bounding box
+        // and cannot be divided back per axis.
+        if (values.length === 6) {
+          const [a, b, c, d] = values;
+          if (b !== 0 || c !== 0 || a < 0 || d < 0) {
+            // Negative a/d are reflections: same offset fallback as rotation.
+            return { type: 'offset' };
+          }
+          scaleX *= a;
+          scaleY *= d;
+        } else if (values.length === 16) {
+          // matrix3d(m11..m44): bail on any rotation/skew/perspective part
+          const hasRotation =
+            values[1] !== 0 ||
+            values[2] !== 0 ||
+            values[4] !== 0 ||
+            values[6] !== 0 ||
+            values[8] !== 0 ||
+            values[9] !== 0 ||
+            values[3] !== 0 ||
+            values[7] !== 0 ||
+            values[11] !== 0 ||
+            values[15] !== 1;
+          if (hasRotation || values[0] < 0 || values[5] < 0) {
+            return { type: 'offset' };
+          }
+          scaleX *= values[0];
+          scaleY *= values[5];
+        }
+      }
+    }
+    current = current.parentElement;
+  }
+  if (!Number.isFinite(scaleX) || !Number.isFinite(scaleY) || scaleX <= 0 || scaleY <= 0) {
+    // Degenerate scale (e.g. scale(0)): dividing would produce NaN, and a
+    // later transform change does not fire ResizeObserver, so measurements
+    // must never be skipped here — the offset pass keeps the local sizes valid.
+    return { type: 'offset' };
+  }
+  if (scaleX !== 1 || scaleY !== 1) {
+    return { type: 'rect', sx: scaleX, sy: scaleY };
+  }
+  return { type: 'legacy' };
+};
+
+const getTabSize = (
+  tab: HTMLElement,
+  containerRect: { left: number; top: number },
+  mode: MeasureMode,
+): [number, number, number, number] => {
   // tabListRef
   const { offsetWidth, offsetHeight, offsetTop, offsetLeft } = tab;
   const { width, height, left, top } = tab.getBoundingClientRect();
 
-  // Use getBoundingClientRect to avoid decimal inaccuracy
+  // Use getBoundingClientRect to avoid decimal inaccuracy. When an ancestor
+  // applies CSS zoom or transform, normalize the scaled rect back to local
+  // CSS units per axis: the scroll consumers work in local units.
+  if (mode.type === 'rect') {
+    return [
+      width / mode.sx,
+      height / mode.sy,
+      (left - containerRect.left) / mode.sx,
+      (top - containerRect.top) / mode.sy,
+    ];
+  }
+
+  if (mode.type === 'offset') {
+    // Rotation/skew ancestor: rect values are a transformed bounding box and
+    // cannot be divided back, so this whole pass falls back to offset*.
+    return [offsetWidth, offsetHeight, offsetLeft, offsetTop];
+  }
+
   if (Math.abs(width - offsetWidth) < 1) {
     return [width, height, left - containerRect.left, top - containerRect.top];
   }
@@ -73,12 +206,22 @@ const getTabSize = (tab: HTMLElement, containerRect: { left: number; top: number
   return [offsetWidth, offsetHeight, offsetLeft, offsetTop];
 };
 
-const getSize = (refObj: React.RefObject<HTMLElement>): SizeInfo => {
+const getSize = (refObj: React.RefObject<HTMLElement>, mode: MeasureMode): SizeInfo => {
   const { offsetWidth = 0, offsetHeight = 0 } = refObj.current || {};
 
   // Use getBoundingClientRect to avoid decimal inaccuracy
   if (refObj.current) {
     const { width, height } = refObj.current.getBoundingClientRect();
+
+    if (mode.type === 'rect') {
+      return [width / mode.sx, height / mode.sy];
+    }
+
+    if (mode.type === 'offset') {
+      // Rotation/skew ancestor: rect values are a transformed bounding box,
+      // the whole pass falls back to offset*.
+      return [offsetWidth, offsetHeight];
+    }
 
     if (Math.abs(width - offsetWidth) < 1) {
       return [width, height];
@@ -505,8 +648,25 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
   });
 
   // Update buttons records
-  const updateTabSizes = () =>
+  // CSS zoom or an ancestor transform scale makes getBoundingClientRect and
+  // offset* diverge per element by different amounts, which can flip the
+  // overflow decision on every measurement (More button shows -> container
+  // grows -> tabs fit -> More hides -> container shrinks -> loop). Detect the
+  // per-axis scale factors once per pass and measure every element in the
+  // same coordinate system, normalized back to local CSS units.
+  const getMeasureScale = (): MeasureMode => {
+    const container = containerRef.current;
+    if (!container) {
+      return { type: 'legacy' };
+    }
+    return getAncestorScale(container);
+  };
+
+  const updateTabSizes = () => {
     setTabSizes(() => {
+      // The state updater runs deferred: read the mode here so the scale
+      // factors and the rects always come from the same measurement moment.
+      const mode = getMeasureScale();
       const newSizes: TabSizeMap = new Map();
       const listRect = tabListRef.current?.getBoundingClientRect();
 
@@ -515,35 +675,38 @@ const TabNavList = React.forwardRef<HTMLDivElement, TabNavListProps>((props, ref
           `[data-node-key="${genDataNodeKey(key)}"]`,
         );
         if (btnNode) {
-          const [width, height, left, top] = getTabSize(btnNode, listRect);
+          const [width, height, left, top] = getTabSize(btnNode, listRect, mode);
           newSizes.set(key, { width, height, left, top });
         }
       });
       return newSizes;
     });
+  };
 
   useEffect(() => {
     updateTabSizes();
   }, [tabs.map(tab => tab.key).join('_')]);
 
   const onListHolderResize = useUpdate(() => {
+    const mode = getMeasureScale();
+
     // Update wrapper records
-    const containerSize = getSize(containerRef);
-    const extraLeftSize = getSize(extraLeftRef);
-    const extraRightSize = getSize(extraRightRef);
+    const containerSize = getSize(containerRef, mode);
+    const extraLeftSize = getSize(extraLeftRef, mode);
+    const extraRightSize = getSize(extraRightRef, mode);
     setContainerExcludeExtraSize([
       containerSize[0] - extraLeftSize[0] - extraRightSize[0],
       containerSize[1] - extraLeftSize[1] - extraRightSize[1],
     ]);
 
-    const newAddSize = getSize(innerAddButtonRef);
+    const newAddSize = getSize(innerAddButtonRef, mode);
     setAddSize(newAddSize);
 
-    const newOperationSize = getSize(operationsRef);
+    const newOperationSize = getSize(operationsRef, mode);
     setOperationSize(newOperationSize);
 
     // Which includes add button size
-    const tabContentFullSize = getSize(tabListRef);
+    const tabContentFullSize = getSize(tabListRef, mode);
     setTabContentSize([
       tabContentFullSize[0] - newAddSize[0],
       tabContentFullSize[1] - newAddSize[1],
